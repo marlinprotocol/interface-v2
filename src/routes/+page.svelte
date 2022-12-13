@@ -11,7 +11,6 @@
 </svelte:head>
 
 <div id="svelte" class="flex flex-col bg-bg-light min-h-screen">
-	<Header allowedNetworks={[import.meta.env.VITE_NETWORK_ID]}/>
-	<NewJob/>
+	<Header allowedNetworks={[import.meta.env.VITE_NETWORK_ID]} />
+	<NewJob />
 </div>
-

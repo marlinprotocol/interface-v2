@@ -43,10 +43,10 @@
 
 	$: {
 		console.log('value change:', _title(), value);
-		if(value == undefined) break $;
+		if (value == undefined) break $;
 		if (input && input !== document.activeElement) {
 			input.value = valueToText(value);
-			err = valueValidator(value)
+			err = valueValidator(value);
 			isError = err !== undefined;
 		}
 	}
@@ -73,8 +73,7 @@
 				class="my-auto h-4 cursor-pointer"
 				on:click={() => (showTooltip = !showTooltip)}
 			/>
-			<slot>
-			</slot>
+			<slot />
 		</div>
 		{#if err !== undefined}
 			<img

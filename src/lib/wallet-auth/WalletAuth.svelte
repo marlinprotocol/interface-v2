@@ -236,7 +236,7 @@
 				<div
 					class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
 				>
-					<div class="modal-header flex flex-row justify-between p-8 pb-0">
+					<div class="modal-header flex flex-row justify-between py-8 px-6 pb-0">
 						<p class="my-auto font-[Poppins] font-bold text-neutral-800 text-2xl">
 							Select a provider
 						</p>

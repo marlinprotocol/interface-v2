@@ -1,7 +1,6 @@
 import { writable } from 'svelte/store';
 import { BigNumber as BN } from 'ethers';
 
-
 export const provider = writable(undefined);
 export const address = writable(undefined);
 export const networkId = writable(undefined);
@@ -95,16 +94,13 @@ async function fetchPondBalance(address) {
 }
 
 async function fetchMPondBalance(address) {
-	let resp = await fetch(
-		import.meta.env.VITE_URL_SUBGRAPH_MPOND,
-		{
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: `{"query": "{ balances(where: {id: \\\"${address}\\\"}){amount} }"}`
-		}
-	);
+	let resp = await fetch(import.meta.env.VITE_URL_SUBGRAPH_MPOND, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: `{"query": "{ balances(where: {id: \\\"${address}\\\"}){amount} }"}`
+	});
 	let respJson = await resp.json();
 
 	if (
@@ -236,26 +232,19 @@ async function fetchSubCost(address) {
 }
 
 async function fetchStashes(address) {
-	let resp = await fetch(
-		import.meta.env.VITE_URL_SUBGRAPH_STAKING,
-		{
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: `{"query": "{ stashes(where: {staker: \\\"${address}\\\", isBridged: false}){stashId} }"}`
-		}
-	);
+	let resp = await fetch(import.meta.env.VITE_URL_SUBGRAPH_STAKING, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: `{"query": "{ stashes(where: {staker: \\\"${address}\\\", isBridged: false}){stashId} }"}`
+	});
 	let respJson = await resp.json();
 
-	if (
-		respJson === undefined ||
-		respJson.errors !== undefined ||
-		respJson.data.stashes.length === 0
-	)
+	if (respJson === undefined || respJson.errors !== undefined || respJson.data.stashes.length === 0)
 		return;
 
-	stashes.set(respJson.data.stashes.map(s => s.stashId));
+	stashes.set(respJson.data.stashes.map((s) => s.stashId));
 }
 
 async function fetchArbPondBalance(address) {
@@ -264,7 +253,9 @@ async function fetchArbPondBalance(address) {
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		body: `{"jsonrpc":"2.0","method":"eth_call","params": [{"from": "${address}", "to": "${import.meta.env.VITE_ADDRESS_POND_ARB}", "data": "0x70a08231000000000000000000000000${address.substr(2)}"}, "latest"],"id":1}`
+		body: `{"jsonrpc":"2.0","method":"eth_call","params": [{"from": "${address}", "to": "${
+			import.meta.env.VITE_ADDRESS_POND_ARB
+		}", "data": "0x70a08231000000000000000000000000${address.substr(2)}"}, "latest"],"id":1}`
 	})
 		.then((resp) => {
 			console.log(resp);
@@ -284,7 +275,9 @@ async function fetchArbMPondBalance(address) {
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		body: `{"jsonrpc":"2.0","method":"eth_call","params": [{"from": "${address}", "to": "${import.meta.env.VITE_ADDRESS_MPOND_ARB}", "data": "0x70a08231000000000000000000000000${address.substr(2)}"}, "latest"],"id":1}`
+		body: `{"jsonrpc":"2.0","method":"eth_call","params": [{"from": "${address}", "to": "${
+			import.meta.env.VITE_ADDRESS_MPOND_ARB
+		}", "data": "0x70a08231000000000000000000000000${address.substr(2)}"}, "latest"],"id":1}`
 	})
 		.then((resp) => {
 			console.log(resp);
@@ -355,6 +348,3 @@ async function fetchArbMPondAllowance(address) {
 			arbMPondAllowance.set(BN.from(resp.result));
 		});
 }
-
-
-

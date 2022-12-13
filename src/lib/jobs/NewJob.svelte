@@ -10,7 +10,12 @@
 		arbMPondAllowance,
 		networkId
 	} from '../stores/provider.js';
-	import { requiredValidator, addressValidator, amountValidator, hashValidator } from '../textbox/validators.js';
+	import {
+		requiredValidator,
+		addressValidator,
+		amountValidator,
+		hashValidator
+	} from '../textbox/validators.js';
 	import { bnToText, textToBN } from './bnformat.js';
 	import { pondContract, marketContract } from './contracts.js';
 	import { constants } from './constants';
@@ -54,7 +59,15 @@
 		}
 	}
 
-	$: console.log(infraProvider, tokenAmount, $pondAllowance, err, infraProviderErr, tokenAmountErr, urlErr);
+	$: console.log(
+		infraProvider,
+		tokenAmount,
+		$pondAllowance,
+		err,
+		infraProviderErr,
+		tokenAmountErr,
+		urlErr
+	);
 
 	let pond = undefined;
 	let market = undefined;
@@ -74,10 +87,7 @@
 
 		console.log($provider.signer);
 
-		let res = await pond.approve(
-			constants.ADDRESS_MARKETV1,
-			BN.from(2).pow(256).sub(1)
-		);
+		let res = await pond.approve(constants.ADDRESS_MARKETV1, BN.from(2).pow(256).sub(1));
 		console.log(res);
 
 		await res.wait(1);
@@ -93,19 +103,23 @@
 
 		console.log($provider.signer);
 
-		let res = await market.jobOpen(`{"region":"ap-south-1","url":"${url}"}`, infraProvider, BN.from(10).pow(15), tokenAmount);
+		let res = await market.jobOpen(
+			`{"region":"ap-south-1","url":"${url}"}`,
+			infraProvider,
+			BN.from(10).pow(15),
+			tokenAmount
+		);
 		console.log(res);
 
 		await res.wait(1);
 
 		allFetches($address);
 	}
-
 </script>
 
 <div class="bridge my-8 mx-auto bg-white rounded-lg font-[Poppins] sm:w-[40em]">
 	<div class="bridge-header flex flex-row flex-wrap justify-between p-4 sm:p-8 pb-0">
-		<p class="bridge-title my-auto mr-auto ml-2 font-bold text-neutral-800 text-2xl">New Job</p>
+		<p class="bridge-title my-auto mr-auto ml-2 font-bold text-neutral-800 text-2xl">Bridge</p>
 	</div>
 	<div class="bridge-body font-semibold text-neutral-800 text-lg">
 		<Textbox
@@ -130,10 +144,7 @@
 			bind:value={tokenAmount}
 			bind:isError={tokenAmountErr}
 		>
-			<button
-				on:click={() => tokenAmount = $pondBalance}
-				class="text-primary">MAX</button
-			>
+			<button on:click={() => (tokenAmount = $pondBalance)} class="text-primary">MAX</button>
 			<!-- <p> | Balance: {bnToText(18)(token == 'POND' ? $ethPondBalance : $ethMPondBalance)}</p> -->
 		</Textbox>
 		<Textbox
@@ -166,4 +177,3 @@
 		</div>
 	</div>
 </div>
-

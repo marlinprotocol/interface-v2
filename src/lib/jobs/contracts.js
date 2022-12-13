@@ -8,7 +8,6 @@ export function marketContract(provider) {
 	return new Contract(import.meta.env.VITE_ADDRESS_MARKETV1, marketAbi, provider.getSigner());
 }
 
-
 let marketAbi = [
 	{
 		inputs: [
@@ -31,7 +30,7 @@ let marketAbi = [
 				internalType: 'uint256',
 				name: '_balance',
 				type: 'uint256'
-			},
+			}
 		],
 		name: 'jobOpen',
 		outputs: [],
@@ -52,7 +51,7 @@ let gwL2Abi = [
 				internalType: 'uint256',
 				name: '_amount',
 				type: 'uint256'
-			},
+			}
 		],
 		name: 'transferL1',
 		outputs: [
@@ -119,15 +118,14 @@ let outboxAbi = [
 				internalType: 'bytes',
 				name: 'calldataForL1',
 				type: 'bytes'
-			},
+			}
 		],
 		name: 'executeTransaction',
-		outputs: [
-		],
+		outputs: [],
 		stateMutability: 'public',
 		type: 'function'
 	}
-]
+];
 
 let erc20Abi = [
 	{

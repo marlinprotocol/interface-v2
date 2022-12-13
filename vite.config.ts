@@ -3,7 +3,7 @@ import type { UserConfig } from 'vite';
 
 const config: UserConfig = {
 	mode: process.env.MODE || 'mainnet',
-	plugins: [sveltekit()],
+	plugins: [sveltekit()]
 };
 
 export default config;

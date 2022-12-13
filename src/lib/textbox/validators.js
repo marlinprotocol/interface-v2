@@ -21,4 +21,3 @@ export function hashValidator(v) {
 	if (v === undefined) return undefined;
 	return requiredValidator(v) || (!/^0x[0-9a-fA-f]{64}$/i.test(v) ? 'Invalid hash' : undefined);
 }
-

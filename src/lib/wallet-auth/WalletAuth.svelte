@@ -6,11 +6,11 @@
 
 	export let allowedNetworks = [import.meta.env.VITE_NETWORK_ID as string];
 	let networkNames = {
-		"0x1": "ETH MAINNET",
-		"0x4": "ETH RINKEBY",
-		"0xa4b1": "ARB ONE",
-		"0x66eeb": "ARB RINKEBY",
-		"0x66eed": "ARB GOERLI",
+		'0x1': 'ETH MAINNET',
+		'0x4': 'ETH RINKEBY',
+		'0xa4b1': 'ARB ONE',
+		'0x66eeb': 'ARB RINKEBY',
+		'0x66eed': 'ARB GOERLI'
 	};
 
 	$: walletType = 'NONE';
@@ -51,7 +51,11 @@
 	async function connectMetamask() {
 		let chainId = await provider.request({ method: 'eth_chainId' });
 		if (!allowedNetworks.includes(chainId)) {
-			alert(`Must be on ${allowedNetworks.map(x => networkNames[x] || x).reduce((x,y) => x + ' or ' + y)}, currently on ${networkNames[chainId] || chainId}`);
+			alert(
+				`Must be on ${allowedNetworks
+					.map((x) => networkNames[x] || x)
+					.reduce((x, y) => x + ' or ' + y)}, currently on ${networkNames[chainId] || chainId}`
+			);
 			networkId.set(undefined);
 			return;
 		}
@@ -107,17 +111,24 @@
 </script>
 
 {#if walletType !== 'NONE'}
-	<button class="flex flex-row justify-center space-x-2 bg-white rounded-lg p-2 shadow-md shadow-primary" on:click={() => (logoutModal = !logoutModal)}>
+	<button
+		class="flex flex-row justify-center space-x-2 bg-transparent outline outline-[1px] outline-primary rounded-lg p-2"
+		on:click={() => (logoutModal = !logoutModal)}
+	>
 		{#if walletType === 'METAMASK'}
-			<img src="/images/wallet.svg" alt="metamask icon" width="35" class="my-auto"/>
+			<img src="/images/wallet.svg" alt="metamask icon" width="35" class="my-auto" />
 		{:else if walletType == 'WALLETCONNECT'}
-			<img src="/images/wallet.svg" alt="wallet connect icon" width="35" class="my-auto"/>
+			<img src="/images/wallet.svg" alt="wallet connect icon" width="35" class="my-auto" />
 		{:else}
-			<img src="/images/wallet.svg" alt="unrecognized wallet icon" width="35" class="my-auto"/>
+			<img src="/images/wallet.svg" alt="unrecognized wallet icon" width="35" class="my-auto" />
 		{/if}
 		<div class="info flex flex-col">
-			<span class="font-[Poppins] font-bold text-primary">{networkNames[$networkId] || "UNKNOWN"}</span>
-			<span class="font-[Poppins] font-normal text-primary text-xs">{address.slice(0, 7)}...{address.slice(address.length - 5)}</span>
+			<span class="font-[Poppins] font-bold text-primary"
+				>{networkNames[$networkId] || 'UNKNOWN'}</span
+			>
+			<span class="font-[Poppins] font-normal text-primary text-xs"
+				>{address.slice(0, 7)}...{address.slice(address.length - 5)}</span
+			>
 		</div>
 	</button>
 
@@ -158,7 +169,9 @@
 					class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
 				>
 					<div class="modal-header flex flex-row justify-between p-8 pb-0">
-						<p class="modal-title my-auto font-[Poppins] font-bold text-neutral-800 text-2xl">Your wallet</p>
+						<p class="modal-title my-auto font-[Poppins] font-bold text-neutral-800 text-2xl">
+							Your wallet
+						</p>
 						<button type="button" class="modal-close" on:click={() => (logoutModal = !logoutModal)}>
 							<img src="/images/closemodal.svg" alt="close modal" />
 						</button>
@@ -178,16 +191,15 @@
 	{/if}
 {:else}
 	<button
-		class="flex flex-row justify-center space-x-2 bg-white rounded-lg p-2 shadow-md shadow-primary"
+		class="flex flex-row space-x-3 items-center bg-transparent outline outline-[1px]  outline-primary rounded-lg px-4 py-2.5 leading-[1.313]"
 		on:click={() => (connectModal = !connectModal)}
 	>
-		<img src="/images/wallet.svg" alt="wallet icon" width="35" class="my-auto" />
-		<div class="flex flex-col">
-			<span class="font-[Poppins] font-bold text-primary">CONNECT</span>
-			<span class="font-[Poppins] font-normal text-primary text-xs">YOUR WALLET</span>
-		</div>
-	</button>
+		<img src="/images/lockicon.svg" alt="wallet icon" class="my-auto" />
 
+		<span class="font-semibold font-[poppins] text-sm text-primary flex items-center"
+			>Connect Wallet</span
+		>
+	</button>
 	{#if connectModal}
 		<div class="fixed z-10 inset-0 overflow-y-auto">
 			<div
@@ -225,7 +237,9 @@
 					class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
 				>
 					<div class="modal-header flex flex-row justify-between p-8 pb-0">
-						<p class="my-auto font-[Poppins] font-bold text-neutral-800 text-2xl">Select a provider</p>
+						<p class="my-auto font-[Poppins] font-bold text-neutral-800 text-2xl">
+							Select a provider
+						</p>
 						<button
 							type="button"
 							class="modal-close"
@@ -271,4 +285,3 @@
 		</div>
 	{/if}
 {/if}
-

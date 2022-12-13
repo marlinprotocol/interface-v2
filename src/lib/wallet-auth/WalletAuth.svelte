@@ -236,19 +236,24 @@
 				<div
 					class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
 				>
-					<div class="modal-header flex flex-row justify-between py-8 px-6 pb-0">
-						<p class="my-auto font-[Poppins] font-bold text-neutral-800 text-2xl">
-							Select a provider
-						</p>
+					<div class="modal-header flex flex-row justify-between p-4 pb-0">
+						<div class="pt-3 pl-1">
+							<p class="my-auto font-[Poppins] font-medium text-neutral-800/60 text-sm">
+								Unlock Wallet
+							</p>
+							<p class="my-auto font-[Poppins] font-bold text-neutral-800 text-2xl">
+								Select a provider
+							</p>
+						</div>
 						<button
 							type="button"
-							class="modal-close"
+							class="modal-close pt-4 pl-4"
 							on:click={() => (connectModal = !connectModal)}
 						>
 							<img src="/images/closemodal.svg" alt="close modal" />
 						</button>
 					</div>
-					<div class="my-4 font-[Poppins] font-lg font-semibold">
+					<div class="modal-body mt-8 mb-4 font-[Poppins] font-lg font-semibold">
 						<div class="flex flex-row justify-evenly px-4 gap-4">
 							<div class="connect-card w-full bg-gray-100 rounded-lg">
 								<img class="m-auto py-4 h-24" src="/images/metamaskicon.svg" alt="metamask icon" />
@@ -264,7 +269,7 @@
 									>
 								</div>
 							</div>
-							<div class="connect-card w-full bg-gray-100">
+							<div class="connect-card w-full bg-gray-100 rounded-lg">
 								<img
 									class="m-auto py-4 h-24"
 									src="/images/walleticon.svg"

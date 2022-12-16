@@ -14,14 +14,14 @@
 	export let actionsClasses = actionsClassesDefault;
 	export let persistent = false;
 
-	export let transitionProps = { duration: 300, easing: quadInOut, delay: 50 };
+	export let transitionProps = { duration: 300, easing: quadInOut, delay: 0 };
 </script>
 
 {#if value}
 	<div class="fixed w-full h-full top-0 left-0 z-30">
 		<div class={background} on:click={() => !persistent && (value = false)} />
 		<div class="h-full w-full absolute flex items-center justify-center">
-			<div out:scale={transitionProps} in:scale={transitionProps} class={classes}>
+			<div in:scale={transitionProps} class={classes}>
 				<div class={titleClasses}>
 					<slot name="title" />
 					<button type="button" on:click={() => (value = false)}>

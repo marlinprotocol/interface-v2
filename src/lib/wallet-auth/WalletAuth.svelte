@@ -1,120 +1,51 @@
 <script type="ts">
-	import detectEthereumProvider from '@metamask/detect-provider';
-	import { provider as s_provider, address as s_address, networkId } from '../stores/provider';
-	import { onMount } from 'svelte';
-	import { providers } from 'ethers';
+	import {
+		walletAddress,
+		connectMetamask,
+		connected,
+		disconnect,
+		checkNetwork,
+		switchNetwork
+	} from '../stores/provider';
 	import Modal from '$lib/modal/Modal.svelte';
+	import { onMount } from 'svelte';
 
-	export let allowedNetworks = [import.meta.env.VITE_NETWORK_ID as string];
-	let networkNames = {
-		'0x1': 'ETH MAINNET',
-		'0x4': 'ETH RINKEBY',
-		'0xa4b1': 'ARB ONE',
-		'0x66eeb': 'ARB RINKEBY',
-		'0x66eed': 'ARB GOERLI'
-	};
+	let walletType = 'NONE';
+	let logoutModal = false;
+	let connectModal = false;
+	let hasMetamask = false;
 
-	$: walletType = 'NONE';
-	$: address = undefined;
-
-	$: {
-		s_provider.set(provider ? new providers.Web3Provider(provider) : provider);
-		s_address.set(address);
-	}
-
-	$: connectModal = true;
-	$: logoutModal = false;
-
-	$: hasMetamask = false;
-	let provider;
-
-	onMount(async () => {
-		provider = await detectEthereumProvider();
-		console.log(provider);
-		if (provider) {
-			hasMetamask = true;
-
-			let accounts = await provider.request({ method: 'eth_accounts' });
-			if (accounts.length !== 0) {
-				// existing account
-				let chainId = await provider.request({ method: 'eth_chainId' });
-				if (!allowedNetworks.includes(chainId)) {
-					/* alert(`Must be on ${allowedNetworks.map(x => networkNames[x] || x).reduce((x,y) => x + ' or ' + y)}, currently on ${networkNames[chainId] || chainId}`); */
-					networkId.set(undefined);
-					return;
-				}
-				networkId.set(chainId);
-				await setMetamask(accounts[0]);
-			}
-		}
+	onMount(() => {
+		hasMetamask = window['ethereum'] ? true : false;
 	});
 
-	async function connectMetamask() {
-		let chainId = await provider.request({ method: 'eth_chainId' });
-		if (!allowedNetworks.includes(chainId)) {
-			alert(
-				`Must be on ${allowedNetworks
-					.map((x) => networkNames[x] || x)
-					.reduce((x, y) => x + ' or ' + y)}, currently on ${networkNames[chainId] || chainId}`
-			);
-			networkId.set(undefined);
-			return;
-		}
-		networkId.set(chainId);
+	async function disconnectWalletHandler() {
+		await disconnect();
+		connectModal = false;
+	}
 
-		let accounts = await provider.request({ method: 'eth_accounts' });
-
-		if (accounts.length === 0) {
-			accounts = await provider.request({ method: 'eth_requestAccounts' });
-		}
-
-		if (accounts.length !== 0) {
-			await setMetamask(accounts[0]);
-			connectModal = false;
+	// connect to metamask wallet if the network is valid or switch to the valid network
+	async function connectMetamaskHandler() {
+		const isValidNetwork = await checkNetwork(import.meta.env.VITE_NETWORK_ID);
+		if (isValidNetwork) {
+			await connectMetamask();
+			// resetting logout modal state to prevent opening after connect
+			logoutModal = false;
+		} else {
+			await switchNetwork(import.meta.env.VITE_NETWORK_ID);
 		}
 	}
 
-	async function setMetamask(account: string) {
-		walletType = 'METAMASK';
-		address = account;
-
-		provider.on('accountsChanged', accountsChanged);
-		provider.on('chainChanged', chainChanged);
-	}
-
-	async function accountsChanged(accounts: Array<string>) {
-		if (walletType !== 'METAMASK') {
-			return;
-		}
-		address = accounts[0];
-	}
-
-	async function chainChanged(chainId: string) {
-		if (walletType !== 'METAMASK') {
-			return;
-		}
-		if (!allowedNetworks.includes(chainId)) {
-			/* alert(`Must be on ${allowedNetworks.map(x => networkNames[x] || x).reduce((x,y) => x + ' or ' + y)}, currently on ${networkNames[chainId] || chainId}`); */
-			walletType = 'NONE';
-			address = undefined;
-			networkId.set(undefined);
-			return;
-		}
-		networkId.set(chainId);
-	}
-
-	async function logout() {
-		walletType = 'NONE';
-		address = undefined;
-		logoutModal = false;
-		networkId.set(undefined);
-	}
+	$: walletType = $connected ? 'METAMASK' : 'NONE';
+	$: chainName = import.meta.env.VITE_NETWORK_NAME || 'UNKNOWN';
 </script>
+
+<div class="text-xs">$walletAddress: {$walletAddress}</div>
 
 {#if walletType !== 'NONE'}
 	<button
-		class="flex flex-row justify-center space-x-3 bg-white rounded-lg px-4 py-2 shadow-sm hover:shadow-lg transition-shadow duration-000"
-		on:click={() => (logoutModal = !logoutModal)}
+		class="flex flex-row justify-center space-x-3 bg-white rounded-lg px-[18px] py-2 shadow-sm hover:shadow-lg transition-shadow duration-000"
+		on:click={() => (logoutModal = true)}
 	>
 		{#if walletType === 'METAMASK'}
 			<img src="/images/wallet.svg" alt="metamask icon" width="35" class="my-auto" />
@@ -124,17 +55,15 @@
 			<img src="/images/wallet.svg" alt="unrecognized wallet icon" width="35" class="my-auto" />
 		{/if}
 		<div class="info flex flex-col">
-			<span class="font-[Poppins] font-bold text-primary text-sm"
-				>{networkNames[$networkId] || 'UNKNOWN'}</span
-			>
+			<span class="font-[Poppins] font-bold text-primary text-sm">{chainName}</span>
 			<span class="font-[Poppins] font-normal text-primary text-[11px]"
-				>{address.slice(0, 6)}...{address.slice(address.length - 5)}</span
+				>{$walletAddress.slice(0, 6)}...{$walletAddress.slice($walletAddress.length - 5)}</span
 			>
 		</div>
 	</button>
 
 	{#if logoutModal}
-		<Modal bind:value={logoutModal}>
+		<Modal bind:value={logoutModal} persistent>
 			<p
 				slot="title"
 				class="modal-title my-auto font-[Poppins] font-bold text-neutral-800 text-2xl"
@@ -144,7 +73,7 @@
 
 			<button
 				slot="actions"
-				on:click={logout}
+				on:click={disconnectWalletHandler}
 				class="connect-wallet-btn bg-primary text-center text-white font-semibold p-4 w-full bg-primaryBlue rounded-lg"
 				>Logout</button
 			>
@@ -152,17 +81,16 @@
 	{/if}
 {:else}
 	<button
-		class="flex flex-row space-x-3 items-center bg-transparent outline outline-[1px]  outline-primary rounded-lg px-4 py-2.5 leading-[1.313]"
-		on:click={() => (connectModal = !connectModal)}
+		class="flex flex-row space-x-3 items-center bg-transparent outline outline-[1px]  outline-primary rounded-lg p-4 leading-[1.313]"
+		on:click={() => (connectModal = true)}
 	>
 		<img src="/images/lockicon.svg" alt="wallet icon" class="my-auto" />
-
 		<span class="font-semibold font-[poppins] text-sm text-primary flex items-center"
 			>Connect Wallet</span
 		>
 	</button>
 	{#if connectModal}
-		<Modal bind:value={connectModal}>
+		<Modal bind:value={connectModal} persistent>
 			<div slot="title">
 				<p class="my-auto font-[Poppins] font-medium text-neutral-800/60 text-sm">Unlock Wallet</p>
 				<p class="my-auto font-[Poppins] font-bold text-neutral-800 text-2xl">Select a provider</p>
@@ -173,7 +101,7 @@
 					<p class="heading pb-6 text-lg font-semibold text-center">MetaMask</p>
 
 					<button
-						on:click={connectMetamask}
+						on:click={connectMetamaskHandler}
 						disabled={!hasMetamask}
 						class:bg-gray-400={!hasMetamask}
 						class:bg-primaryBlue={hasMetamask}

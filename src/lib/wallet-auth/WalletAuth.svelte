@@ -40,8 +40,6 @@
 	$: chainName = import.meta.env.VITE_NETWORK_NAME || 'UNKNOWN';
 </script>
 
-<div class="text-xs">$walletAddress: {$walletAddress}</div>
-
 {#if walletType !== 'NONE'}
 	<button
 		class="flex flex-row justify-center space-x-3 bg-white rounded-lg px-[18px] py-2 shadow-sm hover:shadow-lg transition-shadow duration-000"

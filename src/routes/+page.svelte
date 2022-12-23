@@ -1,4 +1,5 @@
 <script>
+	import Bridge from '$lib/bridge/Bridge.svelte';
 	import Header from '../lib/header/Header.svelte';
 	import NewJob from '../lib/jobs/NewJob.svelte';
 </script>
@@ -11,6 +12,7 @@
 </svelte:head>
 
 <div id="svelte" class="flex flex-col bg-bg-light min-h-screen">
-	<Header allowedNetworks={[import.meta.env.VITE_NETWORK_ID]} />
-	<NewJob />
+	<Header />
+	<!-- <NewJob /> -->
+	<Bridge />
 </div>

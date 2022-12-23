@@ -1,7 +1,6 @@
 <script>
 	import WalletAuth from '../wallet-auth/WalletAuth.svelte';
 
-	export let allowedNetworks = [];
 	$: navbarOpen = false;
 	function toggleNavbar() {
 		navbarOpen = !navbarOpen;
@@ -19,7 +18,7 @@
 				<li class="px-4 cursor-pointer">Flowmint</li>
 				<li class="px-4 cursor-pointer">Relay</li>
 			</ul>
-			<WalletAuth {allowedNetworks} />
+			<WalletAuth />
 		</div>
 	</div>
 </nav>

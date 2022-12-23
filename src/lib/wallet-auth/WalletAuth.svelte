@@ -91,7 +91,7 @@
 						<div class="ml-3.5">Copy Address</div>
 					</button>
 					<button class="font-medium text-sm text-primary py-3 px-4 flex bg-gray-100 rounded-lg">
-						<img src="./images/etherscan.svg" alt="etherscan" />
+						<img src="./images/openIcon.svg" alt="etherscan" />
 						<div class="ml-3.5">View on Etherscan</div>
 					</button>
 				</div>

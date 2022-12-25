@@ -11,9 +11,17 @@
 	}
 </script>
 
-<main class="h-[calc(100vh-101px)] flex items-center justify-center">
-	<div class="max-w-[465px] w-full flex flex-col items-center justify-center font-[Poppins]">
-		<div class="bg-white rounded-lg w-full px-8 py-5 h-[470px] flex flex-col justify-between">
+<!-- from: {conversion.from}
+to: {conversion.to} -->
+<main
+	class="pt-[10px] min-[710px]:pt-[45px] min-[710px]:pb-[45px] pb-[80px] flex items-center justify-center"
+>
+	<div
+		class="max-w-none mx-[5%] min-[710px]:mx-0 min-[710px]:max-w-[465px] w-full flex flex-col items-center justify-center font-[Poppins]"
+	>
+		<div
+			class="bg-white rounded-lg w-full px-4 min-[400px]:px-8 py-5 h-[470px] flex flex-col justify-between"
+		>
 			<div class="flex flex-col items-center">
 				<h1 class="flex justify-center font-bold text-2xl leading-normal">Bridge</h1>
 				<div class="flex space-x-3 justify-center mt-4">
@@ -42,14 +50,12 @@
 				</div>
 			</div>
 
-			<!-- from: {conversion.from}
-            to: {conversion.to} -->
 			<form>
 				<div class="px-2">
 					<label class="mt-[30px] mb-2 flex" for="from">From</label>
 					<div class="flex justify-between items-center">
 						<input
-							class="font-[Orbitron] outline-none border-none text-primary font-semibold text-xl placeholder:text-primary/20"
+							class="font-[Orbitron] w-3/4 min-[710px]:w-10/12 outline-none border-none text-primary font-semibold text-xl placeholder:text-primary/20"
 							type="number"
 							id="from"
 							name="from"
@@ -68,7 +74,7 @@
 					<label class="mt-[30px] mb-2 flex" for="to">To</label>
 					<div class="flex justify-between items-center">
 						<input
-							class="font-[Orbitron] outline-none border-none text-primary font-semibold text-xl placeholder:text-primary/20"
+							class="font-[Orbitron] w-3/4 min-[710px]:w-10/12 outline-none border-none text-primary font-semibold text-xl placeholder:text-primary/20"
 							type="number"
 							id="to"
 							name="to"
@@ -85,11 +91,11 @@
 			</form>
 		</div>
 		<button
-			class="bg-white rounded-lg w-full py-4 mt-[30px] flex items-center justify-center text-base text-primary font-semibold"
+			class="relative bg-white rounded-lg w-full py-4 mt-[30px] flex items-center justify-center text-base text-primary font-semibold"
 		>
 			{conversion.from}<img class="mx-1" src="./images/arrowicon.svg" alt="arrowicon" />
 			{conversion.to} conversion history
-			<div>icon</div>
+			<img class="absolute right-4 mx-1" src="./images/rightarrow.svg" alt="right arrow" />
 		</button>
 		<button
 			class="bg-[#dee8f2] rounded-lg px-[18px] py-[9px] mt-[30px] flex text-primary font-medium text-sm"

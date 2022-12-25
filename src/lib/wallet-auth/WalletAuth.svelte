@@ -80,7 +80,7 @@
 							alt="You may optionally delegate the tokens in this stash to an operator address now or leave it for later."
 						/>
 					</div>
-					<div class="text-xl font-semibold">{$walletAddress}</div>
+					<div class="text-xl font-semibold truncate">{$walletAddress}</div>
 				</div>
 				<div class="row flex">
 					<!-- TODO: extract these buttons to a seperate component -->
@@ -108,7 +108,7 @@
 	{/if}
 {:else}
 	<button
-		class="flex flex-row space-x-3 items-center bg-transparent outline outline-[1px]  outline-primary rounded-lg p-4 leading-[1.313]"
+		class="flex flex-row space-x-3 items-center bg-transparent outline outline-[1px]  outline-primary rounded-lg px-4 py-3 leading-[1.313]"
 		on:click={() => (connectModal = true)}
 	>
 		<img src="/images/lockicon.svg" alt="wallet icon" class="my-auto" />

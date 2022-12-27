@@ -1,18 +1,60 @@
-<script>
-	import { claim_space } from 'svelte/internal';
+<script lang="ts">
+	import { connected } from '$lib/stores/provider';
+	// NOTE: using bignumber.js for conversion as BigNumber utils in ethers doesn't support float values
+	// eg. BN.from(1).div(BN.from(10)) returns 0 instead of 0.1
+	import BigNumber from 'bignumber.js';
 
 	let conversion = { from: 'POND', to: 'MPond' };
+	let formValue = {
+		convertFrom: 0,
+		convertTo: 0
+	};
+	let formErrors = null;
+
+	// helper functions to convert between POND and MPond
+	function CalculateMpond(amount: number, power: number) {
+		// formula: (amount) / (10^power) using BigNumber syntax
+		return new BigNumber(amount).div(new BigNumber(10).pow(new BigNumber(power)));
+	}
+
+	function CalculatePond(amount: number, power: number) {
+		return new BigNumber(amount).multipliedBy(new BigNumber(10).pow(power));
+	}
+
+	// reset values when switching between POND->MPond and MPond->POND
+	function resetInputFields() {
+		formValue = {
+			convertFrom: 0,
+			convertTo: 0
+		};
+	}
 
 	function handleMpondToPond() {
 		conversion = { from: 'MPond', to: 'POND' };
+		resetInputFields();
 	}
 	function handlePondToMpond() {
 		conversion = { from: 'POND', to: 'MPond' };
+		resetInputFields();
+	}
+
+	function convertToMpond(pondValue: number) {
+		formValue.convertTo = parseFloat(CalculateMpond(pondValue, 6).toFixed());
+	}
+	function convertToPond(pondValue: number) {
+		formValue.convertTo = parseFloat(CalculatePond(pondValue, 6).toFixed());
+	}
+
+	$: {
+		// real time conversion happens on form value change
+		if (conversion.from === 'POND') {
+			convertToMpond(formValue.convertFrom);
+		} else {
+			convertToPond(formValue.convertFrom);
+		}
 	}
 </script>
 
-<!-- from: {conversion.from}
-to: {conversion.to} -->
 <main
 	class="pt-[10px] min-[710px]:pt-[45px] min-[710px]:pb-[45px] pb-[80px] flex items-center justify-center"
 >
@@ -60,34 +102,48 @@ to: {conversion.to} -->
 							id="from"
 							name="from"
 							placeholder="0.00"
-							value=""
+							bind:value={formValue.convertFrom}
 						/>
 						<div class="font-medium text-base">{conversion.from}</div>
 					</div>
 					<div class="mt-5 flex items-center text-sm">
 						<button class="text-[#3740c7]/70 font-semibold tracking-wider"> MAX </button>
-						<span class="text-black/60 ml-2"> | Balance: NaN </span>
+						{#if conversion.from === 'POND'}
+							<span class="text-black/60 ml-2"> | Balance: NaN </span>
+						{:else}
+							<span class="text-black/60 ml-2"> | Unrequested: 0 | Requested: 0 </span>
+						{/if}
 					</div>
 				</div>
 				<hr class="my-[25px]" />
 				<div class="px-2">
 					<label class="mt-[30px] mb-2 flex" for="to">To</label>
-					<div class="flex justify-between items-center">
+					<div class="read-only flex justify-between items-center">
 						<input
 							class="font-[Orbitron] w-3/4 min-[710px]:w-10/12 outline-none border-none text-primary font-semibold text-xl placeholder:text-primary/20"
 							type="number"
 							id="to"
 							name="to"
 							placeholder="0.00"
-							value=""
+							bind:value={formValue.convertTo}
+							readonly
 						/>
+
 						<div class="font-medium text-base">{conversion.to}</div>
 					</div>
 				</div>
-				<button
-					class="flex items-center justify-center w-full bg-primary text-white rounded-lg h-14 mt-[30px] font-semibold"
-					type="submit">Submit</button
-				>
+				{#if $connected}
+					<button
+						class="flex items-center justify-center w-full bg-primary text-white rounded-lg h-14 mt-[30px] font-semibold"
+						type="submit">PROCEED TO CONVERSION</button
+					>
+				{:else}
+					<button
+						on:click|preventDefault={() => console.log('open Metamask')}
+						class="flex items-center justify-center w-full bg-primary text-white rounded-lg h-14 mt-[30px] font-semibold"
+						>Connect Wallet</button
+					>
+				{/if}
 			</form>
 		</div>
 		<button
@@ -105,3 +161,16 @@ to: {conversion.to} -->
 		</button>
 	</div>
 </main>
+
+<style>
+	.read-only input[type='number']::-webkit-inner-spin-button,
+	.read-only input[type='number']::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+	.read-only input[type='number'] {
+		appearance: textfield;
+		-moz-appearance: textfield;
+		/* Firefox */
+	}
+</style>

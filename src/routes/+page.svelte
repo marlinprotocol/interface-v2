@@ -1,7 +1,6 @@
 <script>
-	import Bridge from '$lib/bridge/Bridge.svelte';
-	import Header from '../lib/header/Header.svelte';
-	import NewJob from '../lib/jobs/NewJob.svelte';
+	import Bridge from './Bridge.svelte';
+	import Header from './Header.svelte';
 </script>
 
 <svelte:head>
@@ -13,6 +12,5 @@
 
 <div id="svelte" class="flex flex-col bg-bg-light min-h-screen">
 	<Header />
-	<!-- <NewJob /> -->
 	<Bridge />
 </div>

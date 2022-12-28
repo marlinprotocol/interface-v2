@@ -3,6 +3,8 @@
 	// NOTE: using bignumber.js for conversion as BigNumber utils in ethers doesn't support float values
 	// eg. BN.from(1).div(BN.from(10)) returns 0 instead of 0.1
 	import BigNumber from 'bignumber.js';
+	import ConnectModal from './ConnectModal.svelte';
+	import { showConnectModal } from './provider';
 
 	let conversion = { from: 'POND', to: 'MPond' };
 	let formValue = {
@@ -139,10 +141,11 @@
 					>
 				{:else}
 					<button
-						on:click|preventDefault={() => console.log('open Metamask')}
+						on:click|preventDefault={() => showConnectModal.set(true)}
 						class="flex items-center justify-center w-full bg-primary text-white rounded-lg h-14 mt-[30px] font-semibold"
 						>Connect Wallet</button
 					>
+					<ConnectModal />
 				{/if}
 			</form>
 		</div>

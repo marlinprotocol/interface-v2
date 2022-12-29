@@ -77,7 +77,11 @@
 						style:color={conversion.from === 'POND' ? '#3840c7' : '#7E7E80'}
 					>
 						POND
-						<img class="mx-1" src="./images/arrowicon.svg" alt="arrowicon" />
+						{#if conversion.from === 'POND'}
+							<img class="mx-1" src="./images/arrowicon.svg" alt="arrowicon" />
+						{:else}
+							<img class="mx-1" src="./images/conversionarrow.svg" alt="conversion arrow" />
+						{/if}
 						MPond
 					</button>
 					<button
@@ -88,7 +92,11 @@
 						style:color={conversion.from === 'MPond' ? '#3840c7' : '#7E7E80'}
 					>
 						MPond
-						<img class="mx-1" src="./images/conversionarrow.svg" alt="conversion arrow" />
+						{#if conversion.from === 'MPond'}
+							<img class="mx-1" src="./images/arrowicon.svg" alt="arrowicon" />
+						{:else}
+							<img class="mx-1" src="./images/conversionarrow.svg" alt="conversion arrow" />
+						{/if}
 						POND
 					</button>
 				</div>

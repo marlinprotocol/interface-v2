@@ -3,8 +3,8 @@
 	// NOTE: using bignumber.js for conversion as BigNumber utils in ethers doesn't support float values
 	// eg. BN.from(1).div(BN.from(10)) returns 0 instead of 0.1
 	import BigNumber from 'bignumber.js';
-	import ConnectModal from './ConnectModal.svelte';
-	import { showConnectModal } from './provider';
+	import ConnectModal from '$lib/custom-components/ConnectModal/ConnectModal.svelte';
+	import { showConnectModal } from '../../components/Modal/provider';
 
 	let conversion = { from: 'POND', to: 'MPond' };
 	let formValue = {

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { connectMetamask, checkNetwork, switchNetwork } from '../lib/stores/provider';
-	import { showConnectModal } from './provider';
+	import { connectMetamask, checkNetwork, switchNetwork } from '../../stores/provider';
+	import { showConnectModal } from '../../components/Modal/provider';
 	import { onMount } from 'svelte';
-	import Modal from '$lib/modal/Modal.svelte';
+	import Modal from '$lib/components/Modal/Modal.svelte';
 
 	let hasMetamask = false;
 

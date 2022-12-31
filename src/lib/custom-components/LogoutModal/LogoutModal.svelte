@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { walletAddress, disconnect } from '../lib/stores/provider';
-	import Modal from '$lib/modal/Modal.svelte';
-	import { showLogoutModal } from './provider';
+	import { walletAddress, disconnect } from '../../stores/provider';
+	import Modal from '$lib/components/Modal/Modal.svelte';
+	import { showLogoutModal } from '../../components/Modal/provider';
 
 	async function disconnectWalletHandler() {
 		await disconnect();

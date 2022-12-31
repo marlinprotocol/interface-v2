@@ -1,6 +1,6 @@
 <script>
-	import Bridge from './Bridge.svelte';
-	import Header from './Header.svelte';
+	import Bridge from '$lib/custom-components/Bridge/Bridge.svelte';
+	import Header from '$lib/custom-components/Header/Header.svelte';
 </script>
 
 <svelte:head>

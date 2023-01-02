@@ -1,8 +1,8 @@
 <script type="ts">
-	import { walletAddress, connected } from '../lib/stores/provider';
-	import { showLogoutModal, showConnectModal } from './provider';
-	import LogoutModal from './LogoutModal.svelte';
-	import ConnectModal from './ConnectModal.svelte';
+	import { walletAddress, connected } from '$lib/stores/provider';
+	import { showLogoutModal, showConnectModal } from '$lib/components/Modal/provider';
+	import LogoutModal from '$lib/custom-components/LogoutModal/LogoutModal.svelte';
+	import ConnectModal from '$lib/custom-components/ConnectModal/ConnectModal.svelte';
 
 	let walletType = 'NONE';
 

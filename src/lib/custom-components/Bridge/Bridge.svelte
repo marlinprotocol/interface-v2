@@ -58,7 +58,7 @@
 </script>
 
 <main
-	class="pt-[10px] min-[710px]:pt-[45px] min-[710px]:pb-[45px] pb-[80px] flex items-center justify-center"
+	class="pt-[10px] pb-[80px] min-[710px]:pt-[45px] min-[710px]:pb-[45px]  flex items-center justify-center"
 >
 	<div
 		class="max-w-none mx-[5%] min-[710px]:mx-0 min-[710px]:max-w-[465px] w-full flex flex-col items-center justify-center font-[Poppins]"

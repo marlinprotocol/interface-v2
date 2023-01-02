@@ -1,5 +1,5 @@
 <script>
-	import WalletAuth from './WalletAuth.svelte';
+	import WalletAuth from '$lib/custom-components/WalletAuth/WalletAuth.svelte';
 
 	$: navbarOpen = false;
 	function toggleNavbar() {

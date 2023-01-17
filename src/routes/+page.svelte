@@ -1,16 +1,22 @@
-<script>
-	import Bridge from '$lib/custom-components/Bridge/Bridge.svelte';
-	import Header from '$lib/custom-components/Header/Header.svelte';
+<script lang="ts">
+	import Footer from '$lib/components/footer/Footer.svelte';
+	import Header from '$lib/components/header/Header.svelte';
+	import StakeUnstake from '$lib/page-components/receiver-staking/StakeUnstake.svelte';
+	import Test from '$lib/page-components/receiver-staking/Test.svelte';
 </script>
 
-<svelte:head>
-	<link
-		href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-		rel="stylesheet"
-	/>
-</svelte:head>
-
-<div id="svelte" class="flex flex-col bg-bg-light min-h-screen">
+<main>
 	<Header />
-	<Bridge />
-</div>
+	<div class="text-center w-full">
+		<Test />
+		<StakeUnstake />
+	</div>
+	<Footer />
+</main>
+
+<style>
+	main {
+		text-align: center;
+		margin: 0 auto;
+	}
+</style>

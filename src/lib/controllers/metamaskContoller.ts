@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
-import { walletStore } from './walletProviderStore';
-import { walletBalance } from './walletBalanceStore';
+import { walletStore } from '../data-stores/walletProviderStore';
+import { walletBalance } from '../data-stores/walletBalanceStore';
 import { getMpondBalance, getPondBalance } from '$lib/controllers/subgraphController';
 
 export async function connectMetamask() {

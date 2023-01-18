@@ -1,10 +1,10 @@
 import { derived, writable, type Readable, type Writable } from 'svelte/store';
 import { browser } from '$app/environment';
-import { connectMetamask } from './metamask';
-import { connectWalletConnect } from './walletConnect';
-import { VALID_CHAIN_IDS } from '../constants/networkConstants';
-import type { WalletProvider, WalletStore } from '../types/wallet';
-import { DEFAULT_WALLET_STORE } from '../constants/storeConstants';
+import { connectMetamask } from '../controllers/metamaskContoller';
+import { connectWalletConnect } from '../controllers/walletConnectController';
+import { VALID_CHAIN_IDS } from '../utils/constants/networkConstants';
+import type { WalletProvider, WalletStore } from '../utils/types/wallet';
+import { DEFAULT_WALLET_STORE } from '../utils/constants/storeConstants';
 
 export const walletProviders: WalletProvider = [
 	{ id: 1, provider: 'Metamask', connect: connectMetamask },

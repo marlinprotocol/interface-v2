@@ -1,6 +1,6 @@
 import { writable, type Writable } from 'svelte/store';
-import { DEFAULT_WALLET_BALANCE } from '../constants/storeConstants';
-import type { WalletBalance } from '../types/wallet';
+import { DEFAULT_WALLET_BALANCE } from '../utils/constants/storeConstants';
+import type { WalletBalance } from '../utils/types/wallet';
 
 export const walletBalance: Writable<WalletBalance> = writable(DEFAULT_WALLET_BALANCE);
 

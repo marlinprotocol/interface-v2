@@ -7,8 +7,8 @@
 		resetWalletStore,
 		walletProviders,
 		walletStore
-	} from '$lib/utils/wallet/walletProviderStore';
-	import { resetWalletBalance, walletBalance } from '$lib/utils/wallet/walletBalanceStore';
+	} from '$lib/data-stores/walletProviderStore';
+	import { resetWalletBalance, walletBalance } from '$lib/data-stores/walletBalanceStore';
 
 	let wallet: WalletStore;
 	let balance: WalletBalance;

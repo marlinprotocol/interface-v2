@@ -1,17 +1,33 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
+	import type { Unsubscriber } from 'svelte/store';
+	import type { WalletBalance, WalletStore } from '$lib/utils/types/wallet';
 	import {
 		connected,
 		resetWalletStore,
 		walletProviders,
-		walletStore,
-		type WalletStore
-	} from '$lib/utils/wallet-provider/walletProviders';
+		walletStore
+	} from '$lib/utils/wallet/walletProviderStore';
+	import { resetWalletBalance, walletBalance } from '$lib/utils/wallet/walletBalanceStore';
 
 	let wallet: WalletStore;
-	let pageTitle = 'Marlin Receiver Staking Portal';
-	walletStore.subscribe((value: WalletStore) => {
+	let balance: WalletBalance;
+	let pageTitle: string = 'Marlin Receiver Staking Portal';
+
+	const unsubscribeWalletStore: Unsubscriber = walletStore.subscribe((value: WalletStore) => {
 		wallet = value;
 	});
+	const unsubscribeWalletBalance: Unsubscriber = walletBalance.subscribe((value: WalletBalance) => {
+		balance = value;
+	});
+
+	function resetWalletStoreAndBalance() {
+		resetWalletStore();
+		resetWalletBalance();
+	}
+
+	onDestroy(unsubscribeWalletStore);
+	onDestroy(unsubscribeWalletBalance);
 </script>
 
 <div>
@@ -23,12 +39,13 @@
 			>
 		{/each}
 	</div>
-	<button class="btn btn-sm btn-outline btn-error my-2" on:click={() => resetWalletStore()}
-		>Disconnect wallet</button
+	<button
+		class="btn btn-sm btn-outline btn-error my-2"
+		on:click={() => resetWalletStoreAndBalance()}>Disconnect wallet</button
 	>
 	{#if $connected}
 		<div>Address: {wallet.address}</div>
-		<div>Pond Balance: {wallet.pondBalance}</div>
-		<div>MPond Balance: {wallet.mpondBalance}</div>
+		<div>Pond Balance: {balance.pond}</div>
+		<div>MPond Balance: {balance.mpond}</div>
 	{/if}
 </div>

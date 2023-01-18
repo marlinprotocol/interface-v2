@@ -2,21 +2,9 @@ import { derived, writable, type Readable, type Writable } from 'svelte/store';
 import { browser } from '$app/environment';
 import { connectMetamask } from './metamask';
 import { connectWalletConnect } from './walletConnect';
-import type { ethers } from 'ethers';
-
-export type WalletStore = {
-	provider: ethers.providers.Web3Provider | null;
-	signer: ethers.providers.JsonRpcSigner | null;
-	address: string;
-	pondBalance: string;
-	mpondBalance: string;
-};
-
-type WalletProvider = {
-	id: number;
-	provider: string;
-	connect: () => Promise<void>;
-}[];
+import { VALID_CHAIN_IDS } from '../constants/networkConstants';
+import type { WalletProvider, WalletStore } from '../types/wallet';
+import { DEFAULT_WALLET_STORE } from '../constants/storeConstants';
 
 export const walletProviders: WalletProvider = [
 	{ id: 1, provider: 'Metamask', connect: connectMetamask },
@@ -24,13 +12,7 @@ export const walletProviders: WalletProvider = [
 ];
 
 // svelte stores
-export const walletStore: Writable<WalletStore> = writable({
-	provider: null,
-	signer: null,
-	address: '',
-	pondBalance: '0',
-	mpondBalance: '0'
-});
+export const walletStore: Writable<WalletStore> = writable(DEFAULT_WALLET_STORE);
 
 export const connected: Readable<boolean> = derived(walletStore, ($walletStore) => {
 	return Boolean($walletStore.provider);
@@ -41,13 +23,7 @@ export const connected: Readable<boolean> = derived(walletStore, ($walletStore) 
  *  changes the session storage value of connected to false when called
  */
 export function resetWalletStore(): void {
-	walletStore.set({
-		provider: null,
-		signer: null,
-		address: '',
-		pondBalance: '0',
-		mpondBalance: '0'
-	});
+	walletStore.set(DEFAULT_WALLET_STORE);
 }
 
 // This stores connection between reloads.
@@ -64,3 +40,7 @@ if (browser && JSON.parse(sessionStorage.getItem('connected') || 'false')) {
 connected.subscribe((value) => {
 	if (browser) sessionStorage.setItem('connected', JSON.stringify(value));
 });
+
+export function isValidNetwork(id: number): boolean {
+	return VALID_CHAIN_IDS.includes(id);
+}

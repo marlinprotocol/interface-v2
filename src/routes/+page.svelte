@@ -1,6 +1,5 @@
 <script lang="ts">
-	import Footer from '$lib/components/footer/Footer.svelte';
-	import Header from '$lib/components/header/Header.svelte';
+	import Header from '$lib/page-components/header/Header.svelte';
 	import StakeUnstake from '$lib/page-components/receiver-staking/StakeUnstake.svelte';
 	import Test from '$lib/page-components/receiver-staking/Test.svelte';
 </script>
@@ -11,7 +10,6 @@
 		<Test />
 		<StakeUnstake />
 	</div>
-	<Footer />
 </main>
 
 <style>

@@ -3,7 +3,8 @@ import type { ethers } from 'ethers';
 export type WalletStore = {
 	provider: ethers.providers.Web3Provider | null;
 	signer: ethers.providers.JsonRpcSigner | null;
-	address: string;
+	hexAddress: string;
+	checksumAddress: string;
 };
 
 export type WalletProvider = {
@@ -13,6 +14,6 @@ export type WalletProvider = {
 }[];
 
 export type WalletBalance = {
-	pond: string;
-	mpond: string;
+	pond: number;
+	mpond: number;
 };

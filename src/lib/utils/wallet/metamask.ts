@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import { walletStore } from './walletProviderStore';
-import { getMpondBalance, getPondBalance, walletBalance } from './walletBalanceStore';
+import { walletBalance } from './walletBalanceStore';
+import { getMpondBalance, getPondBalance } from '$lib/controllers/subgraphController';
 
 export async function connectMetamask() {
 	console.log('connecting to metamask...');
@@ -17,20 +18,22 @@ export async function connectMetamask() {
 	}
 
 	const metamaskSigner = metamaskProvider.getSigner();
-	const metamaskAddress = await metamaskSigner.getAddress();
-	const metamaskPondBalance = await getPondBalance(metamaskProvider, metamaskAddress);
-	const metamaskMpondBalance = await getMpondBalance(metamaskProvider, metamaskAddress);
+	const metamaskChecksumAddress = await metamaskSigner.getAddress();
+	const metamaskHexAddress = metamaskChecksumAddress.toLowerCase();
+	const metamaskPondBalance = await getPondBalance(metamaskHexAddress);
+	const metamaskMpondBalance = await getMpondBalance(metamaskHexAddress);
 
 	walletStore.set({
 		provider: metamaskProvider,
 		signer: metamaskSigner,
-		address: metamaskAddress
+		hexAddress: metamaskHexAddress,
+		checksumAddress: metamaskChecksumAddress
 	});
 	walletBalance.set({
 		pond: metamaskPondBalance,
 		mpond: metamaskMpondBalance
 	});
 
-	console.log('Metamask wallet address:', metamaskAddress);
+	console.log('Metamask wallet address:', metamaskChecksumAddress);
 	console.log('!! Wallet store updated !!');
 }

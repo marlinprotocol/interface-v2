@@ -1,6 +1,6 @@
 declare global {
 	interface Window {
-		ethereum?: MetaMaskInpageProvider;
+		ethereum?: ExternalProvider;
 	}
 	namespace App {}
 }

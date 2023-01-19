@@ -1,31 +1,34 @@
 <script lang="ts">
-	const tabs = [
+	import ContainerCard from '$lib/components/cards/ContainerCard.svelte';
+	import TabsGroup from '$lib/components/tab/TabsGroup.svelte';
+	import type { TabModel } from '$lib/types/atomTypes';
+
+	//tabs list
+	const tabs: TabModel[] = [
 		{
 			id: 'stake',
 			name: 'Stake'
 		},
 		{
-			id: 'un-stake',
+			id: 'unstake',
 			name: 'Un-stake'
 		}
 	];
-	let tabSelected = 'stake';
+	//intial tab selected
+	let tabIdSelected: string = 'stake';
+
+	//update tabIdSelected
+	function handleTabSwitch(tabId: string) {
+		console.log('handleTabSwitch tabId :>>', tabId);
+		tabIdSelected = tabId;
+	}
+
+	$: tabSelected = tabs.find((a) => a.id === tabIdSelected);
 </script>
 
-<div class="rounded-lg w-96 bg-white h-96 p-4 my-5 mx-auto text-center">
-	<div class="tabs tabs-boxed justify-center bg-white gap-2">
-		{#each tabs as tab (tab.id)}
-			<button
-				on:click={() => (tabSelected = tab.id)}
-				class={`rounded-2xl px-8 py-1 text-sm ${
-					tabSelected === tab.id ? 'bg-blue-100 text-primary font-medium' : 'bg-base-200 text-grey'
-				}`}
-			>
-				{tab.name}
-			</button>
-		{/each}
-	</div>
-</div>
-
-<style>
-</style>
+<ContainerCard>
+	<TabsGroup {tabs} {tabIdSelected} {handleTabSwitch} />
+	{#if !!tabSelected}
+		<h1>{tabSelected.name} Tab Selected</h1>
+	{/if}
+</ContainerCard>

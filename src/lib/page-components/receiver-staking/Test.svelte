@@ -9,6 +9,8 @@
 		walletStore
 	} from '$lib/data-stores/walletProviderStore';
 	import { resetWalletBalance, walletBalance } from '$lib/data-stores/walletBalanceStore';
+	import PrimaryButton from '$lib/components/buttons/PrimaryButton.svelte';
+	import ErrorButton from '$lib/components/buttons/ErrorButton.svelte';
 
 	let wallet: WalletStore;
 	let balance: WalletBalance;
@@ -34,15 +36,14 @@
 	<h2 class="text-primary text-2xl font-bold my-5">{pageTitle}</h2>
 	<div class="flex gap-2 justify-center my-2">
 		{#each walletProviders as walletProvider (walletProvider.id)}
-			<button class="btn btn-primary" on:click|preventDefault={() => walletProvider.connect()}
-				>{walletProvider.provider}</button
-			>
+			<PrimaryButton onclick={() => walletProvider.connect()}>
+				<div>{walletProvider.provider}</div>
+			</PrimaryButton>
 		{/each}
 	</div>
-	<button
-		class="btn btn-sm btn-outline btn-error my-2"
-		on:click={() => resetWalletStoreAndBalance()}>Disconnect wallet</button
-	>
+	<ErrorButton styleClass="mt-2" onclick={() => resetWalletStoreAndBalance()}
+		>Disconnect wallet
+	</ErrorButton>
 	{#if $connected}
 		<div>Address: {wallet.address}</div>
 		<div>Pond Balance: {balance.pond}</div>

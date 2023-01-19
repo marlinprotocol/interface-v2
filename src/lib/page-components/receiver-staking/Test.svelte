@@ -45,7 +45,7 @@
 		>Disconnect wallet
 	</ErrorButton>
 	{#if $connected}
-		<div>Address: {wallet.address}</div>
+		<div>Address: {wallet.checksumAddress}</div>
 		<div>Pond Balance: {balance.pond}</div>
 		<div>MPond Balance: {balance.mpond}</div>
 	{/if}

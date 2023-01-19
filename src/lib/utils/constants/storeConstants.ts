@@ -11,5 +11,10 @@ export const DEFAULT_WALLET_STORE = {
 // walletBalanceStore
 export const DEFAULT_WALLET_BALANCE = {
 	pond: 0,
-	mpond: 0
+	mpond: 0,
+	readablePond: 0,
+	readableMpond: 0
 };
+
+// chainProviderStore
+export const DEFAULT_CHAIN_STORE = { chainId: null, chainName: '' };

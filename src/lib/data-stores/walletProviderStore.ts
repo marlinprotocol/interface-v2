@@ -2,9 +2,9 @@ import { derived, writable, type Readable, type Writable } from 'svelte/store';
 import { browser } from '$app/environment';
 import { connectMetamask } from '../controllers/metamaskContoller';
 import { connectWalletConnect } from '../controllers/walletConnectController';
-import { VALID_CHAIN_IDS } from '../utils/constants/networkConstants';
-import type { WalletProvider, WalletStore } from '../utils/types/wallet';
+import type { WalletProvider, WalletStore } from '../types/storeTypes';
 import { DEFAULT_WALLET_STORE } from '../utils/constants/storeConstants';
+import { VALID_CHAIN_IDS } from '$lib/environments/environment';
 
 export const walletProviders: WalletProvider = [
 	{ id: 1, provider: 'Metamask', connect: connectMetamask },
@@ -19,10 +19,10 @@ export const connected: Readable<boolean> = derived(walletStore, ($walletStore) 
 });
 
 /**
- *  Reset all the values in the walletStore,
+ *  Resets the walletStore to its default value,
  *  changes the session storage value of connected to false when called
  */
-export function resetWalletStore(): void {
+export function resetWalletProviderStore(): void {
 	walletStore.set(DEFAULT_WALLET_STORE);
 }
 

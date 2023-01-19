@@ -3,13 +3,18 @@ import { walletStore } from '../data-stores/walletProviderStore';
 import { walletBalance } from '../data-stores/walletBalanceStore';
 import { getMpondBalance, getPondBalance } from '$lib/controllers/subgraphController';
 import { isValidNetwork, switchToValidNetwork } from '$lib/utils/helpers/networkHelper';
+import { chainStore } from '$lib/data-stores/chainProviderStore';
+import { amountDivideByPow18 } from '$lib/utils/conversion';
 
 export async function connectMetamask() {
 	console.log('connecting to metamask...');
 
 	// establish metamask connection
 	const metamaskProvider = new ethers.providers.Web3Provider(window.ethereum);
-	const { chainId } = await metamaskProvider.getNetwork();
+	const { chainId, name } = await metamaskProvider.getNetwork();
+
+	// update network store
+	chainStore.set({ chainId: chainId, chainName: name });
 
 	// if the chain is valid then connect else switch chain
 	if (isValidNetwork(chainId)) {
@@ -35,7 +40,9 @@ export async function connectMetamask() {
 		});
 		walletBalance.set({
 			pond: metamaskPondBalance,
-			mpond: metamaskMpondBalance
+			mpond: metamaskMpondBalance,
+			readablePond: metamaskPondBalance ? amountDivideByPow18(metamaskPondBalance) : 0,
+			readableMpond: metamaskMpondBalance ? amountDivideByPow18(metamaskMpondBalance) : 0
 		});
 
 		console.log('Metamask wallet address:', metamaskChecksumAddress);

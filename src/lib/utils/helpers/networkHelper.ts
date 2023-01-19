@@ -1,5 +1,5 @@
 import { PUBLIC_NETWORK_ID } from '$env/static/public';
-import { VALID_CHAIN_IDS } from '../constants/networkConstants';
+import { VALID_CHAIN_IDS } from '$lib/environments/environment';
 
 export function isValidNetwork(id: number): boolean {
 	return VALID_CHAIN_IDS.includes(id);

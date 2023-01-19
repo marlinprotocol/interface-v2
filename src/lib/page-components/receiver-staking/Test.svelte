@@ -1,35 +1,46 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import type { WalletBalance, WalletStore } from '$lib/utils/types/wallet';
+	import type { ChainStore, WalletBalance, WalletStore } from '$lib/types/storeTypes';
 	import {
 		connected,
-		resetWalletStore,
+		resetWalletProviderStore,
 		walletProviders,
 		walletStore
 	} from '$lib/data-stores/walletProviderStore';
-	import { resetWalletBalance, walletBalance } from '$lib/data-stores/walletBalanceStore';
+	import { resetWalletBalanceStore, walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import PrimaryButton from '$lib/components/buttons/PrimaryButton.svelte';
 	import ErrorButton from '$lib/components/buttons/ErrorButton.svelte';
+	import { chainStore, resetChainProviderStore } from '$lib/data-stores/chainProviderStore';
 
 	let wallet: WalletStore;
 	let balance: WalletBalance;
+	let chain: ChainStore;
 	let pageTitle: string = 'Marlin Receiver Staking Portal';
 
-	const unsubscribeWalletStore: Unsubscriber = walletStore.subscribe((value: WalletStore) => {
-		wallet = value;
-	});
-	const unsubscribeWalletBalance: Unsubscriber = walletBalance.subscribe((value: WalletBalance) => {
-		balance = value;
+	const unsubscribeWalletProviderStore: Unsubscriber = walletStore.subscribe(
+		(value: WalletStore) => {
+			wallet = value;
+		}
+	);
+	const unsubscribeWalletBalanceStore: Unsubscriber = walletBalance.subscribe(
+		(value: WalletBalance) => {
+			balance = value;
+		}
+	);
+	const unsubscribeChainProviderStore: Unsubscriber = chainStore.subscribe((value: ChainStore) => {
+		chain = value;
 	});
 
-	function resetWalletStoreAndBalance() {
-		resetWalletStore();
-		resetWalletBalance();
+	function resetStores() {
+		resetWalletProviderStore();
+		resetWalletBalanceStore();
+		resetChainProviderStore();
 	}
 
-	onDestroy(unsubscribeWalletStore);
-	onDestroy(unsubscribeWalletBalance);
+	onDestroy(unsubscribeWalletProviderStore);
+	onDestroy(unsubscribeWalletBalanceStore);
+	onDestroy(unsubscribeChainProviderStore);
 </script>
 
 <div>
@@ -41,12 +52,13 @@
 			</PrimaryButton>
 		{/each}
 	</div>
-	<ErrorButton styleClass="mt-2" onclick={() => resetWalletStoreAndBalance()}
-		>Disconnect wallet
-	</ErrorButton>
+	<ErrorButton styleClass="mt-2" onclick={() => resetStores()}>Disconnect wallet</ErrorButton>
 	{#if $connected}
 		<div>Address: {wallet.checksumAddress}</div>
 		<div>Pond Balance: {balance.pond}</div>
+		<div>Pond Balance (readable): {balance.readablePond}</div>
 		<div>MPond Balance: {balance.mpond}</div>
+		<div>MPond Balance (readable): {balance.readableMpond}</div>
+		<div>Chain ID: {chain.chainId}</div>
 	{/if}
 </div>

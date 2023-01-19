@@ -1,5 +1,6 @@
 import type { ethers } from 'ethers';
 
+// wallet provider store
 export type WalletStore = {
 	provider: ethers.providers.Web3Provider | null;
 	signer: ethers.providers.JsonRpcSigner | null;
@@ -13,7 +14,16 @@ export type WalletProvider = {
 	connect: () => Promise<void>;
 }[];
 
+// wallet balance store
 export type WalletBalance = {
 	pond: number;
 	mpond: number;
+	readablePond: number;
+	readableMpond: number;
+};
+
+// chain store
+export type ChainStore = {
+	chainId: number | null;
+	chainName: string;
 };

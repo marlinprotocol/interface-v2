@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
 	export let onclick = () => {};
-	export let styleClass = '';
+	export let styleClass: string = '';
 	$: buttonClass = `btn btn-sm md:btn-md text-primary border-primary hover:bg-white hover:border-primary flex gap-2 ${styleClass}`;
 </script>
 

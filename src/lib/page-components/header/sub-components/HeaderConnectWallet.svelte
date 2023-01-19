@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import SecondaryButton from '$lib/components/buttons/SecondaryButton.svelte';
 </script>
 

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import HeaderConnectWallet from './sub-components/HeaderConnectWallet.svelte';
 	import HeaderLinksGroup from './sub-components/HeaderLinksGroup.svelte';
 	import HeaderLogo from './sub-components/HeaderLogo.svelte';

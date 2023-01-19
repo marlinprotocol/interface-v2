@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
 	export let onclick = () => {};
-	export let styleClass = '';
-	export let isActive = false;
+	export let styleClass: string = '';
+	export let isActive: boolean = false;
 
 	//reactive value based on isActive and styleClass
 	$: buttonStyle = `rounded-2xl w-32 py-1 text-sm hover:font-medium ${

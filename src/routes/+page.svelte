@@ -3,7 +3,7 @@
 	import Test from '$lib/page-components/receiver-staking/Test.svelte';
 </script>
 
-<div>
+<div class="py-10">
 	<Test />
 	<StakeUnstake />
 </div>

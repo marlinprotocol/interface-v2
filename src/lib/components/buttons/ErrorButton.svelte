@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { buttonClasses } from '../componentClasses';
+
 	export let onclick = () => {};
 	export let styleClass: string = '';
-	$: buttonClass = `btn btn-sm md:btn-md text-error border-error hover:bg-white hover:border-error ${styleClass}`;
+	$: buttonClass = `${buttonClasses.error} ${styleClass}`;
 </script>
 
 <button on:click|preventDefault={onclick} class={buttonClass}>

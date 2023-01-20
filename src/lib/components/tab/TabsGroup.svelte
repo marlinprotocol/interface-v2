@@ -16,7 +16,7 @@
 	{#if !!tabs?.length}
 		{#each tabs as tab (tab.id)}
 			<Tab onclick={() => handleTabSwitch(tab.id)} isActive={tabIdSelected === tab.id}>
-				{tab.name}
+				{tab.title}
 			</Tab>
 		{/each}
 	{/if}

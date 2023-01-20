@@ -45,7 +45,7 @@ module.exports = {
 					grey: '#7e7e80',
 					'grey-600': '#808080',
 					error: '#e60000',
-					'error-focus': '#c40000',
+					'error-focus': '#b30202',
 					'error-content': '#ffffff'
 					//custom designs
 					// '--rounded-box': '1rem', // border radius rounded-box utility class, used in card and other large boxes

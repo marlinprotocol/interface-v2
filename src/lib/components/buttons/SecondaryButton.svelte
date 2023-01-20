@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { buttonClasses } from '../componentClasses';
+
 	export let onclick = () => {};
 	export let styleClass: string = '';
-	$: buttonClass = `btn btn-sm md:btn-md text-primary border-primary hover:bg-white hover:border-primary flex gap-2 ${styleClass}`;
+	$: buttonClass = `${buttonClasses.secondary} ${styleClass}`;
 </script>
 
 <button on:click|preventDefault={onclick} class={buttonClass}>

@@ -1,11 +1,12 @@
 import { PUBLIC_MPOND_BALANCE_API_URL, PUBLIC_POND_BALANCE_API_URL } from '$env/static/public';
+import { ENVIRONMENT } from '$lib/environments/environment';
 
 /**
  * Get POND balance from subgraph API.
  * @param address
  */
 export async function getPondBalance(address: string): Promise<number> {
-	const url = PUBLIC_POND_BALANCE_API_URL;
+	const url = ENVIRONMENT.public_pond_balance_api_url;
 	const query = `query PondBalance($address: String)  {
         users(where: {
           address: $address
@@ -47,7 +48,7 @@ export async function getPondBalance(address: string): Promise<number> {
  * @param address
  */
 export async function getMpondBalance(id: string): Promise<number> {
-	const url = PUBLIC_MPOND_BALANCE_API_URL;
+	const url = ENVIRONMENT.public_mpond_balance_api_url;
 
 	const query = `query MPondBalance($id: String)  {
         balances(where: {

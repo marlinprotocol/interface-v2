@@ -2,17 +2,18 @@
 	export let modalFor: string = '';
 
 	const styles = {
-		title: 'font-lg font-bold text-left',
-		subtitle: 'text-gray-500 text-xs text-left mt-1',
+		title: 'text-2xl font-bold text-left',
+		subtitle: 'text-sm font-medium text-left mt-1 text-secondaryText',
 		closeButton:
-			'btn btn-xs text-xs btn-circle absolute right-4 top-4 hover:bg-gray-200 hover:text-gray-800'
+			'btn btn-sm text-sm btn-circle absolute right-4 top-4 hover:bg-gray-200 hover:text-gray-800'
 	};
 </script>
 
 <div>
 	<input type="checkbox" id={modalFor} class="modal-toggle" />
 	<label for={modalFor} class="modal cursor-pointer">
-		<div class="modal-box w-80 rounded p-4">
+		<!-- TODO: check for relay modal size and match -->
+		<div class="modal-box w-11/12 sm:w-3/4 md:w-1/2 sm:max-w-[500px] rounded p-4 bg-white">
 			<div>
 				<div class={styles.title}>
 					<slot name="title" />

@@ -17,9 +17,9 @@
 	];
 
 	const styles = {
-		wrapper: 'w-full flex flex-col items-center justify-center py-5 px-10',
+		wrapper: 'w-full flex flex-col items-center justify-center',
 		rowClass: 'w-full flex items-center justify-between',
-		titleIcon: 'flex items-center'
+		titleIcon: 'flex items-center gap-1'
 	};
 </script>
 

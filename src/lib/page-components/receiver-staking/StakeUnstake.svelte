@@ -6,12 +6,14 @@
 	import UnstakeModal from './UnstakeModal.svelte';
 </script>
 
-<ContainerCard>
-	<div class="flex gap-2 items-center justify-center">
-		<label for="stake-modal" class={buttonClasses.primary}>Stake</label>
-		<label for="unstake-modal" class={buttonClasses.secondary}>Un Stake</label>
+<div>
+	<div class="flex gap-2 items-center justify-center mt-4">
+		<label for="stake-modal" class={`${buttonClasses.primary} px-8`}>Stake</label>
+		<label for="unstake-modal" class={`${buttonClasses.secondary} px-8`}>Un Stake</label>
 		<StakeModal />
 		<UnstakeModal />
 	</div>
-	<StakedData />
-</ContainerCard>
+	<ContainerCard>
+		<StakedData />
+	</ContainerCard>
+</div>

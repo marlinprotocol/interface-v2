@@ -5,15 +5,15 @@
 	//nav-links list
 	const navLinks: NavLinkModel[] = [
 		{
-			title: 'Govern',
+			title: 'Operator',
 			href: '/'
 		},
 		{
-			title: 'Flowmint',
+			title: 'Register',
 			href: '/'
 		},
 		{
-			title: 'Relay',
+			title: 'Delegate',
 			href: '/'
 		}
 	];

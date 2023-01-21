@@ -38,7 +38,7 @@
 			case 'h5':
 				return 'font-bold';
 			case 'h6':
-				return 'font-medium';
+				return 'font-semibold';
 			case 'body':
 			case 'small':
 			case 'tiny':

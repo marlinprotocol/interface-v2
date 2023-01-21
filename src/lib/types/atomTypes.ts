@@ -16,3 +16,14 @@ export type TextModel = {
 	text: string;
 	styleClass?: string;
 };
+
+export type TooltipVariant =
+	| 'tooltip-primary'
+	| 'tooltip-secondary'
+	| 'tooltip-accent'
+	| 'tooltip-info'
+	| 'tooltip-success'
+	| 'tooltip-warning'
+	| 'tooltip-error';
+
+export type TooltipDirection = 'tooltip-top' | 'tooltip-right' | 'tooltip-bottom' | 'tooltip-left';

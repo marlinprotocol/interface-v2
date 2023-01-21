@@ -29,7 +29,7 @@
 			<div class={styles.titleIcon}>
 				<Text variant="small" styleClass="text-gray-500" text={item.title} />
 				{#if !!item.tooltipText}
-					<Tooltip tooltipText={item.tooltipText} />
+					<Tooltip styleClass={'ml-1'} tooltipText={item.tooltipText} />
 				{/if}
 			</div>
 			<Text variant="h6" text={item.value} />

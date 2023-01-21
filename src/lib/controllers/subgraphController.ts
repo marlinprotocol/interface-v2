@@ -1,4 +1,3 @@
-import { PUBLIC_MPOND_BALANCE_API_URL, PUBLIC_POND_BALANCE_API_URL } from '$env/static/public';
 import { ENVIRONMENT } from '$lib/environments/environment';
 
 /**

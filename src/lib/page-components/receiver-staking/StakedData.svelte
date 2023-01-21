@@ -1,17 +1,19 @@
 <script lang="ts">
 	import Text from '$lib/components/texts/Text.svelte';
 	import Tooltip from '$lib/components/tooltips/Tooltip.svelte';
-	import type { ReceiverStakedDataModel } from '$lib/types/receiverStakingModel';
+	import type { ReceiverStakedDataModel } from '$lib/types/receiverStakingTypes';
+	import { bigNumbertoString } from '$lib/utils/conversion';
+	import { BigNumber } from 'ethers';
 
 	const content: ReceiverStakedDataModel[] = [
 		{
 			title: 'STAKED',
-			value: '20,000 POND',
+			value: BigNumber.from('20000000000000000000000'),
 			tooltipText: 'Some explanatory text here'
 		},
 		{
 			title: 'In queue',
-			value: '5,000 POND',
+			value: BigNumber.from('5000000000000000000000'),
 			tooltipText: 'Some explanatory text here'
 		}
 	];
@@ -32,7 +34,7 @@
 					<Tooltip tooltipText={item.tooltipText} />
 				{/if}
 			</div>
-			<Text variant="h6" text={item.value} />
+			<Text variant="h6" text={`${bigNumbertoString(item.value, 2)} POND`} />
 		</div>
 	{/each}
 </div>

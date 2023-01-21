@@ -1,12 +1,17 @@
-<script>
+<script lang="ts">
 	import InputCard from '$lib/components/cards/InputCard.svelte';
 	import { buttonClasses, dividerClasses } from '$lib/components/componentClasses';
 	import Text from '$lib/components/texts/Text.svelte';
 	import Tooltip from '$lib/components/tooltips/Tooltip.svelte';
+	import type { ReceiverStakeModalInputModel } from '$lib/types/receiverStakingTypes';
+	import { bigNumbertoString } from '$lib/utils/conversion';
+	import { BigNumber } from 'ethers';
 
-	export let title = 'POND';
-	export let tooltipText = 'Some info here';
-	export let maxBalance = 10;
+	//TODO: remove default values
+	export let title: ReceiverStakeModalInputModel['title'] = 'POND';
+	export let tooltipText: ReceiverStakeModalInputModel['tooltipText'] = 'Some info here';
+	export let maxBalance: ReceiverStakeModalInputModel['maxBalance'] =
+		BigNumber.from('20000000000000000000000');
 
 	const styles = {
 		wrapper: 'w-full flex flex-col items-center justify-center',
@@ -32,10 +37,12 @@
 			<button type="submit" class={styles.inputEndButton}>Approve</button>
 		</div>
 		<div class={dividerClasses.horizontal} />
-		<div class="flex items-center gap-2 mt-2">
-			<button class={styles.inputMaxButton}>MAX</button>
-			<div class={dividerClasses.vertical} />
-			<Text variant="small" text={`Balance: ${maxBalance.toFixed(2)}`} />
-		</div>
+		{#if !!maxBalance}
+			<div class="flex items-center gap-2 mt-2">
+				<button class={styles.inputMaxButton}>MAX</button>
+				<div class={dividerClasses.vertical} />
+				<Text variant="small" text={`Balance: ${bigNumbertoString(maxBalance)}`} />
+			</div>
+		{/if}
 	</form>
 </InputCard>

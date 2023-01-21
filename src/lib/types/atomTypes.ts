@@ -5,8 +5,6 @@ export type TabModel = {
 };
 
 export type ButtonModel = {
-	id: string;
-	title: string;
 	variant?: 'primary' | 'secondary' | 'error' | 'success';
 	onclick: () => void;
 };

@@ -1,7 +1,12 @@
 export const buttonClasses = {
-	primary: 'btn btn-sm text-sm rounded btn-primary',
+	primary: 'btn btn-theme btn-sm px-5 btn-primary',
 	secondary:
-		'btn btn-sm text-sm rounded text-primary border-primary hover:text-primary-focus hover:border-primary-focus hover:bg-inherit',
-	error: 'btn btn-sm rounded text-error border-error hover:bg-white hover:border-error',
-	icon: 'btn btn-ghost btn-sm btn-circle'
+		'btn btn-theme btn-sm text-primary px-5 border-primary hover:text-primary-focus hover:border-primary-focus hover:bg-inherit',
+	error: 'btn btn-theme btn-sm text-error px-5 border-error hover:bg-white hover:border-error',
+	text: 'btn btn-sm btn-ghost p-0 hover:bg-inherit'
+};
+
+export const dividerClasses = {
+	vertical: 'w-0.5 bg-gray-300 h-3 rounded',
+	horizontal: 'h-0.5 bg-gray-200 w-full rounded'
 };

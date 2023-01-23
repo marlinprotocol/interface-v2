@@ -5,7 +5,8 @@
 	import SecondaryButton from './SecondaryButton.svelte';
 
 	export let variant: ButtonModel['variant'] = 'primary';
-	export let onclick = () => {};
+	export let onclick: ButtonModel['onclick'] = () => {};
+
 	export const styleClass = '';
 	const buttonClass = () => {
 		switch (variant) {

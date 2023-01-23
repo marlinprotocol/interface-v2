@@ -1,25 +1,24 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-	content: ['./src/**/*.{html,js,svelte,ts}'],
-	theme: {
-		extend: {
-			colors: {
-				primary: '#3840c7',
-				'primary-light': '#2db8e3',
-				'bg-light': '#e9f2f5'
-			}
-		}
-	},
-	plugins: []
-};
-/** @type {import('tailwindcss').Config} */
+/** @type {@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap')} */
 
 module.exports = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
 		extend: {
+			colors: {
+				primaryText: '#212529',
+				secondaryText: '#0000007F'
+			},
+			fontSize: {
+				'2xs': '0.625rem',
+				'3xs': '0.5rem',
+				'4xs': '0.375rem'
+			},
 			width: {
-				'9/10': '90%'
+				125: '500px' //or 125rem
+			},
+			fontFamily: {
+				poppins: ['Poppins', 'sans-serif']
 			}
 		}
 	},
@@ -38,7 +37,7 @@ module.exports = {
 					'accent-focus': '#2aa79b',
 					'accent-content': '#ffffff',
 					'base-100': '#e9f2f5',
-					'base-200': '#f3f3f3',
+					'base-200': '#f3f4fc',
 					info: '#66c6ff',
 					success: '#28bf92',
 					warning: '#fcca00',
@@ -46,8 +45,18 @@ module.exports = {
 					'grey-600': '#808080',
 					error: '#e60000',
 					'error-focus': '#b30202',
-					'error-content': '#ffffff'
+					'error-content': '#ffffff',
 					//custom designs
+					'.btn': {
+						'text-transform': 'none'
+					},
+					'.btn-theme': {
+						'border-radius': '6px',
+						height: '40px',
+						'font-weight': '600',
+						'font-size': '14px'
+					},
+					'--input-appearance': 'none'
 					// '--rounded-box': '1rem', // border radius rounded-box utility class, used in card and other large boxes
 					// '--rounded-btn': '0.5rem', // border radius rounded-btn utility class, used in buttons and similar element
 					// '--rounded-badge': '1.9rem', // border radius rounded-badge utility class, used in badges and similar

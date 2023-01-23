@@ -36,5 +36,5 @@ export type ModalInputModel = {
 	tooltipText?: string;
 	maxAmount: BigNumber;
 	maxAmountText?: string;
-	handleApproveClick?: (pond: number) => void;
+	handleApproveClick?: () => void;
 };

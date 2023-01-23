@@ -5,13 +5,12 @@
 	import Tooltip from '$lib/components/tooltips/Tooltip.svelte';
 	import type { ModalInputModel } from '$lib/types/atomTypes';
 	import { bigNumbertoNumber, bigNumbertoString } from '$lib/utils/conversion';
-	import { BigNumber } from 'ethers';
 
 	//TODO: remove default values
-	export let title: ModalInputModel['title'] = 'POND';
-	export let tooltipText: ModalInputModel['tooltipText'] = 'Some info here';
-	export let maxAmount: ModalInputModel['maxAmount'] | undefined =
-		BigNumber.from('20000000000000000000000');
+	export let title: ModalInputModel['title'];
+	export let tooltipText: ModalInputModel['tooltipText'] = '';
+	export let inputAmount: number;
+	export let maxAmount: ModalInputModel['maxAmount'] | undefined = undefined;
 	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance';
 	export let handleApproveClick: ModalInputModel['handleApproveClick'] | undefined = undefined;
 
@@ -25,14 +24,13 @@
 		inputMaxButton: `${buttonClasses.text} text-sm font-bold text-primary`
 	};
 
-	let pondAmount: number = 0;
 	$: approveDisabled =
-		!!maxAmount && (pondAmount <= 0 || pondAmount > bigNumbertoNumber(maxAmount));
-	$: pondDisabledText = !!pondAmount && approveDisabled ? 'Insufficient POND' : '';
+		!!maxAmount && (inputAmount <= 0 || inputAmount > bigNumbertoNumber(maxAmount));
+	$: pondDisabledText = !!inputAmount && approveDisabled ? 'Insufficient POND' : '';
 
 	const handleMaxClick = () => {
 		if (!!maxAmount) {
-			pondAmount = bigNumbertoNumber(maxAmount);
+			inputAmount = bigNumbertoNumber(maxAmount);
 		}
 	};
 </script>
@@ -47,7 +45,7 @@
 	<form>
 		<div class="flex items-center">
 			<input
-				bind:value={pondAmount}
+				bind:value={inputAmount}
 				type="number"
 				id="pond"
 				class={`hideInputNumberAppearance ${styles.inputNumber}`}
@@ -60,8 +58,7 @@
 					disabled={approveDisabled}
 					type="submit"
 					class={styles.inputEndButton}
-					on:click={() => (handleApproveClick ? handleApproveClick(pondAmount) : null)}
-					>Approve</button
+					on:click={handleApproveClick}>Approve</button
 				>
 			{/if}
 		</div>

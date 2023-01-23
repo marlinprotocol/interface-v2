@@ -1,41 +1,46 @@
-import { ENVIRONMENT } from '$lib/environments/environment';
+import { ENVIRONMENT } from '$lib/environments/environment.dev';
 import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeConstants';
+import {
+	QUERY_TO_GET_MPOND_BALANCE,
+	QUERY_TO_GET_POND_BALANCE_QUERY
+} from '$lib/utils/constants/subgraphQueries';
+import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
 import type { BigNumber } from 'ethers';
 
 /**
- * Get POND balance from subgraph API.
- * @param address
+ * Generate HTTP request headers for querying subgraph
+ * @param query: graphQL query in stringified format
+ * @param variable: Object containing variables used in query
+ * @returns HTTP request headers for subgraph
  */
-export async function getPondBalance(address: string): Promise<BigNumber> {
-	const url = ENVIRONMENT.public_pond_balance_api_url;
-	const query = `query PondBalance($address: String)  {
-        users(where: {
-          address: $address
-        }) {
-          balance
-        }
-      }`;
-
+// disabling eslint for this as variables can be query specific
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function subgraphQueryWrapper(query: string, variables: any): RequestInit {
 	const options = {
 		method: 'POST',
 		body: JSON.stringify({
 			query,
-			variables: { address }
+			variables: { ...variables }
 		}),
 		headers: {
 			'Content-Type': 'application/json'
 		}
 	};
+	return options;
+}
+
+/**
+ * Get POND balance from subgraph API.
+ */
+export async function getPondBalance(hexAddress: string): Promise<BigNumber> {
+	const url = ENVIRONMENT.public_pond_balance_api_url;
+	const query = QUERY_TO_GET_POND_BALANCE_QUERY;
+	const queryVariables = { address: hexAddress };
+
+	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
 
 	try {
-		const result = await fetch(url, options)
-			.then((res) => res.json())
-			.then((res) => {
-				return res;
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		const result = await fetchHttpData(url, options);
 		if (result['data'] && result['data']?.users?.length != 0)
 			return result['data']?.users[0]?.balance;
 		else return DEFAULT_WALLET_BALANCE.pond;
@@ -46,39 +51,16 @@ export async function getPondBalance(address: string): Promise<BigNumber> {
 
 /**
  * Get MPOND balance from subgraph API.
- * @param address
  */
-export async function getMpondBalance(id: string): Promise<BigNumber> {
+export async function getMpondBalance(hexAddress: string): Promise<BigNumber> {
 	const url = ENVIRONMENT.public_mpond_balance_api_url;
+	const query = QUERY_TO_GET_MPOND_BALANCE;
+	const queryVariables = { id: hexAddress };
 
-	const query = `query MPondBalance($id: String)  {
-        balances(where: {
-          id: $id
-        }) {
-          amount
-        }
-      }`;
-
-	const options = {
-		method: 'POST',
-		body: JSON.stringify({
-			query,
-			variables: { id }
-		}),
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	};
+	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
 
 	try {
-		const result = await fetch(url, options)
-			.then((res) => res.json())
-			.then((res) => {
-				return res;
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		const result = await fetchHttpData(url, options);
 		if (result['data'] && result['data']?.balances?.length != 0)
 			return result['data']?.balances[0]?.amount;
 		else return DEFAULT_WALLET_BALANCE.mpond;

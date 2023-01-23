@@ -4,7 +4,7 @@ import { connectMetamask } from '../controllers/metamaskContoller';
 import { connectWalletConnect } from '../controllers/walletConnectController';
 import type { WalletProvider, WalletStore } from '../types/storeTypes';
 import { DEFAULT_WALLET_STORE } from '../utils/constants/storeConstants';
-import { VALID_CHAIN_IDS } from '$lib/environments/environment';
+import { VALID_CHAIN_IDS } from '$lib/environments/environment.dev';
 
 export const walletProviders: WalletProvider = [
 	{ id: 1, provider: 'Metamask', connect: connectMetamask },

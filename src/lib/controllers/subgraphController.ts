@@ -1,10 +1,12 @@
 import { ENVIRONMENT } from '$lib/environments/environment';
+import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeConstants';
+import type { BigNumber } from 'ethers';
 
 /**
  * Get POND balance from subgraph API.
  * @param address
  */
-export async function getPondBalance(address: string): Promise<number> {
+export async function getPondBalance(address: string): Promise<BigNumber> {
 	const url = ENVIRONMENT.public_pond_balance_api_url;
 	const query = `query PondBalance($address: String)  {
         users(where: {
@@ -36,9 +38,9 @@ export async function getPondBalance(address: string): Promise<number> {
 			});
 		if (result['data'] && result['data']?.users?.length != 0)
 			return result['data']?.users[0]?.balance;
-		else return 0;
+		else return DEFAULT_WALLET_BALANCE.pond;
 	} catch (error) {
-		return 0;
+		return DEFAULT_WALLET_BALANCE.pond;
 	}
 }
 
@@ -46,7 +48,7 @@ export async function getPondBalance(address: string): Promise<number> {
  * Get MPOND balance from subgraph API.
  * @param address
  */
-export async function getMpondBalance(id: string): Promise<number> {
+export async function getMpondBalance(id: string): Promise<BigNumber> {
 	const url = ENVIRONMENT.public_mpond_balance_api_url;
 
 	const query = `query MPondBalance($id: String)  {
@@ -79,8 +81,8 @@ export async function getMpondBalance(id: string): Promise<number> {
 			});
 		if (result['data'] && result['data']?.balances?.length != 0)
 			return result['data']?.balances[0]?.amount;
-		else return 0;
+		else return DEFAULT_WALLET_BALANCE.mpond;
 	} catch (error) {
-		return 0;
+		return DEFAULT_WALLET_BALANCE.mpond;
 	}
 }

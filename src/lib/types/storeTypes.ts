@@ -1,9 +1,9 @@
-import type { ethers } from 'ethers';
+import type { BigNumber, providers } from 'ethers';
 
 // wallet provider store
 export type WalletStore = {
-	provider: ethers.providers.Web3Provider | null;
-	signer: ethers.providers.JsonRpcSigner | null;
+	provider: providers.Web3Provider | null;
+	signer: providers.JsonRpcSigner | null;
 	hexAddress: string;
 	checksumAddress: string;
 };
@@ -16,8 +16,8 @@ export type WalletProvider = {
 
 // wallet balance store
 export type WalletBalance = {
-	pond: ethers.BigNumber;
-	mpond: ethers.BigNumber;
+	pond: BigNumber;
+	mpond: BigNumber;
 };
 
 // chain store

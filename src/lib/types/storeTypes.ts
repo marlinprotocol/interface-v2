@@ -18,8 +18,6 @@ export type WalletProvider = {
 export type WalletBalance = {
 	pond: number;
 	mpond: number;
-	readablePond: number;
-	readableMpond: number;
 };
 
 // chain store

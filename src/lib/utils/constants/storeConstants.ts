@@ -1,20 +1,18 @@
+import type { ChainStore, WalletBalance, WalletStore } from '$lib/types/storeTypes';
+
 // walletProviderStore
-export const DEFAULT_WALLET_STORE = {
+export const DEFAULT_WALLET_STORE: WalletStore = {
 	provider: null,
 	signer: null,
 	hexAddress: '',
-	checksumAddress: '',
-	pondBalance: '0',
-	mpondBalance: '0'
+	checksumAddress: ''
 };
 
 // walletBalanceStore
-export const DEFAULT_WALLET_BALANCE = {
+export const DEFAULT_WALLET_BALANCE: WalletBalance = {
 	pond: 0,
-	mpond: 0,
-	readablePond: 0,
-	readableMpond: 0
+	mpond: 0
 };
 
 // chainProviderStore
-export const DEFAULT_CHAIN_STORE = { chainId: null, chainName: '' };
+export const DEFAULT_CHAIN_STORE: ChainStore = { chainId: null, chainName: '' };

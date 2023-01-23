@@ -40,9 +40,7 @@ export async function connectMetamask() {
 		});
 		walletBalance.set({
 			pond: metamaskPondBalance,
-			mpond: metamaskMpondBalance,
-			readablePond: metamaskPondBalance ? amountDivideByPow18(metamaskPondBalance) : 0,
-			readableMpond: metamaskMpondBalance ? amountDivideByPow18(metamaskMpondBalance) : 0
+			mpond: metamaskMpondBalance
 		});
 
 		console.log('Metamask wallet address:', metamaskChecksumAddress);

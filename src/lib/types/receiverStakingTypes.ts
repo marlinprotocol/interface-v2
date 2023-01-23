@@ -5,10 +5,3 @@ export type ReceiverStakedDataModel = {
 	value: BigNumber;
 	tooltipText?: string;
 };
-
-export type ReceiverStakeModalInputModel = {
-	title: string;
-	tooltipText?: string;
-	maxBalance: BigNumber;
-	approveRequired?: boolean;
-};

@@ -11,7 +11,7 @@
 
 <div>
 	<input type="checkbox" id={modalFor} class="modal-toggle" />
-	<label for={modalFor} class="modal cursor-pointer">
+	<label class="modal cursor-pointer">
 		<!-- TODO: check for relay modal size and match -->
 		<div class="modal-box w-11/12 sm:w-3/4 md:w-1/2 sm:max-w-[500px] rounded p-4 bg-white">
 			<div>

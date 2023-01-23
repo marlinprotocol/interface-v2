@@ -1,11 +1,21 @@
-//TODO: shivani - check file/folder name
+import type { BigNumber } from 'ethers';
+
+export type Variants =
+	| 'primary'
+	| 'secondary'
+	| 'error'
+	| 'success'
+	| 'accent'
+	| 'info'
+	| 'warning';
+
 export type TabModel = {
 	id: string;
 	title: string;
 };
 
 export type ButtonModel = {
-	variant?: 'primary' | 'secondary' | 'error' | 'success';
+	variant?: Variants;
 	onclick: () => void;
 };
 
@@ -15,13 +25,16 @@ export type TextModel = {
 	styleClass?: string;
 };
 
-export type TooltipVariant =
-	| 'tooltip-primary'
-	| 'tooltip-secondary'
-	| 'tooltip-accent'
-	| 'tooltip-info'
-	| 'tooltip-success'
-	| 'tooltip-warning'
-	| 'tooltip-error';
+export type TooltipModel = {
+	variant: Variants;
+	direction: 'top' | 'right' | 'bottom' | 'left';
+	text: string;
+};
 
-export type TooltipDirection = 'tooltip-top' | 'tooltip-right' | 'tooltip-bottom' | 'tooltip-left';
+export type ModalInputModel = {
+	title: string;
+	tooltipText?: string;
+	maxAmount: BigNumber;
+	maxAmountText?: string;
+	handleApproveClick?: (pond: number) => void;
+};

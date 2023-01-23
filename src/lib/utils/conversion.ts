@@ -5,5 +5,9 @@ export const amountDivideByPow18 = (amount: number) => {
 };
 
 export const bigNumbertoString = (amount: BigNumber, decimal = 0) => {
-	return parseFloat(ethers.utils.formatEther(amount)).toFixed(decimal);
+	return bigNumbertoNumber(amount).toFixed(decimal);
+};
+
+export const bigNumbertoNumber = (amount: BigNumber) => {
+	return parseFloat(ethers.utils.formatEther(amount));
 };

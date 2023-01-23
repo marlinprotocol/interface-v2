@@ -3,15 +3,17 @@
 	import { buttonClasses, dividerClasses } from '$lib/components/componentClasses';
 	import Text from '$lib/components/texts/Text.svelte';
 	import Tooltip from '$lib/components/tooltips/Tooltip.svelte';
-	import type { ReceiverStakeModalInputModel } from '$lib/types/receiverStakingTypes';
-	import { bigNumbertoString } from '$lib/utils/conversion';
+	import type { ModalInputModel } from '$lib/types/atomTypes';
+	import { bigNumbertoNumber, bigNumbertoString } from '$lib/utils/conversion';
 	import { BigNumber } from 'ethers';
 
 	//TODO: remove default values
-	export let title: ReceiverStakeModalInputModel['title'] = 'POND';
-	export let tooltipText: ReceiverStakeModalInputModel['tooltipText'] = 'Some info here';
-	export let maxBalance: ReceiverStakeModalInputModel['maxBalance'] =
+	export let title: ModalInputModel['title'] = 'POND';
+	export let tooltipText: ModalInputModel['tooltipText'] = 'Some info here';
+	export let maxAmount: ModalInputModel['maxAmount'] | undefined =
 		BigNumber.from('20000000000000000000000');
+	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance';
+	export let handleApproveClick: ModalInputModel['handleApproveClick'] | undefined = undefined;
 
 	const styles = {
 		wrapper: 'w-full flex flex-col items-center justify-center',
@@ -22,26 +24,60 @@
 		inputEndButton: `${buttonClasses.text} text-lg text-primary font-medium`,
 		inputMaxButton: `${buttonClasses.text} text-sm font-bold text-primary`
 	};
+
+	let pondAmount: number = 0;
+	$: approveDisabled =
+		!!maxAmount && (pondAmount <= 0 || pondAmount > bigNumbertoNumber(maxAmount));
+	$: pondDisabledText = !!pondAmount && approveDisabled ? 'Insufficient POND' : '';
+
+	const handleMaxClick = () => {
+		if (!!maxAmount) {
+			pondAmount = bigNumbertoNumber(maxAmount);
+		}
+	};
 </script>
 
 <InputCard>
 	<div class={styles.titleIcon}>
 		<Text variant="small" text={title} />
 		{#if !!tooltipText}
-			<Tooltip {tooltipText} />
+			<Tooltip {tooltipText} variant="secondary" />
 		{/if}
 	</div>
 	<form>
 		<div class="flex items-center">
-			<input type="number" id="pond" class={styles.inputNumber} placeholder="0.00" required />
-			<button type="submit" class={styles.inputEndButton}>Approve</button>
+			<input
+				bind:value={pondAmount}
+				type="number"
+				id="pond"
+				class={`hideInputNumberAppearance ${styles.inputNumber}`}
+				placeholder="0.00"
+				required
+			/>
+			<!-- TODO: check handleApproveClick undefined scenario -->
+			{#if handleApproveClick}
+				<button
+					disabled={approveDisabled}
+					type="submit"
+					class={styles.inputEndButton}
+					on:click={() => (handleApproveClick ? handleApproveClick(pondAmount) : null)}
+					>Approve</button
+				>
+			{/if}
 		</div>
+		{#if pondDisabledText}
+			<Text variant="small" styleClass="text-red-500 mb-4" text={pondDisabledText} />
+		{/if}
 		<div class={dividerClasses.horizontal} />
-		{#if !!maxBalance}
+		{#if !!maxAmount}
 			<div class="flex items-center gap-2 mt-2">
-				<button class={styles.inputMaxButton}>MAX</button>
+				<button on:click={handleMaxClick} class={styles.inputMaxButton}>MAX</button>
 				<div class={dividerClasses.vertical} />
-				<Text variant="small" text={`Balance: ${bigNumbertoString(maxBalance)}`} />
+				<Text
+					variant="small"
+					styleClass="text-gray-400"
+					text={`${maxAmountText}: ${bigNumbertoString(maxAmount)}`}
+				/>
 			</div>
 		{/if}
 	</form>

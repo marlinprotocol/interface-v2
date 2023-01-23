@@ -56,9 +56,7 @@
 	{#if $connected}
 		<div>Address: {wallet.checksumAddress}</div>
 		<div>Pond Balance: {balance.pond}</div>
-		<div>Pond Balance (readable): {balance.readablePond}</div>
 		<div>MPond Balance: {balance.mpond}</div>
-		<div>MPond Balance (readable): {balance.readableMpond}</div>
 		<div>Chain ID: {chain.chainId}</div>
 	{/if}
 </div>

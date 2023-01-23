@@ -39,8 +39,8 @@ export async function connectMetamask() {
 			checksumAddress: metamaskChecksumAddress
 		});
 		walletBalance.set({
-			pond: metamaskPondBalance,
-			mpond: metamaskMpondBalance
+			pond: ethers.BigNumber.from(metamaskPondBalance),
+			mpond: ethers.BigNumber.from(metamaskMpondBalance)
 		});
 
 		console.log('Metamask wallet address:', metamaskChecksumAddress);

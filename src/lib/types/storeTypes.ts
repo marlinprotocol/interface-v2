@@ -16,8 +16,8 @@ export type WalletProvider = {
 
 // wallet balance store
 export type WalletBalance = {
-	pond: number;
-	mpond: number;
+	pond: ethers.BigNumber;
+	mpond: ethers.BigNumber;
 };
 
 // chain store

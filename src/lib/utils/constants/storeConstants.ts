@@ -1,4 +1,5 @@
 import type { ChainStore, WalletBalance, WalletStore } from '$lib/types/storeTypes';
+import { ethers } from 'ethers';
 
 // walletProviderStore
 export const DEFAULT_WALLET_STORE: WalletStore = {
@@ -10,8 +11,8 @@ export const DEFAULT_WALLET_STORE: WalletStore = {
 
 // walletBalanceStore
 export const DEFAULT_WALLET_BALANCE: WalletBalance = {
-	pond: 0,
-	mpond: 0
+	pond: ethers.BigNumber.from(0),
+	mpond: ethers.BigNumber.from(0)
 };
 
 // chainProviderStore

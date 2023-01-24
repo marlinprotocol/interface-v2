@@ -1,14 +1,17 @@
 <script lang="ts">
 	import PrimaryButton from '$lib/components/buttons/PrimaryButton.svelte';
 	import Modal from '$lib/components/modals/Modal.svelte';
+	import Text from '$lib/components/texts/Text.svelte';
 	import { bigNumbertoNumber } from '$lib/utils/conversion';
 	import { BigNumber } from 'ethers';
-	import ModalPondInput from './ModalPondInput.svelte';
+	import ModalPondInput from './sub-components/ModalPondInput.svelte';
 
 	const modalFor = 'unstake-modal';
 	const maxAmount = BigNumber.from('20000000000000000000000');
 
 	let inputPondAmount: number = 0;
+	$: pondDisabledText =
+		!!inputPondAmount && inputPondAmount > bigNumbertoNumber(maxAmount) ? 'Insufficient POND' : '';
 	$: submitEnable =
 		!!inputPondAmount && inputPondAmount > 0 && inputPondAmount <= bigNumbertoNumber(maxAmount);
 
@@ -34,6 +37,10 @@
 				{maxAmount}
 				maxAmountText={'Staked'}
 			/>
+
+			{#if !!pondDisabledText}
+				<Text variant="small" styleClass="text-red-500 my-2" text={pondDisabledText} />
+			{/if}
 		</div>
 		<div slot="action-buttons" class="mt-6">
 			<PrimaryButton disabled={!submitEnable} onclick={handleSubmitClick} styleClass={'btn-block'}

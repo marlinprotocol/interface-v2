@@ -12,7 +12,6 @@
 	export let inputAmount: number;
 	export let maxAmount: ModalInputModel['maxAmount'] | undefined = undefined;
 	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance';
-	export let handleApproveClick: ModalInputModel['handleApproveClick'] | undefined = undefined;
 
 	const styles = {
 		wrapper: 'w-full flex flex-col items-center justify-center',
@@ -23,10 +22,6 @@
 		inputEndButton: `${buttonClasses.text} text-lg text-primary font-medium`,
 		inputMaxButton: `${buttonClasses.text} text-sm font-bold text-primary`
 	};
-
-	$: approveDisabled =
-		!!maxAmount && (inputAmount <= 0 || inputAmount > bigNumbertoNumber(maxAmount));
-	$: pondDisabledText = !!inputAmount && approveDisabled ? 'Insufficient POND' : '';
 
 	const handleMaxClick = () => {
 		if (!!maxAmount) {
@@ -52,19 +47,8 @@
 				placeholder="0.00"
 				required
 			/>
-			<!-- TODO: check handleApproveClick undefined scenario -->
-			{#if handleApproveClick}
-				<button
-					disabled={approveDisabled}
-					type="submit"
-					class={styles.inputEndButton}
-					on:click={handleApproveClick}>Approve</button
-				>
-			{/if}
+			<slot name="inputEndButton" />
 		</div>
-		{#if pondDisabledText}
-			<Text variant="small" styleClass="text-red-500 mb-4" text={pondDisabledText} />
-		{/if}
 		<div class={dividerClasses.horizontal} />
 		{#if !!maxAmount}
 			<div class="flex items-center gap-2 mt-2">

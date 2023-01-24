@@ -1,19 +1,30 @@
 <script lang="ts">
 	import ContainerCard from '$lib/components/cards/ContainerCard.svelte';
 	import { buttonClasses } from '$lib/components/componentClasses';
+	import Text from '$lib/components/texts/Text.svelte';
 	import StakedData from './StakedData.svelte';
 	import StakeModal from './StakeModal.svelte';
 	import UnstakeModal from './UnstakeModal.svelte';
+
+	const styles = {
+		buttonsGroup: 'flex gap-2 items-center justify-center w-full',
+		buttonWrapper: 'w-1/2'
+	};
 </script>
 
 <div>
-	<div class="flex gap-2 items-center justify-center mt-4">
-		<label for="stake-modal" class={`${buttonClasses.primary} px-8`}>Stake</label>
-		<label for="unstake-modal" class={`${buttonClasses.secondary} px-8`}>Un Stake</label>
+	<ContainerCard>
+		<Text variant="h3" text="Receiver Staking Portal" styleClass="text-center" />
+		<StakedData />
+		<div class={styles.buttonsGroup}>
+			<div class={styles.buttonWrapper}>
+				<label for="stake-modal" class={`${buttonClasses.primary} w-full`}>Stake</label>
+			</div>
+			<div class={styles.buttonWrapper}>
+				<label for="unstake-modal" class={`${buttonClasses.secondary} w-full`}>Unstake</label>
+			</div>
+		</div>
 		<StakeModal />
 		<UnstakeModal />
-	</div>
-	<ContainerCard>
-		<StakedData />
 	</ContainerCard>
 </div>

@@ -4,7 +4,7 @@ import { connectMetamask } from '../controllers/metamaskContoller';
 import { connectWalletConnect } from '../controllers/walletConnectController';
 import type { WalletProvider, WalletStore } from '../types/storeTypes';
 import { DEFAULT_WALLET_STORE } from '../utils/constants/storeConstants';
-import { VALID_CHAIN_IDS } from '$lib/environments/environment.dev';
+import ENVIRONMENT from '$lib/environments/environment';
 
 export const walletProviders: WalletProvider = [
 	{ id: 1, provider: 'Metamask', connect: connectMetamask },
@@ -42,5 +42,5 @@ connected.subscribe((value) => {
 });
 
 export function isValidNetwork(id: number): boolean {
-	return VALID_CHAIN_IDS.includes(id);
+	return ENVIRONMENT.valid_chain_ids.includes(id);
 }

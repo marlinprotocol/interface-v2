@@ -1,4 +1,4 @@
-import { ENVIRONMENT } from '$lib/environments/environment.dev';
+import ENVIRONMENT from '$lib/environments/environment';
 import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeConstants';
 import {
 	QUERY_TO_GET_MPOND_BALANCE,

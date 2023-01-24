@@ -1,7 +1,7 @@
-import { ENVIRONMENT, VALID_CHAIN_IDS } from '$lib/environments/environment.dev';
+import ENVIRONMENT from '$lib/environments/environment';
 
 export function isValidNetwork(id: number): boolean {
-	return VALID_CHAIN_IDS.includes(id);
+	return ENVIRONMENT.valid_chain_ids.includes(id);
 }
 
 export async function switchToValidNetwork() {

@@ -12,10 +12,13 @@
 	import PrimaryButton from '$lib/components/buttons/PrimaryButton.svelte';
 	import ErrorButton from '$lib/components/buttons/ErrorButton.svelte';
 	import { chainStore, resetChainProviderStore } from '$lib/data-stores/chainProviderStore';
+	import { environmentStore } from '$lib/data-stores/environmentStore';
+	import type { Environment } from '$lib/types/environmentTypes';
 
 	let wallet: WalletStore;
 	let balance: WalletBalance;
 	let chain: ChainStore;
+	let environment: Environment;
 	let pageTitle: string = 'Marlin Receiver Staking Portal';
 
 	const unsubscribeWalletProviderStore: Unsubscriber = walletStore.subscribe(
@@ -32,6 +35,12 @@
 		chain = value;
 	});
 
+	const unsubscribeEnvironmentStore: Unsubscriber = environmentStore.subscribe(
+		(value: Environment) => {
+			environment = value;
+		}
+	);
+
 	function resetStores() {
 		resetWalletProviderStore();
 		resetWalletBalanceStore();
@@ -39,6 +48,7 @@
 	}
 
 	onDestroy(unsubscribeWalletProviderStore);
+	onDestroy(unsubscribeEnvironmentStore);
 	onDestroy(unsubscribeWalletBalanceStore);
 	onDestroy(unsubscribeChainProviderStore);
 </script>
@@ -59,4 +69,5 @@
 		<div>MPond Balance: {balance.mpond}</div>
 		<div>Chain ID: {chain.chainId}</div>
 	{/if}
+	<div>Environment: {environment.environment_name}</div>
 </div>

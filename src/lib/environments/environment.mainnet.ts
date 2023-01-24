@@ -1,7 +1,7 @@
-export const ENVIRONMENT_DEV = {
-	environment_name: 'dev',
+export const ENVIRONMENT_MAINNET = {
+	environment_name: 'mainnet',
 	production: false,
-	public_network_id: '0x66eed',
+	public_network_id: '0x01',
 	public_pond_token_address: '0xa9472a9C135Cb33221de441a4DEd393FD515a69C',
 	public_mpond_token_address: '0x0B3d9b224496C2A2Fa1a4096D8EB4D350eFd9079',
 	public_pond_balance_api_url: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-dev',

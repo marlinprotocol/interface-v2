@@ -26,20 +26,25 @@ export function resetWalletProviderStore(): void {
 	walletStore.set(DEFAULT_WALLET_STORE);
 }
 
-// This stores connection between reloads.
-if (browser && JSON.parse(sessionStorage.getItem('connected') || 'false')) {
-	if (sessionStorage.getItem('connectType') === 'metamask') {
-		connectMetamask().catch(console.error);
-	} else if (sessionStorage.getItem('connectType') === 'walletconnect') {
-		console.log('walletconnect was connected');
+/**
+ *  Restores wallet connection based on values in session storage
+ */
+export function restoreWalletConnection() {
+	// This stores connection between reloads.
+	if (browser && JSON.parse(sessionStorage.getItem('connected') || 'false')) {
+		if (sessionStorage.getItem('connectType') === 'metamask') {
+			connectMetamask().catch(console.error);
+		} else if (sessionStorage.getItem('connectType') === 'walletconnect') {
+			console.log('walletconnect was connected');
+		}
 	}
-}
 
-// Order of execution matters, subscription to the connected store before
-// we call the connect metamask function returns undefined.
-connected.subscribe((value) => {
-	if (browser) sessionStorage.setItem('connected', JSON.stringify(value));
-});
+	// Order of execution matters, subscription to the connected store before
+	// we call the connect metamask function returns undefined.
+	connected.subscribe((value) => {
+		if (browser) sessionStorage.setItem('connected', JSON.stringify(value));
+	});
+}
 
 export function isValidNetwork(id: number): boolean {
 	return ENVIRONMENT.valid_chain_ids.includes(id);

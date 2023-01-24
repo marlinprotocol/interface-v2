@@ -34,7 +34,7 @@
 	<div class={styles.titleIcon}>
 		<Text variant="small" text={title} />
 		{#if !!tooltipText}
-			<Tooltip {tooltipText} variant="secondary" />
+			<Tooltip {tooltipText} tooltipVariant="tooltip-secondary" />
 		{/if}
 	</div>
 	<form>

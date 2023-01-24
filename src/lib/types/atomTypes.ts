@@ -15,7 +15,7 @@ export type TabModel = {
 };
 
 export type ButtonModel = {
-	variant?: Variants;
+	variant?: 'primary' | 'secondary' | 'error' | 'success';
 	onclick: () => void;
 };
 
@@ -25,11 +25,16 @@ export type TextModel = {
 	styleClass?: string;
 };
 
-export type TooltipModel = {
-	variant: Variants;
-	direction: 'top' | 'right' | 'bottom' | 'left';
-	text: string;
-};
+export type TooltipVariant =
+	| 'tooltip-primary'
+	| 'tooltip-secondary'
+	| 'tooltip-accent'
+	| 'tooltip-info'
+	| 'tooltip-success'
+	| 'tooltip-warning'
+	| 'tooltip-error';
+
+export type TooltipDirection = 'tooltip-top' | 'tooltip-right' | 'tooltip-bottom' | 'tooltip-left';
 
 export type ModalInputModel = {
 	title: string;

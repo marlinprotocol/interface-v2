@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type { TooltipModel } from '$lib/types/atomTypes';
+	import type { TooltipDirection, TooltipVariant } from '$lib/types/atomTypes';
 
 	export let tooltipText: string;
-	export let styleClass: string = '';
-	export let iconSrc: string = './images/infoSecondary.svg';
-	export let iconWidth: number = 15;
-	export let variant: TooltipModel['variant'] = 'primary';
-	export let direction: TooltipModel['direction'] = 'top';
+	export let styleClass = '';
+	export let iconSrc = './images/infoSecondary.svg';
+	export let iconWidth = 15;
+	export let tooltipVariant: TooltipVariant = 'tooltip-primary';
+	export let tooltipDirection: TooltipDirection = 'tooltip-top';
 
-	$: tooltipClass = `tooltip tooltip-${variant} tooltip-${direction} ${styleClass}`;
+	$: tooltipClass = `tooltip ${tooltipVariant} ${tooltipDirection} ${styleClass}`;
 </script>
 
 <div class={tooltipClass} data-tip={tooltipText}>

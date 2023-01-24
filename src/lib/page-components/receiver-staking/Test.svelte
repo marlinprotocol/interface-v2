@@ -70,4 +70,5 @@
 		<div>Chain ID: {chain.chainId}</div>
 	{/if}
 	<div>Environment: {environment.environment_name}</div>
+	<button class="btn btn-secondary">Test</button>
 </div>

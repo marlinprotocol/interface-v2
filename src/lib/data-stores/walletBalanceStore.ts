@@ -4,7 +4,7 @@ import type { WalletBalance, WalletStore } from '../types/storeTypes';
 import { walletStore } from './walletProviderStore';
 import { getMpondBalance, getPondBalance } from '$lib/controllers/subgraphController';
 
-let walletAddress: string = DEFAULT_WALLET_STORE.hexAddress;
+let walletAddress: Lowercase<string> = DEFAULT_WALLET_STORE.hexAddress;
 
 // svelte store
 export const walletBalance: Writable<WalletBalance> = writable(DEFAULT_WALLET_BALANCE);

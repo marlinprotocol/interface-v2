@@ -32,10 +32,10 @@ function subgraphQueryWrapper(query: string, variables: any): RequestInit {
 /**
  * Get POND balance from subgraph API.
  */
-export async function getPondBalance(hexAddress: string): Promise<BigNumber> {
+export async function getPondBalance(address: Lowercase<string>): Promise<BigNumber> {
 	const url = ENVIRONMENT.public_pond_balance_api_url;
 	const query = QUERY_TO_GET_POND_BALANCE_QUERY;
-	const queryVariables = { address: hexAddress };
+	const queryVariables = { address: address };
 
 	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
 
@@ -52,10 +52,10 @@ export async function getPondBalance(hexAddress: string): Promise<BigNumber> {
 /**
  * Get MPOND balance from subgraph API.
  */
-export async function getMpondBalance(hexAddress: string): Promise<BigNumber> {
+export async function getMpondBalance(address: Lowercase<string>): Promise<BigNumber> {
 	const url = ENVIRONMENT.public_mpond_balance_api_url;
 	const query = QUERY_TO_GET_MPOND_BALANCE;
-	const queryVariables = { id: hexAddress };
+	const queryVariables = { id: address };
 
 	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
 

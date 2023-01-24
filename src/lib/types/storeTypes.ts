@@ -4,8 +4,7 @@ import type { BigNumber, providers } from 'ethers';
 export type WalletStore = {
 	provider: providers.Web3Provider | null;
 	signer: providers.JsonRpcSigner | null;
-	hexAddress: Lowercase<string>;
-	checksumAddress: string;
+	address: Lowercase<string>;
 };
 
 export type WalletProvider = {

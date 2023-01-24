@@ -64,7 +64,7 @@
 	</div>
 	<ErrorButton styleClass="mt-2" onclick={() => resetStores()}>Disconnect wallet</ErrorButton>
 	{#if $connected}
-		<div>Address: {wallet.checksumAddress}</div>
+		<div>Address: {wallet.address}</div>
 		<div>Pond Balance: {balance.pond}</div>
 		<div>MPond Balance: {balance.mpond}</div>
 		<div>Chain ID: {chain.chainId}</div>

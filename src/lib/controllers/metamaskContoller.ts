@@ -25,16 +25,15 @@ export async function connectMetamask() {
 
 		const metamaskSigner = metamaskProvider.getSigner();
 		const metamaskChecksumAddress = await metamaskSigner.getAddress();
-		const metamaskHexAddress = metamaskChecksumAddress.toLowerCase();
+		const metamaskHexAddress = metamaskChecksumAddress.toLowerCase() as Lowercase<string>;
 
 		walletStore.set({
 			provider: metamaskProvider,
 			signer: metamaskSigner,
-			hexAddress: metamaskHexAddress,
-			checksumAddress: metamaskChecksumAddress
+			address: metamaskHexAddress
 		});
 
-		console.log('Metamask wallet address:', metamaskChecksumAddress);
+		console.log('Metamask wallet address:', metamaskHexAddress);
 		console.log('!! Wallet store updated !!');
 	} else {
 		console.log('Switching to a valid chain.');

@@ -5,8 +5,7 @@ import { ethers } from 'ethers';
 export const DEFAULT_WALLET_STORE: WalletStore = {
 	provider: null,
 	signer: null,
-	hexAddress: '',
-	checksumAddress: ''
+	address: ''
 };
 
 // walletBalanceStore

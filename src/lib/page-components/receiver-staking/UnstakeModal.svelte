@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PrimaryButton from '$lib/components/buttons/PrimaryButton.svelte';
+	import FilledButton from '$lib/components/buttons/FilledButton.svelte';
 	import Modal from '$lib/components/modals/Modal.svelte';
 	import Text from '$lib/components/texts/Text.svelte';
 	import { BigNumber } from 'ethers';
@@ -41,8 +41,8 @@
 			{/if}
 		</div>
 		<div slot="action-buttons" class="mt-6">
-			<PrimaryButton disabled={!submitEnable} onclick={handleSubmitClick} styleClass={'btn-block'}
-				>WITHDRAW STAKE</PrimaryButton
+			<FilledButton disabled={!submitEnable} onclick={handleSubmitClick} styleClass={'btn-block'}
+				>WITHDRAW STAKE</FilledButton
 			>
 		</div>
 	</Modal>

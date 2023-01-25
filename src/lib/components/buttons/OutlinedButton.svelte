@@ -3,7 +3,7 @@
 
 	export let onclick = () => {};
 	export let styleClass: string = '';
-	$: buttonClass = `${buttonClasses.secondary} ${styleClass}`;
+	$: buttonClass = `${buttonClasses.outlined} ${styleClass}`;
 </script>
 
 <button on:click|preventDefault={onclick} class={buttonClass}>

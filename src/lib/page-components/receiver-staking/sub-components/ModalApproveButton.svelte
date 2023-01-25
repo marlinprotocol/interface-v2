@@ -11,15 +11,17 @@
 		inputEndButton: `${buttonClasses.text} text-lg text-primary font-medium`
 	};
 
-	console.log('inputPondAmount, approvedPond :>> ', inputPondAmount, approvedPond);
+	$: approved = !!inputPondAmount && approvedPond >= inputPondAmount;
 </script>
 
 <button
-	disabled={disabled || loading}
-	type="submit"
-	class={`${styles.inputEndButton} ${loading && 'loading'}`}
+	class={`${styles.inputEndButton} ${loading && 'loading'} ${disabled && 'btn-disabled'}`}
 	on:click={handleApproveClick}
 >
-	<!-- TODO: check approved design -->
-	{!!inputPondAmount && approvedPond >= inputPondAmount ? 'Approved' : 'Approve'}</button
->
+	<div class="flex gap-1 items-center">
+		{#if approved}
+			<img src="./images/done.svg" alt="done" />
+		{/if}
+		{approved ? 'Approved' : 'Approve'}
+	</div>
+</button>

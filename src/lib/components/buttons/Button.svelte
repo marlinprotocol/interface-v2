@@ -1,23 +1,23 @@
 <script lang="ts">
 	import type { ButtonModel } from '$lib/types/atomTypes';
 	import ErrorButton from './ErrorButton.svelte';
-	import PrimaryButton from './PrimaryButton.svelte';
-	import SecondaryButton from './SecondaryButton.svelte';
+	import FilledButton from './FilledButton.svelte';
+	import OutlinedButton from './OutlinedButton.svelte';
 
-	export let variant: ButtonModel['variant'] = 'primary';
+	export let variant: ButtonModel['variant'] = 'filled';
 	export let onclick: ButtonModel['onclick'] = () => {};
 
 	export const styleClass = '';
 	const buttonClass = () => {
 		switch (variant) {
-			case 'primary':
-				return PrimaryButton;
-			case 'secondary':
-				return SecondaryButton;
+			case 'filled':
+				return FilledButton;
+			case 'outlined':
+				return OutlinedButton;
 			case 'error':
 				return ErrorButton;
 			default:
-				return PrimaryButton;
+				return FilledButton;
 		}
 	};
 	const ButtonType = buttonClass();

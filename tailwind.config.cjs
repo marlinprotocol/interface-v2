@@ -5,10 +5,7 @@ module.exports = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
 		extend: {
-			colors: {
-				primaryText: '#212529',
-				secondaryText: '#0000007F'
-			},
+			colors: {},
 			fontSize: {
 				'2xs': '0.625rem',
 				'3xs': '0.5rem',
@@ -29,15 +26,18 @@ module.exports = {
 					primary: '#3840c7',
 					'primary-200': '#383838',
 					'primary-focus': '#012d8f',
-					'primary-content': '#ffffff', // Foreground content color to use on primary color
+					'primary-content': '#ffffff',
 					secondary: '#000000',
 					'secondary-focus': '#383838',
 					'secondary-content': '#ffffff',
 					accent: '#37cdbe',
 					'accent-focus': '#2aa79b',
 					'accent-content': '#ffffff',
-					'base-100': '#e9f2f5',
+					neutral: '#3d4451',
+					'base-100': '#ffffff',
+					// 'base-100': '#e9f2f5',
 					'base-200': '#f3f4fc',
+					'base-300': '#e9f2f5',
 					info: '#66c6ff',
 					success: '#28bf92',
 					warning: '#fcca00',
@@ -46,6 +46,7 @@ module.exports = {
 					error: '#e60000',
 					'error-focus': '#b30202',
 					'error-content': '#ffffff',
+					'background-color': '#e9f2f5',
 					//custom designs
 					'.btn': {
 						'text-transform': 'none'
@@ -55,9 +56,6 @@ module.exports = {
 						height: '40px',
 						'font-weight': '600',
 						'font-size': '14px'
-					},
-					'.btn-disabled': {
-						'background-color': '#e9f2f5'
 					}
 					// '--rounded-box': '1rem', // border radius rounded-box utility class, used in card and other large boxes
 					// '--rounded-btn': '0.5rem', // border radius rounded-btn utility class, used in buttons and similar element
@@ -69,6 +67,17 @@ module.exports = {
 					// '--tab-border': '1px', // border width of tabs
 					// '--tab-active-radius': '5rem', // border radius of tabs
 					// '--tab-radius': '0.5rem' // border radius of tabs
+				}
+			},
+			{
+				dark: {
+					...require('daisyui/src/colors/themes')['[data-theme=dark]'],
+					primary: '#3840c7',
+					'primary-200': '#383838',
+					'primary-focus': '#012d8f',
+					'primary-content': '#ffffff',
+					'base-100': '#000000',
+					'background-color': '#24252b'
 				}
 			}
 		]

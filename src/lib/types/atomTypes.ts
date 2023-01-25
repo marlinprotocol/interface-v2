@@ -15,7 +15,7 @@ export type TabModel = {
 };
 
 export type ButtonModel = {
-	variant?: Variants;
+	variant?: 'filled' | 'outlined' | 'text' | 'error';
 	onclick: () => void;
 };
 

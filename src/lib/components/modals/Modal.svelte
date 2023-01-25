@@ -3,9 +3,9 @@
 
 	const styles = {
 		title: 'text-2xl font-bold text-left',
-		subtitle: 'text-sm font-medium text-left mt-1 text-secondaryText',
+		subtitle: 'text-sm font-medium text-left mt-1 text-gray-400',
 		closeButton:
-			'btn btn-sm text-sm btn-circle absolute right-4 top-4 hover:bg-gray-200 hover:text-gray-800'
+			'btn btn-sm text-sm btn-circle absolute right-4 top-4 bg-inherit text-gray-400 border-gray-400 hover:bg-inherit hover:text-gray-800'
 	};
 </script>
 
@@ -13,7 +13,7 @@
 	<input type="checkbox" id={modalFor} class="modal-toggle" />
 	<label class="modal cursor-pointer">
 		<!-- TODO: check for relay modal size and match -->
-		<div class="modal-box w-11/12 sm:w-3/4 md:w-1/2 sm:max-w-[500px] rounded p-4 bg-white">
+		<div class="modal-box w-11/12 sm:w-3/4 md:w-1/2 sm:max-w-[500px] rounded p-4 bg-base-100">
 			<div>
 				<div class={styles.title}>
 					<slot name="title" />

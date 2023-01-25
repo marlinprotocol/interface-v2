@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PrimaryButton from '$lib/components/buttons/PrimaryButton.svelte';
+	import FilledButton from '$lib/components/buttons/FilledButton.svelte';
 	import Modal from '$lib/components/modals/Modal.svelte';
 	import Text from '$lib/components/texts/Text.svelte';
 	import { BigNumber } from 'ethers';
@@ -43,7 +43,8 @@
 		(inputPondAmount <= 0 || !maxAmount.gte(inputPondAmount) || inputPondAmount <= approvedPond);
 	$: pondDisabledText =
 		!!inputPondAmount && !maxAmount.gte(inputPondAmount) ? 'Insufficient POND' : '';
-	$: submitEnable = !!approvedPond && approvedPond > 0 && maxAmount.gte(approvedPond);
+	$: submitEnable =
+		!!inputPondAmount && inputPondAmount <= approvedPond && maxAmount.gte(inputPondAmount);
 </script>
 
 <div>
@@ -76,11 +77,11 @@
 			{/if}
 		</div>
 		<div slot="action-buttons" class="mt-6">
-			<PrimaryButton
+			<FilledButton
 				disabled={!submitEnable}
 				loading={submitLoading}
 				onclick={handleSubmitClick}
-				styleClass={'btn-block'}>CONFIRM</PrimaryButton
+				styleClass={'btn-block'}>CONFIRM</FilledButton
 			>
 		</div></Modal
 	>

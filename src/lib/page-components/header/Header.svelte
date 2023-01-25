@@ -1,22 +1,26 @@
 <script lang="ts">
+	import Divider from '$lib/components/divider/Divider.svelte';
 	import HeaderConnectWallet from './sub-components/HeaderConnectWallet.svelte';
 	import HeaderLinksGroup from './sub-components/HeaderLinksGroup.svelte';
 	import HeaderLogo from './sub-components/HeaderLogo.svelte';
 
 	//styles for header component
 	const styles = {
-		wrapper: 'border-b-2 text-center py-5 header flex gap-2 justify-between flex-wrap',
+		wrapper: 'text-center py-5 header flex gap-2 justify-between flex-wrap',
 		rightItems: 'flex gap-10 items-center'
 	};
 </script>
 
-<header class={styles.wrapper}>
-	<HeaderLogo />
-	<div class={styles.rightItems}>
-		<HeaderLinksGroup />
-		<HeaderConnectWallet />
-	</div>
-</header>
+<div>
+	<header class={styles.wrapper}>
+		<HeaderLogo />
+		<div class={styles.rightItems}>
+			<HeaderLinksGroup />
+			<HeaderConnectWallet />
+		</div>
+	</header>
+	<Divider margin="my-0" height="h-1" />
+</div>
 
 <style>
 	.header {

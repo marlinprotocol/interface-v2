@@ -9,7 +9,7 @@
 		walletStore
 	} from '$lib/data-stores/walletProviderStore';
 	import { resetWalletBalanceStore, walletBalance } from '$lib/data-stores/walletBalanceStore';
-	import PrimaryButton from '$lib/components/buttons/PrimaryButton.svelte';
+	import FilledButton from '$lib/components/buttons/FilledButton.svelte';
 	import ErrorButton from '$lib/components/buttons/ErrorButton.svelte';
 	import { chainStore, resetChainProviderStore } from '$lib/data-stores/chainProviderStore';
 	import { environmentStore } from '$lib/data-stores/environmentStore';
@@ -57,9 +57,9 @@
 	<h2 class="text-primary text-2xl font-bold my-5">{pageTitle}</h2>
 	<div class="flex gap-2 justify-center my-2">
 		{#each walletProviders as walletProvider (walletProvider.id)}
-			<PrimaryButton onclick={() => walletProvider.connect()}>
+			<FilledButton onclick={() => walletProvider.connect()}>
 				<div>{walletProvider.provider}</div>
-			</PrimaryButton>
+			</FilledButton>
 		{/each}
 	</div>
 	<ErrorButton styleClass="mt-2" onclick={() => resetStores()}>Disconnect wallet</ErrorButton>

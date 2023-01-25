@@ -1,6 +1,7 @@
 <script lang="ts">
 	import InputCard from '$lib/components/cards/InputCard.svelte';
 	import { buttonClasses, dividerClasses } from '$lib/components/componentClasses';
+	import Divider from '$lib/components/divider/Divider.svelte';
 	import Text from '$lib/components/texts/Text.svelte';
 	import Tooltip from '$lib/components/tooltips/Tooltip.svelte';
 	import type { ModalInputModel } from '$lib/types/atomTypes';
@@ -47,11 +48,11 @@
 				placeholder="0.00"
 				required
 			/>
-			<slot name="inputEndButton" />
+			<slot name="input-end-button" />
 		</div>
-		<div class={dividerClasses.horizontal} />
+		<Divider />
 		{#if !!maxAmount}
-			<div class="flex items-center gap-2 mt-2">
+			<div class="flex items-center gap-2">
 				<button on:click={handleMaxClick} class={styles.inputMaxButton}>MAX</button>
 				<div class={dividerClasses.vertical} />
 				<Text

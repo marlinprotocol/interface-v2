@@ -4,8 +4,8 @@ export const amountDivideByPow18 = (amount: number) => {
 	return amount / Math.pow(10, 18);
 };
 
-export const bigNumbertoString = (amount: BigNumber, decimal = 0) => {
-	return bigNumbertoNumber(amount).toFixed(decimal);
+export const bigNumbertoString = (amount: BigNumber) => {
+	return ethers.utils.formatEther(amount);
 };
 
 export const bigNumbertoNumber = (amount: BigNumber) => {

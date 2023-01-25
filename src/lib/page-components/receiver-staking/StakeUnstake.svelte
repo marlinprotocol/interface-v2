@@ -18,10 +18,10 @@
 		<StakedData />
 		<div class={styles.buttonsGroup}>
 			<div class={styles.buttonWrapper}>
-				<label for="stake-modal" class={`${buttonClasses.primary} w-full`}>Stake</label>
+				<label for="stake-modal" class={`${buttonClasses.filled} w-full`}>Stake</label>
 			</div>
 			<div class={styles.buttonWrapper}>
-				<label for="unstake-modal" class={`${buttonClasses.secondary} w-full`}>Unstake</label>
+				<label for="unstake-modal" class={`${buttonClasses.outlined} w-full`}>Unstake</label>
 			</div>
 		</div>
 		<StakeModal />

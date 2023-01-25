@@ -1,10 +1,9 @@
 <script lang="ts">
 	import PrimaryButton from '$lib/components/buttons/PrimaryButton.svelte';
-	import { buttonClasses } from '$lib/components/componentClasses';
 	import Modal from '$lib/components/modals/Modal.svelte';
 	import Text from '$lib/components/texts/Text.svelte';
-	import { bigNumbertoNumber } from '$lib/utils/conversion';
 	import { BigNumber } from 'ethers';
+	import ModalApproveButton from './sub-components/ModalApproveButton.svelte';
 	import ModalPondInput from './sub-components/ModalPondInput.svelte';
 
 	const modalFor = 'stake-modal';
@@ -37,21 +36,14 @@
 		}, 3000);
 	};
 
-	const styles = {
-		inputEndButton: `${buttonClasses.text} text-lg text-primary font-medium`
-	};
-
+	//button states
 	//considering max amount is required
 	$: approveDisabled =
 		!!maxAmount &&
-		(inputPondAmount <= 0 ||
-			inputPondAmount > bigNumbertoNumber(maxAmount) ||
-			inputPondAmount <= approvedPond);
-
+		(inputPondAmount <= 0 || !maxAmount.gte(inputPondAmount) || inputPondAmount <= approvedPond);
 	$: pondDisabledText =
-		!!inputPondAmount && inputPondAmount > bigNumbertoNumber(maxAmount) ? 'Insufficient POND' : '';
-	$: submitEnable =
-		!!approvedPond && approvedPond > 0 && approvedPond <= bigNumbertoNumber(maxAmount);
+		!!inputPondAmount && !maxAmount.gte(inputPondAmount) ? 'Insufficient POND' : '';
+	$: submitEnable = !!approvedPond && approvedPond > 0 && maxAmount.gte(approvedPond);
 </script>
 
 <div>
@@ -70,16 +62,14 @@
 				{maxAmount}
 				maxAmountText={'Balance'}
 			>
-				<button
-					slot="inputEndButton"
-					disabled={approveDisabled || approveLoading}
-					type="submit"
-					class={`${styles.inputEndButton} ${approveLoading && 'loading'}`}
-					on:click={handleApproveClick}
-				>
-					<!-- TODO: check approved design -->
-					{!!inputPondAmount && inputPondAmount <= approvedPond ? 'Approved' : 'Approve'}</button
-				>
+				<ModalApproveButton
+					slot="input-end-button"
+					disabled={approveDisabled}
+					loading={approveLoading}
+					bind:inputPondAmount
+					bind:approvedPond
+					{handleApproveClick}
+				/>
 			</ModalPondInput>
 			{#if !!pondDisabledText}
 				<Text variant="small" styleClass="text-red-500 my-2" text={pondDisabledText} />

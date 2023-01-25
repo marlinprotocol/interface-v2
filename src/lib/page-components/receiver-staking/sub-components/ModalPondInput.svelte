@@ -47,7 +47,7 @@
 				placeholder="0.00"
 				required
 			/>
-			<slot name="inputEndButton" />
+			<slot name="input-end-button" />
 		</div>
 		<div class={dividerClasses.horizontal} />
 		{#if !!maxAmount}

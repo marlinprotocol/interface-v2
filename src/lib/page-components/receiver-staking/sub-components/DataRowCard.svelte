@@ -23,7 +23,7 @@
 		<Text
 			variant="h5"
 			styleClass="text-primary font-medium"
-			text={`${bigNumbertoString(data.value, 2)} POND`}
+			text={`${bigNumbertoString(data.value)} POND`}
 		/>
 	</div>
 </div>

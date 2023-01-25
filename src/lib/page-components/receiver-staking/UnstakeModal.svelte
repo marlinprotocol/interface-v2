@@ -2,7 +2,6 @@
 	import PrimaryButton from '$lib/components/buttons/PrimaryButton.svelte';
 	import Modal from '$lib/components/modals/Modal.svelte';
 	import Text from '$lib/components/texts/Text.svelte';
-	import { bigNumbertoNumber } from '$lib/utils/conversion';
 	import { BigNumber } from 'ethers';
 	import ModalPondInput from './sub-components/ModalPondInput.svelte';
 
@@ -11,9 +10,8 @@
 
 	let inputPondAmount: number = 0;
 	$: pondDisabledText =
-		!!inputPondAmount && inputPondAmount > bigNumbertoNumber(maxAmount) ? 'Insufficient POND' : '';
-	$: submitEnable =
-		!!inputPondAmount && inputPondAmount > 0 && inputPondAmount <= bigNumbertoNumber(maxAmount);
+		!!inputPondAmount && !maxAmount.gte(inputPondAmount) ? 'Insufficient POND' : '';
+	$: submitEnable = !!inputPondAmount && inputPondAmount > 0 && maxAmount.gte(inputPondAmount);
 
 	const handleSubmitClick = () => {
 		// TODO: call submit function and reset input value

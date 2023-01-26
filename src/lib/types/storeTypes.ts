@@ -1,4 +1,5 @@
 import type { BigNumber, providers } from 'ethers';
+import type { WalletType } from './controllerTypes';
 
 // wallet provider store
 export type WalletStore = {
@@ -9,8 +10,7 @@ export type WalletStore = {
 
 export type WalletProvider = {
 	id: number;
-	provider: string;
-	connect: () => Promise<void>;
+	provider: WalletType;
 }[];
 
 // wallet balance store

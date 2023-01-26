@@ -1,5 +1,5 @@
 import { writable, type Writable } from 'svelte/store';
-import { DEFAULT_WALLET_BALANCE, DEFAULT_WALLET_STORE } from '../utils/constants/storeConstants';
+import { DEFAULT_WALLET_BALANCE, DEFAULT_WALLET_STORE } from '../utils/constants/storeDefaults';
 import type { WalletBalance, WalletStore } from '../types/storeTypes';
 import { walletStore } from './walletProviderStore';
 import { getMpondBalance, getPondBalance } from '$lib/controllers/subgraphController';

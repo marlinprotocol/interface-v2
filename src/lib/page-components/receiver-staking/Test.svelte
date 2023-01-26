@@ -14,6 +14,7 @@
 	import { chainStore, resetChainProviderStore } from '$lib/data-stores/chainProviderStore';
 	import { environmentStore } from '$lib/data-stores/environmentStore';
 	import type { Environment } from '$lib/types/environmentTypes';
+	import { connectWallet } from '$lib/controllers/walletController';
 
 	let wallet: WalletStore;
 	let balance: WalletBalance;
@@ -57,7 +58,7 @@
 	<h2 class="text-primary text-2xl font-bold my-5">{pageTitle}</h2>
 	<div class="flex gap-2 justify-center my-2">
 		{#each walletProviders as walletProvider (walletProvider.id)}
-			<FilledButton onclick={() => walletProvider.connect()}>
+			<FilledButton onclick={() => connectWallet(walletProvider.provider)}>
 				<div>{walletProvider.provider}</div>
 			</FilledButton>
 		{/each}

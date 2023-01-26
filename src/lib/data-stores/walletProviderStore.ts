@@ -1,14 +1,13 @@
 import { derived, writable, type Readable, type Writable } from 'svelte/store';
 import { browser } from '$app/environment';
-import { connectMetamask } from '../controllers/metamaskContoller';
-import { connectWalletConnect } from '../controllers/walletConnectController';
 import type { WalletProvider, WalletStore } from '../types/storeTypes';
-import { DEFAULT_WALLET_STORE } from '../utils/constants/storeConstants';
-import ENVIRONMENT from '$lib/environments/environment';
+import { DEFAULT_WALLET_STORE } from '../utils/constants/storeDefaults';
+import { WALLET_TYPE_METAMASK, WALLET_TYPE_WALLETCONNECT } from '$lib/utils/constants/constants';
+import { connectWallet } from '$lib/controllers/walletController';
 
 export const walletProviders: WalletProvider = [
-	{ id: 1, provider: 'Metamask', connect: connectMetamask },
-	{ id: 2, provider: 'WalletConnect', connect: connectWalletConnect }
+	{ id: 1, provider: 'metamask' },
+	{ id: 2, provider: 'walletconnect' }
 ];
 
 // svelte stores
@@ -32,10 +31,12 @@ export function resetWalletProviderStore(): void {
 export function restoreWalletConnection() {
 	// This stores connection between reloads.
 	if (browser && JSON.parse(sessionStorage.getItem('connected') || 'false')) {
-		if (sessionStorage.getItem('connectType') === 'metamask') {
-			connectMetamask().catch(console.error);
-		} else if (sessionStorage.getItem('connectType') === 'walletconnect') {
-			console.log('walletconnect was connected');
+		if (sessionStorage.getItem('connectType') === WALLET_TYPE_METAMASK) {
+			connectWallet(WALLET_TYPE_METAMASK).catch(console.error);
+			console.log('restoring metamask connection');
+		} else if (sessionStorage.getItem('connectType') === WALLET_TYPE_WALLETCONNECT) {
+			connectWallet(WALLET_TYPE_WALLETCONNECT).catch(console.error);
+			console.log('restoring walletconnect connection');
 		}
 	}
 
@@ -44,8 +45,4 @@ export function restoreWalletConnection() {
 	connected.subscribe((value) => {
 		if (browser) sessionStorage.setItem('connected', JSON.stringify(value));
 	});
-}
-
-export function isValidNetwork(id: number): boolean {
-	return ENVIRONMENT.valid_chain_ids.includes(id);
 }

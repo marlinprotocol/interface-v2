@@ -1,5 +1,5 @@
 import ENVIRONMENT from '$lib/environments/environment';
-import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeConstants';
+import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 import {
 	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_POND_BALANCE_QUERY

@@ -7,5 +7,6 @@ export const ENVIRONMENT_MAINNET = {
 	public_pond_balance_api_url: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-dev',
 	public_mpond_balance_api_url:
 		'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-dev',
+	public_contract_details_url: '',
 	valid_chain_ids: [421613, 1]
 };

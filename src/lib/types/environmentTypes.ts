@@ -6,5 +6,6 @@ export type Environment = {
 	public_mpond_token_address: string;
 	public_pond_balance_api_url: string;
 	public_mpond_balance_api_url: string;
+	public_contract_details_url: string;
 	valid_chain_ids: number[];
 };

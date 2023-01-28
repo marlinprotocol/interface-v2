@@ -16,3 +16,26 @@ export const DEFAULT_WALLET_BALANCE: WalletBalance = {
 
 // chainProviderStore
 export const DEFAULT_CHAIN_STORE: ChainStore = { chainId: null, chainName: '' };
+
+// contractAbiStore
+// export const DEFAULT_CONTRACT_ABI_STORE = {
+// 	ERC20: [],
+// 	ClusterRegistry: [],
+// 	StakeManager: [],
+// 	RewardDelegators: [],
+// 	ReceiversStaking: [],
+// 	EpochSelector: [],
+// 	MPond: []
+// };
+
+// addressStore
+// export const DEFAULT_ADDRESS_STORE = {
+// 	StakeManager: '',
+// 	RewardDelegators: '',
+// 	ClusterRegistry: '',
+// 	ClusterRewards: '',
+// 	ReceiversStaking: '',
+// 	EpochSelector: {},
+// 	Bridge: '',
+// 	tokens: {}
+// };

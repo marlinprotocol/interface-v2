@@ -4,7 +4,8 @@ export const buttonClasses = {
 		'btn btn-theme btn-sm text-primary px-5 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit',
 	error:
 		'btn btn-theme btn-sm text-error px-5 border-error bg-inherit hover:bg-inherit hover:border-error hover:text-error-focus',
-	text: 'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent'
+	text: 'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent',
+	icon: 'btn btn-xs btn-ghost btn-circle p-0 bg-transparent hover:bg-transparent mt-2'
 };
 
 export const dividerClasses = {

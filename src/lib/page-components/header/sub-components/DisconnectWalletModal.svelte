@@ -19,6 +19,6 @@
 	<svelte:fragment slot="title">Disconnect Wallet</svelte:fragment>
 	<svelte:fragment slot="content">Are you sure you want to disconnect your wallet?</svelte:fragment>
 	<svelte:fragment slot="action-buttons">
-		<FilledButton onclick={disconnectWallet}>Disconnect</FilledButton>
+		<FilledButton onclick={disconnectWallet} styleClass={'w-full'}>Disconnect</FilledButton>
 	</svelte:fragment>
 </Modal>

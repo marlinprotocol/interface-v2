@@ -2,23 +2,17 @@
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import type { ChainStore, WalletBalance, WalletStore } from '$lib/types/storeTypes';
-	import {
-		connected,
-		resetWalletProviderStore,
-		walletProviders,
-		walletStore
-	} from '$lib/data-stores/walletProviderStore';
-	import { resetWalletBalanceStore, walletBalance } from '$lib/data-stores/walletBalanceStore';
-	import FilledButton from '$lib/components/buttons/FilledButton.svelte';
-	import ErrorButton from '$lib/components/buttons/ErrorButton.svelte';
-	import { chainStore, resetChainProviderStore } from '$lib/data-stores/chainProviderStore';
-	import { connectWallet } from '$lib/controllers/walletController';
+	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
+	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
+	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { getContractDetails } from '$lib/controllers/contractController';
 	import ENVIRONMENT from '$lib/environments/environment';
+	import { contractStore } from '$lib/data-stores/contractStore';
 
 	let wallet: WalletStore;
 	let balance: WalletBalance;
 	let chain: ChainStore;
+	let contractDetails = {};
 	let pageTitle: string = 'Marlin Receiver Staking Portal';
 
 	const unsubscribeWalletProviderStore: Unsubscriber = walletStore.subscribe(
@@ -35,11 +29,9 @@
 		chain = value;
 	});
 
-	function resetStores() {
-		resetWalletProviderStore();
-		resetWalletBalanceStore();
-		resetChainProviderStore();
-	}
+	const unsubscribeContractStore: Unsubscriber = contractStore.subscribe((value) => {
+		contractDetails = value;
+	});
 
 	function fetchContractDetails() {
 		console.log('fetching contract details');
@@ -49,27 +41,23 @@
 	onDestroy(unsubscribeWalletProviderStore);
 	onDestroy(unsubscribeWalletBalanceStore);
 	onDestroy(unsubscribeChainProviderStore);
+	onDestroy(unsubscribeContractStore);
 </script>
 
 <div>
 	<h2 class="text-primary text-2xl font-bold my-5">{pageTitle}</h2>
-	<div class="flex gap-2 justify-center my-2">
-		{#each walletProviders as walletProvider (walletProvider.id)}
-			<FilledButton onclick={() => connectWallet(walletProvider.provider)}>
-				<div>{walletProvider.provider}</div>
-			</FilledButton>
-		{/each}
-	</div>
-	<ErrorButton styleClass="mt-2" onclick={() => resetStores()}>Disconnect wallet</ErrorButton>
 	{#if $connected}
 		<div>Address: {wallet.address}</div>
 		<div>Pond Balance: {balance.pond}</div>
 		<div>MPond Balance: {balance.mpond}</div>
 		<div>Chain ID: {chain.chainId}</div>
+	{:else}
+		The wallet is not connected.
 	{/if}
 	<div>Environment: {ENVIRONMENT.environment_name}</div>
-	<button class="btn btn-secondary">Test</button>
 	<button class="btn btn-secondary" on:click={() => fetchContractDetails()}
-		>fetch contract details</button
+		>Fetch contract details</button
 	>
+	<div>Contract Details</div>
+	<pre>{JSON.stringify(contractDetails)}</pre>
 </div>

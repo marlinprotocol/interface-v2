@@ -6,6 +6,6 @@
 	$: buttonClass = `${buttonClasses.error} ${styleClass}`;
 </script>
 
-<button on:click|preventDefault={onclick} class={buttonClass}>
+<button on:click|preventDefault|self={onclick} class={buttonClass}>
 	<slot />
 </button>

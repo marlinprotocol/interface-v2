@@ -1,1 +1,1 @@
-export type WalletType = 'metamask' | 'walletconnect';
+export type WalletType = 'Metamask' | 'WalletConnect';

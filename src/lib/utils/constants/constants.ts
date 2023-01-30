@@ -1,5 +1,5 @@
-export const WALLET_TYPE_METAMASK = 'metamask';
-export const WALLET_TYPE_WALLETCONNECT = 'walletconnect';
+export const WALLET_TYPE_METAMASK = 'Metamask';
+export const WALLET_TYPE_WALLETCONNECT = 'WalletConnect';
 
 export const GET_OPTIONS = {
 	method: 'GET',

@@ -6,8 +6,8 @@ import { WALLET_TYPE_METAMASK, WALLET_TYPE_WALLETCONNECT } from '$lib/utils/cons
 import { connectWallet } from '$lib/controllers/walletController';
 
 export const walletProviders: WalletProvider = [
-	{ id: 1, provider: 'metamask' },
-	{ id: 2, provider: 'walletconnect' }
+	{ id: 1, provider: 'Metamask' },
+	{ id: 2, provider: 'WalletConnect' }
 ];
 
 // svelte stores

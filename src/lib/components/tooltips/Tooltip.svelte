@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TooltipDirection, TooltipVariant } from '$lib/types/atomTypes';
+	import type { TooltipDirection, TooltipVariant } from '$lib/types/componentTypes';
 
 	export let tooltipText: string;
 	export let styleClass = '';

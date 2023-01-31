@@ -4,7 +4,7 @@
 	import Divider from '$lib/components/divider/Divider.svelte';
 	import Text from '$lib/components/texts/Text.svelte';
 	import Tooltip from '$lib/components/tooltips/Tooltip.svelte';
-	import type { ModalInputModel } from '$lib/types/atomTypes';
+	import type { ModalInputModel } from '$lib/types/componentTypes';
 	import { bigNumbertoNumber, bigNumbertoString } from '$lib/utils/conversion';
 
 	//TODO: remove default values

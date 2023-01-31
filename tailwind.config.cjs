@@ -16,6 +16,10 @@ module.exports = {
 			},
 			fontFamily: {
 				poppins: ['Poppins', 'sans-serif']
+			},
+			zIndex: {
+				100: '100',
+				1000: '1000'
 			}
 		}
 	},

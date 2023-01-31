@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Tab from '$lib/components/tab/Tab.svelte';
-	import type { TabModel } from '$lib/types/atomTypes';
+	import type { TabModel } from '$lib/types/componentTypes';
 
 	export let tabs: TabModel[];
 	export let tabIdSelected: string = '';

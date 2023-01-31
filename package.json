@@ -37,6 +37,7 @@
 	"type": "module",
 	"dependencies": {
 		"daisyui": "^2.46.1",
-		"ethers": "^5.7.2"
+		"ethers": "^5.7.2",
+		"svelte-icons": "^2.1.0"
 	}
 }

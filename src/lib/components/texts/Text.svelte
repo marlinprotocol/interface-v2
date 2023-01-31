@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TextModel } from '$lib/types/atomTypes';
+	import type { TextModel } from '$lib/types/componentTypes';
 
 	export let variant: TextModel['variant'] = 'body';
 	export let styleClass: TextModel['styleClass'] = '';

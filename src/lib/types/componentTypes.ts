@@ -1,14 +1,5 @@
 import type { BigNumber } from 'ethers';
 
-export type Variants =
-	| 'primary'
-	| 'secondary'
-	| 'error'
-	| 'success'
-	| 'accent'
-	| 'info'
-	| 'warning';
-
 export type TabModel = {
 	id: string;
 	title: string;
@@ -24,6 +15,8 @@ export type TextModel = {
 	text: string;
 	styleClass?: string;
 };
+
+export type CommonVariant = 'info' | 'success' | 'warning' | 'error';
 
 export type TooltipVariant =
 	| 'tooltip-primary'
@@ -42,4 +35,12 @@ export type ModalInputModel = {
 	maxAmount: BigNumber;
 	maxAmountText?: string;
 	handleApproveClick?: () => void;
+};
+
+export type AlertModel = {
+	text: string;
+	variant: CommonVariant;
+	alertVariant: 'alert-info' | 'alert-success' | 'alert-warning' | 'alert-error';
+	duration?: number;
+	icon?: CommonVariant;
 };

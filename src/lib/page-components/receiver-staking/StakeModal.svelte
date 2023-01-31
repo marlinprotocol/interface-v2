@@ -1,9 +1,11 @@
 <script lang="ts">
 	import FilledButton from '$lib/components/buttons/FilledButton.svelte';
 	import Modal from '$lib/components/modals/Modal.svelte';
+	import SnackBars from '$lib/components/snack-bars/SnackBars.svelte';
 	import Text from '$lib/components/texts/Text.svelte';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
+	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import ModalApproveButton from './sub-components/ModalApproveButton.svelte';
 	import ModalPondInput from './sub-components/ModalPondInput.svelte';
@@ -18,19 +20,25 @@
 	let approveLoading: boolean = false;
 	let submitLoading: boolean = false;
 
+	//snackbar states
+	let showApproveSnackbar: boolean = true;
+
 	// max amount in wallet
 	let maxPondBalance = DEFAULT_WALLET_BALANCE.pond;
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		maxPondBalance = value.pond;
+		//TODO: remove this
+		maxPondBalance = BigNumber.from('20000000000000000000000');
 	});
 
 	const handleApproveClick = async () => {
 		// TODO: call approve function
 		approveLoading = true;
 		setTimeout(() => {
-			console.log('approve delayed');
+			console.log('approve delayed by 3000ms');
 			approvedPond = inputPondAmount;
 			approveLoading = false;
+			showApproveSnackbar = true;
 		}, 3000);
 	};
 
@@ -38,9 +46,10 @@
 		// TODO: call submit function and reset input, approved value
 		submitLoading = true;
 		setTimeout(() => {
-			console.log('confirm delayed');
+			console.log('confirm delayed by 500 ms');
 			submitLoading = false;
-		}, 3000);
+			showApproveSnackbar = true;
+		}, 500);
 	};
 
 	onDestroy(unsubscribeWalletBalanceStore);
@@ -58,42 +67,47 @@
 		!!inputPondAmount && inputPondAmount <= approvedPond && maxPondBalance.gte(inputPondAmount);
 </script>
 
-<div>
-	<Modal {modalFor}>
-		<div slot="title">
-			{'STAKE POND'}
-		</div>
-		<div slot="subtitle">
-			{'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.'}
-		</div>
-		<div slot="content">
-			<ModalPondInput
-				title={'POND'}
-				tooltipText={'Some text here'}
-				bind:inputAmount={inputPondAmount}
-				maxAmount={maxPondBalance}
-				maxAmountText={'Balance'}
-			>
-				<ModalApproveButton
-					slot="input-end-button"
-					disabled={approveDisabled}
-					loading={approveLoading}
-					bind:inputPondAmount
-					bind:approvedPond
-					{handleApproveClick}
-				/>
-			</ModalPondInput>
-			{#if !!pondDisabledText}
-				<Text variant="small" styleClass="text-red-500 my-2" text={pondDisabledText} />
-			{/if}
-		</div>
-		<div slot="action-buttons" class="mt-6">
-			<FilledButton
-				disabled={!submitEnable}
-				loading={submitLoading}
-				onclick={handleSubmitClick}
-				styleClass={'btn-block'}>CONFIRM</FilledButton
-			>
-		</div></Modal
-	>
-</div>
+<Modal {modalFor}>
+	<svelte:fragment slot="title">
+		{'STAKE POND'}
+	</svelte:fragment>
+	<svelte:fragment slot="subtitle">
+		{'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.'}
+	</svelte:fragment>
+	<svelte:fragment slot="content">
+		<ModalPondInput
+			title={'POND'}
+			tooltipText={'Some text here'}
+			bind:inputAmount={inputPondAmount}
+			maxAmount={maxPondBalance}
+			maxAmountText={'Balance'}
+		>
+			<ModalApproveButton
+				slot="input-end-button"
+				disabled={approveDisabled}
+				loading={approveLoading}
+				bind:inputPondAmount
+				bind:approvedPond
+				{handleApproveClick}
+			/>
+		</ModalPondInput>
+		{#if !!pondDisabledText}
+			<Text variant="small" styleClass="text-red-500 my-2" text={pondDisabledText} />
+		{/if}
+	</svelte:fragment>
+	<svelte:fragment slot="action-buttons">
+		<FilledButton
+			disabled={!submitEnable}
+			loading={submitLoading}
+			onclick={handleSubmitClick}
+			styleClass={'btn-block mt-4'}>CONFIRM</FilledButton
+		>
+	</svelte:fragment>
+</Modal>
+<SnackBars
+	bind:show={showApproveSnackbar}
+	text={'POND approved'}
+	alertVariant="alert-success"
+	duration={3000}
+	variant="success"
+/>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ButtonModel } from '$lib/types/atomTypes';
+	import type { ButtonModel } from '$lib/types/componentTypes';
 	import ErrorButton from './ErrorButton.svelte';
 	import FilledButton from './FilledButton.svelte';
 	import OutlinedButton from './OutlinedButton.svelte';

@@ -7,12 +7,13 @@
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { getContractDetails } from '$lib/controllers/contractController';
 	import ENVIRONMENT from '$lib/environments/environment';
-	import { contractStore } from '$lib/data-stores/contractStore';
+	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 
 	let wallet: WalletStore;
 	let balance: WalletBalance;
 	let chain: ChainStore;
-	let contractDetails = {};
+	let contractAbiDetails = {};
+	let contractAddressDetails = {};
 	let pageTitle: string = 'Marlin Receiver Staking Portal';
 
 	const unsubscribeWalletProviderStore: Unsubscriber = walletStore.subscribe(
@@ -29,8 +30,12 @@
 		chain = value;
 	});
 
-	const unsubscribeContractStore: Unsubscriber = contractStore.subscribe((value) => {
-		contractDetails = value;
+	const unsubscribeContractAbiStore: Unsubscriber = contractAbiStore.subscribe((value) => {
+		contractAbiDetails = value;
+	});
+
+	const unsubscribeContractAddressStore: Unsubscriber = contractAddressStore.subscribe((value) => {
+		contractAddressDetails = value;
 	});
 
 	function fetchContractDetails() {
@@ -41,7 +46,8 @@
 	onDestroy(unsubscribeWalletProviderStore);
 	onDestroy(unsubscribeWalletBalanceStore);
 	onDestroy(unsubscribeChainProviderStore);
-	onDestroy(unsubscribeContractStore);
+	onDestroy(unsubscribeContractAbiStore);
+	onDestroy(unsubscribeContractAddressStore);
 </script>
 
 <div>
@@ -58,6 +64,8 @@
 	<button class="btn btn-secondary" on:click={() => fetchContractDetails()}
 		>Fetch contract details</button
 	>
-	<div>Contract Details</div>
-	<pre>{JSON.stringify(contractDetails)}</pre>
+	<div>Contract ABI Details</div>
+	<pre>{JSON.stringify(contractAbiDetails)}</pre>
+	<div>Contract Address Details</div>
+	<pre>{JSON.stringify(contractAddressDetails)}</pre>
 </div>

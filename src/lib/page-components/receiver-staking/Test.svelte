@@ -5,7 +5,7 @@
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
-	import { getContractDetails } from '$lib/controllers/contractController';
+	import { getContractDetails, getStakingToken } from '$lib/controllers/contractController';
 	import ENVIRONMENT from '$lib/environments/environment';
 	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 
@@ -15,6 +15,7 @@
 	let contractAbiDetails = {};
 	let contractAddressDetails = {};
 	let pageTitle: string = 'Marlin Receiver Staking Portal';
+	let stakingToken: string;
 
 	const unsubscribeWalletProviderStore: Unsubscriber = walletStore.subscribe(
 		(value: WalletStore) => {
@@ -43,6 +44,11 @@
 		getContractDetails();
 	}
 
+	async function makeContractCall() {
+		console.log('fething staking token from contract');
+		stakingToken = await getStakingToken();
+	}
+
 	onDestroy(unsubscribeWalletProviderStore);
 	onDestroy(unsubscribeWalletBalanceStore);
 	onDestroy(unsubscribeChainProviderStore);
@@ -52,15 +58,23 @@
 
 <div>
 	<h2 class="text-primary text-2xl font-bold my-5">{pageTitle}</h2>
+	<div>Environment: {ENVIRONMENT.environment_name}</div>
 	{#if $connected}
 		<div>Address: {wallet.address}</div>
 		<div>Pond Balance: {balance.pond}</div>
 		<div>MPond Balance: {balance.mpond}</div>
 		<div>Chain ID: {chain.chainId}</div>
+		<br />
+
+		<div>Staking Token: {stakingToken}</div>
+		<button class="btn btn-secondary" on:click={() => makeContractCall()}
+			>Fetch Staking token from contract</button
+		>
 	{:else}
 		The wallet is not connected.
 	{/if}
-	<div>Environment: {ENVIRONMENT.environment_name}</div>
+	<br />
+	<br />
 	<button class="btn btn-secondary" on:click={() => fetchContractDetails()}
 		>Fetch contract details</button
 	>

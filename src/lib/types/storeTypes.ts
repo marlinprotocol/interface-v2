@@ -1,10 +1,10 @@
-import type { BigNumber, providers } from 'ethers';
+import type { BigNumber, providers, Signer } from 'ethers';
 import type { WalletType } from './controllerTypes';
 
 // wallet provider store
 export type WalletStore = {
-	provider: providers.Web3Provider | null;
-	signer: providers.JsonRpcSigner | null;
+	provider: providers.Provider | undefined;
+	signer: Signer | undefined;
 	address: Lowercase<string>;
 };
 
@@ -26,23 +26,23 @@ export type ChainStore = {
 };
 
 // contract abi store
-export type ContractAbiStore = {
+export type ContractAbi = {
 	ClusterRegistry: any[];
 	ERC20: any[];
 	StakeManager: any[];
 	RewardDelegators: any[];
-	ReceiversStaking: any[];
+	ReceiverStaking: any[];
 	EpochSelector: any[];
 	MPond: any[];
 };
 
 // address store
-export type ContractAddressStore = {
+export type ContractAddress = {
 	StakeManager: string;
 	RewardDelegators: string;
 	ClusterRegistry: string;
 	ClusterRewards: string;
-	ReceiversStaking: string;
+	ReceiverStaking: string;
 	EpochSelector: any;
 	Bridge: string;
 	tokens: any;

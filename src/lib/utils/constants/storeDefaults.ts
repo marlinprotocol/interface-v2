@@ -3,8 +3,8 @@ import { ethers } from 'ethers';
 
 // walletProviderStore
 export const DEFAULT_WALLET_STORE: WalletStore = {
-	provider: null,
-	signer: null,
+	provider: undefined,
+	signer: undefined,
 	address: ''
 };
 
@@ -23,7 +23,7 @@ export const DEFAULT_CONTRACT_ABI_STORE = {
 	ClusterRegistry: [],
 	StakeManager: [],
 	RewardDelegators: [],
-	ReceiversStaking: [],
+	ReceiverStaking: [],
 	EpochSelector: [],
 	MPond: []
 };
@@ -34,7 +34,7 @@ export const DEFAULT_CONTRACT_ADDRESS_STORE = {
 	RewardDelegators: '',
 	ClusterRegistry: '',
 	ClusterRewards: '',
-	ReceiversStaking: '',
+	ReceiverStaking: '',
 	EpochSelector: {},
 	Bridge: '',
 	tokens: {}

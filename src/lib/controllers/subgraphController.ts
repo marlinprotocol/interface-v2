@@ -45,6 +45,7 @@ export async function getPondBalance(address: Lowercase<string>): Promise<BigNum
 			return result['data']?.users[0]?.balance;
 		else return DEFAULT_WALLET_BALANCE.pond;
 	} catch (error) {
+		console.log('Error fetching Pond balance', error);
 		return DEFAULT_WALLET_BALANCE.pond;
 	}
 }
@@ -65,6 +66,7 @@ export async function getMpondBalance(address: Lowercase<string>): Promise<BigNu
 			return result['data']?.balances[0]?.amount;
 		else return DEFAULT_WALLET_BALANCE.mpond;
 	} catch (error) {
+		console.log('Error fetching Mpond balance', error);
 		return DEFAULT_WALLET_BALANCE.mpond;
 	}
 }

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Divider from '$lib/components/divider/Divider.svelte';
-	import Tooltip from '$lib/components/tooltips/Tooltip.svelte';
+	import TooltipIcon from '$lib/components/tooltips/TooltipIcon.svelte';
 	import type { ReceiverStakedDataModel } from '$lib/types/receiverStakingTypes';
 	import { BigNumber } from 'ethers';
 	import DataRowCard from './sub-components/DataRowCard.svelte';
@@ -23,7 +23,7 @@
 
 <div class={styles.wrapper}>
 	<DataRowCard data={stakedData}>
-		<Tooltip slot="icon" tooltipText={'Some explanatory text here!!'} styleClass="ml-1" />
+		<TooltipIcon slot="icon" tooltipText={'Some explanatory text here!!'} styleClass="ml-1" />
 	</DataRowCard>
 	<Divider />
 	<DataRowCard data={inQueueData}>

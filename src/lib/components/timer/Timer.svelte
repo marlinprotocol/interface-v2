@@ -17,7 +17,6 @@
 </script>
 
 <div class="flex items-center gap-1">
-	<!-- <img src="./images/done.svg" alt="Pop-over" width="18" /> -->
 	{#if $timer > 0}
 		<Text
 			variant={textVariant}

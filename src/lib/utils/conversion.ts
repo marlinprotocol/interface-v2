@@ -5,6 +5,7 @@ export const amountDivideByPow18 = (amount: number) => {
 };
 
 export const bigNumbertoString = (amount: BigNumber) => {
+	// TODO: add precision to 2 decimal places
 	return parseFloat(ethers.utils.formatEther(amount)).toLocaleString();
 };
 

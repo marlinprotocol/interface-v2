@@ -1,7 +1,7 @@
 <script lang="ts">
 	import FilledButton from '$lib/components/buttons/FilledButton.svelte';
 	import Modal from '$lib/components/modals/Modal.svelte';
-	import SnackBars from '$lib/components/snack-bars/SnackBars.svelte';
+	import SnackBar from '$lib/components/snack-bars/SnackBar.svelte';
 	import Text from '$lib/components/texts/Text.svelte';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
@@ -21,16 +21,17 @@
 	let submitLoading: boolean = false;
 
 	//snackbar states
-	let showApproveSnackbar: boolean = true;
+	let showApproveSnackbar: boolean = false;
 
 	// max amount in wallet
 	let maxPondBalance = DEFAULT_WALLET_BALANCE.pond;
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		maxPondBalance = value.pond;
 		//TODO: remove this
-		maxPondBalance = BigNumber.from('20000000000000000000000');
+		// maxPondBalance = BigNumber.from('20000000000000000000000');
 	});
 
+	//TODO: check if can be moved to common util function
 	const handleApproveClick = async () => {
 		// TODO: call approve function
 		approveLoading = true;
@@ -104,7 +105,7 @@
 		>
 	</svelte:fragment>
 </Modal>
-<SnackBars
+<SnackBar
 	bind:show={showApproveSnackbar}
 	text={'POND approved'}
 	alertVariant="alert-success"

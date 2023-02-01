@@ -1,11 +1,13 @@
 <script lang="ts">
+	import Icon from '../icons/Icon.svelte';
+	import times from 'svelte-awesome/icons/times';
+
 	export let modalFor: string = '';
 
 	const styles = {
 		title: 'text-2xl font-bold text-left',
 		subtitle: 'text-sm font-medium text-left mt-1 text-gray-400',
-		closeButton:
-			'btn btn-sm text-sm btn-circle absolute right-4 top-4 bg-inherit text-gray-400 border-gray-400 hover:bg-inherit hover:text-gray-800'
+		closeButton: 'absolute right-4 top-4'
 	};
 </script>
 
@@ -16,8 +18,10 @@
 		<div class={styles.title}>
 			<slot name="title" />
 		</div>
-
-		<label for={modalFor} class={styles.closeButton}>✕</label>
+		<label for={modalFor} class={styles.closeButton}>
+			<Icon data={times} size={24} border={true} padding={4} />
+		</label>
+		<!-- <label for={modalFor} class={styles.closeButton}>✕</label> -->
 		<div class={styles.subtitle}>
 			<slot name="subtitle" />
 		</div>

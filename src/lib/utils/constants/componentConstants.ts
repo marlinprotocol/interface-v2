@@ -1,31 +1,50 @@
 import type { CommonVariant } from '$lib/types/componentTypes';
+import infoCircle from 'svelte-awesome/icons/infoCircle';
+import checkCircle from 'svelte-awesome/icons/checkCircle';
+import warning from 'svelte-awesome/icons/warning';
+import timesCircle from 'svelte-awesome/icons/timesCircle';
 
 export const getIconbyVariant = (variant: CommonVariant | undefined) => {
 	switch (variant) {
 		case 'success':
-			return './images/check-circle.svg';
+			return checkCircle;
 		case 'info':
-			return './images/infoSecondary.svg';
+			return infoCircle;
 		case 'warning':
-			return './images/warning.svg';
+			return warning;
 		case 'error':
-			return './images/error.svg';
+			return timesCircle;
 		default:
-			return './images/infoSecondary.svg';
+			return infoCircle;
 	}
 };
 
 export const getColorClassByVariant = (variant: CommonVariant | undefined) => {
 	switch (variant) {
 		case 'success':
+			return 'primary-content';
+		case 'info':
+			return 'primary-content';
+		case 'warning':
+			return 'primary-content';
+		case 'error':
+			return 'error-content';
+		default:
+			return 'primary-content';
+	}
+};
+
+export const getTextColorClassByVariant = (variant: CommonVariant | undefined) => {
+	switch (variant) {
+		case 'success':
 			return 'text-primary-content';
 		case 'info':
-			return '';
+			return 'text-primary-content';
 		case 'warning':
 			return 'text-primary-content';
 		case 'error':
 			return 'text-error-content';
 		default:
-			return '';
+			return 'text-primary-content';
 	}
 };

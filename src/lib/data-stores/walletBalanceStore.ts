@@ -39,7 +39,7 @@ async function setWalletBalance(walletAddress: WalletStore['address']): Promise<
 }
 
 /**
- * Reset wallet balance to zero.
+ * Reset wallet balance to its default value.
  */
 export function resetWalletBalanceStore(): void {
 	walletBalance.set(DEFAULT_WALLET_BALANCE);

@@ -1,11 +1,11 @@
 import { derived, writable, type Readable, type Writable } from 'svelte/store';
 import { browser } from '$app/environment';
-import type { WalletProvider, WalletStore } from '../types/storeTypes';
+import type { WalletOptions, WalletStore } from '../types/storeTypes';
 import { DEFAULT_WALLET_STORE } from '../utils/constants/storeDefaults';
 import { WALLET_TYPE } from '$lib/utils/constants/constants';
 import { connectWallet } from '$lib/controllers/walletController';
 
-export const walletProviders: WalletProvider = [
+export const walletOptions: WalletOptions = [
 	{ id: 1, provider: WALLET_TYPE.metamask },
 	{ id: 2, provider: WALLET_TYPE.walletconnect }
 ];

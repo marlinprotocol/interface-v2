@@ -11,7 +11,7 @@ export type WalletStore = {
 	address: Address;
 };
 
-export type WalletProvider = {
+export type WalletOptions = {
 	id: number;
 	provider: WALLET_TYPE;
 }[];

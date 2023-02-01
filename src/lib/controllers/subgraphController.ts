@@ -6,7 +6,7 @@ import {
 	QUERY_TO_GET_POND_BALANCE_QUERY
 } from '$lib/utils/constants/subgraphQueries';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
-import type { BigNumber } from 'ethers';
+import { BigNumber } from 'ethers';
 
 /**
  * Generate HTTP request headers for querying subgraph
@@ -43,7 +43,7 @@ export async function getPondBalance(address: Address): Promise<BigNumber> {
 	try {
 		const result = await fetchHttpData(url, options);
 		if (result['data'] && result['data']?.users?.length != 0)
-			return result['data']?.users[0]?.balance;
+			return BigNumber.from(result['data']?.users[0]?.balance);
 		else return DEFAULT_WALLET_BALANCE.pond;
 	} catch (error) {
 		console.log('Error fetching Pond balance', error);
@@ -64,7 +64,7 @@ export async function getMpondBalance(address: Address): Promise<BigNumber> {
 	try {
 		const result = await fetchHttpData(url, options);
 		if (result['data'] && result['data']?.balances?.length != 0)
-			return result['data']?.balances[0]?.amount;
+			return BigNumber.from(result['data']?.balances[0]?.amount);
 		else return DEFAULT_WALLET_BALANCE.mpond;
 	} catch (error) {
 		console.log('Error fetching Mpond balance', error);

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import FilledButton from '$lib/components/buttons/FilledButton.svelte';
-	import Modal from '$lib/components/modals/Modal.svelte';
-	import Text from '$lib/components/texts/Text.svelte';
+	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
+	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import Text from '$lib/atoms/texts/Text.svelte';
 	import { BigNumber } from 'ethers';
-	import ModalPondInput from './sub-components/ModalPondInput.svelte';
+	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
 
 	const modalFor = 'unstake-modal';
 	const maxAmount = BigNumber.from('20000000000000000000000');

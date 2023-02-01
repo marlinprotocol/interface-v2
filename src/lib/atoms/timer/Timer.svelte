@@ -1,8 +1,8 @@
 <script lang="ts">
+	import { tweened } from 'svelte/motion';
 	import type { TextModel } from '$lib/types/componentTypes';
 	import { epochToDurationString } from '$lib/utils/conversion';
-	import { tweened } from 'svelte/motion';
-	import Text from '../texts/Text.svelte';
+	import Text from '$lib/atoms/texts/Text.svelte';
 
 	export let initialText: string;
 	export let endEpochTime: number;

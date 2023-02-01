@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Icon from '../icons/Icon.svelte';
+	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import times from 'svelte-awesome/icons/times';
 
 	export let modalFor: string = '';

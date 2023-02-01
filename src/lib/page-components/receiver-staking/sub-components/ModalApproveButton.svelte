@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { buttonClasses } from '$lib/components/componentClasses';
-	import Icon from '$lib/components/icons/Icon.svelte';
+	import { buttonClasses } from '$lib/atoms/componentClasses';
+	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import checkCircle from 'svelte-awesome/icons/checkCircle';
 
 	export let disabled = false;

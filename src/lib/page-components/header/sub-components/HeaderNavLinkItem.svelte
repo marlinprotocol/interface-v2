@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Text from '$lib/components/texts/Text.svelte';
+	import Text from '$lib/atoms/texts/Text.svelte';
 	import type { NavLinkModel } from '$lib/types/headerTypes';
 	export let navItem: NavLinkModel;
 </script>

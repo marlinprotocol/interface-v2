@@ -1,6 +1,6 @@
 <script lang="ts">
-	import FilledButton from '$lib/components/buttons/FilledButton.svelte';
-	import Modal from '$lib/components/modals/Modal.svelte';
+	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
+	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import { resetChainProviderStore } from '$lib/data-stores/chainProviderStore';
 	import { resetWalletBalanceStore } from '$lib/data-stores/walletBalanceStore';
 	import { resetWalletProviderStore } from '$lib/data-stores/walletProviderStore';

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { buttonClasses } from '$lib/components/componentClasses';
+	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import { connected } from '$lib/data-stores/walletProviderStore';
-	import DisconnectWalletModal from './DisconnectWalletModal.svelte';
-	import ConnectWalletModal from './ConnectWalletModal.svelte';
+	import DisconnectWalletModal from '$lib/page-components/header/sub-components/DisconnectWalletModal.svelte';
+	import ConnectWalletModal from '$lib/page-components/header/sub-components/ConnectWalletModal.svelte';
 	import lock from 'svelte-awesome/icons/lock';
-	import Icon from '$lib/components/icons/Icon.svelte';
+	import Icon from '$lib/atoms/icons/Icon.svelte';
 </script>
 
 {#if $connected}

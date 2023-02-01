@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Icon from '$lib/components/icons/Icon.svelte';
-	import PopOver from '$lib/components/pop-over/PopOver.svelte';
-	import Text from '$lib/components/texts/Text.svelte';
-	import Timer from '$lib/components/timer/Timer.svelte';
+	import Icon from '$lib/atoms/icons/Icon.svelte';
+	import PopOver from '$lib/atoms/pop-over/PopOver.svelte';
+	import Text from '$lib/atoms/texts/Text.svelte';
+	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import question from 'svelte-awesome/icons/question';
 
 	export let iconWidth = 15;

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import ContainerCard from '$lib/components/cards/ContainerCard.svelte';
-	import { buttonClasses } from '$lib/components/componentClasses';
-	import Text from '$lib/components/texts/Text.svelte';
-	import StakedData from './StakedData.svelte';
-	import StakeModal from './StakeModal.svelte';
-	import UnstakeModal from './UnstakeModal.svelte';
+	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
+	import { buttonClasses } from '$lib/atoms/componentClasses';
+	import Text from '$lib/atoms/texts/Text.svelte';
+	import StakedData from '$lib/page-components/receiver-staking/StakedData.svelte';
+	import StakeModal from '$lib/page-components/receiver-staking/StakeModal.svelte';
+	import UnstakeModal from '$lib/page-components/receiver-staking/UnstakeModal.svelte';
 
 	const styles = {
 		buttonsGroup: 'flex gap-2 items-center justify-center w-full',

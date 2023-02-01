@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { TooltipDirection, TooltipVariant } from '$lib/types/componentTypes';
-	import Icon from '../icons/Icon.svelte';
+	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import info from 'svelte-awesome/icons/info';
 
 	export let tooltipText: string;

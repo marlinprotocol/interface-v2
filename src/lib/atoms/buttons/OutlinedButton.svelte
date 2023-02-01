@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { buttonClasses } from '../componentClasses';
+	import { buttonClasses } from '$lib/atoms/componentClasses';
 
 	export let onclick = () => {};
 	export let styleClass: string = '';

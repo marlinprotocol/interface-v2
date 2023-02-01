@@ -1,14 +1,13 @@
 <script lang="ts">
-	import FilledButton from '$lib/components/buttons/FilledButton.svelte';
-	import Modal from '$lib/components/modals/Modal.svelte';
-	import SnackBar from '$lib/components/snack-bars/SnackBar.svelte';
-	import Text from '$lib/components/texts/Text.svelte';
+	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
+	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import SnackBar from '$lib/atoms/snack-bars/SnackBar.svelte';
+	import Text from '$lib/atoms/texts/Text.svelte';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
-	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
-	import ModalApproveButton from './sub-components/ModalApproveButton.svelte';
-	import ModalPondInput from './sub-components/ModalPondInput.svelte';
+	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
+	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
 
 	const modalFor = 'stake-modal';
 

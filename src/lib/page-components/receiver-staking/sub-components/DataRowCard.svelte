@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Text from '$lib/components/texts/Text.svelte';
+	import Text from '$lib/atoms/texts/Text.svelte';
 	import type { ReceiverStakedDataModel } from '$lib/types/receiverStakingTypes';
 	import { bigNumbertoString } from '$lib/utils/conversion';
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { buttonClasses } from '../componentClasses';
+	import { buttonClasses } from '$lib/atoms/componentClasses';
 	export let onclick = () => console.log('FilledButton clicked');
 	export let disabled: boolean = false;
 	export let loading: boolean = false;

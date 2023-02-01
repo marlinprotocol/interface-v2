@@ -1,10 +1,10 @@
 <script lang="ts">
-	import InputCard from '$lib/components/cards/InputCard.svelte';
-	import { buttonClasses, dividerClasses } from '$lib/components/componentClasses';
-	import Divider from '$lib/components/divider/Divider.svelte';
-	import Text from '$lib/components/texts/Text.svelte';
-	import Tooltip from '$lib/components/tooltips/Tooltip.svelte';
-	import TooltipIcon from '$lib/components/tooltips/TooltipIcon.svelte';
+	import InputCard from '$lib/atoms/cards/InputCard.svelte';
+	import { buttonClasses, dividerClasses } from '$lib/atoms/componentClasses';
+	import Divider from '$lib/atoms/divider/Divider.svelte';
+	import Text from '$lib/atoms/texts/Text.svelte';
+	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
+	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import type { ModalInputModel } from '$lib/types/componentTypes';
 	import { bigNumbertoNumber, bigNumbertoString } from '$lib/utils/conversion';
 

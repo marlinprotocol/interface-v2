@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { ButtonModel } from '$lib/types/componentTypes';
-	import ErrorButton from './ErrorButton.svelte';
-	import FilledButton from './FilledButton.svelte';
-	import OutlinedButton from './OutlinedButton.svelte';
+	import ErrorButton from '$lib/atoms/buttons/ErrorButton.svelte';
+	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
+	import OutlinedButton from '$lib/atoms/buttons/OutlinedButton.svelte';
 
 	export let variant: ButtonModel['variant'] = 'filled';
 	export let onclick: ButtonModel['onclick'] = () => {};

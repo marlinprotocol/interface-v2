@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Divider from '$lib/components/divider/Divider.svelte';
-	import TooltipIcon from '$lib/components/tooltips/TooltipIcon.svelte';
+	import Divider from '$lib/atoms/divider/Divider.svelte';
+	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import type { ReceiverStakedDataModel } from '$lib/types/receiverStakingTypes';
+	import DataRowCard from '$lib/page-components/receiver-staking/sub-components/DataRowCard.svelte';
+	import QueuePopOver from '$lib/page-components/receiver-staking/sub-components/QueuePopOver.svelte';
 	import { BigNumber } from 'ethers';
-	import DataRowCard from './sub-components/DataRowCard.svelte';
-	import QueuePopOver from './sub-components/QueuePopOver.svelte';
 
 	const stakedData: ReceiverStakedDataModel = {
 		title: 'STAKED',

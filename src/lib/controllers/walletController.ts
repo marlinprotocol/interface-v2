@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { walletStore } from '../data-stores/walletProviderStore';
+import { walletStore } from '$lib/data-stores/walletProviderStore';
 import { isValidNetwork, switchToValidNetwork } from '$lib/utils/helpers/networkHelper';
 import { chainStore } from '$lib/data-stores/chainProviderStore';
 import { WALLET_TYPE } from '$lib/utils/constants/constants';

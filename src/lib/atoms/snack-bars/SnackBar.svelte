@@ -5,7 +5,7 @@
 		getIconbyVariant,
 		getTextColorClassByVariant
 	} from '$lib/utils/constants/componentConstants';
-	import Icon from '../icons/Icon.svelte';
+	import Icon from '$lib/atoms/icons/Icon.svelte';
 
 	export let show: boolean = false;
 	export let text: AlertModel['text'];

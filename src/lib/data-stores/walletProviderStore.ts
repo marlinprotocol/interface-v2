@@ -1,7 +1,7 @@
 import { derived, writable, type Readable, type Writable } from 'svelte/store';
 import { browser } from '$app/environment';
-import type { WalletOptions, WalletStore } from '../types/storeTypes';
-import { DEFAULT_WALLET_STORE } from '../utils/constants/storeDefaults';
+import type { WalletOptions, WalletStore } from '$lib/types/storeTypes';
+import { DEFAULT_WALLET_STORE } from '$lib/utils/constants/storeDefaults';
 import { WALLET_TYPE } from '$lib/utils/constants/constants';
 import { connectWallet } from '$lib/controllers/walletController';
 

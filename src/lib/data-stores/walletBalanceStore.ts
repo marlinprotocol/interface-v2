@@ -1,7 +1,7 @@
 import { writable, type Writable } from 'svelte/store';
-import { DEFAULT_WALLET_BALANCE, DEFAULT_WALLET_STORE } from '../utils/constants/storeDefaults';
-import type { Address, WalletBalance, WalletStore } from '../types/storeTypes';
-import { walletStore } from './walletProviderStore';
+import { DEFAULT_WALLET_BALANCE, DEFAULT_WALLET_STORE } from '$lib/utils/constants/storeDefaults';
+import type { Address, WalletBalance, WalletStore } from '$lib/types/storeTypes';
+import { walletStore } from '$lib/data-stores/walletProviderStore';
 import { getMpondBalance, getPondBalance } from '$lib/controllers/subgraphController';
 
 let walletAddress: Address = DEFAULT_WALLET_STORE.address;

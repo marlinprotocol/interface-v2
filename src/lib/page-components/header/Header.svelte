@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Divider from '$lib/components/divider/Divider.svelte';
-	import HeaderConnectWallet from './sub-components/HeaderConnectWallet.svelte';
-	import HeaderLinksGroup from './sub-components/HeaderLinksGroup.svelte';
-	import HeaderLogo from './sub-components/HeaderLogo.svelte';
+	import Divider from '$lib/atoms/divider/Divider.svelte';
+	import HeaderConnectWallet from '$lib/page-components/header/sub-components/HeaderConnectWallet.svelte';
+	import HeaderLinksGroup from '$lib/page-components/header/sub-components/HeaderLinksGroup.svelte';
+	import HeaderLogo from '$lib/page-components/header/sub-components/HeaderLogo.svelte';
 
 	//styles for header component
 	const styles = {

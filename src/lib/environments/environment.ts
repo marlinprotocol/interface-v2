@@ -4,20 +4,12 @@ import { ENVIRONMENT_ARB } from '$lib/environments/environment.arb';
 import { ENVIRONMENT_MAINNET } from '$lib/environments/environment.mainnet';
 import type { Environment } from '$lib/types/environmentTypes';
 
-let ENVIRONMENT: Environment;
+const environments: Record<string, Environment> = {
+	dev: ENVIRONMENT_DEV,
+	arb: ENVIRONMENT_ARB,
+	mainnet: ENVIRONMENT_MAINNET
+};
 
-switch (PUBLIC_NODE_ENV) {
-	case 'dev':
-		ENVIRONMENT = ENVIRONMENT_DEV;
-		break;
-	case 'arb':
-		ENVIRONMENT = ENVIRONMENT_ARB;
-		break;
-	case 'mainnet':
-		ENVIRONMENT = ENVIRONMENT_MAINNET;
-		break;
-	default:
-		ENVIRONMENT = ENVIRONMENT_DEV;
-}
+const ENVIRONMENT = PUBLIC_NODE_ENV ? environments[PUBLIC_NODE_ENV] : environments.dev;
 
 export default ENVIRONMENT;

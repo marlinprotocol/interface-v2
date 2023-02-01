@@ -4,6 +4,6 @@
 </script>
 
 <div class="py-10">
-	<Test />
 	<StakeUnstake />
+	<Test />
 </div>

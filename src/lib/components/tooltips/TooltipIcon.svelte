@@ -1,8 +1,11 @@
 <script lang="ts">
 	import type { TooltipDirection, TooltipVariant } from '$lib/types/componentTypes';
+	import Icon from '../icons/Icon.svelte';
+	import info from 'svelte-awesome/icons/info';
 
 	export let tooltipText: string;
 	export let styleClass = '';
+	export let iconWidth = 15;
 	export let tooltipVariant: TooltipVariant = 'tooltip-primary';
 	export let tooltipDirection: TooltipDirection = 'tooltip-top';
 
@@ -10,5 +13,5 @@
 </script>
 
 <div class={tooltipClass} data-tip={tooltipText}>
-	<slot />
+	<Icon data={info} size={iconWidth} border={true} />
 </div>

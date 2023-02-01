@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/components/componentClasses';
+	import Icon from '$lib/components/icons/Icon.svelte';
+	import checkCircle from 'svelte-awesome/icons/checkCircle';
 
 	export let disabled = false;
 	export let loading = false;
@@ -7,20 +9,17 @@
 	export let inputPondAmount: number;
 	export let approvedPond: number;
 
-	const styles = {
-		inputEndButton: `${buttonClasses.text} text-lg text-primary font-medium`
-	};
-
 	$: approved = !!inputPondAmount && approvedPond >= inputPondAmount;
+
+	$: styleClass = `${buttonClasses.text} text-lg font-medium ${
+		disabled ? 'btn-disabled' + (approved ? ' text-primary' : '') : 'text-primary'
+	} ${loading ? 'loading' : ''}`;
 </script>
 
-<button
-	class={`${styles.inputEndButton} ${loading && 'loading'} ${disabled && 'btn-disabled'}`}
-	on:click={handleApproveClick}
->
-	<div class="flex gap-1 items-center">
+<button class={styleClass} on:click={handleApproveClick}>
+	<div class="flex gap-0.5 items-center">
 		{#if approved}
-			<img src="./images/done.svg" alt="done" />
+			<Icon data={checkCircle} size={18} />
 		{/if}
 		{approved ? 'Approved' : 'Approve'}
 	</div>

@@ -38,6 +38,6 @@
 	"dependencies": {
 		"daisyui": "^2.46.1",
 		"ethers": "^5.7.2",
-		"svelte-icons": "^2.1.0"
+		"svelte-awesome": "^3.0.1"
 	}
 }

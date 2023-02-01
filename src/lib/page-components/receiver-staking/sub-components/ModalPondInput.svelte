@@ -4,6 +4,7 @@
 	import Divider from '$lib/components/divider/Divider.svelte';
 	import Text from '$lib/components/texts/Text.svelte';
 	import Tooltip from '$lib/components/tooltips/Tooltip.svelte';
+	import TooltipIcon from '$lib/components/tooltips/TooltipIcon.svelte';
 	import type { ModalInputModel } from '$lib/types/componentTypes';
 	import { bigNumbertoNumber, bigNumbertoString } from '$lib/utils/conversion';
 
@@ -26,6 +27,7 @@
 
 	const handleMaxClick = () => {
 		if (!!maxAmount) {
+			//TODO: check if input can handle big number 18 decimals
 			inputAmount = bigNumbertoNumber(maxAmount);
 		}
 	};
@@ -35,7 +37,7 @@
 	<div class={styles.titleIcon}>
 		<Text variant="small" text={title} />
 		{#if !!tooltipText}
-			<Tooltip {tooltipText} tooltipVariant="tooltip-secondary" />
+			<TooltipIcon {tooltipText} tooltipVariant="tooltip-secondary" />
 		{/if}
 	</div>
 	<form>
@@ -51,16 +53,17 @@
 			<slot name="input-end-button" />
 		</div>
 		<Divider />
-		{#if !!maxAmount}
-			<div class="flex items-center gap-2">
+		<div class="flex items-center gap-2">
+			<!-- TODO: replace/remove text -->
+			<Tooltip tooltipText="Can add optional text here" tooltipDirection="tooltip-right">
 				<button on:click={handleMaxClick} class={styles.inputMaxButton}>MAX</button>
-				<div class={dividerClasses.vertical} />
-				<Text
-					variant="small"
-					styleClass="text-gray-400"
-					text={`${maxAmountText}: ${bigNumbertoString(maxAmount)}`}
-				/>
-			</div>
-		{/if}
+			</Tooltip>
+			<div class={dividerClasses.vertical} />
+			<Text
+				variant="small"
+				styleClass="text-gray-400"
+				text={`${maxAmountText}: ${!!maxAmount ? bigNumbertoString(maxAmount) : ''}`}
+			/>
+		</div>
 	</form>
 </InputCard>

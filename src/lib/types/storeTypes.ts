@@ -1,11 +1,14 @@
 import type { BigNumber, providers, Signer } from 'ethers';
 import type { WalletType } from './controllerTypes';
 
+//common types
+export type Address = string;
+
 // wallet provider store
 export type WalletStore = {
 	provider: providers.Provider | undefined;
 	signer: Signer | undefined;
-	address: Lowercase<string>;
+	address: Address;
 };
 
 export type WalletProvider = {
@@ -38,12 +41,12 @@ export type ContractAbi = {
 
 // address store
 export type ContractAddress = {
-	StakeManager: string;
-	RewardDelegators: string;
-	ClusterRegistry: string;
-	ClusterRewards: string;
-	ReceiverStaking: string;
-	EpochSelector: any;
-	Bridge: string;
-	tokens: any;
+	StakeManager: Address;
+	RewardDelegators: Address;
+	ClusterRegistry: Address;
+	ClusterRewards: Address;
+	ReceiverStaking: Address;
+	EpochSelector: Record<string, Address>;
+	Bridge: Address;
+	tokens: Record<string, any>;
 };

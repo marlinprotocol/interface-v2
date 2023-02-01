@@ -1,4 +1,5 @@
 import ENVIRONMENT from '$lib/environments/environment';
+import type { Address } from '$lib/types/storeTypes';
 import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 import {
 	QUERY_TO_GET_MPOND_BALANCE,
@@ -15,7 +16,7 @@ import type { BigNumber } from 'ethers';
  */
 // disabling eslint for this as variables can be query specific
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function subgraphQueryWrapper(query: string, variables: any): RequestInit {
+function subgraphQueryWrapper(query: string, variables: Record<string, any>): RequestInit {
 	const options = {
 		method: 'POST',
 		body: JSON.stringify({
@@ -32,10 +33,10 @@ function subgraphQueryWrapper(query: string, variables: any): RequestInit {
 /**
  * Get POND balance from subgraph API.
  */
-export async function getPondBalance(address: Lowercase<string>): Promise<BigNumber> {
+export async function getPondBalance(address: Address): Promise<BigNumber> {
 	const url = ENVIRONMENT.public_pond_balance_api_url;
 	const query = QUERY_TO_GET_POND_BALANCE_QUERY;
-	const queryVariables = { address: address };
+	const queryVariables = { address: address.toLowerCase() };
 
 	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
 
@@ -53,10 +54,10 @@ export async function getPondBalance(address: Lowercase<string>): Promise<BigNum
 /**
  * Get MPOND balance from subgraph API.
  */
-export async function getMpondBalance(address: Lowercase<string>): Promise<BigNumber> {
+export async function getMpondBalance(address: Address): Promise<BigNumber> {
 	const url = ENVIRONMENT.public_mpond_balance_api_url;
 	const query = QUERY_TO_GET_MPOND_BALANCE;
-	const queryVariables = { id: address };
+	const queryVariables = { id: address.toLowerCase() };
 
 	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
 

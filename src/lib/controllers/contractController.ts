@@ -35,16 +35,16 @@ export async function getContractDetails() {
 	if (!contractDetails.addresses) {
 		throw new Error('Unable to fetch contract addresses');
 	} else {
-		contractAbiStore.set(contractDetails?.ABI);
-		contractAddressStore.set(contractDetails?.addresses);
+		contractAbiStore.set(contractDetails.ABI);
+		contractAddressStore.set(contractDetails.addresses);
 		console.log('contractAbiStore', get(contractAbiStore));
 		console.log('contractAddressStore', get(contractAddressStore));
 	}
 }
 
 export async function getStakingToken() {
-	const recieverStakingContractAddress = contractAddresses?.ReceiverStaking;
-	const recieverStakingContractAbi = contractAbi?.ReceiverStaking;
+	const recieverStakingContractAddress = contractAddresses.ReceiverStaking;
+	const recieverStakingContractAbi = contractAbi.ReceiverStaking;
 	const contract = new ethers.Contract(
 		recieverStakingContractAddress,
 		recieverStakingContractAbi,

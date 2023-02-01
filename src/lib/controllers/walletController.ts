@@ -2,14 +2,13 @@ import { ethers } from 'ethers';
 import { walletStore } from '../data-stores/walletProviderStore';
 import { isValidNetwork, switchToValidNetwork } from '$lib/utils/helpers/networkHelper';
 import { chainStore } from '$lib/data-stores/chainProviderStore';
-import type { WalletType } from '$lib/types/controllerTypes';
-import { WALLET_TYPE_METAMASK, WALLET_TYPE_WALLETCONNECT } from '$lib/utils/constants/constants';
+import { WALLET_TYPE } from '$lib/utils/constants/constants';
 
-export async function connectWallet(walletType: WalletType) {
+export async function connectWallet(walletType: WALLET_TYPE) {
 	let walletProvider;
-	if (walletType === WALLET_TYPE_METAMASK) {
+	if (walletType === WALLET_TYPE.metamask) {
 		walletProvider = await getMetamaskWalletProvider();
-	} else if (walletType === WALLET_TYPE_WALLETCONNECT) {
+	} else if (walletType === WALLET_TYPE.walletconnect) {
 		walletProvider = await getWalletConnectProvider();
 	} else {
 		throw new Error('Invalid wallet type');

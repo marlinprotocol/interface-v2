@@ -1,10 +1,10 @@
 import { writable, type Writable } from 'svelte/store';
 import { DEFAULT_WALLET_BALANCE, DEFAULT_WALLET_STORE } from '../utils/constants/storeDefaults';
-import type { WalletBalance, WalletStore } from '../types/storeTypes';
+import type { Address, WalletBalance, WalletStore } from '../types/storeTypes';
 import { walletStore } from './walletProviderStore';
 import { getMpondBalance, getPondBalance } from '$lib/controllers/subgraphController';
 
-let walletAddress: Lowercase<string> = DEFAULT_WALLET_STORE.address;
+let walletAddress: Address = DEFAULT_WALLET_STORE.address;
 
 // svelte store
 export const walletBalance: Writable<WalletBalance> = writable(DEFAULT_WALLET_BALANCE);

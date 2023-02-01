@@ -1,6 +1,7 @@
-export const WALLET_TYPE_METAMASK = 'Metamask';
-export const WALLET_TYPE_WALLETCONNECT = 'WalletConnect';
-
+export const enum WALLET_TYPE {
+	metamask = 'Metamask',
+	walletconnect = 'WalletConnect'
+}
 export const GET_OPTIONS = {
 	method: 'GET',
 	headers: {

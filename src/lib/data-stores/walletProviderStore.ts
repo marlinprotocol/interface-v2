@@ -2,12 +2,12 @@ import { derived, writable, type Readable, type Writable } from 'svelte/store';
 import { browser } from '$app/environment';
 import type { WalletProvider, WalletStore } from '../types/storeTypes';
 import { DEFAULT_WALLET_STORE } from '../utils/constants/storeDefaults';
-import { WALLET_TYPE_METAMASK, WALLET_TYPE_WALLETCONNECT } from '$lib/utils/constants/constants';
+import { WALLET_TYPE } from '$lib/utils/constants/constants';
 import { connectWallet } from '$lib/controllers/walletController';
 
 export const walletProviders: WalletProvider = [
-	{ id: 1, provider: 'Metamask' },
-	{ id: 2, provider: 'WalletConnect' }
+	{ id: 1, provider: WALLET_TYPE.metamask },
+	{ id: 2, provider: WALLET_TYPE.walletconnect }
 ];
 
 // svelte stores
@@ -31,13 +31,10 @@ export function resetWalletProviderStore(): void {
 export function restoreWalletConnection() {
 	// This stores connection between reloads.
 	if (browser && JSON.parse(sessionStorage.getItem('connected') || 'false')) {
-		if (sessionStorage.getItem('connectType') === WALLET_TYPE_METAMASK) {
-			connectWallet(WALLET_TYPE_METAMASK).catch(console.error);
-			console.log('restoring metamask connection');
-		} else if (sessionStorage.getItem('connectType') === WALLET_TYPE_WALLETCONNECT) {
-			connectWallet(WALLET_TYPE_WALLETCONNECT).catch(console.error);
-			console.log('restoring walletconnect connection');
-		}
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore: we get connectType only when connected is true
+		connectWallet(sessionStorage.getItem('connectType')).catch(console.error);
+		console.log(`restoring ${sessionStorage.getItem('connectType')} connection`);
 	}
 
 	// Order of execution matters, subscription to the connected store before

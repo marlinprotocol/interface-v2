@@ -1,5 +1,5 @@
+import type { WALLET_TYPE } from '$lib/utils/constants/constants';
 import type { BigNumber, providers, Signer } from 'ethers';
-import type { WalletType } from './controllerTypes';
 
 //common types
 export type Address = string;
@@ -13,7 +13,7 @@ export type WalletStore = {
 
 export type WalletProvider = {
 	id: number;
-	provider: WalletType;
+	provider: WALLET_TYPE;
 }[];
 
 // wallet balance store

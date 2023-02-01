@@ -12,12 +12,8 @@
 
 	$: baseClass = `width:${size}px; height:${size}px; cursor:pointer;`;
 	$: style = `${baseClass} ${
-		border
-			? 'border: 1px solid; border-color: primary-content; border-radius: 20px; padding:' +
-			  padding +
-			  'px'
-			: ''
-	} ${styleClass} `;
+		border ? 'border: 1px solid; border-radius: 20px; padding:' + padding + 'px' : ''
+	} ${styleClass}`;
 </script>
 
 <Icon {data} {flip} {spin} {style} />

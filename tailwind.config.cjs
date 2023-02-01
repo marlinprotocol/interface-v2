@@ -38,8 +38,8 @@ module.exports = {
 					'accent-focus': '#2aa79b',
 					'accent-content': '#ffffff',
 					neutral: '#3d4451',
+					'neutral-500': '#737373',
 					'base-100': '#ffffff',
-					// 'base-100': '#e9f2f5',
 					'base-200': '#f3f4fc',
 					'base-300': '#e9f2f5',
 					info: '#66c6ff',
@@ -50,7 +50,7 @@ module.exports = {
 					error: '#e60000',
 					'error-focus': '#b30202',
 					'error-content': '#ffffff',
-					'background-color': '#e9f2f5',
+					'background-color': '#e9f2f5', //e9f2f5
 					//custom designs
 					'.btn': {
 						'text-transform': 'none'

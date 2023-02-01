@@ -48,3 +48,14 @@ export const getTextColorClassByVariant = (variant: CommonVariant | undefined) =
 			return 'text-primary-content';
 	}
 };
+
+export const getImagebyWalletProvider = (walletProvider: string) => {
+	switch (walletProvider?.toLowerCase()) {
+		case 'metamask':
+			return './images/metamaskicon.svg';
+		case 'walletconnect':
+			return './images/walleticon.svg';
+		default:
+			return '';
+	}
+};

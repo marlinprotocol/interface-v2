@@ -3,21 +3,30 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import { connectWallet } from '$lib/controllers/walletController';
 	import { walletOptions } from '$lib/data-stores/walletProviderStore';
+	import { getImagebyWalletProvider } from '$lib/utils/constants/componentConstants';
+	import WalletCard from './WalletCard.svelte';
 
 	const modalFor = 'connect-wallet-modal';
 </script>
 
 <Modal {modalFor}>
-	<svelte:fragment slot="title">Connect Wallet</svelte:fragment>
+	<svelte:fragment slot="header">Unlock Wallet</svelte:fragment>
+	<svelte:fragment slot="title">Select a provider</svelte:fragment>
 	<svelte:fragment slot="action-buttons">
-		<div class="flex justify-evenly gap-2 items-center">
+		<div class="flex justify-evenly gap-8 items-center">
 			{#each walletOptions as walletOption (walletOption.id)}
-				<FilledButton
-					onclick={() => connectWallet(walletOption.provider)}
-					styleClass={'w-full shrink'}
+				<WalletCard
+					imageSrc={getImagebyWalletProvider(walletOption.provider)}
+					title={walletOption.provider}
 				>
-					{walletOption.provider}
-				</FilledButton>
+					<FilledButton
+						slot="button"
+						onclick={() => connectWallet(walletOption.provider)}
+						styleClass={'w-full shrink'}
+					>
+						{walletOption.provider}
+					</FilledButton>
+				</WalletCard>
 			{/each}
 		</div>
 	</svelte:fragment>

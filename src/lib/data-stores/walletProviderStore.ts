@@ -32,7 +32,7 @@ export function restoreWalletConnection() {
 	// This stores connection between reloads.
 	if (browser && JSON.parse(sessionStorage.getItem('connected') || 'false')) {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore: we get connectType only when connected is true
+		// @ts-ignore: connectType is always present when connected is true
 		connectWallet(sessionStorage.getItem('connectType')).catch(console.error);
 		console.log(`restoring ${sessionStorage.getItem('connectType')} connection`);
 	}

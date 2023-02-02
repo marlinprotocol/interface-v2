@@ -51,6 +51,12 @@ module.exports = {
 					'error-focus': '#b30202',
 					'error-content': '#ffffff',
 					'background-color': '#e9f2f5', //e9f2f5
+					'.icon-info': {
+						color: '#6b7280'
+					},
+					'.icon-primary': {
+						color: '#3840c7'
+					},
 					//custom designs
 					'.btn': {
 						'text-transform': 'none'
@@ -84,7 +90,13 @@ module.exports = {
 					'primary-focus': '#012d8f',
 					'primary-content': '#ffffff',
 					'base-100': '#000000',
-					'background-color': '#24252b'
+					'background-color': '#24252b',
+					'.icon-info': {
+						color: '#b5b5b5'
+					},
+					'.icon-primary': {
+						color: '#3840c7'
+					}
 				}
 			}
 		]

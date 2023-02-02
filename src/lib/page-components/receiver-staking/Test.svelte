@@ -8,6 +8,7 @@
 	import { getContractDetails, getStakingToken } from '$lib/controllers/contractController';
 	import ENVIRONMENT from '$lib/environments/environment';
 	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
+	import { getRecieverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
 
 	let wallet: WalletStore;
 	let balance: WalletBalance;
@@ -82,4 +83,10 @@
 	<pre>{JSON.stringify(contractAbiDetails)}</pre>
 	<div>Contract Address Details</div>
 	<pre>{JSON.stringify(contractAddressDetails)}</pre>
+	<button
+		class="btn btn-secondary"
+		on:click={() => getRecieverPondBalanceFromSubgraph(wallet.address)}
+		>Fetch clusters from subgraph</button
+	>
+	<div>Check console for response</div>
 </div>

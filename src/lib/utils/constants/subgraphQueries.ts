@@ -13,3 +13,12 @@ export const QUERY_TO_GET_MPOND_BALANCE = `query MPondBalance($id: String)  {
       amount
     }
   }`;
+
+export const QUERY_TO_GET_RECIEVER_POND_BALANCE = `query ReceiverBalances($id: String) {
+    receiverBalances(where: {
+      id: $id
+    }) { 
+      balance
+      id
+    }
+}`;

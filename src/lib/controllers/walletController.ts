@@ -5,14 +5,7 @@ import { chainStore } from '$lib/data-stores/chainProviderStore';
 import { WALLET_TYPE } from '$lib/utils/constants/constants';
 
 export async function connectWallet(walletType: WALLET_TYPE) {
-	let walletProvider;
-	if (walletType === WALLET_TYPE.metamask) {
-		walletProvider = await getMetamaskWalletProvider();
-	} else if (walletType === WALLET_TYPE.walletconnect) {
-		walletProvider = await getWalletConnectProvider();
-	} else {
-		throw new Error('Invalid wallet type');
-	}
+	const walletProvider = await getWalletProvider(walletType);
 
 	const { chainId, name } = await walletProvider.getNetwork();
 
@@ -45,6 +38,16 @@ export async function connectWallet(walletType: WALLET_TYPE) {
 	} else {
 		console.log('Switching to a valid chain.');
 		switchToValidNetwork();
+	}
+}
+
+async function getWalletProvider(walletType: WALLET_TYPE) {
+	if (walletType === WALLET_TYPE.metamask) {
+		return await getMetamaskWalletProvider();
+	} else if (walletType === WALLET_TYPE.walletconnect) {
+		return await getWalletConnectProvider();
+	} else {
+		throw new Error('Invalid wallet type');
 	}
 }
 

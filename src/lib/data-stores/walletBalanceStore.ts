@@ -24,18 +24,20 @@ walletStore.subscribe((value) => {
  * @param walletAddress: should be a Hex Address i.e. all lowercase
  */
 async function setWalletBalance(walletAddress: WalletStore['address']): Promise<void> {
-	Promise.all([getPondBalance(walletAddress), getMpondBalance(walletAddress)])
-		.then((results) => {
-			walletBalance.set({
-				pond: results[0],
-				mpond: results[1]
-			});
-			console.log('!! Wallet balance updated !!');
-		})
-		.catch((error) => {
-			console.log('error while setting wallet balance');
-			console.log(error);
+	try {
+		const balances = await Promise.all([
+			getPondBalance(walletAddress),
+			getMpondBalance(walletAddress)
+		]);
+		walletBalance.set({
+			pond: balances[0],
+			mpond: balances[1]
 		});
+		console.log('!! Wallet balance updated !!');
+	} catch (error) {
+		console.log('error while setting wallet balance');
+		console.log(error);
+	}
 }
 
 /**

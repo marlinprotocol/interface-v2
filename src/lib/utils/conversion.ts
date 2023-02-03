@@ -1,4 +1,4 @@
-import { ethers, type BigNumber } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 
 /**
  * Returns duration string for a epoch
@@ -69,4 +69,18 @@ export const bigNumberToCommaString = (
  */
 export const bigNumberToString = (value: BigNumber, bigNumberDecimal: number = 18) => {
 	return ethers.utils.formatUnits(value, bigNumberDecimal);
+};
+
+// TODO: test for multiple cases
+//return bignumber from string with decimal
+export const stringToBigNumber = (value: string, bigNumberDecimal: number = 18) => {
+	let [integer, fraction] = value.split('.');
+
+	if (fraction?.length >= bigNumberDecimal) {
+		fraction = fraction?.substring(0, bigNumberDecimal);
+		return BigNumber.from(integer + fraction);
+	}
+
+	fraction = fraction + '0'.repeat(bigNumberDecimal - fraction?.length);
+	return BigNumber.from(integer + fraction);
 };

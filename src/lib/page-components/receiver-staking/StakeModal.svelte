@@ -17,10 +17,11 @@
 
 	//initial amount states
 	let inputAmount: BigNumber;
+	let inputAmountString: string;
 	let approvedAmount: BigNumber;
 
 	//input amount string for input field
-	$: inputAmountString = !!inputAmount ? bigNumberToString(inputAmount) : '';
+	// $: inputAmountString = !!inputAmount ? bigNumberToString(inputAmount) : '';
 
 	//loading states
 	let approveLoading: boolean = false;
@@ -40,7 +41,7 @@
 		// TODO: call approve function
 		approveLoading = true;
 		setTimeout(() => {
-			console.log('approve delayed by 3000ms');
+			console.log('approve delayed by 3000ms', inputAmountString);
 			approvedAmount = inputAmount;
 			approveLoading = false;
 			showApproveSnackbar = true;
@@ -50,6 +51,7 @@
 	const handleMaxClick = () => {
 		if (!!maxPondBalance) {
 			inputAmount = maxPondBalance;
+			inputAmountString = bigNumberToString(maxPondBalance);
 		}
 	};
 
@@ -68,16 +70,12 @@
 	//button states
 	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount or approved amount is less than or equal to input amount, disable approve button
 	$: approveDisabled =
-		!!!inputAmountString ||
-		!!!inputAmount ||
-		!!!maxPondBalance?.gte(inputAmount) ||
-		!!approvedAmount?.gte(inputAmount);
+		!!!inputAmount || !!!maxPondBalance?.gte(inputAmount) || !!approvedAmount?.gte(inputAmount);
 
 	console.log(
 		'approvedAmount approveDisabled :>> ',
 		approveDisabled,
-		bigNumberToString(maxPondBalance),
-		inputAmountString
+		bigNumberToString(maxPondBalance)
 	);
 
 	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount, disable submit button
@@ -104,6 +102,7 @@
 		<ModalPondInput
 			title={'POND'}
 			tooltipText={'Some text here'}
+			bind:inputAmountString
 			bind:inputAmount
 			maxAmount={maxPondBalance}
 			maxAmountText={'Balance'}

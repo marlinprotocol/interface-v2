@@ -7,6 +7,7 @@
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
 	import { DEFAULT_RECEIVER_BALANCE_DATA } from '$lib/utils/constants/storeDefaults';
+	import { bigNumberToString } from '$lib/utils/conversion';
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
@@ -14,6 +15,7 @@
 
 	//initial amount states
 	let inputAmount: BigNumber;
+	let inputAmountString: string;
 
 	// staked pond amount
 	let maxAmount = BigNumber.from(DEFAULT_RECEIVER_BALANCE_DATA);
@@ -28,7 +30,9 @@
 
 	const handleMaxClick = () => {
 		if (!!maxAmount) {
+			console.log('maxAmountmaxAmount :>> ', maxAmount);
 			inputAmount = maxAmount;
+			inputAmountString = bigNumberToString(maxAmount);
 		}
 	};
 	const handleSubmitClick = () => {
@@ -52,6 +56,7 @@
 		<ModalPondInput
 			title={'POND'}
 			tooltipText={'Some text here'}
+			bind:inputAmountString
 			bind:inputAmount
 			{maxAmount}
 			maxAmountText={'Staked'}

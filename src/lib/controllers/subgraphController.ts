@@ -1,9 +1,15 @@
 import ENVIRONMENT from '$lib/environments/environment';
-import type { Address } from '$lib/types/storeTypes';
-import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
+import type { Address, ReceiverStakeBalanceSnapshotData } from '$lib/types/storeTypes';
+import {
+	DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA,
+	DEFAULT_RECEIVER_BALANCE_DATA,
+	DEFAULT_WALLET_BALANCE
+} from '$lib/utils/constants/storeDefaults';
 import {
 	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_POND_BALANCE_QUERY,
+	QUERY_TO_GET_RECEIVER_BALANCE_SNAPSHOT_POND,
+	QUERY_TO_GET_RECEIVER_STAKE_BALANCE_POND,
 	QUERY_TO_GET_RECIEVER_POND_BALANCE
 } from '$lib/utils/constants/subgraphQueries';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
@@ -78,25 +84,79 @@ export async function getMpondBalance(address: Address): Promise<BigNumber> {
 // ----------------------------- smart contract subgraph methods -----------------------------
 
 //TODO: add return types
-export async function getRecieverPondBalanceFromSubgraph(address: Address): Promise<any> {
+export async function getReceiverPondBalanceFromSubgraph(address: Address): Promise<any> {
 	const url = ENVIRONMENT.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_RECIEVER_POND_BALANCE;
 
-	// TODO: remove this hardcoding
-	const queryVariables = { id: '0x5269b4b94dfd01bb0eaba046abfa96ed934a0d82' };
-	// const queryVariables = { id: address.toLowerCase() };
-
+	const queryVariables = { id: address.toLowerCase() };
 	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
 	try {
 		const result = await fetchHttpData(url, options);
 		console.log('subgraph result object', result);
 		console.log('upacked object', result['data']?.receiverBalances);
-		console.log('Reciever Balance: ', result['data']?.receiverBalances[0]?.balance);
+		console.log('Receiver Balance: ', result['data']?.receiverBalances[0]?.balance);
 		if (result['data'] && result['data']?.receiverBalances?.length != 0)
 			return result['data']?.receiverBalances[0]?.balance;
 		else return DEFAULT_WALLET_BALANCE.mpond;
 	} catch (error) {
 		console.log('Error fetching receiver pond balance from subgraph', error);
 		return DEFAULT_WALLET_BALANCE.mpond;
+	}
+}
+
+/**
+ * Returns Staked + Queued Pond for a specific Receiver address
+ * @param address: Address of the receiver in string format
+ * @returns Balance snapshot for the receiver
+ */
+export async function getReceiverStakeBalanceSnapshotFromSubgraph(
+	address: Address
+): Promise<ReceiverStakeBalanceSnapshotData> {
+	const url = ENVIRONMENT.public_contract_subgraph_url;
+	const query = QUERY_TO_GET_RECEIVER_BALANCE_SNAPSHOT_POND;
+
+	const currentEpochCycle = 152; //TODO: get real epoch cycle
+	const queryVariables = { address: address.toLowerCase(), epoch: currentEpochCycle };
+	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
+	try {
+		const result = await fetchHttpData(url, options);
+		const snapshots = result['data']?.receiverBalanceSnapshots;
+
+		console.log('getReceiverStakeBalanceSnapshotFromSubgraph :>>', snapshots);
+		if (!!!snapshots?.length) return DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA;
+
+		return {
+			balance: snapshots[0].balance ?? DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA.balance,
+			epoch: snapshots[0].epoch ?? DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA.epoch
+		};
+	} catch (error) {
+		console.log('Error fetching receiver stake balance snapshot from subgraph', error);
+		return DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA;
+	}
+}
+
+/**
+ * Return Receiver balance for a specific Receiver address
+ * @param address: Address of the receiver in string format
+ * @returns balance bigInt for the receiver
+ */
+export async function getReceiverStakeBalanceFromSubgraph(address: Address): Promise<BigInt> {
+	const url = ENVIRONMENT.public_contract_subgraph_url;
+	const query = QUERY_TO_GET_RECEIVER_STAKE_BALANCE_POND;
+
+	const queryVariables = { id: address.toLowerCase() };
+	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
+	try {
+		const result = await fetchHttpData(url, options);
+		const receiverBalance = result['data']?.receiverBalance;
+
+		console.log('getReceiverStakeBalanceFromSubgraph :>>', receiverBalance);
+
+		if (!!!receiverBalance) return DEFAULT_RECEIVER_BALANCE_DATA;
+
+		return receiverBalance.balance ?? DEFAULT_RECEIVER_BALANCE_DATA;
+	} catch (error) {
+		console.log('Error fetching receiver staked balance from subgraph', error);
+		return DEFAULT_RECEIVER_BALANCE_DATA;
 	}
 }

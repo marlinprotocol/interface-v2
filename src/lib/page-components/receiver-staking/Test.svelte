@@ -1,10 +1,4 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
-	import type { Unsubscriber } from 'svelte/store';
-	import type { ChainStore, WalletBalance, WalletStore } from '$lib/types/storeTypes';
-	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
-	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import {
 		approvePondTokenForReceiverStaking,
 		depositStakingToken,
@@ -12,10 +6,16 @@
 		getStakingToken,
 		withdrawStakingToken
 	} from '$lib/controllers/contractController';
-	import ENVIRONMENT from '$lib/environments/environment';
+	import { getReceiverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
+	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
-	import { getRecieverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
+	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
+	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
+	import ENVIRONMENT from '$lib/environments/environment';
+	import type { ChainStore, WalletBalance, WalletStore } from '$lib/types/storeTypes';
 	import { BigNumber } from 'ethers';
+	import { onDestroy } from 'svelte';
+	import type { Unsubscriber } from 'svelte/store';
 
 	let wallet: WalletStore;
 	let balance: WalletBalance;
@@ -92,7 +92,7 @@
 	<pre>{JSON.stringify(contractAddressDetails)}</pre>
 	<button
 		class="btn btn-secondary"
-		on:click={() => getRecieverPondBalanceFromSubgraph(wallet.address)}
+		on:click={() => getReceiverPondBalanceFromSubgraph(wallet.address)}
 		>Fetch clusters from subgraph</button
 	>
 	<div>Check console for response</div>

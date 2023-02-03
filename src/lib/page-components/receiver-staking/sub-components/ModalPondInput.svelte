@@ -6,12 +6,12 @@
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import type { ModalInputModel } from '$lib/types/componentTypes';
-	import { bigNumbertoNumber, bigNumbertoString } from '$lib/utils/conversion';
+	import { bigNumberToCommaString } from '$lib/utils/conversion';
 
 	//TODO: remove default values
 	export let title: ModalInputModel['title'];
 	export let tooltipText: ModalInputModel['tooltipText'] = '';
-	export let inputAmount: number;
+	export let inputAmount: string;
 	export let maxAmount: ModalInputModel['maxAmount'] | undefined = undefined;
 	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance';
 
@@ -26,11 +26,14 @@
 	};
 
 	const handleMaxClick = () => {
+		inputAmount = '20000.0';
 		if (!!maxAmount) {
-			//TODO: check if input can handle big number 18 decimals
-			inputAmount = bigNumbertoNumber(maxAmount);
+			// TODO: check why its not working
+			// inputAmount = '20000.0';
+			// inputAmount = ethers.utils.formatEther(maxAmount);
 		}
 	};
+	console.log('maxAmount :>> ', maxAmount);
 </script>
 
 <InputCard>
@@ -42,9 +45,9 @@
 	</div>
 	<form>
 		<div class="flex items-center">
+			<!-- TODO: add validation -->
 			<input
 				bind:value={inputAmount}
-				type="number"
 				id="pond"
 				class={`hideInputNumberAppearance ${styles.inputNumber}`}
 				placeholder="0.00"
@@ -62,7 +65,7 @@
 			<Text
 				variant="small"
 				styleClass="text-gray-400"
-				text={`${maxAmountText}: ${!!maxAmount ? bigNumbertoString(maxAmount) : ''}`}
+				text={`${maxAmountText}: ${!!maxAmount ? bigNumberToCommaString(maxAmount, 2) : ''}`}
 			/>
 		</div>
 	</form>

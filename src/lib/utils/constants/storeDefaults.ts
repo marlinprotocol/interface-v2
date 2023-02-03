@@ -1,4 +1,9 @@
-import type { ChainStore, WalletBalance, WalletStore } from '$lib/types/storeTypes';
+import type {
+	ChainStore,
+	ReceiverStakeBalanceSnapshotData,
+	WalletBalance,
+	WalletStore
+} from '$lib/types/storeTypes';
 import { ethers } from 'ethers';
 
 // walletProviderStore
@@ -39,3 +44,12 @@ export const DEFAULT_CONTRACT_ADDRESS_STORE = {
 	Bridge: '',
 	tokens: {}
 };
+
+// default receiver stake queued data
+export const DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA: ReceiverStakeBalanceSnapshotData = {
+	balance: BigInt('0'),
+	epoch: BigInt('0')
+};
+
+// default receiver stake balance data
+export const DEFAULT_RECEIVER_BALANCE_DATA: BigInt = BigInt('0');

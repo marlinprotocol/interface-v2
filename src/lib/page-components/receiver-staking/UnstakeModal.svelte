@@ -2,16 +2,27 @@
 	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import { BigNumber } from 'ethers';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
+	import { DEFAULT_RECEIVER_BALANCE_DATA } from '$lib/utils/constants/storeDefaults';
+	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
+	import { onDestroy } from 'svelte';
+	import { BigNumber } from 'ethers';
 
 	const modalFor = 'unstake-modal';
-	const maxAmount = BigNumber.from('20000000000000000000000');
 
-	let inputPondAmount: number = 0;
-	$: pondDisabledText =
-		!!inputPondAmount && !maxAmount.gte(inputPondAmount) ? 'Insufficient POND' : '';
-	$: submitEnable = !!inputPondAmount && inputPondAmount > 0 && maxAmount.gte(inputPondAmount);
+	// staked pond amount
+	let maxAmount = DEFAULT_RECEIVER_BALANCE_DATA;
+	const unsubscribeReceiverStakedStore = receiverStakingStore.subscribe((value) => {
+		maxAmount = value.balance;
+	});
+	onDestroy(unsubscribeReceiverStakedStore);
+
+	let inputPondAmount: BigInt = BigInt('0');
+	$: inputAmount = inputPondAmount.toString();
+
+	$: pondDisabledText = !!inputPondAmount && maxAmount < inputPondAmount ? 'Insufficient POND' : '';
+	$: submitEnable =
+		!!inputPondAmount && inputPondAmount > BigInt(0) && maxAmount >= inputPondAmount;
 
 	const handleSubmitClick = () => {
 		// TODO: call submit function and reset input value
@@ -30,8 +41,8 @@
 		<ModalPondInput
 			title={'POND'}
 			tooltipText={'Some text here'}
-			bind:inputAmount={inputPondAmount}
-			{maxAmount}
+			bind:inputAmount
+			maxAmount={BigNumber.from(maxAmount)}
 			maxAmountText={'Staked'}
 		/>
 

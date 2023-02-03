@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
+	import type { BigNumber } from 'ethers';
 	import checkCircle from 'svelte-awesome/icons/checkCircle';
 
 	export let disabled = false;
 	export let loading = false;
 	export let handleApproveClick: () => void;
-	export let inputPondAmount: number;
-	export let approvedPond: number;
+	export let inputPondAmount: BigNumber;
+	export let approvedPond: BigNumber;
 
 	$: approved = !!inputPondAmount && approvedPond >= inputPondAmount;
 

@@ -1,8 +1,9 @@
 import { ethers } from 'ethers';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
-import { isValidNetwork, switchToValidNetwork } from '$lib/utils/helpers/networkHelper';
+import { isValidChain, switchChain } from '$lib/utils/helpers/networkHelper';
 import { chainStore } from '$lib/data-stores/chainProviderStore';
 import { WALLET_TYPE } from '$lib/utils/constants/constants';
+import ENVIRONMENT from '$lib/environments/environment';
 
 export async function connectWallet(walletType: WALLET_TYPE) {
 	const walletProvider = await getWalletProvider(walletType);
@@ -13,7 +14,7 @@ export async function connectWallet(walletType: WALLET_TYPE) {
 	chainStore.set({ chainId: chainId, chainName: name });
 
 	// if the chain is valid then connect else switch chain
-	if (isValidNetwork(chainId)) {
+	if (isValidChain(chainId)) {
 		try {
 			await walletProvider.send('eth_requestAccounts', []);
 			sessionStorage.setItem('connectType', walletType);
@@ -37,7 +38,8 @@ export async function connectWallet(walletType: WALLET_TYPE) {
 		console.log('!! Wallet store updated !!');
 	} else {
 		console.log('Switching to a valid chain.');
-		switchToValidNetwork();
+		await switchChain(ENVIRONMENT.public_chain_id);
+		connectWallet(walletType);
 	}
 }
 

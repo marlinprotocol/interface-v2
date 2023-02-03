@@ -1,13 +1,17 @@
 import ENVIRONMENT from '$lib/environments/environment';
 
-export function isValidNetwork(id: number): boolean {
-	return ENVIRONMENT.valid_chain_ids.includes(id);
+/**
+ * Checks if current chain is supported by the app or not
+ * @param chainId
+ * @returns
+ */
+export function isValidChain(chainId: number): boolean {
+	return ENVIRONMENT.valid_chain_ids.includes(chainId);
 }
 
-export async function switchToValidNetwork() {
+export async function switchChain(chainId: string) {
 	await window.ethereum.request({
 		method: 'wallet_switchEthereumChain',
-		params: [{ chainId: ENVIRONMENT.public_network_id }]
+		params: [{ chainId: chainId }]
 	});
-	window.location.reload();
 }

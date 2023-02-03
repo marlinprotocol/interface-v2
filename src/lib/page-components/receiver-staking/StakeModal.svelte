@@ -22,7 +22,7 @@
 	//snackbar states
 	let showApproveSnackbar: boolean = false;
 
-	// max amount in wallet
+	//max amount in wallet
 	let maxPondBalance = DEFAULT_WALLET_BALANCE.pond;
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		maxPondBalance = value.pond;

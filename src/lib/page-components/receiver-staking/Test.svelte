@@ -5,10 +5,16 @@
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
-	import { getContractDetails, getStakingToken } from '$lib/controllers/contractController';
+	import {
+		approvePondTokenForStaking,
+		depositStakingToken,
+		getContractDetails,
+		getStakingToken
+	} from '$lib/controllers/contractController';
 	import ENVIRONMENT from '$lib/environments/environment';
 	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 	import { getRecieverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
+	import { BigNumber } from 'ethers';
 
 	let wallet: WalletStore;
 	let balance: WalletBalance;
@@ -87,6 +93,14 @@
 		class="btn btn-secondary"
 		on:click={() => getRecieverPondBalanceFromSubgraph(wallet.address)}
 		>Fetch clusters from subgraph</button
+	>
+	<div>Check console for response</div>
+	<button class="btn btn-secondary" on:click={() => approvePondTokenForStaking(BigNumber.from(500))}
+		>Approve 50 pond from POND contract</button
+	>
+	<div>Check console for response</div>
+	<button class="btn btn-secondary" on:click={() => depositStakingToken(BigNumber.from(5))}
+		>Deposit 5 POND to reciever staking contract</button
 	>
 	<div>Check console for response</div>
 </div>

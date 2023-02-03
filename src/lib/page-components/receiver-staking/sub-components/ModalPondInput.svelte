@@ -3,17 +3,20 @@
 	import { buttonClasses, dividerClasses } from '$lib/atoms/componentClasses';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import type { ModalInputModel } from '$lib/types/componentTypes';
-	import { bigNumberToCommaString } from '$lib/utils/conversion';
+	import { bigNumberToCommaString, bigNumberToString } from '$lib/utils/conversion';
+	import type { BigNumber } from 'ethers';
 
 	//TODO: remove default values
 	export let title: ModalInputModel['title'];
 	export let tooltipText: ModalInputModel['tooltipText'] = '';
-	export let inputAmount: string;
+	export let inputAmount: BigNumber;
 	export let maxAmount: ModalInputModel['maxAmount'] | undefined = undefined;
 	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance';
+
+	//input amount string for input field
+	$: inputAmountString = !!inputAmount ? bigNumberToString(inputAmount) : '';
 
 	const styles = {
 		wrapper: 'w-full flex flex-col items-center justify-center',
@@ -21,19 +24,8 @@
 		titleIcon: 'flex items-center gap-1',
 		inputNumber:
 			'input input-ghost w-full p-0 fond-bold text-xl focus-within:text-primary focus:outline-none  focus-within:border-b-2 focus:bg-transparent',
-		inputEndButton: `${buttonClasses.text} text-lg text-primary font-medium`,
-		inputMaxButton: `${buttonClasses.text} text-sm font-bold text-primary`
+		inputEndButton: `${buttonClasses.text} text-lg text-primary font-medium`
 	};
-
-	const handleMaxClick = () => {
-		inputAmount = '20000.0';
-		if (!!maxAmount) {
-			// TODO: check why its not working
-			// inputAmount = '20000.0';
-			// inputAmount = ethers.utils.formatEther(maxAmount);
-		}
-	};
-	console.log('maxAmount :>> ', maxAmount);
 </script>
 
 <InputCard>
@@ -57,10 +49,7 @@
 		</div>
 		<Divider />
 		<div class="flex items-center gap-2">
-			<!-- TODO: replace/remove text -->
-			<Tooltip tooltipText="Can add optional text here" tooltipDirection="tooltip-right">
-				<button on:click={handleMaxClick} class={styles.inputMaxButton}>MAX</button>
-			</Tooltip>
+			<slot name="input-max-button" />
 			<div class={dividerClasses.vertical} />
 			<Text
 				variant="small"

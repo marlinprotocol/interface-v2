@@ -60,3 +60,13 @@ export const bigNumberToCommaString = (
 	const fractionTrim = fraction?.length > decimals ? fraction.slice(0, decimals) : fraction;
 	return intStringToCommaString(integer) + '.' + fractionTrim;
 };
+
+/**
+ * Returns string for a big number
+ * @param value: big number
+ * @param bigNumberDecimal: decimal of the big number, default set to 18
+ * @returns string
+ */
+export const bigNumberToString = (value: BigNumber, bigNumberDecimal: number = 18) => {
+	return ethers.utils.formatUnits(value, bigNumberDecimal);
+};

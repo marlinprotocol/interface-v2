@@ -24,16 +24,20 @@ export const receiverStakingStore: Writable<ReceiverStakingData> = writable(defa
 // receiver staked balance, queued data when the user has a valid wallet address
 walletStore.subscribe(async (value) => {
 	walletAddress = value.address;
-	console.log('walletAddress :>> ', walletAddress, DEFAULT_WALLET_STORE.address);
 	if (walletAddress !== DEFAULT_WALLET_STORE.address) {
-		const [balance, balanceSnapshot] = await Promise.all([
-			getReceiverStakeBalanceFromSubgraph(walletAddress),
-			getReceiverStakeBalanceSnapshotFromSubgraph(walletAddress)
-		]);
-		receiverStakingStore.set({
-			balance,
-			balanceSnapshot
-		});
+		try {
+			const [balance, balanceSnapshot] = await Promise.all([
+				getReceiverStakeBalanceFromSubgraph(walletAddress),
+				getReceiverStakeBalanceSnapshotFromSubgraph(walletAddress)
+			]);
+			receiverStakingStore.set({
+				balance,
+				balanceSnapshot
+			});
+		} catch (e) {
+			//TODO: show error message to user
+			console.error(e);
+		}
 	}
 });
 

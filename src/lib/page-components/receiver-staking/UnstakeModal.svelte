@@ -1,32 +1,43 @@
 <script lang="ts">
 	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
+	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
+	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
+	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
 	import { DEFAULT_RECEIVER_BALANCE_DATA } from '$lib/utils/constants/storeDefaults';
-	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
-	import { onDestroy } from 'svelte';
 	import { BigNumber } from 'ethers';
+	import { onDestroy } from 'svelte';
 
 	const modalFor = 'unstake-modal';
 
+	//initial amount states
+	let inputAmount: BigNumber;
+
 	// staked pond amount
-	let maxAmount = DEFAULT_RECEIVER_BALANCE_DATA;
+	let maxAmount = BigNumber.from(DEFAULT_RECEIVER_BALANCE_DATA);
 	const unsubscribeReceiverStakedStore = receiverStakingStore.subscribe((value) => {
-		maxAmount = value.balance;
+		maxAmount = BigNumber.from(value.balance);
 	});
+
 	onDestroy(unsubscribeReceiverStakedStore);
 
-	let inputPondAmount: BigInt = BigInt('0');
-	$: inputAmount = inputPondAmount.toString();
+	$: pondDisabledText = !!inputAmount && maxAmount < inputAmount ? 'Insufficient POND' : '';
+	$: submitEnable = !!inputAmount && maxAmount >= inputAmount;
 
-	$: pondDisabledText = !!inputPondAmount && maxAmount < inputPondAmount ? 'Insufficient POND' : '';
-	$: submitEnable =
-		!!inputPondAmount && inputPondAmount > BigInt(0) && maxAmount >= inputPondAmount;
-
+	const handleMaxClick = () => {
+		if (!!maxAmount) {
+			inputAmount = maxAmount;
+		}
+	};
 	const handleSubmitClick = () => {
 		// TODO: call submit function and reset input value
-		console.log('Submit :>>', inputPondAmount);
+		console.log('Submit :>>', inputAmount);
+	};
+
+	const styles = {
+		inputMaxButton: `${buttonClasses.text} text-sm font-bold text-primary`
 	};
 </script>
 
@@ -42,9 +53,17 @@
 			title={'POND'}
 			tooltipText={'Some text here'}
 			bind:inputAmount
-			maxAmount={BigNumber.from(maxAmount)}
+			{maxAmount}
 			maxAmountText={'Staked'}
-		/>
+		>
+			<Tooltip
+				slot="input-max-button"
+				tooltipText="Can add optional text here"
+				tooltipDirection="tooltip-right"
+			>
+				<button on:click={handleMaxClick} class={styles.inputMaxButton}>MAX</button>
+			</Tooltip>
+		</ModalPondInput>
 
 		{#if !!pondDisabledText}
 			<Text variant="small" styleClass="text-red-500 my-2" text={pondDisabledText} />

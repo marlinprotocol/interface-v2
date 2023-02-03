@@ -1,19 +1,26 @@
 <script lang="ts">
 	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
+	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import SnackBar from '$lib/atoms/snack-bars/SnackBar.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
+	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
-	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
-	import { onDestroy } from 'svelte';
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
+	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
+	import { bigNumberToString } from '$lib/utils/conversion';
+	import type { BigNumber } from 'ethers';
+	import { onDestroy } from 'svelte';
 
 	const modalFor = 'stake-modal';
 
 	//initial amount states
-	let inputPondAmount: number = 0;
-	let approvedPond: number = 0;
+	let inputAmount: BigNumber;
+	let approvedAmount: BigNumber;
+
+	//input amount string for input field
+	$: inputAmountString = !!inputAmount ? bigNumberToString(inputAmount) : '';
 
 	//loading states
 	let approveLoading: boolean = false;
@@ -23,11 +30,9 @@
 	let showApproveSnackbar: boolean = false;
 
 	//max amount in wallet
-	let maxPondBalance = DEFAULT_WALLET_BALANCE.pond;
+	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.pond;
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		maxPondBalance = value.pond;
-		//TODO: remove this
-		// maxPondBalance = BigNumber.from('20000000000000000000000');
 	});
 
 	//TODO: check if can be moved to common util function
@@ -36,10 +41,16 @@
 		approveLoading = true;
 		setTimeout(() => {
 			console.log('approve delayed by 3000ms');
-			approvedPond = inputPondAmount;
+			approvedAmount = inputAmount;
 			approveLoading = false;
 			showApproveSnackbar = true;
 		}, 3000);
+	};
+
+	const handleMaxClick = () => {
+		if (!!maxPondBalance) {
+			inputAmount = maxPondBalance;
+		}
 	};
 
 	const handleSubmitClick = async () => {
@@ -55,16 +66,31 @@
 	onDestroy(unsubscribeWalletBalanceStore);
 
 	//button states
-	//considering max amount is required
+	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount or approved amount is less than or equal to input amount, disable approve button
 	$: approveDisabled =
-		!!maxPondBalance &&
-		(inputPondAmount <= 0 ||
-			!maxPondBalance.gte(inputPondAmount) ||
-			inputPondAmount <= approvedPond);
+		!!!inputAmountString ||
+		!!!inputAmount ||
+		!!!maxPondBalance?.gte(inputAmount) ||
+		!!approvedAmount?.gte(inputAmount);
+
+	console.log(
+		'approvedAmount approveDisabled :>> ',
+		approveDisabled,
+		bigNumberToString(maxPondBalance),
+		inputAmountString
+	);
+
+	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount, disable submit button
 	$: pondDisabledText =
-		!!inputPondAmount && !maxPondBalance.gte(inputPondAmount) ? 'Insufficient POND' : '';
+		!!inputAmount && !!!maxPondBalance?.gte(inputAmount) ? 'Insufficient POND' : '';
+
+	//if input amount, approved amount is greater than input amount, maxPondBalance is greater than or equal to inputAmount, disable submit button
 	$: submitEnable =
-		!!inputPondAmount && inputPondAmount <= approvedPond && maxPondBalance.gte(inputPondAmount);
+		!!inputAmount && approvedAmount?.gte(inputAmount) && maxPondBalance?.gte(inputAmount);
+
+	const styles = {
+		inputMaxButton: `${buttonClasses.text} text-sm font-bold text-primary`
+	};
 </script>
 
 <Modal {modalFor}>
@@ -78,16 +104,23 @@
 		<ModalPondInput
 			title={'POND'}
 			tooltipText={'Some text here'}
-			bind:inputAmount={inputPondAmount}
+			bind:inputAmount
 			maxAmount={maxPondBalance}
 			maxAmountText={'Balance'}
 		>
+			<Tooltip
+				slot="input-max-button"
+				tooltipText="Can add optional text here"
+				tooltipDirection="tooltip-right"
+			>
+				<button on:click={handleMaxClick} class={styles.inputMaxButton}>MAX</button>
+			</Tooltip>
 			<ModalApproveButton
 				slot="input-end-button"
 				disabled={approveDisabled}
 				loading={approveLoading}
-				bind:inputPondAmount
-				bind:approvedPond
+				bind:inputAmount
+				bind:approvedAmount
 				{handleApproveClick}
 			/>
 		</ModalPondInput>

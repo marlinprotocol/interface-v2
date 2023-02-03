@@ -7,10 +7,11 @@
 	export let disabled = false;
 	export let loading = false;
 	export let handleApproveClick: () => void;
-	export let inputPondAmount: BigNumber;
-	export let approvedPond: BigNumber;
+	export let inputAmount: BigNumber;
+	export let approvedAmount: BigNumber;
 
-	$: approved = !!inputPondAmount && approvedPond >= inputPondAmount;
+	//if input amount, approved amount is greater than input amount, disable submit button
+	$: approved = !!inputAmount && approvedAmount?.gte(inputAmount);
 
 	$: styleClass = `${buttonClasses.text} text-lg font-medium ${
 		disabled ? 'btn-disabled' + (approved ? ' text-primary' : '') : 'text-primary'

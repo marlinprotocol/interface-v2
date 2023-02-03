@@ -68,13 +68,42 @@ export async function depositStakingToken(amount: BigNumber) {
 		signer
 	);
 	try {
+		// TODO: add toasts for transaction status
+		// create the transaction
 		const Tx = await recieverStakingContract.deposit(amount);
+		// wait for the transaction to be mined
 		const approveReciept = await Tx.wait();
+		// transaction was mined
 		if (!approveReciept) {
 			throw new Error('Unable to deposit staking token');
 		}
 	} catch (error) {
 		console.log('Error while depositing staking token');
+		console.log(error);
+	}
+}
+
+export async function withdrawStakingToken(amount: BigNumber) {
+	const recieverStakingContractAddress = contractAddresses.ReceiverStaking;
+	const recieverStakingContractAbi = contractAbi.ReceiverStaking;
+	const recieverStakingContract = new ethers.Contract(
+		recieverStakingContractAddress,
+		recieverStakingContractAbi,
+		signer
+	);
+	try {
+		// TODO: add toasts for transaction status
+		// create the transaction
+		const tx = await recieverStakingContract.withdraw(amount);
+		// wait for the transaction to be mined
+		const approveReciept = await tx.wait();
+		if (!approveReciept) {
+			throw new Error('Unable to withdraw staking token');
+		}
+		// transaction was mined
+		return tx;
+	} catch (error) {
+		console.log('Error while withdrawing staking token');
 		console.log(error);
 	}
 }
@@ -87,11 +116,15 @@ export async function approvePondTokenForStaking(amount: BigNumber) {
 	const ERC20ContractAbi = contractAbi.ERC20;
 	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);
 	try {
+		// TODO: add toasts for transaction status
+		// create the transaction
 		const tx = await pondTokenContract.approve(recieverStakingContractAddress, amount);
+		// wait for the transaction to be mined
 		const approveReciept = await tx.wait();
 		if (!approveReciept) {
 			throw new Error('Unable to approve staking token');
 		}
+		// transaction was mined
 		return tx;
 	} catch (error) {
 		console.log('Error while approving staking token');

@@ -9,7 +9,8 @@
 		approvePondTokenForStaking,
 		depositStakingToken,
 		getContractDetails,
-		getStakingToken
+		getStakingToken,
+		withdrawStakingToken
 	} from '$lib/controllers/contractController';
 	import ENVIRONMENT from '$lib/environments/environment';
 	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
@@ -101,6 +102,10 @@
 	<div>Check console for response</div>
 	<button class="btn btn-secondary" on:click={() => depositStakingToken(BigNumber.from(5))}
 		>Deposit 5 POND to reciever staking contract</button
+	>
+	<div>Check console for response</div>
+	<button class="btn btn-secondary" on:click={() => withdrawStakingToken(BigNumber.from(5))}
+		>Withdraw 5 POND from reciever staking contract</button
 	>
 	<div>Check console for response</div>
 </div>

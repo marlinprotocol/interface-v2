@@ -5,12 +5,16 @@
 	import SnackBar from '$lib/atoms/snack-bars/SnackBar.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
+	import {
+		approvePondTokenForReceiverStaking,
+		depositStakingToken
+	} from '$lib/controllers/contractController';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
-	import { bigNumberToString } from '$lib/utils/conversion';
-	import type { BigNumber } from 'ethers';
+	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
+	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
 	const modalFor = 'stake-modal';
@@ -20,14 +24,14 @@
 	let inputAmountString: string;
 	let approvedAmount: BigNumber;
 
-	//input amount string for input field
-	// $: inputAmountString = !!inputAmount ? bigNumberToString(inputAmount) : '';
+	$: inputAmount = stringToBigNumber(inputAmountString);
 
 	//loading states
 	let approveLoading: boolean = false;
 	let submitLoading: boolean = false;
 
 	//snackbar states
+	//TODO: change snackbars to toast and use a store
 	let showApproveSnackbar: boolean = false;
 
 	//max amount in wallet
@@ -36,33 +40,44 @@
 		maxPondBalance = value.pond;
 	});
 
-	//TODO: check if can be moved to common util function
 	const handleApproveClick = async () => {
-		// TODO: call approve function
 		approveLoading = true;
-		setTimeout(() => {
-			console.log('approve delayed by 3000ms', inputAmountString);
+		try {
+			await approvePondTokenForReceiverStaking(inputAmount);
+			//TODO: update approved amount amd remove below
 			approvedAmount = inputAmount;
-			approveLoading = false;
 			showApproveSnackbar = true;
-		}, 3000);
+		} catch (e) {
+			console.log('error approving', e);
+		} finally {
+			approveLoading = false;
+		}
 	};
 
 	const handleMaxClick = () => {
 		if (!!maxPondBalance) {
-			inputAmount = maxPondBalance;
 			inputAmountString = bigNumberToString(maxPondBalance);
 		}
 	};
 
 	const handleSubmitClick = async () => {
-		// TODO: call submit function and reset input, approved value
+		// TODO: close modal after submit
 		submitLoading = true;
-		setTimeout(() => {
-			console.log('confirm delayed by 500 ms');
-			submitLoading = false;
+		try {
+			await depositStakingToken(inputAmount);
+			resetInputs();
 			showApproveSnackbar = true;
-		}, 500);
+		} catch (e) {
+			console.log('error submitting', e);
+		} finally {
+			submitLoading = false;
+		}
+	};
+
+	//reset input and approved amount
+	const resetInputs = () => {
+		inputAmountString = '';
+		approvedAmount = BigNumber.from(0);
 	};
 
 	onDestroy(unsubscribeWalletBalanceStore);
@@ -71,12 +86,6 @@
 	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount or approved amount is less than or equal to input amount, disable approve button
 	$: approveDisabled =
 		!!!inputAmount || !!!maxPondBalance?.gte(inputAmount) || !!approvedAmount?.gte(inputAmount);
-
-	console.log(
-		'approvedAmount approveDisabled :>> ',
-		approveDisabled,
-		bigNumberToString(maxPondBalance)
-	);
 
 	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount, disable submit button
 	$: pondDisabledText =
@@ -103,7 +112,6 @@
 			title={'POND'}
 			tooltipText={'Some text here'}
 			bind:inputAmountString
-			bind:inputAmount
 			maxAmount={maxPondBalance}
 			maxAmountText={'Balance'}
 		>

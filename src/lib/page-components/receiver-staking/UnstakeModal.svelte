@@ -4,10 +4,11 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
+	import { withdrawStakingToken } from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
 	import { DEFAULT_RECEIVER_BALANCE_DATA } from '$lib/utils/constants/storeDefaults';
-	import { bigNumberToString } from '$lib/utils/conversion';
+	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
@@ -17,6 +18,11 @@
 	let inputAmount: BigNumber;
 	let inputAmountString: string;
 
+	$: inputAmount = stringToBigNumber(inputAmountString);
+
+	//loading states
+	let submitLoading: boolean = false;
+
 	// staked pond amount
 	let maxAmount = BigNumber.from(DEFAULT_RECEIVER_BALANCE_DATA);
 	const unsubscribeReceiverStakedStore = receiverStakingStore.subscribe((value) => {
@@ -25,19 +31,30 @@
 
 	onDestroy(unsubscribeReceiverStakedStore);
 
-	$: pondDisabledText = !!inputAmount && maxAmount < inputAmount ? 'Insufficient POND' : '';
-	$: submitEnable = !!inputAmount && maxAmount >= inputAmount;
+	$: pondDisabledText = !!inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient POND' : '';
+	$: submitEnable = !!inputAmount && maxAmount?.gte(inputAmount);
 
 	const handleMaxClick = () => {
 		if (!!maxAmount) {
-			console.log('maxAmountmaxAmount :>> ', maxAmount);
-			inputAmount = maxAmount;
 			inputAmountString = bigNumberToString(maxAmount);
 		}
 	};
-	const handleSubmitClick = () => {
-		// TODO: call submit function and reset input value
-		console.log('Submit :>>', inputAmount);
+	const handleSubmitClick = async () => {
+		// TODO: close modal after submit and add success message
+		submitLoading = true;
+		try {
+			await withdrawStakingToken(inputAmount);
+			resetInputs();
+		} catch (e) {
+			console.log('error submitting', e);
+		} finally {
+			submitLoading = false;
+		}
+	};
+
+	//reset input
+	const resetInputs = () => {
+		inputAmountString = '';
 	};
 
 	const styles = {
@@ -57,7 +74,6 @@
 			title={'POND'}
 			tooltipText={'Some text here'}
 			bind:inputAmountString
-			bind:inputAmount
 			{maxAmount}
 			maxAmountText={'Staked'}
 		>
@@ -75,8 +91,11 @@
 		{/if}
 	</svelte:fragment>
 	<svelte:fragment slot="action-buttons">
-		<FilledButton disabled={!submitEnable} onclick={handleSubmitClick} styleClass={'btn-block mt-4'}
-			>WITHDRAW STAKE</FilledButton
+		<FilledButton
+			disabled={!submitEnable}
+			loading={submitLoading}
+			onclick={handleSubmitClick}
+			styleClass={'btn-block mt-4'}>WITHDRAW STAKE</FilledButton
 		>
 	</svelte:fragment>
 </Modal>

@@ -68,19 +68,19 @@ export const bigNumberToCommaString = (
  * @returns string
  */
 export const bigNumberToString = (value: BigNumber, bigNumberDecimal: number = 18) => {
+	if (!!!value) return '0';
 	return ethers.utils.formatUnits(value, bigNumberDecimal);
 };
 
-// TODO: test for multiple cases
 //return bignumber from string with decimal
 export const stringToBigNumber = (value: string, bigNumberDecimal: number = 18) => {
+	if (!!!value) return BigNumber.from(0);
+	let newValue = value;
 	let [integer, fraction] = value.split('.');
 
-	if (fraction?.length >= bigNumberDecimal) {
-		fraction = fraction?.substring(0, bigNumberDecimal);
-		return BigNumber.from(integer + fraction);
+	if (!!fraction && fraction.length > bigNumberDecimal) {
+		fraction = fraction.slice(0, bigNumberDecimal);
+		newValue = integer + '.' + fraction;
 	}
-
-	fraction = fraction + '0'.repeat(bigNumberDecimal - fraction?.length);
-	return BigNumber.from(integer + fraction);
+	return ethers.utils.parseUnits(newValue, bigNumberDecimal);
 };

@@ -138,9 +138,9 @@ export async function getReceiverStakeBalanceSnapshotFromSubgraph(
 /**
  * Return Receiver balance for a specific Receiver address
  * @param address: Address of the receiver in string format
- * @returns balance bigInt for the receiver
+ * @returns balance BigNumber for the receiver
  */
-export async function getReceiverStakeBalanceFromSubgraph(address: Address): Promise<BigInt> {
+export async function getReceiverStakeBalanceFromSubgraph(address: Address): Promise<BigNumber> {
 	const url = ENVIRONMENT.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_RECEIVER_STAKE_BALANCE_POND;
 

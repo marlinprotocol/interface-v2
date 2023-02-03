@@ -1,8 +1,9 @@
 <script lang="ts">
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import { intStringToCommaString } from '$lib/utils/conversion';
+	import { bigNumberToCommaString, intStringToCommaString } from '$lib/utils/conversion';
+	import type { BigNumber } from 'ethers';
 
-	export let data: { title: string; value: BigInt };
+	export let data: { title: string; value: BigNumber };
 	const styles = {
 		itemCard: 'w-full',
 		dataRow: 'flex items-center justify-between',
@@ -19,7 +20,7 @@
 		<Text
 			variant="h5"
 			styleClass="text-primary font-medium text-right"
-			text={`${intStringToCommaString(data.value?.toString())} POND`}
+			text={`${bigNumberToCommaString(data.value, 2)} POND`}
 		/>
 	</div>
 </div>

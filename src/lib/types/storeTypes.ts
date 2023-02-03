@@ -52,12 +52,12 @@ export type ContractAddress = {
 };
 
 export type ReceiverStakingData = {
-	balance: BigInt;
+	balance: BigNumber;
 	balanceSnapshot: ReceiverStakeBalanceSnapshotData;
 };
 
 // receiver stake data in queue
 export type ReceiverStakeBalanceSnapshotData = {
-	balance: BigInt;
+	balance: BigNumber;
 	epoch: BigInt;
 };

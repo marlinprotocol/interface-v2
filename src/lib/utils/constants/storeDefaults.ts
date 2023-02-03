@@ -4,7 +4,7 @@ import type {
 	WalletBalance,
 	WalletStore
 } from '$lib/types/storeTypes';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 
 // walletProviderStore
 export const DEFAULT_WALLET_STORE: WalletStore = {
@@ -47,9 +47,9 @@ export const DEFAULT_CONTRACT_ADDRESS_STORE = {
 
 // default receiver stake queued data
 export const DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA: ReceiverStakeBalanceSnapshotData = {
-	balance: BigInt('0'),
+	balance: BigNumber.from(0),
 	epoch: BigInt('0')
 };
 
 // default receiver stake balance data
-export const DEFAULT_RECEIVER_BALANCE_DATA: BigInt = BigInt('0');
+export const DEFAULT_RECEIVER_BALANCE_DATA: BigNumber = BigNumber.from(0);

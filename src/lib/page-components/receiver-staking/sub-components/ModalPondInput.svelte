@@ -5,20 +5,14 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import type { ModalInputModel } from '$lib/types/componentTypes';
-	import { bigNumberToCommaString, stringToBigNumber } from '$lib/utils/conversion';
-	import { BigNumber } from 'ethers';
-	// import type{ BigNumber } from 'ethers';
+	import { bigNumberToCommaString } from '$lib/utils/conversion';
 
 	//TODO: remove default values
 	export let title: ModalInputModel['title'];
 	export let tooltipText: ModalInputModel['tooltipText'] = '';
 	export let inputAmountString: string;
-	export let inputAmount: BigNumber;
 	export let maxAmount: ModalInputModel['maxAmount'] | undefined = undefined;
 	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance';
-
-	//input amount string to Input bigNumber input field
-	$: inputAmount = !!inputAmountString ? stringToBigNumber(inputAmountString) : BigNumber.from(0);
 
 	const styles = {
 		wrapper: 'w-full flex flex-col items-center justify-center',
@@ -28,8 +22,6 @@
 			'input input-ghost w-full p-0 fond-bold text-xl focus-within:text-primary focus:outline-none  focus-within:border-b-2 focus:bg-transparent',
 		inputEndButton: `${buttonClasses.text} text-lg text-primary font-medium`
 	};
-
-	// console.log('BigNumber test :>> ', BigNumber.from('400.900987'));
 </script>
 
 <InputCard>

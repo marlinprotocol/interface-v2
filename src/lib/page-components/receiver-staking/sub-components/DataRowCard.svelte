@@ -1,9 +1,8 @@
 <script lang="ts">
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import type { ReceiverStakedDataModel } from '$lib/types/receiverStakingTypes';
-	import { bigNumbertoString } from '$lib/utils/conversion';
+	import { intStringToCommaString } from '$lib/utils/conversion';
 
-	export let data: ReceiverStakedDataModel;
+	export let data: { title: string; value: BigInt };
 	const styles = {
 		itemCard: 'w-full',
 		dataRow: 'flex items-center justify-between',
@@ -19,8 +18,8 @@
 		</div>
 		<Text
 			variant="h5"
-			styleClass="text-primary font-medium"
-			text={`${bigNumbertoString(data.value)} POND`}
+			styleClass="text-primary font-medium text-right"
+			text={`${intStringToCommaString(data.value?.toString())} POND`}
 		/>
 	</div>
 </div>

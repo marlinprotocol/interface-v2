@@ -50,3 +50,14 @@ export type ContractAddress = {
 	Bridge: Address;
 	tokens: Record<string, any>;
 };
+
+export type ReceiverStakingData = {
+	balance: BigInt;
+	balanceSnapshot: ReceiverStakeBalanceSnapshotData;
+};
+
+// receiver stake data in queue
+export type ReceiverStakeBalanceSnapshotData = {
+	balance: BigInt;
+	epoch: BigInt;
+};

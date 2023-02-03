@@ -6,7 +6,7 @@
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import {
-		approvePondTokenForStaking,
+		approvePondTokenForReceiverStaking,
 		depositStakingToken,
 		getContractDetails,
 		getStakingToken,
@@ -96,7 +96,9 @@
 		>Fetch clusters from subgraph</button
 	>
 	<div>Check console for response</div>
-	<button class="btn btn-secondary" on:click={() => approvePondTokenForStaking(BigNumber.from(500))}
+	<button
+		class="btn btn-secondary"
+		on:click={() => approvePondTokenForReceiverStaking(BigNumber.from(500))}
 		>Approve 50 pond from POND contract</button
 	>
 	<div>Check console for response</div>

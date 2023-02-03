@@ -110,7 +110,7 @@ export async function withdrawStakingToken(amount: BigNumber) {
 
 // ----------------------------- POND contract methods -----------------------------
 
-export async function approvePondTokenForStaking(amount: BigNumber) {
+export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
 	const recieverStakingContractAddress = contractAddresses.ReceiverStaking;
 	const pondTokenContractAddress = contractAddresses.tokens['POND'].address;
 	const ERC20ContractAbi = contractAbi.ERC20;

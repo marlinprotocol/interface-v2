@@ -7,7 +7,7 @@
 	export let flip: 'horizontal' | 'vertical' | undefined = undefined;
 	export let spin: boolean = false;
 	export let border: boolean = false;
-	export let iconColor: string = 'icon-info';
+	export let iconColorClass: string = 'icon-info';
 
 	export let styleClass: string = '';
 
@@ -17,4 +17,4 @@
 	} ${styleClass}`;
 </script>
 
-<Icon {data} {flip} {spin} {style} class={iconColor} />
+<Icon {data} {flip} {spin} {style} class={iconColorClass} />

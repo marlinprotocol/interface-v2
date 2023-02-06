@@ -9,6 +9,7 @@
 	import { getReceiverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
+	import { addToast } from '$lib/data-stores/toastStore';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import ENVIRONMENT from '$lib/environments/environment';
@@ -55,6 +56,34 @@
 	async function makeContractCall() {
 		console.log('fething staking token from contract');
 		stakingToken = await getStakingToken();
+	}
+
+	function onClickHandlerForToastError() {
+		console.log('creating an error toast 🥪 ...');
+		addToast({
+			message: 'Hello, World!',
+			variant: 'error',
+			dismissible: true,
+			timeout: 3000
+		});
+	}
+	function onClickHandlerForToastInfo() {
+		console.log('creating an info toast 🥪 ...');
+		addToast({
+			message: 'Hello, World!, Again',
+			variant: 'info',
+			dismissible: true,
+			timeout: 3000
+		});
+	}
+	function onClickHandlerForToastSuccess() {
+		console.log('creating success toast 🥪 ...');
+		addToast({
+			message: 'Hello, World!, Again',
+			variant: 'success',
+			dismissible: false,
+			timeout: 3000
+		});
 	}
 
 	onDestroy(unsubscribeWalletProviderStore);
@@ -110,4 +139,13 @@
 		>Withdraw 5 POND from reciever staking contract</button
 	>
 	<div>Check console for response</div>
+	<button class="btn btn-secondary" on:click={() => onClickHandlerForToastError()}
+		>Add a new snackbar</button
+	>
+	<button class="btn btn-secondary" on:click={() => onClickHandlerForToastInfo()}
+		>Add a new snackbar</button
+	>
+	<button class="btn btn-secondary" on:click={() => onClickHandlerForToastSuccess()}
+		>Add a new snackbar</button
+	>
 </div>

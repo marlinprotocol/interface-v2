@@ -2,7 +2,6 @@
 	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
-	import SnackBar from '$lib/atoms/snack-bars/SnackBar.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import {
@@ -144,10 +143,3 @@
 		>
 	</svelte:fragment>
 </Modal>
-<SnackBar
-	bind:show={showApproveSnackbar}
-	text={'POND approved'}
-	alertVariant="alert-success"
-	duration={3000}
-	variant="success"
-/>

@@ -5,5 +5,5 @@
 
 <div class="py-10">
 	<StakeDashboard />
-	<!-- <Test /> -->
+	<Test />
 </div>

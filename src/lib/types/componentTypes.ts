@@ -44,3 +44,22 @@ export type AlertModel = {
 	duration?: number;
 	icon?: CommonVariant;
 };
+
+export type Toast = {
+	id?: number;
+	message: string;
+	dismissible: boolean;
+	timeout: number;
+	variant: CommonVariant;
+};
+
+export type ToastModel = {
+	iconColor: string;
+	message: string;
+	className: string;
+	dismissible: boolean;
+	iconData: any;
+	id: string;
+	timeout: number;
+	variant: CommonVariant;
+};

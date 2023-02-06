@@ -42,7 +42,7 @@ module.exports = {
 					'base-100': '#ffffff',
 					'base-200': '#f3f4fc',
 					'base-300': '#e9f2f5',
-					info: '#66c6ff',
+					info: '#e0a82e',
 					success: '#28bf92',
 					warning: '#fcca00',
 					grey: '#7e7e80',
@@ -91,6 +91,9 @@ module.exports = {
 					'primary-content': '#ffffff',
 					'base-100': '#000000',
 					'background-color': '#24252b',
+					info: '#e0a82e',
+					success: '#28bf92',
+					error: '#e60000',
 					'.icon-info': {
 						color: '#b5b5b5'
 					},

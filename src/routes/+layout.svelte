@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Toast from '$lib/atoms/toast/Toast.svelte';
 	import { getContractDetails } from '$lib/controllers/contractController';
 	import { restoreWalletConnection } from '$lib/data-stores/walletProviderStore';
 	import ENVIRONMENT from '$lib/environments/environment';
@@ -26,6 +27,7 @@
 </svelte:head>
 
 <main class="text-center w-full font-poppins">
+	<Toast />
 	<Header />
 	<slot />
 </main>

@@ -1,8 +1,10 @@
 import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
+import { addToast } from '$lib/data-stores/toastStore';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
 import ENVIRONMENT from '$lib/environments/environment';
 import type { ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
 import { GET_OPTIONS } from '$lib/utils/constants/constants';
+import { bigNumberToCommaString } from '$lib/utils/conversion';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
 import { BigNumber, ethers } from 'ethers';
 import { get } from 'svelte/store';
@@ -68,16 +70,47 @@ export async function depositStakingToken(amount: BigNumber) {
 		signer
 	);
 	try {
-		// TODO: add toasts for transaction status
-		// create the transaction
+		addToast({
+			message: `Depositing ${bigNumberToCommaString(amount, 2)} POND.`,
+			variant: 'info',
+			dismissible: true,
+			timeout: 3000
+		});
 		const Tx = await recieverStakingContract.deposit(amount);
-		// wait for the transaction to be mined
+
+		addToast({
+			message: 'Transaction created, waiting for it to be mined.',
+			variant: 'info',
+			dismissible: true,
+			timeout: 3000
+		});
 		const approveReciept = await Tx.wait();
-		// transaction was mined
+
 		if (!approveReciept) {
+			addToast({
+				message: 'Uh-Oh, Transaction was not successful!',
+				variant: 'error',
+				dismissible: true,
+				timeout: 3000
+			});
 			throw new Error('Unable to deposit staking token');
 		}
+		addToast({
+			message: `Transaction successfully mined!. Deposited ${bigNumberToCommaString(
+				amount,
+				2
+			)} POND.`,
+			variant: 'success',
+			dismissible: true,
+			timeout: 3000
+		});
 	} catch (error) {
+		addToast({
+			message: 'Uh-Oh, Transaction was not successful!',
+			variant: 'error',
+			dismissible: true,
+			timeout: 3000
+		});
 		console.log('Error while depositing staking token');
 		console.log(error);
 	}
@@ -92,17 +125,48 @@ export async function withdrawStakingToken(amount: BigNumber) {
 		signer
 	);
 	try {
-		// TODO: add toasts for transaction status
-		// create the transaction
+		addToast({
+			message: `Withdrawing ${bigNumberToCommaString(amount, 2)} POND.`,
+			variant: 'info',
+			dismissible: true,
+			timeout: 3000
+		});
 		const tx = await recieverStakingContract.withdraw(amount);
-		// wait for the transaction to be mined
+
+		addToast({
+			message: 'Transaction created, waiting for it to be mined.',
+			variant: 'info',
+			dismissible: true,
+			timeout: 3000
+		});
 		const approveReciept = await tx.wait();
+
 		if (!approveReciept) {
+			addToast({
+				message: 'Uh-Oh, Transaction was not successful!',
+				variant: 'error',
+				dismissible: true,
+				timeout: 3000
+			});
 			throw new Error('Unable to withdraw staking token');
 		}
-		// transaction was mined
+		addToast({
+			message: `Transaction successfully mined! Withdrew ${bigNumberToCommaString(
+				amount,
+				2
+			)} POND.`,
+			variant: 'success',
+			dismissible: true,
+			timeout: 3000
+		});
 		return tx;
 	} catch (error) {
+		addToast({
+			message: 'Uh-Oh, Transaction was not successful!',
+			variant: 'error',
+			dismissible: true,
+			timeout: 3000
+		});
 		console.log('Error while withdrawing staking token');
 		console.log(error);
 	}
@@ -116,17 +180,48 @@ export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
 	const ERC20ContractAbi = contractAbi.ERC20;
 	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);
 	try {
-		// TODO: add toasts for transaction status
-		// create the transaction
+		addToast({
+			message: `Approving ${bigNumberToCommaString(amount, 2)} POND.`,
+			variant: 'info',
+			dismissible: true,
+			timeout: 3000
+		});
 		const tx = await pondTokenContract.approve(recieverStakingContractAddress, amount);
-		// wait for the transaction to be mined
+
+		addToast({
+			message: 'Transaction created, waiting for it to be mined.',
+			variant: 'info',
+			dismissible: true,
+			timeout: 3000
+		});
 		const approveReciept = await tx.wait();
+
 		if (!approveReciept) {
+			addToast({
+				message: 'Uh-Oh, Transaction was not successful!',
+				variant: 'error',
+				dismissible: true,
+				timeout: 3000
+			});
 			throw new Error('Unable to approve staking token');
 		}
-		// transaction was mined
+		addToast({
+			message: `Transaction successfully mined! Approved ${bigNumberToCommaString(
+				amount,
+				2
+			)} POND.`,
+			variant: 'success',
+			dismissible: true,
+			timeout: 3000
+		});
 		return tx;
 	} catch (error) {
+		addToast({
+			message: 'Uh-Oh, Transaction was not successful!',
+			variant: 'error',
+			dismissible: true,
+			timeout: 3000
+		});
 		console.log('Error while approving staking token');
 		console.log(error);
 	}

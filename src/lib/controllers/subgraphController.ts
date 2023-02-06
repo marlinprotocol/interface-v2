@@ -146,11 +146,12 @@ export async function getReceiverStakingDataFromSubgraph(
 			};
 		}
 		//update approved POND balance
+		// TODO: remove this once the subgraph is updated
 		if (!!pondUser) {
 			stakeData = {
 				...stakeData,
 				approvedBalance:
-					BigNumber.from(pondUser.balance) ?? DEFAULT_RECEIVER_STAKING_DATA.approvedBalance
+					BigNumber.from('2000000000000000000') ?? DEFAULT_RECEIVER_STAKING_DATA.approvedBalance
 			};
 		}
 
@@ -165,7 +166,7 @@ export async function getReceiverStakingDataFromSubgraph(
  * Get start time and epoch length from subgraph API.
  */
 export async function getCurrentEpoch(): Promise<EpochStore> {
-	const url = ENVIRONMENT.public_pond_subgraph_url;
+	const url = ENVIRONMENT.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_EPOCH_START_TIME_AND_LENGTH_QUERY;
 
 	const queryVariables = { first: 2 };
@@ -174,16 +175,28 @@ export async function getCurrentEpoch(): Promise<EpochStore> {
 
 	try {
 		const result = await fetchHttpData(url, options);
-		console.log('resultresult :>> ', result);
-		// TODO: fix this
-		// const params = result['data']?.params;
+		const params = result['data']?.params;
 
-		// if (!params?.length || params?.length !== 2) return DEFAULT_EPOCH_CYCLE;
+		if (!params?.length || params?.length !== 2) return DEFAULT_EPOCH_STORE;
 
-		// const [startTime, epochLength] = params;
-		// const timeNow = new Date().getTime();
-		// console.log('startTime, epochLength :>> ', startTime, epochLength, timeNow);
-		return DEFAULT_EPOCH_STORE;
+		const startTimeMap = params.find((param: any) => param.id === 'START_TIME');
+		const epochLengthMap = params.find((param: any) => param.id === 'EPOCH_LENGTH');
+
+		if (!!!startTimeMap?.value || !!!epochLengthMap?.value) return DEFAULT_EPOCH_STORE;
+
+		const epochStartTime = parseInt(startTimeMap.value);
+		const epochLength = parseInt(epochLengthMap.value);
+
+		if (epochLength === 0) return DEFAULT_EPOCH_STORE;
+
+		const currentEpoch = new Date().getTime() / 1000;
+		const epochCycle = Math.floor((currentEpoch - epochStartTime) / epochLength) + 1;
+
+		return {
+			epochStartTime,
+			epochLength,
+			epochCycle
+		};
 	} catch (error) {
 		console.log('Error fetching current epoch', error);
 		return DEFAULT_EPOCH_STORE;

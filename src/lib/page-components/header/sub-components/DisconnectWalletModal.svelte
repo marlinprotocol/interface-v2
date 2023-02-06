@@ -7,12 +7,21 @@
 	import externalLink from 'svelte-awesome/icons/externalLink';
 	import { resetWalletProviderStore, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
+	import { buttonClasses } from '$lib/atoms/componentClasses';
+	import { addToast } from '$lib/data-stores/toastStore';
 
 	const modalFor = 'disconnect-wallet-modal';
-	const actionButtonStyles =
-		'flex text-sm cursor-pointer items-center font-medium gap-2 rounded-md bg-base-200 px-4 py-2';
-
 	$: blockChainExplorerLink = `https://arbiscan.io/address/${$walletStore.address}`;
+
+	const onCopyAddress = () => {
+		copyTextToClipboard($walletStore.address);
+		addToast({
+			message: `Address copied to clipboard`,
+			variant: 'success',
+			dismissible: true,
+			timeout: 3000
+		});
+	};
 </script>
 
 <Modal {modalFor}>
@@ -26,18 +35,13 @@
 			<div class="font-semibold text-xl mt-1">{$walletStore.address}</div>
 		</div>
 		<div class="flex gap-4">
-			<!-- TOD0: add toast for confirmation message -->
-			<div
-				class={actionButtonStyles}
-				on:keypress={() => copyTextToClipboard($walletStore.address)}
-				on:click={() => copyTextToClipboard($walletStore.address)}
-			>
+			<div class={buttonClasses.greyFilled} on:keypress={onCopyAddress} on:click={onCopyAddress}>
 				<Icon data={copy} />
 				Copy Address
 			</div>
 			<!-- TODO: make link and text dynamic based on chain -->
 			<a href={blockChainExplorerLink} target="_blank" rel="noopener noreferrer"
-				><div class={actionButtonStyles}>
+				><div class={buttonClasses.greyFilled}>
 					<Icon data={externalLink} />
 					View on Arbiscan
 				</div></a

@@ -15,7 +15,8 @@
 	$: description = `Add some description over here!!!`;
 	$: subtitle = `Queued POND will be staked`;
 
-	$: inQueue = !!queued?.balance;
+	//if queued balance is greater than 0 then inQueue is true
+	$: inQueue = queued?.balance.gt(0);
 
 	const styles = {
 		title: 'py-2 px-3 bg-gray-200 rounded',

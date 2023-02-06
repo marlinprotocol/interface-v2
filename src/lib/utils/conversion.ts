@@ -57,8 +57,10 @@ export const bigNumberToCommaString = (
 ) => {
 	let result = ethers.utils.formatUnits(value, bigNumberDecimal);
 	let [integer, fraction] = result.split('.');
-	const fractionTrim = fraction?.length > decimals ? fraction.slice(0, decimals) : fraction;
-	return intStringToCommaString(integer) + '.' + fractionTrim;
+	const integerPart = intStringToCommaString(integer);
+
+	if (!!!fraction || fraction === '0') return integerPart;
+	return integerPart + '.' + (fraction?.length > decimals ? fraction.slice(0, decimals) : fraction);
 };
 
 /**

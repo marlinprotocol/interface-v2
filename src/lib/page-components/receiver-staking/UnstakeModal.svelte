@@ -32,7 +32,7 @@
 	onDestroy(unsubscribeReceiverStakedStore);
 
 	$: pondDisabledText = !!inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient POND' : '';
-	$: submitEnable = !!inputAmount && maxAmount?.gte(inputAmount);
+	$: submitEnable = !!inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
 
 	const handleMaxClick = () => {
 		if (!!maxAmount) {
@@ -40,7 +40,7 @@
 		}
 	};
 	const handleSubmitClick = async () => {
-		// TODO: close modal after submit and add success message
+		// TODO: close modal after submit
 		submitLoading = true;
 		try {
 			await withdrawStakingToken(inputAmount);

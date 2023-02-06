@@ -58,9 +58,7 @@ export const QUERY_TO_GET_RECEIVER_STAKING_DATA = `query ReceiverStakingData($ad
  * @returns id EPOCH_LENGTH, START_TIME and value
  */
 export const QUERY_TO_GET_EPOCH_START_TIME_AND_LENGTH_QUERY = `query Params($first: Int) {
-  params(
-    first: $first,
-  ) {
+  params (first: $first) {
     id
     value
   }

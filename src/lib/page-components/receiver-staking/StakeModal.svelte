@@ -30,10 +30,6 @@
 	let approveLoading: boolean = false;
 	let submitLoading: boolean = false;
 
-	//snackbar states
-	//TODO: change snackbars to toast and use a store
-	let showApproveSnackbar: boolean = false;
-
 	//max amount in wallet
 	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.pond;
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
@@ -48,7 +44,6 @@
 		approveLoading = true;
 		try {
 			await approvePondTokenForReceiverStaking(inputAmount);
-			showApproveSnackbar = true;
 		} catch (e) {
 			console.log('error approving', e);
 		} finally {
@@ -68,7 +63,6 @@
 		try {
 			await depositStakingToken(inputAmount);
 			resetInputs();
-			showApproveSnackbar = true;
 		} catch (e) {
 			console.log('error submitting', e);
 		} finally {

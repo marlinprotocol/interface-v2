@@ -2,7 +2,7 @@
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 
 	const styles = {
-		dropdownContent: 'dropdown-content menu shadow rounded rounded-box w-72 bg-base-100'
+		dropdownContent: 'dropdown-content menu shadow rounded rounded-box w-64 bg-base-100'
 	};
 </script>
 

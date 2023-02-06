@@ -24,29 +24,44 @@ export const QUERY_TO_GET_RECIEVER_POND_BALANCE = `query ReceiverBalances($id: S
 }`;
 
 /**
- * Return queued Data for a specific Receiver address
+ * Return balance, balance snapshots for a specific Receiver address
  * @queryVariables address: Address of the receiver in string format
  * @queryVariables epoch: Epoch cycle for which the data is required
- * @returns balance, epoch for the receiver address
+ * @returns receiverBalanceSnapshots, receiverBalance, pondUser
  */
-export const QUERY_TO_GET_RECEIVER_BALANCE_SNAPSHOT_POND = `query ReceiverBalanceSnapshots($id: String) {
-  receiverBalanceSnapshots(where: {
-    address: $address,
-    epoch: $epoch
-  }) { 
+export const QUERY_TO_GET_RECEIVER_STAKING_DATA = `query ReceiverStakingData($address: String, $epoch:String) {
+  receiverBalanceSnapshots(
+    where: {
+      address: $address,
+      epoch: $epoch
+    },
+    first: 1, 
+    orderBy: epoch, 
+    orderDirection: desc
+  ) { 
     balance
     epoch
+  }
+  receiverBalance(id: $address) { 
+    balance
+    id
+  }
+  pondUser(
+    id: $address,
+  ) {
+    balance
   }
 }`;
 
 /**
- * Return queued Data for a specific Receiver address
- * @queryVariables id: Address of the receiver in string format
- * @returns balance in bigInt format
+ * Return start time and epoch length from subgraph API
+ * @returns id EPOCH_LENGTH, START_TIME and value
  */
-export const QUERY_TO_GET_RECEIVER_STAKE_BALANCE_POND = `query ReceiverBalance($id: String) {
-  receiverBalance(id: $id) { 
-    balance
+export const QUERY_TO_GET_EPOCH_START_TIME_AND_LENGTH_QUERY = `query Params($first: Int) {
+  params(
+    first: $first,
+  ) {
     id
+    value
   }
 }`;

@@ -52,12 +52,16 @@ export type ContractAddress = {
 };
 
 export type ReceiverStakingData = {
-	balance: BigNumber;
-	balanceSnapshot: ReceiverStakeBalanceSnapshotData;
+	approvedBalance: BigNumber;
+	stakedBalance: BigNumber;
+	queued: {
+		epoch: EpochStore['epochCycle'];
+		balance: BigNumber;
+	};
 };
 
-// receiver stake data in queue
-export type ReceiverStakeBalanceSnapshotData = {
-	balance: BigNumber;
-	epoch: BigNumber;
+export type EpochStore = {
+	epochCycle: number;
+	epochLength: number;
+	epochStartTime: number;
 };

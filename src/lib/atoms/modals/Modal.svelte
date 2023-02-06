@@ -13,7 +13,7 @@
 <input type="checkbox" id={modalFor} class="modal-toggle" />
 <div class="modal">
 	<!-- TODO: check for relay modal size and match -->
-	<div class="modal-box w-11/12 sm:w-3/4 md:w-1/2 sm:max-w-[500px] rounded p-4 bg-base-100">
+	<div class="modal-box w-11/12 sm:w-3/4 sm:max-w-[565px] rounded-md p-4 bg-base-100">
 		<div class={styles.header}>
 			<slot name="header" />
 		</div>

@@ -8,12 +8,13 @@
 		approvePondTokenForReceiverStaking,
 		depositStakingToken
 	} from '$lib/controllers/contractController';
+	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
-	import { BigNumber } from 'ethers';
+	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
 	const modalFor = 'stake-modal';
@@ -38,13 +39,15 @@
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		maxPondBalance = value.pond;
 	});
+	//approve balance
+	const unsubscribeReceiverStakingStore = receiverStakingStore.subscribe((value) => {
+		approvedAmount = value.approvedBalance;
+	});
 
 	const handleApproveClick = async () => {
 		approveLoading = true;
 		try {
 			await approvePondTokenForReceiverStaking(inputAmount);
-			//TODO: update approved amount amd remove below
-			approvedAmount = inputAmount;
 			showApproveSnackbar = true;
 		} catch (e) {
 			console.log('error approving', e);
@@ -76,10 +79,10 @@
 	//reset input and approved amount
 	const resetInputs = () => {
 		inputAmountString = '';
-		approvedAmount = BigNumber.from(0);
 	};
 
 	onDestroy(unsubscribeWalletBalanceStore);
+	onDestroy(unsubscribeReceiverStakingStore);
 
 	//button states
 	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount or approved amount is less than or equal to input amount, disable approve button

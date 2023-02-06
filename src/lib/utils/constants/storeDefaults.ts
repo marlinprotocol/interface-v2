@@ -2,7 +2,8 @@ import type {
 	ChainStore,
 	ContractAbi,
 	ContractAddress,
-	ReceiverStakeBalanceSnapshotData,
+	EpochStore,
+	ReceiverStakingData,
 	WalletBalance,
 	WalletStore
 } from '$lib/types/storeTypes';
@@ -47,11 +48,19 @@ export const DEFAULT_CONTRACT_ADDRESS_STORE: ContractAddress = {
 	tokens: {}
 };
 
-// default receiver stake queued data
-export const DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA: ReceiverStakeBalanceSnapshotData = {
-	balance: BigNumber.from(0),
-	epoch: BigNumber.from(0)
+// receiver staked, queued data store
+export const DEFAULT_RECEIVER_STAKING_DATA: ReceiverStakingData = {
+	approvedBalance: BigNumber.from(0),
+	stakedBalance: BigNumber.from(0),
+	queued: {
+		epoch: 0,
+		balance: BigNumber.from(0)
+	}
 };
 
-// default receiver stake balance data
-export const DEFAULT_RECEIVER_BALANCE_DATA: BigNumber = BigNumber.from(0);
+// default epoch data
+export const DEFAULT_EPOCH_STORE: EpochStore = {
+	epochCycle: 171,
+	epochStartTime: 1673222400,
+	epochLength: 14400
+};

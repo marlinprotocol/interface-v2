@@ -1,15 +1,15 @@
 import ENVIRONMENT from '$lib/environments/environment';
-import type { Address, ReceiverStakeBalanceSnapshotData } from '$lib/types/storeTypes';
+import type { Address, EpochStore, ReceiverStakingData } from '$lib/types/storeTypes';
 import {
-	DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA,
-	DEFAULT_RECEIVER_BALANCE_DATA,
+	DEFAULT_EPOCH_STORE,
+	DEFAULT_RECEIVER_STAKING_DATA,
 	DEFAULT_WALLET_BALANCE
 } from '$lib/utils/constants/storeDefaults';
 import {
+	QUERY_TO_GET_EPOCH_START_TIME_AND_LENGTH_QUERY,
 	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_POND_BALANCE_QUERY,
-	QUERY_TO_GET_RECEIVER_BALANCE_SNAPSHOT_POND,
-	QUERY_TO_GET_RECEIVER_STAKE_BALANCE_POND,
+	QUERY_TO_GET_RECEIVER_STAKING_DATA,
 	QUERY_TO_GET_RECIEVER_POND_BALANCE
 } from '$lib/utils/constants/subgraphQueries';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
@@ -80,9 +80,7 @@ export async function getMpondBalance(address: Address): Promise<BigNumber> {
 		return DEFAULT_WALLET_BALANCE.mpond;
 	}
 }
-
 // ----------------------------- smart contract subgraph methods -----------------------------
-
 //TODO: add return types
 export async function getReceiverPondBalanceFromSubgraph(address: Address): Promise<any> {
 	const url = ENVIRONMENT.public_contract_subgraph_url;
@@ -105,59 +103,89 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 }
 
 /**
- * Returns Staked + Queued Pond for a specific Receiver address
+ * Returns Staked, Queued Pond for a specific Receiver address
  * @param address: Address of the receiver in string format
- * @returns Balance snapshot for the receiver
+ * @param epoch: Epoch number
  */
-export async function getReceiverStakeBalanceSnapshotFromSubgraph(
-	address: Address
-): Promise<ReceiverStakeBalanceSnapshotData> {
+export async function getReceiverStakingDataFromSubgraph(
+	address: Address,
+	epoch: EpochStore['epochCycle']
+): Promise<ReceiverStakingData> {
 	const url = ENVIRONMENT.public_contract_subgraph_url;
-	const query = QUERY_TO_GET_RECEIVER_BALANCE_SNAPSHOT_POND;
+	const query = QUERY_TO_GET_RECEIVER_STAKING_DATA;
 
-	const currentEpochCycle = 152; //TODO: get real epoch cycle
-	const queryVariables = { address: address.toLowerCase(), epoch: currentEpochCycle };
+	const queryVariables = { address: address.toLowerCase(), epoch: epoch.toString() };
 	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
 	try {
 		const result = await fetchHttpData(url, options);
-		const snapshots = result['data']?.receiverBalanceSnapshots;
+		const balance = result['data']?.receiverBalance?.balance;
+		const balanceSnapshots = result['data']?.receiverBalanceSnapshots;
+		const pondUser = result['data']?.pondUser;
 
-		console.log('getReceiverStakeBalanceSnapshotFromSubgraph :>>', snapshots);
-		if (!snapshots?.length) return DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA;
+		let stakeData: ReceiverStakingData = DEFAULT_RECEIVER_STAKING_DATA;
 
-		return {
-			balance:
-				BigNumber.from(snapshots[0].balance) ?? DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA.balance,
-			epoch: BigNumber.from(snapshots[0].epoch) ?? DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA.epoch
-		};
+		//update in queue balance
+		if (!!balanceSnapshots?.length) {
+			const balanceSnapshot = balanceSnapshots[0];
+			stakeData = {
+				...stakeData,
+				queued: {
+					balance:
+						BigNumber.from(balanceSnapshot.balance) ?? DEFAULT_RECEIVER_STAKING_DATA.queued.balance,
+					epoch: parseInt(balanceSnapshot.epoch) ?? DEFAULT_RECEIVER_STAKING_DATA.queued.epoch
+				}
+			};
+		}
+		//update staked balance
+		if (!!balance) {
+			//staked amount is the difference of balance and balance snapshot
+			const stakedAmount = BigNumber.from(balance).sub(stakeData.queued.balance);
+			stakeData = {
+				...stakeData,
+				stakedBalance: stakedAmount ?? DEFAULT_RECEIVER_STAKING_DATA.stakedBalance
+			};
+		}
+		//update approved POND balance
+		if (!!pondUser) {
+			stakeData = {
+				...stakeData,
+				approvedBalance:
+					BigNumber.from(pondUser.balance) ?? DEFAULT_RECEIVER_STAKING_DATA.approvedBalance
+			};
+		}
+
+		return stakeData;
 	} catch (error) {
-		console.log('Error fetching receiver stake balance snapshot from subgraph', error);
-		return DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA;
+		console.log('Error fetching receiver staked, in queue data from subgraph', error);
+		return DEFAULT_RECEIVER_STAKING_DATA;
 	}
 }
 
 /**
- * Return Receiver balance for a specific Receiver address
- * @param address: Address of the receiver in string format
- * @returns balance BigNumber for the receiver
+ * Get start time and epoch length from subgraph API.
  */
-export async function getReceiverStakeBalanceFromSubgraph(address: Address): Promise<BigNumber> {
-	const url = ENVIRONMENT.public_contract_subgraph_url;
-	const query = QUERY_TO_GET_RECEIVER_STAKE_BALANCE_POND;
+export async function getCurrentEpoch(): Promise<EpochStore> {
+	const url = ENVIRONMENT.public_pond_subgraph_url;
+	const query = QUERY_TO_GET_EPOCH_START_TIME_AND_LENGTH_QUERY;
 
-	const queryVariables = { id: address.toLowerCase() };
+	const queryVariables = { first: 2 };
+
 	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
+
 	try {
 		const result = await fetchHttpData(url, options);
-		const receiverBalance = result['data']?.receiverBalance;
+		console.log('resultresult :>> ', result);
+		// TODO: fix this
+		// const params = result['data']?.params;
 
-		console.log('getReceiverStakeBalanceFromSubgraph :>>', receiverBalance);
+		// if (!params?.length || params?.length !== 2) return DEFAULT_EPOCH_CYCLE;
 
-		if (!receiverBalance) return DEFAULT_RECEIVER_BALANCE_DATA;
-
-		return receiverBalance.balance ?? DEFAULT_RECEIVER_BALANCE_DATA;
+		// const [startTime, epochLength] = params;
+		// const timeNow = new Date().getTime();
+		// console.log('startTime, epochLength :>> ', startTime, epochLength, timeNow);
+		return DEFAULT_EPOCH_STORE;
 	} catch (error) {
-		console.log('Error fetching receiver staked balance from subgraph', error);
-		return DEFAULT_RECEIVER_BALANCE_DATA;
+		console.log('Error fetching current epoch', error);
+		return DEFAULT_EPOCH_STORE;
 	}
 }

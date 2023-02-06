@@ -7,7 +7,7 @@
 	import { withdrawStakingToken } from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
-	import { DEFAULT_RECEIVER_BALANCE_DATA } from '$lib/utils/constants/storeDefaults';
+	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
@@ -24,9 +24,9 @@
 	let submitLoading: boolean = false;
 
 	// staked pond amount
-	let maxAmount = BigNumber.from(DEFAULT_RECEIVER_BALANCE_DATA);
+	let maxAmount = BigNumber.from(DEFAULT_RECEIVER_STAKING_DATA.stakedBalance);
 	const unsubscribeReceiverStakedStore = receiverStakingStore.subscribe((value) => {
-		maxAmount = BigNumber.from(value.balance);
+		maxAmount = BigNumber.from(value.stakedBalance);
 	});
 
 	onDestroy(unsubscribeReceiverStakedStore);

@@ -1,22 +1,16 @@
-import {
-	getReceiverStakeBalanceFromSubgraph,
-	getReceiverStakeBalanceSnapshotFromSubgraph
-} from '$lib/controllers/subgraphController';
+import { getReceiverStakingDataFromSubgraph } from '$lib/controllers/subgraphController';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
 import type { Address, ReceiverStakingData } from '$lib/types/storeTypes';
 import {
-	DEFAULT_RECEIVER_BALANCE_DATA,
-	DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA,
+	DEFAULT_RECEIVER_STAKING_DATA,
 	DEFAULT_WALLET_STORE
 } from '$lib/utils/constants/storeDefaults';
 import { writable, type Writable } from 'svelte/store';
+import { epochStore } from './epochStore';
 
 let walletAddress: Address = DEFAULT_WALLET_STORE.address;
 
-const defaultValue = {
-	balance: DEFAULT_RECEIVER_BALANCE_DATA,
-	balanceSnapshot: DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA
-};
+const defaultValue = DEFAULT_RECEIVER_STAKING_DATA;
 // receiver staked data store
 export const receiverStakingStore: Writable<ReceiverStakingData> = writable(defaultValue);
 
@@ -26,13 +20,12 @@ walletStore.subscribe(async (value) => {
 	walletAddress = value.address;
 	if (walletAddress !== DEFAULT_WALLET_STORE.address) {
 		try {
-			const [balance, balanceSnapshot] = await Promise.all([
-				getReceiverStakeBalanceFromSubgraph(walletAddress),
-				getReceiverStakeBalanceSnapshotFromSubgraph(walletAddress)
-			]);
-			receiverStakingStore.set({
-				balance,
-				balanceSnapshot
+			epochStore.subscribe(async (epoch) => {
+				const data: ReceiverStakingData = await getReceiverStakingDataFromSubgraph(
+					walletAddress,
+					epoch.epochCycle
+				);
+				receiverStakingStore.set(data);
 			});
 		} catch (e) {
 			//TODO: show error message to user

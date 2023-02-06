@@ -3,22 +3,29 @@
 	import PopOver from '$lib/atoms/pop-over/PopOver.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
-	import type { ReceiverStakeBalanceSnapshotData } from '$lib/types/storeTypes';
+	import type { EpochStore, ReceiverStakingData } from '$lib/types/storeTypes';
+	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import question from 'svelte-awesome/icons/question';
 
 	export let iconWidth = 15;
-	export let balanceSnapshot: ReceiverStakeBalanceSnapshotData;
+	export let queued: ReceiverStakingData['queued'];
+	export let epochData: EpochStore;
 
-	$: title = `${balanceSnapshot?.balance} in queue`;
-	$: description = `2 line long description here here!!!`;
+	$: title = `${bigNumberToCommaString(queued?.balance, 2)} POND in queue`;
+	$: description = `Add some description over here!!!`;
 	$: subtitle = `Queued POND will be staked`;
 
-	$: inQueue = !!balanceSnapshot?.balance;
+	$: inQueue = !!queued?.balance;
 
 	const styles = {
 		title: 'py-2 px-3 bg-gray-200 rounded',
 		subtitle: 'py-2 px-3 text-left'
 	};
+
+	const { epochStartTime, epochLength, epochCycle } = epochData;
+
+	//end epoch time is the time when next epoch cycle will start
+	$: endEpochTime = epochStartTime + epochLength * epochCycle;
 </script>
 
 <PopOver>
@@ -30,7 +37,7 @@
 		<div class={styles.subtitle}>
 			<Text variant="small" text={description} />
 			{#if inQueue}
-				<Timer endEpochTime={1677003171} initialText={subtitle} textVariant="small" />
+				<Timer {endEpochTime} initialText={subtitle} textVariant="small" />
 			{/if}
 		</div>
 	</svelte:fragment>

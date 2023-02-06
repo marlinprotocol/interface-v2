@@ -1,5 +1,7 @@
 import type {
 	ChainStore,
+	ContractAbi,
+	ContractAddress,
 	ReceiverStakeBalanceSnapshotData,
 	WalletBalance,
 	WalletStore
@@ -23,7 +25,7 @@ export const DEFAULT_WALLET_BALANCE: WalletBalance = {
 export const DEFAULT_CHAIN_STORE: ChainStore = { chainId: null, chainName: '' };
 
 // contractAbiStore
-export const DEFAULT_CONTRACT_ABI_STORE = {
+export const DEFAULT_CONTRACT_ABI_STORE: ContractAbi = {
 	ERC20: [],
 	ClusterRegistry: [],
 	StakeManager: [],
@@ -34,7 +36,7 @@ export const DEFAULT_CONTRACT_ABI_STORE = {
 };
 
 // addressStore
-export const DEFAULT_CONTRACT_ADDRESS_STORE = {
+export const DEFAULT_CONTRACT_ADDRESS_STORE: ContractAddress = {
 	StakeManager: '',
 	RewardDelegators: '',
 	ClusterRegistry: '',
@@ -48,7 +50,7 @@ export const DEFAULT_CONTRACT_ADDRESS_STORE = {
 // default receiver stake queued data
 export const DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA: ReceiverStakeBalanceSnapshotData = {
 	balance: BigNumber.from(0),
-	epoch: BigInt('0')
+	epoch: BigNumber.from(0)
 };
 
 // default receiver stake balance data

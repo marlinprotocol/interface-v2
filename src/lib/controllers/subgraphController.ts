@@ -123,11 +123,12 @@ export async function getReceiverStakeBalanceSnapshotFromSubgraph(
 		const snapshots = result['data']?.receiverBalanceSnapshots;
 
 		console.log('getReceiverStakeBalanceSnapshotFromSubgraph :>>', snapshots);
-		if (!!!snapshots?.length) return DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA;
+		if (!snapshots?.length) return DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA;
 
 		return {
-			balance: snapshots[0].balance ?? DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA.balance,
-			epoch: snapshots[0].epoch ?? DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA.epoch
+			balance:
+				BigNumber.from(snapshots[0].balance) ?? DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA.balance,
+			epoch: BigNumber.from(snapshots[0].epoch) ?? DEFAULT_RECEIVER_BALANCE_SNAPSHOT_DATA.epoch
 		};
 	} catch (error) {
 		console.log('Error fetching receiver stake balance snapshot from subgraph', error);
@@ -152,7 +153,7 @@ export async function getReceiverStakeBalanceFromSubgraph(address: Address): Pro
 
 		console.log('getReceiverStakeBalanceFromSubgraph :>>', receiverBalance);
 
-		if (!!!receiverBalance) return DEFAULT_RECEIVER_BALANCE_DATA;
+		if (!receiverBalance) return DEFAULT_RECEIVER_BALANCE_DATA;
 
 		return receiverBalance.balance ?? DEFAULT_RECEIVER_BALANCE_DATA;
 	} catch (error) {

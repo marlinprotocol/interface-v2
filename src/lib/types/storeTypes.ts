@@ -59,5 +59,5 @@ export type ReceiverStakingData = {
 // receiver stake data in queue
 export type ReceiverStakeBalanceSnapshotData = {
 	balance: BigNumber;
-	epoch: BigInt;
+	epoch: BigNumber;
 };

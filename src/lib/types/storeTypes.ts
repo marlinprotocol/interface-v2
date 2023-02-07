@@ -54,10 +54,7 @@ export type ContractAddress = {
 export type ReceiverStakingData = {
 	approvedBalance: BigNumber;
 	stakedBalance: BigNumber;
-	queued: {
-		epoch: EpochStore['epochCycle'];
-		balance: BigNumber;
-	};
+	queuedBalance: BigNumber;
 };
 
 export type EpochStore = {

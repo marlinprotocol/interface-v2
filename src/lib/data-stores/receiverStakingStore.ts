@@ -7,6 +7,7 @@ import {
 } from '$lib/utils/constants/storeDefaults';
 import { writable, type Writable } from 'svelte/store';
 import { epochStore } from './epochStore';
+import { addToast } from './toastStore';
 
 let walletAddress: Address = DEFAULT_WALLET_STORE.address;
 
@@ -28,7 +29,10 @@ walletStore.subscribe(async (value) => {
 				receiverStakingStore.set(data);
 			});
 		} catch (e) {
-			//TODO: show error message to user
+			addToast({
+				message: 'Error fetching receiver staking data',
+				variant: 'error'
+			});
 			console.error(e);
 		}
 	}

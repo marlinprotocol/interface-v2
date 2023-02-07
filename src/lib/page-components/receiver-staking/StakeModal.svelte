@@ -12,6 +12,7 @@
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
+	import type { ReceiverStakingData, WalletBalance } from '$lib/types/storeTypes';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
@@ -35,6 +36,7 @@
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		maxPondBalance = value.pond;
 	});
+
 	//approve balance
 	const unsubscribeReceiverStakingStore = receiverStakingStore.subscribe((value) => {
 		approvedAmount = value.approvedBalance;
@@ -42,8 +44,15 @@
 
 	const handleApproveClick = async () => {
 		approveLoading = true;
+
 		try {
 			await approvePondTokenForReceiverStaking(inputAmount);
+			receiverStakingStore.update((value: ReceiverStakingData) => {
+				return {
+					...value,
+					approvedBalance: inputAmount
+				};
+			});
 		} catch (e) {
 			console.log('error approving', e);
 		} finally {
@@ -58,10 +67,26 @@
 	};
 
 	const handleSubmitClick = async () => {
-		// TODO: close modal after submit
+		// TODO: check if we need to close modal after submit
 		submitLoading = true;
 		try {
 			await depositStakingToken(inputAmount);
+
+			// update wallet balance locally
+			walletBalance.update((value: WalletBalance) => {
+				return {
+					...value,
+					pond: value.pond.sub(inputAmount)
+				};
+			});
+
+			// update queued balance locally
+			receiverStakingStore.update((value: ReceiverStakingData) => {
+				return {
+					...value,
+					queuedBalance: value.queuedBalance.add(inputAmount)
+				};
+			});
 			resetInputs();
 		} catch (e) {
 			console.log('error submitting', e);

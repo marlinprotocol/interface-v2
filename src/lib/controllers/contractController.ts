@@ -72,26 +72,20 @@ export async function depositStakingToken(amount: BigNumber) {
 	try {
 		addToast({
 			message: `Depositing ${bigNumberToCommaString(amount, 2)} POND.`,
-			variant: 'info',
-			dismissible: true,
-			timeout: 3000
+			variant: 'info'
 		});
 		const Tx = await recieverStakingContract.deposit(amount);
 
 		addToast({
 			message: 'Transaction created, waiting for it to be mined.',
-			variant: 'info',
-			dismissible: true,
-			timeout: 3000
+			variant: 'info'
 		});
 		const approveReciept = await Tx.wait();
 
 		if (!approveReciept) {
 			addToast({
 				message: 'Uh-Oh, Transaction was not successful!',
-				variant: 'error',
-				dismissible: true,
-				timeout: 3000
+				variant: 'error'
 			});
 			throw new Error('Unable to deposit staking token');
 		}
@@ -100,19 +94,15 @@ export async function depositStakingToken(amount: BigNumber) {
 				amount,
 				2
 			)} POND.`,
-			variant: 'success',
-			dismissible: true,
-			timeout: 3000
+			variant: 'success'
 		});
-	} catch (error) {
+	} catch (error: any) {
 		addToast({
 			message: 'Uh-Oh, Transaction was not successful!',
-			variant: 'error',
-			dismissible: true,
-			timeout: 3000
+			variant: 'error'
 		});
-		console.log('Error while depositing staking token');
-		console.log(error);
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while depositing staking token');
 	}
 }
 
@@ -127,26 +117,20 @@ export async function withdrawStakingToken(amount: BigNumber) {
 	try {
 		addToast({
 			message: `Withdrawing ${bigNumberToCommaString(amount, 2)} POND.`,
-			variant: 'info',
-			dismissible: true,
-			timeout: 3000
+			variant: 'info'
 		});
 		const tx = await recieverStakingContract.withdraw(amount);
 
 		addToast({
 			message: 'Transaction created, waiting for it to be mined.',
-			variant: 'info',
-			dismissible: true,
-			timeout: 3000
+			variant: 'info'
 		});
 		const approveReciept = await tx.wait();
 
 		if (!approveReciept) {
 			addToast({
 				message: 'Uh-Oh, Transaction was not successful!',
-				variant: 'error',
-				dismissible: true,
-				timeout: 3000
+				variant: 'error'
 			});
 			throw new Error('Unable to withdraw staking token');
 		}
@@ -155,20 +139,16 @@ export async function withdrawStakingToken(amount: BigNumber) {
 				amount,
 				2
 			)} POND.`,
-			variant: 'success',
-			dismissible: true,
-			timeout: 3000
+			variant: 'success'
 		});
 		return tx;
-	} catch (error) {
+	} catch (error: any) {
 		addToast({
 			message: 'Uh-Oh, Transaction was not successful!',
-			variant: 'error',
-			dismissible: true,
-			timeout: 3000
+			variant: 'error'
 		});
-		console.log('Error while withdrawing staking token');
-		console.log(error);
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while withdrawing staking token');
 	}
 }
 
@@ -182,26 +162,20 @@ export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
 	try {
 		addToast({
 			message: `Approving ${bigNumberToCommaString(amount, 2)} POND.`,
-			variant: 'info',
-			dismissible: true,
-			timeout: 3000
+			variant: 'info'
 		});
 		const tx = await pondTokenContract.approve(recieverStakingContractAddress, amount);
 
 		addToast({
 			message: 'Transaction created, waiting for it to be mined.',
-			variant: 'info',
-			dismissible: true,
-			timeout: 3000
+			variant: 'info'
 		});
 		const approveReciept = await tx.wait();
 
 		if (!approveReciept) {
 			addToast({
 				message: 'Uh-Oh, Transaction was not successful!',
-				variant: 'error',
-				dismissible: true,
-				timeout: 3000
+				variant: 'error'
 			});
 			throw new Error('Unable to approve staking token');
 		}
@@ -210,19 +184,15 @@ export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
 				amount,
 				2
 			)} POND.`,
-			variant: 'success',
-			dismissible: true,
-			timeout: 3000
+			variant: 'success'
 		});
 		return tx;
-	} catch (error) {
+	} catch (error: any) {
 		addToast({
 			message: 'Uh-Oh, Transaction was not successful!',
-			variant: 'error',
-			dismissible: true,
-			timeout: 3000
+			variant: 'error'
 		});
-		console.log('Error while approving staking token');
-		console.log(error);
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while approving staking token');
 	}
 }

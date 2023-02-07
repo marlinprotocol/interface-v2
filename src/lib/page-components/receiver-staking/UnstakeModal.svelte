@@ -24,9 +24,11 @@
 	let submitLoading: boolean = false;
 
 	// staked pond amount
+	let stakingData = DEFAULT_RECEIVER_STAKING_DATA;
 	let maxAmount = BigNumber.from(DEFAULT_RECEIVER_STAKING_DATA.stakedBalance);
 	const unsubscribeReceiverStakedStore = receiverStakingStore.subscribe((value) => {
-		maxAmount = BigNumber.from(value.stakedBalance);
+		stakingData = value;
+		maxAmount = value.stakedBalance.add(value.queuedBalance);
 	});
 
 	onDestroy(unsubscribeReceiverStakedStore);
@@ -40,10 +42,22 @@
 		}
 	};
 	const handleSubmitClick = async () => {
-		// TODO: close modal after submit
 		submitLoading = true;
 		try {
 			await withdrawStakingToken(inputAmount);
+
+			//substract input amount first from queued amount and then from staked amount
+			receiverStakingStore.update((value) => {
+				if (inputAmount.gt(value.queuedBalance)) {
+					value.stakedBalance = value.stakedBalance.sub(inputAmount.sub(value.queuedBalance));
+					value.queuedBalance = BigNumber.from(0);
+				} else {
+					value.queuedBalance = value.queuedBalance.sub(inputAmount);
+				}
+				return value;
+			});
+
+			//reset input
 			resetInputs();
 		} catch (e) {
 			console.log('error submitting', e);

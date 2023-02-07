@@ -7,7 +7,6 @@
 	import type { ModalInputModel } from '$lib/types/componentTypes';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
 
-	//TODO: remove default values
 	export let title: ModalInputModel['title'];
 	export let tooltipText: ModalInputModel['tooltipText'] = '';
 	export let inputAmountString: string;
@@ -33,7 +32,7 @@
 	</div>
 	<form>
 		<div class="flex items-center">
-			<!-- TODO: add validation -->
+			<!-- TODO: add number validation -->
 			<input
 				bind:value={inputAmountString}
 				id="pond"

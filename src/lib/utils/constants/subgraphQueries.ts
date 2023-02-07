@@ -27,9 +27,10 @@ export const QUERY_TO_GET_RECIEVER_POND_BALANCE = `query ReceiverBalances($id: S
  * Return balance, balance snapshots for a specific Receiver address
  * @queryVariables address: Address of the receiver in string format
  * @queryVariables epoch: Epoch cycle for which the data is required
+ * @queryVariables contractAddress: Contract address of Pond contract
  * @returns receiverBalanceSnapshots, receiverBalance, pondUser
  */
-export const QUERY_TO_GET_RECEIVER_STAKING_DATA = `query ReceiverStakingData($address: String, $epoch:String) {
+export const QUERY_TO_GET_RECEIVER_STAKING_DATA = `query ReceiverStakingData($address: String, $epoch:String, $contractAddress: String) {
   receiverBalanceSnapshots(
     where: {
       address: $address,
@@ -49,7 +50,11 @@ export const QUERY_TO_GET_RECEIVER_STAKING_DATA = `query ReceiverStakingData($ad
   pondUser(
     id: $address,
   ) {
-    balance
+    approvals (
+      where: { to: $contractAddress },
+    ) {
+      value
+    }
   }
 }`;
 

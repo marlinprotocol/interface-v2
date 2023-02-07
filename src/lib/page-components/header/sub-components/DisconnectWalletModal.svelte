@@ -17,9 +17,7 @@
 		copyTextToClipboard($walletStore.address);
 		addToast({
 			message: `Address copied to clipboard`,
-			variant: 'success',
-			dismissible: true,
-			timeout: 3000
+			variant: 'success'
 		});
 	};
 </script>

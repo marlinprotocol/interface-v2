@@ -62,18 +62,14 @@
 		console.log('creating an error toast 🥪 ...');
 		addToast({
 			message: 'Hello, World!',
-			variant: 'error',
-			dismissible: true,
-			timeout: 3000
+			variant: 'error'
 		});
 	}
 	function onClickHandlerForToastInfo() {
 		console.log('creating an info toast 🥪 ...');
 		addToast({
 			message: 'Hello, World!, Again',
-			variant: 'info',
-			dismissible: true,
-			timeout: 3000
+			variant: 'info'
 		});
 	}
 	function onClickHandlerForToastSuccess() {
@@ -81,8 +77,7 @@
 		addToast({
 			message: 'Hello, World!, Again',
 			variant: 'success',
-			dismissible: false,
-			timeout: 3000
+			dismissible: false
 		});
 	}
 

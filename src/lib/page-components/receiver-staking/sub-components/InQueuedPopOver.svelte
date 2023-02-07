@@ -8,15 +8,15 @@
 	import question from 'svelte-awesome/icons/question';
 
 	export let iconWidth = 15;
-	export let queued: ReceiverStakingData['queued'];
+	export let queuedBalance: ReceiverStakingData['queuedBalance'];
 	export let epochData: EpochStore;
 
-	$: title = `${bigNumberToCommaString(queued?.balance, 2)} POND in queue`;
+	$: title = `${bigNumberToCommaString(queuedBalance, 2)} POND in queue`;
 	$: description = `Add some description over here!!!`;
 	$: subtitle = `Queued POND will be staked`;
 
 	//if queued balance is greater than 0 then inQueue is true
-	$: inQueue = queued?.balance.gt(0);
+	$: inQueue = queuedBalance.gt(0);
 
 	const styles = {
 		title: 'py-2 px-3 bg-gray-200 rounded',

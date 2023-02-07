@@ -52,10 +52,7 @@ export const DEFAULT_CONTRACT_ADDRESS_STORE: ContractAddress = {
 export const DEFAULT_RECEIVER_STAKING_DATA: ReceiverStakingData = {
 	approvedBalance: BigNumber.from(0),
 	stakedBalance: BigNumber.from(0),
-	queued: {
-		epoch: 0,
-		balance: BigNumber.from(0)
-	}
+	queuedBalance: BigNumber.from(0)
 };
 
 // default epoch data

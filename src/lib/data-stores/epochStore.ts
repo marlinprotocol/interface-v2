@@ -12,7 +12,7 @@ try {
 	const epochData = await getCurrentEpoch();
 	epochStore.set(epochData);
 } catch (e) {
-	// TODO: show error message to user
+	console.log('Error fetching epoch data', e);
 }
 
 /**

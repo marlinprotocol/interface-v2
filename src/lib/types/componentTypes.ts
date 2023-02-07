@@ -48,9 +48,9 @@ export type AlertModel = {
 export type Toast = {
 	id?: number;
 	message: string;
-	dismissible: boolean;
-	timeout: number;
-	variant: CommonVariant;
+	dismissible?: boolean;
+	timeout?: number;
+	variant?: CommonVariant;
 };
 
 export type ToastModel = {

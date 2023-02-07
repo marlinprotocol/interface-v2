@@ -36,7 +36,6 @@ export const addToast = (toast: Toast) => {
 	// Push the toast to the top of the list of toasts
 	const t: ToastModel = { ...defaults, ...toast, className, iconData, iconColor };
 	toastsStore.update((all) => [t, ...all]);
-	console.log('update');
 
 	// If toast is dismissible, dismiss it after "timeout" amount of time.
 	if (t.timeout && t.dismissible) setTimeout(() => dismissToast(id), t.timeout);

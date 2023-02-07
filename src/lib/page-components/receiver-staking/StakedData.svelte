@@ -41,9 +41,9 @@
 	<DataRowCard
 		data={{
 			title: 'In queue',
-			value: receiverData.queued.balance
+			value: receiverData.queuedBalance
 		}}
 	>
-		<InQueuedPopOver slot="icon" queued={receiverData.queued} {epochData} />
+		<InQueuedPopOver slot="icon" queuedBalance={receiverData.queuedBalance} {epochData} />
 	</DataRowCard>
 </div>

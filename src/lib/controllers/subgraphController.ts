@@ -90,9 +90,6 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
 	try {
 		const result = await fetchHttpData(url, options);
-		console.log('subgraph result object', result);
-		console.log('upacked object', result['data']?.receiverBalances);
-		console.log('Receiver Balance: ', result['data']?.receiverBalances[0]?.balance);
 		if (result['data'] && result['data']?.receiverBalances?.length != 0)
 			return result['data']?.receiverBalances[0]?.balance;
 		else return DEFAULT_WALLET_BALANCE.mpond;
@@ -111,51 +108,51 @@ export async function getReceiverStakingDataFromSubgraph(
 	address: Address,
 	epoch: EpochStore['epochCycle']
 ): Promise<ReceiverStakingData> {
+	//TODO: add this to config. This address will change based on chain	id and for every new deployment
+	const pond_contract_address = '0xe554d2be7e093fbca1fc1d78dbea7ef145185e85';
 	const url = ENVIRONMENT.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_RECEIVER_STAKING_DATA;
 
-	const queryVariables = { address: address.toLowerCase(), epoch: epoch.toString() };
+	const queryVariables = {
+		address: address.toLowerCase(),
+		epoch: epoch.toString(),
+		contractAddress: pond_contract_address.toLowerCase()
+	};
+
 	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
 	try {
 		const result = await fetchHttpData(url, options);
 		const balance = result['data']?.receiverBalance?.balance;
 		const balanceSnapshots = result['data']?.receiverBalanceSnapshots;
-		const pondUser = result['data']?.pondUser;
+		const approvals = result['data']?.pondUser?.approvals;
 
-		let stakeData: ReceiverStakingData = DEFAULT_RECEIVER_STAKING_DATA;
+		let stakingData: ReceiverStakingData = DEFAULT_RECEIVER_STAKING_DATA;
 
-		//update in queue balance
-		if (!!balanceSnapshots?.length) {
-			const balanceSnapshot = balanceSnapshots[0];
-			stakeData = {
-				...stakeData,
-				queued: {
-					balance:
-						BigNumber.from(balanceSnapshot.balance) ?? DEFAULT_RECEIVER_STAKING_DATA.queued.balance,
-					epoch: parseInt(balanceSnapshot.epoch) ?? DEFAULT_RECEIVER_STAKING_DATA.queued.epoch
-				}
-			};
-		}
-		//update staked balance
-		if (!!balance) {
-			//staked amount is the difference of balance and balance snapshot
-			const stakedAmount = BigNumber.from(balance).sub(stakeData.queued.balance);
-			stakeData = {
-				...stakeData,
-				stakedBalance: stakedAmount ?? DEFAULT_RECEIVER_STAKING_DATA.stakedBalance
+		//update staked and queued balance
+		if (!!balanceSnapshots?.length && !!balance) {
+			const totalBalance = BigNumber.from(balance);
+			let balanceSnapshot = BigNumber.from(balanceSnapshots[0].balance);
+			balanceSnapshot = balanceSnapshot.gt(totalBalance) ? totalBalance : balanceSnapshot;
+
+			//queued amount is the difference of balance and balance snapshot
+			stakingData = {
+				...stakingData,
+				queuedBalance:
+					totalBalance.sub(balanceSnapshot) ?? DEFAULT_RECEIVER_STAKING_DATA.queuedBalance,
+				stakedBalance: balanceSnapshot ?? DEFAULT_RECEIVER_STAKING_DATA.stakedBalance
 			};
 		}
 		//update approved POND balance
-		// TODO: remove this once the subgraph is updated
-		if (!!pondUser) {
-			stakeData = {
-				...stakeData,
+		if (!!approvals?.length) {
+			const approvalData = approvals[0];
+			stakingData = {
+				...stakingData,
 				approvedBalance:
-					BigNumber.from('2000000000000000000') ?? DEFAULT_RECEIVER_STAKING_DATA.approvedBalance
+					BigNumber.from(approvalData.value) ?? DEFAULT_RECEIVER_STAKING_DATA.approvedBalance
 			};
 		}
 
-		return stakeData;
+		return stakingData;
 	} catch (error) {
 		console.log('Error fetching receiver staked, in queue data from subgraph', error);
 		return DEFAULT_RECEIVER_STAKING_DATA;
@@ -202,3 +199,21 @@ export async function getCurrentEpoch(): Promise<EpochStore> {
 		return DEFAULT_EPOCH_STORE;
 	}
 }
+
+//update queued, staked pond amount
+// if (stakingData.queuedBalance.gt(inputAmount)) {
+// 	//if input amount is less than queued amount, just update queued amount
+// 	receiverStakingStore.update((value) => {
+// 		value.queuedBalance = value.queuedBalance.sub(inputAmount);
+// 		return value;
+// 	});
+// }
+
+// else {
+// 	//if input amount is greater than queued amount, update queued amount and then staked amount
+// 	receiverStakingStore.update((value) => {
+// 		value.stakedBalance = value.stakedBalance.sub(inputAmount.sub(stakingData.queuedBalance));
+// 		value.queuedBalance = BigNumber.from(0);
+// 		return value;
+// 	});
+// }

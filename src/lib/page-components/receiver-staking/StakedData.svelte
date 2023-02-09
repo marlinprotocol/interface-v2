@@ -24,26 +24,31 @@
 	onDestroy(unsubscribeEpochStore);
 
 	const styles = {
-		wrapper: 'w-full flex flex-col items-center justify-center py-8'
+		wrapper: 'w-full flex flex-col items-center justify-center py-8',
+		cardWrapper: 'w-full flex px-2'
 	};
 </script>
 
 <div class={styles.wrapper}>
-	<DataRowCard
-		data={{
-			title: 'STAKED',
-			value: receiverData.stakedBalance
-		}}
-	>
-		<TooltipIcon slot="icon" tooltipText={'Some explanatory text here!!'} styleClass="ml-1" />
-	</DataRowCard>
+	<div class={styles.cardWrapper}>
+		<DataRowCard
+			data={{
+				title: 'Staked',
+				value: receiverData.stakedBalance
+			}}
+		>
+			<TooltipIcon slot="icon" tooltipText={'Some explanatory text here!!'} styleClass="ml-1" />
+		</DataRowCard>
+	</div>
 	<Divider />
-	<DataRowCard
-		data={{
-			title: 'In queue',
-			value: receiverData.queuedBalance
-		}}
-	>
-		<InQueuedPopOver slot="icon" queuedBalance={receiverData.queuedBalance} {epochData} />
-	</DataRowCard>
+	<div class={styles.cardWrapper}>
+		<DataRowCard
+			data={{
+				title: 'In queue',
+				value: receiverData.queuedBalance
+			}}
+		>
+			<InQueuedPopOver slot="icon" queuedBalance={receiverData.queuedBalance} {epochData} />
+		</DataRowCard>
+	</div>
 </div>

@@ -34,13 +34,13 @@
 		</div>
 		<div class="flex gap-4">
 			<div class={buttonClasses.greyFilled} on:keypress={onCopyAddress} on:click={onCopyAddress}>
-				<Icon data={copy} />
+				<Icon data={copy} iconColorClass={'icon-primary'} />
 				Copy Address
 			</div>
 			<!-- TODO: make link and text dynamic based on chain -->
 			<a href={blockChainExplorerLink} target="_blank" rel="noopener noreferrer"
 				><div class={buttonClasses.greyFilled}>
-					<Icon data={externalLink} />
+					<Icon data={externalLink} iconColorClass={'icon-primary'} />
 					View on Arbiscan
 				</div></a
 			>

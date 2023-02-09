@@ -62,10 +62,11 @@ module.exports = {
 						'text-transform': 'none'
 					},
 					'.btn-theme': {
-						'border-radius': '6px',
-						height: '40px',
+						'border-radius': '8px',
+						height: '56px',
 						'font-weight': '600',
-						'font-size': '14px'
+						'font-size': '16px',
+						'line-height': '1.5'
 					},
 					'.btn-disabled': {
 						cursor: 'not-allowed'

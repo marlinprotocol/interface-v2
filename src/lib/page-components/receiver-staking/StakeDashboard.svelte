@@ -7,7 +7,7 @@
 	import UnstakeModal from '$lib/page-components/receiver-staking/UnstakeModal.svelte';
 
 	const styles = {
-		buttonsGroup: 'flex gap-2 items-center justify-center w-full',
+		buttonsGroup: 'flex gap-5 items-center justify-center w-full',
 		buttonWrapper: 'w-1/2'
 	};
 </script>

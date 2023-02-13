@@ -2,7 +2,7 @@ import { BigNumber, ethers } from 'ethers';
 
 /**
  * Returns duration string for a epoch
- * @param epoch: epoch
+ * @param epoch epoch
  * @returns string
  * @example 12334422 => 4 months 22 days 18 hours 13 mins 42 secs
  */
@@ -35,7 +35,7 @@ export const epochToDurationString = (epoch: number) => {
 
 /**
  * Returns comma separated string for a number
- * @param value: number
+ * @param value number
  * @returns string
  * @example 1234567 => 1,234,567
  */
@@ -45,9 +45,9 @@ export const intStringToCommaString = (value: string) => {
 
 /**
  * Returns comma separated string with set of decimals for a big number
- * @param value: big number
- * @param decimals: decimals of the fractional part
- * @param bigNumberDecimal: decimal of the big number, default set to 18
+ * @param value big number
+ * @param decimals decimals of the fractional part
+ * @param bigNumberDecimal decimal of the big number, default set to 18
  * @returns string
  */
 export const bigNumberToCommaString = (

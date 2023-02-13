@@ -3,7 +3,7 @@ import ENVIRONMENT from '$lib/environments/environment';
 /**
  * Checks if current chain is supported by the app or not
  * @param chainId
- * @returns
+ * @returns if chain is supported or not
  */
 export function isValidChain(chainId: number): boolean {
 	return ENVIRONMENT.valid_chain_ids.includes(chainId);

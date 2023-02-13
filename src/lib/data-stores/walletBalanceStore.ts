@@ -1,6 +1,6 @@
 import { writable, type Writable } from 'svelte/store';
 import { DEFAULT_WALLET_BALANCE, DEFAULT_WALLET_STORE } from '$lib/utils/constants/storeDefaults';
-import type { Address, WalletBalance, WalletStore } from '$lib/types/storeTypes';
+import type { Address, WalletBalance } from '$lib/types/storeTypes';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
 import { getMpondBalance, getPondBalance } from '$lib/controllers/subgraphController';
 
@@ -21,9 +21,9 @@ walletStore.subscribe((value) => {
 /**
  * fetches the balance for Pond and Mpond based on
  * wallet address and sets the walletBalance store.
- * @param walletAddress: should be a Hex Address i.e. all lowercase
+ * @param walletAddress should be a Hex Address i.e. all lowercase
  */
-async function setWalletBalance(walletAddress: WalletStore['address']): Promise<void> {
+async function setWalletBalance(walletAddress: Address): Promise<void> {
 	try {
 		const balances = await Promise.all([
 			getPondBalance(walletAddress),

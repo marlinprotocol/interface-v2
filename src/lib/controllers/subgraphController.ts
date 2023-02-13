@@ -17,8 +17,8 @@ import { BigNumber } from 'ethers';
 
 /**
  * Generate HTTP request headers for querying subgraph
- * @param query: graphQL query in stringified format
- * @param variable: Object containing variables used in query
+ * @param query graphQL query in stringified format
+ * @param variable Object containing variables used in query
  * @returns HTTP request headers for subgraph
  */
 // disabling eslint for this as variables can be query specific
@@ -101,14 +101,15 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 
 /**
  * Returns Staked, Queued Pond for a specific Receiver address
- * @param address: Address of the receiver in string format
- * @param epoch: Epoch number
+ * @param address Address of the receiver in string format
+ * @param epoch Epoch number
  */
 export async function getReceiverStakingDataFromSubgraph(
 	address: Address,
 	epoch: EpochStore['epochCycle']
 ): Promise<ReceiverStakingData> {
 	//TODO: add this to config. This address will change based on chain	id and for every new deployment
+	// we already have a store for fetching addresses
 	const pond_contract_address = '0xe554d2be7e093fbca1fc1d78dbea7ef145185e85';
 	const url = ENVIRONMENT.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_RECEIVER_STAKING_DATA;

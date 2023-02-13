@@ -10,7 +10,7 @@ import {
 	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_POND_BALANCE_QUERY,
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
-	QUERY_TO_GET_RECIEVER_POND_BALANCE
+	QUERY_TO_GET_RECEIVER_POND_BALANCE
 } from '$lib/utils/constants/subgraphQueries';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
 import { BigNumber } from 'ethers';
@@ -84,7 +84,7 @@ export async function getMpondBalance(address: Address): Promise<BigNumber> {
 //TODO: add return types
 export async function getReceiverPondBalanceFromSubgraph(address: Address): Promise<any> {
 	const url = ENVIRONMENT.public_contract_subgraph_url;
-	const query = QUERY_TO_GET_RECIEVER_POND_BALANCE;
+	const query = QUERY_TO_GET_RECEIVER_POND_BALANCE;
 
 	const queryVariables = { id: address.toLowerCase() };
 	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);

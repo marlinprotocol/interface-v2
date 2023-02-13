@@ -47,14 +47,14 @@ export async function getContractDetails() {
 	}
 }
 
-// ----------------------------- reciever staking contract methods -----------------------------
+// ----------------------------- receiver staking contract methods -----------------------------
 
 export async function depositStakingToken(amount: BigNumber) {
-	const recieverStakingContractAddress = contractAddresses.ReceiverStaking;
-	const recieverStakingContractAbi = contractAbi.ReceiverStaking;
-	const recieverStakingContract = new ethers.Contract(
-		recieverStakingContractAddress,
-		recieverStakingContractAbi,
+	const receiverStakingContractAddress = contractAddresses.ReceiverStaking;
+	const receiverStakingContractAbi = contractAbi.ReceiverStaking;
+	const receiverStakingContract = new ethers.Contract(
+		receiverStakingContractAddress,
+		receiverStakingContractAbi,
 		signer
 	);
 	try {
@@ -62,7 +62,7 @@ export async function depositStakingToken(amount: BigNumber) {
 			message: MESSAGES.TOAST.ACTIONS.DEPOSIT.POND(bigNumberToCommaString(amount, 2)),
 			variant: 'info'
 		});
-		const Tx = await recieverStakingContract.deposit(amount);
+		const Tx = await receiverStakingContract.deposit(amount);
 
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.CREATED,
@@ -95,11 +95,11 @@ export async function depositStakingToken(amount: BigNumber) {
 }
 
 export async function withdrawStakingToken(amount: BigNumber) {
-	const recieverStakingContractAddress = contractAddresses.ReceiverStaking;
-	const recieverStakingContractAbi = contractAbi.ReceiverStaking;
-	const recieverStakingContract = new ethers.Contract(
-		recieverStakingContractAddress,
-		recieverStakingContractAbi,
+	const receiverStakingContractAddress = contractAddresses.ReceiverStaking;
+	const receiverStakingContractAbi = contractAbi.ReceiverStaking;
+	const receiverStakingContract = new ethers.Contract(
+		receiverStakingContractAddress,
+		receiverStakingContractAbi,
 		signer
 	);
 	try {
@@ -107,7 +107,7 @@ export async function withdrawStakingToken(amount: BigNumber) {
 			message: MESSAGES.TOAST.ACTIONS.WITHDRAW.POND(bigNumberToCommaString(amount, 2)),
 			variant: 'info'
 		});
-		const tx = await recieverStakingContract.withdraw(amount);
+		const tx = await receiverStakingContract.withdraw(amount);
 
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.CREATED,
@@ -143,7 +143,7 @@ export async function withdrawStakingToken(amount: BigNumber) {
 // ----------------------------- POND contract methods -----------------------------
 
 export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
-	const recieverStakingContractAddress = contractAddresses.ReceiverStaking;
+	const receiverStakingContractAddress = contractAddresses.ReceiverStaking;
 	const pondTokenContractAddress = contractAddresses.tokens['POND'].address;
 	const ERC20ContractAbi = contractAbi.ERC20;
 	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);
@@ -152,7 +152,7 @@ export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
 			message: MESSAGES.TOAST.ACTIONS.APPROVE.POND(bigNumberToCommaString(amount, 2)),
 			variant: 'info'
 		});
-		const tx = await pondTokenContract.approve(recieverStakingContractAddress, amount);
+		const tx = await pondTokenContract.approve(receiverStakingContractAddress, amount);
 
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.CREATED,

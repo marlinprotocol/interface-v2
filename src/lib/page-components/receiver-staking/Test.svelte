@@ -116,11 +116,11 @@
 	>
 	<div>Check console for response</div>
 	<button class="btn btn-secondary" on:click={() => depositStakingToken(BigNumber.from(5))}
-		>Deposit 5 POND to reciever staking contract</button
+		>Deposit 5 POND to receiver staking contract</button
 	>
 	<div>Check console for response</div>
 	<button class="btn btn-secondary" on:click={() => withdrawStakingToken(BigNumber.from(5))}
-		>Withdraw 5 POND from reciever staking contract</button
+		>Withdraw 5 POND from receiver staking contract</button
 	>
 	<div>Check console for response</div>
 	<button class="btn btn-secondary" on:click={() => onClickHandlerForToastError()}

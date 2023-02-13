@@ -14,7 +14,7 @@
 </script>
 
 {#if toasts}
-	<div class="toast toast-top toast-end items-end">
+	<div class="toast toast-top toast-end items-end z-[9999]">
 		{#each toasts as toast (toast.id)}
 			<div in:slide out:fade class={`${toast.className} ${baseClass}`}>
 				<Icon iconColorClass={toast.iconColor} data={toast.iconData} size={18} />

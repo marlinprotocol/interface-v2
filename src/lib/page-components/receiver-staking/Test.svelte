@@ -13,6 +13,7 @@
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import ENVIRONMENT from '$lib/environments/environment';
 	import type { ChainStore, WalletBalance, WalletStore } from '$lib/types/storeTypes';
+	import { MESSAGES } from '$lib/utils/constants/messages';
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
@@ -54,7 +55,7 @@
 	function onClickHandlerForToastError() {
 		console.log('creating an error toast 🥪 ...');
 		addToast({
-			message: 'Hello, World!',
+			message: MESSAGES.TOAST.ACTIONS.APPROVE.POND(11),
 			variant: 'error'
 		});
 	}

@@ -4,6 +4,7 @@ import { walletStore } from '$lib/data-stores/walletProviderStore';
 import ENVIRONMENT from '$lib/environments/environment';
 import type { ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
 import { GET_OPTIONS } from '$lib/utils/constants/constants';
+import { MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToCommaString } from '$lib/utils/conversion';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
 import { BigNumber, ethers } from 'ethers';
@@ -58,34 +59,34 @@ export async function depositStakingToken(amount: BigNumber) {
 	);
 	try {
 		addToast({
-			message: `Depositing ${bigNumberToCommaString(amount, 2)} POND.`,
+			message: MESSAGES.TOAST.ACTIONS.DEPOSIT.POND(bigNumberToCommaString(amount, 2)),
 			variant: 'info'
 		});
 		const Tx = await recieverStakingContract.deposit(amount);
 
 		addToast({
-			message: 'Transaction created, waiting for it to be mined.',
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
 			variant: 'info'
 		});
 		const approveReciept = await Tx.wait();
 
 		if (!approveReciept) {
 			addToast({
-				message: 'Uh-Oh, Transaction was not successful!',
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
 				variant: 'error'
 			});
 			throw new Error('Unable to deposit staking token');
 		}
 		addToast({
-			message: `Transaction successfully mined!. Deposited ${bigNumberToCommaString(
-				amount,
-				2
-			)} POND.`,
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS +
+				' ' +
+				MESSAGES.TOAST.ACTIONS.DEPOSIT.POND_DEPOSITED(bigNumberToCommaString(amount, 2)),
 			variant: 'success'
 		});
 	} catch (error: any) {
 		addToast({
-			message: 'Uh-Oh, Transaction was not successful!',
+			message: MESSAGES.TOAST.TRANSACTION.FAILED,
 			variant: 'error'
 		});
 		console.log('error :>> ', error);
@@ -103,35 +104,35 @@ export async function withdrawStakingToken(amount: BigNumber) {
 	);
 	try {
 		addToast({
-			message: `Withdrawing ${bigNumberToCommaString(amount, 2)} POND.`,
+			message: MESSAGES.TOAST.ACTIONS.WITHDRAW.POND(bigNumberToCommaString(amount, 2)),
 			variant: 'info'
 		});
 		const tx = await recieverStakingContract.withdraw(amount);
 
 		addToast({
-			message: 'Transaction created, waiting for it to be mined.',
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
 			variant: 'info'
 		});
 		const approveReciept = await tx.wait();
 
 		if (!approveReciept) {
 			addToast({
-				message: 'Uh-Oh, Transaction was not successful!',
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
 				variant: 'error'
 			});
 			throw new Error('Unable to withdraw staking token');
 		}
 		addToast({
-			message: `Transaction successfully mined! Withdrew ${bigNumberToCommaString(
-				amount,
-				2
-			)} POND.`,
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS +
+				' ' +
+				MESSAGES.TOAST.ACTIONS.WITHDRAW.POND_WITHDREW(bigNumberToCommaString(amount, 2)),
 			variant: 'success'
 		});
 		return tx;
 	} catch (error: any) {
 		addToast({
-			message: 'Uh-Oh, Transaction was not successful!',
+			message: MESSAGES.TOAST.TRANSACTION.FAILED,
 			variant: 'error'
 		});
 		console.log('error :>> ', error);
@@ -148,35 +149,35 @@ export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
 	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);
 	try {
 		addToast({
-			message: `Approving ${bigNumberToCommaString(amount, 2)} POND.`,
+			message: MESSAGES.TOAST.ACTIONS.APPROVE.POND(bigNumberToCommaString(amount, 2)),
 			variant: 'info'
 		});
 		const tx = await pondTokenContract.approve(recieverStakingContractAddress, amount);
 
 		addToast({
-			message: 'Transaction created, waiting for it to be mined.',
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
 			variant: 'info'
 		});
 		const approveReciept = await tx.wait();
 
 		if (!approveReciept) {
 			addToast({
-				message: 'Uh-Oh, Transaction was not successful!',
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
 				variant: 'error'
 			});
 			throw new Error('Unable to approve staking token');
 		}
 		addToast({
-			message: `Transaction successfully mined! Approved ${bigNumberToCommaString(
-				amount,
-				2
-			)} POND.`,
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS +
+				' ' +
+				MESSAGES.TOAST.ACTIONS.APPROVE.POND_APPROVED(bigNumberToCommaString(amount, 2)),
 			variant: 'success'
 		});
 		return tx;
 	} catch (error: any) {
 		addToast({
-			message: 'Uh-Oh, Transaction was not successful!',
+			message: MESSAGES.TOAST.TRANSACTION.FAILED,
 			variant: 'error'
 		});
 		console.log('error :>> ', error);

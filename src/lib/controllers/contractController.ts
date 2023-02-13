@@ -48,19 +48,6 @@ export async function getContractDetails() {
 
 // ----------------------------- reciever staking contract methods -----------------------------
 
-export async function getStakingToken() {
-	const recieverStakingContractAddress = contractAddresses.ReceiverStaking;
-	const recieverStakingContractAbi = contractAbi.ReceiverStaking;
-	const recieverStakingContract = new ethers.Contract(
-		recieverStakingContractAddress,
-		recieverStakingContractAbi,
-		provider
-	);
-	const stakingToken = await recieverStakingContract.STAKING_TOKEN();
-	console.log(stakingToken);
-	return stakingToken;
-}
-
 export async function depositStakingToken(amount: BigNumber) {
 	const recieverStakingContractAddress = contractAddresses.ReceiverStaking;
 	const recieverStakingContractAbi = contractAbi.ReceiverStaking;

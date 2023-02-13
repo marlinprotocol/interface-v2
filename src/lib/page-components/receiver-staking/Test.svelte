@@ -3,7 +3,6 @@
 		approvePondTokenForReceiverStaking,
 		depositStakingToken,
 		getContractDetails,
-		getStakingToken,
 		withdrawStakingToken
 	} from '$lib/controllers/contractController';
 	import { getReceiverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
@@ -24,7 +23,6 @@
 	let contractAbiDetails = {};
 	let contractAddressDetails = {};
 	let pageTitle: string = 'Marlin Receiver Staking Portal (Ignore this part)';
-	let stakingToken: string;
 
 	const unsubscribeWalletProviderStore: Unsubscriber = walletStore.subscribe(
 		(value: WalletStore) => {
@@ -51,11 +49,6 @@
 	function fetchContractDetails() {
 		console.log('fetching contract details');
 		getContractDetails();
-	}
-
-	async function makeContractCall() {
-		console.log('fething staking token from contract');
-		stakingToken = await getStakingToken();
 	}
 
 	function onClickHandlerForToastError() {
@@ -97,11 +90,6 @@
 		<div>MPond Balance: {balance.mpond}</div>
 		<div>Chain ID: {chain.chainId}</div>
 		<br />
-
-		<div>Staking Token: {stakingToken}</div>
-		<button class="btn btn-secondary" on:click={() => makeContractCall()}
-			>Fetch Staking token from contract</button
-		>
 	{:else}
 		The wallet is not connected.
 	{/if}

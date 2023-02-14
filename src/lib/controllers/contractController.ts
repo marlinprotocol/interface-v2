@@ -59,7 +59,7 @@ export async function depositStakingToken(amount: BigNumber) {
 	);
 	try {
 		addToast({
-			message: MESSAGES.TOAST.ACTIONS.DEPOSIT.POND(bigNumberToCommaString(amount, 2)),
+			message: MESSAGES.TOAST.ACTIONS.DEPOSIT.POND(bigNumberToCommaString(amount)),
 			variant: 'info'
 		});
 		const Tx = await receiverStakingContract.deposit(amount);
@@ -81,7 +81,7 @@ export async function depositStakingToken(amount: BigNumber) {
 			message:
 				MESSAGES.TOAST.TRANSACTION.SUCCESS +
 				' ' +
-				MESSAGES.TOAST.ACTIONS.DEPOSIT.POND_DEPOSITED(bigNumberToCommaString(amount, 2)),
+				MESSAGES.TOAST.ACTIONS.DEPOSIT.POND_DEPOSITED(bigNumberToCommaString(amount)),
 			variant: 'success'
 		});
 	} catch (error: any) {
@@ -104,7 +104,7 @@ export async function withdrawStakingToken(amount: BigNumber) {
 	);
 	try {
 		addToast({
-			message: MESSAGES.TOAST.ACTIONS.WITHDRAW.POND(bigNumberToCommaString(amount, 2)),
+			message: MESSAGES.TOAST.ACTIONS.WITHDRAW.POND(bigNumberToCommaString(amount)),
 			variant: 'info'
 		});
 		const tx = await receiverStakingContract.withdraw(amount);
@@ -126,7 +126,7 @@ export async function withdrawStakingToken(amount: BigNumber) {
 			message:
 				MESSAGES.TOAST.TRANSACTION.SUCCESS +
 				' ' +
-				MESSAGES.TOAST.ACTIONS.WITHDRAW.POND_WITHDREW(bigNumberToCommaString(amount, 2)),
+				MESSAGES.TOAST.ACTIONS.WITHDRAW.POND_WITHDREW(bigNumberToCommaString(amount)),
 			variant: 'success'
 		});
 		return tx;
@@ -149,7 +149,7 @@ export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
 	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);
 	try {
 		addToast({
-			message: MESSAGES.TOAST.ACTIONS.APPROVE.POND(bigNumberToCommaString(amount, 2)),
+			message: MESSAGES.TOAST.ACTIONS.APPROVE.POND(bigNumberToCommaString(amount)),
 			variant: 'info'
 		});
 		const tx = await pondTokenContract.approve(receiverStakingContractAddress, amount);
@@ -171,7 +171,7 @@ export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
 			message:
 				MESSAGES.TOAST.TRANSACTION.SUCCESS +
 				' ' +
-				MESSAGES.TOAST.ACTIONS.APPROVE.POND_APPROVED(bigNumberToCommaString(amount, 2)),
+				MESSAGES.TOAST.ACTIONS.APPROVE.POND_APPROVED(bigNumberToCommaString(amount)),
 			variant: 'success'
 		});
 		return tx;

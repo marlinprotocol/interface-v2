@@ -8,7 +8,11 @@
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
 	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
-	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
+	import {
+		bigNumberToCommaString,
+		bigNumberToString,
+		stringToBigNumber
+	} from '$lib/utils/conversion';
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
@@ -24,11 +28,16 @@
 	let submitLoading: boolean = false;
 
 	// staked pond amount
-	let stakingData = DEFAULT_RECEIVER_STAKING_DATA;
 	let maxAmount = BigNumber.from(DEFAULT_RECEIVER_STAKING_DATA.stakedBalance);
+
+	let balanceText = 'Staked POND: 0.00';
 	const unsubscribeReceiverStakedStore = receiverStakingStore.subscribe((value) => {
-		stakingData = value;
-		maxAmount = value.stakedBalance.add(value.queuedBalance);
+		const { stakedBalance, queuedBalance } = value;
+		maxAmount = stakedBalance.add(queuedBalance);
+
+		balanceText = `Staked: ${bigNumberToCommaString(stakedBalance)}${
+			!queuedBalance.isZero() ? ', queued: ' + bigNumberToCommaString(queuedBalance) : ''
+		}`;
 	});
 
 	onDestroy(unsubscribeReceiverStakedStore);
@@ -88,8 +97,7 @@
 			title={'POND'}
 			tooltipText={'Some text here'}
 			bind:inputAmountString
-			{maxAmount}
-			maxAmountText={'Staked'}
+			maxAmountText={balanceText}
 		>
 			<Tooltip
 				slot="input-max-button"

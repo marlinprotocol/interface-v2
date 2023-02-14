@@ -34,16 +34,6 @@ export const epochToDurationString = (epoch: number) => {
 };
 
 /**
- * Returns comma separated string for a number
- * @param value number
- * @returns string
- * @example 1234567 => 1,234,567
- */
-export const intStringToCommaString = (value: string) => {
-	return value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-};
-
-/**
  * Returns comma separated string with set of decimals for a big number
  * @param value big number
  * @param decimals decimals of the fractional part
@@ -52,15 +42,25 @@ export const intStringToCommaString = (value: string) => {
  */
 export const bigNumberToCommaString = (
 	value: BigNumber,
-	decimals: number,
+	decimals: number = 2,
 	bigNumberDecimal: number = 18
 ) => {
 	let result = ethers.utils.formatUnits(value, bigNumberDecimal);
-	let [integer, fraction] = result.split('.');
-	const integerPart = intStringToCommaString(integer);
 
-	if (!!!fraction || fraction === '0') return integerPart;
-	return integerPart + '.' + (fraction?.length > decimals ? fraction.slice(0, decimals) : fraction);
+	// Replace 0.0 by an empty value
+	if (result === '0.0') {
+		return '0';
+	}
+
+	// ethers.utils.formatUnits() adds a decimal even when 0, this removes it.
+	result = result.replace(/\.0$/, '');
+	let [integer, fraction] = result.split('.');
+
+	//round to 2 precisions (parseFloat not working for large numbers) //TODO: check this
+	if (!!fraction) {
+		result = integer + '.' + (fraction?.length > decimals ? fraction.slice(0, decimals) : fraction);
+	}
+	return ethers.utils.commify(result);
 };
 
 /**

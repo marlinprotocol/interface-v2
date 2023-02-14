@@ -14,7 +14,11 @@
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
 	import type { ReceiverStakingData, WalletBalance } from '$lib/types/storeTypes';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
-	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
+	import {
+		bigNumberToCommaString,
+		bigNumberToString,
+		stringToBigNumber
+	} from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
@@ -33,8 +37,10 @@
 
 	//max amount in wallet
 	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.pond;
+	let balanceText = 'Balance: 0.00';
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		maxPondBalance = value.pond;
+		balanceText = `Balance: ${bigNumberToCommaString(maxPondBalance)}`;
 	});
 
 	//approve balance
@@ -87,6 +93,9 @@
 					queuedBalance: value.queuedBalance.add(inputAmount)
 				};
 			});
+
+			//update epoch data
+
 			resetInputs();
 		} catch (e) {
 			console.log('error submitting', e);
@@ -133,8 +142,7 @@
 			title={'POND'}
 			tooltipText={'Some text here'}
 			bind:inputAmountString
-			maxAmount={maxPondBalance}
-			maxAmountText={'Balance'}
+			maxAmountText={balanceText}
 		>
 			<Tooltip
 				slot="input-max-button"

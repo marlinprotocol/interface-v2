@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import { bigNumberToCommaString, intStringToCommaString } from '$lib/utils/conversion';
+	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
 
 	export let data: { title: string; value: BigNumber };
@@ -20,7 +20,7 @@
 		<Text
 			variant="h5"
 			styleClass="text-primary font-medium text-right"
-			text={`${bigNumberToCommaString(data.value, 2)} POND`}
+			text={`${bigNumberToCommaString(data.value)} POND`}
 		/>
 	</div>
 </div>

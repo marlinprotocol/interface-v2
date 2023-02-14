@@ -6,7 +6,6 @@ import {
 	DEFAULT_WALLET_STORE
 } from '$lib/utils/constants/storeDefaults';
 import { writable, type Writable } from 'svelte/store';
-import { epochStore } from './epochStore';
 import { addToast } from './toastStore';
 
 let walletAddress: Address = DEFAULT_WALLET_STORE.address;
@@ -21,13 +20,8 @@ walletStore.subscribe(async (value) => {
 	walletAddress = value.address;
 	if (walletAddress !== DEFAULT_WALLET_STORE.address) {
 		try {
-			epochStore.subscribe(async (epoch) => {
-				const data: ReceiverStakingData = await getReceiverStakingDataFromSubgraph(
-					walletAddress,
-					epoch.epochCycle
-				);
-				receiverStakingStore.set(data);
-			});
+			const data: ReceiverStakingData = await getReceiverStakingDataFromSubgraph(walletAddress);
+			receiverStakingStore.set(data);
 		} catch (e) {
 			addToast({
 				message: 'Error fetching receiver staking data',

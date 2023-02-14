@@ -55,10 +55,11 @@ export type ReceiverStakingData = {
 	approvedBalance: BigNumber;
 	stakedBalance: BigNumber;
 	queuedBalance: BigNumber;
+	epochData: {
+		epochCycle: number;
+		startTime: number;
+		epochLength: number;
+	};
 };
 
-export type EpochStore = {
-	epochCycle: number;
-	epochLength: number;
-	epochStartTime: number;
-};
+export type EpochCycleStore = number;

@@ -5,12 +5,10 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import type { ModalInputModel } from '$lib/types/componentTypes';
-	import { bigNumberToCommaString } from '$lib/utils/conversion';
 
 	export let title: ModalInputModel['title'];
 	export let tooltipText: ModalInputModel['tooltipText'] = '';
 	export let inputAmountString: string;
-	export let maxAmount: ModalInputModel['maxAmount'] | undefined = undefined;
 	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance';
 
 	const styles = {
@@ -46,11 +44,7 @@
 		<div class="flex items-center gap-2">
 			<slot name="input-max-button" />
 			<div class={dividerClasses.vertical} />
-			<Text
-				variant="small"
-				styleClass="text-gray-400"
-				text={`${maxAmountText}: ${!!maxAmount ? bigNumberToCommaString(maxAmount, 2) : ''}`}
-			/>
+			<Text variant="small" styleClass="text-gray-400" text={maxAmountText} />
 		</div>
 	</form>
 </InputCard>

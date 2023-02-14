@@ -1,17 +1,16 @@
 import ENVIRONMENT from '$lib/environments/environment';
-import type { Address, EpochStore, ReceiverStakingData } from '$lib/types/storeTypes';
+import type { Address, ReceiverStakingData } from '$lib/types/storeTypes';
 import {
-	DEFAULT_EPOCH_STORE,
 	DEFAULT_RECEIVER_STAKING_DATA,
 	DEFAULT_WALLET_BALANCE
 } from '$lib/utils/constants/storeDefaults';
 import {
-	QUERY_TO_GET_EPOCH_START_TIME_AND_LENGTH_QUERY,
 	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_POND_BALANCE_QUERY,
-	QUERY_TO_GET_RECEIVER_STAKING_DATA,
-	QUERY_TO_GET_RECEIVER_POND_BALANCE
+	QUERY_TO_GET_RECEIVER_POND_BALANCE,
+	QUERY_TO_GET_RECEIVER_STAKING_DATA
 } from '$lib/utils/constants/subgraphQueries';
+import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
 import { BigNumber } from 'ethers';
 
@@ -105,8 +104,7 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
  * @param epoch Epoch number
  */
 export async function getReceiverStakingDataFromSubgraph(
-	address: Address,
-	epoch: EpochStore['epochCycle']
+	address: Address
 ): Promise<ReceiverStakingData> {
 	//TODO: add this to config. This address will change based on chain	id and for every new deployment
 	// we already have a store for fetching addresses
@@ -116,7 +114,6 @@ export async function getReceiverStakingDataFromSubgraph(
 
 	const queryVariables = {
 		address: address.toLowerCase(),
-		epoch: epoch.toString(),
 		contractAddress: pond_contract_address.toLowerCase()
 	};
 
@@ -126,21 +123,46 @@ export async function getReceiverStakingDataFromSubgraph(
 		const balance = result['data']?.receiverBalance?.balance;
 		const balanceSnapshots = result['data']?.receiverBalanceSnapshots;
 		const approvals = result['data']?.pondUser?.approvals;
+		const params = result['data']?.params;
 
 		let stakingData: ReceiverStakingData = DEFAULT_RECEIVER_STAKING_DATA;
 
-		//update staked and queued balance
-		if (!!balanceSnapshots?.length && !!balance) {
-			const totalBalance = BigNumber.from(balance);
-			let balanceSnapshot = BigNumber.from(balanceSnapshots[0].balance);
-			balanceSnapshot = balanceSnapshot.gt(totalBalance) ? totalBalance : balanceSnapshot;
+		let epochData = DEFAULT_RECEIVER_STAKING_DATA.epochData;
 
-			//queued amount is the difference of balance and balance snapshot
+		if (params?.length === 2) {
+			let startTime = params.find((param: any) => param.id === 'START_TIME').value;
+			let epochLength = params.find((param: any) => param.id === 'EPOCH_LENGTH').value;
+			//string to number
+			startTime = parseInt(startTime);
+			epochLength = parseInt(epochLength);
+			const epochCycle = getCurrentEpochCycle(startTime, epochLength);
+			epochData = { startTime, epochLength, epochCycle };
+		}
+
+		//update staked and queued balance
+		if (!!balance) {
+			const totalBalance = BigNumber.from(balance);
+			let queuedBalance = DEFAULT_RECEIVER_STAKING_DATA.queuedBalance;
+			let stakedBalance = DEFAULT_RECEIVER_STAKING_DATA.stakedBalance;
+
+			let balanceSnapshot = BigNumber.from(0);
+
+			if (balanceSnapshots?.length === 1 && balanceSnapshots[0].epoch == epochData.epochCycle) {
+				//if balance snapshot for current epoch cycle is present, then update staked and queued balance
+				balanceSnapshot = BigNumber.from(balanceSnapshots[0].balance ?? 0);
+				//queued amount is the difference of balance and balance snapshot at current epoch cycle
+				stakedBalance = balanceSnapshot;
+				queuedBalance = totalBalance.sub(stakedBalance);
+			} else {
+				//if balance snapshot for current epoch cycle is not present, then update staked balance
+				stakedBalance = totalBalance;
+			}
+
 			stakingData = {
 				...stakingData,
-				queuedBalance:
-					totalBalance.sub(balanceSnapshot) ?? DEFAULT_RECEIVER_STAKING_DATA.queuedBalance,
-				stakedBalance: balanceSnapshot ?? DEFAULT_RECEIVER_STAKING_DATA.stakedBalance
+				queuedBalance,
+				stakedBalance,
+				epochData
 			};
 		}
 		//update approved POND balance
@@ -159,62 +181,3 @@ export async function getReceiverStakingDataFromSubgraph(
 		return DEFAULT_RECEIVER_STAKING_DATA;
 	}
 }
-
-/**
- * Get start time and epoch length from subgraph API.
- */
-export async function getCurrentEpoch(): Promise<EpochStore> {
-	const url = ENVIRONMENT.public_contract_subgraph_url;
-	const query = QUERY_TO_GET_EPOCH_START_TIME_AND_LENGTH_QUERY;
-
-	const queryVariables = { first: 2 };
-
-	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
-
-	try {
-		const result = await fetchHttpData(url, options);
-		const params = result['data']?.params;
-
-		if (!params?.length || params?.length !== 2) return DEFAULT_EPOCH_STORE;
-
-		const startTimeMap = params.find((param: any) => param.id === 'START_TIME');
-		const epochLengthMap = params.find((param: any) => param.id === 'EPOCH_LENGTH');
-
-		if (!!!startTimeMap?.value || !!!epochLengthMap?.value) return DEFAULT_EPOCH_STORE;
-
-		const epochStartTime = parseInt(startTimeMap.value);
-		const epochLength = parseInt(epochLengthMap.value);
-
-		if (epochLength === 0) return DEFAULT_EPOCH_STORE;
-
-		const currentEpoch = new Date().getTime() / 1000;
-		const epochCycle = Math.floor((currentEpoch - epochStartTime) / epochLength) + 1;
-
-		return {
-			epochStartTime,
-			epochLength,
-			epochCycle
-		};
-	} catch (error) {
-		console.log('Error fetching current epoch', error);
-		return DEFAULT_EPOCH_STORE;
-	}
-}
-
-//update queued, staked pond amount
-// if (stakingData.queuedBalance.gt(inputAmount)) {
-// 	//if input amount is less than queued amount, just update queued amount
-// 	receiverStakingStore.update((value) => {
-// 		value.queuedBalance = value.queuedBalance.sub(inputAmount);
-// 		return value;
-// 	});
-// }
-
-// else {
-// 	//if input amount is greater than queued amount, update queued amount and then staked amount
-// 	receiverStakingStore.update((value) => {
-// 		value.stakedBalance = value.stakedBalance.sub(inputAmount.sub(stakingData.queuedBalance));
-// 		value.queuedBalance = BigNumber.from(0);
-// 		return value;
-// 	});
-// }

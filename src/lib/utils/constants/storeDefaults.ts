@@ -2,7 +2,6 @@ import type {
 	ChainStore,
 	ContractAbi,
 	ContractAddress,
-	EpochStore,
 	ReceiverStakingData,
 	WalletBalance,
 	WalletStore
@@ -52,12 +51,10 @@ export const DEFAULT_CONTRACT_ADDRESS_STORE: ContractAddress = {
 export const DEFAULT_RECEIVER_STAKING_DATA: ReceiverStakingData = {
 	approvedBalance: BigNumber.from(0),
 	stakedBalance: BigNumber.from(0),
-	queuedBalance: BigNumber.from(0)
-};
-
-// default epoch data
-export const DEFAULT_EPOCH_STORE: EpochStore = {
-	epochCycle: 171,
-	epochStartTime: 1673222400,
-	epochLength: 14400
+	queuedBalance: BigNumber.from(0),
+	epochData: {
+		epochCycle: 0,
+		startTime: 0,
+		epochLength: 1
+	}
 };

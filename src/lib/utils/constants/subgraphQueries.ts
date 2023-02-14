@@ -26,15 +26,13 @@ export const QUERY_TO_GET_RECEIVER_POND_BALANCE = `query ReceiverBalances($id: S
 /**
  * Return balance, balance snapshots for a specific Receiver address
  * @queryVariables address: Address of the receiver in string format
- * @queryVariables epoch: Epoch cycle for which the data is required
  * @queryVariables contractAddress: Contract address of Pond contract
- * @returns receiverBalanceSnapshots, receiverBalance, pondUser
+ * @returns receiverBalanceSnapshots, receiverBalance, pondUser, params
  */
-export const QUERY_TO_GET_RECEIVER_STAKING_DATA = `query ReceiverStakingData($address: String, $epoch:String, $contractAddress: String) {
+export const QUERY_TO_GET_RECEIVER_STAKING_DATA = `query ReceiverStakingData($address: String, $contractAddress: String) {
   receiverBalanceSnapshots(
     where: {
       address: $address,
-      epoch: $epoch
     },
     first: 1, 
     orderBy: epoch, 
@@ -51,19 +49,14 @@ export const QUERY_TO_GET_RECEIVER_STAKING_DATA = `query ReceiverStakingData($ad
     id: $address,
   ) {
     approvals (
-      where: { to: $contractAddress },
+      where: { to: $contractAddress, from: $address },
     ) {
       value
     }
   }
-}`;
-
-/**
- * Return start time and epoch length from subgraph API
- * @returns id EPOCH_LENGTH, START_TIME and value
- */
-export const QUERY_TO_GET_EPOCH_START_TIME_AND_LENGTH_QUERY = `query Params($first: Int) {
-  params (first: $first) {
+  params (
+    where: { id_in: ["EPOCH_LENGTH", "START_TIME"] },
+  ) {
     id
     value
   }

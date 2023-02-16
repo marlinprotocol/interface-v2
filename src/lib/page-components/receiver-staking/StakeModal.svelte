@@ -112,6 +112,7 @@
 	onDestroy(unsubscribeWalletBalanceStore);
 	onDestroy(unsubscribeReceiverStakingStore);
 
+	// TODO(shivani): validation is being done in a wrongful manner, Boolean(inputAmount) is always going to return true
 	//button states
 	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount or approved amount is less than or equal to input amount, disable approve button
 	$: approveDisabled =

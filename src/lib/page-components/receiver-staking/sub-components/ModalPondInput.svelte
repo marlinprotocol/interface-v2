@@ -11,6 +11,7 @@
 	export let inputAmountString: string;
 	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance';
 
+	// TODO (shivani): clean up the styles
 	const styles = {
 		wrapper: 'w-full flex flex-col items-center justify-center',
 		rowClass: 'w-full flex items-center justify-between',

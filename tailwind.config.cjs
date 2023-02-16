@@ -82,27 +82,27 @@ module.exports = {
 					// '--tab-active-radius': '5rem', // border radius of tabs
 					// '--tab-radius': '0.5rem' // border radius of tabs
 				}
-			},
-			{
-				dark: {
-					...require('daisyui/src/colors/themes')['[data-theme=dark]'],
-					primary: '#3840c7',
-					'primary-200': '#383838',
-					'primary-focus': '#012d8f',
-					'primary-content': '#ffffff',
-					'base-100': '#000000',
-					'background-color': '#24252b',
-					info: '#e0a82e',
-					success: '#28bf92',
-					error: '#e60000',
-					'.icon-info': {
-						color: '#b5b5b5'
-					},
-					'.icon-primary': {
-						color: '#3840c7'
-					}
-				}
 			}
+			// {
+			// 	dark: {
+			// 		...require('daisyui/src/colors/themes')['[data-theme=dark]'],
+			// 		primary: '#3840c7',
+			// 		'primary-200': '#383838',
+			// 		'primary-focus': '#012d8f',
+			// 		'primary-content': '#ffffff',
+			// 		'base-100': '#000000',
+			// 		'background-color': '#24252b',
+			// 		info: '#e0a82e',
+			// 		success: '#28bf92',
+			// 		error: '#e60000',
+			// 		'.icon-info': {
+			// 			color: '#b5b5b5'
+			// 		},
+			// 		'.icon-primary': {
+			// 			color: '#3840c7'
+			// 		}
+			// 	}
+			// }
 		]
 	},
 	plugins: [require('daisyui')]

@@ -27,3 +27,15 @@ export function closeModal(modalId: string) {
 export function isAddressValid(address: string): boolean {
 	return /^0x[a-fA-F0-9]{40}$/.test(address);
 }
+
+/**
+ * returns the minified address
+ * @param address
+ * @param first
+ * @param last
+ * @example minifyAddress('0x1234567890123456789012345678901234567890') => 0x1234...1234
+ * @example minifyAddress('0x1234567890123456789012345678901234567890', 3, 2) => 0x1...34
+ */
+export function minifyAddress(address: string, first = 6, last = 4): string {
+	return address.slice(0, first) + '...' + address.slice(-last);
+}

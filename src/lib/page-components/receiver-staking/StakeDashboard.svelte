@@ -17,7 +17,7 @@
 
 <div>
 	<ContainerCard>
-		<Text variant="h3" text="Receiver Staking Portal" styleClass="text-center" />
+		<Text variant="h3" text="Receiver Staking" styleClass="text-center" />
 		<StakedData />
 		{#if $connected}
 			<div class={styles.buttonsGroup}>

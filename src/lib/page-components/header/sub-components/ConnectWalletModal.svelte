@@ -24,7 +24,7 @@
 						onclick={() => connectWallet(walletOption.provider)}
 						styleClass={'w-full shrink'}
 					>
-						{walletOption.provider}
+						Connect
 					</FilledButton>
 				</WalletCard>
 			{/each}

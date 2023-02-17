@@ -1,24 +1,31 @@
 <script lang="ts">
 	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
+	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
+	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import {
 		approvePondTokenForReceiverStaking,
 		depositStakingToken
 	} from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
+	import { signerAddressStore } from '$lib/data-stores/signerStore';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
-	import type { ReceiverStakingData, WalletBalance } from '$lib/types/storeTypes';
-	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
+	import type { Address, ReceiverStakingData, WalletBalance } from '$lib/types/storeTypes';
+	import {
+		DEFAULT_SIGNER_ADDRESS_STORE,
+		DEFAULT_WALLET_BALANCE
+	} from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,
 		bigNumberToString,
 		stringToBigNumber
 	} from '$lib/utils/conversion';
+	import { isAddressValid } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
@@ -48,6 +55,22 @@
 		approvedAmount = value.approvedBalance;
 	});
 
+	//signer address states
+	let signerAddressIsValid: boolean =
+		$signerAddressStore !== DEFAULT_SIGNER_ADDRESS_STORE ? true : false;
+	let updatedSignerAddress: Address = '';
+	let updatedSignerAddressInputDirty: boolean = false;
+
+	const handleUpdatedSignerAddressInput = (event: Event) => {
+		updatedSignerAddressInputDirty = true;
+		const target = event.target as HTMLInputElement;
+		if (target.value === '') {
+			// TODO: this is a workaround for resetting input field when user enters '' for signer address
+			updatedSignerAddressInputDirty = false;
+		}
+		signerAddressIsValid = target.value ? isAddressValid(target.value) : false;
+	};
+
 	const handleApproveClick = async () => {
 		approveLoading = true;
 
@@ -75,8 +98,13 @@
 	const handleSubmitClick = async () => {
 		// TODO: check if we need to close modal after submit
 		submitLoading = true;
+
+		// set signer address if not already set
+		if (updatedSignerAddress !== DEFAULT_SIGNER_ADDRESS_STORE) {
+			await signerAddressStore.set(updatedSignerAddress);
+		}
 		try {
-			await depositStakingToken(inputAmount);
+			await depositStakingToken(inputAmount, $signerAddressStore);
 
 			// update wallet balance locally
 			walletBalance.update((value: WalletBalance) => {
@@ -122,12 +150,21 @@
 	$: pondDisabledText =
 		!!inputAmount && !!!maxPondBalance?.gte(inputAmount) ? 'Insufficient POND' : '';
 
-	//if input amount, approved amount is greater than input amount, maxPondBalance is greater than or equal to inputAmount, disable submit button
+	//if signerAddress is already set then we consider only inputAmount else we also consider signerAddress to be set while disabling submit button
 	$: submitEnable =
-		!!inputAmount && approvedAmount?.gte(inputAmount) && maxPondBalance?.gte(inputAmount);
+		$signerAddressStore === DEFAULT_SIGNER_ADDRESS_STORE
+			? !!inputAmount &&
+			  approvedAmount?.gte(inputAmount) &&
+			  maxPondBalance?.gte(inputAmount) &&
+			  updatedSignerAddress !== '' &&
+			  signerAddressIsValid
+			: !!inputAmount && approvedAmount?.gte(inputAmount) && maxPondBalance?.gte(inputAmount);
 
 	const styles = {
-		inputMaxButton: `${buttonClasses.text} text-sm font-bold text-primary`
+		inputMaxButton: `${buttonClasses.text} text-sm font-bold text-primary`,
+		titleIcon: 'flex items-center gap-1',
+		inputNumber:
+			'input input-ghost h-[30px] w-full mt-1 p-0 font-semibold text-xl disabled:text-primary text-primary focus-within:text-primary placeholder:text-primary/[.3] focus:outline-none focus-within:border-b-2 focus:bg-transparent'
 	};
 </script>
 
@@ -161,8 +198,37 @@
 				{handleApproveClick}
 			/>
 		</ModalPondInput>
+		{#if $signerAddressStore === DEFAULT_SIGNER_ADDRESS_STORE}
+			<!-- TODO: make this into a component -->
+			<InputCard styles="mt-4">
+				<div class={styles.titleIcon}>
+					<Text variant="small" text={'Signer Address'} />
+					<TooltipIcon tooltipText="Enter Signer Address" />
+				</div>
+				<form>
+					<div class="flex gap-2 items-center">
+						<!-- TODO: address validation -->
+						<input
+							bind:value={updatedSignerAddress}
+							on:input={handleUpdatedSignerAddressInput}
+							id="updatedSignerAddress"
+							class={`hideInputNumberAppearance ${styles.inputNumber}`}
+							placeholder="Enter Here"
+						/>
+					</div>
+				</form>
+			</InputCard>
+		{/if}
+
+		{#if !signerAddressIsValid && updatedSignerAddressInputDirty}
+			<InputCard variant="warning" styles="mt-4">
+				<Text variant="small" styleClass="text-red-500 my-2" text="Enter a valid address" />
+			</InputCard>
+		{/if}
 		{#if !!pondDisabledText}
-			<Text variant="small" styleClass="text-red-500 my-2" text={pondDisabledText} />
+			<InputCard variant="warning" styles="mt-4">
+				<Text variant="small" styleClass="text-red-500 my-2" text={pondDisabledText} />
+			</InputCard>
 		{/if}
 	</svelte:fragment>
 	<svelte:fragment slot="action-buttons">

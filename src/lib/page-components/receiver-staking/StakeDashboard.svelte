@@ -1,5 +1,4 @@
 <script lang="ts">
-	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Icon from '$lib/atoms/icons/Icon.svelte';

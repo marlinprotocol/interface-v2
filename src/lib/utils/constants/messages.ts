@@ -73,5 +73,11 @@ export const MESSAGES = {
 				MPOND_WITHDREW: (value: string | number) => `Withdrew ${value} MPOND.`
 			}
 		}
+	},
+	FORM: {
+		VALIDATION: {
+			ADDRESS: 'Please enter a valid address.',
+			ADDRESS_SAME: 'Please enter a different address from your current signer address.'
+		}
 	}
 };

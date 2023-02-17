@@ -63,3 +63,6 @@ export type ReceiverStakingData = {
 };
 
 export type EpochCycleStore = number;
+
+// signer store
+export type SignerAddressStore = Address;

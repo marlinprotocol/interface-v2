@@ -7,6 +7,7 @@
 	import type { ReceiverStakingData } from '$lib/types/storeTypes';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
+	import SignerAddress from './sub-components/SignerAddress.svelte';
 
 	let receiverData: ReceiverStakingData;
 	const unsubscribeReceiverStakedStore: Unsubscriber = receiverStakingStore.subscribe(
@@ -33,7 +34,6 @@
 			<TooltipIcon slot="icon" tooltipText={'Some explanatory text here!!'} styleClass="ml-1" />
 		</DataRowCard>
 	</div>
-	<Divider />
 	<div class={styles.cardWrapper}>
 		<DataRowCard
 			data={{
@@ -44,4 +44,6 @@
 			<InQueuedPopOver slot="icon" />
 		</DataRowCard>
 	</div>
+	<Divider margin="mt-3 mb-4" />
+	<SignerAddress />
 </div>

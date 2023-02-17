@@ -9,6 +9,6 @@ export const ENVIRONMENT_ARB = {
 		'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-dev',
 	public_contract_subgraph_url:
 		'https://api.thegraph.com/subgraphs/name/marlinprotocol/staking-kovan',
-	public_contract_details_url: 'https://sk.app3.aragog.live/getcontractdetails',
+	public_contract_details_url: 'https://api.aragog.live/getcontractdetails',
 	valid_chain_ids: [421613, 1]
 };

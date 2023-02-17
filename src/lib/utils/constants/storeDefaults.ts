@@ -3,6 +3,7 @@ import type {
 	ContractAbi,
 	ContractAddress,
 	ReceiverStakingData,
+	SignerAddressStore,
 	WalletBalance,
 	WalletStore
 } from '$lib/types/storeTypes';
@@ -58,3 +59,6 @@ export const DEFAULT_RECEIVER_STAKING_DATA: ReceiverStakingData = {
 		epochLength: 1
 	}
 };
+
+// signerStore
+export const DEFAULT_SIGNER_ADDRESS_STORE: SignerAddressStore = '';

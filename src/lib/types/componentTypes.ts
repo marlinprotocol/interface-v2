@@ -63,3 +63,5 @@ export type ToastModel = {
 	timeout: number;
 	variant: CommonVariant;
 };
+
+export type InputCard = 'primary' | 'warning';

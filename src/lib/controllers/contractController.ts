@@ -49,7 +49,7 @@ export async function getContractDetails() {
 
 // ----------------------------- receiver staking contract methods -----------------------------
 
-export async function depositStakingToken(amount: BigNumber) {
+export async function depositStakingToken(amount: BigNumber, signerAddress: string) {
 	const receiverStakingContractAddress = contractAddresses.ReceiverStaking;
 	const receiverStakingContractAbi = contractAbi.ReceiverStaking;
 	const receiverStakingContract = new ethers.Contract(
@@ -62,7 +62,8 @@ export async function depositStakingToken(amount: BigNumber) {
 			message: MESSAGES.TOAST.ACTIONS.DEPOSIT.POND(bigNumberToCommaString(amount)),
 			variant: 'info'
 		});
-		const Tx = await receiverStakingContract.deposit(amount);
+
+		const Tx = await receiverStakingContract['deposit(uint256,address)'](amount, signerAddress);
 
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.CREATED,

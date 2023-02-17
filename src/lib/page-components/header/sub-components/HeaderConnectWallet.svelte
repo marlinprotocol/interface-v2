@@ -24,8 +24,6 @@
 {:else}
 	<label for="connect-wallet-modal" class={`${buttonClasses.outlined} flex gap-1`}>
 		<Icon data={lock} size={20} iconColorClass="icon-primary" />
-		<!-- if using below image then color is not updating on theme change -->
-		<!-- <img src="./images/lockicon.svg" alt="Lock Icon" width="12" /> -->
 		Connect Wallet
 	</label>
 	<ConnectWalletModal />

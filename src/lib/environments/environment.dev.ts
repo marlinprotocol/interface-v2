@@ -7,8 +7,8 @@ export const ENVIRONMENT_DEV = {
 	public_pond_subgraph_url: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-dev',
 	public_mpond_subgraph_url:
 		'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-dev',
-	public_contract_details_url: 'https://sk.app3.aragog.live/getcontractdetails',
 	public_contract_subgraph_url:
 		'https://api.thegraph.com/subgraphs/name/marlinprotocol/staking-kovan',
+	public_contract_details_url: 'https://api.aragog.live/getcontractdetails',
 	valid_chain_ids: [421613, 1]
 };

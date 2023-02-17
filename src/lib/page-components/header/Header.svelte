@@ -19,7 +19,6 @@
 			<HeaderConnectWallet />
 		</div>
 	</header>
-	<Divider margin="my-0" height="h-1" />
 </div>
 
 <style>
@@ -27,5 +26,6 @@
 		width: 90%;
 		margin: 0 auto;
 		border-color: 'grey-600';
+		border-bottom: 1px solid rgba(0, 0, 0, 0.07);
 	}
 </style>

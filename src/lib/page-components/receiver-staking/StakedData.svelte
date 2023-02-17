@@ -24,7 +24,7 @@
 </script>
 
 <div class={styles.wrapper}>
-	<div class={styles.cardWrapper}>
+	<div class={`${styles.cardWrapper}`}>
 		<DataRowCard
 			data={{
 				title: 'Staked',
@@ -37,13 +37,13 @@
 	<div class={styles.cardWrapper}>
 		<DataRowCard
 			data={{
-				title: 'In queue',
+				title: 'Queued',
 				value: receiverData.queuedBalance
 			}}
 		>
 			<InQueuedPopOver slot="icon" />
 		</DataRowCard>
 	</div>
-	<Divider margin="mt-3 mb-4" />
+	<Divider margin="mt-3 mb-5" />
 	<SignerAddress />
 </div>

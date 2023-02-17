@@ -5,5 +5,5 @@
 </script>
 
 <a href={navItem.href}>
-	<Text variant="h6" styleClass="font-bold" text={navItem.title} />
+	<Text variant="nav" text={navItem.title} />
 </a>

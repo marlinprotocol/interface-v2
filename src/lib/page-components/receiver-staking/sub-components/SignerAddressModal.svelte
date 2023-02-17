@@ -19,7 +19,7 @@
 	const styles = {
 		titleIcon: 'flex items-center gap-1',
 		inputNumber:
-			'input input-ghost h-[30px] w-full mt-1 p-0 font-semibold text-xl disabled:text-primary text-primary focus-within:text-primary placeholder:text-primary/[.3] focus:outline-none focus-within:border-b-2 focus:bg-transparent'
+			'input input-ghost h-[30px] w-full mt-1 p-0 font-semibold text-xl disabled:text-primary text-primary focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent'
 	};
 
 	async function handleSubmitClick() {
@@ -121,7 +121,7 @@
 			disabled={!submitEnable}
 			loading={submitLoading}
 			onclick={handleSubmitClick}
-			styleClass={'btn-block mt-4'}>SUBMIT</FilledButton
+			styleClass={'btn-block h-14 text-base font-semibold'}>SUBMIT</FilledButton
 		>
 	</svelte:fragment>
 </Modal>

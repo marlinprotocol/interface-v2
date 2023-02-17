@@ -1,6 +1,6 @@
 <script lang="ts">
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
-	import { buttonClasses, dividerClasses } from '$lib/atoms/componentClasses';
+	import { dividerClasses } from '$lib/atoms/componentClasses';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
@@ -11,14 +11,10 @@
 	export let inputAmountString: string;
 	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance';
 
-	// TODO (shivani): clean up the styles
 	const styles = {
-		wrapper: 'w-full flex flex-col items-center justify-center',
-		rowClass: 'w-full flex items-center justify-between',
 		titleIcon: 'flex items-center gap-1',
 		inputNumber:
-			'input input-ghost w-full p-0 fond-bold text-xl focus-within:text-primary focus:outline-none  focus-within:border-b-2 focus:bg-transparent',
-		inputEndButton: `${buttonClasses.text} text-lg text-primary font-medium`
+			'font-orbitron input input-ghost w-full p-0 ml-0.5 font-semibold text-xl text-primary placeholder:text-primary/[.2] focus-within:text-primary focus:outline-none focus-within:border-b-2 focus:bg-transparent'
 	};
 </script>
 
@@ -45,7 +41,7 @@
 		<div class="flex items-center gap-2">
 			<slot name="input-max-button" />
 			<div class={dividerClasses.vertical} />
-			<Text variant="small" styleClass="text-gray-400" text={maxAmountText} />
+			<Text variant="small" styleClass="text-gray-500" text={maxAmountText} />
 		</div>
 	</form>
 </InputCard>

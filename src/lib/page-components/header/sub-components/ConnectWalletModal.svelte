@@ -1,5 +1,5 @@
 <script lang="ts">
-	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
+	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import { connectWallet } from '$lib/controllers/walletController';
 	import { walletOptions } from '$lib/data-stores/walletProviderStore';
@@ -19,13 +19,14 @@
 					imageSrc={getImagebyWalletProvider(walletOption.provider)}
 					title={walletOption.provider}
 				>
-					<FilledButton
+					<Button
 						slot="button"
 						onclick={() => connectWallet(walletOption.provider)}
-						styleClass={'w-full shrink'}
+						variant="filled"
+						styleClass={'w-full h-12'}
 					>
 						Connect
-					</FilledButton>
+					</Button>
 				</WalletCard>
 			{/each}
 		</div>

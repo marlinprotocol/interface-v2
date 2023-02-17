@@ -24,6 +24,8 @@
 				return 'text-sm';
 			case 'tiny':
 				return 'text-xs';
+			case 'nav':
+				return 'text-sm';
 			default:
 				return 'text-base';
 		}
@@ -43,6 +45,8 @@
 			case 'small':
 			case 'tiny':
 				return 'font-normal';
+			case 'nav':
+				return 'font-semibold';
 			default:
 				return 'text-normal';
 		}

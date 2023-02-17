@@ -15,7 +15,8 @@ module.exports = {
 				125: '500px' //or 125rem
 			},
 			fontFamily: {
-				poppins: ['Poppins', 'sans-serif']
+				poppins: ['Poppins', 'sans-serif'],
+				orbitron: ['Orbitron', 'sans-serif']
 			},
 			zIndex: {
 				100: '100',
@@ -51,22 +52,21 @@ module.exports = {
 					'error-focus': '#b30202',
 					'error-content': '#ffffff',
 					'background-color': '#e9f2f5', //e9f2f5
+					//custom designs
+					'.modal-backdrop': {
+						'background-color': '#010324cc'
+					},
 					'.icon-info': {
 						color: '#6b7280'
 					},
 					'.icon-primary': {
 						color: '#3840c7'
 					},
-					//custom designs
 					'.btn': {
 						'text-transform': 'none'
 					},
 					'.btn-theme': {
-						'border-radius': '8px',
-						height: '56px',
-						'font-weight': '600',
-						'font-size': '16px',
-						'line-height': '1.5'
+						'border-radius': '8px'
 					},
 					'.btn-disabled': {
 						cursor: 'not-allowed'

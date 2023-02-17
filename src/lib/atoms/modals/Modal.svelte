@@ -1,31 +1,40 @@
 <script lang="ts">
+	import Icon from '../icons/Icon.svelte';
+	import close from 'svelte-awesome/icons/close';
+
 	export let modalFor: string = '';
 
 	const styles = {
 		header: 'text-body text-gray-500 text-left',
 		title: 'text-2xl font-bold text-left',
-		subtitle: 'text-sm text-left mt-1 text-gray-400',
+		subtitle: 'text-[15px] font-medium text-left mt-1 text-black/50',
 		closeButton:
-			'absolute right-4 top-4 text-sm font-bold text-gray-300 cursor-pointer w-8 h-8 border-2 border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100'
+			'self-start text-sm font-bold text-gray-300 cursor-pointer min-w-[3rem] h-12 border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-100'
 	};
 </script>
 
 <input type="checkbox" id={modalFor} class="modal-toggle" />
-<div class="modal">
-	<div class="modal-box w-11/12 sm:w-3/4 sm:max-w-[585px] rounded-md p-6 bg-base-100">
-		<div class={styles.header}>
-			<slot name="header" />
+<div class="modal modal-backdrop">
+	<div class="modal-box w-11/12 sm:w-3/4 sm:max-w-[585px] rounded-lg p-6 bg-base-100 shadow-none">
+		<div class="flex items-center">
+			<div class="flex flex-col w-full">
+				<div class={styles.header}>
+					<slot name="header" />
+				</div>
+				<div class={styles.title}>
+					<slot name="title" />
+				</div>
+				<div class={styles.subtitle}>
+					<slot name="subtitle" />
+				</div>
+			</div>
+			<label for={modalFor} class={styles.closeButton}>
+				<Icon data={close} size={18} iconColorClass="icon-secondary" />
+			</label>
 		</div>
-		<div class={styles.title}>
-			<slot name="title" />
-		</div>
-		<label for={modalFor} class={styles.closeButton}>✕</label>
-		<div class={styles.subtitle}>
-			<slot name="subtitle" />
-		</div>
-		<div class="mt-4" />
+		<div class="mt-8" />
 		<slot name="content" />
-		<div class="mt-4" />
+		<div class="mt-10" />
 		<slot name="action-buttons" />
 	</div>
 </div>

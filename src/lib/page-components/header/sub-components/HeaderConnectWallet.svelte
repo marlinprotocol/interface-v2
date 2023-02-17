@@ -15,14 +15,17 @@
 {#if $connected}
 	<label
 		for="disconnect-wallet-modal"
-		class="bg-base-100 cursor-pointer text-primary text-sm font-semibold rounded-lg shadow-sm flex gap-2 pl-3 pr-4 py-1 items-center border-primary border"
+		class="bg-base-100 cursor-pointer text-primary text-sm font-semibold rounded-lg shadow-sm flex gap-2 px-4 py-2 items-center"
 	>
 		<img src="./images/wallet-connected.svg" alt="Metamask Logo" />
 		{shortAddress}
 	</label>
 	<DisconnectWalletModal />
 {:else}
-	<label for="connect-wallet-modal" class={`${buttonClasses.outlined} flex gap-1`}>
+	<label
+		for="connect-wallet-modal"
+		class={`${buttonClasses.outlined} h-11 font-semibold text-sm flex gap-2`}
+	>
 		<Icon data={lock} size={20} iconColorClass="icon-primary" />
 		Connect Wallet
 	</label>

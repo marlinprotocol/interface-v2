@@ -7,11 +7,12 @@ export type TabModel = {
 
 export type ButtonModel = {
 	variant?: 'filled' | 'outlined' | 'text' | 'error';
+	size?: 'small' | 'medium' | 'large';
 	onclick: () => void;
 };
 
 export type TextModel = {
-	variant: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body' | 'small' | 'mini' | 'tiny';
+	variant: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body' | 'small' | 'mini' | 'tiny' | 'nav';
 	text: string;
 	styleClass?: string;
 };

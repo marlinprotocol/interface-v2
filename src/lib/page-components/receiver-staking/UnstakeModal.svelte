@@ -117,7 +117,7 @@
 			disabled={!submitEnable}
 			loading={submitLoading}
 			onclick={handleSubmitClick}
-			styleClass={'btn-block mt-4'}>WITHDRAW STAKE</FilledButton
+			styleClass={'btn-block h-14 text-base font-semibold'}>WITHDRAW STAKE</FilledButton
 		>
 	</svelte:fragment>
 </Modal>

@@ -14,12 +14,12 @@
 <div class={styles.itemCard}>
 	<div class={styles.dataRow}>
 		<div class={styles.titleIcon}>
-			<Text variant="body" styleClass="text-gray-500" text={data.title} />
+			<Text variant="body" styleClass="text-black" text={data.title} />
 			<slot name="icon" />
 		</div>
 		<Text
-			variant="h5"
-			styleClass="text-primary font-medium text-right"
+			variant="h4"
+			styleClass="text-primary font-semibold text-right font-orbitron"
 			text={`${bigNumberToCommaString(data.value)} POND`}
 		/>
 	</div>

@@ -5,9 +5,10 @@
 	import OutlinedButton from '$lib/atoms/buttons/OutlinedButton.svelte';
 
 	export let variant: ButtonModel['variant'] = 'filled';
+	export let size: ButtonModel['size'] = 'medium';
+	export let styleClass = '';
 	export let onclick: ButtonModel['onclick'] = () => {};
 
-	export const styleClass = '';
 	const buttonClass = () => {
 		switch (variant) {
 			case 'filled':
@@ -20,11 +21,24 @@
 				return FilledButton;
 		}
 	};
+	const getButtonSize = () => {
+		switch (size) {
+			case 'small':
+				return 'h-11';
+			case 'medium':
+				return 'h-12';
+			case 'large':
+				return 'h-14';
+			default:
+				return 'h-10';
+		}
+	};
 	const ButtonType = buttonClass();
+	const buttonSize = getButtonSize();
 </script>
 
 {#if !!ButtonType}
-	<ButtonType {onclick} {styleClass}>
+	<ButtonType {onclick} styleClass={`${styleClass} ${buttonSize}`}>
 		<slot />
 	</ButtonType>
 {/if}

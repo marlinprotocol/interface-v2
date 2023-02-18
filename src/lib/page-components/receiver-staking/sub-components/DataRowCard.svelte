@@ -18,8 +18,8 @@
 			<slot name="icon" />
 		</div>
 		<Text
-			variant="h4"
-			styleClass="text-primary font-semibold text-right font-orbitron"
+			variant="body"
+			styleClass="font-semibold text-right"
 			text={`${bigNumberToCommaString(data.value)} POND`}
 		/>
 	</div>

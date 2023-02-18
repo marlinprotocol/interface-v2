@@ -19,7 +19,7 @@
 
 	const styles = {
 		wrapper: 'w-full flex flex-col items-center justify-center py-8',
-		cardWrapper: 'w-full flex px-2'
+		cardWrapper: 'w-full flex px-2 mb-2'
 	};
 </script>
 
@@ -31,7 +31,7 @@
 				value: receiverData.stakedBalance
 			}}
 		>
-			<TooltipIcon slot="icon" tooltipText={'Some explanatory text here!!'} styleClass="ml-1" />
+			<TooltipIcon slot="icon" tooltipText={`Staked PONDs`} styleClass="ml-1" />
 		</DataRowCard>
 	</div>
 	<div class={styles.cardWrapper}>
@@ -44,6 +44,6 @@
 			<InQueuedPopOver slot="icon" />
 		</DataRowCard>
 	</div>
-	<Divider margin="mt-3 mb-5" />
+	<Divider margin="mt-1 mb-6" />
 	<SignerAddress />
 </div>

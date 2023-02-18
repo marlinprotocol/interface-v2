@@ -99,13 +99,9 @@
 			bind:inputAmountString
 			maxAmountText={balanceText}
 		>
-			<Tooltip
-				slot="input-max-button"
-				tooltipText="Can add optional text here"
-				tooltipDirection="tooltip-right"
+			<button slot="input-max-button" on:click={handleMaxClick} class={styles.inputMaxButton}
+				>MAX</button
 			>
-				<button on:click={handleMaxClick} class={styles.inputMaxButton}>MAX</button>
-			</Tooltip>
 		</ModalPondInput>
 
 		{#if !!pondDisabledText}

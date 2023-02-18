@@ -1,15 +1,13 @@
 <script lang="ts">
-	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import PopOver from '$lib/atoms/pop-over/PopOver.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import { epochCycleStore } from '$lib/data-stores/epochCycleStore';
+	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import type { EpochCycleStore, ReceiverStakingData } from '$lib/types/storeTypes';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
-	import question from 'svelte-awesome/icons/question';
-	import type { Unsubscriber } from 'svelte/store';
 	import { onDestroy } from 'svelte';
-	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
+	import type { Unsubscriber } from 'svelte/store';
 
 	export let iconWidth = 15;
 
@@ -31,7 +29,7 @@
 	onDestroy(unsubscribeEpochCycleStore);
 
 	$: title = `${bigNumberToCommaString(receiverData.queuedBalance)} POND in queue`;
-	$: description = `Add some description over here!!!`;
+	$: description = `Queued POND will be staked at the start of the next epoch cycle.`;
 	$: subtitle = `Queued POND will be staked`;
 
 	//if queued balance is greater than 0 then inQueue is true
@@ -41,15 +39,14 @@
 	$: endEpochTime =
 		receiverData.epochData.startTime + receiverData.epochData.epochLength * localEpochCycle;
 
-	console.log('endEpochTime :>> ', endEpochTime);
 	const styles = {
-		title: 'py-2 px-3 bg-gray-200 rounded',
-		subtitle: 'py-2 px-3 text-left'
+		title: 'py-2 px-3 bg-gray-600 text-white rounded-t',
+		subtitle: 'py-2 px-3 text-left bg-black text-white rounded-b'
 	};
 </script>
 
 <PopOver>
-	<Icon slot="icon" data={question} size={iconWidth} border={true} />
+	<img slot="icon" src={'./images/alert.svg'} alt="Info" width={iconWidth} />
 	<svelte:fragment slot="content">
 		<div class={styles.title}>
 			<Text variant="h6" text={title} />

@@ -1,5 +1,6 @@
 export const buttonClasses = {
-	filled: 'btn btn-theme btn-sm px-5 btn-primary',
+	filled:
+		'btn btn-theme btn-sm px-5 btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white',
 	greyFilled:
 		'btn btn-theme btn-sm px-5 bg-base-200 text-primary border-none hover:bg-base-300 flex gap-2 items-center',
 	outlined:
@@ -11,6 +12,6 @@ export const buttonClasses = {
 };
 
 export const dividerClasses = {
-	vertical: 'w-0.5 bg-gray-300 h-3 rounded',
+	vertical: 'w-[1px] bg-gray-500 h-4 rounded',
 	horizontal: 'h-0.5 bg-gray-200 w-full rounded'
 };

@@ -12,6 +12,7 @@
 	} from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { signerAddressStore } from '$lib/data-stores/signerStore';
+	import { addToast } from '$lib/data-stores/toastStore';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
@@ -72,6 +73,14 @@
 	};
 
 	const handleApproveClick = async () => {
+		if (!inputAmount || !inputAmount.gt(0)) {
+			addToast({
+				message: 'Please enter an valid amount',
+				variant: 'error'
+			});
+			return;
+		}
+
 		approveLoading = true;
 
 		try {
@@ -182,13 +191,9 @@
 			bind:inputAmountString
 			maxAmountText={balanceText}
 		>
-			<Tooltip
-				slot="input-max-button"
-				tooltipText="Can add optional text here"
-				tooltipDirection="tooltip-right"
+			<button slot="input-max-button" on:click={handleMaxClick} class={styles.inputMaxButton}
+				>MAX</button
 			>
-				<button on:click={handleMaxClick} class={styles.inputMaxButton}>MAX</button>
-			</Tooltip>
 			<ModalApproveButton
 				slot="input-end-button"
 				disabled={approveDisabled}

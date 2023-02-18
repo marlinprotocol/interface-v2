@@ -1,14 +1,11 @@
 <script lang="ts">
-	import Icon from '$lib/atoms/icons/Icon.svelte';
+	import Button from '$lib/atoms/buttons/Button.svelte';
+	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
-	import copy from 'svelte-awesome/icons/copy';
-	import externalLink from 'svelte-awesome/icons/externalLink';
+	import { addToast } from '$lib/data-stores/toastStore';
 	import { resetWalletProviderStore, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
-	import { buttonClasses } from '$lib/atoms/componentClasses';
-	import { addToast } from '$lib/data-stores/toastStore';
-	import Button from '$lib/atoms/buttons/Button.svelte';
 
 	const modalFor = 'disconnect-wallet-modal';
 	$: blockChainExplorerLink = `https://arbiscan.io/address/${$walletStore.address}`;
@@ -34,17 +31,17 @@
 		</div>
 		<div class="flex gap-4">
 			<div
-				class={`${buttonClasses.greyFilled} h-10 text-small font-medium`}
+				class={`${buttonClasses.greyFilled} h-10 text-small font-medium gap-3`}
 				on:keypress={onCopyAddress}
 				on:click={onCopyAddress}
 			>
-				<Icon data={copy} iconColorClass={'icon-primary'} />
+				<img src="./images/copyicon.svg" alt="Copy" />
 				Copy Address
 			</div>
 			<!-- TODO: make link and text dynamic based on chain -->
 			<a href={blockChainExplorerLink} target="_blank" rel="noopener noreferrer"
-				><div class={`${buttonClasses.greyFilled} h-10 text-small font-medium`}>
-					<Icon data={externalLink} iconColorClass={'icon-primary'} />
+				><div class={`${buttonClasses.greyFilled} h-10 text-small font-medium gap-3`}>
+					<img src="./images/openinnew.svg" alt="Open" />
 					View on Arbiscan
 				</div></a
 			>
@@ -55,7 +52,7 @@
 			variant="filled"
 			size="large"
 			onclick={() => resetWalletProviderStore()}
-			styleClass={'w-full font-semibold text-base'}>Disconnect Wallet</Button
+			styleClass={'w-full font-semibold text-base'}>LOGOUT</Button
 		>
 	</svelte:fragment>
 </Modal>

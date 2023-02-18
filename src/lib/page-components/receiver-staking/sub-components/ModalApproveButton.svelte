@@ -18,7 +18,6 @@
 	} ${loading ? 'loading' : ''}`;
 </script>
 
-<!-- TODO (shivani): approve button can be reached with using the tab key, which can cause event triggers based on 'ENTER' key press and enable MM popup -->
 <button class={styleClass} on:click={handleApproveClick}>
 	<div class="flex gap-1 items-center">
 		{#if approved}

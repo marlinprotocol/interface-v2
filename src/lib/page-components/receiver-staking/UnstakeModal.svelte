@@ -1,5 +1,6 @@
 <script lang="ts">
 	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
+	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
@@ -105,7 +106,9 @@
 		</ModalPondInput>
 
 		{#if !!pondDisabledText}
-			<Text variant="small" styleClass="text-red-500 my-2" text={pondDisabledText} />
+			<InputCard variant="warning" styles="mt-4 bg-red-100">
+				<Text variant="small" styleClass="text-red-500 my-2" text={pondDisabledText} />
+			</InputCard>
 		{/if}
 	</svelte:fragment>
 	<svelte:fragment slot="action-buttons">

@@ -73,6 +73,8 @@
 	};
 
 	const handleApproveClick = async () => {
+		if (approveDisabled) return;
+
 		if (!inputAmount || !inputAmount.gt(0)) {
 			addToast({
 				message: 'Please enter an valid amount',
@@ -105,6 +107,8 @@
 	};
 
 	const handleSubmitClick = async () => {
+		if (!submitEnable) return;
+
 		// TODO: check if we need to close modal after submit
 		submitLoading = true;
 
@@ -149,20 +153,25 @@
 	onDestroy(unsubscribeWalletBalanceStore);
 	onDestroy(unsubscribeReceiverStakingStore);
 
-	// TODO(shivani): validation is being done in a wrongful manner, Boolean(inputAmount) is always going to return true
 	//button states
 	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount or approved amount is less than or equal to input amount, disable approve button
 	$: approveDisabled =
-		!!!inputAmount || !!!maxPondBalance?.gte(inputAmount) || !!approvedAmount?.gte(inputAmount);
+		!!!inputAmount ||
+		!inputAmount.gt(0) ||
+		!!!maxPondBalance?.gte(inputAmount) ||
+		!!approvedAmount?.gte(inputAmount);
 
 	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount, disable submit button
 	$: pondDisabledText =
-		!!inputAmount && !!!maxPondBalance?.gte(inputAmount) ? 'Insufficient POND' : '';
+		!!inputAmount && inputAmount.gt(0) && !!!maxPondBalance?.gte(inputAmount)
+			? 'Insufficient POND'
+			: '';
 
 	//if signerAddress is already set then we consider only inputAmount else we also consider signerAddress to be set while disabling submit button
 	$: submitEnable =
 		$signerAddressStore === DEFAULT_SIGNER_ADDRESS_STORE
 			? !!inputAmount &&
+			  inputAmount.gt(0) &&
 			  approvedAmount?.gte(inputAmount) &&
 			  maxPondBalance?.gte(inputAmount) &&
 			  updatedSignerAddress !== '' &&
@@ -226,12 +235,12 @@
 		{/if}
 
 		{#if !signerAddressIsValid && updatedSignerAddressInputDirty}
-			<InputCard variant="warning" styles="mt-4">
+			<InputCard variant="warning" styles="mt-4 bg-red-100">
 				<Text variant="small" styleClass="text-red-500 my-2" text="Enter a valid address" />
 			</InputCard>
 		{/if}
 		{#if !!pondDisabledText}
-			<InputCard variant="warning" styles="mt-4">
+			<InputCard variant="warning" styles="mt-4 bg-red-100">
 				<Text variant="small" styleClass="text-red-500 my-2" text={pondDisabledText} />
 			</InputCard>
 		{/if}

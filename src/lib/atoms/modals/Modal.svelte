@@ -1,5 +1,6 @@
 <script lang="ts">
 	export let modalFor: string = '';
+	export let modalWidth: string = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
 
 	const styles = {
 		header: 'text-body text-gray-500 text-left',
@@ -12,7 +13,7 @@
 
 <input type="checkbox" id={modalFor} class="modal-toggle" />
 <div class="modal modal-backdrop">
-	<div class="modal-box w-11/12 sm:w-3/4 sm:max-w-[607px] rounded-lg p-6 bg-base-100 shadow-none">
+	<div class={`${modalWidth} modal-box rounded-lg p-6 bg-base-100 shadow-none`}>
 		<div class="flex items-center">
 			<div class="flex flex-col w-full">
 				<div class={styles.header}>

@@ -12,7 +12,7 @@
 	const styles = {
 		buttonsGroup: 'flex gap-4 items-center justify-center w-full',
 		buttonWrapper: 'w-1/2',
-		buttonBase: 'h-12 text-base font-semibold'
+		buttonLarge: 'h-14 text-base font-semibold'
 	};
 </script>
 
@@ -23,13 +23,14 @@
 		{#if $connected}
 			<div class={styles.buttonsGroup}>
 				<div class={styles.buttonWrapper}>
-					<label for="stake-modal" class={`${buttonClasses.filled} ${styles.buttonBase} w-full`}
+					<label for="stake-modal" class={`${buttonClasses.filled} ${styles.buttonLarge} w-full`}
 						>STAKE</label
 					>
 				</div>
 				<div class={styles.buttonWrapper}>
-					<label for="unstake-modal" class={`${buttonClasses.outlined} ${styles.buttonBase} w-full`}
-						>UNSTAKE</label
+					<label
+						for="unstake-modal"
+						class={`${buttonClasses.outlined} ${styles.buttonLarge} w-full`}>UNSTAKE</label
 					>
 				</div>
 			</div>
@@ -38,10 +39,10 @@
 		{:else}
 			<label
 				for="connect-wallet-modal"
-				class={`${buttonClasses.filled} ${styles.buttonBase} flex gap-1`}
+				class={`${buttonClasses.filled} ${styles.buttonLarge} flex gap-1`}
 			>
 				<Icon data={lock} size={20} iconColorClass="text-white" />
-				CONNECT WALLET
+				Connect Wallet
 			</label>
 		{/if}
 	</ContainerCard>

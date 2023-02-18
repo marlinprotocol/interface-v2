@@ -7,9 +7,10 @@
 	import WalletCard from './WalletCard.svelte';
 
 	const modalFor = 'connect-wallet-modal';
+	const modalWidth = 'max-w-[500px]';
 </script>
 
-<Modal {modalFor}>
+<Modal {modalFor} {modalWidth}>
 	<svelte:fragment slot="header">Unlock Wallet</svelte:fragment>
 	<svelte:fragment slot="title">Select a provider</svelte:fragment>
 	<svelte:fragment slot="action-buttons">
@@ -23,7 +24,7 @@
 						slot="button"
 						onclick={() => connectWallet(walletOption.provider)}
 						variant="filled"
-						styleClass={'w-full h-12'}
+						styleClass={'w-[170px] h-12 text-base font-semibold'}
 					>
 						Connect
 					</Button>

@@ -43,7 +43,7 @@
 {:else}
 	<label
 		for="connect-wallet-modal"
-		class={`${buttonClasses.outlined} h-11 font-semibold text-sm flex gap-2`}
+		class={`${buttonClasses.outlined} h-11 font-semibold text-sm flex gap-[10.3px]`}
 	>
 		<img src="./images/lockicon.svg" alt="Connect" />
 		Connect Wallet

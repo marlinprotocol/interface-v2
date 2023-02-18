@@ -11,8 +11,8 @@
 
 <div class={styles.card}>
 	{#if !!imageSrc}
-		<img src={imageSrc} alt={title} width="60px" />
+		<img src={imageSrc} alt={title} width="64px" />
 	{/if}
-	<Text variant="h4" text={title} styleClass="my-4" />
+	<Text text={title} styleClass="mt-4 mb-6 text-[19px] font-semibold font-sans" />
 	<slot name="button" />
 </div>

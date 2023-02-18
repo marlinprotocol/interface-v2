@@ -13,6 +13,6 @@
 	{#if !!imageSrc}
 		<img src={imageSrc} alt={title} width="64px" />
 	{/if}
-	<Text text={title} styleClass="mt-4 mb-6 text-[19px] font-semibold font-sans" />
+	<Text text={title} variant="h4" styleClass="mt-4 mb-6 font-semibold font-sans" />
 	<slot name="button" />
 </div>

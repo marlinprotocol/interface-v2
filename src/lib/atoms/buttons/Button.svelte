@@ -8,6 +8,7 @@
 	export let size: ButtonModel['size'] = 'medium';
 	export let styleClass = '';
 	export let onclick: ButtonModel['onclick'] = () => {};
+	export let disabled: boolean = false;
 
 	const buttonClass = () => {
 		switch (variant) {
@@ -38,7 +39,7 @@
 </script>
 
 {#if !!ButtonType}
-	<ButtonType {onclick} styleClass={`${styleClass} ${buttonSize}`}>
+	<ButtonType {onclick} {disabled} styleClass={`${styleClass} ${buttonSize}`}>
 		<slot />
 	</ButtonType>
 {/if}

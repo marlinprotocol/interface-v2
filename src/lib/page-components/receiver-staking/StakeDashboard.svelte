@@ -3,6 +3,7 @@
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
+	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import StakedData from '$lib/page-components/receiver-staking/StakedData.svelte';
 	import StakeModal from '$lib/page-components/receiver-staking/StakeModal.svelte';
@@ -14,6 +15,10 @@
 		buttonWrapper: 'w-1/2',
 		buttonLarge: 'h-14 text-base font-semibold'
 	};
+
+	$: validBalance = $receiverStakingStore.approvedBalance
+		.add($receiverStakingStore.stakedBalance)
+		.gt(0);
 </script>
 
 <div>
@@ -27,11 +32,20 @@
 						>STAKE</label
 					>
 				</div>
+
 				<div class={styles.buttonWrapper}>
-					<label
-						for="unstake-modal"
-						class={`${buttonClasses.outlined} ${styles.buttonLarge} w-full`}>UNSTAKE</label
-					>
+					{#if validBalance}
+						<label
+							for="unstake-modal"
+							class={`${buttonClasses.outlined} ${styles.buttonLarge} w-full`}>UNSTAKE</label
+						>
+					{:else}
+						<div
+							class={`${buttonClasses.outlined} ${styles.buttonLarge} w-full btn-disabled opacity-60`}
+						>
+							UNSTAKE
+						</div>
+					{/if}
 				</div>
 			</div>
 			<StakeModal />

@@ -34,6 +34,10 @@ export function isAddressValid(address: string): boolean {
  * @example minifyAddress('0x1234567890123456789012345678901234567890') => 0x1234...1234
  * @example minifyAddress('0x1234567890123456789012345678901234567890', 3, 2) => 0x1...34
  */
-export function minifyAddress(address: string, first = 6, last = 4): string {
+export function minifyAddress(
+	address = '0x0000000000000000000000000000000000000000',
+	first = 6,
+	last = 4
+): string {
 	return address.slice(0, first) + '...' + address.slice(-last);
 }

@@ -55,7 +55,18 @@ async function getWalletProvider(walletType: WALLET_TYPE) {
 
 async function getMetamaskWalletProvider() {
 	console.log('connecting to metamask...');
-	return new ethers.providers.Web3Provider(window.ethereum);
+	const metamaskProvider = window.ethereum;
+
+	metamaskProvider.on('accountsChanged', (accounts: string[]) => {
+		connectWallet(WALLET_TYPE.metamask);
+	});
+
+	metamaskProvider.on('networkChanged', (networkId: string) => {
+		//TODO: add network change handler
+		connectWallet(WALLET_TYPE.metamask);
+	});
+
+	return new ethers.providers.Web3Provider(metamaskProvider);
 }
 
 // TODO: need to integrate wallet connect

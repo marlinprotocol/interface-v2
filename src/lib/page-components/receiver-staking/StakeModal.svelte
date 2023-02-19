@@ -112,7 +112,17 @@
 		submitLoading = true;
 
 		try {
-			await depositStakingToken(inputAmount, updatedSignerAddress);
+			if (updatedSignerAddress !== DEFAULT_RECEIVER_STAKING_DATA.signer) {
+				await depositStakingToken(inputAmount, updatedSignerAddress);
+				receiverStakingStore.update((value: ReceiverStakingData) => {
+					return {
+						...value,
+						signer: updatedSignerAddress
+					};
+				});
+			} else {
+				await depositStakingToken(inputAmount);
+			}
 
 			// update wallet balance locally
 			walletBalance.update((value: WalletBalance) => {
@@ -126,8 +136,7 @@
 			receiverStakingStore.update((value: ReceiverStakingData) => {
 				return {
 					...value,
-					queuedBalance: value.queuedBalance.add(inputAmount),
-					signer: updatedSignerAddress
+					queuedBalance: value.queuedBalance.add(inputAmount)
 				};
 			});
 

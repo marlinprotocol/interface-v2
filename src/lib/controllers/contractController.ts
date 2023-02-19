@@ -112,8 +112,8 @@ export async function depositStakingToken(amount: BigNumber, signerAddress = '')
 
 		const tx =
 			signerAddress === ''
-				? await receiverStakingContract['deposit(uint256,address)'](amount, signerAddress)
-				: await receiverStakingContract.deposit(amount);
+				? await receiverStakingContract['deposit(uint256)'](amount)
+				: await receiverStakingContract['deposit(uint256,address)'](amount, signerAddress);
 
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.CREATED,

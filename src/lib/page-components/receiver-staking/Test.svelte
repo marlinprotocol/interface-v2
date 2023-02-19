@@ -106,7 +106,7 @@
 	<button
 		class="btn btn-secondary"
 		on:click={() => getReceiverPondBalanceFromSubgraph(wallet.address)}
-		>Fetch clusters from subgraph</button
+		>Fetch receiver pond balance</button
 	>
 	<div>Check console for response</div>
 	<button

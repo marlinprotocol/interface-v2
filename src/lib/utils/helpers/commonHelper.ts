@@ -21,8 +21,6 @@ export function closeModal(modalId: string) {
 
 /**
  * checks and returns if the address is valid or not
- * @param address
- * @returns
  */
 export function isAddressValid(address: string): boolean {
 	return /^0x[a-fA-F0-9]{40}$/.test(address);

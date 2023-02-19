@@ -10,6 +10,7 @@
 	export let tooltipText: ModalInputModel['tooltipText'] = '';
 	export let inputAmountString: string;
 	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance';
+	export let handleUpdatedAmount: (event: Event) => void;
 
 	const styles = {
 		titleIcon: 'flex items-center gap-1',
@@ -22,18 +23,21 @@
 	<div class={styles.titleIcon}>
 		<Text variant="small" text={title} />
 		{#if !!tooltipText}
-			<TooltipIcon {tooltipText} tooltipVariant="tooltip-secondary" />
+			<TooltipIcon
+				{tooltipText}
+				tooltipVariant="tooltip-secondary"
+				tooltipDirection="tooltip-right"
+			/>
 		{/if}
 	</div>
 	<form>
 		<div class="flex items-center">
-			<!-- TODO: add number validation -->
 			<input
 				bind:value={inputAmountString}
-				id="pond"
+				on:input={handleUpdatedAmount}
+				id="pond-input-amount"
 				class={`hideInputNumberAppearance ${styles.inputNumber}`}
 				placeholder="0.00"
-				required
 			/>
 			<slot name="input-end-button" />
 		</div>

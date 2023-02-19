@@ -1,6 +1,9 @@
 <script lang="ts">
+	import { closeModal } from '$lib/utils/helpers/commonHelper';
+
 	export let modalFor: string = '';
 	export let modalWidth: string = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
+	export let onClose: () => void = () => {};
 
 	const styles = {
 		header: 'text-[15px] text-[#0a0e3099] text-left font-medium',
@@ -26,9 +29,15 @@
 					<slot name="subtitle" />
 				</div>
 			</div>
-			<label for={modalFor} class={styles.closeButton}>
+			<button
+				class={styles.closeButton}
+				on:click={() => {
+					closeModal(modalFor);
+					onClose();
+				}}
+			>
 				<img src="./images/close-circle-icon.svg" alt="Close" />
-			</label>
+			</button>
 		</div>
 		<div class="mt-8" />
 		<slot name="content" />

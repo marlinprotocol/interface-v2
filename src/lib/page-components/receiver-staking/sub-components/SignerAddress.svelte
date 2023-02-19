@@ -10,7 +10,8 @@
 	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 
-	const tooltipText = 'The address of the signer account.';
+	const tooltipText =
+		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';
 	const title = 'Signer Address';
 	const styles = {
 		titleIcon: 'flex items-center gap-1',

@@ -70,8 +70,13 @@ export const bigNumberToCommaString = (
  * @returns string
  */
 export const bigNumberToString = (value: BigNumber, bigNumberDecimal: number = 18) => {
-	if (!!!value) return '0';
-	return ethers.utils.formatUnits(value, bigNumberDecimal);
+	if (!!!value) return '0.00';
+	let ret = ethers.utils.formatUnits(value, bigNumberDecimal);
+	//if decimal count is less than 2, pad end it with 0
+	if (ret.split('.')[1].length < 2) {
+		ret = ret.split('.')[0] + '.' + ret.split('.')[1].padEnd(2, '0');
+	}
+	return ret;
 };
 
 //return bignumber from string with decimal

@@ -4,7 +4,6 @@
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { withdrawStakingToken } from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
@@ -14,16 +13,26 @@
 		bigNumberToString,
 		stringToBigNumber
 	} from '$lib/utils/conversion';
+	import {
+		closeModal,
+		inputAmountInValidMessage,
+		isInputAmountValid
+	} from '$lib/utils/helpers/commonHelper';
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
 	const modalFor = 'unstake-modal';
-
+	const subtitle =
+		'Enter the amount of POND to be unstaked from the receiver address. Unstaking POND is immediate and should reflect in your wallet after the transaction is confirmed.';
+	const toolTipText =
+		'Enter the amount of POND you would like to unstake from the receiver address.';
 	//initial amount states
 	let inputAmount: BigNumber;
 	let inputAmountString: string;
 
-	$: inputAmount = stringToBigNumber(inputAmountString);
+	$: inputAmount = isInputAmountValid(inputAmountString)
+		? stringToBigNumber(inputAmountString)
+		: BigNumber.from(0);
 
 	//loading states
 	let submitLoading: boolean = false;
@@ -37,11 +46,27 @@
 		maxAmount = stakedBalance.add(queuedBalance);
 
 		balanceText = `Staked: ${bigNumberToCommaString(stakedBalance)}${
-			!queuedBalance.isZero() ? ', queued: ' + bigNumberToCommaString(queuedBalance) : ''
+			!queuedBalance.isZero() ? ' + Queued: ' + bigNumberToCommaString(queuedBalance) : ''
 		}`;
 	});
 
 	onDestroy(unsubscribeReceiverStakedStore);
+
+	//input amount states
+	let inputAmountIsValid: boolean = false;
+	let updatedAmountInputDirty: boolean = false;
+	let inValidMessage: string = '';
+
+	/**
+	 * checks if input amount is valid
+	 * @param event
+	 */
+	const handleUpdatedAmount = (event: Event) => {
+		updatedAmountInputDirty = true;
+		const target = event.target as HTMLInputElement;
+		inputAmountIsValid = target.value ? isInputAmountValid(target.value) : false;
+		inValidMessage = inputAmountInValidMessage(target.value);
+	};
 
 	$: pondDisabledText = !!inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient POND' : '';
 	$: submitEnable = !!inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
@@ -55,7 +80,7 @@
 		submitLoading = true;
 		try {
 			await withdrawStakingToken(inputAmount);
-
+			closeModal(modalFor);
 			//substract input amount first from queued amount and then from staked amount
 			receiverStakingStore.update((value) => {
 				if (inputAmount.gt(value.queuedBalance)) {
@@ -79,6 +104,9 @@
 	//reset input
 	const resetInputs = () => {
 		inputAmountString = '';
+		inputAmountIsValid = false;
+		updatedAmountInputDirty = false;
+		inValidMessage = '';
 	};
 
 	const styles = {
@@ -86,25 +114,30 @@
 	};
 </script>
 
-<Modal {modalFor}>
+<Modal {modalFor} onClose={resetInputs}>
 	<svelte:fragment slot="title">
 		{'UNSTAKE POND'}
 	</svelte:fragment>
 	<svelte:fragment slot="subtitle">
-		{'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.'}
+		{subtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<ModalPondInput
 			title={'POND'}
-			tooltipText={'Some text here'}
+			tooltipText={toolTipText}
 			bind:inputAmountString
+			{handleUpdatedAmount}
 			maxAmountText={balanceText}
 		>
 			<button slot="input-max-button" on:click={handleMaxClick} class={styles.inputMaxButton}
 				>MAX</button
 			>
 		</ModalPondInput>
-
+		{#if !inputAmountIsValid && updatedAmountInputDirty}
+			<InputCard variant="warning" styles="mt-4 bg-red-100">
+				<Text variant="small" styleClass="text-red-500 my-2" text={inValidMessage} />
+			</InputCard>
+		{/if}
 		{#if !!pondDisabledText}
 			<InputCard variant="warning" styles="mt-4 bg-red-100">
 				<Text variant="small" styleClass="text-red-500 my-2" text={pondDisabledText} />

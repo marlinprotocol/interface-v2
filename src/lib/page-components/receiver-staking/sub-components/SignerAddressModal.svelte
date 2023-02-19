@@ -16,7 +16,8 @@
 	let updatedSignerAddressInputDirty = false;
 	let signerAddressIsValid: boolean;
 	const modalFor = 'signer-address-modal';
-	const tooltipText = 'The address of the signer account.';
+	const subtitle =
+		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';
 	const styles = {
 		titleIcon: 'flex items-center gap-1',
 		inputNumber:
@@ -58,14 +59,13 @@
 		{/if}
 	</svelte:fragment>
 	<svelte:fragment slot="subtitle">
-		{'Some random stuff about the signer address and how it is being used.'}
+		{subtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		{#if $receiverStakingStore.signer !== DEFAULT_RECEIVER_STAKING_DATA.signer}
 			<InputCard styles="mb-4">
 				<div class={styles.titleIcon}>
 					<Text variant="small" text={'Current Signer Address'} />
-					<TooltipIcon {tooltipText} />
 				</div>
 				<form>
 					<div class="flex gap-2 items-center">
@@ -82,8 +82,7 @@
 		{/if}
 		<InputCard>
 			<div class={styles.titleIcon}>
-				<Text variant="small" text={'Input Signer Address'} />
-				<TooltipIcon {tooltipText} />
+				<Text variant="small" text={'New Signer Address'} />
 			</div>
 			<form>
 				<div class="flex gap-2 items-center">

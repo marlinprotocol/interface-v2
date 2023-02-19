@@ -16,7 +16,8 @@
 		buttonLarge: 'h-14 text-base font-semibold'
 	};
 
-	$: validBalance = $receiverStakingStore.approvedBalance
+	//TODO (Souvik): shouldn't this be queuedBalance instead of approvedBalance? - shivani changed
+	$: validBalance = $receiverStakingStore.queuedBalance
 		.add($receiverStakingStore.stakedBalance)
 		.gt(0);
 </script>

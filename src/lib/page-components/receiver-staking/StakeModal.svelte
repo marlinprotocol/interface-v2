@@ -7,8 +7,7 @@
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import {
 		approvePondTokenForReceiverStaking,
-		depositStakingToken,
-		updateSignerAddress
+		depositStakingToken
 	} from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { addToast } from '$lib/data-stores/toastStore';
@@ -25,18 +24,30 @@
 		bigNumberToString,
 		stringToBigNumber
 	} from '$lib/utils/conversion';
-	import { isAddressValid } from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
+	import {
+		closeModal,
+		inputAmountInValidMessage,
+		isAddressValid,
+		isInputAmountValid
+	} from '$lib/utils/helpers/commonHelper';
+	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
 	const modalFor = 'stake-modal';
+
+	//texts
+	const toolTipText = 'Enter the amount of POND you would like to stake to the receiver address.';
+	const addressToolTipText =
+		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';
 
 	//initial amount states
 	let inputAmount: BigNumber;
 	let inputAmountString: string;
 	let approvedAmount: BigNumber;
 
-	$: inputAmount = stringToBigNumber(inputAmountString);
+	$: inputAmount = isInputAmountValid(inputAmountString)
+		? stringToBigNumber(inputAmountString)
+		: BigNumber.from(0);
 
 	//loading states
 	let approveLoading: boolean = false;
@@ -60,6 +71,11 @@
 	let updatedSignerAddress: Address = '';
 	let updatedSignerAddressInputDirty: boolean = false;
 
+	//input amount states
+	let inputAmountIsValid: boolean = false;
+	let inValidMessage: string = '';
+	let updatedAmountInputDirty: boolean = false;
+
 	/**
 	 * checks if address is valid and if it is different from
 	 * current signer address as user types input
@@ -69,6 +85,17 @@
 		updatedSignerAddressInputDirty = true;
 		const target = event.target as HTMLInputElement;
 		signerAddressIsValid = target.value ? isAddressValid(target.value) : false;
+	};
+
+	/**
+	 * checks if input amount is valid
+	 * @param event
+	 */
+	const handleUpdatedAmount = (event: Event) => {
+		updatedAmountInputDirty = true;
+		const target = event.target as HTMLInputElement;
+		inputAmountIsValid = target.value ? isInputAmountValid(target.value) : false;
+		inValidMessage = inputAmountInValidMessage(target.value);
 	};
 
 	const handleApproveClick = async () => {
@@ -108,7 +135,6 @@
 	const handleSubmitClick = async () => {
 		if (!submitEnable) return;
 
-		// TODO: check if we need to close modal after submit
 		submitLoading = true;
 
 		try {
@@ -123,6 +149,7 @@
 			} else {
 				await depositStakingToken(inputAmount);
 			}
+			closeModal(modalFor);
 
 			// update wallet balance locally
 			walletBalance.update((value: WalletBalance) => {
@@ -150,9 +177,15 @@
 		}
 	};
 
-	//reset input and approved amount
+	//reset amount and signer address
 	const resetInputs = () => {
 		inputAmountString = '';
+		signerAddressIsValid = false;
+		updatedSignerAddress = '';
+		updatedSignerAddressInputDirty = false;
+		inputAmountIsValid = false;
+		updatedAmountInputDirty = false;
+		inValidMessage = '';
 	};
 
 	onDestroy(unsubscribeWalletBalanceStore);
@@ -172,20 +205,23 @@
 			? 'Insufficient POND'
 			: '';
 
+	$: signerAddressNotAdded = $receiverStakingStore.signer === DEFAULT_RECEIVER_STAKING_DATA.signer;
 	//if signerAddress is already set then we consider only inputAmount else we also consider signerAddress to be set while disabling submit button
-	$: submitEnable =
-		$receiverStakingStore.signer === DEFAULT_RECEIVER_STAKING_DATA.signer
-			? !!inputAmount &&
-			  inputAmount.gt(0) &&
-			  approvedAmount?.gte(inputAmount) &&
-			  maxPondBalance?.gte(inputAmount) &&
-			  updatedSignerAddress !== '' &&
-			  signerAddressIsValid
-			: !!inputAmount &&
-			  inputAmount.gt(0) &&
-			  approvedAmount?.gte(inputAmount) &&
-			  maxPondBalance?.gte(inputAmount);
+	$: submitEnable = signerAddressNotAdded
+		? !!inputAmount &&
+		  inputAmount.gt(0) &&
+		  approvedAmount?.gte(inputAmount) &&
+		  maxPondBalance?.gte(inputAmount) &&
+		  updatedSignerAddress !== '' &&
+		  signerAddressIsValid
+		: !!inputAmount &&
+		  inputAmount.gt(0) &&
+		  approvedAmount?.gte(inputAmount) &&
+		  maxPondBalance?.gte(inputAmount);
 
+	$: subtitle = !signerAddressNotAdded
+		? 'Staking POND requires users to approve the POND tokens. After approval, enter the signer address mentioned in the receiver client and confirm the transaction. There is no lock-in period for staking POND.'
+		: 'Staking POND requires users to approve the POND tokens first and then confirm the transaction. There is no lock-in period for staking POND.';
 	const styles = {
 		inputMaxButton: `${buttonClasses.text} text-sm font-bold text-primary`,
 		titleIcon: 'flex items-center gap-1',
@@ -194,18 +230,35 @@
 	};
 </script>
 
-<Modal {modalFor}>
+<Modal {modalFor} onClose={resetInputs}>
 	<svelte:fragment slot="title">
 		{'STAKE POND'}
 	</svelte:fragment>
 	<svelte:fragment slot="subtitle">
-		{'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.'}
+		{subtitle}
+		<p class="mt-2">
+			<span>
+				{`Note: There are no rewards for staking POND on the receiver staking portal. Users looking to delegate POND/MPond to clusters in the Marlin network need to go `}
+			</span>
+			<a
+				class="text-primary underline"
+				href="https://arb1.marlin.org/relay/operator"
+				target="_blank"
+				rel="noreferrer"
+			>
+				{`here`}
+			</a>
+			<span class="ml-[-3px]">
+				{'.'}
+			</span>
+		</p>
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<ModalPondInput
 			title={'POND'}
-			tooltipText={'Some text here'}
+			tooltipText={toolTipText}
 			bind:inputAmountString
+			{handleUpdatedAmount}
 			maxAmountText={balanceText}
 		>
 			<button slot="input-max-button" on:click={handleMaxClick} class={styles.inputMaxButton}
@@ -220,16 +273,20 @@
 				{handleApproveClick}
 			/>
 		</ModalPondInput>
+		{#if !inputAmountIsValid && updatedAmountInputDirty}
+			<InputCard variant="warning" styles="mt-4 bg-red-100">
+				<Text variant="small" styleClass="text-red-500 my-2" text={inValidMessage} />
+			</InputCard>
+		{/if}
 		{#if $receiverStakingStore.signer === DEFAULT_RECEIVER_STAKING_DATA.signer}
 			<!-- TODO: make this into a component -->
 			<InputCard styles="mt-4">
 				<div class={styles.titleIcon}>
 					<Text variant="small" text={'Signer Address'} />
-					<TooltipIcon tooltipText="Enter Signer Address" />
+					<TooltipIcon tooltipText={addressToolTipText} />
 				</div>
 				<form>
 					<div class="flex gap-2 items-center">
-						<!-- TODO: address validation -->
 						<input
 							bind:value={updatedSignerAddress}
 							on:input={handleUpdatedSignerAddressInput}

@@ -6,6 +6,7 @@ import type { ContractAbi, ContractAddress, WalletStore } from '$lib/types/store
 import { GET_OPTIONS } from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToCommaString } from '$lib/utils/conversion';
+import { minifyAddress } from '$lib/utils/helpers/commonHelper';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
 import { BigNumber, ethers } from 'ethers';
 import { get } from 'svelte/store';
@@ -59,7 +60,7 @@ export async function updateSignerAddress(address: string) {
 	);
 	try {
 		addToast({
-			message: MESSAGES.TOAST.ACTIONS.UPDATE_SIGNER.UPDATING(address),
+			message: MESSAGES.TOAST.ACTIONS.UPDATE_SIGNER.UPDATING(minifyAddress(address)),
 			variant: 'info'
 		});
 		const tx = await receiverStakingContract.updateSigner(address);
@@ -81,7 +82,7 @@ export async function updateSignerAddress(address: string) {
 			message:
 				MESSAGES.TOAST.TRANSACTION.SUCCESS +
 				' ' +
-				MESSAGES.TOAST.ACTIONS.UPDATE_SIGNER.SUCCESS(address),
+				MESSAGES.TOAST.ACTIONS.UPDATE_SIGNER.SUCCESS(minifyAddress(address)),
 			variant: 'success'
 		});
 		return tx;

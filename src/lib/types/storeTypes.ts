@@ -52,6 +52,7 @@ export type ContractAddress = {
 };
 
 export type ReceiverStakingData = {
+	signer: Address;
 	approvedBalance: BigNumber;
 	stakedBalance: BigNumber;
 	queuedBalance: BigNumber;
@@ -63,6 +64,3 @@ export type ReceiverStakingData = {
 };
 
 export type EpochCycleStore = number;
-
-// signer store
-export type SignerAddressStore = Address;

@@ -49,7 +49,53 @@ export async function getContractDetails() {
 
 // ----------------------------- receiver staking contract methods -----------------------------
 
-export async function depositStakingToken(amount: BigNumber, signerAddress: string) {
+export async function updateSignerAddress(address: string) {
+	const receiverStakingContractAddress = contractAddresses.ReceiverStaking;
+	const receiverStakingContractAbi = contractAbi.ReceiverStaking;
+	const receiverStakingContract = new ethers.Contract(
+		receiverStakingContractAddress,
+		receiverStakingContractAbi,
+		signer
+	);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.UPDATE_SIGNER.UPDATING(address),
+			variant: 'info'
+		});
+		const tx = await receiverStakingContract.updateSigner(address);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to update signer address');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS +
+				' ' +
+				MESSAGES.TOAST.ACTIONS.UPDATE_SIGNER.SUCCESS(address),
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while updating signer address');
+	}
+}
+
+export async function depositStakingToken(amount: BigNumber, signerAddress = '') {
 	const receiverStakingContractAddress = contractAddresses.ReceiverStaking;
 	const receiverStakingContractAbi = contractAbi.ReceiverStaking;
 	const receiverStakingContract = new ethers.Contract(
@@ -63,13 +109,16 @@ export async function depositStakingToken(amount: BigNumber, signerAddress: stri
 			variant: 'info'
 		});
 
-		const Tx = await receiverStakingContract['deposit(uint256,address)'](amount, signerAddress);
+		const tx =
+			signerAddress === ''
+				? await receiverStakingContract['deposit(uint256,address)'](amount, signerAddress)
+				: await receiverStakingContract.deposit(amount);
 
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.CREATED,
 			variant: 'info'
 		});
-		const approveReciept = await Tx.wait();
+		const approveReciept = await tx.wait();
 
 		if (!approveReciept) {
 			addToast({

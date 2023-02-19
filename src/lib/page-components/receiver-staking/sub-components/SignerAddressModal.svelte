@@ -4,10 +4,11 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
-	import { signerAddressStore } from '$lib/data-stores/signerStore';
+	import { updateSignerAddress } from '$lib/controllers/contractController';
+	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import type { Address } from '$lib/types/storeTypes';
 	import { MESSAGES } from '$lib/utils/constants/messages';
-	import { DEFAULT_SIGNER_ADDRESS_STORE } from '$lib/utils/constants/storeDefaults';
+	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 	import { closeModal, isAddressValid } from '$lib/utils/helpers/commonHelper';
 
 	let updatedSignerAddress: Address = '';
@@ -24,7 +25,11 @@
 
 	async function handleSubmitClick() {
 		submitLoading = true;
-		await signerAddressStore.set(updatedSignerAddress.toLowerCase());
+		await updateSignerAddress(updatedSignerAddress);
+		await receiverStakingStore.update((data) => {
+			data.signer = updatedSignerAddress;
+			return data;
+		});
 		updatedSignerAddress = '';
 		submitLoading = false;
 		closeModal(modalFor);
@@ -33,23 +38,20 @@
 	const handleUpdatedSignerAddressInput = (event: Event) => {
 		updatedSignerAddressInputDirty = true;
 		const target = event.target as HTMLInputElement;
-		if (target.value === '') {
-			// TODO: this is a workaround for resetting input field when user enters '' for signer address
-			updatedSignerAddressInputDirty = false;
-		}
+
 		signerAddressIsValid = target.value ? isAddressValid(target.value) : false;
 	};
 
 	$: submitEnable =
 		!!updatedSignerAddress &&
-		updatedSignerAddress !== $signerAddressStore &&
+		updatedSignerAddress !== $receiverStakingStore.signer &&
 		signerAddressIsValid &&
 		updatedSignerAddressInputDirty;
 </script>
 
 <Modal {modalFor}>
 	<svelte:fragment slot="title">
-		{#if $signerAddressStore !== DEFAULT_SIGNER_ADDRESS_STORE}
+		{#if $receiverStakingStore.signer !== DEFAULT_RECEIVER_STAKING_DATA.signer}
 			{'UPDATE SIGNER ADDRESS'}
 		{:else}
 			{'SIGNER ADDRESS'}
@@ -59,7 +61,7 @@
 		{'Some random stuff about the signer address and how it is being used.'}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		{#if $signerAddressStore !== DEFAULT_SIGNER_ADDRESS_STORE}
+		{#if $receiverStakingStore.signer !== DEFAULT_RECEIVER_STAKING_DATA.signer}
 			<InputCard styles="mb-4">
 				<div class={styles.titleIcon}>
 					<Text variant="small" text={'Current Signer Address'} />
@@ -69,7 +71,7 @@
 					<div class="flex gap-2 items-center">
 						<!-- TODO: address validation -->
 						<input
-							bind:value={$signerAddressStore}
+							bind:value={$receiverStakingStore.signer}
 							id="currentSignerAddress"
 							class={`hideInputNumberAppearance ${styles.inputNumber}`}
 							disabled={true}
@@ -106,7 +108,7 @@
 				/>
 			</InputCard>
 		{/if}
-		{#if updatedSignerAddress === $signerAddressStore && signerAddressIsValid}
+		{#if updatedSignerAddress === $receiverStakingStore.signer && signerAddressIsValid}
 			<InputCard variant="warning" styles="mt-4">
 				<Text
 					variant="small"

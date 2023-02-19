@@ -71,6 +71,18 @@ export const MESSAGES = {
 				 * @returns `Withdrew ${value} MPOND.`
 				 */
 				MPOND_WITHDREW: (value: string | number) => `Withdrew ${value} MPOND.`
+			},
+			UPDATE_SIGNER: {
+				/**
+				 * @param address
+				 * @returns `Updating signer address to ${address}.`
+				 */
+				UPDATING: (address: string) => `Updating signer address to ${address}.`,
+				/**
+				 * @param address
+				 * @returns `Updated signer address to ${address}.`
+				 */
+				SUCCESS: (address: string) => `Updated signer address to ${address}.`
 			}
 		}
 	},

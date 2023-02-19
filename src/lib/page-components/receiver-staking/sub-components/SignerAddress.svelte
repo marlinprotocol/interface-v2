@@ -5,10 +5,10 @@
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import edit from 'svelte-awesome/icons/edit';
 	import { connected } from '$lib/data-stores/walletProviderStore';
-	import { signerAddressStore } from '$lib/data-stores/signerStore';
 	import OperatorAddressModal from './SignerAddressModal.svelte';
 	import { minifyAddress } from '$lib/utils/helpers/commonHelper';
-	import { DEFAULT_SIGNER_ADDRESS_STORE } from '$lib/utils/constants/storeDefaults';
+	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
+	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 
 	const tooltipText = 'The address of the signer account.';
 	const title = 'Signer Address';
@@ -19,8 +19,8 @@
 	};
 
 	$: displayAddress =
-		$signerAddressStore !== DEFAULT_SIGNER_ADDRESS_STORE
-			? minifyAddress($signerAddressStore, 12, 10)
+		$receiverStakingStore.signer !== DEFAULT_RECEIVER_STAKING_DATA.signer
+			? minifyAddress($receiverStakingStore.signer, 12, 10)
 			: '';
 </script>
 

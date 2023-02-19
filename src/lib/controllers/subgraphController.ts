@@ -121,6 +121,7 @@ export async function getReceiverStakingDataFromSubgraph(
 	try {
 		const result = await fetchHttpData(url, options);
 		const balance = result['data']?.receiverBalance?.balance;
+		const signer = result['data']?.receiverBalance?.signer;
 		const balanceSnapshots = result['data']?.receiverBalanceSnapshots;
 		const approvals = result['data']?.pondUser?.approvals;
 		const params = result['data']?.params;
@@ -162,7 +163,8 @@ export async function getReceiverStakingDataFromSubgraph(
 				...stakingData,
 				queuedBalance,
 				stakedBalance,
-				epochData
+				epochData,
+				signer
 			};
 		}
 		//update approved POND balance

@@ -44,6 +44,7 @@ export const QUERY_TO_GET_RECEIVER_STAKING_DATA = `query ReceiverStakingData($ad
   receiverBalance(id: $address) { 
     balance
     id
+    signer
   }
   pondUser(
     id: $address,

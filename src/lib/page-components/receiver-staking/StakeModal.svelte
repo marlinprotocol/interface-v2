@@ -4,21 +4,20 @@
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import {
 		approvePondTokenForReceiverStaking,
-		depositStakingToken
+		depositStakingToken,
+		updateSignerAddress
 	} from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
-	import { signerAddressStore } from '$lib/data-stores/signerStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
 	import type { Address, ReceiverStakingData, WalletBalance } from '$lib/types/storeTypes';
 	import {
-		DEFAULT_SIGNER_ADDRESS_STORE,
+		DEFAULT_RECEIVER_STAKING_DATA,
 		DEFAULT_WALLET_BALANCE
 	} from '$lib/utils/constants/storeDefaults';
 	import {
@@ -57,18 +56,18 @@
 	});
 
 	//signer address states
-	let signerAddressIsValid: boolean =
-		$signerAddressStore !== DEFAULT_SIGNER_ADDRESS_STORE ? true : false;
+	let signerAddressIsValid: boolean = false;
 	let updatedSignerAddress: Address = '';
 	let updatedSignerAddressInputDirty: boolean = false;
 
+	/**
+	 * checks if address is valid and if it is different from
+	 * current signer address as user types input
+	 * @param event
+	 */
 	const handleUpdatedSignerAddressInput = (event: Event) => {
 		updatedSignerAddressInputDirty = true;
 		const target = event.target as HTMLInputElement;
-		if (target.value === '') {
-			// TODO: this is a workaround for resetting input field when user enters '' for signer address
-			updatedSignerAddressInputDirty = false;
-		}
 		signerAddressIsValid = target.value ? isAddressValid(target.value) : false;
 	};
 
@@ -112,12 +111,8 @@
 		// TODO: check if we need to close modal after submit
 		submitLoading = true;
 
-		// set signer address if not already set
-		if (updatedSignerAddress !== DEFAULT_SIGNER_ADDRESS_STORE) {
-			await signerAddressStore.set(updatedSignerAddress);
-		}
 		try {
-			await depositStakingToken(inputAmount, $signerAddressStore);
+			await depositStakingToken(inputAmount, updatedSignerAddress);
 
 			// update wallet balance locally
 			walletBalance.update((value: WalletBalance) => {
@@ -127,11 +122,12 @@
 				};
 			});
 
-			// update queued balance locally
+			// update queued balance and signer locally
 			receiverStakingStore.update((value: ReceiverStakingData) => {
 				return {
 					...value,
-					queuedBalance: value.queuedBalance.add(inputAmount)
+					queuedBalance: value.queuedBalance.add(inputAmount),
+					signer: updatedSignerAddress
 				};
 			});
 
@@ -169,14 +165,17 @@
 
 	//if signerAddress is already set then we consider only inputAmount else we also consider signerAddress to be set while disabling submit button
 	$: submitEnable =
-		$signerAddressStore === DEFAULT_SIGNER_ADDRESS_STORE
+		$receiverStakingStore.signer === DEFAULT_RECEIVER_STAKING_DATA.signer
 			? !!inputAmount &&
 			  inputAmount.gt(0) &&
 			  approvedAmount?.gte(inputAmount) &&
 			  maxPondBalance?.gte(inputAmount) &&
 			  updatedSignerAddress !== '' &&
 			  signerAddressIsValid
-			: !!inputAmount && approvedAmount?.gte(inputAmount) && maxPondBalance?.gte(inputAmount);
+			: !!inputAmount &&
+			  inputAmount.gt(0) &&
+			  approvedAmount?.gte(inputAmount) &&
+			  maxPondBalance?.gte(inputAmount);
 
 	const styles = {
 		inputMaxButton: `${buttonClasses.text} text-sm font-bold text-primary`,
@@ -212,7 +211,7 @@
 				{handleApproveClick}
 			/>
 		</ModalPondInput>
-		{#if $signerAddressStore === DEFAULT_SIGNER_ADDRESS_STORE}
+		{#if $receiverStakingStore.signer === DEFAULT_RECEIVER_STAKING_DATA.signer}
 			<!-- TODO: make this into a component -->
 			<InputCard styles="mt-4">
 				<div class={styles.titleIcon}>

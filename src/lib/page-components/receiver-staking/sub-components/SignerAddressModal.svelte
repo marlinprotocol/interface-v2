@@ -3,7 +3,6 @@
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import { setSignerAddress } from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import type { Address } from '$lib/types/storeTypes';
@@ -26,15 +25,29 @@
 
 	async function handleSubmitClick() {
 		submitLoading = true;
-		await setSignerAddress(updatedSignerAddress);
-		await receiverStakingStore.update((data) => {
-			data.signer = updatedSignerAddress;
-			return data;
-		});
-		updatedSignerAddress = '';
-		submitLoading = false;
-		closeModal(modalFor);
+		try {
+			await setSignerAddress(updatedSignerAddress);
+			await receiverStakingStore.update((data) => {
+				data.signer = updatedSignerAddress;
+				return data;
+			});
+			updatedSignerAddress = '';
+			submitLoading = false;
+			closeModal(modalFor);
+			resetInputs();
+		} catch (e) {
+			console.log('error submitting', e);
+		} finally {
+			submitLoading = false;
+		}
 	}
+
+	//reset amount and signer address
+	const resetInputs = () => {
+		signerAddressIsValid = false;
+		updatedSignerAddress = '';
+		updatedSignerAddressInputDirty = false;
+	};
 
 	const handleUpdatedSignerAddressInput = (event: Event) => {
 		updatedSignerAddressInputDirty = true;
@@ -50,7 +63,7 @@
 		updatedSignerAddressInputDirty;
 </script>
 
-<Modal {modalFor}>
+<Modal {modalFor} onClose={resetInputs}>
 	<svelte:fragment slot="title">
 		{#if $receiverStakingStore.signer !== DEFAULT_RECEIVER_STAKING_DATA.signer}
 			{'UPDATE SIGNER ADDRESS'}

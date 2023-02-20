@@ -31,7 +31,11 @@
 				value: receiverData.stakedBalance
 			}}
 		>
-			<TooltipIcon slot="icon" tooltipText={`Staked PONDs`} styleClass="ml-1" />
+			<TooltipIcon
+				slot="icon"
+				tooltipText={`The total amount of POND currently staked to the receivers address.`}
+				styleClass="ml-1"
+			/>
 		</DataRowCard>
 	</div>
 	<div class={styles.cardWrapper}>

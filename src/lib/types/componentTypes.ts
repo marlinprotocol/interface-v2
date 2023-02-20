@@ -60,7 +60,7 @@ export type ToastModel = {
 	className: string;
 	dismissible: boolean;
 	iconData: any;
-	id: string;
+	id: number;
 	timeout: number;
 	variant: CommonVariant;
 };

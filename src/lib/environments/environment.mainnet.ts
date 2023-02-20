@@ -10,5 +10,5 @@ export const ENVIRONMENT_MAINNET = {
 	public_contract_subgraph_url:
 		'https://api.thegraph.com/subgraphs/name/marlinprotocol/staking-kovan',
 	public_contract_details_url: '',
-	valid_chain_ids: [421613, 1]
+	valid_chain_ids: [421613]
 };

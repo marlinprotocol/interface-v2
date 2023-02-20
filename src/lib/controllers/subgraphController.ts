@@ -1,5 +1,6 @@
+import { contractAddressStore } from '$lib/data-stores/contractStore';
 import ENVIRONMENT from '$lib/environments/environment';
-import type { Address, ReceiverStakingData } from '$lib/types/storeTypes';
+import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/storeTypes';
 import {
 	DEFAULT_RECEIVER_STAKING_DATA,
 	DEFAULT_WALLET_BALANCE
@@ -13,6 +14,12 @@ import {
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
 import { BigNumber } from 'ethers';
+
+let contractAddresses: ContractAddress;
+
+contractAddressStore.subscribe((value) => {
+	contractAddresses = value;
+});
 
 /**
  * Generate HTTP request headers for querying subgraph
@@ -106,9 +113,7 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 export async function getReceiverStakingDataFromSubgraph(
 	address: Address
 ): Promise<ReceiverStakingData> {
-	//TODO: add this to config. This address will change based on chain	id and for every new deployment
-	// we already have a store for fetching addresses
-	const pond_contract_address = '0xe554d2be7e093fbca1fc1d78dbea7ef145185e85';
+	const pond_contract_address = contractAddresses.tokens.pond || '0x00000000000';
 	const url = ENVIRONMENT.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_RECEIVER_STAKING_DATA;
 

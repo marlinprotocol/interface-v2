@@ -19,12 +19,17 @@
 			'input input-ghost h-[30px] w-full mt-1 p-0 font-semibold text-xl disabled:text-primary disabled:placeholder:text-primary/[.3] focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent'
 	};
 
+	let innerWidth = 0;
+
 	$: displayAddress =
 		$receiverStakingStore.signer !== DEFAULT_RECEIVER_STAKING_DATA.signer
-			? minifyAddress($receiverStakingStore.signer, 12, 10)
+			? innerWidth >= 640
+				? minifyAddress($receiverStakingStore.signer, 25, 10)
+				: minifyAddress($receiverStakingStore.signer, 8, 6)
 			: '';
 </script>
 
+<svelte:window bind:innerWidth />
 <InputCard>
 	<div class={styles.titleIcon}>
 		<Text variant="small" text={title} />

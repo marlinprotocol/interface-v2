@@ -22,7 +22,7 @@ export const addToast = (toast: Toast) => {
 		id,
 		variant: 'info',
 		dismissible: true,
-		timeout: 6000,
+		timeout: 2800,
 		message: 'Set Toast message.'
 	};
 

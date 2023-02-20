@@ -74,6 +74,10 @@
 	const handleMaxClick = () => {
 		if (!!maxAmount) {
 			inputAmountString = bigNumberToString(maxAmount);
+			//reset input error message
+			inputAmountIsValid = false;
+			updatedAmountInputDirty = false;
+			inValidMessage = '';
 		}
 	};
 	const handleSubmitClick = async () => {

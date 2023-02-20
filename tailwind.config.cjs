@@ -52,6 +52,7 @@ module.exports = {
 					'error-focus': '#b30202',
 					'error-content': '#ffffff',
 					'background-color': '#e9f2f5', //e9f2f5
+
 					//custom designs
 					'.modal-backdrop': {
 						'background-color': '#010324cc'
@@ -67,6 +68,14 @@ module.exports = {
 					},
 					'.btn-theme': {
 						'border-radius': '8px'
+					},
+					'.btn-lightblue': {
+						'background-color': '#DEE8F2',
+						color: '#3840c7',
+						border: 'none',
+						'&:hover': {
+							'background-color': '#d1dae3'
+						}
 					},
 					'.btn-disabled': {
 						cursor: 'not-allowed'

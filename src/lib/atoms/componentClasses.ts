@@ -3,6 +3,7 @@ export const buttonClasses = {
 		'btn btn-theme btn-sm px-5 btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white',
 	greyFilled:
 		'btn btn-theme btn-sm px-5 bg-base-200 text-primary border-none hover:bg-base-300 flex gap-2 items-center',
+	lightblueFilled: 'btn btn-theme btn-sm btn-lightblue px-5 flex gap-2 items-center',
 	outlined:
 		'btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit',
 	error:

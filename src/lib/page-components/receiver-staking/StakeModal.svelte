@@ -129,6 +129,10 @@
 	const handleMaxClick = () => {
 		if (!!maxPondBalance) {
 			inputAmountString = bigNumberToString(maxPondBalance);
+			//reset input error message
+			inputAmountIsValid = false;
+			updatedAmountInputDirty = false;
+			inValidMessage = '';
 		}
 	};
 
@@ -166,8 +170,6 @@
 					queuedBalance: value.queuedBalance.add(inputAmount)
 				};
 			});
-
-			//update epoch data
 
 			resetInputs();
 		} catch (e) {
@@ -219,7 +221,7 @@
 		  approvedAmount?.gte(inputAmount) &&
 		  maxPondBalance?.gte(inputAmount);
 
-	$: subtitle = !signerAddressNotAdded
+	$: subtitle = signerAddressNotAdded
 		? 'Staking POND requires users to approve the POND tokens. After approval, enter the signer address mentioned in the receiver client and confirm the transaction. There is no lock-in period for staking POND.'
 		: 'Staking POND requires users to approve the POND tokens first and then confirm the transaction. There is no lock-in period for staking POND.';
 	const styles = {

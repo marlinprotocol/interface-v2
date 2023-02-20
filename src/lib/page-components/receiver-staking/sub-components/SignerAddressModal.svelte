@@ -4,7 +4,7 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
-	import { updateSignerAddress } from '$lib/controllers/contractController';
+	import { setSignerAddress } from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import type { Address } from '$lib/types/storeTypes';
 	import { MESSAGES } from '$lib/utils/constants/messages';
@@ -26,7 +26,7 @@
 
 	async function handleSubmitClick() {
 		submitLoading = true;
-		await updateSignerAddress(updatedSignerAddress);
+		await setSignerAddress(updatedSignerAddress);
 		await receiverStakingStore.update((data) => {
 			data.signer = updatedSignerAddress;
 			return data;

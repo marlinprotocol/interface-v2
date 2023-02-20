@@ -5,12 +5,13 @@
 	import { epochCycleStore } from '$lib/data-stores/epochCycleStore';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import type { EpochCycleStore, ReceiverStakingData } from '$lib/types/storeTypes';
+	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 
 	export let iconWidth = 15;
 
-	let localEpochCycle: EpochCycleStore;
+	let localEpochCycle: EpochCycleStore = 0;
 	const unsubscribeEpochCycleStore: Unsubscriber = epochCycleStore.subscribe(
 		async (value: EpochCycleStore) => {
 			localEpochCycle = value;
@@ -37,6 +38,21 @@
 	$: endEpochTime =
 		receiverData.epochData.startTime + receiverData.epochData.epochLength * localEpochCycle;
 
+	const onTimerEnd = () => {
+		receiverStakingStore.update((value) => {
+			inQueue = false;
+			return {
+				...value,
+				queuedBalance: BigNumber.from(0),
+				stakedBalance: value.stakedBalance.add(value.queuedBalance),
+				epochData: {
+					...value.epochData,
+					epochCycle: value.epochData.epochCycle + 1
+				}
+			};
+		});
+	};
+
 	const styles = {
 		subtitle: 'py-2 px-3 text-left bg-black text-white rounded'
 	};
@@ -47,8 +63,8 @@
 	<svelte:fragment slot="content">
 		<div class={styles.subtitle}>
 			<Text variant="small" text={description} />
-			{#if inQueue}
-				<Timer {endEpochTime} initialText={subtitle} textVariant="small" />
+			{#if inQueue && localEpochCycle > 0}
+				<Timer {onTimerEnd} {endEpochTime} initialText={subtitle} textVariant="small" />
 			{/if}
 		</div>
 	</svelte:fragment>

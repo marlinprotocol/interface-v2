@@ -17,7 +17,6 @@
 		documentButton: `${buttonClasses.lightblueFilled} h-10 text-small font-medium gap-3 mx-auto mt-8`
 	};
 
-	//TODO (Souvik): shouldn't this be queuedBalance instead of approvedBalance? - shivani changed
 	$: validBalance = $receiverStakingStore.queuedBalance
 		.add($receiverStakingStore.stakedBalance)
 		.gt(0);

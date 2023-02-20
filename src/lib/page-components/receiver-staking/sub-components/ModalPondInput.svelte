@@ -8,7 +8,7 @@
 
 	export let title: ModalInputModel['title'];
 	export let tooltipText: ModalInputModel['tooltipText'] = '';
-	export let inputAmountString: string;
+	export let inputAmountString: string = '';
 	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance';
 	export let handleUpdatedAmount: (event: Event) => void;
 
@@ -32,6 +32,7 @@
 	</div>
 	<form>
 		<div class="flex items-center">
+			<!-- TODO: check only numeric input -->
 			<input
 				bind:value={inputAmountString}
 				on:input={handleUpdatedAmount}

@@ -53,7 +53,7 @@
 	onDestroy(unsubscribeReceiverStakedStore);
 
 	//input amount states
-	let inputAmountIsValid: boolean = false;
+	let inputAmountIsValid: boolean = true;
 	let updatedAmountInputDirty: boolean = false;
 	let inValidMessage: string = '';
 
@@ -64,7 +64,7 @@
 	const handleUpdatedAmount = (event: Event) => {
 		updatedAmountInputDirty = true;
 		const target = event.target as HTMLInputElement;
-		inputAmountIsValid = target.value ? isInputAmountValid(target.value) : false;
+		inputAmountIsValid = target.value ? isInputAmountValid(target.value) : true;
 		inValidMessage = inputAmountInValidMessage(target.value);
 	};
 
@@ -75,7 +75,7 @@
 		if (!!maxAmount) {
 			inputAmountString = bigNumberToString(maxAmount);
 			//reset input error message
-			inputAmountIsValid = false;
+			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
 			inValidMessage = '';
 		}
@@ -108,7 +108,7 @@
 	//reset input
 	const resetInputs = () => {
 		inputAmountString = '';
-		inputAmountIsValid = false;
+		inputAmountIsValid = true;
 		updatedAmountInputDirty = false;
 		inValidMessage = '';
 	};

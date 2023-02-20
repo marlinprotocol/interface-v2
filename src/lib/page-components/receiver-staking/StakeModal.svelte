@@ -26,6 +26,7 @@
 	} from '$lib/utils/conversion';
 	import {
 		closeModal,
+		getCurrentEpochCycle,
 		inputAmountInValidMessage,
 		isAddressValid,
 		isInputAmountValid
@@ -44,8 +45,6 @@
 	let inputAmount: BigNumber;
 	let inputAmountString: string;
 	let approvedAmount: BigNumber;
-	let startTime: number = 0;
-	const currentTime = Date.now() / 1000;
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
@@ -66,7 +65,6 @@
 	//approve balance
 	const unsubscribeReceiverStakingStore = receiverStakingStore.subscribe((value) => {
 		approvedAmount = value.approvedBalance;
-		startTime = value.epochData.startTime;
 	});
 
 	//signer address states
@@ -75,7 +73,7 @@
 	let updatedSignerAddressInputDirty: boolean = false;
 
 	//input amount states
-	let inputAmountIsValid: boolean = false;
+	let inputAmountIsValid: boolean = true;
 	let inValidMessage: string = '';
 	let updatedAmountInputDirty: boolean = false;
 
@@ -97,7 +95,7 @@
 	const handleUpdatedAmount = (event: Event) => {
 		updatedAmountInputDirty = true;
 		const target = event.target as HTMLInputElement;
-		inputAmountIsValid = target.value ? isInputAmountValid(target.value) : false;
+		inputAmountIsValid = target.value ? isInputAmountValid(target.value) : true;
 		inValidMessage = inputAmountInValidMessage(target.value);
 	};
 
@@ -133,7 +131,7 @@
 		if (!!maxPondBalance) {
 			inputAmountString = bigNumberToString(maxPondBalance);
 			//reset input error message
-			inputAmountIsValid = false;
+			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
 			inValidMessage = '';
 		}
@@ -169,8 +167,18 @@
 
 			// if epoch startTime is less than current time, update queued balance else staked balance
 			receiverStakingStore.update((value: ReceiverStakingData) => {
+				const {
+					epochData: { startTime, epochLength }
+				} = value;
+				const currentTime = Date.now() / 1000;
+				const epochCycle = getCurrentEpochCycle(startTime, epochLength);
+
 				return {
 					...value,
+					epochData: {
+						...value.epochData,
+						epochCycle
+					},
 					queuedBalance:
 						startTime < currentTime ? value.queuedBalance.add(inputAmount) : value.queuedBalance,
 					stakedBalance:
@@ -192,7 +200,7 @@
 		signerAddressIsValid = false;
 		updatedSignerAddress = '';
 		updatedSignerAddressInputDirty = false;
-		inputAmountIsValid = false;
+		inputAmountIsValid = true;
 		updatedAmountInputDirty = false;
 		inValidMessage = '';
 	};

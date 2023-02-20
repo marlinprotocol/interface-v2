@@ -44,6 +44,8 @@
 	let inputAmount: BigNumber;
 	let inputAmountString: string;
 	let approvedAmount: BigNumber;
+	let startTime: number = 0;
+	const currentTime = Date.now() / 1000;
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
@@ -64,6 +66,7 @@
 	//approve balance
 	const unsubscribeReceiverStakingStore = receiverStakingStore.subscribe((value) => {
 		approvedAmount = value.approvedBalance;
+		startTime = value.epochData.startTime;
 	});
 
 	//signer address states
@@ -144,6 +147,7 @@
 		try {
 			if (updatedSignerAddress !== DEFAULT_RECEIVER_STAKING_DATA.signer) {
 				await depositStakingToken(inputAmount, updatedSignerAddress);
+				// update signer locally
 				receiverStakingStore.update((value: ReceiverStakingData) => {
 					return {
 						...value,
@@ -163,11 +167,14 @@
 				};
 			});
 
-			// update queued balance and signer locally
+			// if epoch startTime is less than current time, update queued balance else staked balance
 			receiverStakingStore.update((value: ReceiverStakingData) => {
 				return {
 					...value,
-					queuedBalance: value.queuedBalance.add(inputAmount)
+					queuedBalance:
+						startTime < currentTime ? value.queuedBalance.add(inputAmount) : value.queuedBalance,
+					stakedBalance:
+						startTime < currentTime ? value.stakedBalance : value.stakedBalance.add(inputAmount)
 				};
 			});
 

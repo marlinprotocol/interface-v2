@@ -61,14 +61,15 @@
 		</label>
 	{/if}
 </ContainerCard>
-
-<a
-	href="https://docs.marlin.org/docs/User%20Guides/Oyster/"
-	target="_blank"
-	rel="noopener noreferrer"
->
-	<button class={styles.documentButton}>
-		<img src="./images/openinnew.svg" alt="Copy" />
-		Documentation
-	</button>
-</a>
+<div>
+	<a
+		href="https://docs.marlin.org/docs/User%20Guides/Oyster/"
+		target="_blank"
+		rel="noopener noreferrer"
+	>
+		<button class={styles.documentButton}>
+			<img src="./images/openinnew.svg" alt="Copy" />
+			Documentation
+		</button>
+	</a>
+</div>

@@ -6,6 +6,11 @@ export function copyTextToClipboard(text: string) {
 
 export function getCurrentEpochCycle(epochStartTime: number, epochLength: number): number {
 	const currentEpoch = new Date().getTime() / 1000;
+
+	//if epoch start time is in future, then epoch cycle is 0
+	if (currentEpoch <= epochStartTime) {
+		return 0;
+	}
 	const epochCycle = Math.floor((currentEpoch - epochStartTime) / epochLength) + 1;
 	return epochCycle;
 }

@@ -22,7 +22,7 @@ export const DEFAULT_WALLET_BALANCE: WalletBalance = {
 };
 
 // chainProviderStore
-export const DEFAULT_CHAIN_STORE: ChainStore = { chainId: null, chainName: '' };
+export const DEFAULT_CHAIN_STORE: ChainStore = { chainId: null, chainName: '', isValidChain: true };
 
 // contractAbiStore
 export const DEFAULT_CONTRACT_ABI_STORE: ContractAbi = {

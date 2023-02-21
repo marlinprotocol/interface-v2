@@ -1,46 +1,35 @@
 import { ethers } from 'ethers';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
-import { isValidChain, switchChain } from '$lib/utils/helpers/networkHelper';
+import { isValidChain } from '$lib/utils/helpers/networkHelper';
 import { chainStore } from '$lib/data-stores/chainProviderStore';
 import { WALLET_TYPE } from '$lib/utils/constants/constants';
-import ENVIRONMENT from '$lib/environments/environment';
 
 export async function connectWallet(walletType: WALLET_TYPE) {
 	const walletProvider = await getWalletProvider(walletType);
 
 	const { chainId, name } = await walletProvider.getNetwork();
+	const validChain = isValidChain(chainId);
+	chainStore.set({ chainId: chainId, chainName: name, isValidChain: validChain });
 
-	// update network store
-	chainStore.set({ chainId: chainId, chainName: name });
-
-	// if the chain is valid then connect else switch chain
-	if (isValidChain(chainId)) {
-		try {
-			await walletProvider.send('eth_requestAccounts', []);
-			sessionStorage.setItem('connectType', walletType);
-			console.log('connected to wallet.');
-		} catch (error) {
-			console.log('error while connecting to wallet', error);
-		}
-
-		const walletSigner = walletProvider.getSigner();
-		const walletChecksumAddress = await walletSigner.getAddress();
-		const walletHexAddress = walletChecksumAddress.toLowerCase() as Lowercase<string>;
-
-		walletStore.set({
-			provider: walletProvider,
-			signer: walletSigner,
-			address: walletHexAddress
-		});
-
-		console.log('Wallet type:', walletType);
-		console.log('Wallet address:', walletHexAddress);
-		console.log('!! Wallet store updated !!');
-	} else {
-		console.log('Switching to a valid chain.');
-		await switchChain(ENVIRONMENT.public_chain_id);
-		connectWallet(walletType);
+	try {
+		await walletProvider.send('eth_requestAccounts', []);
+		sessionStorage.setItem('connectType', walletType);
+		console.log('connected to wallet.');
+	} catch (error) {
+		console.log('error while connecting to wallet', error);
 	}
+	const walletSigner = walletProvider.getSigner();
+	const walletChecksumAddress = await walletSigner.getAddress();
+	const walletHexAddress = walletChecksumAddress.toLowerCase() as Lowercase<string>;
+	walletStore.set({
+		provider: walletProvider,
+		signer: walletSigner,
+		address: walletHexAddress
+	});
+
+	console.log('Wallet type:', walletType);
+	console.log('Wallet address:', walletHexAddress);
+	console.log('!! Wallet store updated !!');
 }
 
 async function getWalletProvider(walletType: WALLET_TYPE) {

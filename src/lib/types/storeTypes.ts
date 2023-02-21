@@ -26,6 +26,7 @@ export type WalletBalance = {
 export type ChainStore = {
 	chainId: number | null;
 	chainName: string;
+	isValidChain: boolean;
 };
 
 // contract abi store

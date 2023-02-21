@@ -182,7 +182,8 @@
 					queuedBalance:
 						startTime < currentTime ? value.queuedBalance.add(inputAmount) : value.queuedBalance,
 					stakedBalance:
-						startTime < currentTime ? value.stakedBalance : value.stakedBalance.add(inputAmount)
+						startTime < currentTime ? value.stakedBalance : value.stakedBalance.add(inputAmount),
+					approvedBalance: value.approvedBalance.sub(inputAmount)
 				};
 			});
 

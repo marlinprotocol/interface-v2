@@ -3,6 +3,7 @@
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
+	import { resetReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { resetWalletProviderStore, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
@@ -51,7 +52,10 @@
 		<Button
 			variant="filled"
 			size="large"
-			onclick={() => resetWalletProviderStore()}
+			onclick={() => {
+				resetWalletProviderStore();
+				resetReceiverStakingStore();
+			}}
 			styleClass={'w-full font-semibold text-base'}>LOGOUT</Button
 		>
 	</svelte:fragment>

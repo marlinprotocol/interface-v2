@@ -9,6 +9,7 @@
 	import { minifyAddress } from '$lib/utils/helpers/commonHelper';
 	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
+	import { addToast } from '$lib/data-stores/toastStore';
 
 	const tooltipText =
 		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';
@@ -51,7 +52,17 @@
 					<Icon data={edit} size={18} />
 				</label>
 			{:else}
-				<Icon data={edit} size={18} />
+				<button
+					type="button"
+					on:click={() => {
+						addToast({
+							message: 'Please connect your wallet.',
+							variant: 'error'
+						});
+					}}
+				>
+					<Icon data={edit} size={18} />
+				</button>
 			{/if}
 		</div>
 	</form>

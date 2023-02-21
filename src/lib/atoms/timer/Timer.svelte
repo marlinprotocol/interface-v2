@@ -26,9 +26,9 @@
 	{#if $timer > 0}
 		<Text
 			variant={textVariant}
-			text={`${!!initialText ? initialText + ' in ' : ''}${epochToDurationString($timer)}`}
+			text={`${!!initialText ? initialText + ' in ' : ''}${epochToDurationString($timer)}.`}
 		/>
 	{:else}
-		<Text variant={textVariant} text={`${!!initialText ? initialText + ' soon ' : ''}`} />
+		<Text variant={textVariant} text={`${!!initialText ? initialText + ' soon.' : ''}`} />
 	{/if}
 </div>

@@ -14,7 +14,7 @@
 		buttonsGroup: 'flex gap-4 items-center justify-center w-full',
 		buttonWrapper: 'w-1/2',
 		buttonLarge: 'h-14 text-base font-semibold',
-		documentButton: `${buttonClasses.lightblueFilled} h-10 text-small font-medium gap-3 mx-auto mt-8`
+		documentationLink: `${buttonClasses.lightblueFilled} w-fit h-10 text-small font-medium gap-3 mx-auto mt-8`
 	};
 
 	//TODO (Souvik): shouldn't this be queuedBalance instead of approvedBalance? - shivani changed
@@ -63,12 +63,11 @@
 </ContainerCard>
 
 <a
+	class={styles.documentationLink}
 	href="https://docs.marlin.org/docs/User%20Guides/Oyster/"
 	target="_blank"
 	rel="noopener noreferrer"
 >
-	<button class={styles.documentButton}>
-		<img src="./images/openinnew.svg" alt="Copy" />
-		Documentation
-	</button>
+	<img src="./images/openinnew.svg" alt="Copy" />
+	Documentation
 </a>

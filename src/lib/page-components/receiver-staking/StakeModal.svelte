@@ -26,6 +26,7 @@
 	} from '$lib/utils/conversion';
 	import {
 		closeModal,
+		getCurrentEpochCycle,
 		inputAmountInValidMessage,
 		isAddressValid,
 		isInputAmountValid
@@ -72,7 +73,7 @@
 	let updatedSignerAddressInputDirty: boolean = false;
 
 	//input amount states
-	let inputAmountIsValid: boolean = false;
+	let inputAmountIsValid: boolean = true;
 	let inValidMessage: string = '';
 	let updatedAmountInputDirty: boolean = false;
 
@@ -94,7 +95,7 @@
 	const handleUpdatedAmount = (event: Event) => {
 		updatedAmountInputDirty = true;
 		const target = event.target as HTMLInputElement;
-		inputAmountIsValid = target.value ? isInputAmountValid(target.value) : false;
+		inputAmountIsValid = target.value ? isInputAmountValid(target.value) : true;
 		inValidMessage = inputAmountInValidMessage(target.value);
 	};
 
@@ -130,7 +131,7 @@
 		if (!!maxPondBalance) {
 			inputAmountString = bigNumberToString(maxPondBalance);
 			//reset input error message
-			inputAmountIsValid = false;
+			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
 			inValidMessage = '';
 		}
@@ -144,6 +145,7 @@
 		try {
 			if (updatedSignerAddress !== DEFAULT_RECEIVER_STAKING_DATA.signer) {
 				await depositStakingToken(inputAmount, updatedSignerAddress);
+				// update signer locally
 				receiverStakingStore.update((value: ReceiverStakingData) => {
 					return {
 						...value,
@@ -163,11 +165,24 @@
 				};
 			});
 
-			// update queued balance and signer locally
+			// if epoch startTime is less than current time, update queued balance else staked balance
 			receiverStakingStore.update((value: ReceiverStakingData) => {
+				const {
+					epochData: { startTime, epochLength }
+				} = value;
+				const currentTime = Date.now() / 1000;
+				const epochCycle = getCurrentEpochCycle(startTime, epochLength);
+
 				return {
 					...value,
-					queuedBalance: value.queuedBalance.add(inputAmount)
+					epochData: {
+						...value.epochData,
+						epochCycle
+					},
+					queuedBalance:
+						startTime < currentTime ? value.queuedBalance.add(inputAmount) : value.queuedBalance,
+					stakedBalance:
+						startTime < currentTime ? value.stakedBalance : value.stakedBalance.add(inputAmount)
 				};
 			});
 
@@ -185,7 +200,7 @@
 		signerAddressIsValid = false;
 		updatedSignerAddress = '';
 		updatedSignerAddressInputDirty = false;
-		inputAmountIsValid = false;
+		inputAmountIsValid = true;
 		updatedAmountInputDirty = false;
 		inValidMessage = '';
 	};

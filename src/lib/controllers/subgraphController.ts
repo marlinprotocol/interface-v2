@@ -117,6 +117,7 @@ export async function getReceiverStakingDataFromSubgraph(
 	const url = ENVIRONMENT.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_RECEIVER_STAKING_DATA;
 
+	console.log('pond_contract_address :>> ', contractAddresses.tokens.pond, pond_contract_address);
 	const queryVariables = {
 		address: address.toLowerCase(),
 		contractAddress: pond_contract_address.toLowerCase()

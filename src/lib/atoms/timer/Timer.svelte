@@ -7,12 +7,18 @@
 	export let initialText: string;
 	export let endEpochTime: number;
 	export let textVariant: TextModel['variant'] = 'small';
+	export let onTimerEnd: () => void;
 
-	const original = endEpochTime - Math.floor(Date.now() / 1000);
+	const original = Math.floor(endEpochTime - Date.now() / 1000);
 	let timer = tweened(original);
 
 	setInterval(() => {
-		if ($timer > 0) $timer--;
+		if ($timer > 0) {
+			$timer--;
+		}
+		if ($timer === 0) {
+			onTimerEnd();
+		}
 	}, 1000);
 </script>
 

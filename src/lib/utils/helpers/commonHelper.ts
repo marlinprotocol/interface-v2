@@ -6,6 +6,11 @@ export function copyTextToClipboard(text: string) {
 
 export function getCurrentEpochCycle(epochStartTime: number, epochLength: number): number {
 	const currentEpoch = new Date().getTime() / 1000;
+
+	//if epoch start time is in future, then epoch cycle is 0
+	if (currentEpoch <= epochStartTime) {
+		return 0;
+	}
 	const epochCycle = Math.floor((currentEpoch - epochStartTime) / epochLength) + 1;
 	return epochCycle;
 }
@@ -23,8 +28,8 @@ export function closeModal(modalId: string) {
  * checks and returns if the amount is valid or not
  */
 export function isInputAmountValid(amount: string): boolean {
+	if (!amount) return true;
 	// regex to check if the amount is a valid number which is greater than 0 and has 18 decimal places and has less than 50 digits
-	// return /^([1-9][0-9]|0)?(\.[0-9]{1,18})?$/.test(amount);
 	return /^(?!0\d)(?!.*(?:\..*){2})\d{1,50}(?:\.\d{1,18})?$/.test(amount);
 }
 
@@ -33,20 +38,19 @@ export function isInputAmountValid(amount: string): boolean {
  */
 export function inputAmountInValidMessage(amount: string): string {
 	const isValid = isInputAmountValid(amount);
-
+	if (isValid) return '';
 	let message = '';
-	if (!amount) {
-		message = 'Please enter an amount upto 18 decimal places';
-	} else if (amount === '0') {
-		message = 'Amount should be greater than 0';
+
+	if (amount === '0') {
+		message = 'Amount should be greater than 0.';
 	} else if (amount.split('.')[0].length > 50) {
-		message = 'Amount is too big';
+		message = 'Amount is too big.';
 	} else if (amount.split('.')[1] && amount.split('.')[1].length > 18) {
-		message = 'Amount should have 18 decimal places or less';
+		message = 'Amount can have a maximum of 18 decimals only.';
 	} else if (!/^\d+(\.\d{0,1})?$/.test(amount)) {
-		message = 'Amount has invalid characters';
+		message = 'Amount has invalid characters.';
 	} else if (!isValid) {
-		message = 'Amount is invalid';
+		message = 'Amount is invalid.';
 	}
 
 	return message;

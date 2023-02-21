@@ -62,9 +62,15 @@
 	<img slot="icon" src={'./images/alert.svg'} alt="Info" width={iconWidth} />
 	<svelte:fragment slot="content">
 		<div class={styles.subtitle}>
-			<Text variant="small" text={description} />
 			{#if inQueue && localEpochCycle > 0}
-				<Timer {onTimerEnd} {endEpochTime} initialText={subtitle} textVariant="small" />
+				<Timer
+					{onTimerEnd}
+					{endEpochTime}
+					initialText={`${description} ${subtitle}`}
+					textVariant="small"
+				/>
+			{:else}
+				<Text variant="small" text={description} />
 			{/if}
 		</div>
 	</svelte:fragment>

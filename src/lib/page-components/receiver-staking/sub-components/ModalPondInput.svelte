@@ -32,13 +32,25 @@
 	</div>
 	<form>
 		<div class="flex items-center">
-			<!-- TODO: check only numeric input -->
 			<input
 				bind:value={inputAmountString}
 				on:input={handleUpdatedAmount}
 				id="pond-input-amount"
 				class={`hideInputNumberAppearance ${styles.inputNumber}`}
 				placeholder="0.00"
+				on:keydown={(e) => {
+					// user can only enter numbers and one decimal point
+					if (
+						(e.key >= '0' && e.key <= '9') ||
+						(e.key == '.' && !inputAmountString.includes('.')) ||
+						e.key == 'Backspace' ||
+						e.key == 'Delete'
+					) {
+						return true;
+					} else {
+						e.preventDefault();
+					}
+				}}
 			/>
 			<slot name="input-end-button" />
 		</div>

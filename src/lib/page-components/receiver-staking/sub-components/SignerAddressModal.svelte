@@ -135,7 +135,7 @@
 			disabled={!submitEnable}
 			loading={submitLoading}
 			onclick={handleSubmitClick}
-			styleClass={'btn-block h-14 text-base font-semibold'}>SUBMIT</FilledButton
+			styleClass={'btn-block h-14 text-base font-semibold'}>UPDATE</FilledButton
 		>
 	</svelte:fragment>
 </Modal>

@@ -7,13 +7,13 @@
 	import { onMount } from 'svelte';
 	import '../app.css';
 
-	onMount(() => {
+	onMount(async () => {
 		// removes console logs in production
 		if (ENVIRONMENT.production) {
 			window.console.log = function () {};
 		}
+		await getContractDetails();
 		restoreWalletConnection();
-		getContractDetails();
 	});
 </script>
 

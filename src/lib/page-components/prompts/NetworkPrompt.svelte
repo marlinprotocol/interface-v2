@@ -10,14 +10,14 @@
 	}
 
 	const styles = {
-		subtitle: 'text-[15px] font-medium text-left mt-1 text-black/50 mt-4'
+		subtitle: 'text-[15px] font-medium text-left mt-1 text-black/50 mt-4 px-2'
 	};
 </script>
 
 <ContainerCard>
 	<Text variant="h3" text="Unsupported Network" styleClass="text-center" />
 	<span class={styles.subtitle}
-		>Please switch the network to continue. And other stuff that we might want to display the users.</span
+		>Please switch to the Arbitrum network to use the Receiver Staking portal.</span
 	>
 	<Button styleClass="mt-8" variant="filled" size="large" onclick={() => handleChainSwitch()}
 		>SWITCH NETWORK</Button

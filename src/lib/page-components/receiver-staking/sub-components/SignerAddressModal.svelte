@@ -85,6 +85,7 @@
 						<!-- TODO: address validation -->
 						<input
 							bind:value={$receiverStakingStore.signer}
+							autocomplete="off"
 							id="currentSignerAddress"
 							class={`hideInputNumberAppearance ${styles.inputNumber}`}
 							disabled={true}
@@ -103,6 +104,7 @@
 					<input
 						bind:value={updatedSignerAddress}
 						on:input={handleUpdatedSignerAddressInput}
+						autocomplete="off"
 						id="updatedSignerAddress"
 						class={`hideInputNumberAppearance ${styles.inputNumber}`}
 						placeholder="Enter Here"

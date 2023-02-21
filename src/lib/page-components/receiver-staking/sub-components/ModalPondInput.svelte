@@ -38,6 +38,7 @@
 				id="pond-input-amount"
 				class={`hideInputNumberAppearance ${styles.inputNumber}`}
 				placeholder="0.00"
+				autocomplete="off"
 				on:keydown={(e) => {
 					// user can only enter numbers and one decimal point
 					if (

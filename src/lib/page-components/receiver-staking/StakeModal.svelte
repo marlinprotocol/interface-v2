@@ -101,7 +101,6 @@
 
 	const handleApproveClick = async () => {
 		if (approveDisabled) return;
-
 		if (!inputAmount || !inputAmount.gt(0)) {
 			addToast({
 				message: 'Please enter an valid amount',
@@ -308,6 +307,7 @@
 						<input
 							bind:value={updatedSignerAddress}
 							on:input={handleUpdatedSignerAddressInput}
+							autocomplete="off"
 							id="updatedSignerAddress"
 							class={`hideInputNumberAppearance ${styles.inputNumber}`}
 							placeholder="Enter Here"

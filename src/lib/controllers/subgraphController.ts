@@ -113,7 +113,7 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 export async function getReceiverStakingDataFromSubgraph(
 	address: Address
 ): Promise<ReceiverStakingData> {
-	const pond_contract_address = contractAddresses.tokens.POND.address || '0x00000000000';
+	const pond_contract_address = contractAddresses.ReceiverStaking || '0x00000000000';
 	const url = ENVIRONMENT.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_RECEIVER_STAKING_DATA;
 

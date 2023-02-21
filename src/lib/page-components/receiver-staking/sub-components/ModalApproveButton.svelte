@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/atoms/componentClasses';
+	import { bigNumberToString } from '$lib/utils/conversion';
 	import { BigNumber } from 'ethers';
 
 	export let disabled = false;

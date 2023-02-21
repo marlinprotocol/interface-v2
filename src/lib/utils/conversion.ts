@@ -33,34 +33,30 @@ export const epochToDurationString = (epoch: number) => {
 	return durationString;
 };
 
+function roundNumberString(numString: string, decimals: number = 2) {
+	const num = Number(numString);
+	const roundedNum = num.toFixed(decimals);
+	return roundedNum;
+}
+
 /**
  * Returns comma separated string with set of decimals for a big number
  * @param value big number
  * @param decimals decimals of the fractional part
- * @param bigNumberDecimal decimal of the big number, default set to 18
  * @returns string
  */
-export const bigNumberToCommaString = (
-	value: BigNumber,
-	decimals: number = 2,
-	bigNumberDecimal: number = 18
-) => {
-	let result = ethers.utils.formatUnits(value, bigNumberDecimal);
+export const bigNumberToCommaString = (value: BigNumber, decimals: number = 2) => {
+	let result = ethers.utils.formatEther(value);
 
 	// Replace 0.0 by an empty value
-	if (result === '0.0') {
-		return '0';
-	}
+	if (result === '0.0') return '0';
 
-	// ethers.utils.formatUnits() adds a decimal even when 0, this removes it.
-	result = result.replace(/\.0$/, '');
-	let [integer, fraction] = result.split('.');
-
-	//round to 2 precisions (parseFloat not working for large numbers) //TODO: check this
-	if (!!fraction) {
-		result = integer + '.' + (fraction?.length > decimals ? fraction.slice(0, decimals) : fraction);
+	result = ethers.utils.commify(roundNumberString(result, decimals));
+	//add 0 to the end if decimal count is less than 2
+	if (result.split('.')[1]?.length < 2) {
+		result = result + '0';
 	}
-	return ethers.utils.commify(result);
+	return result;
 };
 
 /**

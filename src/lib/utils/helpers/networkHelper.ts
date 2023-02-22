@@ -18,3 +18,13 @@ export async function switchChain(chainId: string) {
 	});
 	await connectWallet(WALLET_TYPE.metamask);
 }
+
+export const getChainDisplayName = (chainId: number): string | undefined => {
+	switch (chainId) {
+		case 421613:
+			return 'ETH GARB1';
+
+		default:
+			return undefined;
+	}
+};

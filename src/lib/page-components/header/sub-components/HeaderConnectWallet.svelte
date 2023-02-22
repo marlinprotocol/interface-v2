@@ -35,7 +35,7 @@
 	>
 		<img src="./images/wallet-connected.svg" alt="Metamask Logo" />
 		<div class={'flex flex-col text-left'}>
-			<h6 class={styles.network}>{chain?.chainName?.toLocaleUpperCase()}</h6>
+			<h6 class={styles.network}>{chain?.chainDisplayName?.toLocaleUpperCase()}</h6>
 			<p class={styles.address}>{shortAddress}</p>
 		</div>
 	</label>

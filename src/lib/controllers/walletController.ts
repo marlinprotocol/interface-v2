@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
-import { isValidChain } from '$lib/utils/helpers/networkHelper';
+import { getChainDisplayName, isValidChain } from '$lib/utils/helpers/networkHelper';
 import { chainStore } from '$lib/data-stores/chainProviderStore';
 import { WALLET_TYPE } from '$lib/utils/constants/constants';
 
@@ -9,7 +9,13 @@ export async function connectWallet(walletType: WALLET_TYPE) {
 
 	const { chainId, name } = await walletProvider.getNetwork();
 	const validChain = isValidChain(chainId);
-	chainStore.set({ chainId: chainId, chainName: name, isValidChain: validChain });
+	const chainDisplayName = getChainDisplayName(chainId);
+	chainStore.set({
+		chainId: chainId,
+		chainName: name,
+		chainDisplayName: chainDisplayName ?? name,
+		isValidChain: validChain
+	});
 
 	try {
 		await walletProvider.send('eth_requestAccounts', []);

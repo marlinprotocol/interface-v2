@@ -6,6 +6,7 @@ export type Address = string;
 
 // wallet provider store
 export type WalletStore = {
+	walletType: WALLET_TYPE;
 	provider: providers.Provider | undefined;
 	signer: Signer | undefined;
 	address: Address;

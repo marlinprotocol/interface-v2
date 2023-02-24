@@ -25,7 +25,6 @@
 						slot="button"
 						onclick={() => connectWallet(walletOption.provider)}
 						variant="filled"
-						disabled={walletOption.provider === WALLET_TYPE.walletconnect}
 						styleClass={'w-[170px] h-12 text-base font-semibold'}
 					>
 						Connect

@@ -36,6 +36,8 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@walletconnect/universal-provider": "^2.4.6",
+		"@web3modal/standalone": "^2.1.1",
 		"daisyui": "^2.46.1",
 		"ethers": "^5.7.2",
 		"svelte-awesome": "^3.0.1"

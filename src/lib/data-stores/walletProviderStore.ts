@@ -1,9 +1,12 @@
 import { derived, writable, type Readable, type Writable } from 'svelte/store';
 import { browser } from '$app/environment';
-import type { WalletOptions, WalletStore } from '$lib/types/storeTypes';
+import type { ReceiverStakingData, WalletOptions, WalletStore } from '$lib/types/storeTypes';
 import { DEFAULT_WALLET_STORE } from '$lib/utils/constants/storeDefaults';
 import { WALLET_TYPE } from '$lib/utils/constants/constants';
 import { connectWallet } from '$lib/controllers/walletController';
+import { getReceiverStakingDataFromSubgraph } from '$lib/controllers/subgraphController';
+import { receiverStakingStore } from './receiverStakingStore';
+import { addToast } from './toastStore';
 
 export const walletOptions: WalletOptions = [
 	{ id: 1, provider: WALLET_TYPE.metamask },
@@ -43,3 +46,21 @@ export function restoreWalletConnection() {
 		if (browser) sessionStorage.setItem('connected', JSON.stringify(value));
 	});
 }
+
+// subcription to walletStore allows us to fetch
+// receiver staked balance, queued data when the user has a valid wallet address
+walletStore.subscribe(async (value) => {
+	const walletAddress = value.address;
+	if (walletAddress !== DEFAULT_WALLET_STORE.address) {
+		try {
+			const data: ReceiverStakingData = await getReceiverStakingDataFromSubgraph(walletAddress);
+			receiverStakingStore.set(data);
+		} catch (e) {
+			addToast({
+				message: 'Error fetching receiver staking data',
+				variant: 'error'
+			});
+			console.error(e);
+		}
+	}
+});

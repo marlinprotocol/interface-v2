@@ -300,7 +300,7 @@
 			<InputCard styles="mt-4">
 				<div class={styles.titleIcon}>
 					<Text variant="small" text={'Signer Address'} />
-					<TooltipIcon tooltipText={addressToolTipText} />
+					<TooltipIcon tooltipText={addressToolTipText} tooltipDirection="tooltip-right" />
 				</div>
 				<form>
 					<div class="flex gap-2 items-center">

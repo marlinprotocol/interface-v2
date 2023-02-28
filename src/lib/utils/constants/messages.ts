@@ -89,7 +89,8 @@ export const MESSAGES = {
 	FORM: {
 		VALIDATION: {
 			ADDRESS: 'Please enter a valid address.',
-			ADDRESS_SAME: 'Please enter a different address from your current signer address.'
+			ADDRESS_SAME: 'Please enter a different address from your current signer address.',
+			SIGNER_EXISTS: 'Signer address already in use.'
 		}
 	}
 };

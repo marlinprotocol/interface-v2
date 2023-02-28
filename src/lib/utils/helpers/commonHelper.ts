@@ -75,12 +75,13 @@ export function minifyAddress(
 }
 
 /**
- * checks and returns if the address is valid or not
+ * checks and returns an array of booleans signifying all the validations that the address has passed
  */
-export async function isAddressValid(address: string): Promise<boolean> {
+export async function isAddressValid(address: string): Promise<boolean[]> {
 	const validCharacters = /^0x[a-fA-F0-9]{40}$/.test(address);
-	if (!validCharacters) return false;
+	if (!validCharacters) return [false, false];
 
 	const addressExistsAsSigner = await checkIfSignerExistsInSubgraph(address);
-	return addressExistsAsSigner;
+	if (!addressExistsAsSigner) return [true, false];
+	return [true, true];
 }

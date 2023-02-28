@@ -15,6 +15,7 @@
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
 	import type { Address, ReceiverStakingData, WalletBalance } from '$lib/types/storeTypes';
+	import { MESSAGES } from '$lib/utils/constants/messages';
 	import {
 		DEFAULT_RECEIVER_STAKING_DATA,
 		DEFAULT_WALLET_BALANCE
@@ -69,6 +70,7 @@
 
 	//signer address states
 	let signerAddressIsValid: boolean = false;
+	let signerAddressIsUnique: boolean = false;
 	let updatedSignerAddress: Address = '';
 	let updatedSignerAddressInputDirty: boolean = false;
 
@@ -87,7 +89,7 @@
 
 		if (target.value && target.value !== $receiverStakingStore.signer) {
 			submitLoading = true;
-			signerAddressIsValid = await isAddressValid(target.value);
+			[signerAddressIsValid, signerAddressIsUnique] = await isAddressValid(target.value);
 			submitLoading = false;
 		} else {
 			signerAddressIsValid = false;
@@ -236,7 +238,8 @@
 		  approvedAmount?.gte(inputAmount) &&
 		  maxPondBalance?.gte(inputAmount) &&
 		  updatedSignerAddress !== '' &&
-		  signerAddressIsValid
+		  signerAddressIsValid &&
+		  signerAddressIsUnique
 		: !!inputAmount &&
 		  inputAmount.gt(0) &&
 		  approvedAmount?.gte(inputAmount) &&
@@ -296,6 +299,9 @@
 				{handleApproveClick}
 			/>
 		</ModalPondInput>
+		{#if signerAddressIsValid && !signerAddressIsUnique}
+			<!-- content here -->
+		{/if}
 		{#if !inputAmountIsValid && updatedAmountInputDirty}
 			<InputCard variant="warning" styles="mt-4 bg-red-100">
 				<Text variant="small" styleClass="text-red-500 my-2" text={inValidMessage} />
@@ -323,9 +329,23 @@
 			</InputCard>
 		{/if}
 
+		{#if signerAddressIsValid && !signerAddressIsUnique}
+			<InputCard variant="warning" styles="mt-4 bg-red-100">
+				<Text
+					variant="small"
+					styleClass="text-red-500 my-2"
+					text={MESSAGES.FORM.VALIDATION.SIGNER_EXISTS}
+				/>
+			</InputCard>
+		{/if}
+
 		{#if !signerAddressIsValid && updatedSignerAddressInputDirty}
 			<InputCard variant="warning" styles="mt-4 bg-red-100">
-				<Text variant="small" styleClass="text-red-500 my-2" text="Enter a valid address" />
+				<Text
+					variant="small"
+					styleClass="text-red-500 my-2"
+					text={MESSAGES.FORM.VALIDATION.ADDRESS}
+				/>
 			</InputCard>
 		{/if}
 		{#if !!pondDisabledText}

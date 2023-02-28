@@ -14,6 +14,7 @@
 	let submitLoading = false;
 	let updatedSignerAddressInputDirty = false;
 	let signerAddressIsValid: boolean;
+	let signerAddressIsUnique: boolean = false;
 	const modalFor = 'signer-address-modal';
 	const subtitle =
 		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';
@@ -55,7 +56,8 @@
 
 		if (target.value && target.value !== $receiverStakingStore.signer) {
 			submitLoading = true;
-			signerAddressIsValid = await isAddressValid(target.value);
+
+			[signerAddressIsValid, signerAddressIsUnique] = await isAddressValid(target.value);
 			submitLoading = false;
 		} else {
 			signerAddressIsValid = false;
@@ -66,6 +68,7 @@
 		!!updatedSignerAddress &&
 		updatedSignerAddress !== $receiverStakingStore.signer &&
 		signerAddressIsValid &&
+		signerAddressIsUnique &&
 		updatedSignerAddressInputDirty;
 </script>
 
@@ -118,6 +121,16 @@
 				</div>
 			</form>
 		</InputCard>
+
+		{#if signerAddressIsValid && updatedSignerAddressInputDirty && !signerAddressIsUnique}
+			<InputCard variant="warning" styles="mt-4">
+				<Text
+					variant="small"
+					styleClass="text-red-500 my-2"
+					text={MESSAGES.FORM.VALIDATION.SIGNER_EXISTS}
+				/>
+			</InputCard>
+		{/if}
 
 		{#if !signerAddressIsValid && updatedSignerAddressInputDirty && updatedSignerAddress !== $receiverStakingStore.signer}
 			<InputCard variant="warning" styles="mt-4">

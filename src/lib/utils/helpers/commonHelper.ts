@@ -1,3 +1,5 @@
+import { checkIfSignerExistsInSubgraph } from '$lib/controllers/subgraphController';
+
 export function copyTextToClipboard(text: string) {
 	if (navigator.clipboard) {
 		navigator.clipboard.writeText(text);
@@ -57,13 +59,6 @@ export function inputAmountInValidMessage(amount: string): string {
 }
 
 /**
- * checks and returns if the address is valid or not
- */
-export function isAddressValid(address: string): boolean {
-	return /^0x[a-fA-F0-9]{40}$/.test(address);
-}
-
-/**
  * returns the minified address
  * @param address
  * @param first
@@ -77,4 +72,15 @@ export function minifyAddress(
 	last = 4
 ): string {
 	return address.slice(0, first) + '...' + address.slice(-last);
+}
+
+/**
+ * checks and returns if the address is valid or not
+ */
+export async function isAddressValid(address: string): Promise<boolean> {
+	const validCharacters = /^0x[a-fA-F0-9]{40}$/.test(address);
+	if (!validCharacters) return false;
+
+	const addressExistsAsSigner = await checkIfSignerExistsInSubgraph(address);
+	return addressExistsAsSigner;
 }

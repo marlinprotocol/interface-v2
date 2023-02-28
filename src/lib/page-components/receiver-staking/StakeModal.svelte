@@ -78,14 +78,20 @@
 	let updatedAmountInputDirty: boolean = false;
 
 	/**
-	 * checks if address is valid and if it is different from
-	 * current signer address as user types input
+	 * checks if address is valid as user types input
 	 * @param event
 	 */
-	const handleUpdatedSignerAddressInput = (event: Event) => {
+	const handleUpdatedSignerAddressInput = async (event: Event) => {
 		updatedSignerAddressInputDirty = true;
 		const target = event.target as HTMLInputElement;
-		signerAddressIsValid = target.value ? isAddressValid(target.value) : false;
+
+		if (target.value && target.value !== $receiverStakingStore.signer) {
+			submitLoading = true;
+			signerAddressIsValid = await isAddressValid(target.value);
+			submitLoading = false;
+		} else {
+			signerAddressIsValid = false;
+		}
 	};
 
 	/**

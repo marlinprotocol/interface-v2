@@ -6,6 +6,7 @@ import {
 	DEFAULT_WALLET_BALANCE
 } from '$lib/utils/constants/storeDefaults';
 import {
+	QUERY_TO_CHECK_IF_SIGNER_EXISTS,
 	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_POND_BALANCE_QUERY,
 	QUERY_TO_GET_RECEIVER_POND_BALANCE,
@@ -186,5 +187,23 @@ export async function getReceiverStakingDataFromSubgraph(
 	} catch (error) {
 		console.log('Error fetching receiver staked, in queue data from subgraph', error);
 		return DEFAULT_RECEIVER_STAKING_DATA;
+	}
+}
+
+export async function checkIfSignerExistsInSubgraph(address: Address): Promise<boolean> {
+	const url = ENVIRONMENT.public_contract_subgraph_url;
+	const query = QUERY_TO_CHECK_IF_SIGNER_EXISTS;
+
+	const queryVariables = { signer: address.toLowerCase() };
+	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
+
+	try {
+		const result = await fetchHttpData(url, options);
+		console.log(result);
+		if (result['data'] && result['data']?.receiverBalances?.length == 0) return true;
+		else return false;
+	} catch (error) {
+		console.log('Error fetching receiver pond balance from subgraph', error);
+		return false;
 	}
 }

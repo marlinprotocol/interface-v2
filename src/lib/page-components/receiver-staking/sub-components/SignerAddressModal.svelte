@@ -49,11 +49,17 @@
 		updatedSignerAddressInputDirty = false;
 	};
 
-	const handleUpdatedSignerAddressInput = (event: Event) => {
+	const handleUpdatedSignerAddressInput = async (event: Event) => {
 		updatedSignerAddressInputDirty = true;
 		const target = event.target as HTMLInputElement;
 
-		signerAddressIsValid = target.value ? isAddressValid(target.value) : false;
+		if (target.value && target.value !== $receiverStakingStore.signer) {
+			submitLoading = true;
+			signerAddressIsValid = await isAddressValid(target.value);
+			submitLoading = false;
+		} else {
+			signerAddressIsValid = false;
+		}
 	};
 
 	$: submitEnable =
@@ -113,7 +119,7 @@
 			</form>
 		</InputCard>
 
-		{#if !signerAddressIsValid && updatedSignerAddressInputDirty}
+		{#if !signerAddressIsValid && updatedSignerAddressInputDirty && updatedSignerAddress !== $receiverStakingStore.signer}
 			<InputCard variant="warning" styles="mt-4">
 				<Text
 					variant="small"
@@ -122,7 +128,7 @@
 				/>
 			</InputCard>
 		{/if}
-		{#if updatedSignerAddress === $receiverStakingStore.signer && signerAddressIsValid}
+		{#if updatedSignerAddress === $receiverStakingStore.signer && !signerAddressIsValid}
 			<InputCard variant="warning" styles="mt-4">
 				<Text
 					variant="small"

@@ -62,3 +62,18 @@ export const QUERY_TO_GET_RECEIVER_STAKING_DATA = `query ReceiverStakingData($ad
     value
   }
 }`;
+
+/**
+ * Returns if a signer is present in receiver balances, if this is empty then the signer is not present
+ * @queryVariables signer: Address of the signer in string format
+ * @returns signer in receiver balances
+ */
+export const QUERY_TO_CHECK_IF_SIGNER_EXISTS = `query SignerExists($signer: String) {
+  receiverBalances(
+    where: {
+      signer: $signer
+    }
+  ) {
+    signer
+  }
+}`;

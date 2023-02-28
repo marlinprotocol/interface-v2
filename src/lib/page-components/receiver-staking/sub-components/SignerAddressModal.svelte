@@ -61,6 +61,7 @@
 			submitLoading = false;
 		} else {
 			signerAddressIsValid = false;
+			signerAddressIsUnique = false;
 		}
 	};
 

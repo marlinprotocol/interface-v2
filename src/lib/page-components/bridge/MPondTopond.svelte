@@ -23,6 +23,9 @@
 		buttonLarge: `${buttonClasses.filled} h-14 text-base font-semibold flex gap-1 w-full`
 	};
 
+	const maxAmountTooltipText =
+		'Unrequested is the amount of MPond for which a conversion request is not placed. MPond conversion requests placed is categorised as Requested. Conversion requests for staked MPond can also be placed.';
+
 	//initial amount states
 	let inputAmount: BigNumber;
 	let inputAmountString: string;
@@ -39,10 +42,11 @@
 	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(inputAmount.mul(10 ** 6)) : '';
 
 	let maxMPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.mpond;
-	let balanceText = 'Balance: 0.00';
+	let balanceText = 'Unrequested: 0.00 | Requested: 0.00';
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		maxMPondBalance = value.mpond;
-		balanceText = `Balance: ${bigNumberToCommaString(maxMPondBalance)}`;
+		// TODO: update this
+		balanceText = `Unrequested: ${bigNumberToCommaString(maxMPondBalance)} | Requested: 0.00`;
 	});
 	onDestroy(unsubscribeWalletBalanceStore);
 
@@ -75,6 +79,7 @@
 	{handleUpdatedAmount}
 	maxAmountText={balanceText}
 	inputCardVariant={'none'}
+	{maxAmountTooltipText}
 >
 	<Text slot="input-end-button" text="MPond" styleClass="font-medium" />
 	<button slot="inputMaxButton" on:click={handleMaxClick} class={buttonClasses.maxButton}>

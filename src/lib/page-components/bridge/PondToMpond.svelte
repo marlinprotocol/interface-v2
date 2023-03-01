@@ -16,6 +16,7 @@
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import ModalPondInput from '../receiver-staking/sub-components/ModalPondInput.svelte';
+	import PondConvertModal from './PondConvertModal.svelte';
 
 	const styles = {
 		wrapper: 'w-full flex flex-col items-center justify-center py-8',
@@ -104,3 +105,4 @@
 {:else}
 	<ConnectWalletButton />
 {/if}
+<PondConvertModal pond={inputAmount} />

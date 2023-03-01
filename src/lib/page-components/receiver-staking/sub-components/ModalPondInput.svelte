@@ -10,6 +10,7 @@
 	export let tooltipText: ModalInputModel['tooltipText'] = '';
 	export let inputAmountString: string = '';
 	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance';
+	export let maxAmountTooltipText: ModalInputModel['maxAmountTooltipText'] = '';
 	export let handleUpdatedAmount: any = undefined;
 	export let inputCardVariant: InputCardVariant = 'primary';
 
@@ -63,7 +64,18 @@
 			<div class="flex items-center gap-2">
 				<slot name="inputMaxButton" />
 				<div class={dividerClasses.vertical} />
-				<Text variant="small" styleClass="text-gray-500" text={maxAmountText} />
+				<div class="flex gap-1">
+					<Text variant="small" styleClass="text-gray-500" text={maxAmountText} />
+					{#if !!maxAmountTooltipText}
+						<TooltipIcon
+							iconSrc={'./images/alert.svg'}
+							iconWidth={16}
+							tooltipText={maxAmountTooltipText}
+							tooltipVariant="tooltip-secondary"
+							tooltipDirection="tooltip-bottom"
+						/>
+					{/if}
+				</div>
 			</div>
 		{/if}
 	</form>

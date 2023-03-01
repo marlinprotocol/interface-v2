@@ -9,8 +9,11 @@ module.exports = {
 				white: '#ffffff',
 				grey: '#7e7e80',
 				'grey-200': '#F3F3F3',
+				'grey-400': '#9D9FAC',
 				'grey-500': '#7E7E80',
-				'grey-600': '#808080'
+				'grey-600': '#808080',
+				'grey-700': '#737373',
+				'orange-400': '#D6741B'
 			},
 			fontSize: {
 				'2xs': '0.625rem',

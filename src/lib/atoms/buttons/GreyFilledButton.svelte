@@ -6,6 +6,6 @@
 	$: buttonClass = `${buttonClasses.greyFilled} ${loading ? 'loading' : ''} ${styleClass}`;
 </script>
 
-<button {disabled} on:click|preventDefault|self={onclick} class={buttonClass}>
+<button {disabled} class={buttonClass}>
 	<slot />
 </button>

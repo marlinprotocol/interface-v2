@@ -4,6 +4,7 @@
 	import { Tab, TabList, TabPanel, Tabs } from '$lib/atoms/tabs/tabs';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import MPondTopond from './MPondTopond.svelte';
+	import PondConvertModal from './PondConvertModal.svelte';
 	import PondToMpond from './PondToMpond.svelte';
 	import ConversionHistoryButton from './sub-components/ConversionHistoryButton.svelte';
 	import TabPondMpond from './sub-components/TabPondMpond.svelte';
@@ -30,7 +31,7 @@
 			</Tab>
 			<Tab id={'2'} on:click={handleClick('2')}>
 				<TabPondMpond
-					firstText="Mpond"
+					firstText="MPond"
 					secondText="POND"
 					variant={activeTabValue === '2' ? 'primary' : 'secondary'}
 				/>

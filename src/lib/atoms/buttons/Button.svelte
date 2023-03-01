@@ -1,17 +1,17 @@
 <script lang="ts">
-	import type { ButtonModel } from '$lib/types/componentTypes';
 	import ErrorButton from '$lib/atoms/buttons/ErrorButton.svelte';
 	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
 	import OutlinedButton from '$lib/atoms/buttons/OutlinedButton.svelte';
+	import type { ButtonModel } from '$lib/types/componentTypes';
+	import GreyFilledButton from './GreyFilledButton.svelte';
 	import InfoButton from './InfoButton.svelte';
 	import TextButton from './TextButton.svelte';
-	import GreyFilledButton from './GreyFilledButton.svelte';
 	import WhiteFilledButton from './WhiteFilledButton.svelte';
 
 	export let variant: ButtonModel['variant'] = 'filled';
 	export let size: ButtonModel['size'] = 'medium';
 	export let styleClass = '';
-	export let onclick: ButtonModel['onclick'] = () => {};
+	export let onclick: ButtonModel['onclick'] | undefined = undefined;
 	export let disabled: boolean = false;
 	export let loading: boolean = false;
 

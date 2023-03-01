@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Button from '$lib/atoms/buttons/Button.svelte';
 	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
@@ -133,11 +134,13 @@
 		{/if}
 	</svelte:fragment>
 	<svelte:fragment slot="action-buttons">
-		<FilledButton
+		<Button
+			variant="filled"
 			disabled={!submitEnable}
 			loading={submitLoading}
 			onclick={handleSubmitClick}
-			styleClass={'btn-block h-14 text-base font-semibold'}>UPDATE</FilledButton
+			size="large"
+			styleClass={'btn-block'}>UPDATE</Button
 		>
 	</svelte:fragment>
 </Modal>

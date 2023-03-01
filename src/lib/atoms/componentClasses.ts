@@ -1,15 +1,18 @@
+const baseFilledButtonClasses = 'btn btn-theme btn-sm px-5 items-center';
+
 export const buttonClasses = {
-	filled:
-		'btn btn-theme btn-sm px-5 btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white',
-	greyFilled:
-		'btn btn-theme btn-sm px-5 bg-base-200 text-primary border-none hover:bg-base-300 items-center',
-	lightblueFilled: 'btn btn-theme btn-sm btn-lightblue px-5 items-center',
+	filled: `${baseFilledButtonClasses} btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white`,
+	greyFilled: `${baseFilledButtonClasses} bg-base-200 text-primary border-none hover:bg-base-300`,
+	lightblueFilled: `${baseFilledButtonClasses} btn-lightblue`,
+	whiteFilled: `${baseFilledButtonClasses} bg-white text-primary border-none hover:bg-base-200`,
 	outlined:
 		'btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit',
 	error:
 		'btn btn-theme btn-sm text-error px-5 border-error bg-inherit hover:bg-inherit hover:border-error hover:text-error-focus',
 	text: 'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent',
-	icon: 'btn btn-xs btn-ghost btn-circle p-0 bg-transparent hover:bg-transparent flex'
+	icon: 'btn btn-xs btn-ghost btn-circle p-0 bg-transparent hover:bg-transparent flex',
+	maxButton:
+		'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent text-sm font-bold text-primary'
 };
 
 export const dividerClasses = {

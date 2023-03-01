@@ -1,10 +1,12 @@
 <script lang="ts">
+	import Button from '$lib/atoms/buttons/Button.svelte';
 	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
+	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import {
 		approvePondTokenForReceiverStaking,
 		depositStakingToken
@@ -240,7 +242,6 @@
 		? 'Staking POND requires users to approve the POND tokens. After approval, enter the signer address mentioned in the receiver client and confirm the transaction. There is no lock-in period for staking POND.'
 		: 'Staking POND requires users to approve the POND tokens first and then confirm the transaction. There is no lock-in period for staking POND.';
 	const styles = {
-		inputMaxButton: `${buttonClasses.text} text-sm font-bold text-primary`,
 		titleIcon: 'flex items-center gap-1',
 		inputNumber:
 			'input input-ghost h-[30px] w-full mt-1 p-0 font-semibold text-xl disabled:text-primary text-primary focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent'
@@ -278,7 +279,7 @@
 			{handleUpdatedAmount}
 			maxAmountText={balanceText}
 		>
-			<button slot="input-max-button" on:click={handleMaxClick} class={styles.inputMaxButton}
+			<button slot="inputMaxButton" on:click={handleMaxClick} class={buttonClasses.maxButton}
 				>MAX</button
 			>
 			<ModalApproveButton
@@ -290,11 +291,10 @@
 				{handleApproveClick}
 			/>
 		</ModalPondInput>
-		{#if !inputAmountIsValid && updatedAmountInputDirty}
-			<InputCard variant="warning" styles="mt-4 bg-red-100">
-				<Text variant="small" styleClass="text-red-500 my-2" text={inValidMessage} />
-			</InputCard>
-		{/if}
+		<ErrorTextCard
+			showError={!inputAmountIsValid && updatedAmountInputDirty}
+			errorMessage={inValidMessage}
+		/>
 		{#if $receiverStakingStore.signer === DEFAULT_RECEIVER_STAKING_DATA.signer}
 			<!-- TODO: make this into a component -->
 			<InputCard styles="mt-4">
@@ -317,23 +317,20 @@
 			</InputCard>
 		{/if}
 
-		{#if !signerAddressIsValid && updatedSignerAddressInputDirty}
-			<InputCard variant="warning" styles="mt-4 bg-red-100">
-				<Text variant="small" styleClass="text-red-500 my-2" text="Enter a valid address" />
-			</InputCard>
-		{/if}
-		{#if !!pondDisabledText}
-			<InputCard variant="warning" styles="mt-4 bg-red-100">
-				<Text variant="small" styleClass="text-red-500 my-2" text={pondDisabledText} />
-			</InputCard>
-		{/if}
+		<ErrorTextCard
+			showError={!signerAddressIsValid && updatedSignerAddressInputDirty}
+			errorMessage={'Enter a valid address'}
+		/>
+		<ErrorTextCard showError={!!pondDisabledText} errorMessage={pondDisabledText} />
 	</svelte:fragment>
 	<svelte:fragment slot="action-buttons">
-		<FilledButton
+		<Button
+			variant="filled"
 			disabled={!submitEnable}
 			loading={submitLoading}
 			onclick={handleSubmitClick}
-			styleClass={'btn-block h-14 text-base font-semibold'}>CONFIRM</FilledButton
+			size="large"
+			styleClass={'btn-block'}>CONFIRM</Button
 		>
 	</svelte:fragment>
 </Modal>

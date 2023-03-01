@@ -5,14 +5,21 @@ module.exports = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
 		extend: {
-			colors: {},
+			colors: {
+				white: '#ffffff',
+				grey: '#7e7e80',
+				'grey-200': '#F3F3F3',
+				'grey-500': '#7E7E80',
+				'grey-600': '#808080'
+			},
 			fontSize: {
 				'2xs': '0.625rem',
 				'3xs': '0.5rem',
 				'4xs': '0.375rem'
 			},
 			width: {
-				125: '500px' //or 125rem
+				125: '500px', //or 125rem
+				130: '555px'
 			},
 			fontFamily: {
 				poppins: ['Poppins', 'sans-serif'],
@@ -46,13 +53,10 @@ module.exports = {
 					info: '#e0a82e',
 					success: '#28bf92',
 					warning: '#fcca00',
-					grey: '#7e7e80',
-					'grey-600': '#808080',
 					error: '#e60000',
 					'error-focus': '#b30202',
 					'error-content': '#ffffff',
 					'background-color': '#e9f2f5', //e9f2f5
-
 					//custom designs
 					'.modal-backdrop': {
 						'background-color': '#010324cc'
@@ -62,6 +66,32 @@ module.exports = {
 					},
 					'.icon-primary': {
 						color: '#3840c7'
+					},
+					'.input-primary': {
+						width: '100%',
+						fontWeight: '600',
+						padding: '0',
+						fontSize: '1.4rem',
+						color: '#3840c7',
+						border: 'none',
+						outline: 'none',
+						fontFamily: 'Orbitron',
+						'&:focus': {
+							border: 'none',
+							outline: 'none',
+							background: 'transparent',
+							color: '#3840c7'
+						},
+						'&:focus-within': {
+							border: 'none',
+							outline: 'none',
+							color: '#3840c7'
+						},
+						'&:disabled': {
+							border: 'none',
+							outline: 'none',
+							background: 'transparent'
+						}
 					},
 					'.btn': {
 						'text-transform': 'none'

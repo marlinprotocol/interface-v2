@@ -1,9 +1,8 @@
 <script lang="ts">
-	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
-	import InputCard from '$lib/atoms/cards/InputCard.svelte';
+	import Button from '$lib/atoms/buttons/Button.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
+	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import { withdrawStakingToken } from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
@@ -112,10 +111,6 @@
 		updatedAmountInputDirty = false;
 		inValidMessage = '';
 	};
-
-	const styles = {
-		inputMaxButton: `${buttonClasses.text} text-sm font-bold text-primary`
-	};
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
@@ -133,27 +128,26 @@
 			{handleUpdatedAmount}
 			maxAmountText={balanceText}
 		>
-			<button slot="input-max-button" on:click={handleMaxClick} class={styles.inputMaxButton}
+			<button slot="inputMaxButton" on:click={handleMaxClick} class={buttonClasses.maxButton}
 				>MAX</button
 			>
 		</ModalPondInput>
-		{#if !inputAmountIsValid && updatedAmountInputDirty}
-			<InputCard variant="warning" styles="mt-4 bg-red-100">
-				<Text variant="small" styleClass="text-red-500 my-2" text={inValidMessage} />
-			</InputCard>
-		{/if}
-		{#if !!pondDisabledText}
-			<InputCard variant="warning" styles="mt-4 bg-red-100">
-				<Text variant="small" styleClass="text-red-500 my-2" text={pondDisabledText} />
-			</InputCard>
-		{/if}
+		<ErrorTextCard
+			showError={!inputAmountIsValid && updatedAmountInputDirty}
+			errorMessage={inValidMessage}
+		/>
+		<ErrorTextCard showError={!!pondDisabledText} errorMessage={pondDisabledText} />
 	</svelte:fragment>
 	<svelte:fragment slot="action-buttons">
-		<FilledButton
+		<Button
+			variant="filled"
 			disabled={!submitEnable}
 			loading={submitLoading}
 			onclick={handleSubmitClick}
-			styleClass={'btn-block h-14 text-base font-semibold'}>CONFIRM</FilledButton
+			size="large"
+			styleClass={'btn-block'}
 		>
+			CONFIRM
+		</Button>
 	</svelte:fragment>
 </Modal>

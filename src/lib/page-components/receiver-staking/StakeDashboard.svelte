@@ -1,8 +1,11 @@
 <script lang="ts">
+	import InfoButton from '$lib/atoms/buttons/InfoButton.svelte';
+	import InfoButtonLink from '$lib/atoms/buttons/InfoButtonLink.svelte';
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
+	import ConnectWalletButton from '$lib/components/buttons/ConnectWalletButton.svelte';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import StakedData from '$lib/page-components/receiver-staking/StakedData.svelte';
@@ -13,8 +16,7 @@
 	const styles = {
 		buttonsGroup: 'flex gap-4 items-center justify-center w-full',
 		buttonWrapper: 'w-1/2',
-		buttonLarge: 'h-14 text-base font-semibold',
-		documentationLink: `${buttonClasses.lightblueFilled} w-fit h-10 text-small font-medium gap-3 mx-auto mt-8`
+		buttonLarge: 'h-14 text-base font-semibold'
 	};
 
 	$: validBalance = $receiverStakingStore.queuedBalance
@@ -51,22 +53,7 @@
 		<StakeModal />
 		<UnstakeModal />
 	{:else}
-		<label
-			for="connect-wallet-modal"
-			class={`${buttonClasses.filled} ${styles.buttonLarge} flex gap-1`}
-		>
-			<Icon data={lock} size={20} iconColorClass="text-white" />
-			Connect Wallet
-		</label>
+		<ConnectWalletButton />
 	{/if}
 </ContainerCard>
-
-<a
-	class={styles.documentationLink}
-	href="https://docs.marlin.org/docs/User%20Guides/Oyster/"
-	target="_blank"
-	rel="noopener noreferrer"
->
-	<img src="./images/openinnew.svg" alt="Copy" />
-	Documentation
-</a>
+<InfoButtonLink href="https://docs.marlin.org" text="Documentation" />

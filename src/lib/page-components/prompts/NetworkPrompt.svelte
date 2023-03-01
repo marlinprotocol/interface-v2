@@ -4,9 +4,10 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import ENVIRONMENT from '$lib/environments/environment';
 	import { switchChain } from '$lib/utils/helpers/networkHelper';
+	import { walletStore } from '$lib/data-stores/walletProviderStore';
 
 	async function handleChainSwitch() {
-		await switchChain(ENVIRONMENT.public_chain_id);
+		await switchChain($walletStore.provider, $walletStore.walletType, ENVIRONMENT.public_chain_id);
 	}
 
 	const styles = {

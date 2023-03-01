@@ -1,11 +1,26 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import type { UserConfig } from 'vite';
+import { defineConfig } from 'vite';
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
+import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 
-const config: UserConfig = {
+export default defineConfig({
 	plugins: [sveltekit()],
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']
-	}
-};
+	},
+	optimizeDeps: {
+		esbuildOptions: {
+			plugins: [
+				NodeModulesPolyfillPlugin(),
+				NodeGlobalsPolyfillPlugin({
+					process: true,
+					buffer: true
+				})
+			],
 
-export default config;
+			define: {
+				global: 'globalThis'
+			}
+		}
+	}
+});

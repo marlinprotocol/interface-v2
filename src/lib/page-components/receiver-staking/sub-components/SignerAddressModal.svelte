@@ -142,7 +142,7 @@
 				/>
 			</InputCard>
 		{/if}
-		{#if updatedSignerAddress === $receiverStakingStore.signer && !signerAddressIsValid}
+		{#if updatedSignerAddress === $receiverStakingStore.signer && !signerAddressIsValid && $receiverStakingStore.signer !== DEFAULT_RECEIVER_STAKING_DATA.signer}
 			<InputCard variant="warning" styles="mt-4">
 				<Text
 					variant="small"

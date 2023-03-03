@@ -26,7 +26,15 @@ export type TableModel = {
 	};
 };
 
-export type CommonVariant = 'info' | 'success' | 'warning' | 'error';
+export type CommonVariant =
+	| 'primary'
+	| 'secondary'
+	| 'info'
+	| 'success'
+	| 'warning'
+	| 'error'
+	| 'disabled';
+
 export type AppVariant = 'primary' | 'secondary';
 
 export type TooltipVariant =

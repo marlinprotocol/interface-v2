@@ -2,6 +2,7 @@
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import Table from '$lib/atoms/table/Table.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
+	import TxnHashText from '$lib/components/TxnHashText.svelte';
 	import type { TableModel } from '$lib/types/componentTypes';
 	import { bigNumberToCommaString, dateToString, shortenText } from '$lib/utils/conversion';
 	import { BigNumber } from 'ethers';
@@ -100,12 +101,7 @@
 					<td class={tableCellClasses.row}>{bigNumberToCommaString(row.pond)}</td>
 					<td class={tableCellClasses.row}>{bigNumberToCommaString(row.mpond, 8)}</td>
 					<td class={tableCellClasses.row}>
-						<div class="flex justify-center items-center gap-2">
-							{shortenText(row.txnHash, 6, 3)}
-							<a href={row.txnHashUrl} target="_blank" rel="noopener noreferrer">
-								<img src="/images/openinnew.svg" alt="txn link" width="12px" />
-							</a>
-						</div>
+						<TxnHashText txnHash={row.txnHash} txnHashUrl={row.txnHashUrl} />
 					</td>
 				</tr>
 			{/each}

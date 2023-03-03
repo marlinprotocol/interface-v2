@@ -1,11 +1,15 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
+	import Button from '$lib/atoms/buttons/Button.svelte';
+	import { buttonClasses, tableCellClasses } from '$lib/atoms/componentClasses';
 	import Table from '$lib/atoms/table/Table.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
+	import TableDataWithButton from '$lib/components/table-cells/TableDataWithButton.svelte';
+	import TxnHashText from '$lib/components/TxnHashText.svelte';
 	import type { TableModel } from '$lib/types/componentTypes';
 	import { bigNumberToCommaString, dateToString, shortenText } from '$lib/utils/conversion';
 	import { BigNumber } from 'ethers';
 	import HistoryBackButton from '../sub-components/HistoryBackButton.svelte';
+	import HistoryDataIconButton from '../sub-components/HistoryDataIconButton.svelte';
 
 	const tableHeading: TableModel['header'][] = [
 		{
@@ -42,6 +46,10 @@
 			title: 'ELIGIBLE',
 			id: 'eligible',
 			tooltipText: 'Amount of Pond received'
+		},
+		{
+			title: '',
+			id: 'convert'
 		}
 	];
 
@@ -111,21 +119,56 @@
 		{:else}
 			{#each sortedData as row}
 				<tr>
-					<td class={tableCellClasses.row}>{dateToString(row.date)}</td>
-					<td class={tableCellClasses.row}>
-						<div class="flex justify-center items-center gap-2">
-							{shortenText(row.txnHash, 6, 3)}
-							<a href={row.txnHashUrl} target="_blank" rel="noopener noreferrer">
-								<img src="/images/openinnew.svg" alt="txn link" width="12px" />
-							</a>
-						</div>
-					</td>
-					<td class={tableCellClasses.row}>{bigNumberToCommaString(row.mpond, 8)}</td>
-					<td class={tableCellClasses.row}>{bigNumberToCommaString(row.pond)}</td>
-					<td class={tableCellClasses.row}>{bigNumberToCommaString(row.pond)}</td>
-					<td class={tableCellClasses.row}>{bigNumberToCommaString(row.pond)}</td>
-					<td class={tableCellClasses.row}>{bigNumberToCommaString(row.pond)}</td>
-					<td class={tableCellClasses.row}>{bigNumberToCommaString(row.pond)}</td>
+					<TableDataWithButton>
+						{dateToString(row.date)}
+					</TableDataWithButton>
+					<TableDataWithButton>
+						<TxnHashText txnHash={row.txnHash} txnHashUrl={row.txnHashUrl} />
+					</TableDataWithButton>
+					<TableDataWithButton>
+						{bigNumberToCommaString(row.mpond, 8)}
+					</TableDataWithButton>
+					<TableDataWithButton>
+						{bigNumberToCommaString(row.pond)}
+					</TableDataWithButton>
+					<TableDataWithButton>
+						{bigNumberToCommaString(row.pond)}
+						<HistoryDataIconButton src={'/images/cycleimg.svg'} text={'See cycle'} />
+					</TableDataWithButton>
+					<TableDataWithButton>
+						{bigNumberToCommaString(row.pond)}
+						<HistoryDataIconButton
+							src={'/images/timerclock.svg'}
+							text={'58 mins'}
+							variant="secondary"
+						/>
+					</TableDataWithButton>
+					<TableDataWithButton>
+						{bigNumberToCommaString(row.pond)}
+						<HistoryDataIconButton
+							src={'/images/historyicon.svg'}
+							imgWidth={14}
+							text={'History'}
+							variant="disabled"
+							disabled
+						/>
+					</TableDataWithButton>
+					<TableDataWithButton>
+						<Button
+							variant="filled"
+							styleClass={buttonClasses.convertButton}
+							onclick={() => {
+								console.log('Convert');
+							}}
+						>
+							CONVERT
+						</Button>
+						<HistoryDataIconButton
+							text={'Cancel'}
+							variant="primary"
+							tooltipText={'Cancel current MPond conversion requests in process. Users who want the updated MPond conversion parameters to take immediate effect may cancel the current conversion request and place a new conversion request.'}
+						/>
+					</TableDataWithButton>
 				</tr>
 			{/each}
 		{/if}

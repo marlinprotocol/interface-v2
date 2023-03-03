@@ -87,3 +87,19 @@ export const stringToBigNumber = (value: string, bigNumberDecimal: number = 18) 
 	}
 	return ethers.utils.parseUnits(newValue, bigNumberDecimal);
 };
+
+export const dateToString = (date: Date) => {
+	return date.toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'short',
+		day: 'numeric'
+	});
+};
+
+//short text with ellipsis in the middle
+export const shortenText = (text: string, first: number = 6, last: number = 4) => {
+	if (text.length <= first + last) {
+		return text;
+	}
+	return text.slice(0, first) + '...' + text.slice(-last);
+};

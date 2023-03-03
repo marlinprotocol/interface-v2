@@ -52,7 +52,7 @@
 		{#if $$slots.approveText}
 			<div class="flex gap-5">
 				{#if approved}
-					<img src="./images/vectorcheck.svg" alt="Copy" width="20px" height="20px" />
+					<img src="/images/vectorcheck.svg" alt="Copy" width="20px" height="20px" />
 				{:else}
 					<LoadingWithText text={'1'} loading={approveLoading} />
 				{/if}

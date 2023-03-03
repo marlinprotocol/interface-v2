@@ -16,6 +16,7 @@ module.exports = {
 				'orange-400': '#D6741B'
 			},
 			fontSize: {
+				'3xl': '2rem',
 				'2xs': '0.625rem',
 				'3xs': '0.5rem',
 				'4xs': '0.375rem'

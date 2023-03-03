@@ -52,9 +52,9 @@ export const getTextColorClassByVariant = (variant: CommonVariant | undefined) =
 export const getImagebyWalletProvider = (walletProvider: string) => {
 	switch (walletProvider?.toLowerCase()) {
 		case 'metamask':
-			return './images/metamaskicon.svg';
+			return '/images/metamaskicon.svg';
 		case 'walletconnect':
-			return './images/walleticon.svg';
+			return '/images/walleticon.svg';
 		default:
 			return '';
 	}

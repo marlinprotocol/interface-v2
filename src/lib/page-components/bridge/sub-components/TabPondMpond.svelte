@@ -10,7 +10,7 @@
 <Chip {variant}>
 	{firstText}
 	<img
-		src="./images/arrowicon.svg"
+		src="/images/arrowicon.svg"
 		alt="Copy"
 		class={variant === 'secondary' ? 'secondary-img' : ''}
 	/>

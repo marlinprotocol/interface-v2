@@ -22,7 +22,7 @@
 <button class={styleClass} on:click={handleApproveClick}>
 	<div class="flex gap-1 items-center">
 		{#if approved}
-			<img src="./images/verifiedicon.svg" alt="check-circle" />
+			<img src="/images/verifiedicon.svg" alt="check-circle" />
 		{/if}
 		{approved ? 'Approved' : 'Approve'}
 	</div>

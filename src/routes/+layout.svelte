@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Toast from '$lib/atoms/toast/Toast.svelte';
+	import Header from '$lib/components/header/Header.svelte';
 	import { getContractDetails } from '$lib/controllers/contractController';
 	import { restoreWalletConnection } from '$lib/data-stores/walletProviderStore';
 	import ENVIRONMENT from '$lib/environments/environment';
-	import Header from '$lib/page-components/header/Header.svelte';
 	import { onMount } from 'svelte';
 	import '../app.css';
 
@@ -31,3 +31,16 @@
 	<Header />
 	<slot />
 </main>
+
+<style>
+	main {
+		width: 82%;
+		margin: 0 auto;
+	}
+
+	@media (max-width: 1200px) {
+		main {
+			width: 90%;
+		}
+	}
+</style>

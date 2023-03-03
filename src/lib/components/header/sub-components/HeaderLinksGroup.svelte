@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { NavLinkModel } from '$lib/types/headerTypes';
-	import HeaderNavLinkItem from '$lib/page-components/header/sub-components/HeaderNavLinkItem.svelte';
+	import HeaderNavLinkItem from './HeaderNavLinkItem.svelte';
 
 	//nav-links list
 	const navLinks: NavLinkModel[] = [

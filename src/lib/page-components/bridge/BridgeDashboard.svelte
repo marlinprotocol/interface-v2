@@ -4,7 +4,6 @@
 	import { Tab, TabList, TabPanel, Tabs } from '$lib/atoms/tabs/tabs';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import MPondTopond from './MPondTopond.svelte';
-	import PondConvertModal from './PondConvertModal.svelte';
 	import PondToMpond from './PondToMpond.svelte';
 	import ConversionHistoryButton from './sub-components/ConversionHistoryButton.svelte';
 	import TabPondMpond from './sub-components/TabPondMpond.svelte';
@@ -49,13 +48,13 @@
 </ContainerCard>
 <div class={styles.conversionHistory}>
 	<TabPanel id={'1'} {activeTabValue}>
-		<a href="/">
+		<a href="/bridge/pondToMpondHistory">
 			<ConversionHistoryButton firstText="POND" secondText="MPond" />
 		</a>
 	</TabPanel>
 
 	<TabPanel id={'2'} {activeTabValue}>
-		<a href="/">
+		<a href="/bridge/mPondtoPondHistory">
 			<ConversionHistoryButton firstText="MPond" secondText="POND" />
 		</a>
 	</TabPanel>

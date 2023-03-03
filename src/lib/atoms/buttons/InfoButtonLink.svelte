@@ -8,6 +8,6 @@
 </script>
 
 <a class={buttonClass} {href} target="_blank" rel="noopener noreferrer">
-	<img src="./images/openinnew.svg" alt="Copy" />
+	<img src="/images/openinnew.svg" alt="Copy" />
 	{text}
 </a>

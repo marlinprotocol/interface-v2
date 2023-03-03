@@ -59,7 +59,7 @@
 </script>
 
 <PopOver>
-	<img slot="icon" src={'./images/alert.svg'} alt="Info" width={iconWidth} />
+	<img slot="icon" src={'/images/alert.svg'} alt="Info" width={iconWidth} />
 	<svelte:fragment slot="content">
 		<div class={styles.subtitle}>
 			{#if inQueue && localEpochCycle > 0}

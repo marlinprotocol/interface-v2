@@ -68,7 +68,7 @@
 					<Text variant="small" styleClass="text-gray-500" text={maxAmountText} />
 					{#if !!maxAmountTooltipText}
 						<TooltipIcon
-							iconSrc={'./images/alert.svg'}
+							iconSrc={'/images/alert.svg'}
 							iconWidth={16}
 							tooltipText={maxAmountTooltipText}
 							tooltipVariant="tooltip-secondary"

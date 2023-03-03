@@ -17,6 +17,15 @@ export type TextModel = {
 	styleClass?: string;
 };
 
+export type TableModel = {
+	header: {
+		title: string;
+		tooltipText?: string;
+		id: string;
+		sorting?: boolean;
+	};
+};
+
 export type CommonVariant = 'info' | 'success' | 'warning' | 'error';
 export type AppVariant = 'primary' | 'secondary';
 

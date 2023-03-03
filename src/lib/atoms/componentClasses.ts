@@ -12,10 +12,18 @@ export const buttonClasses = {
 	text: 'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent',
 	icon: 'btn btn-xs btn-ghost btn-circle p-0 bg-transparent hover:bg-transparent flex',
 	maxButton:
-		'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent text-sm font-bold text-primary'
+		'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent text-sm font-bold text-primary',
+	largeButton: 'flex gap-2 text-primary h-14 text-base font-semibold items-center'
 };
 
 export const dividerClasses = {
 	vertical: 'w-[1px] bg-gray-500 h-4 rounded',
-	horizontal: 'h-0.5 bg-gray-200 w-full rounded'
+	horizontal: 'h-0.5 bg-gray-200 w-full rounded',
+	verticalPrimary: 'w-[1px] bg-primary h-4 rounded'
+};
+
+export const tableCellClasses = {
+	heading: 'text-primary text-sm font-semibold w-48 p-3',
+	row: 'text-seconary font-semibold w-48 p-4',
+	empty: 'text-base text-grey-500 text-center p-4 w-full'
 };

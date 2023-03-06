@@ -1,7 +1,7 @@
 <script lang="ts">
-	import HeaderConnectWallet from '$lib/page-components/header/sub-components/HeaderConnectWallet.svelte';
-	import HeaderLinksGroup from '$lib/page-components/header/sub-components/HeaderLinksGroup.svelte';
-	import HeaderLogo from '$lib/page-components/header/sub-components/HeaderLogo.svelte';
+	import HeaderConnectWallet from './sub-components/HeaderConnectWallet.svelte';
+	import HeaderLinksGroup from './sub-components/HeaderLinksGroup.svelte';
+	import HeaderLogo from './sub-components/HeaderLogo.svelte';
 
 	//styles for header component
 	const styles = {
@@ -22,15 +22,7 @@
 
 <style>
 	.header {
-		width: 82%;
-		margin: 0 auto;
 		border-color: 'grey-600';
 		border-bottom: 1px solid rgba(0, 0, 0, 0.07);
-	}
-
-	@media (max-width: 1200px) {
-		.header {
-			width: 90%;
-		}
 	}
 </style>

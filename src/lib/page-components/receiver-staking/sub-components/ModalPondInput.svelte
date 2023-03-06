@@ -4,22 +4,23 @@
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
-	import type { ModalInputModel } from '$lib/types/componentTypes';
+	import type { InputCardVariant, ModalInputModel } from '$lib/types/componentTypes';
 
 	export let title: ModalInputModel['title'];
 	export let tooltipText: ModalInputModel['tooltipText'] = '';
 	export let inputAmountString: string = '';
 	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance';
-	export let handleUpdatedAmount: (event: Event) => void;
+	export let maxAmountTooltipText: ModalInputModel['maxAmountTooltipText'] = '';
+	export let handleUpdatedAmount: any = undefined;
+	export let inputCardVariant: InputCardVariant = 'primary';
 
 	const styles = {
 		titleIcon: 'flex items-center gap-1',
-		inputNumber:
-			'font-orbitron input input-ghost w-full p-0 ml-0.5 font-semibold text-xl text-primary placeholder:text-primary/[.2] focus-within:text-primary focus:outline-none focus-within:border-b-2 focus:bg-transparent'
+		inputNumber: 'input input-ghost input-primary p-0 ml-0.5 placeholder:text-primary/[.2]'
 	};
 </script>
 
-<InputCard>
+<InputCard variant={inputCardVariant}>
 	<div class={styles.titleIcon}>
 		<Text variant="small" text={title} />
 		{#if !!tooltipText}
@@ -31,8 +32,9 @@
 		{/if}
 	</div>
 	<form>
-		<div class="flex items-center">
+		<div class="flex items-center gap-2">
 			<input
+				disabled={!!!handleUpdatedAmount}
 				bind:value={inputAmountString}
 				on:input={handleUpdatedAmount}
 				id="pond-input-amount"
@@ -55,11 +57,26 @@
 			/>
 			<slot name="input-end-button" />
 		</div>
-		<Divider />
-		<div class="flex items-center gap-2">
-			<slot name="input-max-button" />
-			<div class={dividerClasses.vertical} />
-			<Text variant="small" styleClass="text-gray-500" text={maxAmountText} />
-		</div>
+		{#if inputCardVariant !== 'none'}
+			<Divider />
+		{/if}
+		{#if $$slots.inputMaxButton}
+			<div class="flex items-center gap-2">
+				<slot name="inputMaxButton" />
+				<div class={dividerClasses.vertical} />
+				<div class="flex gap-1">
+					<Text variant="small" styleClass="text-gray-500" text={maxAmountText} />
+					{#if !!maxAmountTooltipText}
+						<TooltipIcon
+							iconSrc={'/images/alert.svg'}
+							iconWidth={16}
+							tooltipText={maxAmountTooltipText}
+							tooltipVariant="tooltip-secondary"
+							tooltipDirection="tooltip-bottom"
+						/>
+					{/if}
+				</div>
+			</div>
+		{/if}
 	</form>
 </InputCard>

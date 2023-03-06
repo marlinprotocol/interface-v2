@@ -48,7 +48,7 @@
 			case 'nav':
 				return 'font-semibold';
 			default:
-				return 'text-normal';
+				return 'font-normal';
 		}
 	};
 

@@ -6,7 +6,7 @@ export type TabModel = {
 };
 
 export type ButtonModel = {
-	variant?: 'filled' | 'outlined' | 'text' | 'error';
+	variant?: 'filled' | 'outlined' | 'text' | 'error' | 'info' | 'greyFilled' | 'whiteFilled';
 	size?: 'small' | 'medium' | 'large';
 	onclick: () => void;
 };
@@ -17,7 +17,25 @@ export type TextModel = {
 	styleClass?: string;
 };
 
-export type CommonVariant = 'info' | 'success' | 'warning' | 'error';
+export type TableModel = {
+	header: {
+		title: string;
+		tooltipText?: string;
+		id: string;
+		sorting?: boolean;
+	};
+};
+
+export type CommonVariant =
+	| 'primary'
+	| 'secondary'
+	| 'info'
+	| 'success'
+	| 'warning'
+	| 'error'
+	| 'disabled';
+
+export type AppVariant = 'primary' | 'secondary';
 
 export type TooltipVariant =
 	| 'tooltip-primary'
@@ -35,7 +53,9 @@ export type ModalInputModel = {
 	tooltipText?: string;
 	maxAmount: BigNumber;
 	maxAmountText?: string;
+	maxAmountTooltipText?: string;
 	handleApproveClick?: () => void;
+	inputCardVariant?: InputCardVariant;
 };
 
 export type AlertModel = {
@@ -65,4 +85,4 @@ export type ToastModel = {
 	variant: CommonVariant;
 };
 
-export type InputCard = 'primary' | 'warning';
+export type InputCardVariant = 'primary' | 'warning' | 'none';

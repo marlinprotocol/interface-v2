@@ -36,7 +36,7 @@
 					onClose();
 				}}
 			>
-				<img src="./images/close-circle-icon.svg" alt="Close" />
+				<img src="/images/close-circle-icon.svg" alt="Close" />
 			</button>
 		</div>
 		<div class="mt-8" />

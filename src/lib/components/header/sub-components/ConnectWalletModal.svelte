@@ -4,7 +4,6 @@
 	import { connectWallet } from '$lib/controllers/walletController';
 	import { walletOptions } from '$lib/data-stores/walletProviderStore';
 	import { getImagebyWalletProvider } from '$lib/utils/constants/componentConstants';
-	import { WALLET_TYPE } from '$lib/utils/constants/constants';
 	import WalletCard from './WalletCard.svelte';
 
 	const modalFor = 'connect-wallet-modal';

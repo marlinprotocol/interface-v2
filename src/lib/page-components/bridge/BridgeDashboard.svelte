@@ -58,5 +58,5 @@
 			<ConversionHistoryButton firstText="MPond" secondText="POND" />
 		</a>
 	</TabPanel>
-	<InfoButtonLink href="https://docs.marlin.org/docs/User%20Guides/Oyster/" text="Documentation" />
+	<InfoButtonLink href="https://docs.marlin.org/docs/User%20Guides/Oyster/" text="Learn More" />
 </div>

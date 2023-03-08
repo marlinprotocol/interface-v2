@@ -11,7 +11,7 @@
 		},
 		{
 			title: 'Bridge',
-			href: 'https://app.marlin.org/bridge',
+			href: '/bridge',
 			openInNewTab: true
 		}
 	];

@@ -2,7 +2,7 @@ import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contrac
 import { addToast } from '$lib/data-stores/toastStore';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
 import ENVIRONMENT from '$lib/environments/environment';
-import type { ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
+import type { Address, ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
 import { GET_OPTIONS } from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToCommaString } from '$lib/utils/conversion';
@@ -15,10 +15,12 @@ let contractAbi: ContractAbi;
 let contractAddresses: ContractAddress;
 let provider: WalletStore['provider'];
 let signer: WalletStore['signer'];
+let walletAddress: WalletStore['address'];
 
 walletStore.subscribe((value) => {
 	provider = value.provider;
 	signer = value.signer;
+	walletAddress = value.address;
 });
 contractAbiStore.subscribe((value) => {
 	contractAbi = value;
@@ -204,6 +206,49 @@ export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
 			variant: 'info'
 		});
 		const tx = await pondTokenContract.approve(receiverStakingContractAddress, amount);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to approve staking token');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS +
+				' ' +
+				MESSAGES.TOAST.ACTIONS.APPROVE.POND_APPROVED(bigNumberToCommaString(amount)),
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while approving staking token');
+	}
+}
+
+export async function approvePondTokenForConversion(amount: BigNumber) {
+	const bridgeContractAddress = contractAddresses.Bridge;
+	const pondTokenContractAddress = contractAddresses.tokens['POND'].address;
+	const ERC20ContractAbi = contractAbi.ERC20;
+	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.APPROVE.POND(bigNumberToCommaString(amount)),
+			variant: 'info'
+		});
+		const tx = await pondTokenContract.approve(bridgeContractAddress, amount);
 
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.CREATED,

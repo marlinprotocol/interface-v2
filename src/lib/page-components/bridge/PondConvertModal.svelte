@@ -1,27 +1,32 @@
 <script lang="ts">
 	import ApproveAndConfirmModal from '$lib/components/modals/ApproveAndConfirmModal.svelte';
-	import { bigNumberToCommaString, bigNumberToString } from '$lib/utils/conversion';
+	import { approvePondTokenForConversion } from '$lib/controllers/contractController';
+	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
 
-	const modalFor = 'pond-to-mpond-conversion-modal';
+	export let pond: BigNumber;
 
+	const modalFor = 'pond-to-mpond-conversion-modal';
 	const styles = {
 		text: 'text-grey-500',
 		highlight: 'text-secondary font-bold'
 	};
 
-	export let pond: BigNumber;
-	$: mpond = pond.div(10 ** 6);
-
 	const handleApproveClick = async () => {
 		console.log('approve');
-		// TODO: implement approve
-		approved = true;
+		try {
+			await approvePondTokenForConversion(pond);
+			approved = true;
+		} catch (error) {
+			console.log(error);
+		}
 	};
 	const handleConfirmClick = async () => {
 		console.log('confirm');
 		// TODO: implement confirm
 	};
+
+	$: mpond = pond.div(10 ** 6);
 	$: approved = false;
 </script>
 

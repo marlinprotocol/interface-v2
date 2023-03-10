@@ -77,3 +77,16 @@ export const QUERY_TO_CHECK_IF_SIGNER_EXISTS = `query SignerExists($signer: Stri
     signer
   }
 }`;
+
+export const QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES = `query PondMpondAllowance($address: String, $contractAddress: String) {
+  pondApprovals(
+    where: { to: $contractAddress, from: $address }
+  ) {
+    value
+  }   
+  mpondApprovals(
+    where: { to: $contractAddress, from: $address },
+  ) {   
+    value
+  }
+}`;

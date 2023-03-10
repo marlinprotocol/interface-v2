@@ -40,6 +40,7 @@ export type ContractAbi = {
 	ReceiverStaking: any[];
 	EpochSelector: any[];
 	MPond: any[];
+	Bridge: any[];
 };
 
 // address store
@@ -54,6 +55,7 @@ export type ContractAddress = {
 	tokens: Record<string, any>;
 };
 
+// receiver staking store
 export type ReceiverStakingData = {
 	signer: Address;
 	approvedBalance: BigNumber;
@@ -67,3 +69,10 @@ export type ReceiverStakingData = {
 };
 
 export type EpochCycleStore = number;
+
+export type BridgeStore = {
+	allowances: {
+		pond: BigNumber;
+		mpond: BigNumber;
+	};
+};

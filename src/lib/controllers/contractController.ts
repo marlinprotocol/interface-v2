@@ -50,6 +50,39 @@ export async function getContractDetails() {
 	}
 }
 
+export async function getBridgeContractDetails() {
+	const url = ENVIRONMENT.public_bridge_contract_details_url;
+	const options = GET_OPTIONS;
+
+	const bridgeContractDetails = await fetchHttpData(url, options);
+	if (!bridgeContractDetails) {
+		throw new Error('Unable to fetch bridge contract details');
+	}
+	if (!bridgeContractDetails.ABI) {
+		throw new Error('Unable to fetch bridge contract ABI');
+	}
+	if (!bridgeContractDetails.addresses) {
+		throw new Error('Unable to fetch bridge contract addresses');
+	} else {
+		console.log('bridgeContractDetails', bridgeContractDetails);
+		contractAbiStore.update((value) => {
+			return {
+				...value,
+				Bridge: bridgeContractDetails.ABI.Bridge
+			};
+		});
+		contractAddressStore.update((value) => {
+			return {
+				...value,
+				Bridge: bridgeContractDetails.addresses.bridge,
+				tokens: bridgeContractDetails.addresses.tokens
+			};
+		});
+		console.log(get(contractAbiStore));
+		console.log(get(contractAddressStore));
+	}
+}
+
 // ----------------------------- receiver staking contract methods -----------------------------
 
 export async function setSignerAddress(address: string) {

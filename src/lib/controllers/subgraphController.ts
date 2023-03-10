@@ -8,6 +8,7 @@ import {
 import {
 	QUERY_TO_CHECK_IF_SIGNER_EXISTS,
 	QUERY_TO_GET_MPOND_BALANCE,
+	QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES,
 	QUERY_TO_GET_POND_BALANCE_QUERY,
 	QUERY_TO_GET_RECEIVER_POND_BALANCE,
 	QUERY_TO_GET_RECEIVER_STAKING_DATA
@@ -54,7 +55,7 @@ export async function getPondBalance(address: Address): Promise<BigNumber> {
 	const query = QUERY_TO_GET_POND_BALANCE_QUERY;
 	const queryVariables = { address: address.toLowerCase() };
 
-	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
 
 	try {
 		const result = await fetchHttpData(url, options);
@@ -75,7 +76,7 @@ export async function getMpondBalance(address: Address): Promise<BigNumber> {
 	const query = QUERY_TO_GET_MPOND_BALANCE;
 	const queryVariables = { id: address.toLowerCase() };
 
-	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
 
 	try {
 		const result = await fetchHttpData(url, options);
@@ -94,7 +95,7 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 	const query = QUERY_TO_GET_RECEIVER_POND_BALANCE;
 
 	const queryVariables = { id: address.toLowerCase() };
-	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
 	try {
 		const result = await fetchHttpData(url, options);
 		if (result['data'] && result['data']?.receiverBalances?.length != 0)
@@ -123,7 +124,7 @@ export async function getReceiverStakingDataFromSubgraph(
 		contractAddress: pond_contract_address.toLowerCase()
 	};
 
-	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
 	try {
 		const result = await fetchHttpData(url, options);
 		const balance = result['data']?.receiverBalance?.balance;
@@ -195,15 +196,55 @@ export async function checkIfSignerExistsInSubgraph(address: Address): Promise<b
 	const query = QUERY_TO_CHECK_IF_SIGNER_EXISTS;
 
 	const queryVariables = { signer: address.toLowerCase() };
-	const options: RequestInit = await subgraphQueryWrapper(query, queryVariables);
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
 
 	try {
 		const result = await fetchHttpData(url, options);
-		console.log(result);
 		if (result['data'] && result['data']?.receiverBalances?.length == 0) return true;
 		else return false;
 	} catch (error) {
 		console.log('Error fetching receiver pond balance from subgraph', error);
 		return false;
+	}
+}
+
+export async function getPondAndMpondBridgeAllowances(address: Address, contractAddress: Address) {
+	const url = ENVIRONMENT.public_contract_subgraph_url;
+	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
+
+	const queryVariables = {
+		address: address.toLowerCase(),
+		contractAddress: contractAddress.toLowerCase()
+	};
+
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+
+	try {
+		const result = await fetchHttpData(url, options);
+		console.log('pond mpond allowances', result);
+		if (
+			result['data'] &&
+			result['data']?.mpondApprovals?.length == 0 &&
+			result['data']?.pondApprovals?.length == 0
+		)
+			return { pond: BigNumber.from(0), mpond: BigNumber.from(0) };
+		else if (result['data'] && result['data']?.mpondApprovals?.length == 0)
+			return {
+				pond: BigNumber.from(result['data']?.pondApprovals[0].value),
+				mpond: BigNumber.from(0)
+			};
+		else if (result['data'] && result['data']?.pondApprovals?.length == 0)
+			return {
+				pond: BigNumber.from(0),
+				mpond: BigNumber.from(result['data']?.mpondApprovals[0].value)
+			};
+		else
+			return {
+				pond: BigNumber.from(result['data']?.pondApprovals[0].value),
+				mpond: BigNumber.from(result['data']?.mpondApprovals[0].value)
+			};
+	} catch (error) {
+		console.log('Error fetching receiver pond and mpond allowances from subgraph', error);
+		return { pond: BigNumber.from(0), mpond: BigNumber.from(0) };
 	}
 }

@@ -1,4 +1,5 @@
 import type {
+	BridgeStore,
 	ChainStore,
 	ContractAbi,
 	ContractAddress,
@@ -39,7 +40,8 @@ export const DEFAULT_CONTRACT_ABI_STORE: ContractAbi = {
 	RewardDelegators: [],
 	ReceiverStaking: [],
 	EpochSelector: [],
-	MPond: []
+	MPond: [],
+	Bridge: []
 };
 
 // addressStore
@@ -64,5 +66,12 @@ export const DEFAULT_RECEIVER_STAKING_DATA: ReceiverStakingData = {
 		epochCycle: 0,
 		startTime: 0,
 		epochLength: 1
+	}
+};
+
+export const DEFAULT_BRIDGE_STORE: BridgeStore = {
+	allowances: {
+		pond: BigNumber.from(0),
+		mpond: BigNumber.from(0)
 	}
 };

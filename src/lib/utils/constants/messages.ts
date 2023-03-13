@@ -83,6 +83,24 @@ export const MESSAGES = {
 				 * @returns `Updated signer address to ${address}.`
 				 */
 				SUCCESS: (address: string) => `Updated signer address to ${address}.`
+			},
+			CONVERT: {
+				POND_TO_MPOND_CONVERTING: (value: string | number) => `Converting ${value} POND.`,
+				/**
+				 * @param value
+				 * @returns `Converting ${value} MPOND`
+				 */
+				MPOND_TO_POND_CONVERTING: (value: string | number) => `Converting ${value} MPOND.`,
+				/**
+				 * @param value
+				 * @returns `Converted ${value} POND`
+				 */
+				POND_TO_MPOND_CONVERTED: (value: string | number) => `Converted ${value} POND.`,
+				/**
+				 * @param value
+				 * @returns `Converted ${value} MPOND`
+				 */
+				MPOND_TO_POND_CONVERTED: (value: string | number) => `Converted ${value} MPOND.`
 			}
 		}
 	},

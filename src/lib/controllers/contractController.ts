@@ -43,8 +43,30 @@ export async function getContractDetails() {
 	if (!contractDetails.addresses) {
 		throw new Error('Unable to fetch contract addresses');
 	} else {
-		contractAbiStore.set(contractDetails.ABI);
-		contractAddressStore.set(contractDetails.addresses);
+		contractAbiStore.update((value) => {
+			return {
+				...value,
+				ClusterRegistry: contractDetails.ABI.ClusterRegistry,
+				ERC20: contractDetails.ABI.ERC20,
+				EpochSelector: contractDetails.ABI.EpochSelector,
+				MPond: contractDetails.ABI.MPond,
+				ReceiverStaking: contractDetails.ABI.ReceiverStaking,
+				RewardDelegators: contractDetails.ABI.RewardDelegators,
+				StakeManager: contractDetails.ABI.StakeManager
+			};
+		});
+		contractAddressStore.update((value) => {
+			return {
+				...value,
+				ClusterRegistry: contractDetails.addresses.ClusterRegistry,
+				ClusterRewards: contractDetails.addresses.ClusterRewards,
+				EpochSelector: contractDetails.addresses.EpochSelector,
+				ReceiverStaking: contractDetails.addresses.ReceiverStaking,
+				RewardDelegators: contractDetails.addresses.RewardDelegators,
+				StakeManager: contractDetails.addresses.StakeManager,
+				tokens: contractDetails.addresses.tokens
+			};
+		});
 		console.log('contractAbiStore', get(contractAbiStore));
 		console.log('contractAddressStore', get(contractAddressStore));
 	}
@@ -311,5 +333,49 @@ export async function approvePondTokenForConversion(amount: BigNumber) {
 		});
 		console.log('error :>> ', error);
 		throw new Error('Transaction Error while approving staking token');
+	}
+}
+
+export async function convertPondToMpond(amount: BigNumber) {
+	const bridgeContractAddress = contractAddresses.Bridge;
+	const bridgeContractAbi = contractAbi.Bridge;
+	const bridgeContract = new ethers.Contract(bridgeContractAddress, bridgeContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.CONVERT.POND_TO_MPOND_CONVERTING(
+				bigNumberToCommaString(amount)
+			),
+			variant: 'info'
+		});
+		const tx = await bridgeContract.getMpond(amount);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to convert Pond to Mpond.');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS +
+				' ' +
+				MESSAGES.TOAST.ACTIONS.CONVERT.POND_TO_MPOND_CONVERTED(bigNumberToCommaString(amount)),
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while converting pond to mpond');
 	}
 }

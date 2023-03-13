@@ -336,18 +336,18 @@ export async function approvePondTokenForConversion(amount: BigNumber) {
 	}
 }
 
-export async function convertPondToMpond(amount: BigNumber) {
+export async function convertPondToMpond(expectedMpond: BigNumber) {
 	const bridgeContractAddress = contractAddresses.Bridge;
 	const bridgeContractAbi = contractAbi.Bridge;
 	const bridgeContract = new ethers.Contract(bridgeContractAddress, bridgeContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.CONVERT.POND_TO_MPOND_CONVERTING(
-				bigNumberToCommaString(amount)
+				bigNumberToCommaString(expectedMpond)
 			),
 			variant: 'info'
 		});
-		const tx = await bridgeContract.getMpond(amount);
+		const tx = await bridgeContract.getMpond(expectedMpond);
 
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.CREATED,
@@ -366,7 +366,9 @@ export async function convertPondToMpond(amount: BigNumber) {
 			message:
 				MESSAGES.TOAST.TRANSACTION.SUCCESS +
 				' ' +
-				MESSAGES.TOAST.ACTIONS.CONVERT.POND_TO_MPOND_CONVERTED(bigNumberToCommaString(amount)),
+				MESSAGES.TOAST.ACTIONS.CONVERT.POND_TO_MPOND_CONVERTED(
+					bigNumberToCommaString(expectedMpond)
+				),
 			variant: 'success'
 		});
 		return tx;

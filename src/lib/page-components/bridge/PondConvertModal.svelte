@@ -33,7 +33,7 @@
 	const handleConfirmClick = async () => {
 		console.log('confirm');
 		try {
-			await convertPondToMpond(pond);
+			await convertPondToMpond(mpond);
 		} catch (error) {
 			console.log(error);
 		}

@@ -34,7 +34,7 @@
 			setTimeout(() => {
 				handleConfirmClick();
 				closeModal(modalFor);
-				confirmLoading = true;
+				confirmLoading = false;
 			}, 3000);
 		} catch (e) {
 			confirmLoading = false;

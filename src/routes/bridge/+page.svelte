@@ -7,9 +7,13 @@
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import BridgeDashboard from '$lib/page-components/bridge/BridgeDashboard.svelte';
+	import { onMount } from 'svelte';
+
+	onMount(async () => {
+		await getBridgeContractDetails();
+	});
 
 	async function init() {
-		await getBridgeContractDetails();
 		const allowances = await getPondAndMpondBridgeAllowances(
 			$walletStore.address,
 			$contractAddressStore.Bridge

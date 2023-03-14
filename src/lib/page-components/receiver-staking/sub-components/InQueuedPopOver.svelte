@@ -5,6 +5,7 @@
 	import { epochCycleStore } from '$lib/data-stores/epochCycleStore';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import type { EpochCycleStore, ReceiverStakingData } from '$lib/types/storeTypes';
+	import { epochToDurationString } from '$lib/utils/conversion';
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
@@ -63,12 +64,17 @@
 	<svelte:fragment slot="content">
 		<div class={styles.subtitle}>
 			{#if inQueue && localEpochCycle > 0}
-				<Timer
-					{onTimerEnd}
-					{endEpochTime}
-					initialText={`${description} ${subtitle}`}
-					textVariant="small"
-				/>
+				<Timer {onTimerEnd} {endEpochTime}>
+					<div slot="active" let:timer>
+						<Text
+							variant={'small'}
+							text={`${description} ${subtitle} in ${epochToDurationString(timer)}.`}
+						/>
+					</div>
+					<div slot="inactive">
+						<Text variant={'small'} text={`${description} ${subtitle} soon.`} />
+					</div>
+				</Timer>
 			{:else}
 				<Text variant="small" text={description} />
 			{/if}

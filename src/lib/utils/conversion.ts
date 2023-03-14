@@ -88,6 +88,14 @@ export const stringToBigNumber = (value: string, bigNumberDecimal: number = 18) 
 	return ethers.utils.parseUnits(newValue, bigNumberDecimal);
 };
 
+export const epochSecToString = (date: number) => {
+	return new Date(date * 1000).toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'short',
+		day: 'numeric'
+	});
+};
+
 export const dateToString = (date: Date) => {
 	return date.toLocaleDateString('en-US', {
 		year: 'numeric',
@@ -102,4 +110,13 @@ export const shortenText = (text: string, first: number = 6, last: number = 4) =
 		return text;
 	}
 	return text.slice(0, first) + '...' + text.slice(-last);
+};
+
+export const epochSecondsStringToDate = (epochSeconds: string) => {
+	return new Date(Number(epochSeconds) * 1000);
+};
+
+export const mpondToPond = (mpond: BigNumber) => {
+	//one mpond is 10^6 pond
+	return mpond.mul(ethers.BigNumber.from(10).pow(6));
 };

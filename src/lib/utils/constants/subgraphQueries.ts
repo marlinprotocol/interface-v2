@@ -90,3 +90,52 @@ export const QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES = `query PondMpondAll
     value
   }
 }`;
+
+export const QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY = `query Users($address: String) {
+  users(where:{
+    address: $address
+  }) {
+    pondToMpondConversions{
+      transactionHash
+      mpondReceived
+      timestamp
+      pondConverted
+    }
+  }
+}`;
+export const QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY = `query Users($address: String) {
+  users(where:{
+    address: $address
+  }) {
+    totalMpondPlacedInRequest
+    totalMpondConverted
+    totalPondConverted
+    requests {	
+      timestamp
+      transactionHash
+      mpondAmount
+      id
+      requestEpoch
+      releaseTime
+      mpondConverted
+      isCancelled
+      cancelHash
+    }
+    mpondToPondConversions{
+      id
+      mpondToConvert
+      transactionHash
+      timestamp
+      requestData {
+        id
+      }
+    }
+  }
+  states{
+    liquidityStartTime
+    epochLength
+    pondPerMpond
+    liquidityBP
+    liqudityReleaseEpochs
+  }
+}`;

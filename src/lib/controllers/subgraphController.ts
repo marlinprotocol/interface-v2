@@ -1,5 +1,6 @@
 import { contractAddressStore } from '$lib/data-stores/contractStore';
 import ENVIRONMENT from '$lib/environments/environment';
+import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/storeTypes';
 import {
 	DEFAULT_RECEIVER_STAKING_DATA,
@@ -8,11 +9,15 @@ import {
 import {
 	QUERY_TO_CHECK_IF_SIGNER_EXISTS,
 	QUERY_TO_GET_MPOND_BALANCE,
+	QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY,
 	QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES,
 	QUERY_TO_GET_POND_BALANCE_QUERY,
+	QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY,
 	QUERY_TO_GET_RECEIVER_POND_BALANCE,
 	QUERY_TO_GET_RECEIVER_STAKING_DATA
 } from '$lib/utils/constants/subgraphQueries';
+import { epochSecondsStringToDate } from '$lib/utils/conversion';
+import { getModifiedMpondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
 import { BigNumber } from 'ethers';
@@ -246,5 +251,68 @@ export async function getPondAndMpondBridgeAllowances(address: Address, contract
 	} catch (error) {
 		console.log('Error fetching receiver pond and mpond allowances from subgraph', error);
 		return { pond: BigNumber.from(0), mpond: BigNumber.from(0) };
+	}
+}
+
+export async function getPondToMPondConversionHistory(address: Address) {
+	const url = ENVIRONMENT.public_bridge_contract_subgraph_url;
+	const query = QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY;
+
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
+
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+
+	try {
+		const result = await fetchHttpData(url, options);
+		if (!!!result['data']?.users?.length) return undefined;
+		const user = result['data']['users'][0];
+
+		const pondToMpondConversions: PondToMPondHistoryDataModel[] | undefined =
+			user?.pondToMpondConversions?.map((conversion: any) => {
+				return {
+					pondConverted: BigNumber.from(conversion.pondConverted),
+					mpondReceived: BigNumber.from(conversion.mpondReceived),
+					timestamp: epochSecondsStringToDate(conversion.timestamp),
+					transactionHash: conversion.transactionHash
+				};
+			});
+		return pondToMpondConversions;
+	} catch (error) {
+		console.log('Error pond to mpond history data from subgraph', error);
+		return undefined;
+	}
+}
+
+export async function getMPondToPondConversionHistory(address: Address) {
+	const url = ENVIRONMENT.public_bridge_contract_subgraph_url;
+	const query = QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY;
+
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
+
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+
+	try {
+		const result = await fetchHttpData(url, options);
+
+		console.log('results :>> ', result);
+
+		if (!!!result['data']?.users?.length) return undefined;
+		const user = result['data']['users'][0];
+		const state = result['data']['states'][0];
+		if (!!!user || !!!state) return undefined;
+
+		const { mpondToPondConversions, requests } = user;
+		const data = getModifiedMpondToPondHistory(mpondToPondConversions, requests, state);
+		console.log('mpondToPondConversions :>> ', mpondToPondConversions);
+		console.log('requests :>> ', requests);
+		console.log('state :>> ', state);
+		return data;
+	} catch (error) {
+		console.log('Error pond to mpond history data from subgraph', error);
+		return undefined;
 	}
 }

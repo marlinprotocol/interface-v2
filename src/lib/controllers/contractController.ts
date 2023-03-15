@@ -381,3 +381,136 @@ export async function convertPondToMpond(expectedMpond: BigNumber) {
 		throw new Error('Transaction Error while converting pond to mpond');
 	}
 }
+
+export async function requestMpondConversion(amount: BigNumber) {
+	const bridgeContractAddress = contractAddresses.Bridge;
+	const bridgeContractAbi = contractAbi.Bridge;
+	const bridgeContract = new ethers.Contract(bridgeContractAddress, bridgeContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_REQUESTING(
+				bigNumberToCommaString(amount)
+			),
+			variant: 'info'
+		});
+
+		const tx = await bridgeContract.placeRequest(amount);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to place request for converting MPond to Pond.');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS +
+				' ' +
+				MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_REQUESTED(bigNumberToCommaString(amount)),
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while placing request for converting MPond to Pond');
+	}
+}
+
+export async function cancelMpondConversionRequest(epoch: number) {
+	const bridgeContractAddress = contractAddresses.Bridge;
+	const bridgeContractAbi = contractAbi.Bridge;
+	const bridgeContract = new ethers.Contract(bridgeContractAddress, bridgeContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_CANCELLING,
+			variant: 'info'
+		});
+
+		const tx = await bridgeContract.cancelRequest(epoch);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to convert Pond to Mpond.');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS +
+				' ' +
+				MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_CANCELLED,
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while placing request for converting MPOND to POND');
+	}
+}
+
+export async function confirmMpondConversion(epoch: number, amount: BigNumber) {
+	const bridgeContractAddress = contractAddresses.Bridge;
+	const bridgeContractAbi = contractAbi.Bridge;
+	const bridgeContract = new ethers.Contract(bridgeContractAddress, bridgeContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.CONVERT.MPOND_TO_POND_CONVERTING(
+				bigNumberToCommaString(amount)
+			),
+			variant: 'info'
+		});
+
+		const tx = await bridgeContract.convert(epoch, amount);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to convert MPond to Pond.');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS +
+				' ' +
+				MESSAGES.TOAST.ACTIONS.CONVERT.MPOND_TO_POND_CONVERTED(bigNumberToCommaString(amount)),
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while confirming conversion of MPOND to POND');
+	}
+}

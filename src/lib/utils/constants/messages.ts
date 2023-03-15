@@ -85,6 +85,10 @@ export const MESSAGES = {
 				SUCCESS: (address: string) => `Updated signer address to ${address}.`
 			},
 			CONVERT: {
+				/**
+				 * @param value
+				 * @returns `Converting ${value} POND`
+				 */
 				POND_TO_MPOND_CONVERTING: (value: string | number) => `Converting ${value} POND.`,
 				/**
 				 * @param value
@@ -101,6 +105,28 @@ export const MESSAGES = {
 				 * @returns `Converted ${value} MPOND`
 				 */
 				MPOND_TO_POND_CONVERTED: (value: string | number) => `Converted ${value} MPOND.`
+			},
+			REQUEST: {
+				/**
+				 * @param value
+				 * @returns `Requesting ${value} MPOND to be converted to POND`
+				 */
+				MPOND_TO_POND_REQUESTING: (value: string | number) =>
+					`Requesting ${value} MPOND to be converted to POND.`,
+				/**
+				 * @param value
+				 * @returns `Requested ${value} MPOND to be converted to POND`
+				 */
+				MPOND_TO_POND_REQUESTED: (value: string | number) =>
+					`Requested ${value} MPOND to be converted to POND.`,
+				/**
+				 * @returns 'Cancelling request for conversion of MPOND to POND.'
+				 */
+				MPOND_TO_POND_CANCELLING: 'Cancelling request for conversion of MPOND to POND.',
+				/**
+				 * @returns 'Cancelled request for conversion of MPOND to POND.'
+				 */
+				MPOND_TO_POND_CANCELLED: 'Cancelled request for conversion of MPOND to POND.'
 			}
 		}
 	},

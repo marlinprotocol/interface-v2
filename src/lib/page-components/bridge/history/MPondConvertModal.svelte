@@ -6,10 +6,10 @@
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
-	import { BigNumber } from 'ethers';
+	import type { BigNumber } from 'ethers';
 
 	export let modalFor: string;
-	export let requestEpoch: string;
+	export let requestEpoch: BigNumber;
 	export let mpondToConvert: BigNumber;
 	export let handleOnSuccess: (convertedMpond: BigNumber, txnHash: string) => void;
 
@@ -35,7 +35,7 @@
 	const handleConfirmClick = async () => {
 		console.log('confirm convertMPondToPond');
 		try {
-			const txn = await confirmMpondConversion(BigNumber.from(requestEpoch), mpondToConvert);
+			const txn = await confirmMpondConversion(requestEpoch, mpondToConvert);
 			handleOnSuccess(mpondToConvert, txn?.hash ?? '');
 		} catch (error) {
 			console.log(error);

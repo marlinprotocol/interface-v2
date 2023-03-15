@@ -6,6 +6,7 @@
 	import ConnectWalletButton from '$lib/components/buttons/ConnectWalletButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import { requestMpondConversion } from '$lib/controllers/contractController';
+	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
@@ -18,12 +19,6 @@
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import ModalPondInput from '../receiver-staking/sub-components/ModalPondInput.svelte';
-
-	const styles = {
-		wrapper: 'w-full flex flex-col items-center justify-center py-8',
-		cardWrapper: 'w-full flex px-2 mb-2',
-		buttonLarge: `${buttonClasses.filled} h-14 text-base font-semibold flex gap-1 w-full`
-	};
 
 	const maxAmountTooltipText =
 		'Unrequested is the amount of MPond for which a conversion request is not placed. MPond conversion requests placed is categorised as Requested. Conversion requests for staked MPond can also be placed.';
@@ -47,13 +42,22 @@
 	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(inputAmount.mul(10 ** 6)) : '';
 
 	let maxMPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.mpond;
-	let balanceText = 'Unrequested: 0.00 | Requested: 0.00';
+	let requestedMpond: BigNumber = BigNumber.from(0);
+
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		maxMPondBalance = value.mpond;
-		// TODO: update this
-		balanceText = `Unrequested: ${bigNumberToCommaString(maxMPondBalance)} | Requested: 0.00`;
 	});
+	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
+		requestedMpond = value.requestedMpond;
+	});
+
+	$: balanceText = `Unrequested: ${bigNumberToCommaString(
+		maxMPondBalance.sub(requestedMpond),
+		4
+	)} | Requested: ${bigNumberToCommaString(requestedMpond, 4)}`;
+
 	onDestroy(unsubscribeWalletBalanceStore);
+	onDestroy(unsubscribeBridgeStore);
 
 	const handleMaxClick = () => {
 		if (!!maxMPondBalance) {

@@ -14,7 +14,8 @@ import {
 	QUERY_TO_GET_POND_BALANCE_QUERY,
 	QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY,
 	QUERY_TO_GET_RECEIVER_POND_BALANCE,
-	QUERY_TO_GET_RECEIVER_STAKING_DATA
+	QUERY_TO_GET_RECEIVER_STAKING_DATA,
+	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
 import { epochSecondsStringToDate } from '$lib/utils/conversion';
 import { getModifiedMpondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
@@ -223,34 +224,62 @@ export async function getPondAndMpondBridgeAllowances(address: Address, contract
 	};
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-
+	let mpond = BigNumber.from(0);
+	let pond = BigNumber.from(0);
 	try {
-		const result = await fetchHttpData(url, options);
+		const result: any | undefined = await fetchHttpData(url, options);
 		console.log('pond mpond allowances', result);
-		if (
-			result['data'] &&
-			result['data']?.mpondApprovals?.length == 0 &&
-			result['data']?.pondApprovals?.length == 0
-		)
-			return { pond: BigNumber.from(0), mpond: BigNumber.from(0) };
-		else if (result['data'] && result['data']?.mpondApprovals?.length == 0)
-			return {
-				pond: BigNumber.from(result['data']?.pondApprovals[0].value),
-				mpond: BigNumber.from(0)
-			};
-		else if (result['data'] && result['data']?.pondApprovals?.length == 0)
-			return {
-				pond: BigNumber.from(0),
-				mpond: BigNumber.from(result['data']?.mpondApprovals[0].value)
-			};
-		else
-			return {
-				pond: BigNumber.from(result['data']?.pondApprovals[0].value),
-				mpond: BigNumber.from(result['data']?.mpondApprovals[0].value)
-			};
+
+		if (!!!result['data']) {
+			return { pond, mpond };
+		}
+
+		const pondApprovals = result['data']?.pondApprovals;
+		const mpondApprovals = result['data']?.mpondApprovals;
+
+		// convert all to BigNumber
+		if (pondApprovals?.length > 0) {
+			pond = BigNumber.from(pondApprovals[0]?.value ?? 0);
+		}
+		if (mpondApprovals?.length > 0) {
+			mpond = BigNumber.from(mpondApprovals[0]?.value ?? 0);
+		}
+		return { pond, mpond };
 	} catch (error) {
 		console.log('Error fetching receiver pond and mpond allowances from subgraph', error);
-		return { pond: BigNumber.from(0), mpond: BigNumber.from(0) };
+		return { pond, mpond };
+	}
+}
+
+export async function getRequestedMPondForConversion(address: Address) {
+	const url = ENVIRONMENT.public_bridge_contract_subgraph_url;
+	const query = QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION;
+
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
+
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+
+	let requestedMpond = BigNumber.from(0);
+
+	try {
+		const result: any | undefined = await fetchHttpData(url, options);
+		console.log('mpond requested', result);
+
+		if (!!!result['data']) {
+			return requestedMpond;
+		}
+
+		const totalMpondPlacedInRequest = result['data']?.user?.totalMpondPlacedInRequest;
+
+		if (totalMpondPlacedInRequest) {
+			requestedMpond = BigNumber.from(totalMpondPlacedInRequest ?? 0);
+		}
+		return requestedMpond;
+	} catch (error) {
+		console.log('Error fetching requested mpond from subgraph', error);
+		return requestedMpond;
 	}
 }
 

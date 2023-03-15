@@ -7,6 +7,18 @@ export type PondToMPondHistoryDataModel = {
 	transactionHash: string;
 };
 
+export type MpondToPondRequestModel = {
+	id: string;
+	mpondAmount: string;
+	mpondConverted: string;
+	requestEpoch: string;
+	releaseTime: string;
+	timestamp: string;
+	transactionHash: string;
+	isCancelled: boolean;
+	cancelHash: string;
+};
+
 export type MPondToPondHistoryDataModel = {
 	id: string;
 	mpondAmount: BigNumber;
@@ -27,27 +39,7 @@ export type MPondToPondHistoryDataModel = {
 	}[];
 	eligibleCycles: MpondEligibleCyclesModel[];
 	currentCycle: number;
-	requestEpoch: string;
-};
-
-export type MpondToPondRequestModel = {
-	id: string;
-	mpondAmount: string;
-	mpondConverted: string;
-	requestEpoch: string;
-	releaseTime: string;
-	timestamp: string;
-	transactionHash: string;
-	isCancelled: boolean;
-	cancelHash: string;
-};
-
-export type MPondToPond2HistoryDataModel = {
-	requests: MpondToPondRequestModel[];
-	mpondToPondConversions: MpondToPondConversionModel[];
-	totalMpondConverted: BigNumber;
-	totalPondConverted: BigNumber;
-	transactionHash: string;
+	requestEpoch: BigNumber;
 };
 
 export type MpondToPondConversionModel = {

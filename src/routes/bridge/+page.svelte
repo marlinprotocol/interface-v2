@@ -1,7 +1,10 @@
 <script lang="ts">
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import { getBridgeContractDetails } from '$lib/controllers/contractController';
-	import { getPondAndMpondBridgeAllowances } from '$lib/controllers/subgraphController';
+	import {
+		getPondAndMpondBridgeAllowances,
+		getRequestedMPondForConversion
+	} from '$lib/controllers/subgraphController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
@@ -18,12 +21,13 @@
 			$walletStore.address,
 			$contractAddressStore.Bridge
 		);
-		console.log('allowances :>> ', allowances);
+		const requestedMpond = await getRequestedMPondForConversion($walletStore.address);
 		bridgeStore.set({
 			allowances: {
 				pond: allowances.pond,
 				mpond: allowances.mpond
-			}
+			},
+			requestedMpond: requestedMpond
 		});
 	}
 

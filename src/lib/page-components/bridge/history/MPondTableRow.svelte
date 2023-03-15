@@ -38,10 +38,10 @@
 
 	let cancelLoading: boolean = false;
 
-	const handleCancelConversionRequest = async (requestEpoch: string) => {
+	const handleCancelConversionRequest = async (requestEpoch: BigNumber) => {
 		// TODO: check why not working
 		cancelLoading = true;
-		await cancelMpondConversionRequest(Number(requestEpoch));
+		await cancelMpondConversionRequest(requestEpoch);
 		cancelLoading = false;
 	};
 </script>

@@ -17,7 +17,7 @@
 
 	export let modalFor: string;
 	export let maxAmount: BigNumber;
-	export let requestEpoch: string;
+	export let requestEpoch: BigNumber;
 	export let handleOnSuccess: (convertedMpond: BigNumber, txnHash: string) => void;
 
 	$: balanceText = `Eligible Balance: ${bigNumberToString(maxAmount)}`;

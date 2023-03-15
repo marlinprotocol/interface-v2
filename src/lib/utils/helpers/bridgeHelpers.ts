@@ -128,7 +128,7 @@ export const getModifiedMpondToPondHistory = (
 			currentCycle: currentCycle,
 			timestamp: Number(timestamp),
 			transactionHash,
-			requestEpoch,
+			requestEpoch: BigNumber.from(requestEpoch),
 			isCancelled,
 			cancelHash
 		};

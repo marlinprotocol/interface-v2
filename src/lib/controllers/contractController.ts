@@ -474,7 +474,7 @@ export async function requestMpondConversion(amount: BigNumber) {
 	}
 }
 
-export async function cancelMpondConversionRequest(epoch: number) {
+export async function cancelMpondConversionRequest(epoch: BigNumber) {
 	const bridgeContractAddress = contractAddresses.Bridge;
 	const bridgeContractAbi = contractAbi.Bridge;
 	const bridgeContract = new ethers.Contract(bridgeContractAddress, bridgeContractAbi, signer);

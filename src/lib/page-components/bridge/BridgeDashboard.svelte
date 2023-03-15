@@ -3,7 +3,6 @@
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
 	import { Tab, TabList, TabPanel, Tabs } from '$lib/atoms/tabs/tabs';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import MPondTopond from './MPondTopond.svelte';
 	import PondToMpond from './PondToMpond.svelte';
 	import ConversionHistoryButton from './sub-components/ConversionHistoryButton.svelte';

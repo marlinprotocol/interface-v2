@@ -227,7 +227,7 @@ export async function getPondAndMpondBridgeAllowances(address: Address, contract
 	let mpond = BigNumber.from(0);
 	let pond = BigNumber.from(0);
 	try {
-		const result: any | undefined = await fetchHttpData(url, options);
+		const result = await fetchHttpData(url, options);
 		console.log('pond mpond allowances', result);
 
 		if (!!!result['data']) {

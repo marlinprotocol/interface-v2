@@ -8,11 +8,11 @@
 	export let handleSortData: (() => void) | undefined = undefined;
 </script>
 
-<table class={`card max-w-full bg-base-100 rounded-lg px-6 py-4 ${styleClass}`}>
+<table class={styleClass}>
 	<thead>
 		<tr>
 			{#each tableHeading as columnHeading}
-				<th class={tableCellClasses.heading}>
+				<th class={`w-[${100 / tableHeading.length}%] ${tableCellClasses.heading}`}>
 					<div class="flex justify-center items-center gap-0.5">
 						{#if columnHeading.sorting}
 							<button on:click={handleSortData}>
@@ -39,7 +39,11 @@
 
 <style>
 	table {
-		width: fit-content;
+		width: 100%;
 		text-align: center;
+	}
+
+	thead {
+		width: 100%;
 	}
 </style>

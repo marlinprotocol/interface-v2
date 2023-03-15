@@ -64,38 +64,53 @@
 	{@const endEpochTime = getTimerEpoch(currentCycle, eligibleCycles)}
 	<tr>
 		<TableDataWithButton>
-			{epochSecToString(timestamp)}
+			<div slot="line1">
+				{epochSecToString(timestamp)}
+			</div>
 		</TableDataWithButton>
 		<TableDataWithButton>
-			<TxnHashText txnHash={transactionHash} txnHashUrl={bridgeTxnUrls(transactionHash)} />
+			<div slot="line1">
+				<TxnHashText txnHash={transactionHash} txnHashUrl={bridgeTxnUrls(transactionHash)} />
+			</div>
 		</TableDataWithButton>
 		<TableDataWithButton>
-			{bigNumberToCommaString(mpondAmount, 8)}
+			<div slot="line1">
+				{bigNumberToCommaString(mpondAmount, 8)}
+			</div>
 		</TableDataWithButton>
 		<TableDataWithButton>
-			{bigNumberToCommaString(pondAmount, 3)}
+			<div slot="line1">
+				{bigNumberToCommaString(pondAmount, 3)}
+			</div>
 		</TableDataWithButton>
 		<TableDataWithButton>
-			{bigNumberToCommaString(pondPending, 3)}
+			<div slot="line1">
+				{bigNumberToCommaString(pondPending, 3)}
+			</div>
+			<div slot="line2">
+				<Button
+					variant="text"
+					styleClass={buttonClasses.convertButton}
+					onclick={() => {
+						openModal(`mpond-conversion-cycle-modal-${index}`);
+					}}
+				>
+					<HistoryDataIconButton src={'/images/cycleimg.svg'} text={'See cycle'} />
+				</Button>
+			</div>
 			<MpondConversionCycleModal
 				cycles={eligibleCycles}
 				modalFor={`mpond-conversion-cycle-modal-${index}`}
 				{endEpochTime}
 				{currentCycle}
 			/>
-			<Button
-				variant="text"
-				styleClass={buttonClasses.convertButton}
-				onclick={() => {
-					openModal(`mpond-conversion-cycle-modal-${index}`);
-				}}
-			>
-				<HistoryDataIconButton src={'/images/cycleimg.svg'} text={'See cycle'} />
-			</Button>
 		</TableDataWithButton>
 		<TableDataWithButton>
-			{bigNumberToCommaString(pondInProcess, 3)}
+			<div slot="line1">
+				{bigNumberToCommaString(pondInProcess, 3)}
+			</div>
 			<Timer
+				slot="line2"
 				{endEpochTime}
 				onTimerEnd={() => {
 					// pondInProcess pond will add to pondEligible
@@ -123,7 +138,7 @@
 					<HistoryDataIconButton
 						disabled={true}
 						src={'/images/timerclock.svg'}
-						styleClass={'mt-2 text-grey-600 font-normal'}
+						styleClass={'mt-4 text-grey-600 font-normal'}
 						variant="secondary"
 						text={`${Math.floor(timer / 60) % 60} mins`}
 					/>
@@ -135,32 +150,36 @@
 				conversions={conversionHistory}
 				modalFor={`mpond-conversion-history-modal-${index}`}
 			/>
-			{bigNumberToCommaString(pondEligible, 3)}
-			{#if !conversionHistory?.length}
-				<HistoryDataIconButton
-					variant={'disabled'}
-					src={'/images/historyicon.svg'}
-					imgWidth={14}
-					text={'History'}
-					disabled={true}
-					styleClass={'mt-2'}
-				/>
-			{:else}
-				<Button
-					variant={'text'}
-					styleClass={buttonClasses.convertButton}
-					onclick={() => {
-						openModal(`mpond-conversion-history-modal-${index}`);
-					}}
-				>
+			<div slot="line1">
+				{bigNumberToCommaString(pondEligible, 3)}
+			</div>
+			<div slot="line2">
+				{#if !conversionHistory?.length}
 					<HistoryDataIconButton
-						variant={'primary'}
+						variant={'disabled'}
 						src={'/images/historyicon.svg'}
 						imgWidth={14}
 						text={'History'}
+						disabled={true}
+						styleClass={'mt-2'}
 					/>
-				</Button>
-			{/if}
+				{:else}
+					<Button
+						variant={'text'}
+						styleClass={buttonClasses.convertButton}
+						onclick={() => {
+							openModal(`mpond-conversion-history-modal-${index}`);
+						}}
+					>
+						<HistoryDataIconButton
+							variant={'primary'}
+							src={'/images/historyicon.svg'}
+							imgWidth={14}
+							text={'History'}
+						/>
+					</Button>
+				{/if}
+			</div>
 		</TableDataWithButton>
 		<TableDataWithButton>
 			<MpondEligibleConvertModal
@@ -190,30 +209,44 @@
 					];
 				}}
 			/>
-			<Button
-				disabled={!pondEligible.gt(0)}
-				variant="filled"
-				styleClass={buttonClasses.convertButton}
-				onclick={() => {
-					openModal(`mpond-eligible-convert-modal-${index}`);
-				}}
-			>
-				CONVERT
-			</Button>
-			<Button
-				loading={cancelLoading}
-				variant={'text'}
-				styleClass={buttonClasses.convertButton}
-				onclick={async () => {
-					await handleCancelConversionRequest(requestEpoch);
-				}}
-			>
-				<HistoryDataIconButton
-					text={'Cancel'}
-					variant="primary"
-					tooltipText={'Cancel current MPond conversion requests in process. Users who want the updated MPond conversion parameters to take immediate effect may cancel the current conversion request and place a new conversion request.'}
-				/>
-			</Button>
+			<div slot="line1">
+				<Button
+					disabled={!pondEligible.gt(0)}
+					variant="filled"
+					styleClass={buttonClasses.convertButton}
+					onclick={() => {
+						openModal(`mpond-eligible-convert-modal-${index}`);
+					}}
+				>
+					CONVERT
+				</Button>
+			</div>
+			<div slot="line2">
+				<Button
+					loading={cancelLoading}
+					variant={'text'}
+					styleClass={buttonClasses.convertButton}
+					onclick={async () => {
+						await handleCancelConversionRequest(requestEpoch);
+					}}
+				>
+					<HistoryDataIconButton
+						text={'Cancel'}
+						variant="primary"
+						tooltipText={'Cancel current MPond conversion requests in process. Users who want the updated MPond conversion parameters to take immediate effect may cancel the current conversion request and place a new conversion request.'}
+					/>
+				</Button>
+			</div>
 		</TableDataWithButton>
 	</tr>
 {/each}
+
+<style>
+	tr {
+		border-bottom: 1px solid #e5e5e5;
+	}
+	/* remove border on last tr */
+	tr:last-child {
+		border-bottom: none;
+	}
+</style>

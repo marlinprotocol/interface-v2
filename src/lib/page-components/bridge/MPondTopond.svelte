@@ -41,18 +41,19 @@
 	// convert mpond to pond by multiplying by 10^6
 	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(inputAmount.mul(10 ** 6)) : '';
 
-	let maxMPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.mpond;
+	let walletMPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.mpond;
 	let requestedMpond: BigNumber = BigNumber.from(0);
 
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
-		maxMPondBalance = value.mpond;
+		walletMPondBalance = value.mpond;
 	});
 	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
 		requestedMpond = value.requestedMpond;
 	});
 
+	$: unrequestedMPondBalance = walletMPondBalance.sub(requestedMpond);
 	$: balanceText = `Unrequested: ${bigNumberToCommaString(
-		maxMPondBalance.sub(requestedMpond),
+		unrequestedMPondBalance,
 		4
 	)} | Requested: ${bigNumberToCommaString(requestedMpond, 4)}`;
 
@@ -60,8 +61,8 @@
 	onDestroy(unsubscribeBridgeStore);
 
 	const handleMaxClick = () => {
-		if (!!maxMPondBalance) {
-			inputAmountString = bigNumberToString(maxMPondBalance);
+		if (!!unrequestedMPondBalance) {
+			inputAmountString = bigNumberToString(unrequestedMPondBalance);
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
 			inValidMessage = '';
@@ -87,10 +88,11 @@
 	};
 
 	$: mpondDisabledText =
-		!!inputAmount && inputAmount.gt(0) && !!!maxMPondBalance?.gte(inputAmount)
+		!!inputAmount && inputAmount.gt(0) && !!!unrequestedMPondBalance?.gte(inputAmount)
 			? 'Insufficient MPond'
 			: '';
-	$: enableConversion = !!inputAmount && inputAmount.gt(0) && !!maxMPondBalance?.gte(inputAmount);
+	$: enableConversion =
+		!!inputAmount && inputAmount.gt(0) && !!unrequestedMPondBalance?.gte(inputAmount);
 </script>
 
 <ModalPondInput

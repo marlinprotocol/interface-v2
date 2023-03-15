@@ -3,7 +3,6 @@
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
 	import { Tab, TabList, TabPanel, Tabs } from '$lib/atoms/tabs/tabs';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import { getBridgeHistoryDataFromSubgraph } from '$lib/controllers/subgraphController';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import MPondTopond from './MPondTopond.svelte';
 	import PondToMpond from './PondToMpond.svelte';
@@ -61,7 +60,4 @@
 		</a>
 	</TabPanel>
 	<InfoButtonLink href="https://docs.marlin.org/docs/User%20Guides/Oyster/" text="Learn More" />
-	<button on:click={() => getBridgeHistoryDataFromSubgraph($walletStore.address)}
-		>fetch bridge history</button
-	>
 </div>

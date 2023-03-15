@@ -2,6 +2,7 @@
 	import LoadingCircular from '$lib/atoms/loading/LoadingCircular.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Table from '$lib/atoms/table/Table.svelte';
+	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import TableDataWithButton from '$lib/components/table-cells/TableDataWithButton.svelte';
 	import type { MpondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
 	import { mpondConversionCycleTableHeader } from '$lib/utils/constants/bridgeConstants';
@@ -9,6 +10,8 @@
 
 	export let loading: boolean = false;
 	export let cycles: MpondEligibleCyclesModel[];
+	export let endEpochTime: number;
+	export let currentCycle: number;
 
 	export let modalFor: string;
 
@@ -27,13 +30,13 @@
 						<LoadingCircular />
 					</div>
 				{:else}
-					{#each cycles as rowData}
+					{#each cycles as rowData, i}
 						<tr>
 							<TableDataWithButton styleClass="text-sm">
 								{#if nowTime > rowData?.timestamp}
-									<img src="/images/vectorcheck.svg" alt="Copy" width="20px" height="20px" />
+									<img src="/images/vectorcheck.svg" alt="Copy" width="17px" height="17px" />
 								{:else}
-									<img src="/images/timerclock.svg" alt="Copy" width="20px" height="20px" />
+									<img src="/images/timerclock.svg" alt="Copy" width="17px" height="17px" />
 								{/if}
 								{`${bigNumberToCommaString(rowData?.totalEligible)} / ${bigNumberToCommaString(
 									rowData?.netPending
@@ -41,9 +44,19 @@
 							</TableDataWithButton>
 							<TableDataWithButton>
 								<!-- TODO: check if we should add HH:mm here -->
-								{nowTime > rowData?.timestamp
-									? 'Ready to claim'
-									: epochSecToString(rowData?.timestamp)}
+								<div class="flex gap-1">
+									<img src="/images/timerclock.svg" alt="Copy" width="17px" height="17px" />
+									{#if currentCycle === i}
+										<Timer {endEpochTime}>
+											<div slot="active" let:timer class="mx-auto">
+												{`${Math.floor(timer / 60) % 60} mins`}
+											</div>
+										</Timer>
+									{/if}
+									{nowTime > rowData?.timestamp
+										? 'Ready to claim'
+										: epochSecToString(rowData?.timestamp)}
+								</div>
 							</TableDataWithButton>
 						</tr>
 					{/each}

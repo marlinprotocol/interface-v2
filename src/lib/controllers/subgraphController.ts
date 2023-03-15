@@ -298,8 +298,6 @@ export async function getMPondToPondConversionHistory(address: Address) {
 	try {
 		const result = await fetchHttpData(url, options);
 
-		console.log('results :>> ', result);
-
 		if (!!!result['data']?.users?.length) return undefined;
 		const user = result['data']['users'][0];
 		const state = result['data']['states'][0];
@@ -307,9 +305,7 @@ export async function getMPondToPondConversionHistory(address: Address) {
 
 		const { mpondToPondConversions, requests } = user;
 		const data = getModifiedMpondToPondHistory(mpondToPondConversions, requests, state);
-		console.log('mpondToPondConversions :>> ', mpondToPondConversions);
-		console.log('requests :>> ', requests);
-		console.log('state :>> ', state);
+
 		return data;
 	} catch (error) {
 		console.log('Error pond to mpond history data from subgraph', error);

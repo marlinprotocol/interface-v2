@@ -56,9 +56,10 @@
 		<MpondConversionCycleModal
 			cycles={eligibleCycles}
 			modalFor={`mpond-conversion-cycle-modal-${index}`}
+			{endEpochTime}
+			{currentCycle}
 		/>
 		<Button
-			disabled={!pondEligible.gt(0)}
 			variant="text"
 			styleClass={buttonClasses.convertButton}
 			onclick={() => {

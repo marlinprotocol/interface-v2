@@ -18,6 +18,7 @@
 			$walletStore.address,
 			$contractAddressStore.Bridge
 		);
+		console.log('allowances :>> ', allowances);
 		bridgeStore.set({
 			allowances: {
 				pond: allowances.pond,

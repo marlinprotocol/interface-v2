@@ -18,10 +18,8 @@
 	const approveClick = async () => {
 		try {
 			approveLoading = true;
-			setTimeout(() => {
-				handleApproveClick();
-				approveLoading = true;
-			}, 3000);
+			await handleApproveClick();
+			approveLoading = false;
 		} catch (e) {
 			approveLoading = false;
 			throw e;
@@ -31,11 +29,9 @@
 	const confirmClick = async () => {
 		try {
 			confirmLoading = true;
-			setTimeout(() => {
-				handleConfirmClick();
-				closeModal(modalFor);
-				confirmLoading = false;
-			}, 3000);
+			await handleConfirmClick();
+			closeModal(modalFor);
+			confirmLoading = false;
 		} catch (e) {
 			confirmLoading = false;
 			throw e;

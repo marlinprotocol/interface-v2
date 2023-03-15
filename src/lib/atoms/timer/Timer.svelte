@@ -5,13 +5,14 @@
 	export let onTimerEnd: () => void = () => {};
 
 	const original = Math.floor(endEpochTime - Date.now() / 1000);
+
 	let timer = tweened(original);
 
 	setInterval(() => {
 		if ($timer > 0) {
 			$timer--;
 		}
-		if ($timer === 0) {
+		if ($timer === 1) {
 			onTimerEnd();
 		}
 	}, 1000);

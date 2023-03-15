@@ -336,6 +336,53 @@ export async function approvePondTokenForConversion(amount: BigNumber) {
 	}
 }
 
+export async function approveMPondTokenForConversion(amount: BigNumber) {
+	const bridgeContractAddress = contractAddresses.Bridge;
+	const mpondTokenContractAddress = contractAddresses.tokens['MPOND'].address;
+	const ERC20ContractAbi = contractAbi.ERC20;
+	const mpondTokenContract = new ethers.Contract(
+		mpondTokenContractAddress,
+		ERC20ContractAbi,
+		signer
+	);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.APPROVE.MPOND(bigNumberToCommaString(amount)),
+			variant: 'info'
+		});
+		const tx = await mpondTokenContract.approve(bridgeContractAddress, amount);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to approve staking token');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS +
+				' ' +
+				MESSAGES.TOAST.ACTIONS.APPROVE.MPOND_APPROVED(bigNumberToCommaString(amount)),
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while approving staking token');
+	}
+}
+
 export async function convertPondToMpond(expectedMpond: BigNumber) {
 	const bridgeContractAddress = contractAddresses.Bridge;
 	const bridgeContractAbi = contractAbi.Bridge;
@@ -437,6 +484,7 @@ export async function cancelMpondConversionRequest(epoch: number) {
 			variant: 'info'
 		});
 
+		console.log('epochepoch :>> ', epoch);
 		const tx = await bridgeContract.cancelRequest(epoch);
 
 		addToast({
@@ -470,7 +518,7 @@ export async function cancelMpondConversionRequest(epoch: number) {
 	}
 }
 
-export async function confirmMpondConversion(epoch: number, amount: BigNumber) {
+export async function confirmMpondConversion(epoch: BigNumber, amount: BigNumber) {
 	const bridgeContractAddress = contractAddresses.Bridge;
 	const bridgeContractAbi = contractAbi.Bridge;
 	const bridgeContract = new ethers.Contract(bridgeContractAddress, bridgeContractAbi, signer);

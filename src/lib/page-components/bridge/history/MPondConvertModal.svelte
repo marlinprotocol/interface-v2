@@ -1,16 +1,18 @@
 <script lang="ts">
 	import ApproveAndConfirmModal from '$lib/components/modals/ApproveAndConfirmModal.svelte';
 	import {
-		approvePondTokenForConversion,
-		convertPondToMpond
+		approveMPondTokenForConversion,
+		confirmMpondConversion
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
-	import type { BigNumber } from 'ethers';
+	import { BigNumber } from 'ethers';
 
-	export let pond: BigNumber;
+	export let modalFor: string;
+	export let requestEpoch: string;
+	export let mpondToConvert: BigNumber;
+	export let handleOnSuccess: (convertedMpond: BigNumber, txnHash: string) => void;
 
-	const modalFor = 'pond-to-mpond-conversion-modal';
 	const styles = {
 		text: 'text-grey-500',
 		highlight: 'text-secondary font-bold'
@@ -19,10 +21,10 @@
 	const handleApproveClick = async () => {
 		console.log('approve convertPondToMpond');
 		try {
-			await approvePondTokenForConversion(pond);
+			await approveMPondTokenForConversion(mpondToConvert);
 			// update bridge store locally in case when user approves amount greater than previous allowance
 			bridgeStore.update((value) => {
-				value.allowances.pond = pond;
+				value.allowances.mpond = mpondToConvert;
 				return value;
 			});
 			approved = true;
@@ -31,17 +33,16 @@
 		}
 	};
 	const handleConfirmClick = async () => {
-		console.log('confirm convertPondToMpond');
+		console.log('confirm convertMPondToPond');
 		try {
-			await convertPondToMpond(mpond);
+			const txn = await confirmMpondConversion(BigNumber.from(requestEpoch), mpondToConvert);
+			handleOnSuccess(mpondToConvert, txn?.hash ?? '');
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
-	// TODO: use a util function to compute this
-	$: mpond = pond.div(10 ** 6);
-	$: approved = $bridgeStore.allowances.pond.gte(pond) || false;
+	$: approved = $bridgeStore.allowances.mpond.gte(mpondToConvert) || false;
 </script>
 
 <ApproveAndConfirmModal
@@ -53,14 +54,14 @@
 >
 	<div slot="approveText" class={styles.text}>
 		<span>{'Approve'}</span>
-		<span class={styles.highlight}>{`${bigNumberToCommaString(pond)} POND`}</span>
+		<span class={styles.highlight}>{`${bigNumberToCommaString(mpondToConvert, 8)} MPond`}</span>
 		<span>{'for conversion'}</span>
 	</div>
 	<div slot="confirmText" class={styles.text}>
 		<span>{'Convert'}</span>
-		<span class={styles.highlight}>{`${bigNumberToCommaString(pond)} POND`}</span>
+		<span class={styles.highlight}>{`${bigNumberToCommaString(mpondToConvert, 8)} MPond`}</span>
 		<span>{'to'}</span>
 		<!-- TODO: check decimals and precision -->
-		<span class={styles.highlight}>{`${bigNumberToCommaString(mpond, 6)} MPond`}</span>
+		<span class={styles.highlight}>{`${bigNumberToCommaString(mpondToConvert, 8)} MPond`}</span>
 	</div>
 </ApproveAndConfirmModal>

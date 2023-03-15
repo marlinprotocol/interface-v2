@@ -27,6 +27,7 @@ export type MPondToPondHistoryDataModel = {
 	}[];
 	eligibleCycles: MpondEligibleCyclesModel[];
 	currentCycle: number;
+	requestEpoch: string;
 };
 
 export type MpondToPondRequestModel = {

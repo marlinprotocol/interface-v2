@@ -21,7 +21,9 @@ export const getModifiedMpondToPondHistory = (
 	// const _epochLength = Number(epochLength);
 
 	// Intervals at which pending mpond is released
+	// TODO: remove hardcoding
 	const _liqudityReleaseEpochs = Number(liqudityReleaseEpochs);
+	// const _liqudityReleaseEpochs = 620;
 	const _liquidityBP = Number(liquidityBP);
 
 	// total number of release cycles based on liquidityBP
@@ -36,6 +38,7 @@ export const getModifiedMpondToPondHistory = (
 			mpondAmount,
 			mpondConverted,
 			releaseTime,
+			requestEpoch,
 			timestamp,
 			transactionHash,
 			isCancelled,
@@ -50,7 +53,6 @@ export const getModifiedMpondToPondHistory = (
 		const pondAmountBN = mpondToPond(mpondAmountBN);
 		const pondInitiallyPending = mpondToPond(mpondInitallyPending);
 
-		// TODO: check mul not working
 		const bigNumberUtils = new BigNumberUtils();
 		const pondProcessInACycle = bigNumberUtils.multiply(pondAmountBN, _liquidityBP);
 
@@ -67,7 +69,7 @@ export const getModifiedMpondToPondHistory = (
 		// create eligible convserion cycles
 		for (let i = 0; i < totalCycles; i++) {
 			//add equal fraction of the pond amount to the total eligible
-			totalEligible = totalEligible.add(pondProcessInACycle);
+			totalEligible = i === totalCycles - 1 ? pondAmountBN : totalEligible.add(pondProcessInACycle);
 			eligibleCycles.push({
 				timestamp: _cycleStartTime,
 				endTimestamp: _cycleStartTime + _liqudityReleaseEpochs,
@@ -126,6 +128,7 @@ export const getModifiedMpondToPondHistory = (
 			currentCycle: currentCycle,
 			timestamp: Number(timestamp),
 			transactionHash,
+			requestEpoch,
 			isCancelled,
 			cancelHash
 		};

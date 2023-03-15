@@ -35,23 +35,24 @@ export const getColorClassByVariant = (variant: CommonVariant | undefined) => {
 };
 
 export const getTextColorClassByVariant = (variant: CommonVariant | undefined) => {
+	console.log(variant, 'variant');
 	switch (variant) {
 		case 'primary':
 			return 'text-primary';
 		case 'secondary':
 			return 'text-secondary';
 		case 'success':
-			return 'text-success';
+			return 'text-primary-content';
 		case 'info':
-			return 'text-grey-500';
+			return 'text-primary-content';
 		case 'warning':
-			return 'text-warning';
+			return 'text-primary-content';
 		case 'error':
-			return 'text-error';
+			return 'text-error-content';
 		case 'disabled':
 			return 'text-primary opacity-40';
 		default:
-			return '';
+			return 'text-primary-content';
 	}
 };
 

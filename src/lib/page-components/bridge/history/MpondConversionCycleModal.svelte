@@ -38,8 +38,9 @@
 								{:else}
 									<img src="/images/timerclock.svg" alt="Copy" width="17px" height="17px" />
 								{/if}
-								{`${bigNumberToCommaString(rowData?.totalEligible)} / ${bigNumberToCommaString(
-									rowData?.netPending
+								{`${bigNumberToCommaString(rowData?.totalEligible, 3)} / ${bigNumberToCommaString(
+									rowData?.netPending,
+									3
 								)}`}
 							</TableDataWithButton>
 							<TableDataWithButton>

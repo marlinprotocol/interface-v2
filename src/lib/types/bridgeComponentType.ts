@@ -71,5 +71,6 @@ export type MpondEligibleCyclesModel = {
 	totalEligible: BigNumber;
 	netPending: BigNumber;
 	timestamp: number;
+	endTimestamp: number;
 	cycle: number;
 };

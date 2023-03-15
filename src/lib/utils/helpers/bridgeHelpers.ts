@@ -7,6 +7,7 @@ import type {
 } from '$lib/types/bridgeComponentType';
 import { BigNumber } from 'ethers';
 import { mpondToPond } from '../conversion';
+import { BigNumberUtils } from './bigNumberUtils';
 
 export const getModifiedMpondToPondHistory = (
 	mpondToPondConversions: MpondToPondConversionModel[],
@@ -21,9 +22,10 @@ export const getModifiedMpondToPondHistory = (
 
 	// Intervals at which pending mpond is released
 	const _liqudityReleaseEpochs = Number(liqudityReleaseEpochs);
+	const _liquidityBP = Number(liquidityBP);
 
 	// total number of release cycles based on liquidityBP
-	const totalCycles = Math.ceil(1 / Number(liquidityBP));
+	const totalCycles = Math.ceil(1 / _liquidityBP);
 
 	const _nowTime = Math.floor(Date.now() / 1000);
 
@@ -49,25 +51,32 @@ export const getModifiedMpondToPondHistory = (
 		const pondInitiallyPending = mpondToPond(mpondInitallyPending);
 
 		// TODO: check mul not working
-		const pondProcessInACycle = pondAmountBN.div(totalCycles);
+		const bigNumberUtils = new BigNumberUtils();
+		const pondProcessInACycle = bigNumberUtils.multiply(pondAmountBN, _liquidityBP);
 
-		// Start time of the eligiblity conversion is the release time or liquidity start time whichever is later
-		const _startTime = _releaseTime < _liquidityStartTime ? _liquidityStartTime : _releaseTime;
+		// first release of the eligiblity conversion is the release time or liquidity start time whichever is later
+		const _releaseStartTime =
+			_releaseTime < _liquidityStartTime ? _liquidityStartTime : _releaseTime;
+		// strat time of the first cycle
+		const _firstCycleStartTime = _releaseStartTime - _liqudityReleaseEpochs;
 
 		const eligibleCycles: MpondEligibleCyclesModel[] = [];
 		let totalEligible = BigNumber.from('0');
 
+		let _cycleStartTime = _firstCycleStartTime;
 		// create eligible convserion cycles
 		for (let i = 0; i < totalCycles; i++) {
-			const _cycleStartTime = _startTime + _liqudityReleaseEpochs * i;
 			//add equal fraction of the pond amount to the total eligible
 			totalEligible = totalEligible.add(pondProcessInACycle);
 			eligibleCycles.push({
 				timestamp: _cycleStartTime,
+				endTimestamp: _cycleStartTime + _liqudityReleaseEpochs,
 				totalEligible,
 				netPending: pondAmountBN.sub(totalEligible),
 				cycle: i + 1
 			});
+			// start time of the cycle is the start time of the previous cycle plus the release interval
+			_cycleStartTime = _cycleStartTime + _liqudityReleaseEpochs;
 		}
 
 		let pondInProcess = BigNumber.from('0');
@@ -76,13 +85,14 @@ export const getModifiedMpondToPondHistory = (
 		let currentCycle = 0;
 
 		// if liquidity release has started
-		if (_nowTime > _startTime) {
-			currentCycle = Math.floor((_nowTime - _startTime) / _liqudityReleaseEpochs);
-			// if liquidity release is in progress
+		if (_nowTime > _firstCycleStartTime) {
+			currentCycle = Math.floor((_nowTime - _firstCycleStartTime) / _liqudityReleaseEpochs);
 			if (currentCycle < totalCycles) {
-				nowEligiblePond = eligibleCycles[currentCycle].totalEligible;
+				// if liquidity release is in progress
+				nowEligiblePond = nowEligiblePond.add(pondProcessInACycle.mul(currentCycle));
 				pondInProcess = pondProcessInACycle;
 			} else {
+				// if liquidity release is completed
 				nowEligiblePond = pondInitiallyPending;
 				currentCycle = totalCycles + 1;
 			}

@@ -29,10 +29,10 @@
 	} = rowData;
 
 	const getTimerEpoch = () => {
-		if (currentCycle > eligibleCycles.length - 1) {
-			return 0;
+		if (currentCycle < eligibleCycles.length) {
+			return eligibleCycles[currentCycle].endTimestamp;
 		}
-		return eligibleCycles[currentCycle + 1].timestamp;
+		return 0;
 	};
 
 	$: endEpochTime = getTimerEpoch();
@@ -49,10 +49,10 @@
 		{bigNumberToCommaString(mpondAmount, 8)}
 	</TableDataWithButton>
 	<TableDataWithButton>
-		{bigNumberToCommaString(pondAmount)}
+		{bigNumberToCommaString(pondAmount, 3)}
 	</TableDataWithButton>
 	<TableDataWithButton>
-		{bigNumberToCommaString(pondPending)}
+		{bigNumberToCommaString(pondPending, 3)}
 		<MpondConversionCycleModal
 			cycles={eligibleCycles}
 			modalFor={`mpond-conversion-cycle-modal-${index}`}
@@ -70,7 +70,7 @@
 		</Button>
 	</TableDataWithButton>
 	<TableDataWithButton>
-		{bigNumberToCommaString(pondInProcess)}
+		{bigNumberToCommaString(pondInProcess, 3)}
 		<Timer {endEpochTime}>
 			<div slot="active" let:timer class="mx-auto">
 				<HistoryDataIconButton
@@ -89,7 +89,7 @@
 			conversions={conversionHistory}
 			modalFor={`mpond-conversion-history-modal-${index}`}
 		/>
-		{bigNumberToCommaString(pondEligible)}
+		{bigNumberToCommaString(pondEligible, 3)}
 		{#if !conversionHistory?.length}
 			<HistoryDataIconButton
 				variant={'disabled'}

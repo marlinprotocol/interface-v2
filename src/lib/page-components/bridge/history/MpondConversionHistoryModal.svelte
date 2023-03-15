@@ -12,7 +12,7 @@
 	export let loading: boolean = false;
 	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];
 
-	const modalFor = 'mpond-conversion-history-modal';
+	export let modalFor: string;
 </script>
 
 <Modal {modalFor}>

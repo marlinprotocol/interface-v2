@@ -43,8 +43,8 @@
 				{'No conversion history yet. Convert MPond to POND to see your conversion history here.'}
 			</div>
 		{:else}
-			{#each historyData as rowData}
-				<MPondTableRow {rowData} />
+			{#each historyData as rowData, i}
+				<MPondTableRow {rowData} index={i} />
 			{/each}
 		{/if}
 	</tbody>

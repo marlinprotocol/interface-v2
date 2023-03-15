@@ -4,6 +4,7 @@
 	export let variant: TextModel['variant'] = 'body';
 	export let styleClass: TextModel['styleClass'] = '';
 	export let text: TextModel['text'] = '';
+	export let fontWeight: TextModel['fontWeight'] | undefined = undefined;
 
 	const getFontSize = () => {
 		switch (variant) {
@@ -53,9 +54,9 @@
 	};
 
 	const fontSize = getFontSize();
-	const fontWeight = getDefaultFontWeight();
+	const _fontWeight = fontWeight ? fontWeight : getDefaultFontWeight();
 
-	$: textClass = `${fontSize} ${fontWeight} text-left ${styleClass}`;
+	$: textClass = `${fontSize} ${_fontWeight} text-left ${styleClass}`;
 </script>
 
 <div class={textClass}>{text}</div>

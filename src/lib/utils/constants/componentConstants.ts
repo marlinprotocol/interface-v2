@@ -35,7 +35,6 @@ export const getColorClassByVariant = (variant: CommonVariant | undefined) => {
 };
 
 export const getTextColorClassByVariant = (variant: CommonVariant | undefined) => {
-	console.log(variant, 'variant');
 	switch (variant) {
 		case 'primary':
 			return 'text-primary';

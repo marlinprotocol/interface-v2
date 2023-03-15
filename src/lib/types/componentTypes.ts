@@ -13,6 +13,7 @@ export type ButtonModel = {
 
 export type TextModel = {
 	variant: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body' | 'small' | 'mini' | 'tiny' | 'nav';
+	fontWeight?: 'normal' | 'bold' | 'medium';
 	text: string;
 	styleClass?: string;
 };

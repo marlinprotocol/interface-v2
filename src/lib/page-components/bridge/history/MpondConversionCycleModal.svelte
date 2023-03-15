@@ -10,7 +10,7 @@
 	export let loading: boolean = false;
 	export let cycles: MpondEligibleCyclesModel[];
 
-	const modalFor = 'mpond-conversion-cycle-modal';
+	export let modalFor: string;
 
 	const nowTime = Date.now() / 1000;
 </script>

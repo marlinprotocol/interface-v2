@@ -5,7 +5,7 @@
 
 	export let tableHeading: TableModel['header'][];
 	export let styleClass: string = '';
-	export let handleSortData: () => void;
+	export let handleSortData: (() => void) | undefined = undefined;
 </script>
 
 <table class={`card max-w-full bg-base-100 rounded-lg px-6 py-4 ${styleClass}`}>

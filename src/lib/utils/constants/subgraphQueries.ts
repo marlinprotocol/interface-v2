@@ -91,10 +91,23 @@ export const QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES = `query PondMpondAll
   }
 }`;
 
-export const QUERY_TO_GET_BRIDGE_HISTORY_DATA = `query BridgeHistoryData($address: String) {
-  users(
-    where: { address: $address  }
-  ) {
+export const QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY = `query Users($address: String) {
+  users(where:{
+    address: $address
+  }) {
+    pondToMpondConversions{
+      transactionHash
+      mpondReceived
+      timestamp
+      pondConverted
+    }
+  }
+}`;
+
+export const QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY = `query Users($address: String) {
+  users(where:{
+    address: $address
+  }) {
     totalMpondPlacedInRequest
     totalMpondConverted
     totalPondConverted
@@ -109,13 +122,17 @@ export const QUERY_TO_GET_BRIDGE_HISTORY_DATA = `query BridgeHistoryData($addres
       isCancelled
       cancelHash
     }
-    mpondToPondConversions {
+    mpondToPondConversions{
       id
       mpondToConvert
       transactionHash
+      timestamp
+      requestData {
+        id
+      }
     }
   }
-  states {
+  states{
     liquidityStartTime
     epochLength
     pondPerMpond

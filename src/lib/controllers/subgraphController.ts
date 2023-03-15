@@ -7,6 +7,7 @@ import {
 } from '$lib/utils/constants/storeDefaults';
 import {
 	QUERY_TO_CHECK_IF_SIGNER_EXISTS,
+	QUERY_TO_GET_BRIDGE_HISTORY_DATA,
 	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES,
 	QUERY_TO_GET_POND_BALANCE_QUERY,
@@ -246,5 +247,25 @@ export async function getPondAndMpondBridgeAllowances(address: Address, contract
 	} catch (error) {
 		console.log('Error fetching receiver pond and mpond allowances from subgraph', error);
 		return { pond: BigNumber.from(0), mpond: BigNumber.from(0) };
+	}
+}
+
+// ----------------------------- bridge history subgraph methods -----------------------------
+
+export async function getBridgeHistoryDataFromSubgraph(address: Address) {
+	console.log('fetching bridge history data from subgraph');
+	const url = ENVIRONMENT.public_bridge_history_subgraph_url;
+	const query = QUERY_TO_GET_BRIDGE_HISTORY_DATA;
+
+	const queryVariables = { address: address.toLowerCase() };
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+
+	try {
+		const result = await fetchHttpData(url, options);
+		console.log('bridge history data', result);
+		return result;
+	} catch (error) {
+		console.log('Error fetching bridge history data from subgraph', error);
+		return [];
 	}
 }

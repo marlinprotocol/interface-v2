@@ -90,3 +90,36 @@ export const QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES = `query PondMpondAll
     value
   }
 }`;
+
+export const QUERY_TO_GET_BRIDGE_HISTORY_DATA = `query BridgeHistoryData($address: String) {
+  users(
+    where: { address: $address  }
+  ) {
+    totalMpondPlacedInRequest
+    totalMpondConverted
+    totalPondConverted
+    requests {	
+      timestamp
+      transactionHash
+      mpondAmount
+      id
+      requestEpoch
+      releaseTime
+      mpondConverted
+      isCancelled
+      cancelHash
+    }
+    mpondToPondConversions {
+      id
+      mpondToConvert
+      transactionHash
+    }
+  }
+  states {
+    liquidityStartTime
+    epochLength
+    pondPerMpond
+    liquidityBP
+    liqudityReleaseEpochs
+  }
+}`;

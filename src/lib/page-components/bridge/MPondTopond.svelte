@@ -1,9 +1,11 @@
 <script lang="ts">
+	import Button from '$lib/atoms/buttons/Button.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import ConnectWalletButton from '$lib/components/buttons/ConnectWalletButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
+	import { requestMpondConversion } from '$lib/controllers/contractController';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
@@ -33,6 +35,9 @@
 	let inputAmountIsValid: boolean = true;
 	let inValidMessage: string = '';
 	let updatedAmountInputDirty: boolean = false;
+
+	//loading states
+	let requestConversionLoading = false;
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
@@ -66,6 +71,17 @@
 		inValidMessage = inputAmountInValidMessage(target.value);
 	};
 
+	const handleConvertRequest = async () => {
+		try {
+			requestConversionLoading = true;
+			await requestMpondConversion(inputAmount);
+			requestConversionLoading = false;
+		} catch (error) {
+			requestConversionLoading = false;
+			console.log('error:', error);
+		}
+	};
+
 	$: mpondDisabledText =
 		!!inputAmount && inputAmount.gt(0) && !!!maxMPondBalance?.gte(inputAmount)
 			? 'Insufficient MPond'
@@ -97,13 +113,14 @@
 </ModalPondInput>
 <div class="mb-5" />
 {#if $connected}
-	{#if !enableConversion}
-		<button class={styles.buttonLarge} disabled>PLACE CONVERSION REQUEST</button>
-	{:else}
-		<label for="mpond-to-pond-conversion-modal" class={styles.buttonLarge}>
-			PLACE CONVERSION REQUEST
-		</label>
-	{/if}
+	<Button
+		variant="filled"
+		size="large"
+		styleClass="w-full"
+		onclick={handleConvertRequest}
+		loading={requestConversionLoading}
+		disabled={!enableConversion}>PLACE CONVERSION REQUEST</Button
+	>
 {:else}
 	<ConnectWalletButton />
 {/if}

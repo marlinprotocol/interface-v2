@@ -9,17 +9,18 @@ export const pondToMpondTableHeader: TableModel['header'][] = [
 	{
 		title: 'POND',
 		id: 'pond',
-		tooltipText: 'Amount of Pond received'
+		tooltipText: 'The amount of POND which was placed for conversion to MPond.'
 	},
 	{
 		title: 'MPond',
 		id: 'mpond',
-		tooltipText: 'Amount of MPond converted'
+		tooltipText:
+			'The corresponding amount of MPond received as a result of the conversion from POND. Note: 1 Million POND equals 1 MPond.'
 	},
 	{
 		title: 'TX HASH',
 		id: 'txnHash',
-		tooltipText: 'Transaction hash'
+		tooltipText: 'Transaction hash of the conversion from POND to MPond.'
 	}
 ];
 
@@ -32,32 +33,33 @@ export const mpondToPondTableHeader: TableModel['header'][] = [
 	{
 		title: 'TX HASH',
 		id: 'txnHash',
-		tooltipText: 'Transaction hash'
+		tooltipText: 'Transaction hash of the conversion request from MPond to POND.'
 	},
 	{
 		title: 'MPond',
 		id: 'mpond',
-		tooltipText: 'Amount of MPond converted'
+		tooltipText: 'The amount of MPond that was placed for conversion to POND.'
 	},
 	{
 		title: 'TOTAL POND',
 		id: 'pond',
-		tooltipText: 'Amount of Pond received'
+		tooltipText:
+			'The total amount of POND to be received as a result of the conversion from MPond. Note: 1 MPond equals 1 Million POND.'
 	},
 	{
 		title: 'PENDING',
 		id: 'pending',
-		tooltipText: 'Amount of Pond received'
+		tooltipText: 'The amount of POND that is currently locked and pending conversion.'
 	},
 	{
 		title: 'IN PROCESS',
 		id: 'process',
-		tooltipText: 'Amount of Pond received'
+		tooltipText: 'The amount of POND in process for conversion.'
 	},
 	{
 		title: 'ELIGIBLE',
 		id: 'eligible',
-		tooltipText: 'Amount of Pond received'
+		tooltipText: 'The amount of POND eligible for conversion.'
 	},
 	{
 		title: '',
@@ -78,7 +80,7 @@ export const mpondConversionHistoryTableHeader: TableModel['header'][] = [
 	{
 		title: 'TX HASH',
 		id: 'txnHash',
-		tooltipText: 'Transaction hash'
+		tooltipText: 'Transaction hash of the conversion from MPond to POND.'
 	}
 ];
 

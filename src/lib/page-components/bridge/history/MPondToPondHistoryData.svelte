@@ -48,9 +48,13 @@
 		<Table tableHeading={mpondToPondTableHeader} {handleSortData}>
 			<tbody slot="tableBody">
 				{#if !!!historyData?.length}
-					<div class={tableCellClasses.empty}>
-						{'No conversion history yet. Convert MPond to POND to see your conversion history here.'}
-					</div>
+					<tr>
+						<td colspan="8">
+							<div class={tableCellClasses.empty}>
+								{'No conversion history yet. Convert MPond to POND to see your conversion history here.'}
+							</div>
+						</td>
+					</tr>
 				{:else}
 					{#each historyData as rowData, index (rowData)}
 						<MPondTableRow

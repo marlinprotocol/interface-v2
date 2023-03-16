@@ -50,9 +50,13 @@
 		<Table tableHeading={pondToMpondTableHeader} {handleSortData}>
 			<tbody slot="tableBody">
 				{#if !!!historyData?.length}
-					<div class={tableCellClasses.empty}>
-						{'No data found!'}
-					</div>
+					<tr>
+						<td colspan="4">
+							<div class={tableCellClasses.empty}>
+								{'No data found!'}
+							</div>
+						</td>
+					</tr>
 				{:else}
 					{#each historyData as row}
 						<tr>

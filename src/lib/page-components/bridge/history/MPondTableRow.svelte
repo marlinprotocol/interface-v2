@@ -20,8 +20,8 @@
 	import { BigNumber } from 'ethers';
 	import HistoryDataIconButton from '../sub-components/HistoryDataIconButton.svelte';
 	import MpondConversionCycleModal from '../modals/MpondConversionCycleModal.svelte';
-	import MpondConversionHistoryModal from './MpondConversionHistoryModal.svelte';
-	import MpondEligibleConvertModal from './MpondEligibleConvertModal.svelte';
+	import MpondConversionHistoryModal from '../modals/MpondConversionHistoryModal.svelte';
+	import MpondEligibleConvertModal from '../modals/MpondEligibleConvertModal.svelte';
 
 	export let rowData: MPondToPondHistoryDataModel;
 	export let index: number;

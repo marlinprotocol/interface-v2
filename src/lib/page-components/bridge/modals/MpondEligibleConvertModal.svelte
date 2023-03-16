@@ -1,21 +1,15 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
-	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
-	import {
-		closeModal,
-		inputAmountInValidMessage,
-		isInputAmountValid,
-		openModal
-	} from '$lib/utils/helpers/commonHelper';
+	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import { BigNumber } from 'ethers';
-	import MPondConvertModal from './MPondConvertModal.svelte';
+	import MPondFinalConversionButton from '../buttons/MPondFinalConversionButton.svelte';
 
-	export let modalFor: string;
+	export let showModal: boolean = false;
 	export let maxAmount: BigNumber;
 	export let requestEpoch: BigNumber;
 	export let handleOnSuccess: (convertedMpond: BigNumber, txnHash: string) => void;
@@ -66,7 +60,7 @@
 	};
 </script>
 
-<Modal {modalFor} onClose={resetInputs}>
+<Dialog bind:showModal onClose={resetInputs}>
 	<svelte:fragment slot="title">
 		{'Enter an amount'}
 	</svelte:fragment>
@@ -90,27 +84,17 @@
 		<ErrorTextCard showError={!!mPondDisabledText} errorMessage={mPondDisabledText} />
 	</svelte:fragment>
 	<svelte:fragment slot="action-buttons">
-		<MPondConvertModal
-			modalFor={`mpond-convert-modal-${modalFor}`}
+		<MPondFinalConversionButton
+			{inputAmount}
+			{submitEnable}
 			{requestEpoch}
-			mpondToConvert={inputAmount}
-			handleOnSuccess={(convertedMpond, txnHash) => {
-				handleOnSuccess(convertedMpond, txnHash);
+			handleOnSuccess={(txnHash) => {
+				handleOnSuccess(inputAmount, txnHash);
 				resetInputs();
-				closeModal(modalFor);
-				closeModal(`mpond-convert-modal-${modalFor}`);
+				// TODO: check these
+				// closeModal(modalFor);
+				// closeModal(`mpond-convert-modal-${modalFor}`);
 			}}
 		/>
-		<Button
-			variant="filled"
-			disabled={!submitEnable}
-			onclick={() => {
-				openModal(`mpond-convert-modal-${modalFor}`);
-			}}
-			size="large"
-			styleClass={'btn-block'}
-		>
-			PROCEED TO CONVERSION
-		</Button>
 	</svelte:fragment>
-</Modal>
+</Dialog>

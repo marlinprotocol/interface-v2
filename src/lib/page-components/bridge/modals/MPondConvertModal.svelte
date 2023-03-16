@@ -8,10 +8,10 @@
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
 
-	export let modalFor: string;
+	export let showModal: boolean = false;
 	export let requestEpoch: BigNumber;
 	export let mpondToConvert: BigNumber;
-	export let handleOnSuccess: (convertedMpond: BigNumber, txnHash: string) => void;
+	export let handleOnSuccess: (txnHash: string) => void;
 
 	const styles = {
 		text: 'text-grey-500',
@@ -36,7 +36,7 @@
 		console.log('confirm convertMPondToPond');
 		try {
 			const txn = await confirmMpondConversion(requestEpoch, mpondToConvert);
-			handleOnSuccess(mpondToConvert, txn?.hash ?? '');
+			handleOnSuccess(txn?.hash ?? '');
 		} catch (error) {
 			console.log(error);
 		}
@@ -46,7 +46,7 @@
 </script>
 
 <ApproveAndConfirmModal
-	{modalFor}
+	bind:showModal
 	{handleApproveClick}
 	{handleConfirmClick}
 	{approved}

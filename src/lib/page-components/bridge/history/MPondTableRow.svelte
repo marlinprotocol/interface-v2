@@ -9,27 +9,16 @@
 		MpondEligibleCyclesModel,
 		MPondToPondHistoryDataModel
 	} from '$lib/types/bridgeComponentType';
-	import {
-		bigNumberToCommaString,
-		epochSecToString,
-		mpondToPond,
-		pondToMpond
-	} from '$lib/utils/conversion';
+	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
 	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
-	import { openModal } from '$lib/utils/helpers/commonHelper';
 	import { BigNumber } from 'ethers';
+	import MPondConversionCycleButton from '../buttons/MPondConversionCycleButton.svelte';
+	import MPondConversionHistoryButton from '../buttons/MPondConversionHistoryButton.svelte';
+	import MPondConvertOpenButton from '../buttons/MPondConvertOpenButton.svelte';
 	import HistoryDataIconButton from '../sub-components/HistoryDataIconButton.svelte';
-	import MpondConversionCycleModal from '../modals/MpondConversionCycleModal.svelte';
-	import MpondConversionHistoryModal from '../modals/MpondConversionHistoryModal.svelte';
-	import MpondEligibleConvertModal from '../modals/MpondEligibleConvertModal.svelte';
 
 	export let rowData: MPondToPondHistoryDataModel;
-	export let index: number;
 	export let handleUpdateData: (rowData: MPondToPondHistoryDataModel) => void;
-
-	let showModal: boolean = false;
-	let showHistoryModal: boolean = false;
-	let showConvertModal: boolean = false;
 
 	const getTimerEpoch = (
 		currentCycle: number,
@@ -66,51 +55,37 @@
 
 <tr>
 	<TableDataWithButton>
-		<div slot="line1">
+		<svelte:fragment slot="line1">
 			{epochSecToString(timestamp)}
-		</div>
+		</svelte:fragment>
 	</TableDataWithButton>
 	<TableDataWithButton>
-		<div slot="line1">
+		<svelte:fragment slot="line1">
 			<TxnHashText txnHash={transactionHash} txnHashUrl={bridgeTxnUrls(transactionHash)} />
-		</div>
+		</svelte:fragment>
 	</TableDataWithButton>
 	<TableDataWithButton>
-		<div slot="line1">
+		<svelte:fragment slot="line1">
 			{bigNumberToCommaString(mpondAmount, 8)}
-		</div>
+		</svelte:fragment>
 	</TableDataWithButton>
 	<TableDataWithButton>
-		<div slot="line1">
+		<svelte:fragment slot="line1">
 			{bigNumberToCommaString(pondAmount, 3)}
-		</div>
+		</svelte:fragment>
 	</TableDataWithButton>
 	<TableDataWithButton>
-		<div slot="line1">
+		<svelte:fragment slot="line1">
 			{bigNumberToCommaString(pondPending, 3)}
-		</div>
-		<div slot="line2">
-			<Button
-				variant="text"
-				styleClass={buttonClasses.convertButton}
-				onclick={() => {
-					showModal = true;
-				}}
-			>
-				<HistoryDataIconButton src={'/images/cycleimg.svg'} text={'See cycle'} />
-			</Button>
-			<MpondConversionCycleModal
-				cycles={eligibleCycles}
-				bind:showModal
-				{endEpochTime}
-				{currentCycle}
-			/>
-		</div>
+		</svelte:fragment>
+		<svelte:fragment slot="line2">
+			<MPondConversionCycleButton {eligibleCycles} {endEpochTime} {currentCycle} />
+		</svelte:fragment>
 	</TableDataWithButton>
 	<TableDataWithButton>
-		<div slot="line1">
+		<svelte:fragment slot="line1">
 			{bigNumberToCommaString(pondInProcess, 3)}
-		</div>
+		</svelte:fragment>
 		<Timer
 			slot="line2"
 			{endEpochTime}
@@ -144,78 +119,18 @@
 		</Timer>
 	</TableDataWithButton>
 	<TableDataWithButton>
-		<div slot="line1">
+		<svelte:fragment slot="line1">
 			{bigNumberToCommaString(pondEligible, 3)}
-		</div>
-		<div slot="line2">
-			<MpondConversionHistoryModal
-				conversions={conversionHistory}
-				modalFor={`mpond-conversion-history-modal-${index}`}
-			/>
-			{#if !conversionHistory?.length}
-				<HistoryDataIconButton
-					variant={'disabled'}
-					src={'/images/historyicon.svg'}
-					imgWidth={14}
-					text={'History'}
-					disabled={true}
-					styleClass={'mt-2'}
-				/>
-			{:else}
-				<Button
-					variant={'text'}
-					styleClass={buttonClasses.convertButton}
-					onclick={() => {
-						openModal(`mpond-conversion-history-modal-${index}`);
-					}}
-				>
-					<HistoryDataIconButton
-						variant={'primary'}
-						src={'/images/historyicon.svg'}
-						imgWidth={14}
-						text={'History'}
-					/>
-				</Button>
-			{/if}
-		</div>
+		</svelte:fragment>
+		<svelte:fragment slot="line2">
+			<MPondConversionHistoryButton {conversionHistory} />
+		</svelte:fragment>
 	</TableDataWithButton>
 	<TableDataWithButton>
-		<div slot="line1">
-			<MpondEligibleConvertModal
-				maxAmount={pondToMpond(pondEligible)}
-				{requestEpoch}
-				modalFor={`mpond-eligible-convert-modal-${index}`}
-				handleOnSuccess={(convertedMpond, txnHash) => {
-					const convertedPond = mpondToPond(convertedMpond);
-					const updatedData = {
-						...rowData,
-						pondEligible: pondEligible.sub(convertedPond),
-						mpondConverted: mpondConverted.add(convertedMpond),
-						conversionHistory: [
-							...conversionHistory,
-							{
-								id: txnHash,
-								transactionHash: txnHash,
-								mpondToConvert: convertedMpond,
-								timestamp: Math.floor(Date.now() / 1000)
-							}
-						]
-					};
-					handleUpdateData(updatedData);
-				}}
-			/>
-			<Button
-				disabled={!pondEligible.gt(0)}
-				variant="filled"
-				styleClass={buttonClasses.convertButton}
-				onclick={() => {
-					// openModal(`mpond-eligible-convert-modal-${index}`);
-				}}
-			>
-				CONVERT
-			</Button>
-		</div>
-		<div slot="line2">
+		<svelte:fragment slot="line1">
+			<MPondConvertOpenButton {rowData} {handleUpdateData} />
+		</svelte:fragment>
+		<svelte:fragment slot="line2">
 			<Button
 				variant={'text'}
 				styleClass={buttonClasses.convertButton}
@@ -229,7 +144,7 @@
 					tooltipText={'Cancel current MPond conversion requests in process. Users who want the updated MPond conversion parameters to take immediate effect may cancel the current conversion request and place a new conversion request.'}
 				/>
 			</Button>
-		</div>
+		</svelte:fragment>
 	</TableDataWithButton>
 </tr>
 

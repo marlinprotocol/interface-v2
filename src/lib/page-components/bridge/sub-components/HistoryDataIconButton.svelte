@@ -24,7 +24,7 @@
 		<ImageColored {src} {variant} width={imgWidth} />
 	{/if}
 	{#if !!text}
-		<Text {text} variant="tiny" fontWeight={'medium'} styleClass="mt-0.5" />
+		<Text {text} variant="tiny" fontWeight={'medium'} />
 	{/if}
 	{#if !!tooltipText}
 		<Tooltip {tooltipText} styleClass="text-left">

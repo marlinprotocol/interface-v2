@@ -23,8 +23,9 @@
 	}
 
 	.line2 {
+		padding-top: 10px;
 		height: 18px;
 		display: flex;
-		align-items: s;
+		align-items: center;
 	}
 </style>

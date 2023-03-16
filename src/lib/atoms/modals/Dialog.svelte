@@ -52,3 +52,26 @@
 		<slot name="action-buttons" />
 	</div>
 </dialog>
+
+<style>
+	/* background color */
+	dialog::backdrop {
+		background-color: rgba(1, 3, 36, 0.8);
+	}
+	/* animation */
+	dialog[open] {
+		animation: fade 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	dialog[open]::backdrop {
+		animation: fade 0.3s ease-out;
+	}
+	@keyframes fade {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+</style>

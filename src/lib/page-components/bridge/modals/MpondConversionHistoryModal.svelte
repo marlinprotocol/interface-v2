@@ -3,7 +3,7 @@
 	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
 	import TxnHashText from '$lib/components/TxnHashText.svelte';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
-	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
+	import { bigNumberToCommaString, epochSecToString, mpondToPond } from '$lib/utils/conversion';
 	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
 
 	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];
@@ -12,12 +12,11 @@
 
 	const heading = [
 		{
-			title: 'DATE',
-			tooltipText: 'The date of the conversion.'
+			title: 'DATE'
 		},
 		{
-			title: 'AMOUNT',
-			tooltipText: 'The amount of MPOND converted.'
+			title: 'CONVERTED',
+			tooltipText: 'The amount of POND converted.'
 		},
 		{
 			title: 'TX HASH',
@@ -47,15 +46,15 @@
 				</div>
 			{/each}
 		</div>
-		{#each conversions as rowData, i}
-			<div class="flex flex-row gap-4 items-center justify-center">
-				<div class="w-full">
+		{#each conversions as rowData}
+			<div class="flex flex-row gap-4 items-center justify-center mb-6">
+				<div class="flex-1">
 					{epochSecToString(rowData?.timestamp)}
 				</div>
-				<div class="w-full">
-					{bigNumberToCommaString(rowData?.mpondToConvert)}
+				<div class="flex-1">
+					{bigNumberToCommaString(mpondToPond(rowData?.mpondToConvert))}
 				</div>
-				<div class="w-full">
+				<div class="flex-1">
 					<TxnHashText
 						txnHash={rowData.transactionHash}
 						txnHashUrl={bridgeTxnUrls(rowData.transactionHash)}

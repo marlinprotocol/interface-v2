@@ -10,10 +10,10 @@
 
 	setInterval(() => {
 		if ($timer > 0) {
+			if ($timer === 1) {
+				onTimerEnd();
+			}
 			$timer--;
-		}
-		if ($timer === 1) {
-			onTimerEnd();
 		}
 	}, 1000);
 </script>

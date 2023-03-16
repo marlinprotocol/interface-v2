@@ -21,6 +21,7 @@ export const getModifiedMpondToPondHistory = (
 	// const _epochLength = Number(epochLength);
 
 	// Intervals at which pending mpond is released
+	// const _liqudityReleaseEpochs = 803; //for testing
 	const _liqudityReleaseEpochs = Number(liqudityReleaseEpochs);
 	const _liquidityBP = Number(liquidityBP);
 
@@ -106,7 +107,7 @@ export const getModifiedMpondToPondHistory = (
 		const netPendingPond = pondAmountBN.sub(currentEligiblePond).sub(currentPondInProcess);
 
 		// filter the conversion history for the current request
-		const conversionHistory = mpondToPondConversions
+		let conversionHistory = mpondToPondConversions
 			.filter((conversion) => conversion.requestData.id === id)
 			?.map((conversion) => {
 				return {
@@ -116,6 +117,8 @@ export const getModifiedMpondToPondHistory = (
 					timestamp: Number(conversion.timestamp)
 				};
 			});
+
+		conversionHistory = conversionHistory.sort((a, b) => b.timestamp - a.timestamp);
 
 		return {
 			id,

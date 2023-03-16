@@ -25,7 +25,7 @@ export const dividerClasses = {
 
 export const tableCellClasses = {
 	heading: 'text-primary text-sm font-semibold px-2 py-6',
-	row: 'font-semibold text-sm px-2',
+	row: 'font-semibold text-sm px-2 py-3',
 	rowWithIcon: 'flex flex-col items-center justify-start',
 	empty: 'text-base text-center p-4 w-full'
 };

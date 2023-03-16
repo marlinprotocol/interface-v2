@@ -42,7 +42,6 @@
 		pondInProcess,
 		pondEligible,
 		conversionHistory,
-		mpondConverted,
 		requestEpoch
 	} = rowData ?? {};
 	const endEpochTime = getTimerEpoch(currentCycle, eligibleCycles);

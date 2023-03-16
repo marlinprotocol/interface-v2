@@ -4,12 +4,24 @@
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import type { MpondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
 	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
+	import TableHeadingText from '../../../components/texts/TableHeadingText.svelte';
 
 	export let cycles: MpondEligibleCyclesModel[];
 	export let endEpochTime: number;
 	export let currentCycle: number;
 
 	export let showDialog: boolean = false;
+
+	const heading = [
+		{
+			title: 'ELIGIBLE / PENDING',
+			tooltipText: 'The amount of POND that is eligible/pending for conversion.'
+		},
+		{
+			title: 'TIMESTAMP',
+			tooltipText: 'When POND is eligible for conversion.'
+		}
+	];
 </script>
 
 <Dialog bind:showDialog>
@@ -17,8 +29,24 @@
 		{'Conversion Cycle'}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
+		<div class="flex flex-row w-full">
+			{#each heading as headingData, i}
+				<div class="flex-1">
+					<TableHeadingText
+						styleClass="mb-8"
+						title={headingData.title}
+						tooltipText={headingData.tooltipText}
+						tooltipDirection={i === heading.length - 1
+							? 'tooltip-left'
+							: i === 0
+							? 'tooltip-right'
+							: 'tooltip-bottom'}
+					/>
+				</div>
+			{/each}
+		</div>
 		<div class="flex flex-row gap-4 w-full mx-auto">
-			<div class="w-full mx-auto">
+			<div class="flex-1">
 				<div class="flex flex-col align-center w-fit mx-auto">
 					{#each cycles as rowData, i}
 						<div class="flex flex-row gap-4  h-[50px]">
@@ -36,17 +64,15 @@
 									<div class="h-full w-[0.1px] bg-grey-400" />
 								{/if}
 							</div>
-							<h1>
-								{`${bigNumberToCommaString(rowData?.totalEligible, 3)}/${bigNumberToCommaString(
-									rowData?.netPending,
-									3
-								)}`}
-							</h1>
+							{`${bigNumberToCommaString(rowData?.totalEligible, 3)}/${bigNumberToCommaString(
+								rowData?.netPending,
+								3
+							)}`}
 						</div>
 					{/each}
 				</div>
 			</div>
-			<div class="w-full mx-auto">
+			<div class="flex-1">
 				<div class="flex flex-col align-center w-fit mx-auto">
 					{#each cycles as rowData, i}
 						<div class="flex flex-row gap-2 h-[50px] items-start justify-center">

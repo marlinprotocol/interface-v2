@@ -21,10 +21,12 @@
 	let loading = true;
 	const unsubscribeWalletStore: Unsubscriber = walletStore.subscribe(async (value: WalletStore) => {
 		address = value.address;
-		loading = true;
-		historyData = await getPondToMPondConversionHistory(address);
-		historyData = historyData?.sort((a, b) => b.timestamp - a.timestamp);
-		loading = false;
+		if (!!address) {
+			loading = true;
+			historyData = await getPondToMPondConversionHistory(address);
+			historyData = historyData?.sort((a, b) => b.timestamp - a.timestamp);
+			loading = false;
+		}
 	});
 	onDestroy(unsubscribeWalletStore);
 
@@ -49,11 +51,7 @@
 	{:else}
 		<Table tableHeading={pondToMpondTableHeader} {handleSortData}>
 			<tbody slot="tableBody">
-				{#if !!!historyData?.length}
-					<div class={tableCellClasses.empty}>
-						{'No data found!'}
-					</div>
-				{:else}
+				{#if !!historyData?.length}
 					{#each historyData as row}
 						<tr>
 							<td class={tableCellClasses.row}>{epochSecToString(row.timestamp)}</td>
@@ -70,5 +68,10 @@
 				{/if}
 			</tbody>
 		</Table>
+		{#if !!!historyData?.length}
+			<div class={tableCellClasses.empty}>
+				{'No data found!'}
+			</div>
+		{/if}
 	{/if}
 </div>

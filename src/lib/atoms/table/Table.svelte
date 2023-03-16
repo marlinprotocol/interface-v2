@@ -1,4 +1,5 @@
 <script lang="ts">
+	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
 	import type { TableModel } from '$lib/types/componentTypes';
 	import { tableCellClasses } from '../componentClasses';
 	import TooltipIcon from '../tooltips/TooltipIcon.svelte';
@@ -19,16 +20,7 @@
 								<img src="/images/sort.svg" alt="sort" width="14px" />
 							</button>
 						{/if}
-						{columnHeading.title}
-						{#if !!columnHeading.tooltipText}
-							<TooltipIcon
-								iconWidth={16}
-								styleClass="ml-1"
-								iconSrc="/images/alert.svg"
-								tooltipText={columnHeading.tooltipText}
-								tooltipDirection="tooltip-bottom"
-							/>
-						{/if}
+						<TableHeadingText title={columnHeading.title} tooltipText={columnHeading.tooltipText} />
 					</div>
 				</th>
 			{/each}

@@ -6,7 +6,7 @@ import type {
 	MpondToPondRequestModel
 } from '$lib/types/bridgeComponentType';
 import { BigNumber } from 'ethers';
-import { bigNumberToString, mpondToPond } from '../conversion';
+import { mpondToPond } from '../conversion';
 import { BigNumberUtils } from './bigNumberUtils';
 
 export const getModifiedMpondToPondHistory = (

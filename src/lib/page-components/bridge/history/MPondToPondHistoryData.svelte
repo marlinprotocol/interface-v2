@@ -19,10 +19,12 @@
 	let loading = true;
 	const unsubscribeWalletStore: Unsubscriber = walletStore.subscribe(async (value: WalletStore) => {
 		address = value.address;
-		loading = true;
-		historyData = await getMPondToPondConversionHistory(address);
-		historyData = historyData?.sort((a, b) => b.timestamp - a.timestamp);
-		loading = false;
+		if (!!address) {
+			loading = true;
+			historyData = await getMPondToPondConversionHistory(address);
+			historyData = historyData?.sort((a, b) => b.timestamp - a.timestamp);
+			loading = false;
+		}
 	});
 	onDestroy(unsubscribeWalletStore);
 
@@ -47,15 +49,10 @@
 	{:else}
 		<Table tableHeading={mpondToPondTableHeader} {handleSortData}>
 			<tbody slot="tableBody">
-				{#if !!!historyData?.length}
-					<div class={tableCellClasses.empty}>
-						{'No conversion history yet. Convert MPond to POND to see your conversion history here.'}
-					</div>
-				{:else}
+				{#if !!historyData?.length}
 					{#each historyData as rowData, index (rowData)}
 						<MPondTableRow
 							{rowData}
-							{index}
 							handleUpdateData={(updatedRow) => {
 								historyData = [
 									...(historyData ?? []).slice(0, index),
@@ -68,5 +65,10 @@
 				{/if}
 			</tbody>
 		</Table>
+		{#if !!!historyData?.length}
+			<div class={tableCellClasses.empty}>
+				{'No data found!'}
+			</div>
+		{/if}
 	{/if}
 </div>

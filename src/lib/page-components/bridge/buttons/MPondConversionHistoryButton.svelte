@@ -12,14 +12,14 @@
 
 <MpondConversionHistoryModal conversions={conversionHistory} bind:showDialog />
 {#if !conversionHistory?.length}
-	<HistoryDataIconButton
-		variant={'disabled'}
-		src={'/images/historyicon.svg'}
-		imgWidth={14}
-		text={'History'}
-		disabled={true}
-		styleClass={'mt-2'}
-	/>
+	<div class="mt-2">
+		<HistoryDataIconButton
+			variant={'disabled'}
+			src={'/images/historyicon.svg'}
+			text={'History'}
+			disabled={true}
+		/>
+	</div>
 {:else}
 	<Button
 		variant={'text'}

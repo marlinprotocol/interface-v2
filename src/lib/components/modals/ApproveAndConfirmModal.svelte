@@ -54,15 +54,19 @@
 						<Text variant="small" styleClass="font-semibold" text={'1'} />
 					</LoadingAnimatedPing>
 				{/if}
-				<slot name="approveText" />
+				<div class={`text-grey-800`}>
+					<slot name="approveText" />
+				</div>
 			</div>
 		{/if}
-		{#if $$slots.confirmText && approved}
-			<div class="flex gap-5 mt-5">
+		{#if $$slots.confirmText}
+			<div class={`flex gap-5 mt-5`}>
 				<LoadingAnimatedPing loading={confirmLoading}>
 					<Text variant="small" styleClass="font-semibold" text={'2'} />
 				</LoadingAnimatedPing>
-				<slot name="confirmText" />
+				<div class={`${approved ? 'text-grey-800' : 'text-grey-300'}`}>
+					<slot name="confirmText" />
+				</div>
 			</div>
 		{/if}
 	</svelte:fragment>

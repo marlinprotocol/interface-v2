@@ -2,15 +2,15 @@
 	export let loading: boolean = false;
 	export let hasPadding: boolean = false;
 
-	const width = hasPadding ? '24' : '20';
-
 	const styles = {
-		baseStyle: `mt-0.5 w-[${width}px] h-[${width}px] rounded-3xl flex justify-center text-white`,
+		baseStyle: `mt-0.5 ${
+			hasPadding ? 'w-6 h-6' : 'w-5 h-5'
+		}  rounded-3xl flex justify-center text-white`,
 		loadingBackground:
 			'animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75',
 		loadingText: `relative inline-flex rounded-full ${
-			hasPadding ? 'p-[3px]' : ''
-		} w-[${width}px] h-[${width}px] bg-orange-400 text-center flex justify-center text-sm`
+			hasPadding ? 'p-[3px] w-6 h-6' : 'w-5 h-5'
+		} bg-orange-400 text-center flex justify-center text-sm`
 	};
 </script>
 

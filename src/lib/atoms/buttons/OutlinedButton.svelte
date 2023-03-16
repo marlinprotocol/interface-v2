@@ -2,10 +2,12 @@
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 
 	export let onclick: (() => void) | undefined = undefined;
+	export let disabled: boolean = false;
+	export let loading: boolean = false;
 	export let styleClass: string = '';
-	$: buttonClass = `${buttonClasses.outlined} ${styleClass}`;
+	$: buttonClass = `${buttonClasses.outlined} ${styleClass} ${loading ? 'loading' : ''}`;
 </script>
 
-<button on:click|preventDefault={onclick} class={buttonClass}>
+<button on:click|preventDefault={onclick} class={buttonClass} {disabled}>
 	<slot />
 </button>

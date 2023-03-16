@@ -1,6 +1,5 @@
 <script lang="ts">
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
-	import { getBridgeContractDetails } from '$lib/controllers/contractController';
 	import {
 		getPondAndMpondBridgeAllowances,
 		getRequestedMPondForConversion
@@ -10,11 +9,6 @@
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import BridgeDashboard from '$lib/page-components/bridge/BridgeDashboard.svelte';
-	import { onMount } from 'svelte';
-
-	onMount(async () => {
-		await getBridgeContractDetails();
-	});
 
 	async function init() {
 		const allowances = await getPondAndMpondBridgeAllowances(

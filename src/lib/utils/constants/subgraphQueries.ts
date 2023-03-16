@@ -89,7 +89,6 @@ export const QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES = `query PondMpondDet
   ) {   
     value
   }
-  
 }`;
 
 export const QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION = `query User($address: String) {

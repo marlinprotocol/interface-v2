@@ -12,7 +12,7 @@
 
 <MpondConversionHistoryModal conversions={conversionHistory} bind:showModal />
 {#if !conversionHistory?.length}
-	<Button variant={'outlined'} disabled styleClass="border-none pointer-events-none">
+	<Button variant={'outlined'} styleClass="border-none pointer-events-none">
 		<HistoryDataIconButton
 			variant={'disabled'}
 			src={'/images/historyicon.svg'}

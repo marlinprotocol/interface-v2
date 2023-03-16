@@ -1,14 +1,14 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
-	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import { disconnectWallet } from '$lib/controllers/walletController';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
 
-	const modalFor = 'disconnect-wallet-modal';
+	export let showDialog: boolean = false;
 	$: blockChainExplorerLink = `https://arbiscan.io/address/${$walletStore.address}`;
 
 	const onCopyAddress = () => {
@@ -20,7 +20,7 @@
 	};
 </script>
 
-<Modal {modalFor}>
+<Dialog bind:showDialog>
 	<svelte:fragment slot="title">Your wallet</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="rounded-lg p-4 bg-base-200 text-left mb-4">
@@ -58,4 +58,4 @@
 			styleClass={'w-full font-semibold text-base'}>LOGOUT</Button
 		>
 	</svelte:fragment>
-</Modal>
+</Dialog>

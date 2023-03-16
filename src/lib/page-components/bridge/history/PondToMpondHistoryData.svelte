@@ -21,10 +21,12 @@
 	let loading = true;
 	const unsubscribeWalletStore: Unsubscriber = walletStore.subscribe(async (value: WalletStore) => {
 		address = value.address;
-		loading = true;
-		historyData = await getPondToMPondConversionHistory(address);
-		historyData = historyData?.sort((a, b) => b.timestamp - a.timestamp);
-		loading = false;
+		if (!!address) {
+			loading = true;
+			historyData = await getPondToMPondConversionHistory(address);
+			historyData = historyData?.sort((a, b) => b.timestamp - a.timestamp);
+			loading = false;
+		}
 	});
 	onDestroy(unsubscribeWalletStore);
 
@@ -74,5 +76,10 @@
 				{/if}
 			</tbody>
 		</Table>
+		{#if !!!historyData?.length}
+			<div class={tableCellClasses.empty}>
+				{'No data found!'}
+			</div>
+		{/if}
 	{/if}
 </div>

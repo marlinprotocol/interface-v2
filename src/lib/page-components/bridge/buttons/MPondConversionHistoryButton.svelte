@@ -7,10 +7,10 @@
 
 	export let conversionHistory: MPondToPondHistoryDataModel['conversionHistory'];
 
-	let showModal: boolean = false;
+	let showDialog: boolean = false;
 </script>
 
-<MpondConversionHistoryModal conversions={conversionHistory} bind:showModal />
+<MpondConversionHistoryModal conversions={conversionHistory} bind:showDialog />
 {#if !conversionHistory?.length}
 	<Button variant={'outlined'} styleClass="border-none pointer-events-none">
 		<HistoryDataIconButton
@@ -26,7 +26,7 @@
 		variant={'text'}
 		styleClass={buttonClasses.convertButton}
 		onclick={() => {
-			showModal = true;
+			showDialog = true;
 		}}
 	>
 		<HistoryDataIconButton

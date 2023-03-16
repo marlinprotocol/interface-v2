@@ -12,7 +12,7 @@
 		{
 			title: 'Bridge',
 			href: '/bridge',
-			openInNewTab: true
+			openInNewTab: false
 		}
 	];
 </script>

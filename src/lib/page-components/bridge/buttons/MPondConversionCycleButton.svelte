@@ -9,16 +9,16 @@
 	export let endEpochTime: number;
 	export let currentCycle: number;
 
-	let showModal: boolean = false;
+	let showDialog: boolean = false;
 </script>
 
 <Button
 	variant="text"
 	styleClass={buttonClasses.convertButton}
 	onclick={() => {
-		showModal = true;
+		showDialog = true;
 	}}
 >
 	<HistoryDataIconButton src={'/images/cycleimg.svg'} text={'See cycle'} />
 </Button>
-<MpondConversionCycleModal cycles={eligibleCycles} bind:showModal {endEpochTime} {currentCycle} />
+<MpondConversionCycleModal cycles={eligibleCycles} bind:showDialog {endEpochTime} {currentCycle} />

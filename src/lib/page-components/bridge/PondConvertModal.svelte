@@ -9,11 +9,10 @@
 	import type { BigNumber } from 'ethers';
 
 	export let pond: BigNumber;
+	export let showDialog: boolean = false;
 
-	const modalFor = 'pond-to-mpond-conversion-modal';
 	const styles = {
-		text: 'text-grey-500',
-		highlight: 'text-secondary font-bold'
+		highlight: 'font-semibold'
 	};
 
 	const handleApproveClick = async () => {
@@ -45,22 +44,21 @@
 </script>
 
 <ApproveAndConfirmModal
-	{modalFor}
+	bind:showDialog
 	{handleApproveClick}
 	{handleConfirmClick}
 	{approved}
 	confirmButtonText={'CONVERT'}
 >
-	<div slot="approveText" class={styles.text}>
+	<div slot="approveText">
 		<span>{'Approve'}</span>
 		<span class={styles.highlight}>{`${bigNumberToCommaString(pond)} POND`}</span>
 		<span>{'for conversion'}</span>
 	</div>
-	<div slot="confirmText" class={styles.text}>
+	<div slot="confirmText">
 		<span>{'Convert'}</span>
 		<span class={styles.highlight}>{`${bigNumberToCommaString(pond)} POND`}</span>
 		<span>{'to'}</span>
-		<!-- TODO: check decimals and precision -->
 		<span class={styles.highlight}>{`${bigNumberToCommaString(mpond, 6)} MPond`}</span>
 	</div>
 </ApproveAndConfirmModal>

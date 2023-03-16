@@ -326,8 +326,7 @@ export async function getMPondToPondConversionHistory(address: Address) {
 
 	try {
 		const result = await fetchHttpData(url, options);
-
-		if (!!!result['data']?.users?.length) return undefined;
+		if (!!!result['data']?.users?.length || !!!result['data']?.states?.length) return undefined;
 		const user = result['data']['users'][0];
 		const state = result['data']['states'][0];
 		if (!!!user || !!!state) return undefined;

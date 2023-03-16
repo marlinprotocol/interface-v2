@@ -1,11 +1,11 @@
 <script lang="ts">
 	export let modalWidth: string = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
 	export let onClose: () => void = () => {};
-	export let showModal: boolean; // boolean
+	export let showDialog: boolean; // boolean
 
 	let dialog: HTMLDialogElement; // HTMLDialogElement
 
-	$: if (dialog && showModal) dialog.showModal();
+	$: if (dialog && showDialog) dialog.showModal();
 
 	const styles = {
 		header: 'text-[15px] text-[#0a0e3099] text-left font-medium',
@@ -19,7 +19,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <dialog
 	bind:this={dialog}
-	on:close={() => (showModal = false)}
+	on:close={() => (showDialog = false)}
 	on:click|self={() => dialog.close()}
 	class={`${modalWidth} modal-box rounded-lg p-6 bg-base-100 shadow-none`}
 >
@@ -52,3 +52,26 @@
 		<slot name="action-buttons" />
 	</div>
 </dialog>
+
+<style>
+	/* background color */
+	dialog::backdrop {
+		background-color: rgba(1, 3, 36, 0.8);
+	}
+	/* animation */
+	dialog[open] {
+		animation: fade 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	dialog[open]::backdrop {
+		animation: fade 0.3s ease-out;
+	}
+	@keyframes fade {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+</style>

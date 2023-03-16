@@ -10,7 +10,10 @@
 	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { addToast } from '$lib/data-stores/toastStore';
+	import SignerAddressModal from './SignerAddressModal.svelte';
+	import Button from '$lib/atoms/buttons/Button.svelte';
 
+	let showDialog = false;
 	const tooltipText =
 		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';
 	const title = 'Signer Address';
@@ -48,9 +51,15 @@
 			/>
 
 			{#if $connected}
-				<label for="signer-address-modal">
+				<SignerAddressModal bind:showDialog />
+				<Button
+					variant="text"
+					onclick={() => {
+						showDialog = true;
+					}}
+				>
 					<Icon data={edit} size={18} />
-				</label>
+				</Button>
 			{:else}
 				<button
 					type="button"

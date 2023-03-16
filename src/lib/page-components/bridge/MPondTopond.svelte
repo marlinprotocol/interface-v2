@@ -3,8 +3,8 @@
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import ConnectWalletButton from '$lib/components/buttons/ConnectWalletButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
+	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { requestMpondConversion } from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
@@ -128,5 +128,5 @@
 		disabled={!enableConversion}>PLACE CONVERSION REQUEST</Button
 	>
 {:else}
-	<ConnectWalletButton />
+	<ConnectWalletButton isLarge={true} />
 {/if}

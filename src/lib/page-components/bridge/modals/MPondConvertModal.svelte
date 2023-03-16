@@ -5,17 +5,16 @@
 		confirmMpondConversion
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
-	import { bigNumberToCommaString } from '$lib/utils/conversion';
+	import { bigNumberToCommaString, bigNumberToString, mpondToPond } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
 
-	export let showModal: boolean = false;
+	export let showDialog: boolean = false;
 	export let requestEpoch: BigNumber;
 	export let mpondToConvert: BigNumber;
 	export let handleOnSuccess: (txnHash: string) => void;
 
 	const styles = {
-		text: 'text-grey-500',
-		highlight: 'text-secondary font-bold'
+		highlight: 'font-bold'
 	};
 
 	const handleApproveClick = async () => {
@@ -46,22 +45,23 @@
 </script>
 
 <ApproveAndConfirmModal
-	bind:showModal
+	bind:showDialog
 	{handleApproveClick}
 	{handleConfirmClick}
 	{approved}
 	confirmButtonText={'CONVERT'}
 >
-	<div slot="approveText" class={styles.text}>
+	<div slot="approveText">
 		<span>{'Approve'}</span>
 		<span class={styles.highlight}>{`${bigNumberToCommaString(mpondToConvert, 8)} MPond`}</span>
 		<span>{'for conversion'}</span>
 	</div>
-	<div slot="confirmText" class={styles.text}>
+	<div slot="confirmText">
 		<span>{'Convert'}</span>
 		<span class={styles.highlight}>{`${bigNumberToCommaString(mpondToConvert, 8)} MPond`}</span>
 		<span>{'to'}</span>
-		<!-- TODO: check decimals and precision -->
-		<span class={styles.highlight}>{`${bigNumberToCommaString(mpondToConvert, 8)} MPond`}</span>
+		<span class={styles.highlight}>
+			{`${bigNumberToCommaString(mpondToPond(mpondToConvert), 2)} Pond`}
+		</span>
 	</div>
 </ApproveAndConfirmModal>

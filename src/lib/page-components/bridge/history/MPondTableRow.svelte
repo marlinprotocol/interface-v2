@@ -42,7 +42,6 @@
 		pondInProcess,
 		pondEligible,
 		conversionHistory,
-		mpondConverted,
 		requestEpoch
 	} = rowData ?? {};
 	const endEpochTime = getTimerEpoch(currentCycle, eligibleCycles);
@@ -90,9 +89,6 @@
 			slot="line2"
 			{endEpochTime}
 			onTimerEnd={() => {
-				// pondInProcess pond will add to pondEligible
-				// pondInProcess will become 0 if pondPending is equal to pondInProcess.
-				// Timer will reset if pondInProcess
 				const updatedData = {
 					...rowData,
 					pondPending:

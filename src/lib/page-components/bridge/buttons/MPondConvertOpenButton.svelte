@@ -10,13 +10,13 @@
 
 	const { pondEligible, conversionHistory, mpondConverted, requestEpoch } = rowData;
 
-	let showModal: boolean = false;
+	let showDialog: boolean = false;
 </script>
 
 <MpondEligibleConvertModal
 	maxAmount={pondToMpond(pondEligible)}
 	{requestEpoch}
-	bind:showModal
+	bind:showDialog
 	handleOnSuccess={(convertedMpond, txnHash) => {
 		const convertedPond = mpondToPond(convertedMpond);
 		const updatedData = {
@@ -41,7 +41,7 @@
 	variant="filled"
 	styleClass={buttonClasses.convertButton}
 	onclick={() => {
-		showModal = true;
+		showDialog = true;
 	}}
 >
 	CONVERT

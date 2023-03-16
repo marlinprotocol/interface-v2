@@ -3,12 +3,14 @@
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import ConnectWalletButton from '$lib/components/buttons/ConnectWalletButton.svelte';
+	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import StakedData from '$lib/page-components/receiver-staking/StakedData.svelte';
 	import StakeModal from '$lib/page-components/receiver-staking/StakeModal.svelte';
 	import UnstakeModal from '$lib/page-components/receiver-staking/UnstakeModal.svelte';
+	import StakeButton from './buttons/StakeButton.svelte';
+	import UnstakeButton from './buttons/UnstakeButton.svelte';
 
 	const styles = {
 		buttonsGroup: 'flex gap-4 items-center justify-center w-full',
@@ -27,30 +29,15 @@
 	{#if $connected}
 		<div class={styles.buttonsGroup}>
 			<div class={styles.buttonWrapper}>
-				<label for="stake-modal" class={`${buttonClasses.filled} ${styles.buttonLarge} w-full`}
-					>STAKE</label
-				>
+				<StakeButton />
 			</div>
 
 			<div class={styles.buttonWrapper}>
-				{#if validBalance}
-					<label
-						for="unstake-modal"
-						class={`${buttonClasses.outlined} ${styles.buttonLarge} w-full`}>UNSTAKE</label
-					>
-				{:else}
-					<div
-						class={`${buttonClasses.outlined} ${styles.buttonLarge} w-full btn-disabled opacity-60`}
-					>
-						UNSTAKE
-					</div>
-				{/if}
+				<UnstakeButton disabled={!validBalance} />
 			</div>
 		</div>
-		<StakeModal />
-		<UnstakeModal />
 	{:else}
-		<ConnectWalletButton />
+		<ConnectWalletButton isLarge={true} />
 	{/if}
 </ContainerCard>
 <InfoButtonLink href="https://docs.marlin.org" text="Documentation" />

@@ -9,10 +9,10 @@
 	export let endEpochTime: number;
 	export let currentCycle: number;
 
-	export let showModal: boolean = false;
+	export let showDialog: boolean = false;
 </script>
 
-<Dialog bind:showModal>
+<Dialog bind:showDialog>
 	<svelte:fragment slot="title">
 		{'Conversion Cycle'}
 	</svelte:fragment>

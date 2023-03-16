@@ -7,6 +7,6 @@
 	$: buttonClass = `${buttonClasses.lightblueFilled}  ${loading ? 'loading' : ''} ${styleClass}`;
 </script>
 
-<button {disabled} on:click|preventDefault|self={onclick} class={buttonClass}>
+<button {disabled} on:click={onclick} class={buttonClass}>
 	<slot />
 </button>

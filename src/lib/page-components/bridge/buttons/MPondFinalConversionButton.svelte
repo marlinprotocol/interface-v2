@@ -8,15 +8,15 @@
 	export let handleOnSuccess: (txnHash: string) => void;
 	export let requestEpoch: BigNumber;
 
-	let showModal: boolean = false;
+	let showDialog: boolean = false;
 </script>
 
-<MPondConvertModal bind:showModal {requestEpoch} mpondToConvert={inputAmount} {handleOnSuccess} />
+<MPondConvertModal bind:showDialog {requestEpoch} mpondToConvert={inputAmount} {handleOnSuccess} />
 <Button
 	variant="filled"
 	disabled={!submitEnable}
 	onclick={() => {
-		showModal = true;
+		showDialog = true;
 	}}
 	size="large"
 	styleClass={'btn-block'}

@@ -1,9 +1,10 @@
 <script lang="ts">
+	import Button from '$lib/atoms/buttons/Button.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import ConnectWalletButton from '$lib/components/buttons/ConnectWalletButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
+	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
@@ -23,6 +24,8 @@
 		cardWrapper: 'w-full flex px-2 mb-2',
 		buttonLarge: `${buttonClasses.filled} h-14 text-base font-semibold flex gap-1 w-full`
 	};
+
+	let showDialog: boolean = false;
 
 	//initial amount states
 	let inputAmount: BigNumber;
@@ -98,11 +101,16 @@
 	{#if !enableConversion}
 		<button class={styles.buttonLarge} disabled>PROCEED TO CONVERSION</button>
 	{:else}
-		<label for="pond-to-mpond-conversion-modal" class={styles.buttonLarge}>
+		<Button
+			onclick={() => {
+				showDialog = true;
+			}}
+			styleClass={styles.buttonLarge}
+		>
 			PROCEED TO CONVERSION
-		</label>
+		</Button>
 	{/if}
 {:else}
-	<ConnectWalletButton />
+	<ConnectWalletButton isLarge={true} />
 {/if}
-<PondConvertModal pond={inputAmount} />
+<PondConvertModal pond={inputAmount} bind:showDialog />

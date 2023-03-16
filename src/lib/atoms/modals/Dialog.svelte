@@ -1,11 +1,11 @@
 <script lang="ts">
 	export let modalWidth: string = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
 	export let onClose: () => void = () => {};
-	export let showModal: boolean; // boolean
+	export let showDialog: boolean; // boolean
 
 	let dialog: HTMLDialogElement; // HTMLDialogElement
 
-	$: if (dialog && showModal) dialog.showModal();
+	$: if (dialog && showDialog) dialog.showModal();
 
 	const styles = {
 		header: 'text-[15px] text-[#0a0e3099] text-left font-medium',
@@ -19,7 +19,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <dialog
 	bind:this={dialog}
-	on:close={() => (showModal = false)}
+	on:close={() => (showDialog = false)}
 	on:click|self={() => dialog.close()}
 	class={`${modalWidth} modal-box rounded-lg p-6 bg-base-100 shadow-none`}
 >

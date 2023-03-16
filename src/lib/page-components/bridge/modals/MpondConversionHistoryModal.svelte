@@ -11,10 +11,10 @@
 	export let loading: boolean = false;
 	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];
 
-	export let showModal: boolean = false;
+	export let showDialog: boolean = false;
 </script>
 
-<Dialog bind:showModal>
+<Dialog bind:showDialog>
 	<svelte:fragment slot="title">
 		{'Conversion History'}
 	</svelte:fragment>

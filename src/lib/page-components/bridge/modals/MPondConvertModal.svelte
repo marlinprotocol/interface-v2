@@ -8,7 +8,7 @@
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
 
-	export let showModal: boolean = false;
+	export let showDialog: boolean = false;
 	export let requestEpoch: BigNumber;
 	export let mpondToConvert: BigNumber;
 	export let handleOnSuccess: (txnHash: string) => void;
@@ -46,7 +46,7 @@
 </script>
 
 <ApproveAndConfirmModal
-	bind:showModal
+	bind:showDialog
 	{handleApproveClick}
 	{handleConfirmClick}
 	{approved}

@@ -1,11 +1,10 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import LoadingAnimatedPing from '../loading/LoadingAnimatedPing.svelte';
 
-	export let modalFor: string;
+	export let showDialog: boolean = false;
 
 	export let handleApproveClick: () => Promise<void>;
 	export let handleConfirmClick: () => Promise<void>;
@@ -31,7 +30,7 @@
 		try {
 			confirmLoading = true;
 			await handleConfirmClick();
-			closeModal(modalFor);
+			showDialog = false;
 			confirmLoading = false;
 		} catch (e) {
 			confirmLoading = false;
@@ -41,7 +40,7 @@
 	const modalWidth = 'max-w-[500px]';
 </script>
 
-<Modal {modalFor} {modalWidth}>
+<Dialog bind:showDialog {modalWidth}>
 	<svelte:fragment slot="title">
 		{!approved ? 'Approve Transaction' : 'Confirm Transaction'}
 	</svelte:fragment>
@@ -90,4 +89,4 @@
 			</Button>
 		{/if}
 	</svelte:fragment>
-</Modal>
+</Dialog>

@@ -9,7 +9,7 @@
 	import { BigNumber } from 'ethers';
 	import MPondFinalConversionButton from '../buttons/MPondFinalConversionButton.svelte';
 
-	export let showModal: boolean = false;
+	export let showDialog: boolean = false;
 	export let maxAmount: BigNumber;
 	export let requestEpoch: BigNumber;
 	export let handleOnSuccess: (convertedMpond: BigNumber, txnHash: string) => void;
@@ -60,7 +60,7 @@
 	};
 </script>
 
-<Dialog bind:showModal onClose={resetInputs}>
+<Dialog bind:showDialog onClose={resetInputs}>
 	<svelte:fragment slot="title">
 		{'Enter an amount'}
 	</svelte:fragment>

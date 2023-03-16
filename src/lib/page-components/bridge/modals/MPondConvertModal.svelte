@@ -49,6 +49,8 @@
 	{handleApproveClick}
 	{handleConfirmClick}
 	{approved}
+	conversionFrom={'mpond'}
+	amountConverted={mpondToConvert}
 	confirmButtonText={'CONVERT'}
 >
 	<div slot="approveText">

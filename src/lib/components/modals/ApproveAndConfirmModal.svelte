@@ -2,6 +2,8 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
+	import ConfirmConversionButton from '$lib/page-components/bridge/buttons/ConfirmConversionButton.svelte';
+	import { BigNumber } from 'ethers';
 	import LoadingAnimatedPing from '../loading/LoadingAnimatedPing.svelte';
 
 	export let showDialog: boolean = false;
@@ -11,6 +13,8 @@
 	export let approved: boolean;
 	export let approveButtonText: string = 'APPROVE';
 	export let confirmButtonText: string = 'CONFIRM';
+	export let amountConverted: BigNumber = BigNumber.from(0);
+	export let conversionFrom: string = 'pond';
 
 	let approveLoading: boolean;
 	let confirmLoading: boolean;
@@ -82,15 +86,14 @@
 				{approveButtonText}
 			</Button>
 		{:else}
-			<Button
-				variant="filled"
-				size="large"
+			<ConfirmConversionButton
+				onClickHandler={confirmClick}
+				{conversionFrom}
+				{amountConverted}
 				loading={confirmLoading}
-				onclick={confirmClick}
-				styleClass={'btn-block'}
 			>
 				{confirmButtonText}
-			</Button>
+			</ConfirmConversionButton>
 		{/if}
 	</svelte:fragment>
 </Dialog>

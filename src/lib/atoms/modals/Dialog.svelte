@@ -8,6 +8,7 @@
 	$: if (dialog && showDialog) dialog.showModal();
 
 	const styles = {
+		icon: 'mb-6',
 		header: 'text-[15px] text-[#0a0e3099] text-left font-medium',
 		title: 'text-2xl font-bold text-left',
 		subtitle: 'text-[15px] font-medium text-left mt-1 text-black/50',
@@ -26,6 +27,12 @@
 	<div on:click|stopPropagation>
 		<div class="flex items-center">
 			<div class="flex flex-col w-full">
+				{#if $$slots.icon}
+					<div class={styles.icon}>
+						<slot name="icon" />
+					</div>
+				{/if}
+
 				<div class={styles.header}>
 					<slot name="header" />
 				</div>

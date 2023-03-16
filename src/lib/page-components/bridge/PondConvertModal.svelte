@@ -27,6 +27,7 @@
 			approved = true;
 		} catch (error) {
 			console.log(error);
+			throw error;
 		}
 	};
 	const handleConfirmClick = async () => {
@@ -35,6 +36,7 @@
 			await convertPondToMpond(mpond);
 		} catch (error) {
 			console.log(error);
+			throw error;
 		}
 	};
 
@@ -48,6 +50,8 @@
 	{handleApproveClick}
 	{handleConfirmClick}
 	{approved}
+	conversionFrom={'pond'}
+	amountConverted={pond}
 	confirmButtonText={'CONVERT'}
 >
 	<div slot="approveText">

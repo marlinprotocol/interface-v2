@@ -100,10 +100,10 @@ export const QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION = `query User($address: Str
 }`;
 
 export const QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY = `query Users($address: String) {
-  users(where:{
-    address: $address
-  }) {
-    pondToMpondConversions{
+  users(
+    where: { address: $address }
+  ) {
+    pondToMpondConversions {
       transactionHash
       mpondReceived
       timestamp
@@ -113,9 +113,9 @@ export const QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY = `query Users($addres
 }`;
 
 export const QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY = `query Users($address: String) {
-  users(where:{
-    address: $address
-  }) {
+  users(
+    where: { address: $address }
+  ) {
     requests {	
       timestamp
       transactionHash
@@ -137,7 +137,7 @@ export const QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY = `query Users($addres
       }
     }
   }
-  states{
+  states {
     liquidityStartTime
     epochLength
     pondPerMpond

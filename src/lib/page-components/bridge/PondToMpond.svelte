@@ -82,7 +82,7 @@
 	maxAmountText={balanceText}
 	inputCardVariant={'none'}
 >
-	<Text slot="input-end-button" text="POND" styleClass="font-medium" />
+	<Text slot="input-end-button" text="POND" fontWeight="font-medium" />
 	<button slot="inputMaxButton" on:click={handleMaxClick} class={buttonClasses.maxButton}>
 		MAX
 	</button>
@@ -94,7 +94,7 @@
 <ErrorTextCard showError={!!pondDisabledText} errorMessage={pondDisabledText} />
 <Divider margin="mt-4 mb-6" />
 <ModalPondInput title="To" inputCardVariant={'none'} inputAmountString={convertedAmountString}>
-	<Text slot="input-end-button" text="MPond" styleClass="font-medium" />
+	<Text slot="input-end-button" text="MPond" fontWeight="font-medium" />
 </ModalPondInput>
 <div class="mb-5" />
 {#if $connected}

@@ -3,7 +3,8 @@
 
 	export let variant: AppVariant = 'primary';
 	export let styles: string = '';
-	const chipStyle = 'rounded-3xl px-[20px] py-[9px] flex items-center gap-1.5 text-sm ';
+	const chipStyle =
+		'rounded-3xl px-[20px] py-[9px] flex items-center gap-1.5 text-sm tracking-widest';
 
 	const getClassFromVariant = (variant: AppVariant) => {
 		switch (variant) {

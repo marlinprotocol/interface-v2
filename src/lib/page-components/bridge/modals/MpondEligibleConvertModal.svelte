@@ -72,7 +72,7 @@
 			maxAmountText={balanceText}
 			inputCardVariant={'none'}
 		>
-			<Text slot="input-end-button" text="MPond" styleClass="font-medium" />
+			<Text slot="input-end-button" text="MPond" fontWeight="font-medium" />
 			<button slot="inputMaxButton" on:click={handleMaxClick} class={buttonClasses.maxButton}
 				>MAX</button
 			>

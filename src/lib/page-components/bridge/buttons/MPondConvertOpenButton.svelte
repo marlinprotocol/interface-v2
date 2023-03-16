@@ -39,7 +39,7 @@
 <Button
 	disabled={!pondEligible.gt(0)}
 	variant="filled"
-	styleClass={buttonClasses.convertButton}
+	styleClass={`h-[35px] ${buttonClasses.convertButton}`}
 	onclick={() => {
 		showDialog = true;
 	}}

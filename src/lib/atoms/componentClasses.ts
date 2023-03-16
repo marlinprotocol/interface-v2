@@ -12,9 +12,9 @@ export const buttonClasses = {
 	text: 'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent',
 	icon: 'btn btn-xs btn-ghost btn-circle p-0 bg-transparent hover:bg-transparent flex',
 	maxButton:
-		'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent text-sm font-bold text-primary',
+		'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent text-xs font-bold text-primary tracking-widest mt-1',
 	largeButton: 'flex gap-2 text-primary h-14 text-base font-semibold items-center',
-	convertButton: 'btn btn-xs btn-primary w-32 h-[35px] text-xs'
+	convertButton: 'btn btn-xs text-xs h-4 py-0'
 };
 
 export const dividerClasses = {

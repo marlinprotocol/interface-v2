@@ -13,6 +13,8 @@
 		src="/images/arrowicon.svg"
 		alt="Copy"
 		class={variant === 'secondary' ? 'secondary-img' : ''}
+		width="9px"
+		height="7px"
 	/>
 	{secondText}
 </Chip>

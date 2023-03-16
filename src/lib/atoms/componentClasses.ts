@@ -14,7 +14,7 @@ export const buttonClasses = {
 	maxButton:
 		'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent text-sm font-bold text-primary',
 	largeButton: 'flex gap-2 text-primary h-14 text-base font-semibold items-center',
-	convertButton: 'btn btn-xs btn-primary w-32 h-[35px] text-xs'
+	convertButton: 'btn btn-xs text-xs h-4 py-0'
 };
 
 export const dividerClasses = {

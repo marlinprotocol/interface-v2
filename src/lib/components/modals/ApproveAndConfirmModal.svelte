@@ -1,8 +1,9 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import Text from '$lib/atoms/texts/Text.svelte';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
-	import LoadingWithText from '../loading/LoadingWithText.svelte';
+	import LoadingAnimatedPing from '../loading/LoadingAnimatedPing.svelte';
 
 	export let modalFor: string;
 
@@ -50,14 +51,18 @@
 				{#if approved}
 					<img src="/images/vectorcheck.svg" alt="Copy" width="20px" height="20px" />
 				{:else}
-					<LoadingWithText text={'1'} loading={approveLoading} />
+					<LoadingAnimatedPing loading={approveLoading}>
+						<Text variant="small" styleClass="font-semibold" text={'1'} />
+					</LoadingAnimatedPing>
 				{/if}
 				<slot name="approveText" />
 			</div>
 		{/if}
 		{#if $$slots.confirmText && approved}
 			<div class="flex gap-5 mt-5">
-				<LoadingWithText text={'2'} loading={confirmLoading} />
+				<LoadingAnimatedPing loading={confirmLoading}>
+					<Text variant="small" styleClass="font-semibold" text={'2'} />
+				</LoadingAnimatedPing>
 				<slot name="confirmText" />
 			</div>
 		{/if}

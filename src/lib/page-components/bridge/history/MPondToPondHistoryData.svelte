@@ -52,7 +52,19 @@
 						{'No conversion history yet. Convert MPond to POND to see your conversion history here.'}
 					</div>
 				{:else}
-					<MPondTableRow bind:historyData />
+					{#each historyData as rowData, index (rowData)}
+						<MPondTableRow
+							{rowData}
+							{index}
+							handleUpdateData={(updatedRow) => {
+								historyData = [
+									...(historyData ?? []).slice(0, index),
+									updatedRow,
+									...(historyData ?? []).slice(index + 1)
+								];
+							}}
+						/>
+					{/each}
 				{/if}
 			</tbody>
 		</Table>

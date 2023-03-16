@@ -6,7 +6,7 @@ import type {
 	MpondToPondRequestModel
 } from '$lib/types/bridgeComponentType';
 import { BigNumber } from 'ethers';
-import { mpondToPond } from '../conversion';
+import { bigNumberToString, mpondToPond } from '../conversion';
 import { BigNumberUtils } from './bigNumberUtils';
 
 export const getModifiedMpondToPondHistory = (
@@ -21,9 +21,7 @@ export const getModifiedMpondToPondHistory = (
 	// const _epochLength = Number(epochLength);
 
 	// Intervals at which pending mpond is released
-	// TODO: remove hardcoding
 	const _liqudityReleaseEpochs = Number(liqudityReleaseEpochs);
-	// const _liqudityReleaseEpochs = 620;
 	const _liquidityBP = Number(liquidityBP);
 
 	// total number of release cycles based on liquidityBP
@@ -49,18 +47,20 @@ export const getModifiedMpondToPondHistory = (
 		const _releaseTime = Number(releaseTime);
 		const mpondAmountBN = BigNumber.from(mpondAmount);
 		const mpondConvertedBN = BigNumber.from(mpondConverted);
-		const mpondInitallyPending = mpondAmountBN.sub(mpondConvertedBN);
+		const pondConvertedBN = mpondToPond(mpondConvertedBN);
+		// const mpondInitallyPending = mpondAmountBN.sub(mpondConvertedBN);
 		const pondAmountBN = mpondToPond(mpondAmountBN);
-		const pondInitiallyPending = mpondToPond(mpondInitallyPending);
+		// const pondInitiallyPending = mpondToPond(mpondInitallyPending);
 
 		const bigNumberUtils = new BigNumberUtils();
 		const pondProcessInACycle = bigNumberUtils.multiply(pondAmountBN, _liquidityBP);
 
-		// first release of the eligiblity conversion is the release time or liquidity start time whichever is later
-		const _releaseStartTime =
-			_releaseTime < _liquidityStartTime ? _liquidityStartTime : _releaseTime;
 		// strat time of the first cycle
-		const _firstCycleStartTime = _releaseStartTime - _liqudityReleaseEpochs;
+		const _releaseStartTime = _releaseTime - _liqudityReleaseEpochs;
+
+		// first release of the eligiblity conversion is the release time or liquidity start time whichever is later
+		const _firstCycleStartTime =
+			_releaseStartTime < _liquidityStartTime ? _liquidityStartTime : _releaseStartTime;
 
 		const eligibleCycles: MpondEligibleCyclesModel[] = [];
 		let totalEligible = BigNumber.from('0');
@@ -81,9 +81,9 @@ export const getModifiedMpondToPondHistory = (
 			_cycleStartTime = _cycleStartTime + _liqudityReleaseEpochs;
 		}
 
-		let pondInProcess = BigNumber.from('0');
-		let nowEligiblePond = BigNumber.from('0');
-		// current cycle
+		//current states
+		let currentPondInProcess = BigNumber.from('0');
+		let currentEligiblePond = BigNumber.from('0');
 		let currentCycle = 0;
 
 		// if liquidity release has started
@@ -91,17 +91,19 @@ export const getModifiedMpondToPondHistory = (
 			currentCycle = Math.floor((_nowTime - _firstCycleStartTime) / _liqudityReleaseEpochs);
 			if (currentCycle < totalCycles) {
 				// if liquidity release is in progress
-				nowEligiblePond = nowEligiblePond.add(pondProcessInACycle.mul(currentCycle));
-				pondInProcess = pondProcessInACycle;
+				currentEligiblePond = currentEligiblePond.add(pondProcessInACycle.mul(currentCycle));
+				currentPondInProcess = pondProcessInACycle;
 			} else {
 				// if liquidity release is completed
-				nowEligiblePond = pondInitiallyPending;
+				currentEligiblePond = pondAmountBN;
 				currentCycle = totalCycles + 1;
 			}
 		}
 
-		// pending pond is the pond initially pending minus the pond eligible and pond in process
-		const nowPendingPond = pondInitiallyPending.sub(nowEligiblePond).sub(pondInProcess);
+		// net eligible pond is the pond eligible at current minus the pond converted
+		const netEligiblePond = currentEligiblePond.sub(pondConvertedBN);
+		// pending pond is the pond initially pending minus the pond eligible at current cycle plus pond in process
+		const netPendingPond = pondAmountBN.sub(currentEligiblePond).sub(currentPondInProcess);
 
 		// filter the conversion history for the current request
 		const conversionHistory = mpondToPondConversions
@@ -120,9 +122,9 @@ export const getModifiedMpondToPondHistory = (
 			mpondAmount: mpondAmountBN,
 			mpondConverted: mpondConvertedBN,
 			pondAmount: pondAmountBN,
-			pondPending: nowPendingPond,
-			pondInProcess: pondInProcess,
-			pondEligible: nowEligiblePond,
+			pondPending: netPendingPond,
+			pondInProcess: currentPondInProcess,
+			pondEligible: netEligiblePond,
 			conversionHistory: conversionHistory,
 			eligibleCycles: eligibleCycles,
 			currentCycle: currentCycle,

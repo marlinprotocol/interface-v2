@@ -1,9 +1,7 @@
 <script lang="ts">
-	import InfoButton from '$lib/atoms/buttons/InfoButton.svelte';
 	import InfoButtonLink from '$lib/atoms/buttons/InfoButtonLink.svelte';
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
-	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import ConnectWalletButton from '$lib/components/buttons/ConnectWalletButton.svelte';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
@@ -11,7 +9,6 @@
 	import StakedData from '$lib/page-components/receiver-staking/StakedData.svelte';
 	import StakeModal from '$lib/page-components/receiver-staking/StakeModal.svelte';
 	import UnstakeModal from '$lib/page-components/receiver-staking/UnstakeModal.svelte';
-	import lock from 'svelte-awesome/icons/lock';
 
 	const styles = {
 		buttonsGroup: 'flex gap-4 items-center justify-center w-full',

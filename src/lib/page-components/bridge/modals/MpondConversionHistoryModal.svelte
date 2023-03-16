@@ -11,7 +11,6 @@
 
 	export let loading: boolean = false;
 	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];
-
 	export let modalFor: string;
 </script>
 
@@ -28,7 +27,7 @@
 					</div>
 				{:else}
 					{#each conversions as rowData}
-						<tr>
+						<!-- <tr>
 							<TableDataWithButton>
 								{epochSecToString(rowData?.timestamp)}
 							</TableDataWithButton>
@@ -41,7 +40,7 @@
 									txnHashUrl={bridgeTxnUrls(rowData.transactionHash)}
 								/>
 							</TableDataWithButton>
-						</tr>
+						</tr> -->
 					{/each}
 				{/if}
 			</tbody>

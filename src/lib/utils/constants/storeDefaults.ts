@@ -73,5 +73,6 @@ export const DEFAULT_BRIDGE_STORE: BridgeStore = {
 	allowances: {
 		pond: BigNumber.from(0),
 		mpond: BigNumber.from(0)
-	}
+	},
+	requestedMpond: BigNumber.from(0)
 };

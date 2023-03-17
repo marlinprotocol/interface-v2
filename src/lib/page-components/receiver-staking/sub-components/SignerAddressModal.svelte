@@ -16,7 +16,7 @@
 	let signerAddressIsValid: boolean;
 	let signerAddressIsUnique: boolean = false;
 
-	export let showDialog: boolean = false;
+	export let showSignerAddressDialog: boolean = false;
 
 	const subtitle =
 		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';
@@ -36,7 +36,7 @@
 			});
 			updatedSignerAddress = '';
 			submitLoading = false;
-			showDialog = false;
+			showSignerAddressDialog = false;
 			resetInputs();
 		} catch (e) {
 			console.log('error submitting', e);
@@ -75,7 +75,7 @@
 		updatedSignerAddressInputDirty;
 </script>
 
-<Dialog bind:showDialog onClose={resetInputs}>
+<Dialog bind:showDialog={showSignerAddressDialog} onClose={resetInputs}>
 	<svelte:fragment slot="title">
 		{#if $receiverStakingStore.signer !== DEFAULT_RECEIVER_STAKING_DATA.signer}
 			{'UPDATE SIGNER ADDRESS'}

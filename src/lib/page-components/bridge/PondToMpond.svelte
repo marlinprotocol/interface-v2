@@ -26,7 +26,7 @@
 		buttonLarge: `${buttonClasses.filled} h-14 text-base font-semibold flex gap-1 w-full`
 	};
 
-	let showDialog: boolean = false;
+	let showPondConvertDialog: boolean = false;
 
 	//initial amount states
 	let inputAmount: BigNumber;
@@ -103,7 +103,7 @@
 	{:else}
 		<Button
 			onclick={() => {
-				showDialog = true;
+				showPondConvertDialog = true;
 			}}
 			styleClass={styles.buttonLarge}
 		>
@@ -113,4 +113,4 @@
 {:else}
 	<ConnectWalletButton isLarge={true} />
 {/if}
-<PondConvertModal pond={inputAmount} bind:showDialog />
+<PondConvertModal pond={inputAmount} bind:showPondConvertDialog />

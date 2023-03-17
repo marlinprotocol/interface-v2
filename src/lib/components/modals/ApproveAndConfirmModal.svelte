@@ -6,7 +6,7 @@
 	import { BigNumber } from 'ethers';
 	import LoadingAnimatedPing from '../loading/LoadingAnimatedPing.svelte';
 
-	export let showDialog: boolean = false;
+	export let showApproveConfirmDialog: boolean = false;
 
 	export let handleApproveClick: () => Promise<void>;
 	export let handleConfirmClick: () => Promise<void>;
@@ -34,7 +34,7 @@
 		try {
 			confirmLoading = true;
 			await handleConfirmClick();
-			showDialog = false;
+			showApproveConfirmDialog = false;
 			confirmLoading = false;
 		} catch (e) {
 			confirmLoading = false;
@@ -44,7 +44,7 @@
 	const modalWidth = 'max-w-[500px]';
 </script>
 
-<Dialog bind:showDialog {modalWidth}>
+<Dialog bind:showDialog={showApproveConfirmDialog} {modalWidth}>
 	<svelte:fragment slot="title">
 		{!approved ? 'Approve Transaction' : 'Confirm Transaction'}
 	</svelte:fragment>

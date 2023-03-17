@@ -36,7 +36,7 @@
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
-	export let showDialog: boolean = false;
+	export let showStakeDialog: boolean = false;
 
 	//texts
 	const toolTipText = 'Enter the amount of POND you would like to stake to the receiver address.';
@@ -164,7 +164,7 @@
 			} else {
 				await depositStakingToken(inputAmount);
 			}
-			showDialog = false;
+			showStakeDialog = false;
 
 			// update wallet balance locally
 			walletBalance.update((value: WalletBalance) => {
@@ -257,7 +257,7 @@
 	};
 </script>
 
-<Dialog bind:showDialog onClose={resetInputs}>
+<Dialog bind:showDialog={showStakeDialog} onClose={resetInputs}>
 	<svelte:fragment slot="title">
 		{'STAKE POND'}
 	</svelte:fragment>

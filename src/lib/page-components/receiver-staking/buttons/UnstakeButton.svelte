@@ -2,7 +2,7 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import UnstakeModal from '../UnstakeModal.svelte';
 
-	let showDialog = false;
+	let showUnstakeDialog = false;
 	export let disabled = false;
 	const styles = {
 		buttonLarge: 'h-14 text-base font-semibold'
@@ -12,9 +12,9 @@
 <Button
 	{disabled}
 	onclick={() => {
-		showDialog = true;
+		showUnstakeDialog = true;
 	}}
 	variant="outlined"
 	styleClass={`${styles.buttonLarge} w-full`}>UNSTAKE</Button
 >
-<UnstakeModal bind:showDialog />
+<UnstakeModal bind:showUnstakeDialog />

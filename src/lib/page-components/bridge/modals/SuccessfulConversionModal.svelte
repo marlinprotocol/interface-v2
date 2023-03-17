@@ -6,7 +6,7 @@
 	import { bigNumberToCommaString, mpondToPond, pondToMpond } from '$lib/utils/conversion';
 	import { BigNumber } from 'ethers';
 
-	export let showDialog: boolean = false;
+	export let showSuccessConversionDialog: boolean = false;
 	export let conversionFrom: 'pond' | 'mpond' = 'pond';
 	export let amountConverted: BigNumber = BigNumber.from(0);
 
@@ -18,7 +18,7 @@
 		conversionFrom === 'pond' ? pondToMpond(amountConverted) : mpondToPond(amountConverted);
 </script>
 
-<Dialog bind:showDialog>
+<Dialog bind:showDialog={showSuccessConversionDialog}>
 	<img slot="icon" src="/images/shield.svg" alt="" width="38px" />
 	<svelte:fragment slot="title">
 		{'Conversion Successful'}
@@ -56,7 +56,7 @@
 		{:else}
 			<Button
 				onclick={() => {
-					showDialog = false;
+					showSuccessConversionDialog = false;
 				}}
 				variant="filled"
 				size="large"

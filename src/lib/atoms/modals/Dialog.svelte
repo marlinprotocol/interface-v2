@@ -6,7 +6,6 @@
 	let dialog: HTMLDialogElement; // HTMLDialogElement
 
 	$: if (dialog && showDialog) dialog.showModal();
-	$: if (dialog && !showDialog) dialog.close();
 
 	const styles = {
 		icon: 'mb-6',

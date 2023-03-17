@@ -8,7 +8,7 @@
 
 	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];
 
-	export let showDialog: boolean = false;
+	export let showConversionHistoryDialog: boolean = false;
 
 	const heading = [
 		{
@@ -25,7 +25,7 @@
 	];
 </script>
 
-<Dialog bind:showDialog>
+<Dialog bind:showDialog={showConversionHistoryDialog}>
 	<svelte:fragment slot="title">
 		{'Conversion History'}
 	</svelte:fragment>

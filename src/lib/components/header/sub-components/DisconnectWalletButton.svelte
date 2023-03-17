@@ -7,7 +7,7 @@
 	import type { Unsubscriber } from 'svelte/store';
 	import DisconnectWalletModal from './DisconnectWalletModal.svelte';
 
-	let showDialog: boolean = false;
+	let showDisconnectWalletDialog: boolean = false;
 	$: shortAddress =
 		$walletStore.address.slice().substring(0, 6) +
 		'...' +
@@ -32,7 +32,7 @@
 <Button
 	variant="whiteFilled"
 	onclick={() => {
-		showDialog = true;
+		showDisconnectWalletDialog = true;
 	}}
 	styleClass="bg-base-100 h-[50px] cursor-pointer text-primary rounded-lg shadow-sm flex gap-4 items-center"
 >
@@ -42,4 +42,4 @@
 		<p class={styles.address}>{shortAddress}</p>
 	</div>
 </Button>
-<DisconnectWalletModal bind:showDialog />
+<DisconnectWalletModal bind:showDisconnectWalletDialog />

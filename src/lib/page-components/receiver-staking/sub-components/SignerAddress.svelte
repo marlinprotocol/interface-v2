@@ -13,7 +13,7 @@
 	import SignerAddressModal from './SignerAddressModal.svelte';
 	import Button from '$lib/atoms/buttons/Button.svelte';
 
-	let showDialog = false;
+	let showSignerAddressDialog = false;
 	const tooltipText =
 		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';
 	const title = 'Signer Address';
@@ -51,11 +51,11 @@
 			/>
 
 			{#if $connected}
-				<SignerAddressModal bind:showDialog />
+				<SignerAddressModal bind:showSignerAddressDialog />
 				<Button
 					variant="text"
 					onclick={() => {
-						showDialog = true;
+						showSignerAddressDialog = true;
 					}}
 				>
 					<Icon data={edit} size={18} />

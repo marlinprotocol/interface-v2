@@ -9,7 +9,7 @@
 	import type { BigNumber } from 'ethers';
 
 	export let pond: BigNumber;
-	export let showDialog: boolean = false;
+	export let showPondConvertDialog: boolean = false;
 
 	const styles = {
 		highlight: 'font-semibold'
@@ -46,7 +46,7 @@
 </script>
 
 <ApproveAndConfirmModal
-	bind:showDialog
+	bind:showApproveConfirmDialog={showPondConvertDialog}
 	{handleApproveClick}
 	{handleConfirmClick}
 	{approved}

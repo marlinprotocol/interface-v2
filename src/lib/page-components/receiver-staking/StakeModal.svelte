@@ -5,6 +5,7 @@
 	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
+	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import {
 		approvePondTokenForReceiverStaking,
@@ -287,9 +288,7 @@
 			{handleUpdatedAmount}
 			maxAmountText={balanceText}
 		>
-			<button slot="inputMaxButton" on:click={handleMaxClick} class={buttonClasses.maxButton}
-				>MAX</button
-			>
+			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
 			<ModalApproveButton
 				slot="input-end-button"
 				disabled={approveDisabled}

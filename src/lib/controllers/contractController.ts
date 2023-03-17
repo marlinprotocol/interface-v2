@@ -443,6 +443,7 @@ export async function requestMpondConversion(amount: BigNumber) {
 
 		const tx = await bridgeContract.placeRequest(amount);
 
+		console.log('tx :>> ', tx);
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.CREATED,
 			variant: 'info'
@@ -452,7 +453,8 @@ export async function requestMpondConversion(amount: BigNumber) {
 		if (!approveReciept) {
 			addToast({
 				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
+				variant: 'error',
+				timeout: 5000
 			});
 			throw new Error('Unable to place request for converting MPond to Pond.');
 		}
@@ -466,10 +468,11 @@ export async function requestMpondConversion(amount: BigNumber) {
 		return tx;
 	} catch (error: any) {
 		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
+			message: !!error.reason ? error.reason : MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error',
+			timeout: 5000
 		});
-		console.log('error :>> ', error);
+
 		throw new Error('Transaction Error while placing request for converting MPond to Pond');
 	}
 }

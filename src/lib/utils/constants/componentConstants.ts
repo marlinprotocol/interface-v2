@@ -50,6 +50,8 @@ export const getTextColorClassByVariant = (variant: CommonVariant | undefined) =
 			return 'text-error-content';
 		case 'disabled':
 			return 'text-primary opacity-40';
+		case 'grey':
+			return 'text-grey-500';
 		default:
 			return 'text-primary-content';
 	}
@@ -70,6 +72,8 @@ export const getImageClassByVariant = (variant: CommonVariant | undefined) => {
 			return 'success-img';
 		case 'disabled':
 			return 'disabled-img';
+		case 'grey':
+			return 'grey-img';
 		default:
 			return 'primary-img';
 	}

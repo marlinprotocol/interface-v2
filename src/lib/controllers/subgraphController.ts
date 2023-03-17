@@ -17,7 +17,6 @@ import {
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
-import { epochSecondsStringToDate } from '$lib/utils/conversion';
 import { getModifiedMpondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
@@ -303,7 +302,7 @@ export async function getPondToMPondConversionHistory(address: Address) {
 				return {
 					pondConverted: BigNumber.from(conversion.pondConverted),
 					mpondReceived: BigNumber.from(conversion.mpondReceived),
-					timestamp: epochSecondsStringToDate(conversion.timestamp),
+					timestamp: Number(conversion.timestamp),
 					transactionHash: conversion.transactionHash
 				};
 			});

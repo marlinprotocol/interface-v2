@@ -32,4 +32,7 @@
 	.disabled-img {
 		filter: invert(54%) sepia(80%) saturate(6978%) hue-rotate(229deg) brightness(89%) contrast(84%);
 	}
+	.grey-img {
+		filter: invert(50%) sepia(10%) saturate(10%) hue-rotate(11deg) brightness(100%) contrast(104%);
+	}
 </style>

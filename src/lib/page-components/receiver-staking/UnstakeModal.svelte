@@ -2,6 +2,7 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Dialog from '$lib/atoms/modals/Dialog.svelte';
+	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import { withdrawStakingToken } from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
@@ -124,9 +125,7 @@
 			{handleUpdatedAmount}
 			maxAmountText={balanceText}
 		>
-			<button slot="inputMaxButton" on:click={handleMaxClick} class={buttonClasses.maxButton}
-				>MAX</button
-			>
+			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
 		</ModalPondInput>
 		<ErrorTextCard
 			showError={!inputAmountIsValid && updatedAmountInputDirty}

@@ -4,9 +4,13 @@
 	export let disabled: boolean = false;
 	export let loading: boolean = false;
 	export let styleClass: string = '';
-	$: buttonClass = `${styleClass} ${buttonClasses.filled} ${loading ? 'loading' : ''} `;
+	export let text: string = 'CONVERT';
 </script>
 
-<button {disabled} on:click={onclick} class={buttonClass}>
-	<slot />
+<button
+	{disabled}
+	class={`${styleClass} ${loading ? 'loading' : ''} ${buttonClasses.tableConvertButton}`}
+	on:click={onclick}
+>
+	{text}
 </button>

@@ -1,17 +1,12 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
-	import LoadingCircular from '$lib/atoms/loading/LoadingCircular.svelte';
-	import Table from '$lib/atoms/table/Table.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
-	import HeaderConnectWallet from '$lib/components/header/sub-components/HeaderConnectWallet.svelte';
 	import { getMPondToPondConversionHistory } from '$lib/controllers/subgraphController';
-	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
+	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import type { Address, WalletStore } from '$lib/types/storeTypes';
 	import { mpondToPondTableHeader } from '$lib/utils/constants/bridgeConstants';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import HistoryBackButton from '../sub-components/HistoryBackButton.svelte';
+	import HistoryTableCommon from './HistoryTableCommon.svelte';
 	import MPondTableRow from './MPondTableRow.svelte';
 
 	let address: Address;
@@ -34,49 +29,30 @@
 	};
 </script>
 
-<HistoryBackButton firstText="POND" secondText="MPond" href="/bridge/pondToMpondHistory" />
-<Text variant="h2" text="MPond to POND conversion history" styleClass="mt-3 mb-8" />
-
-<div class={`card max-w-full bg-base-100 rounded-lg px-6 py-4`}>
-	{#if !!!$connected}
-		<div class={`text-center flex justify-center my-4`}>
-			<HeaderConnectWallet />
-		</div>
-	{:else if loading}
-		<div class={'text-center flex justify-center my-4'}>
-			<LoadingCircular />
-		</div>
-	{:else}
-		<Table tableHeading={mpondToPondTableHeader} {handleSortData}>
-			<tbody slot="tableBody">
-				{#if !!!historyData?.length}
-					<tr>
-						<td colspan="8">
-							<div class={tableCellClasses.empty}>
-								{'No conversion history yet. Convert MPond to POND to see your conversion history here.'}
-							</div>
-						</td>
-					</tr>
-				{:else}
-					{#each historyData as rowData, index (rowData)}
-						<MPondTableRow
-							{rowData}
-							handleUpdateData={(updatedRow) => {
-								historyData = [
-									...(historyData ?? []).slice(0, index),
-									updatedRow,
-									...(historyData ?? []).slice(index + 1)
-								];
-							}}
-						/>
-					{/each}
-				{/if}
-			</tbody>
-		</Table>
-		{#if !!!historyData?.length}
-			<div class={tableCellClasses.empty}>
-				{'No data found!'}
-			</div>
-		{/if}
+<HistoryTableCommon
+	tableTitle={{
+		firstText: 'POND',
+		secondText: 'MPond',
+		title: 'MPond to POND conversion history',
+		href: '/bridge/pondToMpondHistory'
+	}}
+	{loading}
+	{handleSortData}
+	noDataFound={!!!historyData?.length}
+	tableHeading={mpondToPondTableHeader}
+>
+	{#if !!historyData?.length}
+		{#each historyData as rowData, index (rowData)}
+			<MPondTableRow
+				{rowData}
+				handleUpdateData={(updatedRow) => {
+					historyData = [
+						...(historyData ?? []).slice(0, index),
+						updatedRow,
+						...(historyData ?? []).slice(index + 1)
+					];
+				}}
+			/>
+		{/each}
 	{/if}
-</div>
+</HistoryTableCommon>

@@ -14,7 +14,6 @@
 
 <Button
 	variant="text"
-	styleClass={buttonClasses.convertButton}
 	onclick={() => {
 		showDialog = true;
 	}}

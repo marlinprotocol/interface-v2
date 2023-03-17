@@ -2,6 +2,7 @@
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
+	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
@@ -73,9 +74,7 @@
 			inputCardVariant={'none'}
 		>
 			<Text slot="input-end-button" text="MPond" fontWeight="font-medium" />
-			<button slot="inputMaxButton" on:click={handleMaxClick} class={buttonClasses.maxButton}
-				>MAX</button
-			>
+			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
 		</ModalPondInput>
 		<ErrorTextCard
 			showError={!inputAmountIsValid && updatedAmountInputDirty}

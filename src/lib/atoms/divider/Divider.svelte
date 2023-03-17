@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let direction: 'divider-horizontal' | 'divider-vertical' = 'divider-horizontal';
 	export let margin: string = 'my-1';
-	export let height: string = 'h-2';
+	export let height: string = 'h-0.5';
 
 	const getDirectionBasedBorder = (variant: string) => {
 		switch (variant) {

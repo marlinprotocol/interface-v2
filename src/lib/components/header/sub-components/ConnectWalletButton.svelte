@@ -15,11 +15,12 @@
 	onclick={() => {
 		showDialog = true;
 	}}
-	styleClass={`${
-		isLarge ? 'h-14 text-base w-full' : 'h-11 w-fit text-sm'
-	} font-semibold flex gap-[10.3px]`}
+	size={isLarge ? 'large' : 'small'}
+	styleClass={`${isLarge ? 'w-full' : 'w-fit text-sm'} flex gap-[10.3px]`}
 >
-	<img src="/images/lockicon.svg" alt="Connect" />
+	{#if !isLarge}
+		<img src="/images/lockicon.svg" alt="Connect" />
+	{/if}
 	Connect Wallet
 </Button>
 

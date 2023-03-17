@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import MpondConversionHistoryModal from '../modals/MpondConversionHistoryModal.svelte';
 	import HistoryDataIconButton from '../sub-components/HistoryDataIconButton.svelte';
@@ -24,7 +23,6 @@
 {:else}
 	<Button
 		variant={'text'}
-		styleClass={buttonClasses.convertButton}
 		onclick={() => {
 			showDialog = true;
 		}}

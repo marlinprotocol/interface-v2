@@ -13,7 +13,7 @@
 <Dialog bind:showDialog {modalWidth}>
 	<svelte:fragment slot="header">Unlock Wallet</svelte:fragment>
 	<svelte:fragment slot="title">Select a provider</svelte:fragment>
-	<svelte:fragment slot="action-buttons">
+	<svelte:fragment slot="actionButtons">
 		<div class="flex justify-evenly gap-8 items-center">
 			{#each walletOptions as walletOption (walletOption.id)}
 				<WalletCard

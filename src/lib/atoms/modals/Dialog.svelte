@@ -22,10 +22,10 @@
 	bind:this={dialog}
 	on:close={() => (showDialog = false)}
 	on:click|self={() => dialog.close()}
-	class={`${modalWidth} modal-box rounded-lg p-6 bg-base-100 shadow-none`}
+	class={`${modalWidth} max-h-90vh rounded-lg bg-base-100 shadow-none overflow-none py-0 px-0`}
 >
 	<div on:click|stopPropagation>
-		<div class="flex items-center">
+		<div class="dialog-header flex items-center pt-8 pb-4 px-6">
 			<div class="flex flex-col w-full">
 				{#if $$slots.icon}
 					<div class={styles.icon}>
@@ -53,14 +53,40 @@
 				<img src="/images/close-circle-icon.svg" alt="Close" />
 			</button>
 		</div>
-		<div class="mt-8" />
-		<slot name="content" />
-		<div class="mt-10" />
-		<slot name="action-buttons" />
+		<div class="dialog-body pt-2 pb-4 px-6">
+			<slot name="content" />
+		</div>
+		{#if $$slots.actionButtons}
+			<div class="dialog-footer mt-4 px-6 mb-6">
+				<slot name="actionButtons" />
+			</div>
+		{/if}
 	</div>
 </dialog>
 
 <style>
+	.dialog-body {
+		overflow-y: auto;
+		overflow-x: hidden;
+		max-height: 73vh;
+	}
+	/* redesign scrollbar */
+	.dialog-body::-webkit-scrollbar {
+		width: 0.5rem;
+	}
+	.dialog-body::-webkit-scrollbar-track {
+		background: #f1f1f1;
+	}
+	.dialog-body::-webkit-scrollbar-thumb {
+		background: #c8c8c8;
+		border-radius: 15px;
+	}
+	.dialog-body::-webkit-scrollbar-thumb:hover {
+		background: #555;
+	}
+	.dialog {
+		overflow: hidden;
+	}
 	/* background color */
 	dialog::backdrop {
 		background-color: rgba(1, 3, 36, 0.8);

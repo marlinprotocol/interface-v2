@@ -5,7 +5,7 @@
 		confirmMpondConversion
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
-	import { bigNumberToCommaString, bigNumberToString, mpondToPond } from '$lib/utils/conversion';
+	import { bigNumberToCommaString, mpondToPond } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
 
 	export let showDialog: boolean = false;

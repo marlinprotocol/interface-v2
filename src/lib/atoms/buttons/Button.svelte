@@ -42,7 +42,7 @@
 			case 'medium':
 				return 'h-12';
 			case 'large':
-				return 'h-14 text-base font-semibold';
+				return 'h-14 text-base font-semibold w-full';
 			default:
 				return 'h-10';
 		}

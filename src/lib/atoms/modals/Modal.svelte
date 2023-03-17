@@ -42,6 +42,6 @@
 		<div class="mt-8" />
 		<slot name="content" />
 		<div class="mt-10" />
-		<slot name="action-buttons" />
+		<slot name="actionButtons" />
 	</div>
 </div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import ApproveAndConfirmModal from '$lib/components/modals/ApproveAndConfirmModal.svelte';
 	import {
 		approvePondTokenForConversion,
@@ -9,7 +10,7 @@
 	import type { BigNumber } from 'ethers';
 
 	export let pond: BigNumber;
-	export let showPondConvertDialog: boolean = false;
+	export let showPondApproveConfirmDialog: boolean = false;
 
 	const styles = {
 		highlight: 'font-semibold'
@@ -46,9 +47,10 @@
 </script>
 
 <ApproveAndConfirmModal
-	bind:showApproveConfirmDialog={showPondConvertDialog}
+	bind:showApproveConfirmDialog={showPondApproveConfirmDialog}
 	{handleApproveClick}
 	{handleConfirmClick}
+	handleSuccessFinishClick={() => goto('/bridge/pondToMpondHistory')}
 	{approved}
 	conversionFrom={'pond'}
 	amountConverted={pond}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
@@ -7,7 +8,7 @@
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import { BigNumber } from 'ethers';
-	import MPondFinalConversionButton from '../buttons/MPondFinalConversionButton.svelte';
+	import MPondApproveConfirmModal from './MPondApproveConfirmModal.svelte';
 
 	export let showEligibleConvertDialog: boolean = false;
 	export let maxAmount: BigNumber;
@@ -19,6 +20,7 @@
 	//initial amount states
 	let inputAmount: BigNumber;
 	let inputAmountString: string;
+	let showMpondApproveConfirmDialog: boolean = false;
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
@@ -82,15 +84,27 @@
 		<ErrorTextCard showError={!!mPondDisabledText} errorMessage={mPondDisabledText} />
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<MPondFinalConversionButton
-			{inputAmount}
-			{submitEnable}
+		<MPondApproveConfirmModal
+			bind:showMpondApproveConfirmDialog
 			{requestEpoch}
-			handleOnSuccess={(txnHash) => {
-				handleOnSuccess(inputAmount, txnHash);
-				resetInputs();
+			mpondToConvert={inputAmount}
+			handleOnSuccess={(txn) => {
+				console.log('handleOnSuccess 2 :>> ', txn);
+				handleOnSuccess(inputAmount, txn);
 				showEligibleConvertDialog = false;
+				showMpondApproveConfirmDialog = false;
 			}}
 		/>
+		<Button
+			variant="filled"
+			disabled={!submitEnable}
+			onclick={() => {
+				showMpondApproveConfirmDialog = true;
+			}}
+			size="large"
+			styleClass={'btn-block'}
+		>
+			PROCEED TO CONVERSION
+		</Button>
 	</svelte:fragment>
 </Dialog>

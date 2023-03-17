@@ -31,12 +31,13 @@
 			console.log(error);
 		}
 	};
+
+	let txnHash = '';
 	const handleConfirmClick = async () => {
 		console.log('confirm convertMPondToPond');
 		try {
 			const txn = await confirmMpondConversion(requestEpoch, mpondToConvert);
-			handleOnSuccess(txn?.hash ?? '');
-			showMpondApproveConfirmDialog = false;
+			txnHash = txn.hash;
 		} catch (error) {
 			console.log(error);
 			throw error;
@@ -50,6 +51,10 @@
 	bind:showApproveConfirmDialog={showMpondApproveConfirmDialog}
 	{handleApproveClick}
 	{handleConfirmClick}
+	handleSuccessFinishClick={() => {
+		console.log('handleSuccessFinishClick 1 :>> ', txnHash);
+		handleOnSuccess(txnHash);
+	}}
 	{approved}
 	conversionFrom={'mpond'}
 	amountConverted={mpondToConvert}

@@ -17,6 +17,7 @@
 	{requestEpoch}
 	bind:showEligibleConvertDialog
 	handleOnSuccess={(convertedMpond, txnHash) => {
+		console.log('handleOnSuccess 3 :>> ', convertedMpond, txnHash);
 		const convertedPond = mpondToPond(convertedMpond);
 		const updatedData = {
 			...rowData,

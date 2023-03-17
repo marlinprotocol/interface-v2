@@ -9,9 +9,7 @@
 	export let showSuccessConversionDialog: boolean = false;
 	export let conversionFrom: 'pond' | 'mpond' = 'pond';
 	export let amountConverted: BigNumber = BigNumber.from(0);
-
-	const redirectionLink =
-		conversionFrom === 'pond' ? '/bridge/pondToMpondHistory' : '/bridge/mPondtoPondHistory';
+	export let handleSuccessFinishClick: (() => void) | undefined = undefined;
 
 	$: conversionTo = conversionFrom === 'pond' ? 'mpond' : 'pond';
 	$: amountConvertedTo =
@@ -47,21 +45,9 @@
 			>
 		</div>
 	</svelte:fragment>
-
 	<svelte:fragment slot="actionButtons">
-		{#if conversionFrom === 'pond'}
-			<a href={redirectionLink}>
-				<Button variant="filled" size="large" styleClass="w-full">FINISH</Button>
-			</a>
-		{:else}
-			<Button
-				onclick={() => {
-					showSuccessConversionDialog = false;
-				}}
-				variant="filled"
-				size="large"
-				styleClass="w-full">FINISH</Button
-			>
-		{/if}
+		<Button onclick={handleSuccessFinishClick} variant="filled" size="large" styleClass="w-full"
+			>FINISH
+		</Button>
 	</svelte:fragment>
 </Dialog>

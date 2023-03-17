@@ -2,20 +2,21 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import ConfirmConversionButton from '$lib/page-components/bridge/buttons/ConfirmConversionButton.svelte';
+	import SuccessfulConversionModal from '$lib/page-components/bridge/modals/SuccessfulConversionModal.svelte';
 	import { BigNumber } from 'ethers';
 	import LoadingAnimatedPing from '../loading/LoadingAnimatedPing.svelte';
 
-	export let showApproveConfirmDialog: boolean = false;
-
 	export let handleApproveClick: () => Promise<void>;
 	export let handleConfirmClick: () => Promise<void>;
+	export let handleSuccessFinishClick: () => void;
 	export let approved: boolean;
 	export let approveButtonText: string = 'APPROVE';
 	export let confirmButtonText: string = 'CONFIRM';
 	export let amountConverted: BigNumber = BigNumber.from(0);
 	export let conversionFrom: 'pond' | 'mpond' = 'pond';
 
+	export let showApproveConfirmDialog: boolean = false;
+	let showSuccessConversionDialog: boolean = false;
 	let approveLoading: boolean;
 	let confirmLoading: boolean;
 
@@ -35,10 +36,11 @@
 			confirmLoading = true;
 			await handleConfirmClick();
 			showApproveConfirmDialog = false;
-			confirmLoading = false;
+			showSuccessConversionDialog = true;
 		} catch (e) {
-			confirmLoading = false;
 			throw e;
+		} finally {
+			confirmLoading = false;
 		}
 	};
 	const modalWidth = 'max-w-[500px]';
@@ -80,14 +82,21 @@
 				{approveButtonText}
 			</Button>
 		{:else}
-			<ConfirmConversionButton
-				onClickHandler={confirmClick}
-				{conversionFrom}
-				{amountConverted}
+			<Button
+				size="large"
+				variant="filled"
+				styleClass="w-full"
+				onclick={confirmClick}
 				loading={confirmLoading}
 			>
 				{confirmButtonText}
-			</ConfirmConversionButton>
+			</Button>
 		{/if}
 	</svelte:fragment>
 </Dialog>
+<SuccessfulConversionModal
+	bind:showSuccessConversionDialog
+	{amountConverted}
+	{conversionFrom}
+	{handleSuccessFinishClick}
+/>

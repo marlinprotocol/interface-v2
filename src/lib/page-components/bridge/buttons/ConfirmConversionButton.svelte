@@ -5,14 +5,13 @@
 
 	let showDialog: boolean = false;
 	export let amountConverted: BigNumber = BigNumber.from(0);
-	export let conversionFrom: string = 'pond';
+	export let conversionFrom: 'pond' | 'mpond' = 'pond';
 	export let loading: boolean = false;
 
-	export let onClickHandler: () => void;
+	export let onClickHandler: () => Promise<void>;
 
 	const handleClick = async () => {
 		try {
-			debugger;
 			await onClickHandler();
 			showDialog = true;
 		} catch (error) {

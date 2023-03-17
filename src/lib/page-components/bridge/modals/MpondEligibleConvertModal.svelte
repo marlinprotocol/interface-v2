@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';

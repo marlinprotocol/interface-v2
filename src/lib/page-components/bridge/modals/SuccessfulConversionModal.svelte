@@ -7,7 +7,7 @@
 	import { BigNumber } from 'ethers';
 
 	export let showDialog: boolean = false;
-	export let conversionFrom: string = 'pond';
+	export let conversionFrom: 'pond' | 'mpond' = 'pond';
 	export let amountConverted: BigNumber = BigNumber.from(0);
 
 	const redirectionLink =
@@ -49,8 +49,19 @@
 	</svelte:fragment>
 
 	<svelte:fragment slot="actionButtons">
-		<a href={redirectionLink}
-			><Button variant="filled" size="large" styleClass="w-full">FINISH</Button></a
-		>
+		{#if conversionFrom === 'pond'}
+			<a href={redirectionLink}>
+				<Button variant="filled" size="large" styleClass="w-full">FINISH</Button>
+			</a>
+		{:else}
+			<Button
+				onclick={() => {
+					showDialog = false;
+				}}
+				variant="filled"
+				size="large"
+				styleClass="w-full">FINISH</Button
+			>
+		{/if}
 	</svelte:fragment>
 </Dialog>

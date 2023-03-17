@@ -38,6 +38,7 @@
 			handleOnSuccess(txn?.hash ?? '');
 		} catch (error) {
 			console.log(error);
+			throw error;
 		}
 	};
 

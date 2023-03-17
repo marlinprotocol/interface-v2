@@ -14,7 +14,7 @@
 	export let approveButtonText: string = 'APPROVE';
 	export let confirmButtonText: string = 'CONFIRM';
 	export let amountConverted: BigNumber = BigNumber.from(0);
-	export let conversionFrom: string = 'pond';
+	export let conversionFrom: 'pond' | 'mpond' = 'pond';
 
 	let approveLoading: boolean;
 	let confirmLoading: boolean;

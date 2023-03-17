@@ -14,7 +14,8 @@ export const buttonClasses = {
 	maxButton:
 		'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent text-xs font-bold text-primary tracking-widest mt-1',
 	largeButton: 'flex gap-2 text-primary h-14 text-base font-semibold items-center',
-	convertButton: 'btn btn-xs text-xs h-4 py-0'
+	tableConvertButton:
+		'btn btn-xs text-xs h-[35px] w-[126px] rounded btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white pt-1'
 };
 
 export const dividerClasses = {
@@ -24,8 +25,8 @@ export const dividerClasses = {
 };
 
 export const tableCellClasses = {
-	heading: 'text-primary text-sm font-semibold px-2 py-6',
-	row: 'font-semibold text-sm px-2 py-3',
+	heading: 'text-primary text-sm font-semibold px-2 pb-4',
+	row: 'font-semibold text-base px-2 py-3',
 	rowWithIcon: 'flex flex-col items-center justify-start',
 	empty: 'text-base text-center p-4 w-full'
 };

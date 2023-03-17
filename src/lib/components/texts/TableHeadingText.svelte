@@ -12,7 +12,7 @@
 	<Text
 		text={title}
 		variant="small"
-		fontWeight={'font-medium'}
+		fontWeight={'font-semibold'}
 		styleClass={'tracking-widest mt-0.5'}
 	/>
 	{#if !!tooltipText}

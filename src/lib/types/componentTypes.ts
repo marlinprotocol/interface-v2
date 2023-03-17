@@ -34,7 +34,8 @@ export type CommonVariant =
 	| 'success'
 	| 'warning'
 	| 'error'
-	| 'disabled';
+	| 'disabled'
+	| 'grey';
 
 export type AppVariant = 'primary' | 'secondary';
 

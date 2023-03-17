@@ -80,11 +80,20 @@
 		try {
 			requestConversionLoading = true;
 			await requestMpondConversion(inputAmount);
+			resetInputs();
 			requestConversionLoading = false;
-		} catch (error) {
+		} catch (error: any) {
 			requestConversionLoading = false;
-			console.log('error:', error);
+			console.log('error:', error, error?.message, error?.reason);
+			console.log('error explauned:', error?.message, error?.reason);
 		}
+	};
+
+	const resetInputs = () => {
+		inputAmountString = '';
+		inputAmountIsValid = true;
+		updatedAmountInputDirty = false;
+		inValidMessage = '';
 	};
 
 	$: mpondDisabledText =

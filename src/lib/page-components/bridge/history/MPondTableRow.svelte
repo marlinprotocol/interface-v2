@@ -107,8 +107,8 @@
 				<HistoryDataIconButton
 					disabled={true}
 					src={'/images/timerclock.svg'}
-					styleClass={'mt-4 text-grey-600 font-normal'}
-					variant="secondary"
+					fontWeight={'font-normal'}
+					variant="grey"
 					text={`${Math.floor(timer / 60) % 60} mins`}
 				/>
 			</div>
@@ -129,7 +129,6 @@
 		<svelte:fragment slot="line2">
 			<Button
 				variant={'text'}
-				styleClass={buttonClasses.convertButton}
 				onclick={async () => {
 					await handleCancelConversionRequest(requestEpoch);
 				}}

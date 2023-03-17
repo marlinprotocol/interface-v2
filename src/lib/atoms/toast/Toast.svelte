@@ -14,7 +14,7 @@
 </script>
 
 {#if toasts}
-	<div class="toast toast-top toast-end items-end z-[999999]">
+	<div class="toast toast-top toast-end items-end z-[9999]">
 		{#each toasts as toast (toast.id)}
 			<div
 				in:slide

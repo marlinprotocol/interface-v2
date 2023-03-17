@@ -334,7 +334,7 @@
 		/>
 		<ErrorTextCard showError={!!pondDisabledText} errorMessage={pondDisabledText} />
 	</svelte:fragment>
-	<svelte:fragment slot="action-buttons">
+	<svelte:fragment slot="actionButtons">
 		<Button
 			variant="filled"
 			disabled={!submitEnable}

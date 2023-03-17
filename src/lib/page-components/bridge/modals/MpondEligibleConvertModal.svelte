@@ -82,7 +82,7 @@
 		/>
 		<ErrorTextCard showError={!!mPondDisabledText} errorMessage={mPondDisabledText} />
 	</svelte:fragment>
-	<svelte:fragment slot="action-buttons">
+	<svelte:fragment slot="actionButtons">
 		<MPondFinalConversionButton
 			{inputAmount}
 			{submitEnable}

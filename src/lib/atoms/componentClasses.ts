@@ -1,4 +1,4 @@
-const baseFilledButtonClasses = 'btn btn-theme btn-sm px-5 items-center';
+const baseFilledButtonClasses = 'btn btn-theme btn-sm px-5 items-center flex justify-center';
 
 export const buttonClasses = {
 	filled: `${baseFilledButtonClasses} btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white`,

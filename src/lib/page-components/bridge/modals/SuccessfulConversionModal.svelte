@@ -48,7 +48,7 @@
 		</div>
 	</svelte:fragment>
 
-	<svelte:fragment slot="action-buttons">
+	<svelte:fragment slot="actionButtons">
 		<a href={redirectionLink}
 			><Button variant="filled" size="large" styleClass="w-full">FINISH</Button></a
 		>

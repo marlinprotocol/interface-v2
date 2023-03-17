@@ -9,7 +9,7 @@
 		loadingBackground:
 			'animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75',
 		loadingText: `relative inline-flex rounded-full ${
-			hasPadding ? 'p-[3px] w-6 h-6' : 'w-5 h-5'
+			hasPadding ? 'p-[2.5px] w-6 h-6' : 'w-5 h-5'
 		} bg-orange-400 text-center flex justify-center text-sm`
 	};
 </script>

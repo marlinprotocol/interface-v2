@@ -55,7 +55,7 @@
 									<img src="/images/vectorcheck.svg" alt="Copy" width="20px" height="20px" />
 								{:else if currentCycle === i}
 									<LoadingAnimatedPing loading={true} hasPadding={true}>
-										<img src="/images/cycleloader.svg" alt="Copy" width="18px" height="18px" />
+										<img src="/images/cycleloader.svg" alt="Copy" width="19px" height="19px" />
 									</LoadingAnimatedPing>
 								{:else}
 									<img src="/images/unactivetick.svg" alt="Copy" width="20px" height="20px" />

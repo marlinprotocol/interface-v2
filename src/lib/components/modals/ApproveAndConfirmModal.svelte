@@ -74,15 +74,9 @@
 			</div>
 		{/if}
 	</svelte:fragment>
-	<svelte:fragment slot="action-buttons">
+	<svelte:fragment slot="actionButtons">
 		{#if !approved}
-			<Button
-				variant="filled"
-				size="large"
-				loading={approveLoading}
-				onclick={approveClick}
-				styleClass={'btn-block'}
-			>
+			<Button variant="filled" size="large" loading={approveLoading} onclick={approveClick}>
 				{approveButtonText}
 			</Button>
 		{:else}

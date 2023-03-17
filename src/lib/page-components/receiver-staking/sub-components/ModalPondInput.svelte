@@ -65,7 +65,12 @@
 				<slot name="inputMaxButton" />
 				<div class={dividerClasses.vertical} />
 				<div class="flex gap-1">
-					<Text variant="small" styleClass="text-gray-500" text={maxAmountText} />
+					<Text
+						variant="small"
+						styleClass="text-gray-400"
+						fontWeight="font-normal"
+						text={maxAmountText}
+					/>
 					{#if !!maxAmountTooltipText}
 						<TooltipIcon
 							iconSrc={'/images/alert.svg'}

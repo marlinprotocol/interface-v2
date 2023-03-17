@@ -24,8 +24,8 @@
 	onDestroy(unsubscribeChainProviderStore);
 
 	const styles = {
-		address: 'text-xs',
-		network: 'font-bold text-sm'
+		address: 'text-2xs text-[#0498ad] font-medium',
+		network: 'font-bold text-sm text-[#07617d]'
 	};
 </script>
 
@@ -34,7 +34,7 @@
 	onclick={() => {
 		showDialog = true;
 	}}
-	styleClass="bg-base-100 cursor-pointer text-primary rounded-lg shadow-sm flex gap-4 px-4 py-2 items-center"
+	styleClass="bg-base-100 h-[50px] cursor-pointer text-primary rounded-lg shadow-sm flex gap-4 items-center"
 >
 	<img src="/images/wallet-connected.svg" alt="Metamask Logo" />
 	<div class={'flex flex-col text-left'}>

@@ -5,7 +5,7 @@
 	export let disabled: boolean = false;
 	export let loading: boolean = false;
 	export let styleClass: string = '';
-	$: buttonClass = `${buttonClasses.outlined} ${styleClass} ${loading ? 'loading' : ''}`;
+	$: buttonClass = `${styleClass} ${buttonClasses.outlined} ${loading ? 'loading' : ''}`;
 </script>
 
 <button on:click|preventDefault={onclick} class={buttonClass} {disabled}>

@@ -4,7 +4,7 @@
 	export let disabled: boolean = false;
 	export let loading: boolean = false;
 	export let styleClass: string = '';
-	$: buttonClass = `${buttonClasses.filled} ${loading ? 'loading' : ''} ${styleClass}`;
+	$: buttonClass = `${styleClass} ${buttonClasses.filled} ${loading ? 'loading' : ''} `;
 </script>
 
 <button {disabled} on:click={onclick} class={buttonClass}>

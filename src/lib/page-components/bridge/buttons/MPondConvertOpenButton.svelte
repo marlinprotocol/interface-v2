@@ -1,6 +1,4 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
-	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import { mpondToPond, pondToMpond } from '$lib/utils/conversion';
@@ -37,4 +35,4 @@
 		handleUpdateData(updatedData);
 	}}
 />
-<TableConvertButton disabled={!pondEligible.gt(0)} on:onclick={() => (showDialog = true)} />
+<TableConvertButton disabled={!pondEligible.gt(0)} onclick={() => (showDialog = true)} />

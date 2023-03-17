@@ -36,7 +36,6 @@
 				/>
 			</Tab>
 		</TabList>
-
 		<TabPanel id={'1'} {activeTabValue}>
 			<PondToMpond />
 		</TabPanel>

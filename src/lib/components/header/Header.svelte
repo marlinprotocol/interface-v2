@@ -5,7 +5,7 @@
 
 	//styles for header component
 	const styles = {
-		wrapper: 'text-center py-[1.8rem] header flex gap-2 justify-between flex-wrap',
+		wrapper: 'text-center py-[1.8rem] header flex gap-2 justify-between flex-wrap items-center',
 		rightItems: 'flex gap-10 items-center'
 	};
 </script>

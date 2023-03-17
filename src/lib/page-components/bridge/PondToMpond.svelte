@@ -3,6 +3,7 @@
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
+	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
@@ -75,28 +76,27 @@
 	$: enableConversion = !!inputAmount && inputAmount.gt(0) && !!maxPondBalance?.gte(inputAmount);
 </script>
 
-<ModalPondInput
-	title="From"
-	bind:inputAmountString
-	{handleUpdatedAmount}
-	maxAmountText={balanceText}
-	inputCardVariant={'none'}
->
-	<Text slot="input-end-button" text="POND" fontWeight="font-medium" />
-	<button slot="inputMaxButton" on:click={handleMaxClick} class={buttonClasses.maxButton}>
-		MAX
-	</button>
-</ModalPondInput>
-<ErrorTextCard
-	showError={!inputAmountIsValid && updatedAmountInputDirty}
-	errorMessage={inValidMessage}
-/>
-<ErrorTextCard showError={!!pondDisabledText} errorMessage={pondDisabledText} />
-<Divider margin="mt-4 mb-6" />
-<ModalPondInput title="To" inputCardVariant={'none'} inputAmountString={convertedAmountString}>
-	<Text slot="input-end-button" text="MPond" fontWeight="font-medium" />
-</ModalPondInput>
-<div class="mb-5" />
+<div class="mt-8 mb-6 mx-2">
+	<ModalPondInput
+		title="From"
+		bind:inputAmountString
+		{handleUpdatedAmount}
+		maxAmountText={balanceText}
+		inputCardVariant={'none'}
+	>
+		<Text slot="input-end-button" text="POND" fontWeight="font-medium" />
+		<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
+	</ModalPondInput>
+	<ErrorTextCard
+		showError={!inputAmountIsValid && updatedAmountInputDirty}
+		errorMessage={inValidMessage}
+	/>
+	<ErrorTextCard showError={!!pondDisabledText} errorMessage={pondDisabledText} />
+	<Divider margin="mt-4 mb-6" />
+	<ModalPondInput title="To" inputCardVariant={'none'} inputAmountString={convertedAmountString}>
+		<Text slot="input-end-button" text="MPond" fontWeight="font-medium" />
+	</ModalPondInput>
+</div>
 {#if $connected}
 	{#if !enableConversion}
 		<button class={styles.buttonLarge} disabled>PROCEED TO CONVERSION</button>

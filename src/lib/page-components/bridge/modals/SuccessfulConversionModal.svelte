@@ -2,7 +2,7 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Dialog from '$lib/atoms/modals/Dialog.svelte';
-	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
+	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import { bigNumberToCommaString, mpondToPond, pondToMpond } from '$lib/utils/conversion';
 	import { BigNumber } from 'ethers';
 

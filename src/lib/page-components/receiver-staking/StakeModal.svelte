@@ -13,7 +13,7 @@
 	} from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { addToast } from '$lib/data-stores/toastStore';
-	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
+	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
 	import type { Address, ReceiverStakingData, WalletBalance } from '$lib/types/storeTypes';

@@ -8,8 +8,7 @@
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { requestMpondConversion } from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
-	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
-	import { connected } from '$lib/data-stores/walletProviderStore';
+	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,

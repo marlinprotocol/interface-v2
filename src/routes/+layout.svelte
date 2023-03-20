@@ -12,8 +12,8 @@
 		if (ENVIRONMENT.production) {
 			window.console.log = function () {};
 		}
-		restoreWalletConnection();
 		await getContractDetails();
+		restoreWalletConnection();
 	});
 </script>
 

@@ -120,13 +120,13 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 export async function getReceiverStakingDataFromSubgraph(
 	address: Address
 ): Promise<ReceiverStakingData> {
-	const pond_contract_address = contractAddresses.ReceiverStaking || '0x00000000000';
+	const receiver_staking_address = contractAddresses.ReceiverStaking || '0x00000000000';
 	const url = ENVIRONMENT.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_RECEIVER_STAKING_DATA;
 
 	const queryVariables = {
 		address: address.toLowerCase(),
-		contractAddress: pond_contract_address.toLowerCase()
+		contractAddress: receiver_staking_address.toLowerCase()
 	};
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
@@ -205,10 +205,12 @@ export async function checkIfSignerExistsInSubgraph(address: Address): Promise<b
 
 	try {
 		const result = await fetchHttpData(url, options);
+		// TODO: remove this when pushing to prod
+		if (result['errors']) return true;
 		if (result['data'] && result['data']?.receiverBalances?.length == 0) return true;
 		else return false;
 	} catch (error) {
-		console.log('Error fetching receiver pond balance from subgraph', error);
+		console.log('Error checking if signer exists in subgraph', error);
 		return false;
 	}
 }

@@ -6,8 +6,7 @@
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
-	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
-	import { connected } from '$lib/data-stores/walletProviderStore';
+	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,

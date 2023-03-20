@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { walletStore } from '$lib/data-stores/walletProviderStore';
+import { resetWalletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
 import { getChainDisplayName, isValidChain } from '$lib/utils/helpers/networkHelper';
 import { chainStore } from '$lib/data-stores/chainProviderStore';
 import { WALLET_TYPE } from '$lib/utils/constants/constants';
@@ -123,6 +123,7 @@ async function _subscribeToProviderEvents(
 export async function disconnectWallet() {
 	const walletType = get(walletStore).walletType;
 	if (walletType === WALLET_TYPE.metamask) {
+		resetWalletBalanceStore();
 		resetWalletProviderStore();
 		resetReceiverStakingStore();
 	} else if (walletType === WALLET_TYPE.walletconnect) {
@@ -133,6 +134,7 @@ export async function disconnectWallet() {
 export async function disconnectWalletConnect() {
 	try {
 		await walletConnectProvider.disconnect();
+		resetWalletBalanceStore();
 		resetWalletProviderStore();
 		resetReceiverStakingStore();
 		console.log('wallet disconnected from the button');

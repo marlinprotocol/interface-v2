@@ -90,10 +90,16 @@ export const getModifiedMpondToPondHistory = (
 		// if liquidity release has started
 		if (_nowTime > _firstCycleStartTime) {
 			currentCycle = Math.floor((_nowTime - _firstCycleStartTime) / _liqudityReleaseEpochs);
+
 			if (currentCycle < totalCycles) {
 				// if liquidity release is in progress
 				currentEligiblePond = currentEligiblePond.add(pondProcessInACycle.mul(currentCycle));
-				currentPondInProcess = pondProcessInACycle;
+
+				if (currentCycle < totalCycles - 1) {
+					currentPondInProcess = pondProcessInACycle;
+				} else {
+					currentPondInProcess = pondAmountBN.sub(currentEligiblePond);
+				}
 			} else {
 				// if liquidity release is completed
 				currentEligiblePond = pondAmountBN;

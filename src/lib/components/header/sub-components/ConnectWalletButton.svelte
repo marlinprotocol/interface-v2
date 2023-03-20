@@ -4,7 +4,7 @@
 	import ConnectWalletModal from './ConnectWalletModal.svelte';
 
 	export let isLarge: boolean = false;
-	let showDialog: boolean = false;
+	let showConnectWalletDialog: boolean = false;
 
 	// do not remove this line
 	$: provider = $walletStore.provider;
@@ -13,7 +13,7 @@
 <Button
 	variant={isLarge ? 'filled' : 'outlined'}
 	onclick={() => {
-		showDialog = true;
+		showConnectWalletDialog = true;
 	}}
 	size={isLarge ? 'large' : 'small'}
 	styleClass={`${isLarge ? 'w-full' : 'w-fit text-sm'} flex gap-[10.3px]`}
@@ -24,4 +24,4 @@
 	Connect Wallet
 </Button>
 
-<ConnectWalletModal bind:showDialog />
+<ConnectWalletModal bind:showConnectWalletDialog />

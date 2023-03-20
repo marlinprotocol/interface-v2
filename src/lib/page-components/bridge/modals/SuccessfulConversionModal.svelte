@@ -6,19 +6,17 @@
 	import { bigNumberToCommaString, mpondToPond, pondToMpond } from '$lib/utils/conversion';
 	import { BigNumber } from 'ethers';
 
-	export let showDialog: boolean = false;
-	export let conversionFrom: string = 'pond';
+	export let showSuccessConversionDialog: boolean = false;
+	export let conversionFrom: 'pond' | 'mpond' = 'pond';
 	export let amountConverted: BigNumber = BigNumber.from(0);
-
-	const redirectionLink =
-		conversionFrom === 'pond' ? '/bridge/pondToMpondHistory' : '/bridge/mPondtoPondHistory';
+	export let handleSuccessFinishClick: (() => void) | undefined = undefined;
 
 	$: conversionTo = conversionFrom === 'pond' ? 'mpond' : 'pond';
 	$: amountConvertedTo =
 		conversionFrom === 'pond' ? pondToMpond(amountConverted) : mpondToPond(amountConverted);
 </script>
 
-<Dialog bind:showDialog>
+<Dialog bind:showDialog={showSuccessConversionDialog}>
 	<img slot="icon" src="/images/shield.svg" alt="" width="38px" />
 	<svelte:fragment slot="title">
 		{'Conversion Successful'}
@@ -47,10 +45,9 @@
 			>
 		</div>
 	</svelte:fragment>
-
 	<svelte:fragment slot="actionButtons">
-		<a href={redirectionLink}
-			><Button variant="filled" size="large" styleClass="w-full">FINISH</Button></a
-		>
+		<Button onclick={handleSuccessFinishClick} variant="filled" size="large" styleClass="w-full"
+			>FINISH
+		</Button>
 	</svelte:fragment>
 </Dialog>

@@ -17,7 +17,7 @@
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import ModalPondInput from '../receiver-staking/sub-components/ModalPondInput.svelte';
-	import PondConvertModal from './PondConvertModal.svelte';
+	import PondApproveConfirmModal from './PondApproveConfirmModal.svelte';
 
 	const styles = {
 		wrapper: 'w-full flex flex-col items-center justify-center py-8',
@@ -25,7 +25,7 @@
 		buttonLarge: `${buttonClasses.filled} h-14 text-base font-semibold flex gap-1 w-full`
 	};
 
-	let showDialog: boolean = false;
+	let showPondApproveConfirmDialog: boolean = false;
 
 	//initial amount states
 	let inputAmount: BigNumber;
@@ -102,7 +102,7 @@
 	{:else}
 		<Button
 			onclick={() => {
-				showDialog = true;
+				showPondApproveConfirmDialog = true;
 			}}
 			styleClass={styles.buttonLarge}
 		>
@@ -112,4 +112,4 @@
 {:else}
 	<ConnectWalletButton isLarge={true} />
 {/if}
-<PondConvertModal pond={inputAmount} bind:showDialog />
+<PondApproveConfirmModal pond={inputAmount} bind:showPondApproveConfirmDialog />

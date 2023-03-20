@@ -8,7 +8,7 @@
 	import { bigNumberToCommaString, mpondToPond } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
 
-	export let showDialog: boolean = false;
+	export let showMpondApproveConfirmDialog: boolean = false;
 	export let requestEpoch: BigNumber;
 	export let mpondToConvert: BigNumber;
 	export let handleOnSuccess: (txnHash: string) => void;
@@ -31,13 +31,16 @@
 			console.log(error);
 		}
 	};
+
+	let txnHash = '';
 	const handleConfirmClick = async () => {
 		console.log('confirm convertMPondToPond');
 		try {
 			const txn = await confirmMpondConversion(requestEpoch, mpondToConvert);
-			handleOnSuccess(txn?.hash ?? '');
+			txnHash = txn.hash;
 		} catch (error) {
 			console.log(error);
+			throw error;
 		}
 	};
 
@@ -45,9 +48,13 @@
 </script>
 
 <ApproveAndConfirmModal
-	bind:showDialog
+	bind:showApproveConfirmDialog={showMpondApproveConfirmDialog}
 	{handleApproveClick}
 	{handleConfirmClick}
+	handleSuccessFinishClick={() => {
+		console.log('handleSuccessFinishClick 1 :>> ', txnHash);
+		handleOnSuccess(txnHash);
+	}}
 	{approved}
 	conversionFrom={'mpond'}
 	amountConverted={mpondToConvert}

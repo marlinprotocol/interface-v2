@@ -6,11 +6,11 @@
 	import { getImagebyWalletProvider } from '$lib/utils/constants/componentConstants';
 	import WalletCard from './WalletCard.svelte';
 
-	export let showDialog: boolean = false;
+	export let showConnectWalletDialog: boolean = false;
 	const modalWidth = 'max-w-[500px]';
 </script>
 
-<Dialog bind:showDialog {modalWidth}>
+<Dialog bind:showDialog={showConnectWalletDialog} {modalWidth}>
 	<svelte:fragment slot="header">Unlock Wallet</svelte:fragment>
 	<svelte:fragment slot="title">Select a provider</svelte:fragment>
 	<svelte:fragment slot="actionButtons">

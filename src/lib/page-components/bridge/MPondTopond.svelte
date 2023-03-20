@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
@@ -82,10 +82,10 @@
 			await requestMpondConversion(inputAmount);
 			resetInputs();
 			requestConversionLoading = false;
+			goto('/bridge/mPondtoPondHistory');
 		} catch (error: any) {
 			requestConversionLoading = false;
-			console.log('error:', error, error?.message, error?.reason);
-			console.log('error explauned:', error?.message, error?.reason);
+			console.log('error:', error);
 		}
 	};
 

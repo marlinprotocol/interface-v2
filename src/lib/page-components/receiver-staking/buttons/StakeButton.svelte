@@ -2,7 +2,7 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import StakeModal from '$lib/page-components/receiver-staking/StakeModal.svelte';
 
-	let showDialog = false;
+	let showStakeDialog = false;
 	const styles = {
 		buttonLarge: 'h-14 text-base font-semibold'
 	};
@@ -10,9 +10,9 @@
 
 <Button
 	onclick={() => {
-		showDialog = true;
+		showStakeDialog = true;
 	}}
 	variant="filled"
 	styleClass={`${styles.buttonLarge} w-full`}>STAKE</Button
 >
-<StakeModal bind:showDialog />
+<StakeModal bind:showStakeDialog />

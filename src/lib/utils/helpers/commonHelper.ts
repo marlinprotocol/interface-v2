@@ -17,6 +17,14 @@ export function getCurrentEpochCycle(epochStartTime: number, epochLength: number
 	const epochCycle = Math.floor((currentEpoch - epochStartTime) / epochLength) + 1;
 	return epochCycle;
 }
+/**
+ * closes modal based on the id that is passed in <label for={modalId}> by setting the respective checkbox to true
+ * @param modalId
+ */
+export function openModal(modalId: string) {
+	const modalCheckboxInput = document.getElementById(modalId) as HTMLInputElement;
+	modalCheckboxInput.checked = true;
+}
 
 /**
  * closes modal based on the id that is passed in <label for={modalId}> by setting the respective checkbox to false

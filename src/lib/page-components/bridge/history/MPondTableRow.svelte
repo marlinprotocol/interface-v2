@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import TableDataWithButton from '$lib/components/table-cells/TableDataWithButton.svelte';
 	import TxnHashText from '$lib/components/TxnHashText.svelte';

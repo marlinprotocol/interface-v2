@@ -8,7 +8,7 @@
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
 
-	export let showDialog: boolean = false;
+	export let showDisconnectWalletDialog: boolean = false;
 	$: blockChainExplorerLink = `https://arbiscan.io/address/${$walletStore.address}`;
 
 	const onCopyAddress = () => {
@@ -20,7 +20,7 @@
 	};
 </script>
 
-<Dialog bind:showDialog>
+<Dialog bind:showDialog={showDisconnectWalletDialog}>
 	<svelte:fragment slot="title">Your wallet</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="rounded-lg p-4 bg-base-200 text-left mb-4">

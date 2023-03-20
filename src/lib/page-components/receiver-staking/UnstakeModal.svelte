@@ -17,7 +17,7 @@
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
-	export let showDialog: boolean = false;
+	export let showUnstakeDialog: boolean = false;
 	const subtitle =
 		'Enter the amount of POND to be unstaked from the receiver address. Unstaking POND is immediate and should reflect in your wallet after the transaction is confirmed.';
 	const toolTipText =
@@ -80,7 +80,7 @@
 		submitLoading = true;
 		try {
 			await withdrawStakingToken(inputAmount);
-			showDialog = false;
+			showUnstakeDialog = false;
 			//substract input amount first from queued amount and then from staked amount
 			receiverStakingStore.update((value) => {
 				if (inputAmount.gt(value.queuedBalance)) {
@@ -110,7 +110,7 @@
 	};
 </script>
 
-<Dialog bind:showDialog onClose={resetInputs}>
+<Dialog bind:showDialog={showUnstakeDialog} onClose={resetInputs}>
 	<svelte:fragment slot="title">
 		{'UNSTAKE POND'}
 	</svelte:fragment>

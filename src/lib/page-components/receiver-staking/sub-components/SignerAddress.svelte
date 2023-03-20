@@ -26,6 +26,7 @@
 	let innerWidth = 0;
 
 	$: displayAddress =
+		$receiverStakingStore.signer !== null &&
 		$receiverStakingStore.signer !== DEFAULT_RECEIVER_STAKING_DATA.signer
 			? innerWidth >= 640
 				? minifyAddress($receiverStakingStore.signer, 24, 10)

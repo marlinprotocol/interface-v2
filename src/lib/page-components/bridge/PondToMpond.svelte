@@ -53,7 +53,7 @@
 	onDestroy(unsubscribeWalletBalanceStore);
 
 	const handleMaxClick = () => {
-		if (!!maxPondBalance) {
+		if (maxPondBalance) {
 			inputAmountString = bigNumberToString(maxPondBalance);
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
@@ -69,10 +69,10 @@
 	};
 
 	$: pondDisabledText =
-		!!inputAmount && inputAmount.gt(0) && !!!maxPondBalance?.gte(inputAmount)
+		inputAmount && inputAmount.gt(0) && !maxPondBalance?.gte(inputAmount)
 			? 'Insufficient POND'
 			: '';
-	$: enableConversion = !!inputAmount && inputAmount.gt(0) && !!maxPondBalance?.gte(inputAmount);
+	$: enableConversion = inputAmount && inputAmount.gt(0) && maxPondBalance?.gte(inputAmount);
 </script>
 
 <div class="mt-8 mb-6 mx-2">

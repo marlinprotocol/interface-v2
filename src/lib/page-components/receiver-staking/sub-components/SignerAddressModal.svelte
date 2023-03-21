@@ -68,7 +68,7 @@
 	};
 
 	$: submitEnable =
-		!!updatedSignerAddress &&
+		updatedSignerAddress &&
 		updatedSignerAddress !== $receiverStakingStore.signer &&
 		signerAddressIsValid &&
 		signerAddressIsUnique &&

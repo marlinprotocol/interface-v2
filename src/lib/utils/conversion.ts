@@ -66,7 +66,7 @@ export const bigNumberToCommaString = (value: BigNumber, decimals: number = 2) =
  * @returns string
  */
 export const bigNumberToString = (value: BigNumber, bigNumberDecimal: number = 18) => {
-	if (!!!value) return '0.00';
+	if (!value) return '0.00';
 	let ret = ethers.utils.formatUnits(value, bigNumberDecimal);
 	//if decimal count is less than 2, pad end it with 0
 	if (ret.split('.')[1].length < 2) {
@@ -77,11 +77,11 @@ export const bigNumberToString = (value: BigNumber, bigNumberDecimal: number = 1
 
 //return bignumber from string with decimal
 export const stringToBigNumber = (value: string, bigNumberDecimal: number = 18) => {
-	if (!!!value) return BigNumber.from(0);
+	if (!value) return BigNumber.from(0);
 	let newValue = value;
 	let [integer, fraction] = value.split('.');
 
-	if (!!fraction && fraction.length > bigNumberDecimal) {
+	if (fraction && fraction.length > bigNumberDecimal) {
 		fraction = fraction.slice(0, bigNumberDecimal);
 		newValue = integer + '.' + fraction;
 	}

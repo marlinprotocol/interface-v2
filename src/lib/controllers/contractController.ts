@@ -468,7 +468,7 @@ export async function requestMpondConversion(amount: BigNumber) {
 		return tx;
 	} catch (error: any) {
 		addToast({
-			message: !!error.reason ? error.reason : MESSAGES.TOAST.TRANSACTION.FAILED,
+			message: error.reason ? error.reason : MESSAGES.TOAST.TRANSACTION.FAILED,
 			variant: 'error',
 			timeout: 5000
 		});

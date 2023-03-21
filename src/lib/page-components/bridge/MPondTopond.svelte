@@ -61,7 +61,7 @@
 	onDestroy(unsubscribeBridgeStore);
 
 	const handleMaxClick = () => {
-		if (!!unrequestedMPondBalance) {
+		if (unrequestedMPondBalance) {
 			inputAmountString = bigNumberToString(unrequestedMPondBalance);
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
@@ -97,11 +97,11 @@
 	};
 
 	$: mpondDisabledText =
-		!!inputAmount && inputAmount.gt(0) && !!!unrequestedMPondBalance?.gte(inputAmount)
+		inputAmount && inputAmount.gt(0) && !unrequestedMPondBalance?.gte(inputAmount)
 			? 'Insufficient MPond'
 			: '';
 	$: enableConversion =
-		!!inputAmount && inputAmount.gt(0) && !!unrequestedMPondBalance?.gte(inputAmount);
+		inputAmount && inputAmount.gt(0) && unrequestedMPondBalance?.gte(inputAmount);
 </script>
 
 <div class="mt-8 mb-6 mx-2">

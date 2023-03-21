@@ -153,7 +153,7 @@ export async function getReceiverStakingDataFromSubgraph(
 		}
 
 		//update staked and queued balance
-		if (!!balance) {
+		if (balance) {
 			const totalBalance = BigNumber.from(balance);
 			let queuedBalance = DEFAULT_RECEIVER_STAKING_DATA.queuedBalance;
 			let stakedBalance = DEFAULT_RECEIVER_STAKING_DATA.stakedBalance;
@@ -180,7 +180,7 @@ export async function getReceiverStakingDataFromSubgraph(
 			};
 		}
 		//update approved POND balance
-		if (!!approvals?.length) {
+		if (approvals?.length) {
 			const approvalData = approvals[0];
 			stakingData = {
 				...stakingData,
@@ -231,7 +231,7 @@ export async function getPondAndMpondBridgeAllowances(address: Address, contract
 		const result = await fetchHttpData(url, options);
 		console.log('pond mpond allowances', result);
 
-		if (!!!result['data']) {
+		if (!result['data']) {
 			return { pond, mpond };
 		}
 
@@ -268,7 +268,7 @@ export async function getRequestedMPondForConversion(address: Address) {
 		const result: any | undefined = await fetchHttpData(url, options);
 		console.log('mpond requested', result);
 
-		if (!!!result['data']) {
+		if (!result['data']) {
 			return requestedMpond;
 		}
 
@@ -296,7 +296,7 @@ export async function getPondToMPondConversionHistory(address: Address) {
 
 	try {
 		const result = await fetchHttpData(url, options);
-		if (!!!result['data']?.users?.length) return undefined;
+		if (!result['data']?.users?.length) return undefined;
 		const user = result['data']['users'][0];
 
 		const pondToMpondConversions: PondToMPondHistoryDataModel[] | undefined =
@@ -327,10 +327,10 @@ export async function getMPondToPondConversionHistory(address: Address) {
 
 	try {
 		const result = await fetchHttpData(url, options);
-		if (!!!result['data']?.users?.length || !!!result['data']?.states?.length) return undefined;
+		if (!result['data']?.users?.length || !result['data']?.states?.length) return undefined;
 		const user = result['data']['users'][0];
 		const state = result['data']['states'][0];
-		if (!!!user || !!!state) return undefined;
+		if (!user || !state) return undefined;
 
 		const { mpondToPondConversions, requests } = user;
 		const data = getModifiedMpondToPondHistory(mpondToPondConversions, requests, state);

@@ -17,7 +17,7 @@
 	let loading = true;
 	const unsubscribeWalletStore: Unsubscriber = walletStore.subscribe(async (value: WalletStore) => {
 		address = value.address;
-		if (!!address) {
+		if (address) {
 			loading = true;
 			historyData = await getPondToMPondConversionHistory(address);
 			historyData = historyData?.sort((a, b) => b.timestamp - a.timestamp);
@@ -41,11 +41,11 @@
 	}}
 	{loading}
 	{handleSortData}
-	noDataFound={!!!historyData?.length}
+	noDataFound={!historyData?.length}
 	fullWidth={false}
 	tableHeading={pondToMpondTableHeader}
 >
-	{#if !!historyData?.length}
+	{#if historyData?.length}
 		{#each historyData as row}
 			<tr>
 				<td class={tableCellClasses.row}>{epochSecToString(row.timestamp)}</td>

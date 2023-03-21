@@ -137,7 +137,7 @@
 	};
 
 	const handleMaxClick = () => {
-		if (!!maxPondBalance) {
+		if (maxPondBalance) {
 			inputAmountString = bigNumberToString(maxPondBalance);
 			//reset input error message
 			inputAmountIsValid = true;
@@ -221,28 +221,28 @@
 	//button states
 	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount or approved amount is less than or equal to input amount, disable approve button
 	$: approveDisabled =
-		!!!inputAmount ||
+		!inputAmount ||
 		!inputAmount.gt(0) ||
-		!!!maxPondBalance?.gte(inputAmount) ||
-		!!approvedAmount?.gte(inputAmount);
+		!maxPondBalance?.gte(inputAmount) ||
+		approvedAmount?.gte(inputAmount);
 
 	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount, disable submit button
 	$: pondDisabledText =
-		!!inputAmount && inputAmount.gt(0) && !!!maxPondBalance?.gte(inputAmount)
+		inputAmount && inputAmount.gt(0) && !maxPondBalance?.gte(inputAmount)
 			? 'Insufficient POND'
 			: '';
 
 	$: signerAddressNotAdded = $receiverStakingStore.signer === DEFAULT_RECEIVER_STAKING_DATA.signer;
 	//if signerAddress is already set then we consider only inputAmount else we also consider signerAddress to be set while disabling submit button
 	$: submitEnable = signerAddressNotAdded
-		? !!inputAmount &&
+		? inputAmount &&
 		  inputAmount.gt(0) &&
 		  approvedAmount?.gte(inputAmount) &&
 		  maxPondBalance?.gte(inputAmount) &&
 		  updatedSignerAddress !== '' &&
 		  signerAddressIsValid &&
 		  signerAddressIsUnique
-		: !!inputAmount &&
+		: inputAmount &&
 		  inputAmount.gt(0) &&
 		  approvedAmount?.gte(inputAmount) &&
 		  maxPondBalance?.gte(inputAmount);

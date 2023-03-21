@@ -10,7 +10,7 @@
 </script>
 
 <div class={styles.card}>
-	{#if !!imageSrc}
+	{#if imageSrc}
 		<img src={imageSrc} alt={title} width="64px" />
 	{/if}
 	<Text text={title} variant="h4" styleClass="mt-4 mb-6 font-semibold font-sans" />

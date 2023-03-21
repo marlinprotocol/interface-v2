@@ -51,7 +51,7 @@
 	const buttonSize = getButtonSize();
 </script>
 
-{#if !!ButtonType}
+{#if ButtonType}
 	<ButtonType {onclick} {disabled} {loading} styleClass={`${styleClass} ${buttonSize}`}>
 		<slot />
 	</ButtonType>

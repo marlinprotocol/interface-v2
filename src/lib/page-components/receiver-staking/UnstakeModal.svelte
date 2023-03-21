@@ -64,11 +64,11 @@
 		inValidMessage = inputAmountInValidMessage(target.value);
 	};
 
-	$: pondDisabledText = !!inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient POND' : '';
-	$: submitEnable = !!inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
+	$: pondDisabledText = inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient POND' : '';
+	$: submitEnable = inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
 
 	const handleMaxClick = () => {
-		if (!!maxAmount) {
+		if (maxAmount) {
 			inputAmountString = bigNumberToString(maxAmount);
 			//reset input error message
 			inputAmountIsValid = true;

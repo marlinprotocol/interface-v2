@@ -75,7 +75,7 @@ async function setWalletBalance(walletAddress: Address): Promise<void> {
 			pond: balances[0],
 			mpond: balances[1]
 		});
-		console.log('!! Wallet balance updated !!');
+		console.log(' Wallet balance updated ');
 	} catch (error) {
 		console.log('error while setting wallet balance');
 		console.log(error);

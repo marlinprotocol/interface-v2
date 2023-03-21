@@ -11,11 +11,10 @@
 	import BridgeDashboard from '$lib/page-components/bridge/BridgeDashboard.svelte';
 
 	async function init() {
-		const allowances = await getPondAndMPondBridgeAllowances(
-			$walletStore.address,
-			$contractAddressStore.Bridge
-		);
-		const requestedMPond = await getRequestedMPondForConversion($walletStore.address);
+		const [allowances, requestedMPond] = await Promise.all([
+			getPondAndMPondBridgeAllowances($walletStore.address, $contractAddressStore.Bridge),
+			getRequestedMPondForConversion($walletStore.address)
+		]);
 		bridgeStore.set({
 			allowances: {
 				pond: allowances.pond,

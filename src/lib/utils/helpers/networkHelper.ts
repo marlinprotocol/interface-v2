@@ -12,11 +12,13 @@ export function isValidChain(chainId: number): boolean {
 }
 
 export async function switchChain(provider: any, walletType: WALLET_TYPE, chainId: string) {
-	await provider.provider.request({
-		method: 'wallet_switchEthereumChain',
-		params: [{ chainId: chainId }]
-	});
-	await connectWallet(walletType);
+	await Promise.all([
+		provider.provider.request({
+			method: 'wallet_switchEthereumChain',
+			params: [{ chainId: chainId }]
+		}),
+		connectWallet(walletType)
+	]);
 }
 
 export const getChainDisplayName = (chainId: number): string | undefined => {

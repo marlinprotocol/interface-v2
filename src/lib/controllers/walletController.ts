@@ -17,7 +17,13 @@ export async function connectWallet(walletType: WALLET_TYPE) {
 	if (provider !== undefined) {
 		const walletSigner = provider.getSigner();
 		console.log('WalletSigner', walletSigner);
-		const walletChecksumAddress = await walletSigner.getAddress();
+
+		const [walletChecksumAddress, networkData] = await Promise.all([
+			walletSigner.getAddress(),
+			provider.getNetwork()
+		]);
+
+		// const walletChecksumAddress = await walletSigner.getAddress();
 		const walletHexAddress = walletChecksumAddress.toLowerCase() as Lowercase<string>;
 		walletStore.set({
 			walletType: walletType,
@@ -26,7 +32,7 @@ export async function connectWallet(walletType: WALLET_TYPE) {
 			address: walletHexAddress
 		});
 
-		const { chainId, name } = await provider.getNetwork();
+		const { chainId, name } = networkData;
 		const validChain = isValidChain(chainId);
 		const chainDisplayName = getChainDisplayName(chainId);
 		chainStore.set({

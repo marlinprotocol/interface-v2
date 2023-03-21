@@ -17,7 +17,7 @@
 		conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted);
 </script>
 
-<Dialog bind:showDialog={showSuccessConversionDialog}>
+<Dialog bind:showDialog={showSuccessConversionDialog} closeOnOutsideClick={true}>
 	<img slot="icon" src="/images/shield.svg" alt="" width="38px" />
 	<svelte:fragment slot="title">
 		{'Conversion Successful'}

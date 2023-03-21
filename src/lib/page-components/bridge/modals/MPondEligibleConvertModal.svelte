@@ -5,8 +5,12 @@
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
+	import { BigNumberZero, mPondPrecisions } from '$lib/utils/constants/constants';
+	import {
+		bigNumberToCommaString,
+		bigNumberToString,
+		stringToBigNumber
+	} from '$lib/utils/conversion';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import MPondApproveConfirmModal from './MPondApproveConfirmModal.svelte';
@@ -16,7 +20,7 @@
 	export let requestEpoch: BigNumber;
 	export let handleOnSuccess: (convertedMPond: BigNumber, txnHash: string) => void;
 
-	$: balanceText = `Eligible Balance: ${bigNumberToString(maxAmount)}`;
+	$: balanceText = `Eligible Balance: ${bigNumberToCommaString(maxAmount, mPondPrecisions)}`;
 
 	//initial amount states
 	let inputAmount: BigNumber;

@@ -28,11 +28,8 @@
 		currentCycle: number,
 		eligibleCycles: MPondEligibleCyclesModel[] | undefined
 	) => {
-		if (!eligibleCycles?.length) return 0;
-		if (currentCycle < eligibleCycles.length) {
-			return eligibleCycles[currentCycle].endTimestamp;
-		}
-		return 0;
+		if (!eligibleCycles?.length || eligibleCycles.length < currentCycle) return 0;
+		return eligibleCycles[currentCycle].endTimestamp;
 	};
 
 	const {
@@ -51,7 +48,7 @@
 	const endEpochTime = getTimerEpoch(currentCycle, eligibleCycles);
 
 	const handleCancelConversionRequest = async (requestEpoch: BigNumber) => {
-		// TODO: check why not working
+		//not working yet
 		await cancelMPondConversionRequest(requestEpoch);
 	};
 </script>

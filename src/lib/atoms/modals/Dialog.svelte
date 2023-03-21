@@ -2,6 +2,7 @@
 	export let modalWidth: string = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
 	export let onClose: () => void = () => {};
 	export let showDialog: boolean; // boolean
+	export let closeOnOutsideClick: boolean = false;
 
 	let dialog: HTMLDialogElement; // HTMLDialogElement
 
@@ -21,7 +22,7 @@
 <dialog
 	bind:this={dialog}
 	on:close={() => (showDialog = false)}
-	on:click|self={() => dialog.close()}
+	on:click|self={() => (closeOnOutsideClick ? dialog.close() : null)}
 	class={`${modalWidth} max-h-90vh rounded-lg bg-base-100 shadow-none overflow-none py-0 px-0`}
 >
 	<div on:click|stopPropagation>

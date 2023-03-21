@@ -46,7 +46,7 @@
 				</div>
 			{/each}
 		</div>
-		<div class="flex flex-row gap-4 w-full mx-auto">
+		<div class="flex flex-row gap-4 w-full mx-auto font-medium">
 			<div class="flex-1">
 				<div class="flex flex-col align-center w-fit mx-auto">
 					{#each cycles as rowData, i}

@@ -20,7 +20,6 @@
 		if (address) {
 			loading = true;
 			historyData = await getPondToMPondConversionHistory(address);
-			historyData = historyData?.sort((a, b) => b.timestamp - a.timestamp);
 			loading = false;
 		}
 	});
@@ -37,7 +36,7 @@
 		backButton: {
 			firstText: 'MPond',
 			secondText: 'POND',
-			href: '/bridge/mPondtoPondHistory'
+			href: '/bridge/mPondToPondHistory'
 		},
 		title: 'POND to MPond conversion history'
 	}}

@@ -53,7 +53,7 @@
 	</TabPanel>
 
 	<TabPanel id={'mPond'} {activeTabValue}>
-		<a href="/bridge/mPondtoPondHistory">
+		<a href="/bridge/mPondToPondHistory">
 			<ConversionHistoryButton firstText="MPond" secondText="POND" />
 		</a>
 	</TabPanel>

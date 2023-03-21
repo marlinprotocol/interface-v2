@@ -82,7 +82,7 @@
 			await requestMPondConversion(inputAmount);
 			resetInputs();
 			requestConversionLoading = false;
-			goto('/bridge/mPondtoPondHistory');
+			goto('/bridge/mPondToPondHistory');
 		} catch (error: any) {
 			requestConversionLoading = false;
 			console.log('error:', error);

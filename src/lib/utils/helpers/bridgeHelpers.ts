@@ -124,8 +124,6 @@ export const getModifiedMPondToPondHistory = (
 				};
 			});
 
-		conversionHistory = conversionHistory.sort((a, b) => b.timestamp - a.timestamp);
-
 		return {
 			id,
 			mpondAmount: mpondAmountBN,

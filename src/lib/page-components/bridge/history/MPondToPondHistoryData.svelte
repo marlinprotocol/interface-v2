@@ -17,7 +17,6 @@
 		if (address) {
 			loading = true;
 			historyData = await getMPondToPondConversionHistory(address);
-			historyData = historyData?.sort((a, b) => b.timestamp - a.timestamp);
 			loading = false;
 		}
 	});

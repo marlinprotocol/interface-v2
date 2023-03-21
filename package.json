@@ -14,8 +14,6 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
-		"@esbuild-plugins/node-globals-polyfill": "^0.2.3",
-		"@esbuild-plugins/node-modules-polyfill": "^0.2.2",
 		"@playwright/test": "^1.28.1",
 		"@sveltejs/adapter-static": "^2.0.1",
 		"@sveltejs/kit": "^1.0.0",
@@ -38,9 +36,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@walletconnect/universal-provider": "^2.4.6",
-		"@walletconnect/web3-provider": "^1.8.0",
-		"@web3modal/standalone": "^2.1.1",
 		"daisyui": "^2.46.1",
 		"ethers": "^5.7.2",
 		"svelte-awesome": "^3.0.1",

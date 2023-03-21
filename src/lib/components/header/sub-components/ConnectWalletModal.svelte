@@ -4,6 +4,7 @@
 	import { connectWallet } from '$lib/controllers/walletController';
 	import { walletOptions } from '$lib/data-stores/walletProviderStore';
 	import { getImagebyWalletProvider } from '$lib/utils/constants/componentConstants';
+	import { WALLET_TYPE } from '$lib/utils/constants/constants';
 	import WalletCard from './WalletCard.svelte';
 
 	export let showConnectWalletDialog: boolean = false;
@@ -25,6 +26,7 @@
 						onclick={() => connectWallet(walletOption.provider)}
 						variant="filled"
 						styleClass={'w-[170px] h-12 text-base font-semibold'}
+						disabled={walletOption.provider === WALLET_TYPE.walletconnect}
 					>
 						Connect
 					</Button>

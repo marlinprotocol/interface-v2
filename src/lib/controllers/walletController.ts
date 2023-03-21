@@ -6,10 +6,10 @@ import { WALLET_TYPE } from '$lib/utils/constants/constants';
 import { resetWalletProviderStore } from '$lib/data-stores/walletProviderStore';
 import { get } from 'svelte/store';
 import { resetReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
-import WalletConnectProvider from '@walletconnect/web3-provider';
+// import WalletConnectProvider from '@walletconnect/web3-provider';
 
 let metamaskProvider: any;
-let walletConnectProvider: WalletConnectProvider;
+// let walletConnectProvider: WalletConnectProvider;
 export async function connectWallet(walletType: WALLET_TYPE) {
 	const provider = await getWalletProvider(walletType);
 	sessionStorage.setItem('connectType', walletType);
@@ -71,25 +71,22 @@ async function getMetamaskWalletProvider() {
 async function getWalletConnectProvider() {
 	console.log('connecting to wallet connect...');
 
-	walletConnectProvider = new WalletConnectProvider({
-		rpc: {
-			1: 'https://mainnet.infura.io/v3/f69c3698961e47d7834969e8c4347c1b',
-			421613: 'https://goerli-rollup.arbitrum.io/rpc'
-		}
-	});
+	// walletConnectProvider = new WalletConnectProvider({
+	// 	rpc: {
+	// 		1: 'https://mainnet.infura.io/v3/f69c3698961e47d7834969e8c4347c1b',
+	// 		421613: 'https://goerli-rollup.arbitrum.io/rpc'
+	// 	}
+	// });
 
-	//  Enable session (triggers QR Code modal)
-	await walletConnectProvider.enable();
+	// //  Enable session (triggers QR Code modal)
+	// await walletConnectProvider.enable();
 
-	_subscribeToProviderEvents(walletConnectProvider, WALLET_TYPE.walletconnect);
+	// _subscribeToProviderEvents(walletConnectProvider, WALLET_TYPE.walletconnect);
 
-	return new ethers.providers.Web3Provider(walletConnectProvider);
+	// return new ethers.providers.Web3Provider(walletConnectProvider);
 }
 
-async function _subscribeToProviderEvents(
-	_provider: any | WalletConnectProvider,
-	walletType: WALLET_TYPE
-) {
+async function _subscribeToProviderEvents(_provider: any, walletType: WALLET_TYPE) {
 	if (!_provider) throw Error('No events to subscribe to b/c the provider does not exist');
 
 	try {
@@ -133,7 +130,7 @@ export async function disconnectWallet() {
 
 export async function disconnectWalletConnect() {
 	try {
-		await walletConnectProvider.disconnect();
+		// await walletConnectProvider.disconnect();
 		resetWalletBalanceStore();
 		resetWalletProviderStore();
 		resetReceiverStakingStore();

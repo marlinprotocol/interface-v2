@@ -20,7 +20,7 @@ export type WalletOptions = {
 // wallet balance store
 export type WalletBalance = {
 	pond: BigNumber;
-	mpond: BigNumber;
+	mPond: BigNumber;
 };
 
 // chain store
@@ -73,7 +73,7 @@ export type EpochCycleStore = number;
 export type BridgeStore = {
 	allowances: {
 		pond: BigNumber;
-		mpond: BigNumber;
+		mPond: BigNumber;
 	};
 	requestedMpond: BigNumber;
 };

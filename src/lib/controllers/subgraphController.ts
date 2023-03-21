@@ -50,7 +50,7 @@ function subgraphQueryWrapper(query: string, variables: Record<string, any>): Re
 	return options;
 }
 
-// ----------------------------- pond and mpond subgraph methods -----------------------------
+// ----------------------------- pond and mPond subgraph methods -----------------------------
 
 /**
  * Get POND balance from subgraph API.
@@ -87,10 +87,10 @@ export async function getMpondBalance(address: Address): Promise<BigNumber> {
 		const result = await fetchHttpData(url, options);
 		if (result['data'] && result['data']?.balances?.length != 0)
 			return BigNumber.from(result['data']?.balances[0]?.amount);
-		else return DEFAULT_WALLET_BALANCE.mpond;
+		else return DEFAULT_WALLET_BALANCE.mPond;
 	} catch (error) {
-		console.log('Error fetching Mpond balance', error);
-		return DEFAULT_WALLET_BALANCE.mpond;
+		console.log('Error fetching MPond balance', error);
+		return DEFAULT_WALLET_BALANCE.mPond;
 	}
 }
 // ----------------------------- smart contract subgraph methods -----------------------------
@@ -105,10 +105,10 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 		const result = await fetchHttpData(url, options);
 		if (result['data'] && result['data']?.receiverBalances?.length != 0)
 			return result['data']?.receiverBalances[0]?.balance;
-		else return DEFAULT_WALLET_BALANCE.mpond;
+		else return DEFAULT_WALLET_BALANCE.mPond;
 	} catch (error) {
 		console.log('Error fetching receiver pond balance from subgraph', error);
-		return DEFAULT_WALLET_BALANCE.mpond;
+		return DEFAULT_WALLET_BALANCE.mPond;
 	}
 }
 
@@ -225,14 +225,14 @@ export async function getPondAndMpondBridgeAllowances(address: Address, contract
 	};
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-	let mpond = BigNumber.from(0);
+	let mPond = BigNumber.from(0);
 	let pond = BigNumber.from(0);
 	try {
 		const result = await fetchHttpData(url, options);
-		console.log('pond mpond allowances', result);
+		console.log('pond mPond allowances', result);
 
 		if (!result['data']) {
-			return { pond, mpond };
+			return { pond, mPond };
 		}
 
 		const pondApprovals = result['data']?.pondApprovals;
@@ -243,12 +243,12 @@ export async function getPondAndMpondBridgeAllowances(address: Address, contract
 			pond = BigNumber.from(pondApprovals[0]?.value ?? 0);
 		}
 		if (mpondApprovals?.length > 0) {
-			mpond = BigNumber.from(mpondApprovals[0]?.value ?? 0);
+			mPond = BigNumber.from(mpondApprovals[0]?.value ?? 0);
 		}
-		return { pond, mpond };
+		return { pond, mPond };
 	} catch (error) {
-		console.log('Error fetching receiver pond and mpond allowances from subgraph', error);
-		return { pond, mpond };
+		console.log('Error fetching receiver pond and mPond allowances from subgraph', error);
+		return { pond, mPond };
 	}
 }
 
@@ -266,7 +266,7 @@ export async function getRequestedMPondForConversion(address: Address) {
 
 	try {
 		const result: any | undefined = await fetchHttpData(url, options);
-		console.log('mpond requested', result);
+		console.log('mPond requested', result);
 
 		if (!result['data']) {
 			return requestedMpond;
@@ -279,7 +279,7 @@ export async function getRequestedMPondForConversion(address: Address) {
 		}
 		return requestedMpond;
 	} catch (error) {
-		console.log('Error fetching requested mpond from subgraph', error);
+		console.log('Error fetching requested mPond from subgraph', error);
 		return requestedMpond;
 	}
 }
@@ -310,7 +310,7 @@ export async function getPondToMPondConversionHistory(address: Address) {
 			});
 		return pondToMpondConversions;
 	} catch (error) {
-		console.log('Error pond to mpond history data from subgraph', error);
+		console.log('Error pond to mPond history data from subgraph', error);
 		return undefined;
 	}
 }
@@ -337,7 +337,7 @@ export async function getMPondToPondConversionHistory(address: Address) {
 
 		return data;
 	} catch (error) {
-		console.log('Error pond to mpond history data from subgraph', error);
+		console.log('Error pond to mPond history data from subgraph', error);
 		return undefined;
 	}
 }

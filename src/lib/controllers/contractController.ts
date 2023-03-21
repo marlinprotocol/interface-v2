@@ -407,7 +407,7 @@ export async function convertPondToMpond(expectedMpond: BigNumber) {
 				message: MESSAGES.TOAST.TRANSACTION.FAILED,
 				variant: 'error'
 			});
-			throw new Error('Unable to convert Pond to Mpond.');
+			throw new Error('Unable to convert Pond to MPond.');
 		}
 		addToast({
 			message:
@@ -425,7 +425,7 @@ export async function convertPondToMpond(expectedMpond: BigNumber) {
 			variant: 'error'
 		});
 		console.log('error :>> ', error);
-		throw new Error('Transaction Error while converting pond to mpond');
+		throw new Error('Transaction Error while converting pond to mPond');
 	}
 }
 
@@ -501,7 +501,7 @@ export async function cancelMpondConversionRequest(epoch: BigNumber) {
 				message: MESSAGES.TOAST.TRANSACTION.FAILED,
 				variant: 'error'
 			});
-			throw new Error('Unable to convert Pond to Mpond.');
+			throw new Error('Unable to convert Pond to MPond.');
 		}
 		addToast({
 			message:

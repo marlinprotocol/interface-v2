@@ -21,7 +21,7 @@ export const DEFAULT_WALLET_STORE: WalletStore = {
 // walletBalanceStore
 export const DEFAULT_WALLET_BALANCE: WalletBalance = {
 	pond: ethers.BigNumber.from(0),
-	mpond: ethers.BigNumber.from(0)
+	mPond: ethers.BigNumber.from(0)
 };
 
 // chainProviderStore
@@ -72,7 +72,7 @@ export const DEFAULT_RECEIVER_STAKING_DATA: ReceiverStakingData = {
 export const DEFAULT_BRIDGE_STORE: BridgeStore = {
 	allowances: {
 		pond: BigNumber.from(0),
-		mpond: BigNumber.from(0)
+		mPond: BigNumber.from(0)
 	},
 	requestedMpond: BigNumber.from(0)
 };

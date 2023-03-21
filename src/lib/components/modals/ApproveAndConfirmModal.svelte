@@ -13,7 +13,7 @@
 	export let approveButtonText: string = 'APPROVE';
 	export let confirmButtonText: string = 'CONFIRM';
 	export let amountConverted: BigNumber = BigNumber.from(0);
-	export let conversionFrom: 'pond' | 'mpond' = 'pond';
+	export let conversionFrom: 'pond' | 'mPond' = 'pond';
 
 	export let showApproveConfirmDialog: boolean = false;
 	let showSuccessConversionDialog: boolean = false;

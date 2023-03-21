@@ -38,14 +38,14 @@
 		? stringToBigNumber(inputAmountString)
 		: BigNumber.from(0);
 
-	// convert mpond to pond by multiplying by 10^6
+	// convert mPond to pond by multiplying by 10^6
 	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(inputAmount.mul(10 ** 6)) : '';
 
-	let walletMPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.mpond;
+	let walletMPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.mPond;
 	let requestedMpond: BigNumber = BigNumber.from(0);
 
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
-		walletMPondBalance = value.mpond;
+		walletMPondBalance = value.mPond;
 	});
 	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
 		requestedMpond = value.requestedMpond;

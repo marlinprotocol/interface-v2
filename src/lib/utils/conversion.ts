@@ -112,12 +112,12 @@ export const shortenText = (text: string, first: number = 6, last: number = 4) =
 	return text.slice(0, first) + '...' + text.slice(-last);
 };
 
-export const mpondToPond = (mpond: BigNumber) => {
-	//one mpond is 10^6 pond
-	return mpond.mul(ethers.BigNumber.from(10).pow(6));
+export const mpondToPond = (mPond: BigNumber) => {
+	//one mPond is 10^6 pond
+	return mPond.mul(ethers.BigNumber.from(10).pow(6));
 };
 
 export const pondToMpond = (pond: BigNumber) => {
-	//one pond is 10^-6 mpond
+	//one pond is 10^-6 mPond
 	return pond.div(ethers.BigNumber.from(10).pow(6));
 };

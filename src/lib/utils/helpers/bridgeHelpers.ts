@@ -20,7 +20,7 @@ export const getModifiedMpondToPondHistory = (
 	const _liquidityStartTime = Number(liquidityStartTime);
 	// const _epochLength = Number(epochLength);
 
-	// Intervals at which pending mpond is released
+	// Intervals at which pending mPond is released
 	// const _liqudityReleaseEpochs = 803; //for testing
 	const _liqudityReleaseEpochs = Number(liqudityReleaseEpochs);
 	const _liquidityBP = Number(liquidityBP);

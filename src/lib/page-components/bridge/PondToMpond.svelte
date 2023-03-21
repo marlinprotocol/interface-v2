@@ -41,7 +41,7 @@
 		? stringToBigNumber(inputAmountString)
 		: BigNumber.from(0);
 
-	// convert pond to mpond by dividing by 10^6
+	// convert pond to mPond by dividing by 10^6
 	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(inputAmount.div(10 ** 6)) : '';
 
 	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.pond;

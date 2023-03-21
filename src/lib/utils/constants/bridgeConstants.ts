@@ -13,7 +13,7 @@ export const pondToMpondTableHeader: TableModel['header'][] = [
 	},
 	{
 		title: 'MPond',
-		id: 'mpond',
+		id: 'mPond',
 		tooltipText:
 			'The corresponding amount of MPond received as a result of the conversion from POND. Note: 1 Million POND equals 1 MPond.'
 	},
@@ -37,7 +37,7 @@ export const mpondToPondTableHeader: TableModel['header'][] = [
 	},
 	{
 		title: 'MPond',
-		id: 'mpond',
+		id: 'mPond',
 		tooltipText: 'The amount of MPond that was placed for conversion to POND.'
 	},
 	{

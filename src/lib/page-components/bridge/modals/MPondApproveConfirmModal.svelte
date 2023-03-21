@@ -23,7 +23,7 @@
 			await approveMPondTokenForConversion(mpondToConvert);
 			// update bridge store locally in case when user approves amount greater than previous allowance
 			bridgeStore.update((value) => {
-				value.allowances.mpond = mpondToConvert;
+				value.allowances.mPond = mpondToConvert;
 				return value;
 			});
 			approved = true;
@@ -44,7 +44,7 @@
 		}
 	};
 
-	$: approved = $bridgeStore.allowances.mpond.gte(mpondToConvert) || false;
+	$: approved = $bridgeStore.allowances.mPond.gte(mpondToConvert) || false;
 </script>
 
 <ApproveAndConfirmModal
@@ -56,7 +56,7 @@
 		handleOnSuccess(txnHash);
 	}}
 	{approved}
-	conversionFrom={'mpond'}
+	conversionFrom={'mPond'}
 	amountConverted={mpondToConvert}
 	confirmButtonText={'CONVERT'}
 >

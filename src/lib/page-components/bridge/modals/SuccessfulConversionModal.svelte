@@ -7,11 +7,11 @@
 	import { BigNumber } from 'ethers';
 
 	export let showSuccessConversionDialog: boolean = false;
-	export let conversionFrom: 'pond' | 'mpond' = 'pond';
+	export let conversionFrom: 'pond' | 'mPond' = 'pond';
 	export let amountConverted: BigNumber = BigNumber.from(0);
 	export let handleSuccessFinishClick: (() => void) | undefined = undefined;
 
-	$: conversionTo = conversionFrom === 'pond' ? 'mpond' : 'pond';
+	$: conversionTo = conversionFrom === 'pond' ? 'mPond' : 'pond';
 	$: amountConvertedTo =
 		conversionFrom === 'pond' ? pondToMpond(amountConverted) : mpondToPond(amountConverted);
 </script>
@@ -41,7 +41,7 @@
 				>{bigNumberToCommaString($walletBalance.pond, 8)} POND
 			</span>|
 			<span class="font-bold text-black">
-				{bigNumberToCommaString($walletBalance.mpond, 8)} MPOND</span
+				{bigNumberToCommaString($walletBalance.mPond, 8)} MPOND</span
 			>
 		</div>
 	</svelte:fragment>

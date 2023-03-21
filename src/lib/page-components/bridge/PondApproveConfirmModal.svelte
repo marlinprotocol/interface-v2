@@ -34,7 +34,7 @@
 	const handleConfirmClick = async () => {
 		console.log('confirm convertPondToMpond');
 		try {
-			await convertPondToMpond(mpond);
+			await convertPondToMpond(mPond);
 		} catch (error) {
 			console.log(error);
 			throw error;
@@ -42,7 +42,7 @@
 	};
 
 	// TODO: use a util function to compute this
-	$: mpond = pond.div(10 ** 6);
+	$: mPond = pond.div(10 ** 6);
 	$: approved = $bridgeStore.allowances.pond.gte(pond) || false;
 </script>
 
@@ -65,6 +65,6 @@
 		<span>{'Convert'}</span>
 		<span class={styles.highlight}>{`${bigNumberToCommaString(pond)} POND`}</span>
 		<span>{'to'}</span>
-		<span class={styles.highlight}>{`${bigNumberToCommaString(mpond, 6)} MPond`}</span>
+		<span class={styles.highlight}>{`${bigNumberToCommaString(mPond, 6)} MPond`}</span>
 	</div>
 </ApproveAndConfirmModal>

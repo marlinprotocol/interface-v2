@@ -19,7 +19,7 @@
 		bridgeStore.set({
 			allowances: {
 				pond: allowances.pond,
-				mpond: allowances.mpond
+				mPond: allowances.mPond
 			},
 			requestedMpond: requestedMpond
 		});

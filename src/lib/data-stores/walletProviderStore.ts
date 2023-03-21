@@ -31,7 +31,7 @@ let walletAddress: Address = DEFAULT_WALLET_STORE.address;
  */
 export const walletStore: Writable<WalletStore> = writable(DEFAULT_WALLET_STORE);
 /**
- * Wallet balance store holds the balance of Pond and Mpond for the connected wallet
+ * Wallet balance store holds the balance of Pond and MPond for the connected wallet
  */
 export const walletBalance: Writable<WalletBalance> = writable(DEFAULT_WALLET_BALANCE);
 /**
@@ -61,7 +61,7 @@ export function restoreWalletConnection() {
 }
 
 /**
- * fetches the balance for Pond and Mpond based on
+ * fetches the balance for Pond and MPond based on
  * wallet address and sets the walletBalance store.
  * @param walletAddress should be a Hex Address i.e. all lowercase
  */
@@ -73,7 +73,7 @@ async function setWalletBalance(walletAddress: Address): Promise<void> {
 		]);
 		walletBalance.set({
 			pond: balances[0],
-			mpond: balances[1]
+			mPond: balances[1]
 		});
 		console.log(' Wallet balance updated ');
 	} catch (error) {

@@ -4,10 +4,11 @@ import { BigNumberZero } from './constants/constants';
 /**
  * Returns duration string for a epoch
  * @param epoch epoch
+ * @param mini boolean optional default as false. if true, returns only months, days, hours, mins, secs
  * @returns string
  * @example 12334422 => 4 months 22 days 18 hours 13 mins 42 secs
  */
-export const epochToDurationString = (epoch: number) => {
+export const epochToDurationString = (epoch: number, mini: boolean = false) => {
 	var seconds = epoch % 60;
 	var minutes = Math.floor(epoch / 60) % 60;
 	var hours = Math.floor(epoch / (60 * 60)) % 24;
@@ -17,18 +18,23 @@ export const epochToDurationString = (epoch: number) => {
 	var durationString = '';
 	if (months > 0) {
 		durationString += months + (months > 1 ? ' months ' : ' month ');
+		if (mini) return durationString;
 	}
 	if (days > 0) {
 		durationString += days + (days > 1 ? ' days ' : ' day ');
+		if (mini) return durationString;
 	}
 	if (hours > 0) {
 		durationString += hours + (hours > 1 ? ' hours ' : ' hour ');
+		if (mini) return durationString;
 	}
 	if (minutes > 0) {
 		durationString += minutes + (minutes > 1 ? ' mins ' : ' min ');
+		if (mini) return durationString;
 	}
 	if (seconds > 0) {
 		durationString += seconds.toFixed() + ' secs';
+		if (mini) return durationString;
 	}
 
 	return durationString;

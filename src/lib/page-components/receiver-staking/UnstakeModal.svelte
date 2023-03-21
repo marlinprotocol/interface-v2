@@ -6,7 +6,7 @@
 	import { withdrawStakingToken } from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { BigNumberZero, pondPrecisions } from '$lib/utils/constants/constants';
 	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,
@@ -41,8 +41,10 @@
 		const { stakedBalance, queuedBalance } = value;
 		maxAmount = stakedBalance.add(queuedBalance);
 
-		balanceText = `Staked: ${bigNumberToCommaString(stakedBalance)}${
-			!queuedBalance.isZero() ? ' + Queued: ' + bigNumberToCommaString(queuedBalance) : ''
+		balanceText = `Staked: ${bigNumberToCommaString(stakedBalance, pondPrecisions)}${
+			!queuedBalance.isZero()
+				? ' + Queued: ' + bigNumberToCommaString(queuedBalance, pondPrecisions)
+				: ''
 		}`;
 	});
 

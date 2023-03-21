@@ -3,6 +3,7 @@
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import type { MPondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
+	import { pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
 	import TableHeadingText from '../../../components/texts/TableHeadingText.svelte';
 
@@ -64,10 +65,10 @@
 									<div class="h-full w-[0.1px] bg-grey-400" />
 								{/if}
 							</div>
-							{`${bigNumberToCommaString(rowData?.totalEligible, 3)}/${bigNumberToCommaString(
-								rowData?.netPending,
-								3
-							)}`}
+							{`${bigNumberToCommaString(
+								rowData?.totalEligible,
+								pondPrecisions
+							)}/${bigNumberToCommaString(rowData?.netPending, pondPrecisions)}`}
 						</div>
 					{/each}
 				</div>

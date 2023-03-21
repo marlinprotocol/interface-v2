@@ -12,6 +12,6 @@ export const GET_OPTIONS = {
 };
 
 export const pondPrecisions = 2;
-export const mPondPrecisions = 4;
+export const mPondPrecisions = 6;
 
 export const BigNumberZero = BigNumber.from(0);

@@ -6,6 +6,7 @@
 	import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import type { Address, WalletStore } from '$lib/types/storeTypes';
 	import { pondToMPondTableHeader } from '$lib/utils/constants/bridgeConstants';
+	import { mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
 	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
 	import { onDestroy } from 'svelte';
@@ -50,8 +51,12 @@
 		{#each historyData as row}
 			<tr>
 				<td class={tableCellClasses.row}>{epochSecToString(row.timestamp)}</td>
-				<td class={tableCellClasses.row}>{bigNumberToCommaString(row.pondConverted)}</td>
-				<td class={tableCellClasses.row}>{bigNumberToCommaString(row.mpondReceived, 8)}</td>
+				<td class={tableCellClasses.row}
+					>{bigNumberToCommaString(row.pondConverted, pondPrecisions)}</td
+				>
+				<td class={tableCellClasses.row}
+					>{bigNumberToCommaString(row.mpondReceived, mPondPrecisions)}</td
+				>
 				<td class={tableCellClasses.row}>
 					<TxnHashText
 						txnHash={row.transactionHash}

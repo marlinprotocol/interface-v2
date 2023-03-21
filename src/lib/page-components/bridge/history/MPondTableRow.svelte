@@ -8,8 +8,12 @@
 		MPondEligibleCyclesModel,
 		MPondToPondHistoryDataModel
 	} from '$lib/types/bridgeComponentType';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
+	import { BigNumberZero, mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
+	import {
+		bigNumberToCommaString,
+		epochSecToString,
+		epochToDurationString
+	} from '$lib/utils/conversion';
 	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
 	import type { BigNumber } from 'ethers';
 	import MPondConversionCycleButton from '../buttons/MPondConversionCycleButton.svelte';
@@ -65,17 +69,17 @@
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			{bigNumberToCommaString(mpondAmount, 8)}
+			{bigNumberToCommaString(mpondAmount, mPondPrecisions)}
 		</svelte:fragment>
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			{bigNumberToCommaString(pondAmount, 3)}
+			{bigNumberToCommaString(pondAmount, pondPrecisions)}
 		</svelte:fragment>
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			{bigNumberToCommaString(pondPending, 3)}
+			{bigNumberToCommaString(pondPending, pondPrecisions)}
 		</svelte:fragment>
 		<svelte:fragment slot="line2">
 			<MPondConversionCycleButton {eligibleCycles} {endEpochTime} {currentCycle} />
@@ -83,7 +87,7 @@
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			{bigNumberToCommaString(pondInProcess, 3)}
+			{bigNumberToCommaString(pondInProcess, pondPrecisions)}
 		</svelte:fragment>
 		<Timer
 			slot="line2"
@@ -109,14 +113,14 @@
 					src={'/images/timerclock.svg'}
 					fontWeight={'font-normal'}
 					variant="grey"
-					text={`${Math.floor(timer / 60) % 60} mins`}
+					text={epochToDurationString(timer, true)}
 				/>
 			</div>
 		</Timer>
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			{bigNumberToCommaString(pondEligible, 3)}
+			{bigNumberToCommaString(pondEligible, pondPrecisions)}
 		</svelte:fragment>
 		<svelte:fragment slot="line2">
 			<MPondConversionHistoryButton {conversionHistory} />

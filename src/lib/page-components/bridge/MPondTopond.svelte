@@ -9,7 +9,7 @@
 	import { requestMPondConversion } from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { BigNumberZero, mPondPrecisions } from '$lib/utils/constants/constants';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,
@@ -55,8 +55,8 @@
 	$: unrequestedMPondBalance = walletMPondBalance.sub(requestedMPond);
 	$: balanceText = `Unrequested: ${bigNumberToCommaString(
 		unrequestedMPondBalance,
-		4
-	)} | Requested: ${bigNumberToCommaString(requestedMPond, 4)}`;
+		mPondPrecisions
+	)} | Requested: ${bigNumberToCommaString(requestedMPond, mPondPrecisions)}`;
 
 	onDestroy(unsubscribeWalletBalanceStore);
 	onDestroy(unsubscribeBridgeStore);

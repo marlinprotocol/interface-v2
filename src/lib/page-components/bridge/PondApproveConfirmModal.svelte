@@ -6,6 +6,7 @@
 		convertPondToMPond
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
+	import { mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, mPondToPond } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
 
@@ -57,13 +58,14 @@
 >
 	<div slot="approveText">
 		<span>{'Approve'}</span>
-		<span class={styles.highlight}>{`${bigNumberToCommaString(pond)} POND`}</span>
+		<span class={styles.highlight}>{`${bigNumberToCommaString(pond, pondPrecisions)} POND`}</span>
 		<span>{'for conversion'}</span>
 	</div>
 	<div slot="confirmText">
 		<span>{'Convert'}</span>
-		<span class={styles.highlight}>{`${bigNumberToCommaString(pond)} POND`}</span>
+		<span class={styles.highlight}>{`${bigNumberToCommaString(pond, pondPrecisions)} POND`}</span>
 		<span>{'to'}</span>
-		<span class={styles.highlight}>{`${bigNumberToCommaString(mPond, 6)} MPond`}</span>
+		<span class={styles.highlight}>{`${bigNumberToCommaString(mPond, mPondPrecisions)} MPond`}</span
+		>
 	</div>
 </ApproveAndConfirmModal>

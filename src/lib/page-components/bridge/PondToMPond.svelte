@@ -11,6 +11,7 @@
 	import {
 		bigNumberToCommaString,
 		bigNumberToString,
+		mPondToPond,
 		stringToBigNumber
 	} from '$lib/utils/conversion';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
@@ -42,7 +43,7 @@
 		: BigNumber.from(0);
 
 	// convert pond to mPond by dividing by 10^6
-	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(inputAmount.div(10 ** 6)) : '';
+	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(mPondToPond(inputAmount)) : '';
 
 	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.pond;
 	let balanceText = 'Balance: 0.00';

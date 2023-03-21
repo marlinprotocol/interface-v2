@@ -6,7 +6,7 @@
 		convertPondToMPond
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
-	import { bigNumberToCommaString } from '$lib/utils/conversion';
+	import { bigNumberToCommaString, mPondToPond } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
 
 	export let pond: BigNumber;
@@ -41,8 +41,7 @@
 		}
 	};
 
-	// TODO: use a util function to compute this
-	$: mPond = pond.div(10 ** 6);
+	$: mPond = mPondToPond(pond);
 	$: approved = $bridgeStore.allowances.pond.gte(pond) || false;
 </script>
 

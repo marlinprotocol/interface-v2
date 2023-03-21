@@ -13,6 +13,7 @@
 	import {
 		bigNumberToCommaString,
 		bigNumberToString,
+		mPondToPond,
 		stringToBigNumber
 	} from '$lib/utils/conversion';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
@@ -38,8 +39,7 @@
 		? stringToBigNumber(inputAmountString)
 		: BigNumber.from(0);
 
-	// convert mPond to pond by multiplying by 10^6
-	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(inputAmount.mul(10 ** 6)) : '';
+	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(mPondToPond(inputAmount)) : '';
 
 	let walletMPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.mPond;
 	let requestedMPond: BigNumber = BigNumber.from(0);

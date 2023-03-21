@@ -3,7 +3,7 @@
 	import ApproveAndConfirmModal from '$lib/components/modals/ApproveAndConfirmModal.svelte';
 	import {
 		approvePondTokenForConversion,
-		convertPondToMpond
+		convertPondToMPond
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
@@ -17,7 +17,7 @@
 	};
 
 	const handleApproveClick = async () => {
-		console.log('approve convertPondToMpond');
+		console.log('approve convertPondToMPond');
 		try {
 			await approvePondTokenForConversion(pond);
 			// update bridge store locally in case when user approves amount greater than previous allowance
@@ -32,9 +32,9 @@
 		}
 	};
 	const handleConfirmClick = async () => {
-		console.log('confirm convertPondToMpond');
+		console.log('confirm convertPondToMPond');
 		try {
-			await convertPondToMpond(mPond);
+			await convertPondToMPond(mPond);
 		} catch (error) {
 			console.log(error);
 			throw error;
@@ -50,7 +50,7 @@
 	bind:showApproveConfirmDialog={showPondApproveConfirmDialog}
 	{handleApproveClick}
 	{handleConfirmClick}
-	handleSuccessFinishClick={() => goto('/bridge/pondToMpondHistory')}
+	handleSuccessFinishClick={() => goto('/bridge/pondToMPondHistory')}
 	{approved}
 	conversionFrom={'pond'}
 	amountConverted={pond}

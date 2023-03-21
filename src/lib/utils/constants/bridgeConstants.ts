@@ -1,6 +1,6 @@
 import type { TableModel } from '$lib/types/componentTypes';
 
-export const pondToMpondTableHeader: TableModel['header'][] = [
+export const pondToMPondTableHeader: TableModel['header'][] = [
 	{
 		title: 'DATE',
 		id: 'date',
@@ -24,7 +24,7 @@ export const pondToMpondTableHeader: TableModel['header'][] = [
 	}
 ];
 
-export const mpondToPondTableHeader: TableModel['header'][] = [
+export const mPondToPondTableHeader: TableModel['header'][] = [
 	{
 		title: 'DATE',
 		id: 'date',
@@ -67,7 +67,7 @@ export const mpondToPondTableHeader: TableModel['header'][] = [
 	}
 ];
 
-export const mpondConversionHistoryTableHeader: TableModel['header'][] = [
+export const mPondConversionHistoryTableHeader: TableModel['header'][] = [
 	{
 		title: 'DATE',
 		id: 'date'
@@ -84,7 +84,7 @@ export const mpondConversionHistoryTableHeader: TableModel['header'][] = [
 	}
 ];
 
-export const mpondConversionCycleTableHeader: TableModel['header'][] = [
+export const mPondConversionCycleTableHeader: TableModel['header'][] = [
 	{
 		title: 'ELIGIBLE / PENDING',
 		id: 'pond',

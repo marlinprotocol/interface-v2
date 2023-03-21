@@ -13,14 +13,14 @@
 	export let showEligibleConvertDialog: boolean = false;
 	export let maxAmount: BigNumber;
 	export let requestEpoch: BigNumber;
-	export let handleOnSuccess: (convertedMpond: BigNumber, txnHash: string) => void;
+	export let handleOnSuccess: (convertedMPond: BigNumber, txnHash: string) => void;
 
 	$: balanceText = `Eligible Balance: ${bigNumberToString(maxAmount)}`;
 
 	//initial amount states
 	let inputAmount: BigNumber;
 	let inputAmountString: string;
-	let showMpondApproveConfirmDialog: boolean = false;
+	let showMPondApproveConfirmDialog: boolean = false;
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
@@ -85,21 +85,21 @@
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		<MPondApproveConfirmModal
-			bind:showMpondApproveConfirmDialog
+			bind:showMPondApproveConfirmDialog
 			{requestEpoch}
 			mpondToConvert={inputAmount}
 			handleOnSuccess={(txn) => {
 				console.log('handleOnSuccess 2 :>> ', txn);
 				handleOnSuccess(inputAmount, txn);
 				showEligibleConvertDialog = false;
-				showMpondApproveConfirmDialog = false;
+				showMPondApproveConfirmDialog = false;
 			}}
 		/>
 		<Button
 			variant="filled"
 			disabled={!submitEnable}
 			onclick={() => {
-				showMpondApproveConfirmDialog = true;
+				showMPondApproveConfirmDialog = true;
 			}}
 			size="large"
 			styleClass={'btn-block'}

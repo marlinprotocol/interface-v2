@@ -3,7 +3,7 @@
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import type { Address, WalletStore } from '$lib/types/storeTypes';
-	import { mpondToPondTableHeader } from '$lib/utils/constants/bridgeConstants';
+	import { mPondToPondTableHeader } from '$lib/utils/constants/bridgeConstants';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import HistoryTableCommon from './HistoryTableCommon.svelte';
@@ -34,12 +34,12 @@
 		firstText: 'POND',
 		secondText: 'MPond',
 		title: 'MPond to POND conversion history',
-		href: '/bridge/pondToMpondHistory'
+		href: '/bridge/pondToMPondHistory'
 	}}
 	{loading}
 	{handleSortData}
 	noDataFound={!historyData?.length}
-	tableHeading={mpondToPondTableHeader}
+	tableHeading={mPondToPondTableHeader}
 >
 	{#if historyData?.length}
 		{#each historyData as rowData, index (rowData)}

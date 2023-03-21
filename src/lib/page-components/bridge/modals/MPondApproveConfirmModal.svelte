@@ -2,13 +2,13 @@
 	import ApproveAndConfirmModal from '$lib/components/modals/ApproveAndConfirmModal.svelte';
 	import {
 		approveMPondTokenForConversion,
-		confirmMpondConversion
+		confirmMPondConversion
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
-	import { bigNumberToCommaString, mpondToPond } from '$lib/utils/conversion';
+	import { bigNumberToCommaString, mPondToPond } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
 
-	export let showMpondApproveConfirmDialog: boolean = false;
+	export let showMPondApproveConfirmDialog: boolean = false;
 	export let requestEpoch: BigNumber;
 	export let mpondToConvert: BigNumber;
 	export let handleOnSuccess: (txnHash: string) => void;
@@ -18,7 +18,7 @@
 	};
 
 	const handleApproveClick = async () => {
-		console.log('approve convertPondToMpond');
+		console.log('approve convertPondToMPond');
 		try {
 			await approveMPondTokenForConversion(mpondToConvert);
 			// update bridge store locally in case when user approves amount greater than previous allowance
@@ -36,7 +36,7 @@
 	const handleConfirmClick = async () => {
 		console.log('confirm convertMPondToPond');
 		try {
-			const txn = await confirmMpondConversion(requestEpoch, mpondToConvert);
+			const txn = await confirmMPondConversion(requestEpoch, mpondToConvert);
 			txnHash = txn.hash;
 		} catch (error) {
 			console.log(error);
@@ -48,7 +48,7 @@
 </script>
 
 <ApproveAndConfirmModal
-	bind:showApproveConfirmDialog={showMpondApproveConfirmDialog}
+	bind:showApproveConfirmDialog={showMPondApproveConfirmDialog}
 	{handleApproveClick}
 	{handleConfirmClick}
 	handleSuccessFinishClick={() => {
@@ -70,7 +70,7 @@
 		<span class={styles.highlight}>{`${bigNumberToCommaString(mpondToConvert, 8)} MPond`}</span>
 		<span>{'to'}</span>
 		<span class={styles.highlight}>
-			{`${bigNumberToCommaString(mpondToPond(mpondToConvert), 2)} Pond`}
+			{`${bigNumberToCommaString(mPondToPond(mpondToConvert), 2)} Pond`}
 		</span>
 	</div>
 </ApproveAndConfirmModal>

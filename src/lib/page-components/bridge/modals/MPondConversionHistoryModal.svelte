@@ -3,7 +3,7 @@
 	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
 	import TxnHashText from '$lib/components/TxnHashText.svelte';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
-	import { bigNumberToCommaString, epochSecToString, mpondToPond } from '$lib/utils/conversion';
+	import { bigNumberToCommaString, epochSecToString, mPondToPond } from '$lib/utils/conversion';
 	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
 
 	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];
@@ -52,7 +52,7 @@
 					{epochSecToString(rowData?.timestamp)}
 				</div>
 				<div class="flex-1">
-					{bigNumberToCommaString(mpondToPond(rowData?.mpondToConvert))}
+					{bigNumberToCommaString(mPondToPond(rowData?.mpondToConvert))}
 				</div>
 				<div class="flex-1">
 					<TxnHashText

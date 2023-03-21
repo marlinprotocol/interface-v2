@@ -11,7 +11,7 @@ import { DEFAULT_WALLET_BALANCE, DEFAULT_WALLET_STORE } from '$lib/utils/constan
 import { WALLET_TYPE } from '$lib/utils/constants/constants';
 import { connectWallet } from '$lib/controllers/walletController';
 import {
-	getMpondBalance,
+	getMPondBalance,
 	getPondBalance,
 	getReceiverStakingDataFromSubgraph
 } from '$lib/controllers/subgraphController';
@@ -69,7 +69,7 @@ async function setWalletBalance(walletAddress: Address): Promise<void> {
 	try {
 		const balances = await Promise.all([
 			getPondBalance(walletAddress),
-			getMpondBalance(walletAddress)
+			getMPondBalance(walletAddress)
 		]);
 		walletBalance.set({
 			pond: balances[0],

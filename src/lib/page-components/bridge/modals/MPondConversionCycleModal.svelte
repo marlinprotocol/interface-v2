@@ -2,11 +2,11 @@
 	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
-	import type { MpondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
+	import type { MPondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
 	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
 	import TableHeadingText from '../../../components/texts/TableHeadingText.svelte';
 
-	export let cycles: MpondEligibleCyclesModel[];
+	export let cycles: MPondEligibleCyclesModel[];
 	export let endEpochTime: number;
 	export let currentCycle: number;
 

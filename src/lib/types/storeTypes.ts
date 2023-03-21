@@ -75,5 +75,5 @@ export type BridgeStore = {
 		pond: BigNumber;
 		mPond: BigNumber;
 	};
-	requestedMpond: BigNumber;
+	requestedMPond: BigNumber;
 };

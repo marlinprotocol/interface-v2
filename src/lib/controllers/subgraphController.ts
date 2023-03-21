@@ -17,7 +17,7 @@ import {
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
-import { getModifiedMpondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
+import { getModifiedMPondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
 import { BigNumber } from 'ethers';
@@ -76,8 +76,8 @@ export async function getPondBalance(address: Address): Promise<BigNumber> {
 /**
  * Get MPOND balance from subgraph API.
  */
-export async function getMpondBalance(address: Address): Promise<BigNumber> {
-	const url = ENVIRONMENT.public_mpond_subgraph_url;
+export async function getMPondBalance(address: Address): Promise<BigNumber> {
+	const url = ENVIRONMENT.public_mPond_subgraph_url;
 	const query = QUERY_TO_GET_MPOND_BALANCE;
 	const queryVariables = { id: address.toLowerCase() };
 
@@ -215,7 +215,7 @@ export async function checkIfSignerExistsInSubgraph(address: Address): Promise<b
 	}
 }
 
-export async function getPondAndMpondBridgeAllowances(address: Address, contractAddress: Address) {
+export async function getPondAndMPondBridgeAllowances(address: Address, contractAddress: Address) {
 	const url = ENVIRONMENT.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
 
@@ -262,25 +262,25 @@ export async function getRequestedMPondForConversion(address: Address) {
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
 
-	let requestedMpond = BigNumber.from(0);
+	let requestedMPond = BigNumber.from(0);
 
 	try {
 		const result: any | undefined = await fetchHttpData(url, options);
 		console.log('mPond requested', result);
 
 		if (!result['data']) {
-			return requestedMpond;
+			return requestedMPond;
 		}
 
 		const totalMpondPlacedInRequest = result['data']?.user?.totalMpondPlacedInRequest;
 
 		if (totalMpondPlacedInRequest) {
-			requestedMpond = BigNumber.from(totalMpondPlacedInRequest ?? 0);
+			requestedMPond = BigNumber.from(totalMpondPlacedInRequest ?? 0);
 		}
-		return requestedMpond;
+		return requestedMPond;
 	} catch (error) {
 		console.log('Error fetching requested mPond from subgraph', error);
-		return requestedMpond;
+		return requestedMPond;
 	}
 }
 
@@ -333,7 +333,7 @@ export async function getMPondToPondConversionHistory(address: Address) {
 		if (!user || !state) return undefined;
 
 		const { mpondToPondConversions, requests } = user;
-		const data = getModifiedMpondToPondHistory(mpondToPondConversions, requests, state);
+		const data = getModifiedMPondToPondHistory(mpondToPondConversions, requests, state);
 
 		return data;
 	} catch (error) {

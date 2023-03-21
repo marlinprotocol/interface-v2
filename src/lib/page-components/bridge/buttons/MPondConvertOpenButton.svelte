@@ -1,8 +1,8 @@
 <script lang="ts">
 	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
-	import { mpondToPond, pondToMpond } from '$lib/utils/conversion';
-	import MpondEligibleConvertModal from '../modals/MpondEligibleConvertModal.svelte';
+	import { mPondToPond, pondToMPond } from '$lib/utils/conversion';
+	import MPondEligibleConvertModal from '../modals/MPondEligibleConvertModal.svelte';
 
 	export let rowData: MPondToPondHistoryDataModel;
 	export let handleUpdateData: (data: MPondToPondHistoryDataModel) => void;
@@ -12,23 +12,23 @@
 	let showEligibleConvertDialog: boolean = false;
 </script>
 
-<MpondEligibleConvertModal
-	maxAmount={pondToMpond(pondEligible)}
+<MPondEligibleConvertModal
+	maxAmount={pondToMPond(pondEligible)}
 	{requestEpoch}
 	bind:showEligibleConvertDialog
-	handleOnSuccess={(convertedMpond, txnHash) => {
-		console.log('handleOnSuccess 3 :>> ', convertedMpond, txnHash);
-		const convertedPond = mpondToPond(convertedMpond);
+	handleOnSuccess={(convertedMPond, txnHash) => {
+		console.log('handleOnSuccess 3 :>> ', convertedMPond, txnHash);
+		const convertedPond = mPondToPond(convertedMPond);
 		const updatedData = {
 			...rowData,
 			pondEligible: pondEligible.sub(convertedPond),
-			mpondConverted: mpondConverted.add(convertedMpond),
+			mpondConverted: mpondConverted.add(convertedMPond),
 			conversionHistory: [
 				...conversionHistory,
 				{
 					id: txnHash,
 					transactionHash: txnHash,
-					mpondToConvert: convertedMpond,
+					mpondToConvert: convertedMPond,
 					timestamp: Math.floor(Date.now() / 1000)
 				}
 			]

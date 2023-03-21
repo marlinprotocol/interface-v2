@@ -3,7 +3,7 @@
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
-	import { bigNumberToCommaString, mpondToPond, pondToMpond } from '$lib/utils/conversion';
+	import { bigNumberToCommaString, mPondToPond, pondToMPond } from '$lib/utils/conversion';
 	import { BigNumber } from 'ethers';
 
 	export let showSuccessConversionDialog: boolean = false;
@@ -13,7 +13,7 @@
 
 	$: conversionTo = conversionFrom === 'pond' ? 'mPond' : 'pond';
 	$: amountConvertedTo =
-		conversionFrom === 'pond' ? pondToMpond(amountConverted) : mpondToPond(amountConverted);
+		conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted);
 </script>
 
 <Dialog bind:showDialog={showSuccessConversionDialog}>

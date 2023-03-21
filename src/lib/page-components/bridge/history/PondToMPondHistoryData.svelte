@@ -5,7 +5,7 @@
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import type { Address, WalletStore } from '$lib/types/storeTypes';
-	import { pondToMpondTableHeader } from '$lib/utils/constants/bridgeConstants';
+	import { pondToMPondTableHeader } from '$lib/utils/constants/bridgeConstants';
 	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
 	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
 	import { onDestroy } from 'svelte';
@@ -43,7 +43,7 @@
 	{handleSortData}
 	noDataFound={!historyData?.length}
 	fullWidth={false}
-	tableHeading={pondToMpondTableHeader}
+	tableHeading={pondToMPondTableHeader}
 >
 	{#if historyData?.length}
 		{#each historyData as row}

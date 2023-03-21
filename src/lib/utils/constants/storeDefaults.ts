@@ -74,5 +74,5 @@ export const DEFAULT_BRIDGE_STORE: BridgeStore = {
 		pond: BigNumber.from(0),
 		mPond: BigNumber.from(0)
 	},
-	requestedMpond: BigNumber.from(0)
+	requestedMPond: BigNumber.from(0)
 };

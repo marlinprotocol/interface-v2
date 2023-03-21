@@ -3,9 +3,9 @@
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import TableDataWithButton from '$lib/components/table-cells/TableDataWithButton.svelte';
 	import TxnHashText from '$lib/components/TxnHashText.svelte';
-	import { cancelMpondConversionRequest } from '$lib/controllers/contractController';
+	import { cancelMPondConversionRequest } from '$lib/controllers/contractController';
 	import type {
-		MpondEligibleCyclesModel,
+		MPondEligibleCyclesModel,
 		MPondToPondHistoryDataModel
 	} from '$lib/types/bridgeComponentType';
 	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
@@ -21,7 +21,7 @@
 
 	const getTimerEpoch = (
 		currentCycle: number,
-		eligibleCycles: MpondEligibleCyclesModel[] | undefined
+		eligibleCycles: MPondEligibleCyclesModel[] | undefined
 	) => {
 		if (!eligibleCycles?.length) return 0;
 		if (currentCycle < eligibleCycles.length) {
@@ -47,7 +47,7 @@
 
 	const handleCancelConversionRequest = async (requestEpoch: BigNumber) => {
 		// TODO: check why not working
-		await cancelMpondConversionRequest(requestEpoch);
+		await cancelMPondConversionRequest(requestEpoch);
 	};
 </script>
 

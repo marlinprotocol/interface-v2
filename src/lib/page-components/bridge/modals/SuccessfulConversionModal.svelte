@@ -3,12 +3,13 @@
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
+	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, mPondToPond, pondToMPond } from '$lib/utils/conversion';
-	import { BigNumber } from 'ethers';
+	import type { BigNumber } from 'ethers';
 
 	export let showSuccessConversionDialog: boolean = false;
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
-	export let amountConverted: BigNumber = BigNumber.from(0);
+	export let amountConverted: BigNumber = BigNumberZero;
 	export let handleSuccessFinishClick: (() => void) | undefined = undefined;
 
 	$: conversionTo = conversionFrom === 'pond' ? 'mPond' : 'pond';

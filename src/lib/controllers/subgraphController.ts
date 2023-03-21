@@ -2,6 +2,7 @@ import { contractAddressStore } from '$lib/data-stores/contractStore';
 import ENVIRONMENT from '$lib/environments/environment';
 import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/storeTypes';
+import { BigNumberZero } from '$lib/utils/constants/constants';
 import {
 	DEFAULT_RECEIVER_STAKING_DATA,
 	DEFAULT_WALLET_BALANCE
@@ -158,7 +159,7 @@ export async function getReceiverStakingDataFromSubgraph(
 			let queuedBalance = DEFAULT_RECEIVER_STAKING_DATA.queuedBalance;
 			let stakedBalance = DEFAULT_RECEIVER_STAKING_DATA.stakedBalance;
 
-			let balanceSnapshot = BigNumber.from(0);
+			let balanceSnapshot = BigNumberZero;
 
 			if (balanceSnapshots?.length === 1 && balanceSnapshots[0].epoch == epochData.epochCycle) {
 				//if balance snapshot for current epoch cycle is present, then update staked and queued balance
@@ -225,8 +226,8 @@ export async function getPondAndMPondBridgeAllowances(address: Address, contract
 	};
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-	let mPond = BigNumber.from(0);
-	let pond = BigNumber.from(0);
+	let mPond = BigNumberZero;
+	let pond = BigNumberZero;
 	try {
 		const result = await fetchHttpData(url, options);
 		console.log('pond mPond allowances', result);
@@ -262,7 +263,7 @@ export async function getRequestedMPondForConversion(address: Address) {
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
 
-	let requestedMPond = BigNumber.from(0);
+	let requestedMPond = BigNumberZero;
 
 	try {
 		const result: any | undefined = await fetchHttpData(url, options);

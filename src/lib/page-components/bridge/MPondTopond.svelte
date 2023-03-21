@@ -9,6 +9,7 @@
 	import { requestMPondConversion } from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
+	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,
@@ -17,7 +18,7 @@
 		stringToBigNumber
 	} from '$lib/utils/conversion';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
-	import { BigNumber } from 'ethers';
+	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import ModalPondInput from '../receiver-staking/sub-components/ModalPondInput.svelte';
 
@@ -37,12 +38,12 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BigNumber.from(0);
+		: BigNumberZero;
 
 	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(mPondToPond(inputAmount)) : '';
 
 	let walletMPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.mPond;
-	let requestedMPond: BigNumber = BigNumber.from(0);
+	let requestedMPond: BigNumber = BigNumberZero;
 
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		walletMPondBalance = value.mPond;

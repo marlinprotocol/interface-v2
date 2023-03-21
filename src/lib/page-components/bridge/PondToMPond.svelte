@@ -7,6 +7,7 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
+	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,
@@ -15,7 +16,7 @@
 		stringToBigNumber
 	} from '$lib/utils/conversion';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
-	import { BigNumber } from 'ethers';
+	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import ModalPondInput from '../receiver-staking/sub-components/ModalPondInput.svelte';
 	import PondApproveConfirmModal from './PondApproveConfirmModal.svelte';
@@ -40,7 +41,7 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BigNumber.from(0);
+		: BigNumberZero;
 
 	// convert pond to mPond by dividing by 10^6
 	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(mPondToPond(inputAmount)) : '';

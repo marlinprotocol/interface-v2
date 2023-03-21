@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/atoms/componentClasses';
-	import { bigNumberToString } from '$lib/utils/conversion';
-	import { BigNumber } from 'ethers';
+	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import type { BigNumber } from 'ethers';
 
 	export let disabled = false;
 	export let loading = false;
@@ -10,7 +10,7 @@
 	export let approvedAmount: BigNumber;
 
 	//approved if input amount is greater than 0 and approved amount is greater than input amount
-	$: approved = inputAmount?.gt(BigNumber.from(0)) && approvedAmount?.gte(inputAmount);
+	$: approved = inputAmount?.gt(BigNumberZero) && approvedAmount?.gte(inputAmount);
 
 	$: styleClass = `${buttonClasses.text} text-xl font-semibold ${
 		disabled

@@ -8,9 +8,10 @@
 		MPondEligibleCyclesModel,
 		MPondToPondHistoryDataModel
 	} from '$lib/types/bridgeComponentType';
+	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
 	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
-	import { BigNumber } from 'ethers';
+	import type { BigNumber } from 'ethers';
 	import MPondConversionCycleButton from '../buttons/MPondConversionCycleButton.svelte';
 	import MPondConversionHistoryButton from '../buttons/MPondConversionHistoryButton.svelte';
 	import MPondConvertOpenButton from '../buttons/MPondConvertOpenButton.svelte';
@@ -92,10 +93,10 @@
 					...rowData,
 					pondPending:
 						currentCycle === eligibleCycles?.length - 1
-							? BigNumber.from('0')
+							? BigNumberZero
 							: pondPending.sub(pondInProcess),
 					pondInProcess:
-						currentCycle === eligibleCycles?.length - 1 ? BigNumber.from('0') : pondInProcess,
+						currentCycle === eligibleCycles?.length - 1 ? BigNumberZero : pondInProcess,
 					pondEligible: pondEligible.add(pondInProcess),
 					currentCycle: currentCycle + 1
 				};

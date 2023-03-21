@@ -1,4 +1,5 @@
 import { BigNumber, ethers } from 'ethers';
+import { BigNumberZero } from './constants/constants';
 
 /**
  * Returns duration string for a epoch
@@ -77,7 +78,7 @@ export const bigNumberToString = (value: BigNumber, bigNumberDecimal: number = 1
 
 //return bignumber from string with decimal
 export const stringToBigNumber = (value: string, bigNumberDecimal: number = 18) => {
-	if (!value) return BigNumber.from(0);
+	if (!value) return BigNumberZero;
 	let newValue = value;
 	let [integer, fraction] = value.split('.');
 

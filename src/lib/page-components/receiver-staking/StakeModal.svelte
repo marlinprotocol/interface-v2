@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
-	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
@@ -17,6 +16,7 @@
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
 	import type { Address, ReceiverStakingData, WalletBalance } from '$lib/types/storeTypes';
+	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { MESSAGES } from '$lib/utils/constants/messages';
 	import {
 		DEFAULT_RECEIVER_STAKING_DATA,
@@ -33,7 +33,7 @@
 		isAddressValid,
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
-	import { BigNumber } from 'ethers';
+	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
 	export let showStakeDialog: boolean = false;
@@ -50,7 +50,7 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BigNumber.from(0);
+		: BigNumberZero;
 
 	//loading states
 	let approveLoading: boolean = false;

@@ -31,10 +31,12 @@
 
 <HistoryTableCommon
 	tableTitle={{
-		firstText: 'POND',
-		secondText: 'MPond',
-		title: 'MPond to POND conversion history',
-		href: '/bridge/pondToMPondHistory'
+		backButton: {
+			firstText: 'POND',
+			secondText: 'MPond',
+			href: '/bridge/pondToMPondHistory'
+		},
+		title: 'MPond to POND conversion history'
 	}}
 	{loading}
 	{handleSortData}

@@ -9,10 +9,12 @@
 	import HistoryBackButton from '../sub-components/HistoryBackButton.svelte';
 
 	export let tableTitle: {
-		firstText: string;
-		secondText: string;
+		backButton: {
+			firstText: string;
+			secondText: string;
+			href: string;
+		};
 		title: string;
-		href: string;
 	};
 	export let loading: boolean;
 	export let handleSortData: () => void;
@@ -22,9 +24,9 @@
 </script>
 
 <HistoryBackButton
-	firstText={tableTitle.firstText}
-	secondText={tableTitle.secondText}
-	href={tableTitle.href}
+	firstText={tableTitle.backButton.firstText}
+	secondText={tableTitle.backButton.secondText}
+	href={tableTitle.backButton.href}
 />
 <Text variant="h2" text={tableTitle.title} styleClass="mt-3 mb-8" />
 <div

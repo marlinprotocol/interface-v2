@@ -73,7 +73,7 @@ export type Toast = {
 	message: string;
 	dismissible?: boolean;
 	timeout?: number;
-	variant?: CommonVariant;
+	variant: CommonVariant;
 };
 
 export type ToastModel = {

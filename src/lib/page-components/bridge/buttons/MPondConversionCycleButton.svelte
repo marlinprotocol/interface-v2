@@ -8,7 +8,7 @@
 	export let endEpochTime: number;
 	export let currentCycle: number;
 
-	let showModalConversionCycleDialog: boolean = false;
+	let showModalConversionCycleDialog = false;
 </script>
 
 <Button

@@ -1,6 +1,6 @@
 <script lang="ts">
-	export let loading: boolean = false;
-	export let hasPadding: boolean = false;
+	export let loading = false;
+	export let hasPadding = false;
 
 	const styles = {
 		baseStyle: `mt-0.5 ${

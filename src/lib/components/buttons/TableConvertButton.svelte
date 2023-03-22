@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	export let onclick: (() => void) | undefined = undefined;
-	export let disabled: boolean = false;
-	export let loading: boolean = false;
-	export let styleClass: string = '';
-	export let text: string = 'CONVERT';
+	export let disabled = false;
+	export let loading = false;
+	export let styleClass = '';
+	export let text = 'CONVERT';
 </script>
 
 <button

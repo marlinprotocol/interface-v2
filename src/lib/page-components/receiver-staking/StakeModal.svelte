@@ -36,7 +36,7 @@
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
-	export let showStakeDialog: boolean = false;
+	export let showStakeDialog = false;
 
 	//texts
 	const toolTipText = 'Enter the amount of POND you would like to stake to the receiver address.';
@@ -53,8 +53,8 @@
 		: BigNumberZero;
 
 	//loading states
-	let approveLoading: boolean = false;
-	let submitLoading: boolean = false;
+	let approveLoading = false;
+	let submitLoading = false;
 
 	//max amount in wallet
 	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.pond;
@@ -70,15 +70,15 @@
 	});
 
 	//signer address states
-	let signerAddressIsValid: boolean = false;
-	let signerAddressIsUnique: boolean = false;
+	let signerAddressIsValid = false;
+	let signerAddressIsUnique = false;
 	let updatedSignerAddress: Address = '';
-	let updatedSignerAddressInputDirty: boolean = false;
+	let updatedSignerAddressInputDirty = false;
 
 	//input amount states
-	let inputAmountIsValid: boolean = true;
-	let inValidMessage: string = '';
-	let updatedAmountInputDirty: boolean = false;
+	let inputAmountIsValid = true;
+	let inValidMessage = '';
+	let updatedAmountInputDirty = false;
 
 	/**
 	 * checks if address is valid as user types input

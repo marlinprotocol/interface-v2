@@ -2,7 +2,7 @@ import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contrac
 import { addToast } from '$lib/data-stores/toastStore';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
 import ENVIRONMENT from '$lib/environments/environment';
-import type { Address, ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
+import type { ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
 import { GET_OPTIONS, mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToCommaString } from '$lib/utils/conversion';

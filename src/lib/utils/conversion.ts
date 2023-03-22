@@ -8,14 +8,14 @@ import { BigNumberZero } from './constants/constants';
  * @returns string
  * @example 12334422 => 4 months 22 days 18 hours 13 mins 42 secs
  */
-export const epochToDurationString = (epoch: number, mini: boolean = false) => {
-	var seconds = epoch % 60;
-	var minutes = Math.floor(epoch / 60) % 60;
-	var hours = Math.floor(epoch / (60 * 60)) % 24;
-	var days = Math.floor(epoch / (60 * 60 * 24)) % 30;
-	var months = Math.floor(epoch / (60 * 60 * 24 * 30));
+export const epochToDurationString = (epoch: number, mini = false) => {
+	const seconds = epoch % 60;
+	const minutes = Math.floor(epoch / 60) % 60;
+	const hours = Math.floor(epoch / (60 * 60)) % 24;
+	const days = Math.floor(epoch / (60 * 60 * 24)) % 30;
+	const months = Math.floor(epoch / (60 * 60 * 24 * 30));
 
-	var durationString = '';
+	let durationString = '';
 	if (months > 0) {
 		durationString += months + (months > 1 ? ' months ' : ' month ');
 		if (mini) return durationString;
@@ -40,7 +40,7 @@ export const epochToDurationString = (epoch: number, mini: boolean = false) => {
 	return durationString;
 };
 
-function roundNumberString(numString: string, decimals: number = 2) {
+function roundNumberString(numString: string, decimals = 2) {
 	const num = Number(numString);
 	const roundedNum = num.toFixed(decimals);
 	return roundedNum;
@@ -52,7 +52,7 @@ function roundNumberString(numString: string, decimals: number = 2) {
  * @param decimals decimals of the fractional part
  * @returns string
  */
-export const bigNumberToCommaString = (value: BigNumber, decimals: number = 2) => {
+export const bigNumberToCommaString = (value: BigNumber, decimals = 2) => {
 	let result = ethers.utils.formatEther(value);
 
 	// Replace 0.0 by an empty value
@@ -72,7 +72,7 @@ export const bigNumberToCommaString = (value: BigNumber, decimals: number = 2) =
  * @param bigNumberDecimal: decimal of the big number, default set to 18
  * @returns string
  */
-export const bigNumberToString = (value: BigNumber, bigNumberDecimal: number = 18) => {
+export const bigNumberToString = (value: BigNumber, bigNumberDecimal = 18) => {
 	if (!value) return '0.00';
 	let ret = ethers.utils.formatUnits(value, bigNumberDecimal);
 	//if decimal count is less than 2, pad end it with 0
@@ -83,9 +83,10 @@ export const bigNumberToString = (value: BigNumber, bigNumberDecimal: number = 1
 };
 
 //return bignumber from string with decimal
-export const stringToBigNumber = (value: string, bigNumberDecimal: number = 18) => {
+export const stringToBigNumber = (value: string, bigNumberDecimal = 18) => {
 	if (!value) return BigNumberZero;
 	let newValue = value;
+	// eslint-disable-next-line prefer-const
 	let [integer, fraction] = value.split('.');
 
 	if (fraction && fraction.length > bigNumberDecimal) {
@@ -112,7 +113,7 @@ export const dateToString = (date: Date) => {
 };
 
 //short text with ellipsis in the middle
-export const shortenText = (text: string, first: number = 6, last: number = 4) => {
+export const shortenText = (text: string, first = 6, last = 4) => {
 	if (text.length <= first + last) {
 		return text;
 	}

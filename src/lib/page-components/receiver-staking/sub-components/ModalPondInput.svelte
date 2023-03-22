@@ -8,7 +8,7 @@
 
 	export let title: ModalInputModel['title'];
 	export let tooltipText: ModalInputModel['tooltipText'] = '';
-	export let inputAmountString: string = '';
+	export let inputAmountString = '';
 	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance';
 	export let maxAmountTooltipText: ModalInputModel['maxAmountTooltipText'] = '';
 	export let handleUpdatedAmount: any = undefined;

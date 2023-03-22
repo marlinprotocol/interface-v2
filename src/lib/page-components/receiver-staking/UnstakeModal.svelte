@@ -17,7 +17,7 @@
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
-	export let showUnstakeDialog: boolean = false;
+	export let showUnstakeDialog = false;
 	const subtitle =
 		'Enter the amount of POND to be unstaked from the receiver address. Unstaking POND is immediate and should reflect in your wallet after the transaction is confirmed.';
 	const toolTipText =
@@ -31,7 +31,7 @@
 		: BigNumberZero;
 
 	//loading states
-	let submitLoading: boolean = false;
+	let submitLoading = false;
 
 	// staked pond amount
 	let maxAmount = BigNumber.from(DEFAULT_RECEIVER_STAKING_DATA.stakedBalance);
@@ -51,9 +51,9 @@
 	onDestroy(unsubscribeReceiverStakedStore);
 
 	//input amount states
-	let inputAmountIsValid: boolean = true;
-	let updatedAmountInputDirty: boolean = false;
-	let inValidMessage: string = '';
+	let inputAmountIsValid = true;
+	let updatedAmountInputDirty = false;
+	let inValidMessage = '';
 
 	/**
 	 * checks if input amount is valid

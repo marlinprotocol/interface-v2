@@ -5,12 +5,12 @@
 	import type { CommonVariant, TextModel } from '$lib/types/componentTypes';
 	import { getTextColorClassByVariant } from '$lib/utils/constants/componentConstants';
 
-	export let src: string = '';
-	export let imgWidth: number = 13;
-	export let text: string = '';
+	export let src = '';
+	export let imgWidth = 13;
+	export let text = '';
 	export let variant: CommonVariant = 'primary';
-	export let disabled: boolean = false;
-	export let tooltipText: string = '';
+	export let disabled = false;
+	export let tooltipText = '';
 	export let fontWeight: TextModel['fontWeight'] = 'font-semibold';
 
 	const baseClass = 'flex justify-center text-xs gap-1 align-center';

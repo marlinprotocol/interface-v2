@@ -11,7 +11,7 @@
 	export let endEpochTime: number;
 	export let currentCycle: number;
 
-	export let showModalConversionCycleDialog: boolean = false;
+	export let showModalConversionCycleDialog = false;
 
 	const heading = [
 		{

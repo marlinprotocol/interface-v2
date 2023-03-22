@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 
-	export let firstText: string = 'POND';
-	export let secondText: string = 'MPond';
+	export let firstText = 'POND';
+	export let secondText = 'MPond';
 </script>
 
 <Button variant="whiteFilled" onclick={() => {}} size={'large'} styleClass="w-full">

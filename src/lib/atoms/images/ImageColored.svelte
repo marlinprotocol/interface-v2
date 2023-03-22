@@ -3,9 +3,9 @@
 	import { getImageClassByVariant } from '$lib/utils/constants/componentConstants';
 
 	export let src: string;
-	export let alt: string = 'Image';
+	export let alt = 'Image';
 	export let variant: CommonVariant = 'primary';
-	export let width: number = 13;
+	export let width = 13;
 
 	const styleClass = getImageClassByVariant(variant);
 </script>

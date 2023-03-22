@@ -3,7 +3,7 @@
 	import type { TabModel } from '$lib/types/componentTypes';
 
 	export let tabs: TabModel[];
-	export let tabIdSelected: string = '';
+	export let tabIdSelected = '';
 	export let handleTabSwitch: (tabId: string) => void;
 
 	//styles

@@ -7,7 +7,7 @@
 	import type { Unsubscriber } from 'svelte/store';
 	import DisconnectWalletModal from './DisconnectWalletModal.svelte';
 
-	let showDisconnectWalletDialog: boolean = false;
+	let showDisconnectWalletDialog = false;
 	$: shortAddress =
 		$walletStore.address.slice().substring(0, 6) +
 		'...' +

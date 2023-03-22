@@ -4,7 +4,7 @@
 	import { tableCellClasses } from '../componentClasses';
 
 	export let tableHeading: TableModel['header'][];
-	export let styleClass: string = '';
+	export let styleClass = '';
 	export let handleSortData: (() => void) | undefined = undefined;
 </script>
 

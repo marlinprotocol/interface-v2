@@ -7,7 +7,7 @@
 	import { WALLET_TYPE } from '$lib/utils/constants/constants';
 	import WalletCard from './WalletCard.svelte';
 
-	export let showConnectWalletDialog: boolean = false;
+	export let showConnectWalletDialog = false;
 	const modalWidth = 'max-w-[500px]';
 </script>
 

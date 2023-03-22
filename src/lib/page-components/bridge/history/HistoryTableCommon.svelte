@@ -20,7 +20,7 @@
 	export let handleSortData: () => void;
 	export let noDataFound: boolean;
 	export let tableHeading: TableModel['header'][];
-	export let fullWidth: boolean = true;
+	export let fullWidth = true;
 </script>
 
 <HistoryBackButton

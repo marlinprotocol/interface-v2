@@ -8,7 +8,7 @@
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
 
-	export let showDisconnectWalletDialog: boolean = false;
+	export let showDisconnectWalletDialog = false;
 	$: blockChainExplorerLink = `https://arbiscan.io/address/${$walletStore.address}`;
 
 	const onCopyAddress = () => {

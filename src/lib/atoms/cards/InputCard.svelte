@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { InputCardVariant } from '$lib/types/componentTypes';
 
-	export let styles: string = '';
+	export let styles = '';
 	// TODO: add types
 	export let variant: InputCardVariant = 'primary';
 	const cardStyle = 'rounded-lg w-full';

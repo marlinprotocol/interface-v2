@@ -12,7 +12,7 @@
 	import {
 		bigNumberToCommaString,
 		bigNumberToString,
-		mPondToPond,
+		pondToMPond,
 		stringToBigNumber
 	} from '$lib/utils/conversion';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
@@ -27,15 +27,15 @@
 		buttonLarge: `${buttonClasses.filled} h-14 text-base font-semibold flex gap-1 w-full`
 	};
 
-	let showPondApproveConfirmDialog: boolean = false;
+	let showPondApproveConfirmDialog = false;
 
 	//initial amount states
 	let inputAmount: BigNumber;
 	let inputAmountString: string;
 	//input error states
-	let inputAmountIsValid: boolean = true;
-	let inValidMessage: string = '';
-	let updatedAmountInputDirty: boolean = false;
+	let inputAmountIsValid = true;
+	let inValidMessage = '';
+	let updatedAmountInputDirty = false;
 
 	let convertedAmountString: string;
 
@@ -44,7 +44,7 @@
 		: BigNumberZero;
 
 	// convert pond to mPond by dividing by 10^6
-	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(mPondToPond(inputAmount)) : '';
+	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(pondToMPond(inputAmount)) : '';
 
 	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.pond;
 	let balanceText = 'Balance: 0.00';

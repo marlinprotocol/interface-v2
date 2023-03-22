@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 
-	export let onclick = () => {};
-	export let styleClass: string = '';
+	export let onclick: () => void;
+	export let styleClass = '';
 	$: buttonClass = `${buttonClasses.error} ${styleClass}`;
 </script>
 

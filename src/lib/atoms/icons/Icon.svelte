@@ -2,14 +2,14 @@
 	import Icon from 'svelte-awesome';
 
 	export let data: any;
-	export let size: number = 16;
-	export let padding: number = 1.5;
+	export let size = 16;
+	export let padding = 1.5;
 	export let flip: 'horizontal' | 'vertical' | undefined = undefined;
-	export let spin: boolean = false;
-	export let border: boolean = false;
-	export let iconColorClass: string = 'icon-info';
+	export let spin = false;
+	export let border = false;
+	export let iconColorClass = 'icon-info';
 
-	export let styleClass: string = '';
+	export let styleClass = '';
 
 	$: baseClass = `width:${size}px; height:${size}px; cursor:pointer;`;
 	$: style = `${baseClass} ${

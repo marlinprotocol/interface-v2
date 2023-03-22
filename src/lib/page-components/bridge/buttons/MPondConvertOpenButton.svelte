@@ -9,7 +9,7 @@
 
 	const { pondEligible, conversionHistory, mpondConverted, requestEpoch } = rowData;
 
-	let showEligibleConvertDialog: boolean = false;
+	let showEligibleConvertDialog = false;
 </script>
 
 <MPondEligibleConvertModal

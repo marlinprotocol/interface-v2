@@ -14,9 +14,9 @@
 	let submitLoading = false;
 	let updatedSignerAddressInputDirty = false;
 	let signerAddressIsValid: boolean;
-	let signerAddressIsUnique: boolean = false;
+	let signerAddressIsUnique = false;
 
-	export let showSignerAddressDialog: boolean = false;
+	export let showSignerAddressDialog = false;
 
 	const subtitle =
 		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';

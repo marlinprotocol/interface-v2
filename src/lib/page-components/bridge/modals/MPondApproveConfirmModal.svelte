@@ -9,7 +9,7 @@
 	import { bigNumberToCommaString, mPondToPond } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
 
-	export let showMPondApproveConfirmDialog: boolean = false;
+	export let showMPondApproveConfirmDialog = false;
 	export let requestEpoch: BigNumber;
 	export let mpondToConvert: BigNumber;
 	export let handleOnSuccess: (txnHash: string) => void;

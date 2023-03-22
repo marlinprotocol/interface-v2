@@ -1,8 +1,8 @@
 <script lang="ts">
-	export let modalWidth: string = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
+	export let modalWidth = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
 	export let onClose: () => void = () => {};
 	export let showDialog: boolean; // boolean
-	export let closeOnOutsideClick: boolean = false;
+	export let closeOnOutsideClick = false;
 
 	let dialog: HTMLDialogElement; // HTMLDialogElement
 

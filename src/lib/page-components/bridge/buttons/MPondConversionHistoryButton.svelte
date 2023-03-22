@@ -6,7 +6,7 @@
 
 	export let conversionHistory: MPondToPondHistoryDataModel['conversionHistory'];
 
-	let showConversionHistoryDialog: boolean = false;
+	let showConversionHistoryDialog = false;
 </script>
 
 <MPondConversionHistoryModal conversions={conversionHistory} bind:showConversionHistoryDialog />

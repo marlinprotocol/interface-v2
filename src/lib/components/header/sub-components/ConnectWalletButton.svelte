@@ -3,8 +3,8 @@
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import ConnectWalletModal from './ConnectWalletModal.svelte';
 
-	export let isLarge: boolean = false;
-	let showConnectWalletDialog: boolean = false;
+	export let isLarge = false;
+	let showConnectWalletDialog = false;
 
 	// do not remove this line
 	$: provider = $walletStore.provider;

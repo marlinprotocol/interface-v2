@@ -11,9 +11,9 @@
 	export let variant: ButtonModel['variant'] = 'filled';
 	export let size: ButtonModel['size'] = 'medium';
 	export let styleClass = '';
-	export let onclick: ButtonModel['onclick'] | undefined = undefined;
-	export let disabled: boolean = false;
-	export let loading: boolean = false;
+	export let onclick: ButtonModel['onclick'];
+	export let disabled = false;
+	export let loading = false;
 
 	const buttonClass = () => {
 		switch (variant) {

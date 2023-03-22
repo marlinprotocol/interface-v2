@@ -9,7 +9,7 @@
 
 	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];
 
-	export let showConversionHistoryDialog: boolean = false;
+	export let showConversionHistoryDialog = false;
 
 	const heading = [
 		{

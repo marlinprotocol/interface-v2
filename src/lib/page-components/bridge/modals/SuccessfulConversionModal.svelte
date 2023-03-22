@@ -7,7 +7,7 @@
 	import { bigNumberToCommaString, mPondToPond, pondToMPond } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
 
-	export let showSuccessConversionDialog: boolean = false;
+	export let showSuccessConversionDialog = false;
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
 	export let amountConverted: BigNumber = BigNumberZero;
 	export let handleSuccessFinishClick: (() => void) | undefined = undefined;

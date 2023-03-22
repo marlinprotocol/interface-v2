@@ -11,13 +11,13 @@
 	export let handleConfirmClick: () => Promise<void>;
 	export let handleSuccessFinishClick: () => void;
 	export let approved: boolean;
-	export let approveButtonText: string = 'APPROVE';
-	export let confirmButtonText: string = 'CONFIRM';
+	export let approveButtonText = 'APPROVE';
+	export let confirmButtonText = 'CONFIRM';
 	export let amountConverted: BigNumber = BigNumberZero;
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
 
-	export let showApproveConfirmDialog: boolean = false;
-	let showSuccessConversionDialog: boolean = false;
+	export let showApproveConfirmDialog = false;
+	let showSuccessConversionDialog = false;
 	let approveLoading: boolean;
 	let confirmLoading: boolean;
 

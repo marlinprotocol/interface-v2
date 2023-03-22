@@ -29,9 +29,9 @@
 	let inputAmount: BigNumber;
 	let inputAmountString: string;
 	//error message states
-	let inputAmountIsValid: boolean = true;
-	let inValidMessage: string = '';
-	let updatedAmountInputDirty: boolean = false;
+	let inputAmountIsValid = true;
+	let inValidMessage = '';
+	let updatedAmountInputDirty = false;
 
 	//loading states
 	let requestConversionLoading = false;

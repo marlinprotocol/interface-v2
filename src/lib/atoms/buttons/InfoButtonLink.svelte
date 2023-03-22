@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 
-	export let href: string = '';
+	export let href = '';
 	export let text: string;
-	export let styleClass: string = '';
+	export let styleClass = '';
 	$: buttonClass = `${buttonClasses.lightblueFilled} w-fit h-10 text-small font-medium gap-3 mx-auto mt-8 ${styleClass}`;
 </script>
 

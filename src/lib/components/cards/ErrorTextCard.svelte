@@ -2,8 +2,8 @@
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 
-	export let showError: boolean = false;
-	export let errorMessage: string = 'Error Message';
+	export let showError = false;
+	export let errorMessage = 'Error Message';
 </script>
 
 {#if showError}

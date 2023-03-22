@@ -114,7 +114,7 @@ export const getModifiedMPondToPondHistory = (
 		const netPendingPond = pondAmountBN.sub(currentEligiblePond).sub(currentPondInProcess);
 
 		// filter the conversion history for the current request
-		let conversionHistory = mpondToPondConversions
+		const conversionHistory = mpondToPondConversions
 			.filter((conversion) => conversion.requestData.id === id)
 			?.map((conversion) => {
 				return {

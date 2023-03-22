@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let divClass: string = 'w-full';
+	export let divClass = 'w-full';
 </script>
 
 <div class={divClass}>

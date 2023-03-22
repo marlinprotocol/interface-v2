@@ -2,9 +2,9 @@
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 
 	export let onclick: (() => void) | undefined = undefined;
-	export let disabled: boolean = false;
-	export let loading: boolean = false;
-	export let styleClass: string = '';
+	export let disabled = false;
+	export let loading = false;
+	export let styleClass = '';
 	$: buttonClass = `${styleClass} ${buttonClasses.outlined} ${loading ? 'loading' : ''}`;
 </script>
 

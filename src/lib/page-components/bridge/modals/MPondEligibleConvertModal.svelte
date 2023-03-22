@@ -15,7 +15,7 @@
 	import type { BigNumber } from 'ethers';
 	import MPondApproveConfirmModal from './MPondApproveConfirmModal.svelte';
 
-	export let showEligibleConvertDialog: boolean = false;
+	export let showEligibleConvertDialog = false;
 	export let maxAmount: BigNumber;
 	export let requestEpoch: BigNumber;
 	export let handleOnSuccess: (convertedMPond: BigNumber, txnHash: string) => void;
@@ -25,16 +25,16 @@
 	//initial amount states
 	let inputAmount: BigNumber;
 	let inputAmountString: string;
-	let showMPondApproveConfirmDialog: boolean = false;
+	let showMPondApproveConfirmDialog = false;
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
 		: BigNumberZero;
 
 	//input amount states
-	let inputAmountIsValid: boolean = true;
-	let updatedAmountInputDirty: boolean = false;
-	let inValidMessage: string = '';
+	let inputAmountIsValid = true;
+	let updatedAmountInputDirty = false;
+	let inValidMessage = '';
 
 	// checks if input amount is valid
 	const handleUpdatedAmount = (event: Event) => {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
-	export let styleClass: string = '';
+	export let styleClass = '';
 </script>
 
 <td class={`pt-6 pb-8 ${styleClass} ${tableCellClasses.row}`}>

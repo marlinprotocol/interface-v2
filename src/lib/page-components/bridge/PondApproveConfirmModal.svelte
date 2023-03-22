@@ -7,11 +7,11 @@
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
-	import { bigNumberToCommaString, mPondToPond } from '$lib/utils/conversion';
+	import { bigNumberToCommaString, pondToMPond } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
 
 	export let pond: BigNumber;
-	export let showPondApproveConfirmDialog: boolean = false;
+	export let showPondApproveConfirmDialog = false;
 
 	const styles = {
 		highlight: 'font-semibold'
@@ -42,7 +42,7 @@
 		}
 	};
 
-	$: mPond = mPondToPond(pond);
+	$: mPond = pondToMPond(pond);
 	$: approved = $bridgeStore.allowances.pond.gte(pond) || false;
 </script>
 

@@ -23,7 +23,7 @@
 	let chain: ChainStore;
 	let contractAbiDetails = {};
 	let contractAddressDetails = {};
-	let pageTitle: string = 'Marlin Receiver Staking Portal (Ignore this part)';
+	let pageTitle = 'Marlin Receiver Staking Portal (Ignore this part)';
 
 	const unsubscribeWalletProviderStore: Unsubscriber = walletStore.subscribe(
 		(value: WalletStore) => {

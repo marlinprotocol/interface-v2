@@ -1,12 +1,12 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import { withdrawStakingToken } from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
+	import { BigNumberZero, pondPrecisions } from '$lib/utils/constants/constants';
 	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,
@@ -28,7 +28,7 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BigNumber.from(0);
+		: BigNumberZero;
 
 	//loading states
 	let submitLoading: boolean = false;
@@ -41,8 +41,10 @@
 		const { stakedBalance, queuedBalance } = value;
 		maxAmount = stakedBalance.add(queuedBalance);
 
-		balanceText = `Staked: ${bigNumberToCommaString(stakedBalance)}${
-			!queuedBalance.isZero() ? ' + Queued: ' + bigNumberToCommaString(queuedBalance) : ''
+		balanceText = `Staked: ${bigNumberToCommaString(stakedBalance, pondPrecisions)}${
+			!queuedBalance.isZero()
+				? ' + Queued: ' + bigNumberToCommaString(queuedBalance, pondPrecisions)
+				: ''
 		}`;
 	});
 
@@ -64,11 +66,11 @@
 		inValidMessage = inputAmountInValidMessage(target.value);
 	};
 
-	$: pondDisabledText = !!inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient POND' : '';
-	$: submitEnable = !!inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
+	$: pondDisabledText = inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient POND' : '';
+	$: submitEnable = inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
 
 	const handleMaxClick = () => {
-		if (!!maxAmount) {
+		if (maxAmount) {
 			inputAmountString = bigNumberToString(maxAmount);
 			//reset input error message
 			inputAmountIsValid = true;
@@ -85,7 +87,7 @@
 			receiverStakingStore.update((value) => {
 				if (inputAmount.gt(value.queuedBalance)) {
 					value.stakedBalance = value.stakedBalance.sub(inputAmount.sub(value.queuedBalance));
-					value.queuedBalance = BigNumber.from(0);
+					value.queuedBalance = BigNumberZero;
 				} else {
 					value.queuedBalance = value.queuedBalance.sub(inputAmount);
 				}

@@ -7,7 +7,7 @@ export type PondToMPondHistoryDataModel = {
 	transactionHash: string;
 };
 
-export type MpondToPondRequestModel = {
+export type MPondToPondRequestModel = {
 	id: string;
 	mpondAmount: string;
 	mpondConverted: string;
@@ -37,12 +37,12 @@ export type MPondToPondHistoryDataModel = {
 		transactionHash: string;
 		timestamp: number;
 	}[];
-	eligibleCycles: MpondEligibleCyclesModel[];
+	eligibleCycles: MPondEligibleCyclesModel[];
 	currentCycle: number;
 	requestEpoch: BigNumber;
 };
 
-export type MpondToPondConversionModel = {
+export type MPondToPondConversionModel = {
 	id: string;
 	mpondToConvert: BigNumber;
 	transactionHash: string;
@@ -52,7 +52,7 @@ export type MpondToPondConversionModel = {
 	};
 };
 
-export type MpondCoversionStateModel = {
+export type MPondCoversionStateModel = {
 	epochLength: string;
 	liqudityReleaseEpochs: string;
 	liquidityBP: string;
@@ -60,7 +60,7 @@ export type MpondCoversionStateModel = {
 	pondPerMpond: string;
 };
 
-export type MpondEligibleCyclesModel = {
+export type MPondEligibleCyclesModel = {
 	totalEligible: BigNumber;
 	netPending: BigNumber;
 	timestamp: number;

@@ -10,8 +10,7 @@
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 	import { addToast } from '$lib/data-stores/toastStore';
-	import { walletBalance } from '$lib/data-stores/walletBalanceStore';
-	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
+	import { connected, walletBalance, walletStore } from '$lib/data-stores/walletProviderStore';
 	import ENVIRONMENT from '$lib/environments/environment';
 	import type { ChainStore, WalletBalance, WalletStore } from '$lib/types/storeTypes';
 	import { MESSAGES } from '$lib/utils/constants/messages';
@@ -89,7 +88,7 @@
 	{#if $connected}
 		<div>Address: {wallet.address}</div>
 		<div>Pond Balance: {balance.pond}</div>
-		<div>MPond Balance: {balance.mpond}</div>
+		<div>MPond Balance: {balance.mPond}</div>
 		<div>Chain ID: {chain.chainId}</div>
 		<br />
 	{:else}

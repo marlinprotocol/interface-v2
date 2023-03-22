@@ -30,7 +30,7 @@
 		submitLoading = true;
 		try {
 			await setSignerAddress(updatedSignerAddress);
-			await receiverStakingStore.update((data) => {
+			receiverStakingStore.update((data) => {
 				data.signer = updatedSignerAddress;
 				return data;
 			});
@@ -68,7 +68,7 @@
 	};
 
 	$: submitEnable =
-		!!updatedSignerAddress &&
+		updatedSignerAddress &&
 		updatedSignerAddress !== $receiverStakingStore.signer &&
 		signerAddressIsValid &&
 		signerAddressIsUnique &&

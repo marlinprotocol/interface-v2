@@ -1,18 +1,19 @@
 import type {
-	MpondCoversionStateModel,
-	MpondEligibleCyclesModel,
-	MpondToPondConversionModel,
+	MPondCoversionStateModel,
+	MPondEligibleCyclesModel,
+	MPondToPondConversionModel,
 	MPondToPondHistoryDataModel,
-	MpondToPondRequestModel
+	MPondToPondRequestModel
 } from '$lib/types/bridgeComponentType';
 import { BigNumber } from 'ethers';
-import { mpondToPond } from '../conversion';
+import { BigNumberZero } from '../constants/constants';
+import { mPondToPond } from '../conversion';
 import { BigNumberUtils } from './bigNumberUtils';
 
-export const getModifiedMpondToPondHistory = (
-	mpondToPondConversions: MpondToPondConversionModel[],
-	requests: MpondToPondRequestModel[],
-	state: MpondCoversionStateModel
+export const getModifiedMPondToPondHistory = (
+	mpondToPondConversions: MPondToPondConversionModel[],
+	requests: MPondToPondRequestModel[],
+	state: MPondCoversionStateModel
 ) => {
 	const { liqudityReleaseEpochs, liquidityBP, liquidityStartTime } = state;
 
@@ -20,7 +21,7 @@ export const getModifiedMpondToPondHistory = (
 	const _liquidityStartTime = Number(liquidityStartTime);
 	// const _epochLength = Number(epochLength);
 
-	// Intervals at which pending mpond is released
+	// Intervals at which pending mPond is released
 	// const _liqudityReleaseEpochs = 803; //for testing
 	const _liqudityReleaseEpochs = Number(liqudityReleaseEpochs);
 	const _liquidityBP = Number(liquidityBP);
@@ -47,11 +48,11 @@ export const getModifiedMpondToPondHistory = (
 		//basic conversions
 		const _releaseTime = Number(releaseTime);
 		const mpondAmountBN = BigNumber.from(mpondAmount);
-		const mpondConvertedBN = BigNumber.from(mpondConverted);
-		const pondConvertedBN = mpondToPond(mpondConvertedBN);
-		// const mpondInitallyPending = mpondAmountBN.sub(mpondConvertedBN);
-		const pondAmountBN = mpondToPond(mpondAmountBN);
-		// const pondInitiallyPending = mpondToPond(mpondInitallyPending);
+		const mPondConvertedBN = BigNumber.from(mpondConverted);
+		const pondConvertedBN = mPondToPond(mPondConvertedBN);
+		// const mPondInitallyPending = mpondAmountBN.sub(mPondConvertedBN);
+		const pondAmountBN = mPondToPond(mpondAmountBN);
+		// const pondInitiallyPending = mPondToPond(mPondInitallyPending);
 
 		const bigNumberUtils = new BigNumberUtils();
 		const pondProcessInACycle = bigNumberUtils.multiply(pondAmountBN, _liquidityBP);
@@ -63,8 +64,8 @@ export const getModifiedMpondToPondHistory = (
 		const _firstCycleStartTime =
 			_releaseStartTime < _liquidityStartTime ? _liquidityStartTime : _releaseStartTime;
 
-		const eligibleCycles: MpondEligibleCyclesModel[] = [];
-		let totalEligible = BigNumber.from('0');
+		const eligibleCycles: MPondEligibleCyclesModel[] = [];
+		let totalEligible = BigNumberZero;
 
 		let _cycleStartTime = _firstCycleStartTime;
 		// create eligible convserion cycles
@@ -83,8 +84,8 @@ export const getModifiedMpondToPondHistory = (
 		}
 
 		//current states
-		let currentPondInProcess = BigNumber.from('0');
-		let currentEligiblePond = BigNumber.from('0');
+		let currentPondInProcess = BigNumberZero;
+		let currentEligiblePond = BigNumberZero;
 		let currentCycle = 0;
 
 		// if liquidity release has started
@@ -124,12 +125,10 @@ export const getModifiedMpondToPondHistory = (
 				};
 			});
 
-		conversionHistory = conversionHistory.sort((a, b) => b.timestamp - a.timestamp);
-
 		return {
 			id,
 			mpondAmount: mpondAmountBN,
-			mpondConverted: mpondConvertedBN,
+			mpondConverted: mPondConvertedBN,
 			pondAmount: pondAmountBN,
 			pondPending: netPendingPond,
 			pondInProcess: currentPondInProcess,

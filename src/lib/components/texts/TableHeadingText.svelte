@@ -15,7 +15,7 @@
 		fontWeight={'font-semibold'}
 		styleClass={'tracking-widest mt-0.5'}
 	/>
-	{#if !!tooltipText}
+	{#if tooltipText}
 		<TooltipIcon {tooltipText} {tooltipDirection} iconSrc={'/images/alert.svg'} iconWidth={16} />
 	{/if}
 </div>

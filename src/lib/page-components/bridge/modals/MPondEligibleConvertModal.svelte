@@ -5,26 +5,31 @@
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
-	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
+	import { BigNumberZero, mPondPrecisions } from '$lib/utils/constants/constants';
+	import {
+		bigNumberToCommaString,
+		bigNumberToString,
+		stringToBigNumber
+	} from '$lib/utils/conversion';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
-	import { BigNumber } from 'ethers';
+	import type { BigNumber } from 'ethers';
 	import MPondApproveConfirmModal from './MPondApproveConfirmModal.svelte';
 
 	export let showEligibleConvertDialog: boolean = false;
 	export let maxAmount: BigNumber;
 	export let requestEpoch: BigNumber;
-	export let handleOnSuccess: (convertedMpond: BigNumber, txnHash: string) => void;
+	export let handleOnSuccess: (convertedMPond: BigNumber, txnHash: string) => void;
 
-	$: balanceText = `Eligible Balance: ${bigNumberToString(maxAmount)}`;
+	$: balanceText = `Eligible Balance: ${bigNumberToCommaString(maxAmount, mPondPrecisions)}`;
 
 	//initial amount states
 	let inputAmount: BigNumber;
 	let inputAmountString: string;
-	let showMpondApproveConfirmDialog: boolean = false;
+	let showMPondApproveConfirmDialog: boolean = false;
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BigNumber.from(0);
+		: BigNumberZero;
 
 	//input amount states
 	let inputAmountIsValid: boolean = true;
@@ -40,11 +45,11 @@
 	};
 
 	$: mPondDisabledText =
-		!!inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient Eligible MPond Amount' : '';
-	$: submitEnable = !!inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
+		inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient Eligible MPond Amount' : '';
+	$: submitEnable = inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
 
 	const handleMaxClick = () => {
-		if (!!maxAmount) {
+		if (maxAmount) {
 			inputAmountString = bigNumberToString(maxAmount);
 			//reset input error message
 			inputAmountIsValid = true;
@@ -85,21 +90,21 @@
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		<MPondApproveConfirmModal
-			bind:showMpondApproveConfirmDialog
+			bind:showMPondApproveConfirmDialog
 			{requestEpoch}
 			mpondToConvert={inputAmount}
 			handleOnSuccess={(txn) => {
 				console.log('handleOnSuccess 2 :>> ', txn);
 				handleOnSuccess(inputAmount, txn);
 				showEligibleConvertDialog = false;
-				showMpondApproveConfirmDialog = false;
+				showMPondApproveConfirmDialog = false;
 			}}
 		/>
 		<Button
 			variant="filled"
 			disabled={!submitEnable}
 			onclick={() => {
-				showMpondApproveConfirmDialog = true;
+				showMPondApproveConfirmDialog = true;
 			}}
 			size="large"
 			styleClass={'btn-block'}

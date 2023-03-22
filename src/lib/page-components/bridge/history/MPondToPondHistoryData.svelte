@@ -3,7 +3,7 @@
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import type { Address, WalletStore } from '$lib/types/storeTypes';
-	import { mpondToPondTableHeader } from '$lib/utils/constants/bridgeConstants';
+	import { mPondToPondTableHeader } from '$lib/utils/constants/bridgeConstants';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import HistoryTableCommon from './HistoryTableCommon.svelte';
@@ -14,10 +14,9 @@
 	let loading = true;
 	const unsubscribeWalletStore: Unsubscriber = walletStore.subscribe(async (value: WalletStore) => {
 		address = value.address;
-		if (!!address) {
+		if (address) {
 			loading = true;
 			historyData = await getMPondToPondConversionHistory(address);
-			historyData = historyData?.sort((a, b) => b.timestamp - a.timestamp);
 			loading = false;
 		}
 	});
@@ -31,17 +30,19 @@
 
 <HistoryTableCommon
 	tableTitle={{
-		firstText: 'POND',
-		secondText: 'MPond',
-		title: 'MPond to POND conversion history',
-		href: '/bridge/pondToMpondHistory'
+		backButton: {
+			firstText: 'POND',
+			secondText: 'MPond',
+			href: '/bridge/pondToMPondHistory'
+		},
+		title: 'MPond to POND conversion history'
 	}}
 	{loading}
 	{handleSortData}
-	noDataFound={!!!historyData?.length}
-	tableHeading={mpondToPondTableHeader}
+	noDataFound={!historyData?.length}
+	tableHeading={mPondToPondTableHeader}
 >
-	{#if !!historyData?.length}
+	{#if historyData?.length}
 		{#each historyData as rowData, index (rowData)}
 			<MPondTableRow
 				{rowData}

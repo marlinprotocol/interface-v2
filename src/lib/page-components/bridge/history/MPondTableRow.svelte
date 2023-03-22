@@ -3,14 +3,19 @@
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import TableDataWithButton from '$lib/components/table-cells/TableDataWithButton.svelte';
 	import TxnHashText from '$lib/components/TxnHashText.svelte';
-	import { cancelMpondConversionRequest } from '$lib/controllers/contractController';
+	import { cancelMPondConversionRequest } from '$lib/controllers/contractController';
 	import type {
-		MpondEligibleCyclesModel,
+		MPondEligibleCyclesModel,
 		MPondToPondHistoryDataModel
 	} from '$lib/types/bridgeComponentType';
-	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
+	import { BigNumberZero, mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
+	import {
+		bigNumberToCommaString,
+		epochSecToString,
+		epochToDurationString
+	} from '$lib/utils/conversion';
 	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
-	import { BigNumber } from 'ethers';
+	import type { BigNumber } from 'ethers';
 	import MPondConversionCycleButton from '../buttons/MPondConversionCycleButton.svelte';
 	import MPondConversionHistoryButton from '../buttons/MPondConversionHistoryButton.svelte';
 	import MPondConvertOpenButton from '../buttons/MPondConvertOpenButton.svelte';
@@ -21,13 +26,10 @@
 
 	const getTimerEpoch = (
 		currentCycle: number,
-		eligibleCycles: MpondEligibleCyclesModel[] | undefined
+		eligibleCycles: MPondEligibleCyclesModel[] | undefined
 	) => {
-		if (!eligibleCycles?.length) return 0;
-		if (currentCycle < eligibleCycles.length) {
-			return eligibleCycles[currentCycle].endTimestamp;
-		}
-		return 0;
+		if (!eligibleCycles?.length || eligibleCycles.length < currentCycle) return 0;
+		return eligibleCycles[currentCycle].endTimestamp;
 	};
 
 	const {
@@ -46,8 +48,8 @@
 	const endEpochTime = getTimerEpoch(currentCycle, eligibleCycles);
 
 	const handleCancelConversionRequest = async (requestEpoch: BigNumber) => {
-		// TODO: check why not working
-		await cancelMpondConversionRequest(requestEpoch);
+		//not working yet
+		await cancelMPondConversionRequest(requestEpoch);
 	};
 </script>
 
@@ -64,17 +66,17 @@
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			{bigNumberToCommaString(mpondAmount, 8)}
+			{bigNumberToCommaString(mpondAmount, mPondPrecisions)}
 		</svelte:fragment>
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			{bigNumberToCommaString(pondAmount, 3)}
+			{bigNumberToCommaString(pondAmount, pondPrecisions)}
 		</svelte:fragment>
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			{bigNumberToCommaString(pondPending, 3)}
+			{bigNumberToCommaString(pondPending, pondPrecisions)}
 		</svelte:fragment>
 		<svelte:fragment slot="line2">
 			<MPondConversionCycleButton {eligibleCycles} {endEpochTime} {currentCycle} />
@@ -82,7 +84,7 @@
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			{bigNumberToCommaString(pondInProcess, 3)}
+			{bigNumberToCommaString(pondInProcess, pondPrecisions)}
 		</svelte:fragment>
 		<Timer
 			slot="line2"
@@ -92,10 +94,10 @@
 					...rowData,
 					pondPending:
 						currentCycle === eligibleCycles?.length - 1
-							? BigNumber.from('0')
+							? BigNumberZero
 							: pondPending.sub(pondInProcess),
 					pondInProcess:
-						currentCycle === eligibleCycles?.length - 1 ? BigNumber.from('0') : pondInProcess,
+						currentCycle === eligibleCycles?.length - 1 ? BigNumberZero : pondInProcess,
 					pondEligible: pondEligible.add(pondInProcess),
 					currentCycle: currentCycle + 1
 				};
@@ -108,14 +110,14 @@
 					src={'/images/timerclock.svg'}
 					fontWeight={'font-normal'}
 					variant="grey"
-					text={`${Math.floor(timer / 60) % 60} mins`}
+					text={epochToDurationString(timer, true)}
 				/>
 			</div>
 		</Timer>
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			{bigNumberToCommaString(pondEligible, 3)}
+			{bigNumberToCommaString(pondEligible, pondPrecisions)}
 		</svelte:fragment>
 		<svelte:fragment slot="line2">
 			<MPondConversionHistoryButton {conversionHistory} />

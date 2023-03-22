@@ -1,12 +1,14 @@
 import { BigNumber, ethers } from 'ethers';
+import { BigNumberZero } from './constants/constants';
 
 /**
  * Returns duration string for a epoch
  * @param epoch epoch
+ * @param mini boolean optional default as false. if true, returns only months, days, hours, mins, secs
  * @returns string
  * @example 12334422 => 4 months 22 days 18 hours 13 mins 42 secs
  */
-export const epochToDurationString = (epoch: number) => {
+export const epochToDurationString = (epoch: number, mini: boolean = false) => {
 	var seconds = epoch % 60;
 	var minutes = Math.floor(epoch / 60) % 60;
 	var hours = Math.floor(epoch / (60 * 60)) % 24;
@@ -16,18 +18,23 @@ export const epochToDurationString = (epoch: number) => {
 	var durationString = '';
 	if (months > 0) {
 		durationString += months + (months > 1 ? ' months ' : ' month ');
+		if (mini) return durationString;
 	}
 	if (days > 0) {
 		durationString += days + (days > 1 ? ' days ' : ' day ');
+		if (mini) return durationString;
 	}
 	if (hours > 0) {
 		durationString += hours + (hours > 1 ? ' hours ' : ' hour ');
+		if (mini) return durationString;
 	}
 	if (minutes > 0) {
 		durationString += minutes + (minutes > 1 ? ' mins ' : ' min ');
+		if (mini) return durationString;
 	}
 	if (seconds > 0) {
 		durationString += seconds.toFixed() + ' secs';
+		if (mini) return durationString;
 	}
 
 	return durationString;
@@ -66,7 +73,7 @@ export const bigNumberToCommaString = (value: BigNumber, decimals: number = 2) =
  * @returns string
  */
 export const bigNumberToString = (value: BigNumber, bigNumberDecimal: number = 18) => {
-	if (!!!value) return '0.00';
+	if (!value) return '0.00';
 	let ret = ethers.utils.formatUnits(value, bigNumberDecimal);
 	//if decimal count is less than 2, pad end it with 0
 	if (ret.split('.')[1].length < 2) {
@@ -77,11 +84,11 @@ export const bigNumberToString = (value: BigNumber, bigNumberDecimal: number = 1
 
 //return bignumber from string with decimal
 export const stringToBigNumber = (value: string, bigNumberDecimal: number = 18) => {
-	if (!!!value) return BigNumber.from(0);
+	if (!value) return BigNumberZero;
 	let newValue = value;
 	let [integer, fraction] = value.split('.');
 
-	if (!!fraction && fraction.length > bigNumberDecimal) {
+	if (fraction && fraction.length > bigNumberDecimal) {
 		fraction = fraction.slice(0, bigNumberDecimal);
 		newValue = integer + '.' + fraction;
 	}
@@ -112,12 +119,12 @@ export const shortenText = (text: string, first: number = 6, last: number = 4) =
 	return text.slice(0, first) + '...' + text.slice(-last);
 };
 
-export const mpondToPond = (mpond: BigNumber) => {
-	//one mpond is 10^6 pond
-	return mpond.mul(ethers.BigNumber.from(10).pow(6));
+export const mPondToPond = (mPond: BigNumber) => {
+	//one mPond is 10^6 pond
+	return mPond.mul(ethers.BigNumber.from(10).pow(6));
 };
 
-export const pondToMpond = (pond: BigNumber) => {
-	//one pond is 10^-6 mpond
+export const pondToMPond = (pond: BigNumber) => {
+	//one pond is 10^-6 mPond
 	return pond.div(ethers.BigNumber.from(10).pow(6));
 };

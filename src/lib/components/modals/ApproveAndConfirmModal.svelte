@@ -3,7 +3,8 @@
 	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import SuccessfulConversionModal from '$lib/page-components/bridge/modals/SuccessfulConversionModal.svelte';
-	import { BigNumber } from 'ethers';
+	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import type { BigNumber } from 'ethers';
 	import LoadingAnimatedPing from '../loading/LoadingAnimatedPing.svelte';
 
 	export let handleApproveClick: () => Promise<void>;
@@ -12,8 +13,8 @@
 	export let approved: boolean;
 	export let approveButtonText: string = 'APPROVE';
 	export let confirmButtonText: string = 'CONFIRM';
-	export let amountConverted: BigNumber = BigNumber.from(0);
-	export let conversionFrom: 'pond' | 'mpond' = 'pond';
+	export let amountConverted: BigNumber = BigNumberZero;
+	export let conversionFrom: 'pond' | 'mPond' = 'pond';
 
 	export let showApproveConfirmDialog: boolean = false;
 	let showSuccessConversionDialog: boolean = false;

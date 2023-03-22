@@ -78,7 +78,7 @@ export const QUERY_TO_CHECK_IF_SIGNER_EXISTS = `query SignerExists($signer: Stri
   }
 }`;
 
-export const QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES = `query PondMpondDetails($address: String, $contractAddress: String) {
+export const QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES = `query PondMPondDetails($address: String, $contractAddress: String) {
   pondApprovals(
     where: { to: $contractAddress, from: $address }
   ) {
@@ -103,7 +103,10 @@ export const QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY = `query Users($addres
   users(
     where: { address: $address }
   ) {
-    pondToMpondConversions {
+    pondToMpondConversions(
+      orderBy: timestamp,
+      orderDirection: desc
+    ) {
       transactionHash
       mpondReceived
       timestamp
@@ -116,7 +119,10 @@ export const QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY = `query Users($addres
   users(
     where: { address: $address }
   ) {
-    requests {	
+    requests (
+      orderBy: timestamp,
+      orderDirection: desc
+    ) {	
       timestamp
       transactionHash
       mpondAmount
@@ -127,7 +133,10 @@ export const QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY = `query Users($addres
       isCancelled
       cancelHash
     }
-    mpondToPondConversions{
+    mpondToPondConversions(
+      orderBy: timestamp,
+      orderDirection: desc
+    ) {
       id
       mpondToConvert
       transactionHash

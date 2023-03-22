@@ -5,7 +5,8 @@
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import type { Address, WalletStore } from '$lib/types/storeTypes';
-	import { pondToMpondTableHeader } from '$lib/utils/constants/bridgeConstants';
+	import { pondToMPondTableHeader } from '$lib/utils/constants/bridgeConstants';
+	import { mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
 	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
 	import { onDestroy } from 'svelte';
@@ -17,10 +18,9 @@
 	let loading = true;
 	const unsubscribeWalletStore: Unsubscriber = walletStore.subscribe(async (value: WalletStore) => {
 		address = value.address;
-		if (!!address) {
+		if (address) {
 			loading = true;
 			historyData = await getPondToMPondConversionHistory(address);
-			historyData = historyData?.sort((a, b) => b.timestamp - a.timestamp);
 			loading = false;
 		}
 	});
@@ -34,23 +34,29 @@
 
 <HistoryTableCommon
 	tableTitle={{
-		firstText: 'MPond',
-		secondText: 'POND',
-		title: 'POND to MPond conversion history',
-		href: '/bridge/mPondtoPondHistory'
+		backButton: {
+			firstText: 'MPond',
+			secondText: 'POND',
+			href: '/bridge/mPondToPondHistory'
+		},
+		title: 'POND to MPond conversion history'
 	}}
 	{loading}
 	{handleSortData}
-	noDataFound={!!!historyData?.length}
+	noDataFound={!historyData?.length}
 	fullWidth={false}
-	tableHeading={pondToMpondTableHeader}
+	tableHeading={pondToMPondTableHeader}
 >
-	{#if !!historyData?.length}
+	{#if historyData?.length}
 		{#each historyData as row}
 			<tr>
 				<td class={tableCellClasses.row}>{epochSecToString(row.timestamp)}</td>
-				<td class={tableCellClasses.row}>{bigNumberToCommaString(row.pondConverted)}</td>
-				<td class={tableCellClasses.row}>{bigNumberToCommaString(row.mpondReceived, 8)}</td>
+				<td class={tableCellClasses.row}
+					>{bigNumberToCommaString(row.pondConverted, pondPrecisions)}</td
+				>
+				<td class={tableCellClasses.row}
+					>{bigNumberToCommaString(row.mpondReceived, mPondPrecisions)}</td
+				>
 				<td class={tableCellClasses.row}>
 					<TxnHashText
 						txnHash={row.transactionHash}

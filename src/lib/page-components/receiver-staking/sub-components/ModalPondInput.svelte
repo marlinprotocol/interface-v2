@@ -23,7 +23,7 @@
 <InputCard variant={inputCardVariant}>
 	<div class={styles.titleIcon}>
 		<Text variant="small" text={title} />
-		{#if !!tooltipText}
+		{#if tooltipText}
 			<TooltipIcon
 				{tooltipText}
 				tooltipVariant="tooltip-secondary"
@@ -34,7 +34,7 @@
 	<form>
 		<div class="flex items-center gap-2">
 			<input
-				disabled={!!!handleUpdatedAmount}
+				disabled={!handleUpdatedAmount}
 				bind:value={inputAmountString}
 				on:input={handleUpdatedAmount}
 				id="pond-input-amount"
@@ -71,7 +71,7 @@
 						fontWeight="font-normal"
 						text={maxAmountText}
 					/>
-					{#if !!maxAmountTooltipText}
+					{#if maxAmountTooltipText}
 						<TooltipIcon
 							iconSrc={'/images/alert.svg'}
 							iconWidth={16}

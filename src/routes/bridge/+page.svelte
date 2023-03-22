@@ -1,7 +1,7 @@
 <script lang="ts">
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import {
-		getPondAndMpondBridgeAllowances,
+		getPondAndMPondBridgeAllowances,
 		getRequestedMPondForConversion
 	} from '$lib/controllers/subgraphController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
@@ -11,17 +11,16 @@
 	import BridgeDashboard from '$lib/page-components/bridge/BridgeDashboard.svelte';
 
 	async function init() {
-		const allowances = await getPondAndMpondBridgeAllowances(
-			$walletStore.address,
-			$contractAddressStore.Bridge
-		);
-		const requestedMpond = await getRequestedMPondForConversion($walletStore.address);
+		const [allowances, requestedMPond] = await Promise.all([
+			getPondAndMPondBridgeAllowances($walletStore.address, $contractAddressStore.Bridge),
+			getRequestedMPondForConversion($walletStore.address)
+		]);
 		bridgeStore.set({
 			allowances: {
 				pond: allowances.pond,
-				mpond: allowances.mpond
+				mPond: allowances.mPond
 			},
-			requestedMpond: requestedMpond
+			requestedMPond: requestedMPond
 		});
 	}
 

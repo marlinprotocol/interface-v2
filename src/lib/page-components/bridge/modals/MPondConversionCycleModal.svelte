@@ -2,11 +2,12 @@
 	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
-	import type { MpondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
+	import type { MPondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
+	import { pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
 	import TableHeadingText from '../../../components/texts/TableHeadingText.svelte';
 
-	export let cycles: MpondEligibleCyclesModel[];
+	export let cycles: MPondEligibleCyclesModel[];
 	export let endEpochTime: number;
 	export let currentCycle: number;
 
@@ -45,7 +46,7 @@
 				</div>
 			{/each}
 		</div>
-		<div class="flex flex-row gap-4 w-full mx-auto">
+		<div class="flex flex-row gap-4 w-full mx-auto font-medium">
 			<div class="flex-1">
 				<div class="flex flex-col align-center w-fit mx-auto">
 					{#each cycles as rowData, i}
@@ -64,10 +65,10 @@
 									<div class="h-full w-[0.1px] bg-grey-400" />
 								{/if}
 							</div>
-							{`${bigNumberToCommaString(rowData?.totalEligible, 3)}/${bigNumberToCommaString(
-								rowData?.netPending,
-								3
-							)}`}
+							{`${bigNumberToCommaString(
+								rowData?.totalEligible,
+								pondPrecisions
+							)}/${bigNumberToCommaString(rowData?.netPending, pondPrecisions)}`}
 						</div>
 					{/each}
 				</div>

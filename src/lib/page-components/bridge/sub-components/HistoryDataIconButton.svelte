@@ -18,13 +18,13 @@
 </script>
 
 <div class={`${baseClass} ${textColor} ${disabled ? 'cursor-auto' : 'cursor-pointer'}`}>
-	{#if !!src}
+	{#if src}
 		<ImageColored {src} {variant} width={imgWidth} />
 	{/if}
-	{#if !!text}
+	{#if text}
 		<Text {text} variant="tiny" {fontWeight} />
 	{/if}
-	{#if !!tooltipText}
+	{#if tooltipText}
 		<Tooltip {tooltipText} styleClass="text-left">
 			<img src={'/images/blue-alert.svg'} alt={'tooltip'} />
 		</Tooltip>

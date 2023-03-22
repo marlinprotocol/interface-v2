@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
-	import MpondConversionHistoryModal from '../modals/MpondConversionHistoryModal.svelte';
+	import MPondConversionHistoryModal from '../modals/MPondConversionHistoryModal.svelte';
 	import HistoryDataIconButton from '../sub-components/HistoryDataIconButton.svelte';
 
 	export let conversionHistory: MPondToPondHistoryDataModel['conversionHistory'];
@@ -9,7 +9,7 @@
 	let showConversionHistoryDialog: boolean = false;
 </script>
 
-<MpondConversionHistoryModal conversions={conversionHistory} bind:showConversionHistoryDialog />
+<MPondConversionHistoryModal conversions={conversionHistory} bind:showConversionHistoryDialog />
 {#if !conversionHistory?.length}
 	<Button variant={'outlined'} styleClass="border-none pointer-events-none">
 		<HistoryDataIconButton

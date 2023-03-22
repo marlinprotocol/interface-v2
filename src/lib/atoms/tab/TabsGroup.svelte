@@ -13,7 +13,7 @@
 </script>
 
 <div class={styles.wrapper}>
-	{#if !!tabs?.length}
+	{#if tabs?.length}
 		{#each tabs as tab (tab.id)}
 			<Tab onclick={() => handleTabSwitch(tab.id)} isActive={tabIdSelected === tab.id}>
 				{tab.title}

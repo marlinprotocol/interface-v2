@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import type { MpondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
-	import MpondConversionCycleModal from '../modals/MpondConversionCycleModal.svelte';
+	import type { MPondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
+	import MPondConversionCycleModal from '../modals/MPondConversionCycleModal.svelte';
 	import HistoryDataIconButton from '../sub-components/HistoryDataIconButton.svelte';
 
-	export let eligibleCycles: MpondEligibleCyclesModel[];
+	export let eligibleCycles: MPondEligibleCyclesModel[];
 	export let endEpochTime: number;
 	export let currentCycle: number;
 
@@ -19,7 +19,7 @@
 >
 	<HistoryDataIconButton src={'/images/cycleimg.svg'} text={'See cycle'} />
 </Button>
-<MpondConversionCycleModal
+<MPondConversionCycleModal
 	cycles={eligibleCycles}
 	bind:showModalConversionCycleDialog
 	{endEpochTime}

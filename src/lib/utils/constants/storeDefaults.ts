@@ -7,8 +7,7 @@ import type {
 	WalletBalance,
 	WalletStore
 } from '$lib/types/storeTypes';
-import { BigNumber, ethers } from 'ethers';
-import { WALLET_TYPE } from './constants';
+import { BigNumberZero, WALLET_TYPE } from './constants';
 
 // walletProviderStore
 export const DEFAULT_WALLET_STORE: WalletStore = {
@@ -20,8 +19,8 @@ export const DEFAULT_WALLET_STORE: WalletStore = {
 
 // walletBalanceStore
 export const DEFAULT_WALLET_BALANCE: WalletBalance = {
-	pond: ethers.BigNumber.from(0),
-	mpond: ethers.BigNumber.from(0)
+	pond: BigNumberZero,
+	mPond: BigNumberZero
 };
 
 // chainProviderStore
@@ -59,9 +58,9 @@ export const DEFAULT_CONTRACT_ADDRESS_STORE: ContractAddress = {
 // receiver staked, queued data store
 export const DEFAULT_RECEIVER_STAKING_DATA: ReceiverStakingData = {
 	signer: '',
-	approvedBalance: BigNumber.from(0),
-	stakedBalance: BigNumber.from(0),
-	queuedBalance: BigNumber.from(0),
+	approvedBalance: BigNumberZero,
+	stakedBalance: BigNumberZero,
+	queuedBalance: BigNumberZero,
 	epochData: {
 		epochCycle: 0,
 		startTime: 0,
@@ -71,8 +70,8 @@ export const DEFAULT_RECEIVER_STAKING_DATA: ReceiverStakingData = {
 
 export const DEFAULT_BRIDGE_STORE: BridgeStore = {
 	allowances: {
-		pond: BigNumber.from(0),
-		mpond: BigNumber.from(0)
+		pond: BigNumberZero,
+		mPond: BigNumberZero
 	},
-	requestedMpond: BigNumber.from(0)
+	requestedMPond: BigNumberZero
 };

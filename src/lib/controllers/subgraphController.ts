@@ -2,6 +2,7 @@ import { contractAddressStore } from '$lib/data-stores/contractStore';
 import ENVIRONMENT from '$lib/environments/environment';
 import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/storeTypes';
+import { BigNumberZero } from '$lib/utils/constants/constants';
 import {
 	DEFAULT_RECEIVER_STAKING_DATA,
 	DEFAULT_WALLET_BALANCE
@@ -17,7 +18,7 @@ import {
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
-import { getModifiedMpondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
+import { getModifiedMPondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
 import { BigNumber } from 'ethers';
@@ -50,7 +51,7 @@ function subgraphQueryWrapper(query: string, variables: Record<string, any>): Re
 	return options;
 }
 
-// ----------------------------- pond and mpond subgraph methods -----------------------------
+// ----------------------------- pond and mPond subgraph methods -----------------------------
 
 /**
  * Get POND balance from subgraph API.
@@ -76,8 +77,8 @@ export async function getPondBalance(address: Address): Promise<BigNumber> {
 /**
  * Get MPOND balance from subgraph API.
  */
-export async function getMpondBalance(address: Address): Promise<BigNumber> {
-	const url = ENVIRONMENT.public_mpond_subgraph_url;
+export async function getMPondBalance(address: Address): Promise<BigNumber> {
+	const url = ENVIRONMENT.public_mPond_subgraph_url;
 	const query = QUERY_TO_GET_MPOND_BALANCE;
 	const queryVariables = { id: address.toLowerCase() };
 
@@ -87,10 +88,10 @@ export async function getMpondBalance(address: Address): Promise<BigNumber> {
 		const result = await fetchHttpData(url, options);
 		if (result['data'] && result['data']?.balances?.length != 0)
 			return BigNumber.from(result['data']?.balances[0]?.amount);
-		else return DEFAULT_WALLET_BALANCE.mpond;
+		else return DEFAULT_WALLET_BALANCE.mPond;
 	} catch (error) {
-		console.log('Error fetching Mpond balance', error);
-		return DEFAULT_WALLET_BALANCE.mpond;
+		console.log('Error fetching MPond balance', error);
+		return DEFAULT_WALLET_BALANCE.mPond;
 	}
 }
 // ----------------------------- smart contract subgraph methods -----------------------------
@@ -105,10 +106,10 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 		const result = await fetchHttpData(url, options);
 		if (result['data'] && result['data']?.receiverBalances?.length != 0)
 			return result['data']?.receiverBalances[0]?.balance;
-		else return DEFAULT_WALLET_BALANCE.mpond;
+		else return DEFAULT_WALLET_BALANCE.mPond;
 	} catch (error) {
 		console.log('Error fetching receiver pond balance from subgraph', error);
-		return DEFAULT_WALLET_BALANCE.mpond;
+		return DEFAULT_WALLET_BALANCE.mPond;
 	}
 }
 
@@ -153,12 +154,12 @@ export async function getReceiverStakingDataFromSubgraph(
 		}
 
 		//update staked and queued balance
-		if (!!balance) {
+		if (balance) {
 			const totalBalance = BigNumber.from(balance);
 			let queuedBalance = DEFAULT_RECEIVER_STAKING_DATA.queuedBalance;
 			let stakedBalance = DEFAULT_RECEIVER_STAKING_DATA.stakedBalance;
 
-			let balanceSnapshot = BigNumber.from(0);
+			let balanceSnapshot = BigNumberZero;
 
 			if (balanceSnapshots?.length === 1 && balanceSnapshots[0].epoch == epochData.epochCycle) {
 				//if balance snapshot for current epoch cycle is present, then update staked and queued balance
@@ -180,7 +181,7 @@ export async function getReceiverStakingDataFromSubgraph(
 			};
 		}
 		//update approved POND balance
-		if (!!approvals?.length) {
+		if (approvals?.length) {
 			const approvalData = approvals[0];
 			stakingData = {
 				...stakingData,
@@ -215,7 +216,7 @@ export async function checkIfSignerExistsInSubgraph(address: Address): Promise<b
 	}
 }
 
-export async function getPondAndMpondBridgeAllowances(address: Address, contractAddress: Address) {
+export async function getPondAndMPondBridgeAllowances(address: Address, contractAddress: Address) {
 	const url = ENVIRONMENT.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
 
@@ -225,14 +226,14 @@ export async function getPondAndMpondBridgeAllowances(address: Address, contract
 	};
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-	let mpond = BigNumber.from(0);
-	let pond = BigNumber.from(0);
+	let mPond = BigNumberZero;
+	let pond = BigNumberZero;
 	try {
 		const result = await fetchHttpData(url, options);
-		console.log('pond mpond allowances', result);
+		console.log('pond mPond allowances', result);
 
-		if (!!!result['data']) {
-			return { pond, mpond };
+		if (!result['data']) {
+			return { pond, mPond };
 		}
 
 		const pondApprovals = result['data']?.pondApprovals;
@@ -243,12 +244,12 @@ export async function getPondAndMpondBridgeAllowances(address: Address, contract
 			pond = BigNumber.from(pondApprovals[0]?.value ?? 0);
 		}
 		if (mpondApprovals?.length > 0) {
-			mpond = BigNumber.from(mpondApprovals[0]?.value ?? 0);
+			mPond = BigNumber.from(mpondApprovals[0]?.value ?? 0);
 		}
-		return { pond, mpond };
+		return { pond, mPond };
 	} catch (error) {
-		console.log('Error fetching receiver pond and mpond allowances from subgraph', error);
-		return { pond, mpond };
+		console.log('Error fetching receiver pond and mPond allowances from subgraph', error);
+		return { pond, mPond };
 	}
 }
 
@@ -262,25 +263,25 @@ export async function getRequestedMPondForConversion(address: Address) {
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
 
-	let requestedMpond = BigNumber.from(0);
+	let requestedMPond = BigNumberZero;
 
 	try {
 		const result: any | undefined = await fetchHttpData(url, options);
-		console.log('mpond requested', result);
+		console.log('mPond requested', result);
 
-		if (!!!result['data']) {
-			return requestedMpond;
+		if (!result['data']) {
+			return requestedMPond;
 		}
 
 		const totalMpondPlacedInRequest = result['data']?.user?.totalMpondPlacedInRequest;
 
 		if (totalMpondPlacedInRequest) {
-			requestedMpond = BigNumber.from(totalMpondPlacedInRequest ?? 0);
+			requestedMPond = BigNumber.from(totalMpondPlacedInRequest ?? 0);
 		}
-		return requestedMpond;
+		return requestedMPond;
 	} catch (error) {
-		console.log('Error fetching requested mpond from subgraph', error);
-		return requestedMpond;
+		console.log('Error fetching requested mPond from subgraph', error);
+		return requestedMPond;
 	}
 }
 
@@ -296,7 +297,7 @@ export async function getPondToMPondConversionHistory(address: Address) {
 
 	try {
 		const result = await fetchHttpData(url, options);
-		if (!!!result['data']?.users?.length) return undefined;
+		if (!result['data']?.users?.length) return undefined;
 		const user = result['data']['users'][0];
 
 		const pondToMpondConversions: PondToMPondHistoryDataModel[] | undefined =
@@ -310,7 +311,7 @@ export async function getPondToMPondConversionHistory(address: Address) {
 			});
 		return pondToMpondConversions;
 	} catch (error) {
-		console.log('Error pond to mpond history data from subgraph', error);
+		console.log('Error pond to mPond history data from subgraph', error);
 		return undefined;
 	}
 }
@@ -327,17 +328,17 @@ export async function getMPondToPondConversionHistory(address: Address) {
 
 	try {
 		const result = await fetchHttpData(url, options);
-		if (!!!result['data']?.users?.length || !!!result['data']?.states?.length) return undefined;
+		if (!result['data']?.users?.length || !result['data']?.states?.length) return undefined;
 		const user = result['data']['users'][0];
 		const state = result['data']['states'][0];
-		if (!!!user || !!!state) return undefined;
+		if (!user || !state) return undefined;
 
 		const { mpondToPondConversions, requests } = user;
-		const data = getModifiedMpondToPondHistory(mpondToPondConversions, requests, state);
+		const data = getModifiedMPondToPondHistory(mpondToPondConversions, requests, state);
 
 		return data;
 	} catch (error) {
-		console.log('Error pond to mpond history data from subgraph', error);
+		console.log('Error pond to mPond history data from subgraph', error);
 		return undefined;
 	}
 }

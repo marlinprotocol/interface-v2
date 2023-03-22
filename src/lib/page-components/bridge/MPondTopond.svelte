@@ -6,17 +6,19 @@
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
-	import { requestMpondConversion } from '$lib/controllers/contractController';
+	import { requestMPondConversion } from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
+	import { BigNumberZero, mPondPrecisions } from '$lib/utils/constants/constants';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,
 		bigNumberToString,
+		mPondToPond,
 		stringToBigNumber
 	} from '$lib/utils/conversion';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
-	import { BigNumber } from 'ethers';
+	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import ModalPondInput from '../receiver-staking/sub-components/ModalPondInput.svelte';
 
@@ -36,32 +38,31 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BigNumber.from(0);
+		: BigNumberZero;
 
-	// convert mpond to pond by multiplying by 10^6
-	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(inputAmount.mul(10 ** 6)) : '';
+	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(mPondToPond(inputAmount)) : '';
 
-	let walletMPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.mpond;
-	let requestedMpond: BigNumber = BigNumber.from(0);
+	let walletMPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.mPond;
+	let requestedMPond: BigNumber = BigNumberZero;
 
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
-		walletMPondBalance = value.mpond;
+		walletMPondBalance = value.mPond;
 	});
 	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
-		requestedMpond = value.requestedMpond;
+		requestedMPond = value.requestedMPond;
 	});
 
-	$: unrequestedMPondBalance = walletMPondBalance.sub(requestedMpond);
+	$: unrequestedMPondBalance = walletMPondBalance.sub(requestedMPond);
 	$: balanceText = `Unrequested: ${bigNumberToCommaString(
 		unrequestedMPondBalance,
-		4
-	)} | Requested: ${bigNumberToCommaString(requestedMpond, 4)}`;
+		mPondPrecisions
+	)} | Requested: ${bigNumberToCommaString(requestedMPond, mPondPrecisions)}`;
 
 	onDestroy(unsubscribeWalletBalanceStore);
 	onDestroy(unsubscribeBridgeStore);
 
 	const handleMaxClick = () => {
-		if (!!unrequestedMPondBalance) {
+		if (unrequestedMPondBalance) {
 			inputAmountString = bigNumberToString(unrequestedMPondBalance);
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
@@ -79,10 +80,10 @@
 	const handleConvertRequest = async () => {
 		try {
 			requestConversionLoading = true;
-			await requestMpondConversion(inputAmount);
+			await requestMPondConversion(inputAmount);
 			resetInputs();
 			requestConversionLoading = false;
-			goto('/bridge/mPondtoPondHistory');
+			goto('/bridge/mPondToPondHistory');
 		} catch (error: any) {
 			requestConversionLoading = false;
 			console.log('error:', error);
@@ -96,12 +97,12 @@
 		inValidMessage = '';
 	};
 
-	$: mpondDisabledText =
-		!!inputAmount && inputAmount.gt(0) && !!!unrequestedMPondBalance?.gte(inputAmount)
+	$: mPondDisabledText =
+		inputAmount && inputAmount.gt(0) && !unrequestedMPondBalance?.gte(inputAmount)
 			? 'Insufficient MPond'
 			: '';
 	$: enableConversion =
-		!!inputAmount && inputAmount.gt(0) && !!unrequestedMPondBalance?.gte(inputAmount);
+		inputAmount && inputAmount.gt(0) && unrequestedMPondBalance?.gte(inputAmount);
 </script>
 
 <div class="mt-8 mb-6 mx-2">
@@ -120,7 +121,7 @@
 		showError={!inputAmountIsValid && updatedAmountInputDirty}
 		errorMessage={inValidMessage}
 	/>
-	<ErrorTextCard showError={!!mpondDisabledText} errorMessage={mpondDisabledText} />
+	<ErrorTextCard showError={!!mPondDisabledText} errorMessage={mPondDisabledText} />
 	<Divider margin="mt-4 mb-6" />
 	<ModalPondInput title="To" inputCardVariant={'none'} inputAmountString={convertedAmountString}>
 		<Text slot="input-end-button" text="POND" fontWeight="font-medium" />

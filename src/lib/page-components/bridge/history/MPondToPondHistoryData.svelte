@@ -3,7 +3,7 @@
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import type { Address, WalletStore } from '$lib/types/storeTypes';
-	import { mPondToPondTableHeader } from '$lib/utils/constants/bridgeConstants';
+	import { kPondHistoryPage, kMPondToPondTableHeader } from '$lib/utils/constants/bridgeConstants';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import HistoryTableCommon from './HistoryTableCommon.svelte';
@@ -26,6 +26,14 @@
 	const handleSortData = () => {
 		historyData = historyData?.reverse();
 	};
+
+	const updateHistoryData = (updatedRow: MPondToPondHistoryDataModel, index: number) => {
+		historyData = [
+			...(historyData ?? []).slice(0, index),
+			updatedRow,
+			...(historyData ?? []).slice(index + 1)
+		];
+	};
 </script>
 
 <HistoryTableCommon
@@ -33,27 +41,20 @@
 		backButton: {
 			firstText: 'POND',
 			secondText: 'MPond',
-			href: '/bridge/pondToMPondHistory'
+			href: kPondHistoryPage
 		},
 		title: 'MPond to POND conversion history'
 	}}
 	{loading}
 	{handleSortData}
 	noDataFound={!historyData?.length}
-	tableHeading={mPondToPondTableHeader}
+	tableHeading={kMPondToPondTableHeader}
 >
 	{#if historyData?.length}
 		{#each historyData as rowData, index (rowData)}
 			<MPondTableRow
 				{rowData}
-				handleUpdateData={(updatedRow) => {
-					// TODO: check why not working
-					historyData = [
-						...(historyData ?? []).slice(0, index),
-						updatedRow,
-						...(historyData ?? []).slice(index + 1)
-					];
-				}}
+				handleUpdateData={(updatedRow) => updateHistoryData(updatedRow, index)}
 			/>
 		{/each}
 	{/if}

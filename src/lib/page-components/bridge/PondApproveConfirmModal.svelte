@@ -6,6 +6,7 @@
 		convertPondToMPond
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
+	import { kPondHistoryPage } from '$lib/utils/constants/bridgeConstants';
 	import { mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, pondToMPond } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
@@ -33,7 +34,6 @@
 		}
 	};
 	const handleConfirmClick = async () => {
-		console.log('confirm convertPondToMPond');
 		try {
 			await convertPondToMPond(mPond);
 		} catch (error) {
@@ -50,7 +50,7 @@
 	bind:showApproveConfirmDialog={showPondApproveConfirmDialog}
 	{handleApproveClick}
 	{handleConfirmClick}
-	handleSuccessFinishClick={() => goto('/bridge/pondToMPondHistory')}
+	handleSuccessFinishClick={() => goto(kPondHistoryPage)}
 	{approved}
 	conversionFrom={'pond'}
 	amountConverted={pond}

@@ -8,7 +8,7 @@ export type TabModel = {
 export type ButtonModel = {
 	variant?: 'filled' | 'outlined' | 'text' | 'error' | 'info' | 'greyFilled' | 'whiteFilled';
 	size?: 'small' | 'medium' | 'large';
-	onclick: () => void;
+	onclick: (() => void) | undefined;
 };
 
 export type TextModel = {

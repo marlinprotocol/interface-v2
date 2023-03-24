@@ -1,6 +1,10 @@
 import type { TableModel } from '$lib/types/componentTypes';
 
-export const pondToMPondTableHeader: TableModel['header'][] = [
+export const kBridgeLearnMoreDocLink = 'https://docs.marlin.org/docs/Learn/Bridges/';
+export const kPondHistoryPage = '/bridge/pondToMPondHistory';
+export const kMPondHistoryPage = '/bridge/mPondToPondHistory';
+
+export const kPondToMPondTableHeader: TableModel['header'][] = [
 	{
 		title: 'DATE',
 		id: 'date',
@@ -24,7 +28,7 @@ export const pondToMPondTableHeader: TableModel['header'][] = [
 	}
 ];
 
-export const mPondToPondTableHeader: TableModel['header'][] = [
+export const kMPondToPondTableHeader: TableModel['header'][] = [
 	{
 		title: 'DATE',
 		id: 'date',
@@ -67,7 +71,7 @@ export const mPondToPondTableHeader: TableModel['header'][] = [
 	}
 ];
 
-export const mPondConversionHistoryTableHeader: TableModel['header'][] = [
+export const kMPondConversionHistoryTableHeader: TableModel['header'][] = [
 	{
 		title: 'DATE',
 		id: 'date'
@@ -75,24 +79,24 @@ export const mPondConversionHistoryTableHeader: TableModel['header'][] = [
 	{
 		title: 'Converted',
 		id: 'pond',
-		tooltipText: 'Amount of Pond converted.'
+		tooltipText: 'The amount of POND converted.'
 	},
 	{
 		title: 'TX HASH',
 		id: 'txnHash',
-		tooltipText: 'Transaction hash of the conversion from MPond to POND.'
+		tooltipText: 'The transaction hash of the conversion.'
 	}
 ];
 
-export const mPondConversionCycleTableHeader: TableModel['header'][] = [
+export const kMPondConversionCycleTableHeader: TableModel['header'][] = [
 	{
 		title: 'ELIGIBLE / PENDING',
-		id: 'pond',
+		id: 'eligible',
 		tooltipText: 'The amount of POND that is eligible/pending for conversion.'
 	},
 	{
 		title: 'TIMESTAMP',
-		id: 'time',
+		id: 'timestamp',
 		tooltipText: 'When POND is eligible for conversion.'
 	}
 ];

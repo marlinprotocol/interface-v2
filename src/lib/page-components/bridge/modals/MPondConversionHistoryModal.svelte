@@ -3,6 +3,7 @@
 	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
 	import TxnHashText from '$lib/components/TxnHashText.svelte';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
+	import { kMPondConversionHistoryTableHeader } from '$lib/utils/constants/bridgeConstants';
 	import { pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, epochSecToString, mPondToPond } from '$lib/utils/conversion';
 	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
@@ -10,20 +11,6 @@
 	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];
 
 	export let showConversionHistoryDialog = false;
-
-	const heading = [
-		{
-			title: 'DATE'
-		},
-		{
-			title: 'CONVERTED',
-			tooltipText: 'The amount of POND converted.'
-		},
-		{
-			title: 'TX HASH',
-			tooltipText: 'The transaction hash of the conversion.'
-		}
-	];
 </script>
 
 <Dialog bind:showDialog={showConversionHistoryDialog}>
@@ -32,13 +19,13 @@
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-row w-full">
-			{#each heading as headingData, i}
+			{#each kMPondConversionHistoryTableHeader as headingData, i}
 				<div class="flex-1">
 					<TableHeadingText
 						styleClass="mb-8"
 						title={headingData.title}
 						tooltipText={headingData.tooltipText}
-						tooltipDirection={i === heading.length - 1
+						tooltipDirection={i === kMPondConversionHistoryTableHeader.length - 1
 							? 'tooltip-left'
 							: i === 0
 							? 'tooltip-right'

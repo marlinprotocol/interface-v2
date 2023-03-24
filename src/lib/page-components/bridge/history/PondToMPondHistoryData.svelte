@@ -5,7 +5,7 @@
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import type { Address, WalletStore } from '$lib/types/storeTypes';
-	import { pondToMPondTableHeader } from '$lib/utils/constants/bridgeConstants';
+	import { kMPondHistoryPage, kPondToMPondTableHeader } from '$lib/utils/constants/bridgeConstants';
 	import { mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
 	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
@@ -37,7 +37,7 @@
 		backButton: {
 			firstText: 'MPond',
 			secondText: 'POND',
-			href: '/bridge/mPondToPondHistory'
+			href: kMPondHistoryPage
 		},
 		title: 'POND to MPond conversion history'
 	}}
@@ -45,7 +45,7 @@
 	{handleSortData}
 	noDataFound={!historyData?.length}
 	fullWidth={false}
-	tableHeading={pondToMPondTableHeader}
+	tableHeading={kPondToMPondTableHeader}
 >
 	{#if historyData?.length}
 		{#each historyData as row}

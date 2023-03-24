@@ -3,6 +3,11 @@
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
 	import { Tab, TabList, TabPanel, Tabs } from '$lib/atoms/tabs/tabs';
 	import Text from '$lib/atoms/texts/Text.svelte';
+	import {
+		kBridgeLearnMoreDocLink,
+		kMPondHistoryPage,
+		kPondHistoryPage
+	} from '$lib/utils/constants/bridgeConstants';
 	import MPondTopond from './MPondTopond.svelte';
 	import PondToMPond from './PondToMPond.svelte';
 	import ConversionHistoryButton from './sub-components/ConversionHistoryButton.svelte';
@@ -47,15 +52,15 @@
 </ContainerCard>
 <div class={styles.conversionHistory}>
 	<TabPanel id={'pond'} {activeTabValue}>
-		<a href="/bridge/pondToMPondHistory">
+		<a href={kPondHistoryPage}>
 			<ConversionHistoryButton firstText="POND" secondText="MPond" />
 		</a>
 	</TabPanel>
 
 	<TabPanel id={'mPond'} {activeTabValue}>
-		<a href="/bridge/mPondToPondHistory">
+		<a href={kMPondHistoryPage}>
 			<ConversionHistoryButton firstText="MPond" secondText="POND" />
 		</a>
 	</TabPanel>
-	<InfoButtonLink href="https://docs.marlin.org/docs/User%20Guides/Oyster/" text="Learn More" />
+	<InfoButtonLink href={kBridgeLearnMoreDocLink} text="Learn More" />
 </div>

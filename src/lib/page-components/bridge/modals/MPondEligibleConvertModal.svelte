@@ -65,6 +65,12 @@
 		updatedAmountInputDirty = false;
 		inValidMessage = '';
 	};
+
+	const onSuccess = (txn: string) => {
+		handleOnSuccess(inputAmount, txn);
+		showEligibleConvertDialog = false;
+		showMPondApproveConfirmDialog = false;
+	};
 </script>
 
 <Dialog bind:showDialog={showEligibleConvertDialog} onClose={resetInputs}>
@@ -93,12 +99,7 @@
 			bind:showMPondApproveConfirmDialog
 			{requestEpoch}
 			mpondToConvert={inputAmount}
-			handleOnSuccess={(txn) => {
-				console.log('handleOnSuccess 2 :>> ', txn);
-				handleOnSuccess(inputAmount, txn);
-				showEligibleConvertDialog = false;
-				showMPondApproveConfirmDialog = false;
-			}}
+			handleOnSuccess={onSuccess}
 		/>
 		<Button
 			variant="filled"

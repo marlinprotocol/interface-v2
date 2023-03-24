@@ -51,6 +51,20 @@
 		//not working yet
 		await cancelMPondConversionRequest(requestEpoch);
 	};
+
+	const handleOnTimerEnd = () => {
+		const updatedData = {
+			...rowData,
+			pondPending:
+				currentCycle === eligibleCycles?.length - 1
+					? BigNumberZero
+					: pondPending.sub(pondInProcess),
+			pondInProcess: currentCycle === eligibleCycles?.length - 1 ? BigNumberZero : pondInProcess,
+			pondEligible: pondEligible.add(pondInProcess),
+			currentCycle: currentCycle + 1
+		};
+		handleUpdateData(updatedData);
+	};
 </script>
 
 <tr>
@@ -86,24 +100,7 @@
 		<svelte:fragment slot="line1">
 			{bigNumberToCommaString(pondInProcess, pondPrecisions)}
 		</svelte:fragment>
-		<Timer
-			slot="line2"
-			{endEpochTime}
-			onTimerEnd={() => {
-				const updatedData = {
-					...rowData,
-					pondPending:
-						currentCycle === eligibleCycles?.length - 1
-							? BigNumberZero
-							: pondPending.sub(pondInProcess),
-					pondInProcess:
-						currentCycle === eligibleCycles?.length - 1 ? BigNumberZero : pondInProcess,
-					pondEligible: pondEligible.add(pondInProcess),
-					currentCycle: currentCycle + 1
-				};
-				handleUpdateData(updatedData);
-			}}
-		>
+		<Timer slot="line2" {endEpochTime} onTimerEnd={handleOnTimerEnd}>
 			<div slot="active" let:timer class="mx-auto">
 				<HistoryDataIconButton
 					disabled={true}

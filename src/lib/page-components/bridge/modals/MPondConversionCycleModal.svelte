@@ -3,6 +3,7 @@
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import type { MPondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
+	import { kMPondConversionCycleTableHeader } from '$lib/utils/constants/bridgeConstants';
 	import { pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
 	import TableHeadingText from '../../../components/texts/TableHeadingText.svelte';
@@ -12,17 +13,6 @@
 	export let currentCycle: number;
 
 	export let showModalConversionCycleDialog = false;
-
-	const heading = [
-		{
-			title: 'ELIGIBLE / PENDING',
-			tooltipText: 'The amount of POND that is eligible/pending for conversion.'
-		},
-		{
-			title: 'TIMESTAMP',
-			tooltipText: 'When POND is eligible for conversion.'
-		}
-	];
 </script>
 
 <Dialog bind:showDialog={showModalConversionCycleDialog}>
@@ -31,13 +21,13 @@
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-row w-full">
-			{#each heading as headingData, i}
+			{#each kMPondConversionCycleTableHeader as headingData, i}
 				<div class="flex-1">
 					<TableHeadingText
 						styleClass="mb-8"
 						title={headingData.title}
 						tooltipText={headingData.tooltipText}
-						tooltipDirection={i === heading.length - 1
+						tooltipDirection={i === kMPondConversionCycleTableHeader.length - 1
 							? 'tooltip-left'
 							: i === 0
 							? 'tooltip-right'

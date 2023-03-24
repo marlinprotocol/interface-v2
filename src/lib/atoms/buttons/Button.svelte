@@ -11,7 +11,7 @@
 	export let variant: ButtonModel['variant'] = 'filled';
 	export let size: ButtonModel['size'] = 'medium';
 	export let styleClass = '';
-	export let onclick: ButtonModel['onclick'];
+	export let onclick: ButtonModel['onclick'] = undefined;
 	export let disabled = false;
 	export let loading = false;
 

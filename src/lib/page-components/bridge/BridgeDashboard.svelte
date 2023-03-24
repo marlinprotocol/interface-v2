@@ -14,7 +14,7 @@
 	import TabPondMPond from './sub-components/TabPondMPond.svelte';
 
 	const styles = {
-		conversionHistory: 'flex flex-col w-72 sm:w-130 mx-auto mt-8'
+		conversionHistory: 'flex flex-col w-72 sm:w-130 mx-auto mt-4'
 	};
 	$: activeTabValue = 'pond';
 	const handleClick = (tabValue: string) => () => {

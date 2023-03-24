@@ -86,7 +86,7 @@
 		inputCardVariant={'none'}
 	>
 		<Text slot="input-end-button" text="POND" fontWeight="font-medium" />
-		<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
+		<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
 	</ModalPondInput>
 	<ErrorTextCard
 		showError={!inputAmountIsValid && updatedAmountInputDirty}

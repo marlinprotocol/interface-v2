@@ -7,7 +7,7 @@ export type TabModel = {
 
 export type ButtonModel = {
 	variant?: 'filled' | 'outlined' | 'text' | 'error' | 'info' | 'greyFilled' | 'whiteFilled';
-	size?: 'small' | 'medium' | 'large';
+	size?: 'tiny' | 'small' | 'medium' | 'large';
 	onclick: (() => void) | undefined;
 };
 

@@ -135,7 +135,7 @@
 		</svelte:fragment>
 		<svelte:fragment slot="line2">
 			<Button
-				size={'small'}
+				size={'tiny'}
 				variant={'text'}
 				onclick={async () => {
 					await handleCancelConversionRequest(requestEpoch);

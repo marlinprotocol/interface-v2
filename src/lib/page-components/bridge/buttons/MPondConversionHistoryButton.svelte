@@ -20,6 +20,7 @@
 	/>
 {:else}
 	<Button
+		size={'small'}
 		variant={'text'}
 		onclick={() => {
 			showConversionHistoryDialog = true;

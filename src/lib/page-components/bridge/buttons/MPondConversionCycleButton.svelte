@@ -12,6 +12,7 @@
 </script>
 
 <Button
+	size="small"
 	variant="text"
 	onclick={() => {
 		showModalConversionCycleDialog = true;

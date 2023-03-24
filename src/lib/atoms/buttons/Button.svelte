@@ -38,13 +38,13 @@
 	const getButtonSize = () => {
 		switch (size) {
 			case 'small':
-				return 'h-11';
+				return 'h-8';
 			case 'medium':
 				return 'h-12';
 			case 'large':
 				return 'h-14 text-base font-semibold w-full';
 			default:
-				return 'h-10';
+				return 'h-12';
 		}
 	};
 	const ButtonType = buttonClass();

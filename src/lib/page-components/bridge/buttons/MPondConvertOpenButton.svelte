@@ -6,7 +6,7 @@
 	import MPondEligibleConvertModal from '../modals/MPondEligibleConvertModal.svelte';
 
 	export let rowData: MPondToPondHistoryDataModel;
-	export let handleUpdateData: (data: MPondToPondHistoryDataModel) => void;
+	export let handleUpdateOnConvert: (data: Partial<MPondToPondHistoryDataModel>) => void;
 
 	const { pondEligible, conversionHistory, mpondConverted, requestEpoch } = rowData;
 
@@ -14,8 +14,7 @@
 
 	const handleOnSuccess = (convertedMPond: BigNumber, txnHash: string) => {
 		const convertedPond = mPondToPond(convertedMPond);
-		const updatedData = {
-			...rowData,
+		handleUpdateOnConvert({
 			pondEligible: pondEligible.sub(convertedPond),
 			mpondConverted: mpondConverted.add(convertedMPond),
 			conversionHistory: [
@@ -27,8 +26,7 @@
 					timestamp: Math.floor(Date.now() / 1000)
 				}
 			]
-		};
-		handleUpdateData(updatedData);
+		});
 	};
 </script>
 

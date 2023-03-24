@@ -22,7 +22,6 @@
 	import HistoryDataIconButton from '../sub-components/HistoryDataIconButton.svelte';
 
 	export let rowData: MPondToPondHistoryDataModel;
-	export let handleUpdateData: (rowData: MPondToPondHistoryDataModel) => void;
 
 	const getTimerEpoch = (
 		currentCycle: number,
@@ -32,7 +31,7 @@
 		return eligibleCycles[currentCycle].endTimestamp;
 	};
 
-	const {
+	$: ({
 		timestamp,
 		transactionHash,
 		mpondAmount,
@@ -44,7 +43,8 @@
 		pondEligible,
 		conversionHistory,
 		requestEpoch
-	} = rowData ?? {};
+	} = rowData);
+
 	const endEpochTime = getTimerEpoch(currentCycle, eligibleCycles);
 
 	const handleCancelConversionRequest = async (requestEpoch: BigNumber) => {
@@ -53,7 +53,7 @@
 	};
 
 	const handleOnTimerEnd = () => {
-		const updatedData = {
+		rowData = {
 			...rowData,
 			pondPending:
 				currentCycle === eligibleCycles?.length - 1
@@ -63,8 +63,17 @@
 			pondEligible: pondEligible.add(pondInProcess),
 			currentCycle: currentCycle + 1
 		};
-		handleUpdateData(updatedData);
 	};
+
+	const handleUpdateOnConvert = (newData: Partial<MPondToPondHistoryDataModel>) => {
+		rowData = {
+			...rowData,
+			...newData
+		};
+	};
+
+	const cancelTooltipText =
+		'Cancel current MPond conversion requests in process. Users who want the updated MPond conversion parameters to take immediate effect may cancel the current conversion request and place a new conversion request.';
 </script>
 
 <tr>
@@ -122,20 +131,17 @@
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			<MPondConvertOpenButton {rowData} {handleUpdateData} />
+			<MPondConvertOpenButton {rowData} {handleUpdateOnConvert} />
 		</svelte:fragment>
 		<svelte:fragment slot="line2">
 			<Button
+				size={'small'}
 				variant={'text'}
 				onclick={async () => {
 					await handleCancelConversionRequest(requestEpoch);
 				}}
 			>
-				<HistoryDataIconButton
-					text={'Cancel'}
-					variant="primary"
-					tooltipText={'Cancel current MPond conversion requests in process. Users who want the updated MPond conversion parameters to take immediate effect may cancel the current conversion request and place a new conversion request.'}
-				/>
+				<HistoryDataIconButton text={'Cancel'} variant="primary" tooltipText={cancelTooltipText} />
 			</Button>
 		</svelte:fragment>
 	</TableDataWithButton>

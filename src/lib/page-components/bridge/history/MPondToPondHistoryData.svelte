@@ -26,14 +26,6 @@
 	const handleSortData = () => {
 		historyData = historyData?.reverse();
 	};
-
-	const updateHistoryData = (updatedRow: MPondToPondHistoryDataModel, index: number) => {
-		historyData = [
-			...(historyData ?? []).slice(0, index),
-			updatedRow,
-			...(historyData ?? []).slice(index + 1)
-		];
-	};
 </script>
 
 <HistoryTableCommon
@@ -51,11 +43,8 @@
 	tableHeading={kMPondToPondTableHeader}
 >
 	{#if historyData?.length}
-		{#each historyData as rowData, index (rowData)}
-			<MPondTableRow
-				{rowData}
-				handleUpdateData={(updatedRow) => updateHistoryData(updatedRow, index)}
-			/>
+		{#each historyData as rowData}
+			<MPondTableRow {rowData} />
 		{/each}
 	{/if}
 </HistoryTableCommon>

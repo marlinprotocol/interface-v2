@@ -406,7 +406,7 @@ export async function convertPondToMPond(expectedMPond: BigNumber) {
 			),
 			variant: 'info'
 		});
-		const tx = await bridgeContract.getMPond(expectedMPond);
+		const tx = await bridgeContract.getMpond(expectedMPond);
 
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.CREATED,

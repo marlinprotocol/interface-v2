@@ -16,7 +16,6 @@
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
 		"@sveltejs/adapter-static": "^2.0.1",
-		"@sveltejs/adapter-vercel": "^2.4.0",
 		"@sveltejs/kit": "^1.0.0",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",

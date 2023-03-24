@@ -77,7 +77,7 @@
 	$: enableConversion = inputAmount && inputAmount.gt(0) && maxPondBalance?.gte(inputAmount);
 </script>
 
-<div class="mt-8 mb-6 mx-2">
+<div class="my-2 mx-2">
 	<ModalPondInput
 		title="From"
 		bind:inputAmountString
@@ -86,14 +86,14 @@
 		inputCardVariant={'none'}
 	>
 		<Text slot="input-end-button" text="POND" fontWeight="font-medium" />
-		<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
+		<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
 	</ModalPondInput>
 	<ErrorTextCard
 		showError={!inputAmountIsValid && updatedAmountInputDirty}
 		errorMessage={inValidMessage}
 	/>
 	<ErrorTextCard showError={!!pondDisabledText} errorMessage={pondDisabledText} />
-	<Divider margin="mt-4 mb-6" />
+	<Divider margin="mt-2 mb-3" />
 	<ModalPondInput title="To" inputCardVariant={'none'} inputAmountString={convertedAmountString}>
 		<Text slot="input-end-button" text="MPond" fontWeight="font-medium" />
 	</ModalPondInput>

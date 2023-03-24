@@ -9,6 +9,7 @@
 	import { requestMPondConversion } from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
+	import { kMPondHistoryPage } from '$lib/utils/constants/bridgeConstants';
 	import { BigNumberZero, mPondPrecisions } from '$lib/utils/constants/constants';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 	import {
@@ -83,7 +84,7 @@
 			await requestMPondConversion(inputAmount);
 			resetInputs();
 			requestConversionLoading = false;
-			goto('/bridge/mPondToPondHistory');
+			goto(kMPondHistoryPage);
 		} catch (error: any) {
 			requestConversionLoading = false;
 			console.log('error:', error);
@@ -105,7 +106,7 @@
 		inputAmount && inputAmount.gt(0) && unrequestedMPondBalance?.gte(inputAmount);
 </script>
 
-<div class="mt-8 mb-6 mx-2">
+<div class="my-2 mx-2">
 	<ModalPondInput
 		title="From"
 		bind:inputAmountString
@@ -115,14 +116,14 @@
 		{maxAmountTooltipText}
 	>
 		<Text slot="input-end-button" text="MPond" fontWeight={'font-medium'} />
-		<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
+		<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
 	</ModalPondInput>
 	<ErrorTextCard
 		showError={!inputAmountIsValid && updatedAmountInputDirty}
 		errorMessage={inValidMessage}
 	/>
 	<ErrorTextCard showError={!!mPondDisabledText} errorMessage={mPondDisabledText} />
-	<Divider margin="mt-4 mb-6" />
+	<Divider margin="mt-2 mb-3" />
 	<ModalPondInput title="To" inputCardVariant={'none'} inputAmountString={convertedAmountString}>
 		<Text slot="input-end-button" text="POND" fontWeight="font-medium" />
 	</ModalPondInput>

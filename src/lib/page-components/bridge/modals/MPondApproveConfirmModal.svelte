@@ -19,7 +19,6 @@
 	};
 
 	const handleApproveClick = async () => {
-		console.log('approve convertPondToMPond');
 		try {
 			await approveMPondTokenForConversion(mpondToConvert);
 			// update bridge store locally in case when user approves amount greater than previous allowance
@@ -35,8 +34,8 @@
 
 	let txnHash = '';
 	const handleConfirmClick = async () => {
-		console.log('confirm convertMPondToPond');
 		try {
+			console.log('handleConfirmClick 1 :>> ');
 			const txn = await confirmMPondConversion(requestEpoch, mpondToConvert);
 			txnHash = txn.hash;
 		} catch (error) {
@@ -53,7 +52,6 @@
 	{handleApproveClick}
 	{handleConfirmClick}
 	handleSuccessFinishClick={() => {
-		console.log('handleSuccessFinishClick 1 :>> ', txnHash);
 		handleOnSuccess(txnHash);
 	}}
 	{approved}

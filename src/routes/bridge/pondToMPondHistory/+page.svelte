@@ -4,7 +4,7 @@
 	import PondToMPondHistoryData from '$lib/page-components/bridge/history/PondToMPondHistoryData.svelte';
 </script>
 
-<div class="py-10">
+<div class="py-4">
 	{#if $chainStore.isValidChain}
 		<PondToMPondHistoryData />
 	{:else}

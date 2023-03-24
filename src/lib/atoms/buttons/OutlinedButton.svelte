@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/atoms/componentClasses';
+	import type { ButtonModel } from '$lib/types/componentTypes';
 
-	export let onclick: (() => void) | undefined = undefined;
+	export let onclick: ButtonModel['onclick'] = undefined;
 	export let disabled = false;
 	export let loading = false;
 	export let styleClass = '';

@@ -22,7 +22,6 @@
 	import HistoryDataIconButton from '../sub-components/HistoryDataIconButton.svelte';
 
 	export let rowData: MPondToPondHistoryDataModel;
-	export let handleUpdateData: (rowData: MPondToPondHistoryDataModel) => void;
 
 	const getTimerEpoch = (
 		currentCycle: number,
@@ -32,7 +31,7 @@
 		return eligibleCycles[currentCycle].endTimestamp;
 	};
 
-	const {
+	$: ({
 		timestamp,
 		transactionHash,
 		mpondAmount,
@@ -44,13 +43,37 @@
 		pondEligible,
 		conversionHistory,
 		requestEpoch
-	} = rowData ?? {};
+	} = rowData);
+
 	const endEpochTime = getTimerEpoch(currentCycle, eligibleCycles);
 
 	const handleCancelConversionRequest = async (requestEpoch: BigNumber) => {
 		//not working yet
 		await cancelMPondConversionRequest(requestEpoch);
 	};
+
+	const handleOnTimerEnd = () => {
+		rowData = {
+			...rowData,
+			pondPending:
+				currentCycle === eligibleCycles?.length - 1
+					? BigNumberZero
+					: pondPending.sub(pondInProcess),
+			pondInProcess: currentCycle === eligibleCycles?.length - 1 ? BigNumberZero : pondInProcess,
+			pondEligible: pondEligible.add(pondInProcess),
+			currentCycle: currentCycle + 1
+		};
+	};
+
+	const handleUpdateOnConvert = (newData: Partial<MPondToPondHistoryDataModel>) => {
+		rowData = {
+			...rowData,
+			...newData
+		};
+	};
+
+	const cancelTooltipText =
+		'Cancel current MPond conversion requests in process. Users who want the updated MPond conversion parameters to take immediate effect may cancel the current conversion request and place a new conversion request.';
 </script>
 
 <tr>
@@ -86,24 +109,7 @@
 		<svelte:fragment slot="line1">
 			{bigNumberToCommaString(pondInProcess, pondPrecisions)}
 		</svelte:fragment>
-		<Timer
-			slot="line2"
-			{endEpochTime}
-			onTimerEnd={() => {
-				const updatedData = {
-					...rowData,
-					pondPending:
-						currentCycle === eligibleCycles?.length - 1
-							? BigNumberZero
-							: pondPending.sub(pondInProcess),
-					pondInProcess:
-						currentCycle === eligibleCycles?.length - 1 ? BigNumberZero : pondInProcess,
-					pondEligible: pondEligible.add(pondInProcess),
-					currentCycle: currentCycle + 1
-				};
-				handleUpdateData(updatedData);
-			}}
-		>
+		<Timer slot="line2" {endEpochTime} onTimerEnd={handleOnTimerEnd}>
 			<div slot="active" let:timer class="mx-auto">
 				<HistoryDataIconButton
 					disabled={true}
@@ -125,20 +131,17 @@
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			<MPondConvertOpenButton {rowData} {handleUpdateData} />
+			<MPondConvertOpenButton {rowData} {handleUpdateOnConvert} />
 		</svelte:fragment>
 		<svelte:fragment slot="line2">
 			<Button
+				size={'tiny'}
 				variant={'text'}
 				onclick={async () => {
 					await handleCancelConversionRequest(requestEpoch);
 				}}
 			>
-				<HistoryDataIconButton
-					text={'Cancel'}
-					variant="primary"
-					tooltipText={'Cancel current MPond conversion requests in process. Users who want the updated MPond conversion parameters to take immediate effect may cancel the current conversion request and place a new conversion request.'}
-				/>
+				<HistoryDataIconButton text={'Cancel'} variant="primary" tooltipText={cancelTooltipText} />
 			</Button>
 		</svelte:fragment>
 	</TableDataWithButton>

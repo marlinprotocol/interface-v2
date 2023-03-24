@@ -11,17 +11,16 @@
 
 <MPondConversionHistoryModal conversions={conversionHistory} bind:showConversionHistoryDialog />
 {#if !conversionHistory?.length}
-	<Button variant={'outlined'} styleClass="border-none pointer-events-none">
-		<HistoryDataIconButton
-			variant={'disabled'}
-			src={'/images/historyicon.svg'}
-			imgWidth={14}
-			text={'History'}
-			disabled={true}
-		/>
-	</Button>
+	<HistoryDataIconButton
+		variant={'disabled'}
+		src={'/images/historyicon.svg'}
+		imgWidth={14}
+		text={'History'}
+		disabled={true}
+	/>
 {:else}
 	<Button
+		size={'tiny'}
 		variant={'text'}
 		onclick={() => {
 			showConversionHistoryDialog = true;

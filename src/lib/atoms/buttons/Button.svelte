@@ -11,7 +11,7 @@
 	export let variant: ButtonModel['variant'] = 'filled';
 	export let size: ButtonModel['size'] = 'medium';
 	export let styleClass = '';
-	export let onclick: ButtonModel['onclick'];
+	export let onclick: ButtonModel['onclick'] = undefined;
 	export let disabled = false;
 	export let loading = false;
 
@@ -37,14 +37,16 @@
 	};
 	const getButtonSize = () => {
 		switch (size) {
+			case 'tiny':
+				return 'h-8';
 			case 'small':
-				return 'h-11';
+				return 'h-10';
 			case 'medium':
 				return 'h-12';
 			case 'large':
 				return 'h-14 text-base font-semibold w-full';
 			default:
-				return 'h-10';
+				return 'h-12';
 		}
 	};
 	const ButtonType = buttonClass();

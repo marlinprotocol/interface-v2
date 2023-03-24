@@ -29,7 +29,7 @@
 	}
 </script>
 
-<div class="py-10">
+<div class="py-4">
 	{#if $chainStore.isValidChain}
 		<BridgeDashboard />
 	{:else}

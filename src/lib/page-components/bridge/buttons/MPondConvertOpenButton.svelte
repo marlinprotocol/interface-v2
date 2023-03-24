@@ -2,25 +2,19 @@
 	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import { mPondToPond, pondToMPond } from '$lib/utils/conversion';
+	import type { BigNumber } from 'ethers';
 	import MPondEligibleConvertModal from '../modals/MPondEligibleConvertModal.svelte';
 
 	export let rowData: MPondToPondHistoryDataModel;
-	export let handleUpdateData: (data: MPondToPondHistoryDataModel) => void;
+	export let handleUpdateOnConvert: (data: Partial<MPondToPondHistoryDataModel>) => void;
 
 	const { pondEligible, conversionHistory, mpondConverted, requestEpoch } = rowData;
 
 	let showEligibleConvertDialog = false;
-</script>
 
-<MPondEligibleConvertModal
-	maxAmount={pondToMPond(pondEligible)}
-	{requestEpoch}
-	bind:showEligibleConvertDialog
-	handleOnSuccess={(convertedMPond, txnHash) => {
-		console.log('handleOnSuccess 3 :>> ', convertedMPond, txnHash);
+	const handleOnSuccess = (convertedMPond: BigNumber, txnHash: string) => {
 		const convertedPond = mPondToPond(convertedMPond);
-		const updatedData = {
-			...rowData,
+		handleUpdateOnConvert({
 			pondEligible: pondEligible.sub(convertedPond),
 			mpondConverted: mpondConverted.add(convertedMPond),
 			conversionHistory: [
@@ -32,9 +26,15 @@
 					timestamp: Math.floor(Date.now() / 1000)
 				}
 			]
-		};
-		handleUpdateData(updatedData);
-	}}
+		});
+	};
+</script>
+
+<MPondEligibleConvertModal
+	maxAmount={pondToMPond(pondEligible)}
+	{requestEpoch}
+	bind:showEligibleConvertDialog
+	{handleOnSuccess}
 />
 <TableConvertButton
 	disabled={!pondEligible.gt(0)}

@@ -4,6 +4,7 @@
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
+	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { InputCardVariant, ModalInputModel } from '$lib/types/componentTypes';
 
 	export let title: ModalInputModel['title'];
@@ -34,7 +35,7 @@
 	<form>
 		<div class="flex items-center gap-2">
 			<input
-				disabled={!handleUpdatedAmount}
+				disabled={!handleUpdatedAmount || !$connected}
 				bind:value={inputAmountString}
 				on:input={handleUpdatedAmount}
 				id="pond-input-amount"

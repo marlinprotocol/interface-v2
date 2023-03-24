@@ -19,7 +19,6 @@
 	};
 
 	const handleApproveClick = async () => {
-		console.log('approve convertPondToMPond');
 		try {
 			await approvePondTokenForConversion(pond);
 			// update bridge store locally in case when user approves amount greater than previous allowance
@@ -50,7 +49,9 @@
 	bind:showApproveConfirmDialog={showPondApproveConfirmDialog}
 	{handleApproveClick}
 	{handleConfirmClick}
-	handleSuccessFinishClick={() => goto(kPondHistoryPage)}
+	handleSuccessFinishClick={() => {
+		goto(kPondHistoryPage);
+	}}
 	{approved}
 	conversionFrom={'pond'}
 	amountConverted={pond}

@@ -54,8 +54,18 @@
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<Button onclick={handleSuccessFinishClick} variant="filled" size="large" styleClass="w-full"
-			>FINISH
+		<Button
+			onclick={() => {
+				console.log('here :>> ');
+				if (handleSuccessFinishClick) handleSuccessFinishClick();
+				// TODO: close dialog here
+				showSuccessConversionDialog = false;
+			}}
+			variant="filled"
+			size="large"
+			styleClass="w-full"
+		>
+			FINISH
 		</Button>
 	</svelte:fragment>
 </Dialog>

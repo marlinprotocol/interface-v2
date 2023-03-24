@@ -68,6 +68,7 @@
 
 	const onSuccess = (txn: string) => {
 		handleOnSuccess(inputAmount, txn);
+		// TODO: close modals here
 		showEligibleConvertDialog = false;
 		showMPondApproveConfirmDialog = false;
 	};

@@ -54,10 +54,12 @@
 	});
 
 	$: unrequestedMPondBalance = walletMPondBalance.sub(requestedMPond);
-	$: balanceText = `Unrequested: ${bigNumberToCommaString(
-		unrequestedMPondBalance,
-		mPondPrecisions
-	)} | Requested: ${bigNumberToCommaString(requestedMPond, mPondPrecisions)}`;
+	$: balanceText = $connected
+		? `Unrequested: ${bigNumberToCommaString(
+				unrequestedMPondBalance,
+				mPondPrecisions
+		  )} | Requested: ${bigNumberToCommaString(requestedMPond, mPondPrecisions)}`
+		: 'Unrequested: 0 | Requested: 0';
 
 	onDestroy(unsubscribeWalletBalanceStore);
 	onDestroy(unsubscribeBridgeStore);

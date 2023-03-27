@@ -1,17 +1,17 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import Dialog from '$lib/atoms/modals/Dialog.svelte';
+	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import { connectWallet } from '$lib/controllers/walletController';
 	import { walletOptions } from '$lib/data-stores/walletProviderStore';
 	import { getImagebyWalletProvider } from '$lib/utils/constants/componentConstants';
 	import { WALLET_TYPE } from '$lib/utils/constants/constants';
 	import WalletCard from './WalletCard.svelte';
 
-	export let showConnectWalletDialog = false;
+	export let modalFor: string;
 	const modalWidth = 'max-w-[500px]';
 </script>
 
-<Dialog bind:showDialog={showConnectWalletDialog} {modalWidth}>
+<Modal {modalFor} {modalWidth}>
 	<svelte:fragment slot="header">Unlock Wallet</svelte:fragment>
 	<svelte:fragment slot="title">Select a provider</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
@@ -34,4 +34,4 @@
 			{/each}
 		</div>
 	</svelte:fragment>
-</Dialog>
+</Modal>

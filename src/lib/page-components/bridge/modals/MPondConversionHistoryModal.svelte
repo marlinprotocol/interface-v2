@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Dialog from '$lib/atoms/modals/Dialog.svelte';
+	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
 	import TxnHashText from '$lib/components/TxnHashText.svelte';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
@@ -10,10 +10,10 @@
 
 	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];
 
-	export let showConversionHistoryDialog = false;
+	export let modalFor: string;
 </script>
 
-<Dialog bind:showDialog={showConversionHistoryDialog}>
+<Modal {modalFor}>
 	<svelte:fragment slot="title">
 		{'Conversion History'}
 	</svelte:fragment>
@@ -51,4 +51,4 @@
 			</div>
 		{/each}
 	</svelte:fragment>
-</Dialog>
+</Modal>

@@ -1,14 +1,14 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
-	import Dialog from '$lib/atoms/modals/Dialog.svelte';
+	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { setSignerAddress } from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import type { Address } from '$lib/types/storeTypes';
 	import { MESSAGES } from '$lib/utils/constants/messages';
 	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
-	import { isAddressValid } from '$lib/utils/helpers/commonHelper';
+	import { closeModal, isAddressValid } from '$lib/utils/helpers/commonHelper';
 
 	let updatedSignerAddress: Address = '';
 	let submitLoading = false;
@@ -16,7 +16,7 @@
 	let signerAddressIsValid: boolean;
 	let signerAddressIsUnique = false;
 
-	export let showSignerAddressDialog = false;
+	export let modalFor: string;
 
 	const subtitle =
 		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';
@@ -36,7 +36,7 @@
 			});
 			updatedSignerAddress = '';
 			submitLoading = false;
-			showSignerAddressDialog = false;
+			closeModal(modalFor);
 			resetInputs();
 		} catch (e) {
 			console.log('error submitting', e);
@@ -75,7 +75,7 @@
 		updatedSignerAddressInputDirty;
 </script>
 
-<Dialog bind:showDialog={showSignerAddressDialog} onClose={resetInputs}>
+<Modal {modalFor} onClose={resetInputs}>
 	<svelte:fragment slot="title">
 		{#if $receiverStakingStore.signer !== DEFAULT_RECEIVER_STAKING_DATA.signer}
 			{'UPDATE SIGNER ADDRESS'}
@@ -164,4 +164,4 @@
 			styleClass={'btn-block'}>UPDATE</Button
 		>
 	</svelte:fragment>
-</Dialog>
+</Modal>

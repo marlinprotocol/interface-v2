@@ -5,15 +5,13 @@
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import edit from 'svelte-awesome/icons/edit';
 	import { connected } from '$lib/data-stores/walletProviderStore';
-	import OperatorAddressModal from './SignerAddressModal.svelte';
 	import { minifyAddress } from '$lib/utils/helpers/commonHelper';
 	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import SignerAddressModal from './SignerAddressModal.svelte';
-	import Button from '$lib/atoms/buttons/Button.svelte';
 
-	let showSignerAddressDialog = false;
+	const modalFor = 'signer-address-modal';
 	const tooltipText =
 		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';
 	const title = 'Signer Address';
@@ -40,41 +38,34 @@
 		<Text variant="small" text={title} />
 		<TooltipIcon {tooltipText} />
 	</div>
-	<form>
-		<div class="flex gap-2 items-center">
-			<!-- TODO: add number validation -->
-			<input
-				bind:value={displayAddress}
-				id="signer-address-display"
-				class={`hideInputNumberAppearance ${styles.inputNumber}`}
-				placeholder="Set signer address"
-				disabled={true}
-			/>
 
-			{#if $connected}
-				<SignerAddressModal bind:showSignerAddressDialog />
-				<Button
-					variant="text"
-					onclick={() => {
-						showSignerAddressDialog = true;
-					}}
-				>
-					<Icon data={edit} size={18} />
-				</Button>
-			{:else}
-				<button
-					type="button"
-					on:click={() => {
-						addToast({
-							message: 'Please connect your wallet.',
-							variant: 'error'
-						});
-					}}
-				>
-					<Icon data={edit} size={18} />
-				</button>
-			{/if}
-		</div>
-	</form>
+	<div class="flex gap-2 items-center">
+		<!-- TODO: add number validation -->
+		<input
+			bind:value={displayAddress}
+			id="signer-address-display"
+			class={`hideInputNumberAppearance ${styles.inputNumber}`}
+			placeholder="Set signer address"
+			disabled={true}
+		/>
+
+		{#if $connected}
+			<label for={modalFor}>
+				<Icon data={edit} size={18} />
+			</label>
+			<SignerAddressModal {modalFor} />
+		{:else}
+			<button
+				type="button"
+				on:click={() => {
+					addToast({
+						message: 'Please connect your wallet.',
+						variant: 'error'
+					});
+				}}
+			>
+				<Icon data={edit} size={18} />
+			</button>
+		{/if}
+	</div>
 </InputCard>
-<OperatorAddressModal />

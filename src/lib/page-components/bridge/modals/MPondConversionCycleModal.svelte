@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Dialog from '$lib/atoms/modals/Dialog.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import type { MPondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
@@ -7,15 +6,15 @@
 	import { pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
 	import TableHeadingText from '../../../components/texts/TableHeadingText.svelte';
+	import Modal from '$lib/atoms/modals/Modal.svelte';
 
 	export let cycles: MPondEligibleCyclesModel[];
 	export let endEpochTime: number;
 	export let currentCycle: number;
-
-	export let showModalConversionCycleDialog = false;
+	export let modalFor: string;
 </script>
 
-<Dialog bind:showDialog={showModalConversionCycleDialog}>
+<Modal bind:modalFor>
 	<svelte:fragment slot="title">
 		{'Conversion Cycle'}
 	</svelte:fragment>
@@ -85,4 +84,4 @@
 			</div>
 		</div>
 	</svelte:fragment>
-</Dialog>
+</Modal>

@@ -22,6 +22,7 @@
 	import HistoryDataIconButton from '../sub-components/HistoryDataIconButton.svelte';
 
 	export let rowData: MPondToPondHistoryDataModel;
+	export let rowIndex: number;
 
 	const getTimerEpoch = (
 		currentCycle: number,
@@ -102,7 +103,12 @@
 			{bigNumberToCommaString(pondPending, pondPrecisions)}
 		</svelte:fragment>
 		<svelte:fragment slot="line2">
-			<MPondConversionCycleButton {eligibleCycles} {endEpochTime} {currentCycle} />
+			<MPondConversionCycleButton
+				{eligibleCycles}
+				{endEpochTime}
+				{currentCycle}
+				modalFor={`'mpondHistoryRow' + ${rowIndex}`}
+			/>
 		</svelte:fragment>
 	</TableDataWithButton>
 	<TableDataWithButton>

@@ -1,14 +1,15 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
-	import Dialog from '$lib/atoms/modals/Dialog.svelte';
+	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import type { ButtonModel } from '$lib/types/componentTypes';
 	import { BigNumberZero, mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, mPondToPond, pondToMPond } from '$lib/utils/conversion';
+	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 
-	export let showSuccessConversionDialog = false;
+	export let modalFor: string;
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
 	export let amountConverted: BigNumber = BigNumberZero;
 	export let handleSuccessFinishClick: ButtonModel['onclick'] = undefined;
@@ -18,7 +19,7 @@
 		conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted);
 </script>
 
-<Dialog bind:showDialog={showSuccessConversionDialog} closeOnOutsideClick={true}>
+<Modal {modalFor}>
 	<img slot="icon" src="/images/shield.svg" alt="" width="38px" />
 	<svelte:fragment slot="title">
 		{'Conversion Successful'}
@@ -56,10 +57,8 @@
 	<svelte:fragment slot="actionButtons">
 		<Button
 			onclick={() => {
-				console.log('here :>> ');
 				if (handleSuccessFinishClick) handleSuccessFinishClick();
-				// TODO: close dialog here
-				showSuccessConversionDialog = false;
+				closeModal(modalFor);
 			}}
 			variant="filled"
 			size="large"
@@ -68,4 +67,4 @@
 			FINISH
 		</Button>
 	</svelte:fragment>
-</Dialog>
+</Modal>

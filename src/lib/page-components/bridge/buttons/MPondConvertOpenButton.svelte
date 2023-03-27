@@ -10,7 +10,7 @@
 
 	const { pondEligible, conversionHistory, mpondConverted, requestEpoch } = rowData;
 
-	let showEligibleConvertDialog = false;
+	let modalFor = 'eligible-convert-modal';
 
 	const handleOnSuccess = (convertedMPond: BigNumber, txnHash: string) => {
 		const convertedPond = mPondToPond(convertedMPond);
@@ -33,10 +33,7 @@
 <MPondEligibleConvertModal
 	maxAmount={pondToMPond(pondEligible)}
 	{requestEpoch}
-	bind:showEligibleConvertDialog
+	{modalFor}
 	{handleOnSuccess}
 />
-<TableConvertButton
-	disabled={!pondEligible.gt(0)}
-	onclick={() => (showEligibleConvertDialog = true)}
-/>
+<TableConvertButton disabled={!pondEligible.gt(0)} {modalFor} />

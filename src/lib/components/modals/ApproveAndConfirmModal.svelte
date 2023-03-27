@@ -1,9 +1,10 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import Dialog from '$lib/atoms/modals/Dialog.svelte';
+	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import SuccessfulConversionModal from '$lib/page-components/bridge/modals/SuccessfulConversionModal.svelte';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import LoadingAnimatedPing from '../loading/LoadingAnimatedPing.svelte';
 
@@ -16,8 +17,8 @@
 	export let amountConverted: BigNumber = BigNumberZero;
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
 
-	export let showApproveConfirmDialog = false;
-	let showSuccessConversionDialog = false;
+	export let modalForApproveConfirm: string;
+	let modalForSuccessConversion = 'success-conversion-modal';
 	let approveLoading: boolean;
 	let confirmLoading: boolean;
 
@@ -36,8 +37,8 @@
 		try {
 			confirmLoading = true;
 			await handleConfirmClick();
-			showApproveConfirmDialog = false;
-			showSuccessConversionDialog = true;
+			closeModal(modalForApproveConfirm);
+			openModal(modalForSuccessConversion);
 		} catch (e) {
 			throw e;
 		} finally {
@@ -47,7 +48,7 @@
 	const modalWidth = 'max-w-[500px]';
 </script>
 
-<Dialog bind:showDialog={showApproveConfirmDialog} {modalWidth}>
+<Modal modalFor={modalForApproveConfirm} {modalWidth}>
 	<svelte:fragment slot="title">
 		{!approved ? 'Approve Transaction' : 'Confirm Transaction'}
 	</svelte:fragment>
@@ -94,9 +95,9 @@
 			</Button>
 		{/if}
 	</svelte:fragment>
-</Dialog>
+</Modal>
 <SuccessfulConversionModal
-	bind:showSuccessConversionDialog
+	modalFor={modalForSuccessConversion}
 	{amountConverted}
 	{conversionFrom}
 	{handleSuccessFinishClick}

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
@@ -27,7 +26,7 @@
 		buttonLarge: `${buttonClasses.filled} h-14 text-base font-semibold flex gap-1 w-full`
 	};
 
-	let showPondApproveConfirmDialog = false;
+	let modalFor = 'pond-approve-confirm-modal';
 
 	//initial amount states
 	let inputAmount: BigNumber;
@@ -102,16 +101,11 @@
 	{#if !enableConversion}
 		<button class={styles.buttonLarge} disabled>PROCEED TO CONVERSION</button>
 	{:else}
-		<Button
-			onclick={() => {
-				showPondApproveConfirmDialog = true;
-			}}
-			styleClass={styles.buttonLarge}
-		>
+		<label for={modalFor} class={`${styles.buttonLarge} ${buttonClasses.filled}`}>
 			PROCEED TO CONVERSION
-		</Button>
+		</label>
 	{/if}
 {:else}
 	<ConnectWalletButton isLarge={true} />
 {/if}
-<PondApproveConfirmModal pond={inputAmount} bind:showPondApproveConfirmDialog />
+<PondApproveConfirmModal pond={inputAmount} {modalFor} />

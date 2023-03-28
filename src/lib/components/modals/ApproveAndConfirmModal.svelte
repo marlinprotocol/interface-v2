@@ -3,7 +3,8 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import SuccessfulConversionModal from '$lib/page-components/bridge/modals/SuccessfulConversionModal.svelte';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { amountPrecision, BigNumberZero } from '$lib/utils/constants/constants';
+	import { bigNumberToCommaString, mPondToPond, pondToMPond } from '$lib/utils/conversion';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import LoadingAnimatedPing from '../loading/LoadingAnimatedPing.svelte';
@@ -18,6 +19,15 @@
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
 
 	export let modalForApproveConfirm: string;
+
+	$: amountConvertedFrom = bigNumberToCommaString(amountConverted, amountPrecision(conversionFrom));
+	$: amountConvertedTo = bigNumberToCommaString(
+		conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted),
+		amountPrecision(conversionFrom === 'pond' ? 'mPond' : 'pond')
+	);
+	$: conversionFromText = conversionFrom === 'pond' ? 'POND' : 'MPond';
+	$: conversionToText = conversionFrom === 'pond' ? 'MPond' : 'POND';
+
 	let modalForSuccessConversion = 'success-conversion-modal';
 	let approveLoading: boolean;
 	let confirmLoading: boolean;
@@ -45,16 +55,23 @@
 			confirmLoading = false;
 		}
 	};
-	const modalWidth = 'max-w-[500px]';
+	// const modalWidth = 'max-w-[500px]';
+
+	const styles = {
+		text: 'text-grey-500 font-[15px] font-normal',
+		textBold: 'font-semibold text-black',
+		textDisabled: 'font-semibold text-grey-300'
+	};
 </script>
 
-<Modal modalFor={modalForApproveConfirm} {modalWidth}>
+<Modal modalFor={modalForApproveConfirm}>
 	<svelte:fragment slot="title">
 		{!approved ? 'Approve Transaction' : 'Confirm Transaction'}
 	</svelte:fragment>
+	<div />
 	<svelte:fragment slot="content">
-		{#if $$slots.approveText}
-			<div class="flex gap-5">
+		<div class="flex gap-5 h-[50px]">
+			<div class="flex flex-col items-center">
 				{#if approved}
 					<img src="/images/vectorcheck.svg" alt="Copy" width="20px" height="20px" />
 				{:else}
@@ -62,21 +79,33 @@
 						<Text variant="small" styleClass="font-semibold" text={'1'} />
 					</LoadingAnimatedPing>
 				{/if}
-				<div class={`text-grey-800`}>
-					<slot name="approveText" />
-				</div>
+				{#if approved}
+					<div class="h-full w-[0.1px] bg-grey-400" />
+				{/if}
 			</div>
-		{/if}
-		{#if $$slots.confirmText}
-			<div class={`flex gap-5 mt-5`}>
-				<LoadingAnimatedPing loading={confirmLoading}>
-					<Text variant="small" styleClass="font-semibold" text={'2'} />
-				</LoadingAnimatedPing>
-				<div class={`${approved ? 'text-grey-800' : 'text-grey-300'}`}>
-					<slot name="confirmText" />
-				</div>
+			<div class={styles.text}>
+				<span>{'Approve'}</span>
+				<span class={styles.textBold}>
+					{`${amountConvertedFrom} ${conversionFromText}`}
+				</span>
+				<span>{'for conversion'}</span>
 			</div>
-		{/if}
+		</div>
+		<div class={`flex gap-5`}>
+			<LoadingAnimatedPing loading={confirmLoading}>
+				<Text variant="small" styleClass="font-semibold" text={'2'} />
+			</LoadingAnimatedPing>
+			<div class={`${approved ? styles.text : 'text-grey-300'}`}>
+				<span>{'Convert'}</span>
+				<span class={approved ? styles.textBold : styles.textDisabled}>
+					{`${amountConvertedFrom} ${conversionFromText}`}
+				</span>
+				<span>{'to'}</span>
+				<span class={approved ? styles.textBold : styles.textDisabled}>
+					{`${amountConvertedTo} ${conversionToText}`}
+				</span>
+			</div>
+		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		{#if !approved}

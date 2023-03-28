@@ -61,22 +61,4 @@
 	conversionFrom={'mPond'}
 	amountConverted={mpondToConvert}
 	confirmButtonText={'CONVERT'}
->
-	<div slot="approveText">
-		<span>{'Approve'}</span>
-		<span class={styles.highlight}
-			>{`${bigNumberToCommaString(mpondToConvert, mPondPrecisions)} MPond`}</span
-		>
-		<span>{'for conversion'}</span>
-	</div>
-	<div slot="confirmText">
-		<span>{'Convert'}</span>
-		<span class={styles.highlight}
-			>{`${bigNumberToCommaString(mpondToConvert, mPondPrecisions)} MPond`}</span
-		>
-		<span>{'to'}</span>
-		<span class={styles.highlight}>
-			{`${bigNumberToCommaString(mPondToPond(mpondToConvert), pondPrecisions)} POND`}
-		</span>
-	</div>
-</ApproveAndConfirmModal>
+/>

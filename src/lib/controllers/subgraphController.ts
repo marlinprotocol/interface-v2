@@ -95,7 +95,6 @@ export async function getMPondBalance(address: Address): Promise<BigNumber> {
 	}
 }
 // ----------------------------- smart contract subgraph methods -----------------------------
-//TODO: add return types
 export async function getReceiverPondBalanceFromSubgraph(address: Address): Promise<any> {
 	const url = ENVIRONMENT.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_RECEIVER_POND_BALANCE;
@@ -206,8 +205,7 @@ export async function checkIfSignerExistsInSubgraph(address: Address): Promise<b
 
 	try {
 		const result = await fetchHttpData(url, options);
-		// TODO: remove this when pushing to prod
-		if (result['errors']) return true;
+
 		if (result['data'] && result['data']?.receiverBalances?.length == 0) return true;
 		else return false;
 	} catch (error) {

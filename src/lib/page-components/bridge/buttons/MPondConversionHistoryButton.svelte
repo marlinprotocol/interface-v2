@@ -1,15 +1,14 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import MPondConversionHistoryModal from '../modals/MPondConversionHistoryModal.svelte';
 	import HistoryDataIconButton from '../sub-components/HistoryDataIconButton.svelte';
 
 	export let conversionHistory: MPondToPondHistoryDataModel['conversionHistory'];
 
-	let showConversionHistoryDialog = false;
+	export let modalFor: string;
 </script>
 
-<MPondConversionHistoryModal conversions={conversionHistory} bind:showConversionHistoryDialog />
+<MPondConversionHistoryModal conversions={conversionHistory} {modalFor} />
 {#if !conversionHistory?.length}
 	<HistoryDataIconButton
 		variant={'disabled'}
@@ -19,18 +18,12 @@
 		disabled={true}
 	/>
 {:else}
-	<Button
-		size={'tiny'}
-		variant={'text'}
-		onclick={() => {
-			showConversionHistoryDialog = true;
-		}}
-	>
+	<label for={modalFor}>
 		<HistoryDataIconButton
 			variant={'primary'}
 			src={'/images/historyicon.svg'}
 			imgWidth={14}
 			text={'History'}
 		/>
-	</Button>
+	</label>
 {/if}

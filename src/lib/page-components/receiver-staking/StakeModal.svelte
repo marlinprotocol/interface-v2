@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
-	import Dialog from '$lib/atoms/modals/Dialog.svelte';
+	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
@@ -28,6 +28,7 @@
 		stringToBigNumber
 	} from '$lib/utils/conversion';
 	import {
+		closeModal,
 		getCurrentEpochCycle,
 		inputAmountInValidMessage,
 		isAddressValid,
@@ -36,7 +37,7 @@
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
-	export let showStakeDialog = false;
+	export let modalFor: string;
 
 	//texts
 	const toolTipText = 'Enter the amount of POND you would like to stake to the receiver address.';
@@ -164,7 +165,7 @@
 			} else {
 				await depositStakingToken(inputAmount);
 			}
-			showStakeDialog = false;
+			closeModal(modalFor);
 
 			// update wallet balance locally
 			walletBalance.update((value: WalletBalance) => {
@@ -257,7 +258,7 @@
 	};
 </script>
 
-<Dialog bind:showDialog={showStakeDialog} onClose={resetInputs}>
+<Modal {modalFor} onClose={resetInputs}>
 	<svelte:fragment slot="title">
 		{'STAKE POND'}
 	</svelte:fragment>
@@ -344,4 +345,4 @@
 			styleClass={'btn-block'}>CONFIRM</Button
 		>
 	</svelte:fragment>
-</Dialog>
+</Modal>

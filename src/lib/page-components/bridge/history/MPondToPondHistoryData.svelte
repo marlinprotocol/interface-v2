@@ -43,8 +43,8 @@
 	tableHeading={kMPondToPondTableHeader}
 >
 	{#if historyData?.length}
-		{#each historyData as rowData}
-			<MPondTableRow {rowData} />
+		{#each historyData as rowData, rowIndex}
+			<MPondTableRow {rowData} {rowIndex} />
 		{/each}
 	{/if}
 </HistoryTableCommon>

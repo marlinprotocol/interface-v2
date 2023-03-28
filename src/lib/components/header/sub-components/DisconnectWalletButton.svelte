@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
+	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { ChainStore } from '$lib/types/storeTypes';
@@ -7,7 +7,7 @@
 	import type { Unsubscriber } from 'svelte/store';
 	import DisconnectWalletModal from './DisconnectWalletModal.svelte';
 
-	let showDisconnectWalletDialog = false;
+	let modalFor = 'disconnect-wallet-modal';
 	$: shortAddress =
 		$walletStore.address.slice().substring(0, 6) +
 		'...' +
@@ -29,17 +29,14 @@
 	};
 </script>
 
-<Button
-	variant="whiteFilled"
-	onclick={() => {
-		showDisconnectWalletDialog = true;
-	}}
-	styleClass="bg-base-100 h-[50px] cursor-pointer text-primary rounded-lg shadow-sm flex gap-4 items-center"
+<label
+	for={modalFor}
+	class={`${buttonClasses.whiteFilled} bg-base-100 h-[50px] cursor-pointer text-primary rounded-lg shadow-sm flex gap-4 items-center`}
 >
 	<img src="/images/wallet-connected.svg" alt="Metamask Logo" />
 	<div class={'flex flex-col text-left'}>
 		<h6 class={styles.network}>{chain?.chainDisplayName?.toLocaleUpperCase()}</h6>
 		<p class={styles.address}>{shortAddress}</p>
 	</div>
-</Button>
-<DisconnectWalletModal bind:showDisconnectWalletDialog />
+</label>
+<DisconnectWalletModal {modalFor} />

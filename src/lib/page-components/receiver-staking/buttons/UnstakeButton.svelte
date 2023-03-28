@@ -1,20 +1,16 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
+	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import UnstakeModal from '../UnstakeModal.svelte';
 
-	let showUnstakeDialog = false;
+	let modalFor = 'unstake-modal';
 	export let disabled = false;
 	const styles = {
 		buttonLarge: 'h-14 text-base font-semibold'
 	};
 </script>
 
-<Button
-	{disabled}
-	onclick={() => {
-		showUnstakeDialog = true;
-	}}
-	variant="outlined"
-	styleClass={`${styles.buttonLarge} w-full`}>UNSTAKE</Button
+<!-- TODO: add disabled state to label -->
+<label for={modalFor} class={`${styles.buttonLarge} ${buttonClasses.outlined} w-full`}
+	>UNSTAKE</label
 >
-<UnstakeModal bind:showUnstakeDialog />
+<UnstakeModal {modalFor} />

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import Dialog from '$lib/atoms/modals/Dialog.svelte';
+	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import { withdrawStakingToken } from '$lib/controllers/contractController';
@@ -13,11 +13,15 @@
 		bigNumberToString,
 		stringToBigNumber
 	} from '$lib/utils/conversion';
-	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import {
+		closeModal,
+		inputAmountInValidMessage,
+		isInputAmountValid
+	} from '$lib/utils/helpers/commonHelper';
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
-	export let showUnstakeDialog = false;
+	export let modalFor: string;
 	const subtitle =
 		'Enter the amount of POND to be unstaked from the receiver address. Unstaking POND is immediate and should reflect in your wallet after the transaction is confirmed.';
 	const toolTipText =
@@ -82,7 +86,7 @@
 		submitLoading = true;
 		try {
 			await withdrawStakingToken(inputAmount);
-			showUnstakeDialog = false;
+			closeModal(modalFor);
 			//substract input amount first from queued amount and then from staked amount
 			receiverStakingStore.update((value) => {
 				if (inputAmount.gt(value.queuedBalance)) {
@@ -112,7 +116,7 @@
 	};
 </script>
 
-<Dialog bind:showDialog={showUnstakeDialog} onClose={resetInputs}>
+<Modal {modalFor} onClose={resetInputs}>
 	<svelte:fragment slot="title">
 		{'UNSTAKE POND'}
 	</svelte:fragment>
@@ -147,4 +151,4 @@
 			CONFIRM
 		</Button>
 	</svelte:fragment>
-</Dialog>
+</Modal>

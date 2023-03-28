@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
-	import Dialog from '$lib/atoms/modals/Dialog.svelte';
+	import { buttonClasses } from '$lib/atoms/componentClasses';
+	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
@@ -11,11 +11,15 @@
 		bigNumberToString,
 		stringToBigNumber
 	} from '$lib/utils/conversion';
-	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import {
+		closeModal,
+		inputAmountInValidMessage,
+		isInputAmountValid
+	} from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import MPondApproveConfirmModal from './MPondApproveConfirmModal.svelte';
 
-	export let showEligibleConvertDialog = false;
+	export let modalFor: string;
 	export let maxAmount: BigNumber;
 	export let requestEpoch: BigNumber;
 	export let handleOnSuccess: (convertedMPond: BigNumber, txnHash: string) => void;
@@ -25,7 +29,7 @@
 	//initial amount states
 	let inputAmount: BigNumber;
 	let inputAmountString: string;
-	let showMPondApproveConfirmDialog = false;
+	let modalForMPondApproveConfirm = 'mpond-approve-confirm-modal';
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
@@ -68,13 +72,12 @@
 
 	const onSuccess = (txn: string) => {
 		handleOnSuccess(inputAmount, txn);
-		// TODO: close modals here
-		showEligibleConvertDialog = false;
-		showMPondApproveConfirmDialog = false;
+		closeModal(modalFor);
+		closeModal(modalForMPondApproveConfirm);
 	};
 </script>
 
-<Dialog bind:showDialog={showEligibleConvertDialog} onClose={resetInputs}>
+<Modal {modalFor} onClose={resetInputs}>
 	<svelte:fragment slot="title">
 		{'Enter an amount'}
 	</svelte:fragment>
@@ -96,22 +99,19 @@
 		<ErrorTextCard showError={!!mPondDisabledText} errorMessage={mPondDisabledText} />
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<MPondApproveConfirmModal
-			bind:showMPondApproveConfirmDialog
-			{requestEpoch}
-			mpondToConvert={inputAmount}
-			handleOnSuccess={onSuccess}
-		/>
-		<Button
-			variant="filled"
-			disabled={!submitEnable}
-			onclick={() => {
-				showMPondApproveConfirmDialog = true;
-			}}
-			size="large"
-			styleClass={'btn-block'}
+		<label
+			for={modalForMPondApproveConfirm}
+			aria-disabled={!submitEnable}
+			class={`${buttonClasses.filled} h-14 btn-block`}
 		>
 			PROCEED TO CONVERSION
-		</Button>
+		</label>
 	</svelte:fragment>
-</Dialog>
+</Modal>
+<MPondApproveConfirmModal
+	modalFor={modalForMPondApproveConfirm}
+	{requestEpoch}
+	mpondToConvert={inputAmount}
+	modalToClose={modalFor}
+	handleOnSuccess={onSuccess}
+/>

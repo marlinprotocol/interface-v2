@@ -7,11 +7,13 @@
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, mPondToPond } from '$lib/utils/conversion';
+	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 
-	export let showMPondApproveConfirmDialog = false;
+	export let modalFor: string;
 	export let requestEpoch: BigNumber;
 	export let mpondToConvert: BigNumber;
+	export let modalToClose: string;
 	export let handleOnSuccess: (txnHash: string) => void;
 
 	const styles = {
@@ -38,6 +40,7 @@
 			console.log('handleConfirmClick 1 :>> ');
 			const txn = await confirmMPondConversion(requestEpoch, mpondToConvert);
 			txnHash = txn.hash;
+			closeModal(modalToClose);
 		} catch (error) {
 			console.log(error);
 			throw error;
@@ -48,7 +51,7 @@
 </script>
 
 <ApproveAndConfirmModal
-	bind:showApproveConfirmDialog={showMPondApproveConfirmDialog}
+	modalForApproveConfirm={modalFor}
 	{handleApproveClick}
 	{handleConfirmClick}
 	handleSuccessFinishClick={() => {

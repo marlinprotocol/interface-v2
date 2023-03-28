@@ -5,10 +5,10 @@
 		confirmMPondConversion
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
-	import { mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
-	import { bigNumberToCommaString, mPondToPond } from '$lib/utils/conversion';
+	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
+	import { onDestroy } from 'svelte';
 
 	export let modalFor: string;
 	export let requestEpoch: BigNumber;
@@ -16,12 +16,21 @@
 	export let modalToClose: string;
 	export let handleOnSuccess: (txnHash: string) => void;
 
-	const styles = {
-		highlight: 'font-bold'
-	};
+	let approved: boolean = false;
+	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
+		const amount = value.allowances.mPond;
+		approved = amount.gte(mpondToConvert) || false;
+	});
+	onDestroy(unsubscribeBridgeStore);
 
 	const handleApproveClick = async () => {
 		try {
+			console.log(
+				' $bridgeStore.allowances.mPond :>> ',
+				bigNumberToCommaString($bridgeStore.allowances.mPond, 8),
+				bigNumberToCommaString(mpondToConvert, 8),
+				$bridgeStore.allowances.mPond.gte(mpondToConvert) || false
+			);
 			await approveMPondTokenForConversion(mpondToConvert);
 			// update bridge store locally in case when user approves amount greater than previous allowance
 			bridgeStore.update((value) => {
@@ -46,8 +55,6 @@
 			throw error;
 		}
 	};
-
-	$: approved = $bridgeStore.allowances.mPond.gte(mpondToConvert) || false;
 </script>
 
 <ApproveAndConfirmModal

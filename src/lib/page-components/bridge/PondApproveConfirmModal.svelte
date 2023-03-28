@@ -7,16 +7,22 @@
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { kPondHistoryPage } from '$lib/utils/constants/bridgeConstants';
-	import { mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
-	import { bigNumberToCommaString, pondToMPond } from '$lib/utils/conversion';
+	import { pondToMPond } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
+	import { onDestroy } from 'svelte';
 
 	export let pond: BigNumber;
 	export let modalFor: string;
 
-	const styles = {
-		highlight: 'font-semibold'
-	};
+	let approved: boolean = false;
+	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
+		const amount = value.allowances.pond;
+		approved = amount.gte(pond) || false;
+	});
+	onDestroy(unsubscribeBridgeStore);
+
+	$: mPond = pondToMPond(pond);
+	$: approved = $bridgeStore.allowances.pond.gte(pond) || false;
 
 	const handleApproveClick = async () => {
 		try {
@@ -40,9 +46,6 @@
 			throw error;
 		}
 	};
-
-	$: mPond = pondToMPond(pond);
-	$: approved = $bridgeStore.allowances.pond.gte(pond) || false;
 </script>
 
 <ApproveAndConfirmModal

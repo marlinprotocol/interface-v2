@@ -12,6 +12,13 @@
 	export let endEpochTime: number;
 	export let currentCycle: number;
 	export let modalFor: string;
+
+	const styles = {
+		wrapper: 'flex flex-row gap-4 w-full mx-auto font-semibold',
+		column: 'flex flex-col align-center w-fit mx-auto',
+		conversionRow: 'flex flex-row gap-4 h-[50px]',
+		timerRow: 'flex flex-row gap-2 h-[50px] items-start justify-center'
+	};
 </script>
 
 <Modal bind:modalFor>
@@ -35,11 +42,11 @@
 				</div>
 			{/each}
 		</div>
-		<div class="flex flex-row gap-4 w-full mx-auto font-medium">
+		<div class={styles.wrapper}>
 			<div class="flex-1">
-				<div class="flex flex-col align-center w-fit mx-auto">
+				<div class={styles.column}>
 					{#each cycles as rowData, i}
-						<div class="flex flex-row gap-4  h-[50px]">
+						<div class={styles.conversionRow}>
 							<div class="flex flex-col items-center">
 								{#if currentCycle > i}
 									<img src="/images/vectorcheck.svg" alt="Copy" width="20px" height="20px" />
@@ -63,9 +70,9 @@
 				</div>
 			</div>
 			<div class="flex-1">
-				<div class="flex flex-col align-center w-fit mx-auto">
+				<div class={styles.column}>
 					{#each cycles as rowData, i}
-						<div class="flex flex-row gap-2 h-[50px] items-start justify-center">
+						<div class={styles.timerRow}>
 							{#if currentCycle <= i}
 								<img src="/images/timerclock.svg" alt="Copy" width="20px" height="20px" />
 							{/if}

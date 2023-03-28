@@ -27,7 +27,6 @@
 	const handleApproveClick = async () => {
 		try {
 			await approvePondTokenForConversion(pond);
-			// update bridge store locally in case when user approves amount greater than previous allowance
 			bridgeStore.update((value) => {
 				value.allowances.pond = pond;
 				return value;

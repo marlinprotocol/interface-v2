@@ -5,7 +5,6 @@
 		confirmMPondConversion
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
-	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
@@ -40,7 +39,6 @@
 	let txnHash = '';
 	const handleConfirmClick = async () => {
 		try {
-			console.log('handleConfirmClick 1 :>> ');
 			const txn = await confirmMPondConversion(requestEpoch, mpondToConvert);
 			txnHash = txn.hash;
 			closeModal(modalToClose);

@@ -76,7 +76,7 @@
 		>
 		<span>{'to'}</span>
 		<span class={styles.highlight}>
-			{`${bigNumberToCommaString(mPondToPond(mpondToConvert), pondPrecisions)} Pond`}
+			{`${bigNumberToCommaString(mPondToPond(mpondToConvert), pondPrecisions)} POND`}
 		</span>
 	</div>
 </ApproveAndConfirmModal>

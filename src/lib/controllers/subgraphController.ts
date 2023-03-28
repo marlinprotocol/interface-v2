@@ -69,7 +69,7 @@ export async function getPondBalance(address: Address): Promise<BigNumber> {
 			return BigNumber.from(result['data']?.users[0]?.balance);
 		else return DEFAULT_WALLET_BALANCE.pond;
 	} catch (error) {
-		console.log('Error fetching Pond balance', error);
+		console.log('Error fetching POND balance', error);
 		return DEFAULT_WALLET_BALANCE.pond;
 	}
 }
@@ -114,7 +114,7 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 }
 
 /**
- * Returns Staked, Queued Pond for a specific Receiver address
+ * Returns Staked, Queued POND for a specific Receiver address
  * @param address Address of the receiver in string format
  * @param epoch Epoch number
  */

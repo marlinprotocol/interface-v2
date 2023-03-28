@@ -419,7 +419,7 @@ export async function convertPondToMPond(expectedMPond: BigNumber) {
 				message: MESSAGES.TOAST.TRANSACTION.FAILED,
 				variant: 'error'
 			});
-			throw new Error('Unable to convert Pond to MPond.');
+			throw new Error('Unable to convert POND to MPond.');
 		}
 		addToast({
 			message:
@@ -468,7 +468,7 @@ export async function requestMPondConversion(amount: BigNumber) {
 				variant: 'error',
 				timeout: 5000
 			});
-			throw new Error('Unable to place request for converting MPond to Pond.');
+			throw new Error('Unable to place request for converting MPond to POND.');
 		}
 		addToast({
 			message:
@@ -487,7 +487,7 @@ export async function requestMPondConversion(amount: BigNumber) {
 			timeout: 5000
 		});
 
-		throw new Error('Transaction Error while placing request for converting MPond to Pond');
+		throw new Error('Transaction Error while placing request for converting MPond to POND');
 	}
 }
 
@@ -515,7 +515,7 @@ export async function cancelMPondConversionRequest(epoch: BigNumber) {
 				message: MESSAGES.TOAST.TRANSACTION.FAILED,
 				variant: 'error'
 			});
-			throw new Error('Unable to convert Pond to MPond.');
+			throw new Error('Unable to convert POND to MPond.');
 		}
 		addToast({
 			message:
@@ -560,7 +560,7 @@ export async function confirmMPondConversion(epoch: BigNumber, amount: BigNumber
 				message: MESSAGES.TOAST.TRANSACTION.FAILED,
 				variant: 'error'
 			});
-			throw new Error('Unable to convert MPond to Pond.');
+			throw new Error('Unable to convert MPond to POND.');
 		}
 		addToast({
 			message:

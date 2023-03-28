@@ -94,7 +94,6 @@
 				</div>
 				<form>
 					<div class="flex gap-2 items-center">
-						<!-- TODO: address validation -->
 						<input
 							bind:value={$receiverStakingStore.signer}
 							autocomplete="off"
@@ -112,7 +111,6 @@
 			</div>
 			<form>
 				<div class="flex gap-2 items-center">
-					<!-- TODO: address validation -->
 					<input
 						bind:value={updatedSignerAddress}
 						on:input={handleUpdatedSignerAddressInput}

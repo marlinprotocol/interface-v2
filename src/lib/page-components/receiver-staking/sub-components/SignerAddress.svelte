@@ -40,7 +40,6 @@
 	</div>
 
 	<div class="flex gap-2 items-center">
-		<!-- TODO: add number validation -->
 		<input
 			bind:value={displayAddress}
 			id="signer-address-display"

@@ -25,12 +25,6 @@
 
 	const handleApproveClick = async () => {
 		try {
-			console.log(
-				' $bridgeStore.allowances.mPond :>> ',
-				bigNumberToCommaString($bridgeStore.allowances.mPond, 8),
-				bigNumberToCommaString(mpondToConvert, 8),
-				$bridgeStore.allowances.mPond.gte(mpondToConvert) || false
-			);
 			await approveMPondTokenForConversion(mpondToConvert);
 			// update bridge store locally in case when user approves amount greater than previous allowance
 			bridgeStore.update((value) => {

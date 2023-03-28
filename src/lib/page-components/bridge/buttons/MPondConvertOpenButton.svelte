@@ -7,10 +7,9 @@
 
 	export let rowData: MPondToPondHistoryDataModel;
 	export let handleUpdateOnConvert: (data: Partial<MPondToPondHistoryDataModel>) => void;
+	export let modalFor: string;
 
 	const { pondEligible, conversionHistory, mpondConverted, requestEpoch } = rowData;
-
-	let modalFor = 'eligible-convert-modal';
 
 	const handleOnSuccess = (convertedMPond: BigNumber, txnHash: string) => {
 		const convertedPond = mPondToPond(convertedMPond);

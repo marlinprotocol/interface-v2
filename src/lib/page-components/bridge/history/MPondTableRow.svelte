@@ -140,7 +140,11 @@
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			<MPondConvertOpenButton {rowData} {handleUpdateOnConvert} />
+			<MPondConvertOpenButton
+				{rowData}
+				{handleUpdateOnConvert}
+				modalFor={`'mpond-convert-modal-' + ${rowIndex}`}
+			/>
 		</svelte:fragment>
 		<svelte:fragment slot="line2">
 			<Button

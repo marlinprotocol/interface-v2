@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import {
 		approvePondTokenForReceiverStaking,
 		depositStakingToken,
@@ -134,5 +135,8 @@
 	>
 	<button class="btn btn-secondary" on:click={() => disconnectWalletConnect()}
 		>Disconnect Wallet Connect</button
+	>
+	<ModalButton disabled={true} styleClass="w-fit" modalFor="connect-wallet-modal"
+		>this is a modal button</ModalButton
 	>
 </div>

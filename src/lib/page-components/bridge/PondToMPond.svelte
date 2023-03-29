@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { buttonClasses } from '$lib/atoms/componentClasses';
+	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
+	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
@@ -23,7 +24,7 @@
 	const styles = {
 		wrapper: 'w-full flex flex-col items-center justify-center py-8',
 		cardWrapper: 'w-full flex px-2 mb-2',
-		buttonLarge: `${buttonClasses.filled} h-14 text-base font-semibold flex gap-1 w-full`
+		buttonLarge: 'h-14 text-base font-semibold flex gap-1 w-full'
 	};
 
 	let modalFor = 'pond-approve-confirm-modal';
@@ -99,11 +100,9 @@
 </div>
 {#if $connected}
 	{#if !enableConversion}
-		<button class={styles.buttonLarge} disabled>PROCEED TO CONVERSION</button>
+		<Button styleClass={styles.buttonLarge} disabled>PROCEED TO CONVERSION</Button>
 	{:else}
-		<label for={modalFor} class={`${styles.buttonLarge} ${buttonClasses.filled}`}>
-			PROCEED TO CONVERSION
-		</label>
+		<ModalButton {modalFor} styleClass={`${styles.buttonLarge}`}>PROCEED TO CONVERSION</ModalButton>
 	{/if}
 {:else}
 	<ConnectWalletButton isLarge={true} />

@@ -136,7 +136,16 @@
 	<button class="btn btn-secondary" on:click={() => disconnectWalletConnect()}
 		>Disconnect Wallet Connect</button
 	>
-	<ModalButton disabled={true} styleClass="w-fit" modalFor="connect-wallet-modal"
-		>this is a modal button</ModalButton
-	>
+	<div>Modal Buttons to control modal (uses label element under the hood)</div>
+	<div class="flex justify-center gap-3">
+		<ModalButton disabled={true} styleClass="w-fit" modalFor="connect-wallet-modal"
+			>this is a modal button</ModalButton
+		>
+		<ModalButton styleClass="w-fit" modalFor="connect-wallet-modal"
+			>this is a modal button</ModalButton
+		>
+		<ModalButton variant="outlined" styleClass="w-fit" modalFor="connect-wallet-modal"
+			>this is a modal button</ModalButton
+		>
+	</div>
 </div>

@@ -12,7 +12,7 @@
 	//approved if input amount is greater than 0 and approved amount is greater than input amount
 	$: approved = inputAmount?.gt(BigNumberZero) && approvedAmount?.gte(inputAmount);
 
-	$: styleClass = `${buttonClasses.text} text-xl font-semibold ${
+	$: styleClass = `${buttonClasses.text} h-10 text-xl font-semibold ${
 		disabled
 			? 'btn-disabled' + (approved ? ' text-primary' : ' text-primary text-opacity-30')
 			: 'text-primary'

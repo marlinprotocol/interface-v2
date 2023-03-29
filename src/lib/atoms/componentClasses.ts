@@ -1,4 +1,4 @@
-const baseFilledButtonClasses = 'btn btn-theme btn-sm px-5 items-center flex justify-center';
+const baseFilledButtonClasses = 'btn btn-theme btn-sm items-center flex justify-center';
 
 export const buttonClasses = {
 	filled: `${baseFilledButtonClasses} btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white`,
@@ -9,7 +9,7 @@ export const buttonClasses = {
 		'btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300',
 	error:
 		'btn btn-theme btn-sm text-error px-5 border-error bg-inherit hover:bg-inherit hover:border-error hover:text-error-focus',
-	text: 'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent h-10',
+	text: 'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent',
 	icon: 'btn btn-xs btn-ghost btn-circle p-0 bg-transparent hover:bg-transparent flex',
 	maxButton:
 		'btn btn-sm btn-text btn-ghost p-0 bg-transparent hover:bg-transparent font-bold text-primary tracking-widest mt-1 disabled:text-primary',

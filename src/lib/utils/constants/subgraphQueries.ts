@@ -26,7 +26,7 @@ export const QUERY_TO_GET_RECEIVER_POND_BALANCE = `query ReceiverBalances($id: S
 /**
  * Return balance, balance snapshots for a specific Receiver address
  * @queryVariables address: Address of the receiver in string format
- * @queryVariables contractAddress: Contract address of Pond contract
+ * @queryVariables contractAddress: Contract address of POND contract
  * @returns receiverBalanceSnapshots, receiverBalance, pondUser, params
  */
 export const QUERY_TO_GET_RECEIVER_STAKING_DATA = `query ReceiverStakingData($address: String, $contractAddress: String) {

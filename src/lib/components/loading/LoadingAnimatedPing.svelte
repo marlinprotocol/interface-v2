@@ -3,9 +3,7 @@
 	export let hasPadding = false;
 
 	const styles = {
-		baseStyle: `mt-0.5 ${
-			hasPadding ? 'w-6 h-6' : 'w-5 h-5'
-		}  rounded-3xl flex justify-center text-white`,
+		baseStyle: `${hasPadding ? 'w-6 h-6' : 'w-5 h-5'}  rounded-3xl flex justify-center text-white`,
 		loadingBackground:
 			'animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75',
 		loadingText: `relative inline-flex rounded-full ${

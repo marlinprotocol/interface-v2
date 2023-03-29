@@ -5,10 +5,9 @@
 		confirmMPondConversion
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
-	import { mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
-	import { bigNumberToCommaString, mPondToPond } from '$lib/utils/conversion';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
+	import { onDestroy } from 'svelte';
 
 	export let modalFor: string;
 	export let requestEpoch: BigNumber;
@@ -16,9 +15,12 @@
 	export let modalToClose: string;
 	export let handleOnSuccess: (txnHash: string) => void;
 
-	const styles = {
-		highlight: 'font-bold'
-	};
+	let approved: boolean = false;
+	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
+		const amount = value.allowances.mPond;
+		approved = amount.gte(mpondToConvert) || false;
+	});
+	onDestroy(unsubscribeBridgeStore);
 
 	const handleApproveClick = async () => {
 		try {
@@ -37,7 +39,6 @@
 	let txnHash = '';
 	const handleConfirmClick = async () => {
 		try {
-			console.log('handleConfirmClick 1 :>> ');
 			const txn = await confirmMPondConversion(requestEpoch, mpondToConvert);
 			txnHash = txn.hash;
 			closeModal(modalToClose);
@@ -46,8 +47,6 @@
 			throw error;
 		}
 	};
-
-	$: approved = $bridgeStore.allowances.mPond.gte(mpondToConvert) || false;
 </script>
 
 <ApproveAndConfirmModal
@@ -61,22 +60,4 @@
 	conversionFrom={'mPond'}
 	amountConverted={mpondToConvert}
 	confirmButtonText={'CONVERT'}
->
-	<div slot="approveText">
-		<span>{'Approve'}</span>
-		<span class={styles.highlight}
-			>{`${bigNumberToCommaString(mpondToConvert, mPondPrecisions)} MPond`}</span
-		>
-		<span>{'for conversion'}</span>
-	</div>
-	<div slot="confirmText">
-		<span>{'Convert'}</span>
-		<span class={styles.highlight}
-			>{`${bigNumberToCommaString(mpondToConvert, mPondPrecisions)} MPond`}</span
-		>
-		<span>{'to'}</span>
-		<span class={styles.highlight}>
-			{`${bigNumberToCommaString(mPondToPond(mpondToConvert), pondPrecisions)} Pond`}
-		</span>
-	</div>
-</ApproveAndConfirmModal>
+/>

@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { buttonClasses } from '$lib/atoms/componentClasses';
+	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import StakeModal from '$lib/page-components/receiver-staking/StakeModal.svelte';
 
 	const modalFor = 'stake-modal';
 	const styles = {
-		buttonLarge: 'h-14 text-base font-semibold'
+		buttonLarge: 'h-14 text-base font-semibold w-full'
 	};
 </script>
 
-<label for={modalFor} class={`${styles.buttonLarge} ${buttonClasses.filled} w-full`}>STAKE</label>
+<ModalButton {modalFor} styleClass={`${styles.buttonLarge}`}>STAKE</ModalButton>
 <StakeModal {modalFor} />

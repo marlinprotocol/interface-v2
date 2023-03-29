@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { buttonClasses } from '$lib/atoms/componentClasses';
+	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { ChainStore } from '$lib/types/storeTypes';
@@ -29,14 +29,15 @@
 	};
 </script>
 
-<label
-	for={modalFor}
-	class={`${buttonClasses.whiteFilled} bg-base-100 h-[50px] cursor-pointer text-primary rounded-lg shadow-sm flex gap-4 items-center`}
+<ModalButton
+	{modalFor}
+	variant="whiteFilled"
+	styleClass="bg-base-100 h-[50px] cursor-pointer text-primary rounded-lg shadow-sm flex gap-4 items-center"
 >
 	<img src="/images/wallet-connected.svg" alt="Metamask Logo" />
 	<div class={'flex flex-col text-left'}>
 		<h6 class={styles.network}>{chain?.chainDisplayName?.toLocaleUpperCase()}</h6>
 		<p class={styles.address}>{shortAddress}</p>
 	</div>
-</label>
+</ModalButton>
 <DisconnectWalletModal {modalFor} />

@@ -6,8 +6,16 @@ export type TabModel = {
 };
 
 export type ButtonModel = {
-	variant?: 'filled' | 'outlined' | 'text' | 'error' | 'info' | 'greyFilled' | 'whiteFilled';
-	size?: 'tiny' | 'small' | 'medium' | 'large';
+	variant?:
+		| 'filled'
+		| 'outlined'
+		| 'text'
+		| 'error'
+		| 'info'
+		| 'greyFilled'
+		| 'whiteFilled'
+		| 'tableConvertButton';
+	size?: 'tiniest' | 'tiny' | 'small' | 'medium' | 'large';
 	onclick: (() => void) | undefined;
 };
 

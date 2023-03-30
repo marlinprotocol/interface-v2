@@ -107,7 +107,7 @@
 				{eligibleCycles}
 				{endEpochTime}
 				{currentCycle}
-				modalFor={`'mpond-conversion-cycle-modal-' + ${rowIndex}`}
+				modalFor={`mpond-conversion-cycle-modal-${rowIndex}`}
 			/>
 		</svelte:fragment>
 	</TableDataWithButton>
@@ -134,7 +134,7 @@
 		<svelte:fragment slot="line2">
 			<MPondConversionHistoryButton
 				{conversionHistory}
-				modalFor={`'mpond-conversion-history-modal-' + ${rowIndex}`}
+				modalFor={`mpond-conversion-history-modal-${rowIndex}`}
 			/>
 		</svelte:fragment>
 	</TableDataWithButton>
@@ -143,7 +143,8 @@
 			<MPondConvertOpenButton
 				{rowData}
 				{handleUpdateOnConvert}
-				modalFor={`'mpond-convert-modal-' + ${rowIndex}`}
+				modalFor={`mpond-convert-modal-${rowIndex}`}
+				{rowIndex}
 			/>
 		</svelte:fragment>
 		<svelte:fragment slot="line2">

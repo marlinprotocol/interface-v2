@@ -22,6 +22,7 @@
 	export let modalFor: string;
 	export let maxAmount: BigNumber;
 	export let requestEpoch: BigNumber;
+	export let rowIndex: number;
 	export let handleOnSuccess: (convertedMPond: BigNumber, txnHash: string) => void;
 
 	$: balanceText = `Eligible Balance: ${bigNumberToCommaString(maxAmount, mPondPrecisions)}`;
@@ -51,6 +52,7 @@
 	$: mPondDisabledText =
 		inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient Eligible MPond Amount' : '';
 	$: submitEnable = inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
+	$: modalIdWithRowIndex = `${modalForMPondApproveConfirm}-${rowIndex}`;
 
 	const handleMaxClick = () => {
 		if (maxAmount) {
@@ -73,7 +75,7 @@
 	const onSuccess = (txn: string) => {
 		handleOnSuccess(inputAmount, txn);
 		closeModal(modalFor);
-		closeModal(modalForMPondApproveConfirm);
+		closeModal(modalIdWithRowIndex);
 	};
 </script>
 
@@ -100,7 +102,7 @@
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		<ModalButton
-			modalFor={modalForMPondApproveConfirm}
+			modalFor={modalIdWithRowIndex}
 			disabled={!submitEnable}
 			styleClass="h-14 btn-block"
 		>
@@ -109,7 +111,7 @@
 	</svelte:fragment>
 </Modal>
 <MPondApproveConfirmModal
-	modalFor={modalForMPondApproveConfirm}
+	modalFor={modalIdWithRowIndex}
 	{requestEpoch}
 	mpondToConvert={inputAmount}
 	modalToClose={modalFor}

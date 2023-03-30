@@ -58,7 +58,8 @@
 	// const modalWidth = 'max-w-[500px]';
 
 	const styles = {
-		text: 'text-grey-500 font-[15px] font-normal',
+		baseText: 'grow text-left  font-normal',
+		text: 'text-grey-500 font-[15px]',
 		textBold: 'font-semibold text-black',
 		textDisabled: 'font-semibold text-grey-300'
 	};
@@ -83,7 +84,7 @@
 					<div class="h-full w-[0.1px] bg-grey-400" />
 				{/if}
 			</div>
-			<div class={styles.text}>
+			<div class={`${styles.text} ${styles.baseText}`}>
 				<span>{'Approve'}</span>
 				<span class={styles.textBold}>
 					{`${amountConvertedFrom} ${conversionFromText}`}
@@ -95,7 +96,7 @@
 			<LoadingAnimatedPing loading={confirmLoading}>
 				<Text variant="small" styleClass="font-semibold" text={'2'} />
 			</LoadingAnimatedPing>
-			<div class={`${approved ? styles.text : 'text-grey-300'}`}>
+			<div class={`${approved ? styles.text : 'text-grey-300'} ${styles.baseText}`}>
 				<span>{'Convert'}</span>
 				<span class={approved ? styles.textBold : styles.textDisabled}>
 					{`${amountConvertedFrom} ${conversionFromText}`}

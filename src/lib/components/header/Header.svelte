@@ -5,20 +5,26 @@
 
 	//styles for header component
 	const styles = {
-		desktopWrapper:
-			'text-center py-[1.8rem] header flex gap-2 justify-between flex-wrap items-center',
-		mobileWrapper:
-			'text-center py-[1.8rem] header flex gap-2 justify-between flex-wrap items-center',
+		wrapper: 'header gap-2 text-center py-[1.8rem] ',
+		desktopWrapper: 'text-center flex gap-2 justify-between items-center w-full grow',
+		mobileWrapper: 'text-center flex gap-2 justify-between items-center',
 		rightItems: 'flex gap-10 items-center'
 	};
 </script>
 
 <div>
-	<header class={`header-desktop ${styles.desktopWrapper}`}>
-		<HeaderLogo />
-		<div class={styles.rightItems}>
+	<header class={`header-desktop ${styles.wrapper}`}>
+		<div class={`${styles.desktopWrapper}`}>
+			<HeaderLogo />
+			<div class={styles.rightItems}>
+				<div class="hidden sm:block">
+					<HeaderLinksGroup />
+				</div>
+				<HeaderConnectWallet />
+			</div>
+		</div>
+		<div class="flex sm:hidden text-center text-center mx-auto w-full justify-center mt-6">
 			<HeaderLinksGroup />
-			<HeaderConnectWallet />
 		</div>
 	</header>
 </div>

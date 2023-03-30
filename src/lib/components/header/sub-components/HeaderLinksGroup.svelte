@@ -25,9 +25,4 @@
 </div>
 
 <style>
-	@media (max-width: 640px) {
-		.nav-links {
-			display: none;
-		}
-	}
 </style>

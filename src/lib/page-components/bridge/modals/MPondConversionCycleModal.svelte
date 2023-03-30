@@ -14,7 +14,7 @@
 	export let modalFor: string;
 
 	const styles = {
-		wrapper: 'flex flex-row gap-4 w-full mx-auto font-semibold',
+		wrapper: 'flex flex-row gap-4 w-full mx-auto font-semibold text-sm sm:text-base',
 		column: 'flex flex-col align-center w-fit mx-auto',
 		conversionRow: 'flex flex-row gap-4 h-[50px]',
 		timerRow: 'flex flex-row gap-2 h-[50px] items-start justify-center'

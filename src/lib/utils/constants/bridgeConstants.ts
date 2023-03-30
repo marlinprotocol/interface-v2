@@ -77,7 +77,7 @@ export const kMPondConversionHistoryTableHeader: TableModel['header'][] = [
 		id: 'date'
 	},
 	{
-		title: 'Converted',
+		title: 'CONVERTED',
 		id: 'pond',
 		tooltipText: 'The amount of POND converted.'
 	},

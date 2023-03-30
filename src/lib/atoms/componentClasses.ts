@@ -12,7 +12,7 @@ export const buttonClasses = {
 	text: 'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent',
 	icon: 'btn btn-xs btn-ghost btn-circle p-0 bg-transparent hover:bg-transparent flex',
 	maxButton:
-		'btn btn-sm btn-text btn-ghost p-0 bg-transparent hover:bg-transparent font-bold text-primary tracking-widest mt-1 disabled:text-primary',
+		'btn btn-sm btn-text btn-ghost p-0 bg-transparent hover:bg-transparent font-bold text-primary tracking-widest disabled:text-primary',
 	largeButton: 'flex gap-2 text-primary h-14 text-base font-semibold items-center',
 	tableConvertButton:
 		'btn btn-xs text-xs h-[35px] w-[126px] rounded btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white pt-1'

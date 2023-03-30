@@ -2,7 +2,7 @@
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 
 	export let modalFor = '';
-	export let modalWidth = 'w-11/12 sm:w-3/4 sm:max-w-[569px]';
+	export let modalWidth = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
 	export let onClose: () => void = () => {};
 
 	const styles = {

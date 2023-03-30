@@ -14,10 +14,10 @@
 	export let modalFor: string;
 
 	const styles = {
-		wrapper: 'flex flex-row gap-4 w-full mx-auto font-semibold',
+		wrapper: 'flex flex-row gap-4 w-full mx-auto font-semibold text-sm sm:text-base',
 		column: 'flex flex-col align-center w-fit mx-auto',
 		conversionRow: 'flex flex-row gap-4 h-[50px]',
-		timerRow: 'flex flex-row gap-2 h-[50px] items-start justify-center'
+		timerRow: 'flex flex-row gap-1.5 h-[50px] items-start justify-center'
 	};
 </script>
 
@@ -46,7 +46,7 @@
 			<div class="flex-1">
 				<div class={styles.column}>
 					{#each cycles as rowData, i}
-						<div class={styles.conversionRow}>
+						<div class={`${currentCycle === i ? 'pl-0.5' : 'pl-1'} ${styles.conversionRow}`}>
 							<div class="flex flex-col items-center">
 								{#if currentCycle > i}
 									<img src="/images/vectorcheck.svg" alt="Copy" width="20px" height="20px" />
@@ -74,7 +74,13 @@
 					{#each cycles as rowData, i}
 						<div class={styles.timerRow}>
 							{#if currentCycle <= i}
-								<img src="/images/timerclock.svg" alt="Copy" width="20px" height="20px" />
+								<img
+									src="/images/timerclock.svg"
+									alt="Clock"
+									width="15px"
+									height="15px"
+									class="mt-1"
+								/>
 							{/if}
 							{#if currentCycle === i}
 								<Timer {endEpochTime}>
@@ -82,7 +88,7 @@
 										{`${Math.floor(timer / 60) % 60} mins`}
 									</div>
 								</Timer>
-								<span class="font-xl font-bold mb-1">{'.'}</span>
+								<div class="w-1 h-1 bg-black rounded-2xl flex align-center mt-2.5" />
 							{/if}
 							{currentCycle > i ? 'Ready to claim' : epochSecToString(rowData?.timestamp)}
 						</div>

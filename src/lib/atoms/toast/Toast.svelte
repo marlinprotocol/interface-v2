@@ -10,7 +10,7 @@
 	});
 
 	const baseClass =
-		'alert w-fit shadow-lg font-medium flex items-center justify-start gap-1 px-4 py-2 rounded';
+		'alert w-fit shadow-lg font-medium flex items-start justify-start gap-1 px-4 py-2 rounded flex-row';
 </script>
 
 {#if toasts}
@@ -23,8 +23,10 @@
 				on:keydown={() => dismissToast(toast.id)}
 				class={`${toast.className} ${baseClass}`}
 			>
-				<Icon iconColorClass={toast.iconColor} data={toast.iconData} size={18} />
-				<span class="text-sm max-w-[330px] text-left">{toast.message}</span>
+				<div class={'h-5 w-5'}>
+					<Icon iconColorClass={toast.iconColor} data={toast.iconData} size={18} />
+				</div>
+				<span class="grow text-sm max-w-[330px] text-left">{toast.message}</span>
 			</div>
 		{/each}
 	</div>

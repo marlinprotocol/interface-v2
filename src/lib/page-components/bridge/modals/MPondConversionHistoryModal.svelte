@@ -35,7 +35,7 @@
 			{/each}
 		</div>
 		{#each conversions as rowData}
-			<div class="flex flex-row gap-4 items-center justify-center mb-6 font-medium">
+			<div class="flex flex-row gap-4 items-center justify-center mb-6 font-semibold">
 				<div class="flex-1">
 					{epochSecToString(rowData?.timestamp)}
 				</div>

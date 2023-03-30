@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
@@ -99,13 +99,13 @@
 		<ErrorTextCard showError={!!mPondDisabledText} errorMessage={mPondDisabledText} />
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<label
-			for={modalForMPondApproveConfirm}
-			aria-disabled={!submitEnable}
-			class={`${buttonClasses.filled} h-14 btn-block`}
+		<ModalButton
+			modalFor={modalForMPondApproveConfirm}
+			disabled={!submitEnable}
+			styleClass="h-14 btn-block"
 		>
 			PROCEED TO CONVERSION
-		</label>
+		</ModalButton>
 	</svelte:fragment>
 </Modal>
 <MPondApproveConfirmModal

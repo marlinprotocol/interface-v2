@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { buttonClasses } from '$lib/atoms/componentClasses';
+	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	export let disabled = false;
 	export let loading = false;
 	export let styleClass = '';
@@ -7,11 +7,11 @@
 	export let modalFor: string;
 </script>
 
-<!-- TODO: add disabled state for label -->
-<label
-	for={modalFor}
-	class={`${styleClass} ${loading ? 'loading' : ''} ${buttonClasses.tableConvertButton}`}
-	on:click={onclick}
+<ModalButton
+	{disabled}
+	variant="tableConvertButton"
+	{modalFor}
+	styleClass={`${styleClass} ${loading ? 'loading' : ''}`}
 >
 	{text}
-</label>
+</ModalButton>

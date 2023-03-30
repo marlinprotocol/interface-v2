@@ -10,6 +10,7 @@
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import SignerAddressModal from './SignerAddressModal.svelte';
+	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 
 	const modalFor = 'signer-address-modal';
 	const tooltipText =
@@ -40,7 +41,6 @@
 	</div>
 
 	<div class="flex gap-2 items-center">
-		<!-- TODO: add number validation -->
 		<input
 			bind:value={displayAddress}
 			id="signer-address-display"
@@ -50,9 +50,9 @@
 		/>
 
 		{#if $connected}
-			<label for={modalFor}>
+			<ModalButton variant="text" size="tiniest" {modalFor}>
 				<Icon data={edit} size={18} />
-			</label>
+			</ModalButton>
 			<SignerAddressModal {modalFor} />
 		{:else}
 			<button

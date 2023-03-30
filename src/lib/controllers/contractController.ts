@@ -6,7 +6,7 @@ import type { ContractAbi, ContractAddress, WalletStore } from '$lib/types/store
 import { GET_OPTIONS, mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToCommaString } from '$lib/utils/conversion';
-import { minifyAddress } from '$lib/utils/helpers/commonHelper';
+import { capitalizeFirstLetter, minifyAddress } from '$lib/utils/helpers/commonHelper';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
 import { BigNumber, ethers } from 'ethers';
 import { get } from 'svelte/store';
@@ -145,7 +145,9 @@ export async function setSignerAddress(address: string) {
 		return tx;
 	} catch (error: any) {
 		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.FAILED,
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
 			variant: 'error'
 		});
 		console.log('error :>> ', error);
@@ -196,7 +198,9 @@ export async function depositStakingToken(amount: BigNumber, signerAddress = '')
 		});
 	} catch (error: any) {
 		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.FAILED,
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
 			variant: 'error'
 		});
 		console.log('error :>> ', error);
@@ -244,7 +248,9 @@ export async function withdrawStakingToken(amount: BigNumber) {
 		return tx;
 	} catch (error: any) {
 		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.FAILED,
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
 			variant: 'error'
 		});
 		console.log('error :>> ', error);
@@ -291,7 +297,9 @@ export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
 		return tx;
 	} catch (error: any) {
 		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.FAILED,
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
 			variant: 'error'
 		});
 		console.log('error :>> ', error);
@@ -336,7 +344,9 @@ export async function approvePondTokenForConversion(amount: BigNumber) {
 		return tx;
 	} catch (error: any) {
 		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.FAILED,
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
 			variant: 'error'
 		});
 		console.log('error :>> ', error);
@@ -387,7 +397,9 @@ export async function approveMPondTokenForConversion(amount: BigNumber) {
 		return tx;
 	} catch (error: any) {
 		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.FAILED,
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
 			variant: 'error'
 		});
 		console.log('error :>> ', error);
@@ -433,7 +445,9 @@ export async function convertPondToMPond(expectedMPond: BigNumber) {
 		return tx;
 	} catch (error: any) {
 		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.FAILED,
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
 			variant: 'error'
 		});
 		console.log('error :>> ', error);
@@ -482,7 +496,9 @@ export async function requestMPondConversion(amount: BigNumber) {
 		return tx;
 	} catch (error: any) {
 		addToast({
-			message: error.reason ? error.reason : MESSAGES.TOAST.TRANSACTION.FAILED,
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
 			variant: 'error',
 			timeout: 5000
 		});
@@ -527,7 +543,9 @@ export async function cancelMPondConversionRequest(epoch: BigNumber) {
 		return tx;
 	} catch (error: any) {
 		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.FAILED,
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
 			variant: 'error'
 		});
 		console.log('error :>> ', error);
@@ -574,7 +592,9 @@ export async function confirmMPondConversion(epoch: BigNumber, amount: BigNumber
 		return tx;
 	} catch (error: any) {
 		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.FAILED,
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
 			variant: 'error'
 		});
 		console.log('error :>> ', error);

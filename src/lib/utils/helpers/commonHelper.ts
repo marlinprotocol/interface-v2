@@ -95,3 +95,13 @@ export async function isAddressValid(address: string): Promise<boolean[]> {
 	if (!addressExistsAsSigner) return [true, false];
 	return [true, true];
 }
+
+/**
+ * capitalizes the first letter of the string
+ * @param string
+ * @returns
+ * @example capitalizeFirstLetter('hello') => 'Hello'
+ */
+export function capitalizeFirstLetter(string: string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
+}

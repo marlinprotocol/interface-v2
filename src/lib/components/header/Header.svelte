@@ -5,13 +5,16 @@
 
 	//styles for header component
 	const styles = {
-		wrapper: 'text-center py-[1.8rem] header flex gap-2 justify-between flex-wrap items-center',
+		desktopWrapper:
+			'text-center py-[1.8rem] header flex gap-2 justify-between flex-wrap items-center',
+		mobileWrapper:
+			'text-center py-[1.8rem] header flex gap-2 justify-between flex-wrap items-center',
 		rightItems: 'flex gap-10 items-center'
 	};
 </script>
 
 <div>
-	<header class={styles.wrapper}>
+	<header class={`header-desktop ${styles.desktopWrapper}`}>
 		<HeaderLogo />
 		<div class={styles.rightItems}>
 			<HeaderLinksGroup />
@@ -21,7 +24,7 @@
 </div>
 
 <style>
-	.header {
+	.header-desktop {
 		border-color: 'grey-600';
 		border-bottom: 1px solid rgba(0, 0, 0, 0.07);
 	}

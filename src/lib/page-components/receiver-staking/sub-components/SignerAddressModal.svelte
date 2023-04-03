@@ -88,7 +88,7 @@
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		{#if $receiverStakingStore.signer !== DEFAULT_RECEIVER_STAKING_DATA.signer}
-			<InputCard styles="mb-4">
+			<InputCard styleClass="mb-4">
 				<div class={styles.titleIcon}>
 					<Text variant="small" text={'Current Signer Address'} />
 				</div>
@@ -124,7 +124,7 @@
 		</InputCard>
 
 		{#if signerAddressIsValid && updatedSignerAddressInputDirty && !signerAddressIsUnique}
-			<InputCard variant="warning" styles="mt-4">
+			<InputCard variant="warning" styleClass="mt-4">
 				<Text
 					variant="small"
 					styleClass="text-red-500 my-2"
@@ -134,7 +134,7 @@
 		{/if}
 
 		{#if !signerAddressIsValid && updatedSignerAddressInputDirty && updatedSignerAddress !== $receiverStakingStore.signer}
-			<InputCard variant="warning" styles="mt-4">
+			<InputCard variant="warning" styleClass="mt-4">
 				<Text
 					variant="small"
 					styleClass="text-red-500 my-2"
@@ -143,7 +143,7 @@
 			</InputCard>
 		{/if}
 		{#if updatedSignerAddress === $receiverStakingStore.signer && !signerAddressIsValid && $receiverStakingStore.signer !== DEFAULT_RECEIVER_STAKING_DATA.signer}
-			<InputCard variant="warning" styles="mt-4">
+			<InputCard variant="warning" styleClass="mt-4">
 				<Text
 					variant="small"
 					styleClass="text-red-500 my-2"

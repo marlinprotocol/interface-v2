@@ -5,6 +5,7 @@
 
 	export let tableHeading: TableModel['header'][];
 	export let styleClass = '';
+	export let headingStyleClass = '';
 	export let handleSortData: (() => void) | undefined = undefined;
 </script>
 
@@ -21,6 +22,7 @@
 								</button>
 							{/if}
 							<TableHeadingText
+								styleClass={headingStyleClass}
 								title={columnHeading.title}
 								tooltipText={columnHeading.tooltipText}
 								tooltipDirection={i === tableHeading.length - 1

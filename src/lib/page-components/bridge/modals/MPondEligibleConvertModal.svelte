@@ -4,7 +4,7 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
-	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
+	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import { BigNumberZero, mPondPrecisions } from '$lib/utils/constants/constants';
 	import {
 		bigNumberToCommaString,
@@ -84,7 +84,7 @@
 		{'Enter an amount'}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<ModalPondInput
+		<AmountInputWithMaxButton
 			title="From"
 			bind:inputAmountString
 			{handleUpdatedAmount}
@@ -93,7 +93,7 @@
 		>
 			<Text slot="input-end-button" text="MPond" fontWeight="font-medium" />
 			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
-		</ModalPondInput>
+		</AmountInputWithMaxButton>
 		<ErrorTextCard
 			showError={!inputAmountIsValid && updatedAmountInputDirty}
 			errorMessage={inValidMessage}

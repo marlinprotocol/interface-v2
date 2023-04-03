@@ -14,7 +14,7 @@
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
-	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
+	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { Address, ReceiverStakingData, WalletBalance } from '$lib/types/storeTypes';
 	import { BigNumberZero, pondPrecisions } from '$lib/utils/constants/constants';
 	import { MESSAGES } from '$lib/utils/constants/messages';
@@ -282,7 +282,7 @@
 		</p>
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<ModalPondInput
+		<AmountInputWithMaxButton
 			title={'POND'}
 			tooltipText={toolTipText}
 			bind:inputAmountString
@@ -298,14 +298,14 @@
 				bind:approvedAmount
 				{handleApproveClick}
 			/>
-		</ModalPondInput>
+		</AmountInputWithMaxButton>
 		<ErrorTextCard
 			showError={!inputAmountIsValid && updatedAmountInputDirty}
 			errorMessage={inValidMessage}
 		/>
 		{#if $receiverStakingStore.signer === DEFAULT_RECEIVER_STAKING_DATA.signer}
 			<!-- TODO: make this into a component -->
-			<InputCard styles="mt-4">
+			<InputCard styleClass="mt-4">
 				<div class={styles.titleIcon}>
 					<Text variant="small" text={'Signer Address'} />
 					<TooltipIcon tooltipText={addressToolTipText} tooltipDirection="tooltip-right" />

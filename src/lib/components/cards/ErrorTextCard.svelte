@@ -7,7 +7,7 @@
 </script>
 
 {#if showError}
-	<InputCard variant="warning" styles="mt-4 bg-red-100">
+	<InputCard variant="warning" styleClass="mt-4 bg-red-100">
 		<Text variant="small" styleClass="text-red-500 my-2" text={errorMessage} />
 	</InputCard>
 {/if}

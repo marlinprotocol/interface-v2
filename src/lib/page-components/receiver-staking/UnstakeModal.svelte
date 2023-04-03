@@ -5,7 +5,7 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import { withdrawStakingToken } from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
-	import ModalPondInput from '$lib/page-components/receiver-staking/sub-components/ModalPondInput.svelte';
+	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import { BigNumberZero, pondPrecisions } from '$lib/utils/constants/constants';
 	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 	import {
@@ -124,7 +124,7 @@
 		{subtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<ModalPondInput
+		<AmountInputWithMaxButton
 			title={'POND'}
 			tooltipText={toolTipText}
 			bind:inputAmountString
@@ -132,7 +132,7 @@
 			maxAmountText={balanceText}
 		>
 			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
-		</ModalPondInput>
+		</AmountInputWithMaxButton>
 		<ErrorTextCard
 			showError={!inputAmountIsValid && updatedAmountInputDirty}
 			errorMessage={inValidMessage}

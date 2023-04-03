@@ -1,26 +1,16 @@
 <script lang="ts">
-	import InputCard from '$lib/atoms/cards/InputCard.svelte';
-	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
-	import edit from 'svelte-awesome/icons/edit';
-	import { connected } from '$lib/data-stores/walletProviderStore';
-	import { minifyAddress } from '$lib/utils/helpers/commonHelper';
-	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
+	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { addToast } from '$lib/data-stores/toastStore';
+	import { connected } from '$lib/data-stores/walletProviderStore';
+	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
+	import { minifyAddress } from '$lib/utils/helpers/commonHelper';
+	import edit from 'svelte-awesome/icons/edit';
 	import SignerAddressModal from './SignerAddressModal.svelte';
-	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 
 	const modalFor = 'signer-address-modal';
-	const tooltipText =
-		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';
-	const title = 'Signer Address';
-	const styles = {
-		titleIcon: 'flex items-center gap-1',
-		inputNumber:
-			'input input-ghost h-[30px] w-full mt-1 p-0 font-semibold text-xl disabled:text-primary disabled:placeholder:text-primary/[.3] focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent'
-	};
 
 	let innerWidth = 0;
 
@@ -33,22 +23,13 @@
 			: '';
 </script>
 
-<svelte:window bind:innerWidth />
-<InputCard>
-	<div class={styles.titleIcon}>
-		<Text variant="small" text={title} />
-		<TooltipIcon {tooltipText} />
-	</div>
-
-	<div class="flex gap-2 items-center">
-		<input
-			bind:value={displayAddress}
-			id="signer-address-display"
-			class={`hideInputNumberAppearance ${styles.inputNumber}`}
-			placeholder="Set signer address"
-			disabled={true}
-		/>
-
+<TextInputWithEndButton
+	title={'Signer Address'}
+	tooltipText={'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.'}
+	placeholder={'Set signer address'}
+	bind:input={displayAddress}
+>
+	<svelte:fragment slot="endButton">
 		{#if $connected}
 			<ModalButton variant="text" size="tiniest" {modalFor}>
 				<Icon data={edit} size={18} />
@@ -67,5 +48,5 @@
 				<Icon data={edit} size={18} />
 			</button>
 		{/if}
-	</div>
-</InputCard>
+	</svelte:fragment>
+</TextInputWithEndButton>

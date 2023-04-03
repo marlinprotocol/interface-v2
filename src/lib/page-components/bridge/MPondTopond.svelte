@@ -21,7 +21,7 @@
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
-	import ModalPondInput from '../receiver-staking/sub-components/ModalPondInput.svelte';
+	import AmountInputWithMaxButton from '../../components/inputs/AmountInputWithMaxButton.svelte';
 
 	const maxAmountTooltipText =
 		'Unrequested is the amount of MPond for which a conversion request is not placed. MPond conversion requests placed is categorised as Requested. Conversion requests for staked MPond can also be placed.';
@@ -109,7 +109,7 @@
 </script>
 
 <div class="my-2 mx-2">
-	<ModalPondInput
+	<AmountInputWithMaxButton
 		title="From"
 		bind:inputAmountString
 		{handleUpdatedAmount}
@@ -119,16 +119,20 @@
 	>
 		<Text slot="input-end-button" text="MPond" fontWeight={'font-medium'} />
 		<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
-	</ModalPondInput>
+	</AmountInputWithMaxButton>
 	<ErrorTextCard
 		showError={!inputAmountIsValid && updatedAmountInputDirty}
 		errorMessage={inValidMessage}
 	/>
 	<ErrorTextCard showError={!!mPondDisabledText} errorMessage={mPondDisabledText} />
 	<Divider margin="mt-2 mb-3" />
-	<ModalPondInput title="To" inputCardVariant={'none'} inputAmountString={convertedAmountString}>
+	<AmountInputWithMaxButton
+		title="To"
+		inputCardVariant={'none'}
+		inputAmountString={convertedAmountString}
+	>
 		<Text slot="input-end-button" text="POND" fontWeight="font-medium" />
-	</ModalPondInput>
+	</AmountInputWithMaxButton>
 </div>
 {#if $connected}
 	<Button

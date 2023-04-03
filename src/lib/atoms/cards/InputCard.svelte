@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { InputCardVariant } from '$lib/types/componentTypes';
 
-	export let styles = '';
+	export let styleClass = '';
 	export let variant: InputCardVariant = 'primary';
 	const cardStyle = 'rounded-lg w-full';
 
@@ -24,6 +24,6 @@
 	const variantClass = getClassFromVariant();
 </script>
 
-<div class={`${cardStyle} ${styles} ${variantClass}`}>
+<div class={`${cardStyle} ${styleClass} ${variantClass}`}>
 	<slot />
 </div>

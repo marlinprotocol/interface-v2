@@ -2,6 +2,7 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import TableDataWithButton from '$lib/components/table-cells/TableDataWithButton.svelte';
 	import TxnHashText from '$lib/components/TxnHashText.svelte';
 	import { cancelMPondConversionRequest } from '$lib/controllers/contractController';
@@ -134,7 +135,7 @@
 			<div slot="active" let:timer class="mx-auto">
 				<HistoryDataIconButton
 					disabled={true}
-					src={'/images/timerclock.svg'}
+					src={staticImages.Timer}
 					fontWeight={'font-normal'}
 					variant="grey"
 					text={epochToDurationString(timer, true)}

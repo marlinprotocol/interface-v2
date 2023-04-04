@@ -17,6 +17,6 @@
 		styleClass={`${styleClass} tracking-widest mt-0.5`}
 	/>
 	{#if tooltipText}
-		<TooltipIcon {tooltipText} {tooltipDirection} iconSrc={'/images/alert.svg'} {iconWidth} />
+		<TooltipIcon {tooltipText} {tooltipDirection} {iconWidth} />
 	{/if}
 </div>

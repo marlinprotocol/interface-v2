@@ -2,6 +2,7 @@
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import type { CommonVariant, TextModel } from '$lib/types/componentTypes';
 	import { getTextColorClassByVariant } from '$lib/utils/constants/componentConstants';
 
@@ -26,7 +27,7 @@
 	{/if}
 	{#if tooltipText}
 		<Tooltip tooltipDirection="tooltip-left" {tooltipText} styleClass="text-left">
-			<img src={'/images/blue-alert.svg'} alt={'tooltip'} />
+			<img src={staticImages.BlueAlert} alt={'tooltip'} />
 		</Tooltip>
 	{/if}
 </div>

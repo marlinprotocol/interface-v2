@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { ButtonModel } from '$lib/types/componentTypes';
 	import ConnectWalletModal from './ConnectWalletModal.svelte';
@@ -20,7 +21,7 @@
 
 {#if isLarge}
 	<ModalButton {modalFor} styleClass={`${baseClass} w-full h-14 text-base font-semibold`}>
-		<img src="/images/lockicon.svg" alt="Connect" />
+		<img src={staticImages.Lock} alt="Connect" />
 		Connect Wallet
 	</ModalButton>
 {:else}

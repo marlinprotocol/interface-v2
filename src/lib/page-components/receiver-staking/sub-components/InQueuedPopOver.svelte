@@ -2,6 +2,7 @@
 	import PopOver from '$lib/atoms/pop-over/PopOver.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import { epochCycleStore } from '$lib/data-stores/epochCycleStore';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import type { EpochCycleStore, ReceiverStakingData } from '$lib/types/storeTypes';
@@ -60,7 +61,7 @@
 </script>
 
 <PopOver>
-	<img slot="icon" src={'/images/info.svg'} alt="Info" width={iconWidth} />
+	<img slot="icon" src={staticImages.Info} alt="Info" width={iconWidth} />
 	<svelte:fragment slot="content">
 		<div class={styles.subtitle}>
 			{#if inQueue && localEpochCycle > 0}

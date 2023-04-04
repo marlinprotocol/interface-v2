@@ -119,9 +119,7 @@
 			});
 			return;
 		}
-
 		approveLoading = true;
-
 		try {
 			await approvePondTokenForReceiverStaking(inputAmount);
 			receiverStakingStore.update((value: ReceiverStakingData) => {

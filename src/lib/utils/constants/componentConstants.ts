@@ -3,6 +3,7 @@ import infoCircle from 'svelte-awesome/icons/infoCircle';
 import checkCircle from 'svelte-awesome/icons/checkCircle';
 import warning from 'svelte-awesome/icons/warning';
 import timesCircle from 'svelte-awesome/icons/timesCircle';
+import { staticImages } from '$lib/components/images/staticImages';
 
 export const getIconbyVariant = (variant: CommonVariant | undefined) => {
 	switch (variant) {
@@ -82,9 +83,9 @@ export const getImageClassByVariant = (variant: CommonVariant | undefined) => {
 export const getImagebyWalletProvider = (walletProvider: string) => {
 	switch (walletProvider?.toLowerCase()) {
 		case 'metamask':
-			return '/images/metamaskicon.svg';
+			return staticImages.Metamask;
 		case 'walletconnect':
-			return '/images/walleticon.svg';
+			return staticImages.WalletConnect;
 		default:
 			return '';
 	}

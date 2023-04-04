@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import type { MPondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
 	import MPondConversionCycleModal from '../modals/MPondConversionCycleModal.svelte';
 	import HistoryDataIconButton from '../sub-components/HistoryDataIconButton.svelte';
@@ -11,6 +12,6 @@
 </script>
 
 <ModalButton size="tiniest" variant="text" {modalFor}>
-	<HistoryDataIconButton src={'/images/cycleimg.svg'} text={'See cycle'} />
+	<HistoryDataIconButton src={staticImages.Cycle} text={'See cycle'} />
 </ModalButton>
 <MPondConversionCycleModal {modalFor} {endEpochTime} {currentCycle} cycles={eligibleCycles} />

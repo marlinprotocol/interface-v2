@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { staticImages } from '$lib/components/images/staticImages';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 
 	export let modalFor = '';
@@ -44,7 +45,7 @@
 					onClose();
 				}}
 			>
-				<img src="/images/close-circle-icon.svg" alt="Close" />
+				<img src={staticImages.CloseCircle} alt="Close" />
 			</button>
 		</div>
 		<div class="modal-body pt-2 pb-4 px-6">

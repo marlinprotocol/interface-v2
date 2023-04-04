@@ -7,6 +7,7 @@
 	import { bigNumberToCommaString, mPondToPond, pondToMPond } from '$lib/utils/conversion';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
+	import { staticImages } from '../images/staticImages';
 	import LoadingAnimatedPing from '../loading/LoadingAnimatedPing.svelte';
 
 	export let handleApproveClick: () => Promise<void>;
@@ -75,7 +76,7 @@
 		<div class="flex gap-5 h-[50px]">
 			<div class="flex flex-col items-center">
 				{#if approved}
-					<img src="/images/vectorcheck.svg" alt="Copy" width="20px" height="20px" />
+					<img src={staticImages.Check} alt="Copy" width="20px" height="20px" />
 				{:else}
 					<LoadingAnimatedPing loading={approveLoading}>
 						<Text variant="small" styleClass="font-semibold" text={'1'} />

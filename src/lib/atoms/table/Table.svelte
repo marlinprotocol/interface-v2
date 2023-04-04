@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { staticImages } from '$lib/components/images/staticImages';
 	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
 	import type { TableModel } from '$lib/types/componentTypes';
 	import { tableCellClasses } from '../componentClasses';
@@ -19,7 +20,7 @@
 						<div class="flex justify-center items-center gap-0.5">
 							{#if columnHeading.sorting}
 								<button on:click={handleSortData}>
-									<img src="/images/sort.svg" alt="sort" width="14px" />
+									<img src={staticImages.Sort} alt="sort" width="14px" />
 								</button>
 							{/if}
 							<TableHeadingText

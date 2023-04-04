@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import MPondConversionHistoryModal from '../modals/MPondConversionHistoryModal.svelte';
 	import HistoryDataIconButton from '../sub-components/HistoryDataIconButton.svelte';
@@ -13,7 +14,7 @@
 {#if !conversionHistory?.length}
 	<HistoryDataIconButton
 		variant={'disabled'}
-		src={'/images/historyicon.svg'}
+		src={staticImages.History}
 		imgWidth={14}
 		text={'History'}
 		disabled={true}
@@ -22,7 +23,7 @@
 	<ModalButton variant="text" size="tiniest" {modalFor}>
 		<HistoryDataIconButton
 			variant={'primary'}
-			src={'/images/historyicon.svg'}
+			src={staticImages.History}
 			imgWidth={14}
 			text={'History'}
 		/>

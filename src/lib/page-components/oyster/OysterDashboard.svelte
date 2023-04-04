@@ -7,24 +7,59 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
+	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
+	import { checkValidURL } from '$lib/utils/helpers/commonHelper';
 	import { onDestroy } from 'svelte';
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from './sub-components/InstancesTable.svelte';
 
+	const styles = {
+		docButton: 'text-primary font-medium',
+		tableCell: tableCellClasses.rowMini
+	};
+
 	let displayAddress = '';
-	const registered = false;
+
+	let updatedCpURL = '';
+	let registeredCpURL = '';
+	let registered = false;
 
 	const unsubscribeWalletStore = walletStore.subscribe((value) => {
 		displayAddress = value.address;
 	});
 	onDestroy(unsubscribeWalletStore);
 
-	const styles = {
-		docButton: 'text-primary font-medium',
-		tableCell: tableCellClasses.rowMini
+	const unsubscribeOysterStore = oysterStore.subscribe((value) => {
+		registeredCpURL = value.cpURL;
+		updatedCpURL = value.cpURL;
+		registered = value.registered;
+	});
+	onDestroy(unsubscribeOysterStore);
+
+	const handleOnRegister = () => {
+		if (connected) {
+			oysterStore.update((value) => {
+				value.cpURL = updatedCpURL;
+				value.registered = true;
+				return value;
+			});
+			registered = true;
+			addToast({
+				variant: 'success',
+				message: 'Successfully registered'
+			});
+		} else {
+			addToast({
+				variant: 'error',
+				message: 'Please connect your wallet'
+			});
+		}
 	};
+
+	// using regex to validate CP URL
+	$: validCPUrl = checkValidURL(updatedCpURL);
 </script>
 
 <ContainerCard>
@@ -47,13 +82,14 @@
 		tooltipText={'Tooltip text here'}
 		placeholder={'Enter your address here'}
 		bind:input={displayAddress}
+		disabled={true}
 	/>
 	<TextInputWithEndButton
 		styleClass="mt-4"
 		title={'Control Plane URL'}
 		tooltipText={'Tooltip text here'}
 		placeholder={'Paste URL here'}
-		bind:input={displayAddress}
+		bind:input={updatedCpURL}
 	>
 		<svelte:fragment slot="titleEndButton">
 			{#if $connected}
@@ -75,10 +111,21 @@
 			{/if}
 		</svelte:fragment>
 	</TextInputWithEndButton>
-	<InstancesTable />
+	<InstancesTable {updatedCpURL} {registeredCpURL} {validCPUrl} />
 	<div class="mt-4" />
 	{#if $connected}
-		<Button variant="filled" styleClass="w-44">Register</Button>
+		<Button
+			variant="filled"
+			styleClass="w-44"
+			disabled={!validCPUrl || registeredCpURL === updatedCpURL}
+			onclick={handleOnRegister}
+		>
+			{#if registered}
+				Update
+			{:else}
+				Register
+			{/if}
+		</Button>
 	{:else}
 		<ConnectWalletButton variant="filled" />
 	{/if}

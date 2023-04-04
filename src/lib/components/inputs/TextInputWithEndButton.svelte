@@ -5,6 +5,7 @@
 	export let tooltipText: string = '';
 	export let title: string;
 	export let placeholder: string = '';
+	export let disabled: boolean = false;
 
 	export let input: string;
 
@@ -21,7 +22,7 @@
 		id="address-display"
 		class={`hideInputNumberAppearance ${fontSize} ${styles.inputNumber}`}
 		{placeholder}
-		disabled={true}
+		{disabled}
 	/>
 	<svelte:fragment slot="titleEndButton">
 		<slot name="titleEndButton" />

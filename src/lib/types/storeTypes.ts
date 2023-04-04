@@ -77,3 +77,8 @@ export type BridgeStore = {
 	};
 	requestedMPond: BigNumber;
 };
+
+export type OysterStore = {
+	registered: boolean;
+	cpURL: string;
+};

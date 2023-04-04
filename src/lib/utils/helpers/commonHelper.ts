@@ -105,3 +105,16 @@ export async function isAddressValid(address: string): Promise<boolean[]> {
 export function capitalizeFirstLetter(string: string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+/**
+ * returns true is the url is valid
+ * @param string
+ * @returns
+ * @example checkValidURL('https://google.com') => true
+ */
+export function checkValidURL(str: string) {
+	const pattern = new RegExp(
+		'^(http://www.|https://www.|http://|https://)?[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?$'
+	); // fragment locator
+	return !!pattern.test(str);
+}

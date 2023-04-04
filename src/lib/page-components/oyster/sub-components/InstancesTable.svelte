@@ -14,7 +14,11 @@
 		tableCell: tableCellClasses.rowMini
 	};
 
-	const registered = false;
+	export let registeredCpURL: string = '';
+	export let updatedCpURL: string = '';
+	export let validCPUrl: boolean = false;
+
+	//load data based on cpURL when validCPUrl is entered
 	const tableData = [
 		{
 			instanceType: 't3.small',
@@ -70,7 +74,7 @@
 	</div>
 	<svelte:fragment slot="titleEndButton">
 		{#if $connected}
-			<ModalButton disabled={!registered} variant="text" size="tiniest" modalFor={''}>
+			<ModalButton disabled={!validCPUrl} variant="text" size="tiniest" modalFor={''}>
 				<Icon data={refresh} size={18} />
 			</ModalButton>
 		{:else}

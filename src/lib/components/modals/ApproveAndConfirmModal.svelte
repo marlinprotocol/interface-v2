@@ -47,6 +47,7 @@
 		try {
 			confirmLoading = true;
 			await handleConfirmClick();
+			handleSuccessFinishClick();
 			closeModal(modalForApproveConfirm);
 			openModal(modalForSuccessConversion);
 		} catch (e) {
@@ -130,5 +131,4 @@
 	modalFor={modalForSuccessConversion}
 	{amountConverted}
 	{conversionFrom}
-	{handleSuccessFinishClick}
 />

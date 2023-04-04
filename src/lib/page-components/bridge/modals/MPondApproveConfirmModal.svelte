@@ -5,6 +5,7 @@
 		confirmMPondConversion
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
+	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
@@ -15,10 +16,10 @@
 	export let modalToClose: string;
 	export let handleOnSuccess: (txnHash: string) => void;
 
+	let amount = BigNumberZero;
 	let approved: boolean = false;
 	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
-		const amount = value.allowances.mPond;
-		approved = amount.gte(mpondToConvert) || false;
+		amount = value.allowances.mPond;
 	});
 	onDestroy(unsubscribeBridgeStore);
 
@@ -47,6 +48,7 @@
 			throw error;
 		}
 	};
+	$: approved = amount.gte(mpondToConvert) || false;
 </script>
 
 <ApproveAndConfirmModal

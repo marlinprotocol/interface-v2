@@ -8,7 +8,7 @@
 	export let tooltipVariant: TooltipVariant = 'tooltip-secondary';
 	export let tooltipDirection: TooltipDirection = 'tooltip-top';
 
-	$: tooltipClass = `tooltip text-left shrink-0 ${tooltipVariant} ${tooltipDirection} flex ${styleClass}`;
+	$: tooltipClass = `tooltip text-left shrink-0 font-normal ${tooltipVariant} ${tooltipDirection} flex ${styleClass}`;
 </script>
 
 <div class={tooltipClass} data-tip={tooltipText}>

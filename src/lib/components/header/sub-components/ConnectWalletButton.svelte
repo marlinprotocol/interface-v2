@@ -21,11 +21,16 @@
 
 {#if isLarge}
 	<ModalButton {modalFor} styleClass={`${baseClass} w-full h-14 text-base font-semibold`}>
-		<img src={staticImages.Lock} alt="Connect" />
+		{#if variant !== 'filled'}
+			<img src={staticImages.Lock} alt="Connect" />
+		{/if}
 		Connect Wallet
 	</ModalButton>
 {:else}
 	<ModalButton {modalFor} size="small" styleClass={`${baseClass} w-fit text-sm h-11 `}>
+		{#if variant !== 'filled'}
+			<img src={staticImages.Lock} alt="Connect" />
+		{/if}
 		Connect Wallet
 	</ModalButton>
 {/if}

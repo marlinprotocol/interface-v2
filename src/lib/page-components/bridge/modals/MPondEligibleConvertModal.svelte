@@ -49,8 +49,7 @@
 		inValidMessage = inputAmountInValidMessage(target.value);
 	};
 
-	$: mPondDisabledText =
-		inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient Eligible MPond Amount' : '';
+	$: mPondDisabledText = inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient balance' : '';
 	$: submitEnable = inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
 	$: modalIdWithRowIndex = `${modalForMPondApproveConfirm}-${rowIndex}`;
 

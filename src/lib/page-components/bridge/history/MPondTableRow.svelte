@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
+	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
 	import TableDataWithButton from '$lib/components/table-cells/TableDataWithButton.svelte';
 	import TxnHashText from '$lib/components/TxnHashText.svelte';
 	import { cancelMPondConversionRequest } from '$lib/controllers/contractController';
@@ -12,13 +13,15 @@
 	import {
 		bigNumberToCommaString,
 		epochSecToString,
-		epochToDurationString
+		epochToDurationString,
+		mPondToPond,
+		pondToMPond
 	} from '$lib/utils/conversion';
 	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
 	import type { BigNumber } from 'ethers';
 	import MPondConversionCycleButton from '../buttons/MPondConversionCycleButton.svelte';
 	import MPondConversionHistoryButton from '../buttons/MPondConversionHistoryButton.svelte';
-	import MPondConvertOpenButton from '../buttons/MPondConvertOpenButton.svelte';
+	import MPondEligibleConvertModal from '../modals/MPondEligibleConvertModal.svelte';
 	import HistoryDataIconButton from '../sub-components/HistoryDataIconButton.svelte';
 
 	export let rowData: MPondToPondHistoryDataModel;
@@ -43,7 +46,8 @@
 		pondInProcess,
 		pondEligible,
 		conversionHistory,
-		requestEpoch
+		requestEpoch,
+		mpondConverted
 	} = rowData);
 
 	$: endEpochTime = getTimerEpoch(currentCycle, eligibleCycles);
@@ -66,10 +70,21 @@
 		};
 	};
 
-	const handleUpdateOnConvert = (newData: Partial<MPondToPondHistoryDataModel>) => {
+	const handleUpdateOnConvert = (convertedMPond: BigNumber, txnHash: string) => {
+		const convertedPond = mPondToPond(convertedMPond);
 		rowData = {
 			...rowData,
-			...newData
+			pondEligible: pondEligible.sub(convertedPond),
+			mpondConverted: mpondConverted.add(convertedMPond),
+			conversionHistory: [
+				...conversionHistory,
+				{
+					id: txnHash,
+					transactionHash: txnHash,
+					mpondToConvert: convertedMPond,
+					timestamp: Math.floor(Date.now() / 1000)
+				}
+			]
 		};
 	};
 
@@ -140,10 +155,15 @@
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			<MPondConvertOpenButton
-				{rowData}
-				{handleUpdateOnConvert}
+			<TableConvertButton
+				disabled={!pondEligible.gt(0)}
 				modalFor={`mpond-convert-modal-${rowIndex}`}
+			/>
+			<MPondEligibleConvertModal
+				maxAmount={pondToMPond(pondEligible)}
+				modalFor={`mpond-convert-modal-${rowIndex}`}
+				{requestEpoch}
+				handleOnSuccess={handleUpdateOnConvert}
 				{rowIndex}
 			/>
 		</svelte:fragment>

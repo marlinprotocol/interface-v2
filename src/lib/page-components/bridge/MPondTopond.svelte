@@ -144,5 +144,5 @@
 		disabled={!enableConversion}>PLACE CONVERSION REQUEST</Button
 	>
 {:else}
-	<ConnectWalletButton isLarge={true} />
+	<ConnectWalletButton isLarge={true} variant="filled" />
 {/if}

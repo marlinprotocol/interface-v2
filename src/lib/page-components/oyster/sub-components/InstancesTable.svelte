@@ -1,27 +1,90 @@
 <script lang="ts">
+	import { tableCellClasses } from '$lib/atoms/componentClasses';
+	import Icon from '$lib/atoms/icons/Icon.svelte';
+	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import Table from '$lib/atoms/table/Table.svelte';
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
-
-	export let styleClass: string = '';
-	export let tooltipText: string = '';
-	export let title: string;
-	export let placeholder: string = '';
-
-	export let input: string;
+	import { addToast } from '$lib/data-stores/toastStore';
+	import { connected } from '$lib/data-stores/walletProviderStore';
+	import { kInstancesTableHeader } from '$lib/utils/constants/oysterConstants';
+	import refresh from 'svelte-awesome/icons/refresh';
 
 	const styles = {
-		titleIcon: 'flex items-center gap-1',
-		inputNumber:
-			'input input-ghost h-[30px] w-full mt-1 p-0 font-semibold text-xl disabled:text-primary disabled:placeholder:text-primary/[.3] focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent'
+		docButton: 'text-primary font-medium',
+		tableCell: tableCellClasses.rowMini
 	};
+
+	const registered = false;
+	const tableData = [
+		{
+			instanceType: 't3.small',
+			region: 'US East',
+			price: '0.0001'
+		},
+		{
+			instanceType: 't3.small',
+			region: 'EMEA',
+			price: '0.00013'
+		},
+		{
+			instanceType: 't3.small',
+			region: 'US West',
+			price: '0.00028'
+		},
+		{
+			instanceType: 't3.small',
+			region: 'EMEA',
+			price: '0.00013'
+		},
+		{
+			instanceType: 't3.small',
+			region: 'US West',
+			price: '0.00028'
+		},
+		{
+			instanceType: 't3.small',
+			region: 'EMEA',
+			price: '0.00013'
+		},
+		{
+			instanceType: 't3.small',
+			region: 'US West',
+			price: '0.00028'
+		}
+	];
 </script>
 
-<InputCardWithEndButton {styleClass} {tooltipText} {title}>
-	<input
-		bind:value={input}
-		id="address-display"
-		class={`hideInputNumberAppearance ${styles.inputNumber}`}
-		{placeholder}
-		disabled={true}
-	/>
-	<slot name="endButton" />
+<InputCardWithEndButton styleClass={'mt-4'} title={'Details'}>
+	<div class="w-full max-h-40 overflow-y-auto overflow-x-hidden">
+		<Table tableHeading={kInstancesTableHeader} headingStyleClass={'text-xs'} iconWidth={13}>
+			<tbody slot="tableBody">
+				{#each tableData as row}
+					<tr>
+						<td class={styles.tableCell}>{row.instanceType}</td>
+						<td class={styles.tableCell}>{row.region}</td>
+						<td class={styles.tableCell}>{row.price}</td>
+					</tr>
+				{/each}
+			</tbody>
+		</Table>
+	</div>
+	<svelte:fragment slot="titleEndButton">
+		{#if $connected}
+			<ModalButton disabled={!registered} variant="text" size="tiniest" modalFor={''}>
+				<Icon data={refresh} size={18} />
+			</ModalButton>
+		{:else}
+			<button
+				type="button"
+				on:click={() => {
+					addToast({
+						message: 'Please connect your wallet.',
+						variant: 'error'
+					});
+				}}
+			>
+				<Icon data={refresh} size={18} />
+			</button>
+		{/if}
+	</svelte:fragment>
 </InputCardWithEndButton>

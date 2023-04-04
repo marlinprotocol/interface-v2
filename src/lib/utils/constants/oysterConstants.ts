@@ -17,3 +17,6 @@ export const kInstancesTableHeader: TableModel['header'][] = [
 			'The corresponding amount of MPond received as a result of the conversion from POND. Note: 1 Million POND equals 1 MPond.'
 	}
 ];
+
+export const kOysterDocLink = 'https://docs.marlin.org/docs/User%20Guides/Oyster/';
+export const kOysterSupportLink = 'https://docs.marlin.org/docs/User%20Guides/Oyster/';

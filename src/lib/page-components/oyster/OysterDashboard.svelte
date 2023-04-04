@@ -10,13 +10,14 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
+	import { kOysterDocLink, kOysterSupportLink } from '$lib/utils/constants/oysterConstants';
 	import { checkValidURL } from '$lib/utils/helpers/commonHelper';
 	import { onDestroy } from 'svelte';
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from './sub-components/InstancesTable.svelte';
 
 	const styles = {
-		docButton: 'text-primary font-medium',
+		docButton: 'text-primary',
 		tableCell: tableCellClasses.rowMini
 	};
 
@@ -65,16 +66,18 @@
 <ContainerCard>
 	<svelte:fragment slot="header">
 		<Text variant="h2" text="Infrastructure Registration" styleClass="text-left" />
-		<Text
-			variant="body"
-			text="For providers running instances"
-			styleClass="text-left text-grey-700"
-		/>
-		<div class="flex gap-2 items-center">
-			<Text variant="body" text="Quick access:" styleClass="text-left text-grey-700" />
-			<Button variant="text" styleClass={styles.docButton}>Documentation</Button>
-			<div class={dividerClasses.vertical} />
-			<Button variant="text" styleClass={styles.docButton}>Support</Button>
+		<div class="text-left text-grey-700 flex flex-col gap-1 mt-2 mb-4">
+			<Text variant="body" text="For providers running instances" />
+			<div class="flex gap-2 items-center">
+				<Text variant="body" text="Quick access:" />
+				<a href={kOysterDocLink}>
+					<Text styleClass={styles.docButton} fontWeight="font-medium" text="Documentation" />
+				</a>
+				<div class={dividerClasses.vertical} />
+				<a href={kOysterSupportLink}>
+					<Text styleClass={styles.docButton} fontWeight="font-medium" text="Support" />
+				</a>
+			</div>
 		</div>
 	</svelte:fragment>
 	<TextInputWithEndButton

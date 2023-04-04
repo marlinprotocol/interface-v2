@@ -22,7 +22,6 @@
 	];
 </script>
 
-<!-- TODO: add menu drawer for mobile -->
 <div class={`flex gap-10 nav-links ${isMobile ? 'flex-col' : 'flex-row'}`}>
 	{#each navLinks as navItem (navItem.title)}
 		<HeaderNavLinkItem {navItem} />

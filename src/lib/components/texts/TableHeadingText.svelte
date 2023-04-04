@@ -6,6 +6,7 @@
 	export let tooltipDirection: TooltipDirection = 'tooltip-right';
 	export let title = '';
 	export let styleClass = '';
+	export let iconWidth = 16;
 </script>
 
 <div class={`flex gap-1 text-primary justify-center`}>
@@ -16,6 +17,6 @@
 		styleClass={`${styleClass} tracking-widest mt-0.5`}
 	/>
 	{#if tooltipText}
-		<TooltipIcon {tooltipText} {tooltipDirection} iconSrc={'/images/alert.svg'} iconWidth={16} />
+		<TooltipIcon {tooltipText} {tooltipDirection} iconSrc={'/images/alert.svg'} {iconWidth} />
 	{/if}
 </div>

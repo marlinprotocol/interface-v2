@@ -7,6 +7,7 @@
 	export let styleClass = '';
 	export let headingStyleClass = '';
 	export let handleSortData: (() => void) | undefined = undefined;
+	export let iconWidth = 16;
 </script>
 
 <div class="overflow-x-auto overflow-y-hidden">
@@ -23,6 +24,7 @@
 							{/if}
 							<TableHeadingText
 								styleClass={headingStyleClass}
+								{iconWidth}
 								title={columnHeading.title}
 								tooltipText={columnHeading.tooltipText}
 								tooltipDirection={i === tableHeading.length - 1

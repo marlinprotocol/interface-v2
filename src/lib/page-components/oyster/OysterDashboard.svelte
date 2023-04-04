@@ -61,9 +61,13 @@
 <ContainerCard>
 	<svelte:fragment slot="header">
 		<Text variant="h2" text="Infrastructure Registration" styleClass="text-left" />
-		<Text variant="body" text="For providers running instances" styleClass="text-left" />
+		<Text
+			variant="body"
+			text="For providers running instances"
+			styleClass="text-left text-grey-700"
+		/>
 		<div class="flex gap-2 items-center">
-			<Text variant="body" text="Quick access:" styleClass="text-left" />
+			<Text variant="body" text="Quick access:" styleClass="text-left text-grey-700" />
 			<Button variant="text" styleClass={styles.docButton}>Documentation</Button>
 			<div class={dividerClasses.vertical} />
 			<Button variant="text" styleClass={styles.docButton}>Support</Button>
@@ -104,7 +108,7 @@
 	</TextInputWithEndButton>
 	<InputCardWithEndButton styleClass={'mt-4'} title={'Details'}>
 		<div class="w-full max-h-40 overflow-y-auto overflow-x-hidden">
-			<Table tableHeading={kInstancesTableHeader} headingStyleClass={'text-xs'}>
+			<Table tableHeading={kInstancesTableHeader} headingStyleClass={'text-xs'} iconWidth={13}>
 				<tbody slot="tableBody">
 					{#each tableData as row}
 						<tr>

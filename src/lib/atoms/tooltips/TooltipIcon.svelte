@@ -4,7 +4,7 @@
 	export let tooltipText: string;
 	export let styleClass = '';
 	export let iconWidth = 14;
-	export let iconSrc = '/images/info.svg';
+	export let iconSrc = '/images/alert.svg';
 	export let tooltipVariant: TooltipVariant = 'tooltip-secondary';
 	export let tooltipDirection: TooltipDirection = 'tooltip-top';
 

@@ -2,7 +2,7 @@
 	import type { InputCardVariant } from '$lib/types/componentTypes';
 
 	export let styleClass = '';
-	export let variant: InputCardVariant = 'primary';
+	export let variant: InputCardVariant | undefined = 'primary';
 	const cardStyle = 'rounded-lg w-full';
 
 	const getClassFromVariant = () => {

@@ -10,7 +10,7 @@
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 
-	export let iconWidth = 15;
+	export let iconWidth = 12;
 
 	let localEpochCycle: EpochCycleStore = 0;
 	const unsubscribeEpochCycleStore: Unsubscriber = epochCycleStore.subscribe(
@@ -60,7 +60,7 @@
 </script>
 
 <PopOver>
-	<img slot="icon" src={'/images/alert.svg'} alt="Info" width={iconWidth} />
+	<img slot="icon" src={'/images/info.svg'} alt="Info" width={iconWidth} />
 	<svelte:fragment slot="content">
 		<div class={styles.subtitle}>
 			{#if inQueue && localEpochCycle > 0}

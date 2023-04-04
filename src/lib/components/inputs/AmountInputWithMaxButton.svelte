@@ -74,7 +74,6 @@
 					/>
 					{#if maxAmountTooltipText}
 						<TooltipIcon
-							iconSrc={'/images/alert.svg'}
 							iconWidth={16}
 							tooltipText={maxAmountTooltipText}
 							tooltipVariant="tooltip-secondary"

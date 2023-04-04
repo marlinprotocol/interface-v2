@@ -26,11 +26,10 @@
 		{'Conversion Cycle'}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex flex-row w-full">
+		<div class="flex flex-row w-full mb-8">
 			{#each kMPondConversionCycleTableHeader as headingData, i}
 				<div class="flex-1">
 					<TableHeadingText
-						styleClass="mb-8"
 						title={headingData.title}
 						tooltipText={headingData.tooltipText}
 						tooltipDirection={i === kMPondConversionCycleTableHeader.length - 1

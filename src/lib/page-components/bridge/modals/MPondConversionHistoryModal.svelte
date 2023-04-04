@@ -18,11 +18,10 @@
 		{'Conversion History'}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex flex-row w-full">
+		<div class="flex flex-row w-full mb-8">
 			{#each kMPondConversionHistoryTableHeader as headingData, i}
 				<div class="flex-1">
 					<TableHeadingText
-						styleClass="mb-8"
 						title={headingData.title}
 						tooltipText={headingData.tooltipText}
 						tooltipDirection={i === kMPondConversionHistoryTableHeader.length - 1

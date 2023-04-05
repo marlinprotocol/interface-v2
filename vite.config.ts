@@ -4,7 +4,7 @@ import inject from '@rollup/plugin-inject';
 import type { UserConfig } from 'vite';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 
-const MODE = 'development';
+const MODE = 'prod'; // change mode to development if using npm run dev
 const development = MODE === 'development';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -26,7 +26,7 @@ const config: UserConfig = {
 	},
 	build: {
 		rollupOptions: {
-			external: ['@web3-onboard/*'],
+			external: ['@web3-onboard/*', 'Buffer'],
 			plugins: [
 				nodePolyfills({ include: ['crypto', 'http'] }),
 				inject({ Buffer: ['Buffer', 'Buffer'] })

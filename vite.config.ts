@@ -1,26 +1,51 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vite';
-// import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
-// import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
+import inject from '@rollup/plugin-inject';
 
-export default defineConfig({
-	plugins: [sveltekit()],
-	test: {
-		include: ['src/**/*.{test,spec}.{js,ts}']
+import type { UserConfig } from 'vite';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
+
+const MODE = 'development';
+const development = MODE === 'development';
+
+/** @type {import('@sveltejs/kit').Config} */
+
+const config: UserConfig = {
+	plugins: [
+		sveltekit(),
+		development &&
+			nodePolyfills({
+				include: ['node_modules/**/*.js', new RegExp('node_modules/.vite/.*js'), 'http', 'crypto']
+			})
+	],
+	resolve: {
+		alias: {
+			crypto: 'crypto-browserify',
+			stream: 'stream-browserify',
+			assert: 'assert'
+		}
+	},
+	build: {
+		rollupOptions: {
+			external: ['@web3-onboard/*'],
+			plugins: [
+				nodePolyfills({ include: ['crypto', 'http'] }),
+				inject({ Buffer: ['Buffer', 'Buffer'] })
+			]
+		},
+		commonjsOptions: {
+			transformMixedEsModules: true
+		}
+	},
+	optimizeDeps: {
+		exclude: ['@ethersproject/hash', 'wrtc', 'http'],
+		include: ['@web3-onboard/core', 'js-sha3', '@ethersproject/bignumber'],
+		esbuildOptions: {
+			// Node.js global to browser globalThis
+			define: {
+				global: 'globalThis'
+			}
+		}
 	}
-	// optimizeDeps: {
-	// 	esbuildOptions: {
-	// 		plugins: [
-	// 			NodeModulesPolyfillPlugin(),
-	// 			NodeGlobalsPolyfillPlugin({
-	// 				process: true,
-	// 				buffer: true
-	// 			})
-	// 		],
+};
 
-	// 		define: {
-	// 			global: 'globalThis'
-	// 		}
-	// 	}
-	// }
-});
+export default config;

@@ -1,33 +1,26 @@
 <script lang="ts">
-	import { buttonClasses } from '$lib/atoms/componentClasses';
-	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import { walletStore } from '$lib/data-stores/walletProviderStore';
-	import ConnectWalletModal from './ConnectWalletModal.svelte';
+	import Button from '$lib/atoms/buttons/Button.svelte';
 
+	export let connect: () => void;
 	export let isLarge = false;
-	let modalFor = 'connect-wallet-modal';
 	const connectWalletStyles = 'flex gap-[10.3px] ';
-
-	// do not remove this line
-	$: provider = $walletStore.provider;
 </script>
 
 {#if isLarge}
-	<ModalButton
-		{modalFor}
-		styleClass={`${buttonClasses.filled} ${connectWalletStyles} w-full h-14 text-base font-semibold`}
+	<Button
+		onclick={connect}
+		styleClass={`${connectWalletStyles} w-full h-14 text-base font-semibold`}
 	>
 		<img src="/images/lockicon.svg" alt="Connect" />
 		Connect Wallet
-	</ModalButton>
+	</Button>
 {:else}
-	<ModalButton
-		{modalFor}
+	<Button
+		onclick={connect}
 		size="small"
-		styleClass={`${buttonClasses.outlined} ${connectWalletStyles} w-fit text-sm h-11 `}
+		variant="outlined"
+		styleClass={`${connectWalletStyles} w-fit text-sm h-11`}
 	>
 		Connect Wallet
-	</ModalButton>
+	</Button>
 {/if}
-
-<ConnectWalletModal {modalFor} />

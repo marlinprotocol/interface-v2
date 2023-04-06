@@ -1,26 +1,22 @@
 <script lang="ts">
-	import { tweened } from 'svelte/motion';
-
 	export let endEpochTime: number;
 	export let onTimerEnd: () => void = () => {};
 
-	const original = Math.floor(endEpochTime - Date.now() / 1000);
-
-	let timer = tweened(original);
+	$: original = Math.floor(endEpochTime - Date.now() / 1000);
 
 	setInterval(() => {
-		if ($timer > 0) {
-			if ($timer === 1) {
+		if (original > 0) {
+			if (original === 1) {
 				onTimerEnd();
 			}
-			$timer--;
+			original--;
 		}
 	}, 1000);
 </script>
 
 <div class="flex items-center gap-1">
-	{#if $timer > 0}
-		<slot name="active" timer={$timer} />
+	{#if original > 0}
+		<slot name="active" timer={original} />
 	{:else}
 		<slot name="inactive" />
 	{/if}

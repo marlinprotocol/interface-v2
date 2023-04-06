@@ -4,7 +4,11 @@
 	import type { MPondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
 	import { kMPondConversionCycleTableHeader } from '$lib/utils/constants/bridgeConstants';
 	import { pondPrecisions } from '$lib/utils/constants/constants';
-	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
+	import {
+		bigNumberToCommaString,
+		epochSecToString,
+		epochToDurationString
+	} from '$lib/utils/conversion';
 	import TableHeadingText from '../../../components/texts/TableHeadingText.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 
@@ -84,7 +88,7 @@
 							{#if currentCycle === i}
 								<Timer {endEpochTime}>
 									<div slot="active" let:timer class="mx-auto">
-										{`${Math.floor(timer / 60) % 60} mins`}
+										{epochToDurationString(timer, true)}
 									</div>
 								</Timer>
 								<div class="w-1 h-1 bg-black rounded-2xl flex align-center mt-2.5" />

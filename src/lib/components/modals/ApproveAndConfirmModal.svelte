@@ -70,7 +70,6 @@
 	<svelte:fragment slot="title">
 		{!approved ? 'Approve Transaction' : 'Confirm Transaction'}
 	</svelte:fragment>
-	<div />
 	<svelte:fragment slot="content">
 		<div class="flex gap-5 h-[50px]">
 			<div class="flex flex-col items-center">

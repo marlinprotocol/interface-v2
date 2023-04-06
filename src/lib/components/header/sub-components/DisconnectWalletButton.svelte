@@ -7,7 +7,15 @@
 	import type { Unsubscriber } from 'svelte/store';
 	import DisconnectWalletModal from './DisconnectWalletModal.svelte';
 
+	export let disconnect: () => void;
+
 	let modalFor = 'disconnect-wallet-modal';
+	let chain: ChainStore;
+
+	const unsubscribeChainProviderStore: Unsubscriber = chainStore.subscribe((value: ChainStore) => {
+		chain = value;
+	});
+
 	$: shortAddress =
 		$walletStore.address.slice().substring(0, 6) +
 		'...' +
@@ -16,11 +24,6 @@
 	// do not remove this line
 	$: provider = $walletStore.provider;
 
-	let chain: ChainStore;
-
-	const unsubscribeChainProviderStore: Unsubscriber = chainStore.subscribe((value: ChainStore) => {
-		chain = value;
-	});
 	onDestroy(unsubscribeChainProviderStore);
 
 	const styles = {
@@ -40,4 +43,4 @@
 		<p class={styles.address}>{shortAddress}</p>
 	</div>
 </ModalButton>
-<DisconnectWalletModal {modalFor} />
+<DisconnectWalletModal {modalFor} {disconnect} />

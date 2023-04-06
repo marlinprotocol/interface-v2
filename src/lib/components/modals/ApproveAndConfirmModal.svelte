@@ -13,6 +13,7 @@
 	export let handleConfirmClick: () => Promise<void>;
 	export let handleSuccessFinishClick: () => void;
 	export let approved: boolean;
+	export let rowIndex: number;
 	export let approveButtonText = 'APPROVE';
 	export let confirmButtonText = 'CONFIRM';
 	export let amountConverted: BigNumber = BigNumberZero;
@@ -27,8 +28,7 @@
 	);
 	$: conversionFromText = conversionFrom === 'pond' ? 'POND' : 'MPond';
 	$: conversionToText = conversionFrom === 'pond' ? 'MPond' : 'POND';
-
-	let modalForSuccessConversion = 'success-conversion-modal';
+	$: modalForSuccessConversion = `success-conversion-modal-${rowIndex}`;
 	let approveLoading: boolean;
 	let confirmLoading: boolean;
 

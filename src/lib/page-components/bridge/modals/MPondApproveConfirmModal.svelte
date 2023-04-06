@@ -11,6 +11,7 @@
 	import { onDestroy } from 'svelte';
 
 	export let modalFor: string;
+	export let rowIndex: number;
 	export let requestEpoch: BigNumber;
 	export let mpondToConvert: BigNumber;
 	export let modalToClose: string;
@@ -62,4 +63,5 @@
 	conversionFrom={'mPond'}
 	amountConverted={mpondToConvert}
 	confirmButtonText={'CONVERT'}
+	{rowIndex}
 />

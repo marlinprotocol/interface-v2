@@ -12,9 +12,13 @@
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
 	export let amountConverted: BigNumber = BigNumberZero;
 
-	console.log('amountConverted :>> ', amountConverted, conversionFrom);
+	$: console.log('amountConverted :>> ', amountConverted, conversionFrom);
 
 	$: conversionTo = conversionFrom === 'pond' ? 'mPond' : 'pond';
+	$: amountConvertedFrom = bigNumberToCommaString(
+		amountConverted,
+		conversionFrom === 'pond' ? pondPrecisions : mPondPrecisions
+	);
 	$: amountConvertedTo =
 		conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted);
 </script>
@@ -29,10 +33,7 @@
 			<div>You have converted</div>
 			<div>
 				<span class="font-bold text-black"
-					>{bigNumberToCommaString(
-						amountConverted,
-						conversionFrom === 'pond' ? pondPrecisions : mPondPrecisions
-					)}
+					>{amountConvertedFrom}
 					{conversionFrom.toUpperCase()}</span
 				>
 				to

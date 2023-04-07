@@ -13,11 +13,6 @@
 			title: 'Bridge',
 			href: '/bridge',
 			openInNewTab: false
-		},
-		{
-			title: 'Oyster',
-			href: '/oyster',
-			openInNewTab: false
 		}
 	];
 </script>

@@ -9,34 +9,36 @@
 	export let handleSortData: (() => void) | undefined = undefined;
 </script>
 
-<table class={styleClass}>
-	<thead>
-		<tr>
-			{#each tableHeading as columnHeading, i}
-				<th class={`w-[${100 / tableHeading.length}%] ${tableCellClasses.heading}`}>
-					<div class="flex justify-center items-center gap-0.5">
-						{#if columnHeading.sorting}
-							<button on:click={handleSortData}>
-								<img src="/images/sort.svg" alt="sort" width="14px" />
-							</button>
-						{/if}
-						<TableHeadingText
-							styleClass={headingStyleClass}
-							title={columnHeading.title}
-							tooltipText={columnHeading.tooltipText}
-							tooltipDirection={i === tableHeading.length - 1
-								? 'tooltip-left'
-								: i === 0
-								? 'tooltip-right'
-								: 'tooltip-bottom'}
-						/>
-					</div>
-				</th>
-			{/each}
-		</tr>
-	</thead>
-	<slot name="tableBody" />
-</table>
+<div class="overflow-x-auto overflow-y-hidden px-8 py-6">
+	<table class={styleClass}>
+		<thead>
+			<tr>
+				{#each tableHeading as columnHeading, i}
+					<th class={`w-[${100 / tableHeading.length}%] ${tableCellClasses.heading}`}>
+						<div class="flex justify-center items-center gap-0.5">
+							{#if columnHeading.sorting}
+								<button on:click={handleSortData}>
+									<img src="/images/sort.svg" alt="sort" width="14px" />
+								</button>
+							{/if}
+							<TableHeadingText
+								styleClass={headingStyleClass}
+								title={columnHeading.title}
+								tooltipText={columnHeading.tooltipText}
+								tooltipDirection={i === tableHeading.length - 1
+									? 'tooltip-left'
+									: i === 0
+									? 'tooltip-right'
+									: 'tooltip-bottom'}
+							/>
+						</div>
+					</th>
+				{/each}
+			</tr>
+		</thead>
+		<slot name="tableBody" />
+	</table>
+</div>
 
 <style>
 	table {

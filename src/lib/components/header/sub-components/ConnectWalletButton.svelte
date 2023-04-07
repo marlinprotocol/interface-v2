@@ -1,5 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
+	import lock from 'svelte-awesome/icons/lock';
+	import Icon from '$lib/atoms/icons/Icon.svelte';
 
 	export let connect: () => void;
 	export let isLarge = false;
@@ -11,7 +13,7 @@
 		onclick={connect}
 		styleClass={`${connectWalletStyles} w-full h-14 text-base font-semibold`}
 	>
-		<img src="/images/lockicon.svg" alt="Connect" />
+		<Icon data={lock} size={20} iconColorClass={'icon-white'} />
 		Connect Wallet
 	</Button>
 {:else}
@@ -21,6 +23,7 @@
 		variant="outlined"
 		styleClass={`${connectWalletStyles} w-fit text-sm h-11`}
 	>
+		<img src="/images/lockicon.svg" alt="Connect" />
 		Connect Wallet
 	</Button>
 {/if}

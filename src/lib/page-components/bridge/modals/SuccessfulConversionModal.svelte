@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
+	import { kPondHistoryPage } from '$lib/utils/constants/bridgeConstants';
 	import { BigNumberZero, mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, mPondToPond, pondToMPond } from '$lib/utils/conversion';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
@@ -13,9 +15,11 @@
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
 	export let amountConverted: BigNumber = BigNumberZero;
 
-	console.log('amountConverted :>> ', amountConverted, conversionFrom);
-
 	$: conversionTo = conversionFrom === 'pond' ? 'mPond' : 'pond';
+	$: amountConvertedFrom = bigNumberToCommaString(
+		amountConverted,
+		conversionFrom === 'pond' ? pondPrecisions : mPondPrecisions
+	);
 	$: amountConvertedTo =
 		conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted);
 </script>
@@ -30,10 +34,7 @@
 			<div>You have converted</div>
 			<div>
 				<span class="font-bold text-black"
-					>{bigNumberToCommaString(
-						amountConverted,
-						conversionFrom === 'pond' ? pondPrecisions : mPondPrecisions
-					)}
+					>{amountConvertedFrom}
 					{conversionFrom.toUpperCase()}</span
 				>
 				to
@@ -58,6 +59,7 @@
 	<svelte:fragment slot="actionButtons">
 		<Button
 			onclick={() => {
+				if (conversionFrom === 'pond') goto(kPondHistoryPage);
 				closeModal(modalFor);
 			}}
 			variant="filled"

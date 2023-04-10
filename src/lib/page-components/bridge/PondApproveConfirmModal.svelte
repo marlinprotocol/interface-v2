@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import ApproveAndConfirmModal from '$lib/components/modals/ApproveAndConfirmModal.svelte';
 	import {
 		approvePondTokenForConversion,
 		convertPondToMPond
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
-	import { kPondHistoryPage } from '$lib/utils/constants/bridgeConstants';
+	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import { pondToMPond } from '$lib/utils/conversion';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
@@ -39,7 +38,19 @@
 	};
 	const handleConfirmClick = async () => {
 		try {
-			await convertPondToMPond(mPond);
+			const txn = await convertPondToMPond(mPond);
+			// update wallet balance for pond
+			if (txn) {
+				walletBalance.update((value) => {
+					value.pond = value.pond.sub(pond);
+					value.mPond = value.mPond.add(mPond);
+					return value;
+				});
+				bridgeStore.update((value) => {
+					value.allowances.pond = value.allowances.pond.sub(pond);
+					return value;
+				});
+			}
 		} catch (error) {
 			console.log(error);
 			throw error;
@@ -49,11 +60,10 @@
 
 <ApproveAndConfirmModal
 	modalForApproveConfirm={modalFor}
+	rowIndex={0}
 	{handleApproveClick}
 	{handleConfirmClick}
-	handleSuccessFinishClick={() => {
-		goto(kPondHistoryPage);
-	}}
+	handleSuccessFinishClick={() => {}}
 	{approved}
 	conversionFrom={'pond'}
 	amountConverted={pond}

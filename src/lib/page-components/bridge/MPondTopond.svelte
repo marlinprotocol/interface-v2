@@ -22,6 +22,7 @@
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import AmountInputWithMaxButton from '../../components/inputs/AmountInputWithMaxButton.svelte';
+	import onboard from '$lib/controllers/web3OnboardController';
 
 	const maxAmountTooltipText =
 		'Unrequested is the amount of MPond for which a conversion request is not placed. MPond conversion requests placed is categorised as Requested. Conversion requests for staked MPond can also be placed.';
@@ -63,6 +64,12 @@
 
 	onDestroy(unsubscribeWalletBalanceStore);
 	onDestroy(unsubscribeBridgeStore);
+
+	export const connect = async () => {
+		console.log('connecting to the wallet...');
+		const connection = await onboard.connectWallet();
+		console.log('connection', connection);
+	};
 
 	const handleMaxClick = () => {
 		if (unrequestedMPondBalance) {

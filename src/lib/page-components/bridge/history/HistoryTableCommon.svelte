@@ -32,7 +32,7 @@
 <div
 	class={`card ${
 		fullWidth ? 'max-w-full' : 'sm:max-w-full md:max-w-[66.66%]'
-	} bg-base-100 rounded-lg px-8 py-6`}
+	} bg-base-100 rounded-lg`}
 >
 	{#if !$connected}
 		<div class={`text-center flex justify-center my-4`}>

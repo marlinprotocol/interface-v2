@@ -7,7 +7,6 @@
 		withdrawStakingToken
 	} from '$lib/controllers/contractController';
 	import { getReceiverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
-	import { disconnectWalletConnect } from '$lib/controllers/walletController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 	import { addToast } from '$lib/data-stores/toastStore';
@@ -132,9 +131,6 @@
 	>
 	<button class="btn btn-secondary" on:click={() => onClickHandlerForToastSuccess()}
 		>Add a new snackbar</button
-	>
-	<button class="btn btn-secondary" on:click={() => disconnectWalletConnect()}
-		>Disconnect Wallet Connect</button
 	>
 	<div>Modal Buttons to control modal (uses label element under the hood)</div>
 	<div class="flex justify-center gap-3">

@@ -11,7 +11,7 @@
 	export let iconWidth = 16;
 </script>
 
-<div class="overflow-x-auto overflow-y-hidden">
+<div class="overflow-x-auto overflow-y-hidden px-8 py-6">
 	<table class={styleClass}>
 		<thead>
 			<tr>

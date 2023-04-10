@@ -4,12 +4,12 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import { disconnectWallet } from '$lib/controllers/walletController';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
 
 	export let modalFor: string;
+	export let disconnect: () => void;
 	$: blockChainExplorerLink = `https://arbiscan.io/address/${$walletStore.address}`;
 
 	const onCopyAddress = () => {
@@ -53,9 +53,7 @@
 		<Button
 			variant="filled"
 			size="large"
-			onclick={() => {
-				disconnectWallet();
-			}}
+			onclick={disconnect}
 			styleClass={'w-full font-semibold text-base'}>LOGOUT</Button
 		>
 	</svelte:fragment>

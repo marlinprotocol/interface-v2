@@ -59,6 +59,7 @@
 	};
 
 	const handleOnTimerEnd = () => {
+		console.log('handleOnTimerEnd trigerred :>> ');
 		rowData = {
 			...rowData,
 			pondPending:
@@ -130,6 +131,7 @@
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
 			{bigNumberToCommaString(pondInProcess, pondPrecisions)}
+			<!-- <button on:click={handleOnTimerEnd}>HI</button> -->
 		</svelte:fragment>
 		<Timer slot="line2" {endEpochTime} onTimerEnd={handleOnTimerEnd}>
 			<div slot="active" let:timer class="mx-auto">

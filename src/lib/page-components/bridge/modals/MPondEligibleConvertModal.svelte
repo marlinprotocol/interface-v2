@@ -115,4 +115,5 @@
 	mpondToConvert={inputAmount}
 	modalToClose={modalFor}
 	handleOnSuccess={onSuccess}
+	{rowIndex}
 />

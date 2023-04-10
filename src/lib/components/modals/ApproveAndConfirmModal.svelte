@@ -14,6 +14,7 @@
 	export let handleConfirmClick: () => Promise<void>;
 	export let handleSuccessFinishClick: () => void;
 	export let approved: boolean;
+	export let rowIndex: number;
 	export let approveButtonText = 'APPROVE';
 	export let confirmButtonText = 'CONFIRM';
 	export let amountConverted: BigNumber = BigNumberZero;
@@ -28,8 +29,8 @@
 	);
 	$: conversionFromText = conversionFrom === 'pond' ? 'POND' : 'MPond';
 	$: conversionToText = conversionFrom === 'pond' ? 'MPond' : 'POND';
-
-	let modalForSuccessConversion = 'success-conversion-modal';
+	$: modalForSuccessConversion = `success-conversion-modal-${rowIndex}`;
+	$: console.log(modalForSuccessConversion);
 	let approveLoading: boolean;
 	let confirmLoading: boolean;
 
@@ -71,7 +72,6 @@
 	<svelte:fragment slot="title">
 		{!approved ? 'Approve Transaction' : 'Confirm Transaction'}
 	</svelte:fragment>
-	<div />
 	<svelte:fragment slot="content">
 		<div class="flex gap-5 h-[50px]">
 			<div class="flex flex-col items-center">

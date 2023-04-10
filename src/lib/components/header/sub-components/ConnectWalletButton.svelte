@@ -5,6 +5,8 @@
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { ButtonModel } from '$lib/types/componentTypes';
 	import ConnectWalletModal from './ConnectWalletModal.svelte';
+	import lock from 'svelte-awesome/icons/lock';
+	import Icon from '$lib/atoms/icons/Icon.svelte';
 
 	export let isLarge = false;
 	export let variant: ButtonModel['variant'] = 'outlined';
@@ -21,13 +23,13 @@
 
 {#if isLarge}
 	<ModalButton {modalFor} styleClass={`${baseClass} w-full h-14 text-base font-semibold`}>
-		<img src={staticImages.Lock} alt="Connect" />
+		<Icon data={lock} size={20} iconColorClass={'icon-white'} />
 		Connect Wallet
 	</ModalButton>
 {:else}
 	<ModalButton {modalFor} size="small" styleClass={`${baseClass} w-fit text-sm h-11 `}>
+		<img src={staticImages.Lock} alt="Connect" />
 		Connect Wallet
 	</ModalButton>
 {/if}
-
 <ConnectWalletModal {modalFor} />

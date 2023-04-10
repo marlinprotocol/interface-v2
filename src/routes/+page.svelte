@@ -7,7 +7,6 @@
 <div class="py-4">
 	{#if $chainStore.isValidChain}
 		<StakeDashboard />
-		<!-- <Test /> -->
 	{:else}
 		<NetworkPrompt />
 	{/if}

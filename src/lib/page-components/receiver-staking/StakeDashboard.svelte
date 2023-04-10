@@ -3,8 +3,10 @@
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
+	import onboard from '$lib/controllers/web3OnboardController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
+
 	import StakedData from '$lib/page-components/receiver-staking/StakedData.svelte';
 	import StakeButton from './buttons/StakeButton.svelte';
 	import UnstakeButton from './buttons/UnstakeButton.svelte';
@@ -13,6 +15,12 @@
 		buttonsGroup: 'flex gap-4 items-center justify-center w-full',
 		buttonWrapper: 'w-1/2',
 		buttonLarge: 'h-14 text-base font-semibold'
+	};
+
+	const connect = async () => {
+		console.log('connecting to the wallet...');
+		const connection = await onboard.connectWallet();
+		console.log('connection', connection);
 	};
 
 	$: validBalance = $receiverStakingStore.queuedBalance

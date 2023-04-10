@@ -5,7 +5,9 @@
 		confirmMPondConversion
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
+	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { mPondToPond } from '$lib/utils/conversion';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
@@ -42,6 +44,17 @@
 	const handleConfirmClick = async () => {
 		try {
 			const txn = await confirmMPondConversion(requestEpoch, mpondToConvert);
+			if (txn) {
+				walletBalance.update((value) => {
+					value.mPond = value.mPond.sub(mpondToConvert);
+					value.pond = value.pond.add(mPondToPond(mpondToConvert));
+					return value;
+				});
+				bridgeStore.update((value) => {
+					value.allowances.mPond = value.allowances.mPond.sub(mpondToConvert);
+					return value;
+				});
+			}
 			txnHash = txn.hash;
 			closeModal(modalToClose);
 		} catch (error) {

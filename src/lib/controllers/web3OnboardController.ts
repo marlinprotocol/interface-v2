@@ -7,6 +7,7 @@ import trezorModule from '@web3-onboard/trezor';
 import coinbaseWalletModule from '@web3-onboard/coinbase';
 import gnosisModule from '@web3-onboard/gnosis';
 import torusModule from '@web3-onboard/torus';
+import icon from '../../logos/logo-name.svg';
 
 const injected = injectedWalletsModule();
 const torus = torusModule();
@@ -43,8 +44,7 @@ const chains = [
 
 const appMetadata = {
 	name: 'Marlin',
-	icon: '<svg />',
-	logo: '<svg />',
+	logo: icon,
 	description: 'Marlin Onboarding',
 	recommendedInjectedWallets: [
 		{ name: 'Coinbase', url: 'https://wallet.coinbase.com/' },

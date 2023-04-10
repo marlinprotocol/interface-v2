@@ -11,7 +11,6 @@
 
 	$: connectedAccount = $web3WalletStore?.[0];
 	$: if (connectedAccount) {
-		console.log('inside reactive if statement');
 		connectWallet(connectedAccount.provider);
 	}
 

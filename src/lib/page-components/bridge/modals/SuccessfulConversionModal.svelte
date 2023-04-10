@@ -1,8 +1,10 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
+	import { kPondHistoryPage } from '$lib/utils/constants/bridgeConstants';
 	import { BigNumberZero, mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, mPondToPond, pondToMPond } from '$lib/utils/conversion';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
@@ -11,8 +13,6 @@
 	export let modalFor: string;
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
 	export let amountConverted: BigNumber = BigNumberZero;
-
-	$: console.log('amountConverted :>> ', amountConverted, conversionFrom);
 
 	$: conversionTo = conversionFrom === 'pond' ? 'mPond' : 'pond';
 	$: amountConvertedFrom = bigNumberToCommaString(
@@ -58,6 +58,7 @@
 	<svelte:fragment slot="actionButtons">
 		<Button
 			onclick={() => {
+				if (conversionFrom === 'pond') goto(kPondHistoryPage);
 				closeModal(modalFor);
 			}}
 			variant="filled"

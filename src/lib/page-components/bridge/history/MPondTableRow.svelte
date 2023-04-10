@@ -50,15 +50,17 @@
 		mpondConverted
 	} = rowData);
 
+	$: cancelDisabled =
+		(!pondEligible || pondEligible.isZero()) &&
+		(!pondPending || pondPending.isZero()) &&
+		(!pondInProcess || pondInProcess.isZero());
 	$: endEpochTime = getTimerEpoch(currentCycle, eligibleCycles);
-
 	const handleCancelConversionRequest = async (requestEpoch: BigNumber) => {
 		//not working yet
 		await cancelMPondConversionRequest(requestEpoch);
 	};
 
 	const handleOnTimerEnd = () => {
-		console.log('handleOnTimerEnd trigerred :>> ');
 		rowData = {
 			...rowData,
 			pondPending:
@@ -170,15 +172,28 @@
 			/>
 		</svelte:fragment>
 		<svelte:fragment slot="line2">
-			<Button
-				size={'tiny'}
-				variant={'text'}
-				onclick={async () => {
-					await handleCancelConversionRequest(requestEpoch);
-				}}
-			>
-				<HistoryDataIconButton text={'Cancel'} variant="primary" tooltipText={cancelTooltipText} />
-			</Button>
+			{#if cancelDisabled}
+				<HistoryDataIconButton
+					disabled={true}
+					text={'Cancel'}
+					variant={'disabled'}
+					tooltipText={'Cancel'}
+				/>
+			{:else}
+				<Button
+					size={'tiny'}
+					variant={'text'}
+					onclick={async () => {
+						await handleCancelConversionRequest(requestEpoch);
+					}}
+				>
+					<HistoryDataIconButton
+						text={'Cancel'}
+						variant={'primary'}
+						tooltipText={cancelTooltipText}
+					/>
+				</Button>
+			{/if}
 		</svelte:fragment>
 	</TableDataWithButton>
 </tr>

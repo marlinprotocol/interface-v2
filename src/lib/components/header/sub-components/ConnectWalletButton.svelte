@@ -2,9 +2,15 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import lock from 'svelte-awesome/icons/lock';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
+	import onboard from '$lib/controllers/web3OnboardController';
 
-	export let connect: () => void;
 	export let isLarge = false;
+
+	const connect = async () => {
+		console.log('connecting to the wallet...');
+		const connection = await onboard.connectWallet();
+		console.log('connection', connection);
+	};
 	const connectWalletStyles = 'flex gap-[10.3px] ';
 </script>
 

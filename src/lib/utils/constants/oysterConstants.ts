@@ -19,4 +19,4 @@ export const kInstancesTableHeader: TableModel['header'][] = [
 ];
 
 export const kOysterDocLink = 'https://docs.marlin.org/docs/User%20Guides/Oyster/';
-export const kOysterSupportLink = 'https://docs.marlin.org/docs/User%20Guides/Oyster/';
+export const kOysterSupportLink = 'https://docs.marlin.org/docs/category/tutorials';

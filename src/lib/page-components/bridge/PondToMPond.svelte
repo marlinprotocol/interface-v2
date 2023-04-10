@@ -116,6 +116,6 @@
 		<ModalButton {modalFor} styleClass={`${styles.buttonLarge}`}>PROCEED TO CONVERSION</ModalButton>
 	{/if}
 {:else}
-	<ConnectWalletButton isLarge={true} variant="filled" />
+	<ConnectWalletButton isLarge={true} {connect} />
 {/if}
 <PondApproveConfirmModal pond={inputAmount} {modalFor} />

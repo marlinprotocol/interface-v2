@@ -42,7 +42,7 @@
 			</div>
 		</div>
 	{:else}
-		<ConnectWalletButton isLarge={true} variant="filled" />
+		<ConnectWalletButton isLarge={true} {connect} />
 	{/if}
 </ContainerCard>
 <InfoButtonLink href="https://docs.marlin.org" text="Documentation" />

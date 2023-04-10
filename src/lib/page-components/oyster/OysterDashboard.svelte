@@ -7,7 +7,6 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { kOysterDocLink, kOysterSupportLink } from '$lib/utils/constants/oysterConstants';
@@ -15,6 +14,8 @@
 	import { onDestroy } from 'svelte';
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from './sub-components/InstancesTable.svelte';
+	import onboard from '$lib/controllers/web3OnboardController';
+	import { oysterStore } from '$lib/data-stores/oysterStore';
 
 	const styles = {
 		docButton: 'text-primary',
@@ -57,6 +58,12 @@
 				message: 'Please connect your wallet'
 			});
 		}
+	};
+
+	const connect = async () => {
+		console.log('connecting to the wallet...');
+		const connection = await onboard.connectWallet();
+		console.log('connection', connection);
 	};
 
 	// using regex to validate CP URL
@@ -130,6 +137,6 @@
 			{/if}
 		</Button>
 	{:else}
-		<ConnectWalletButton variant="filled" />
+		<ConnectWalletButton {connect} />
 	{/if}
 </ContainerCard>

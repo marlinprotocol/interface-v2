@@ -76,7 +76,6 @@ module.exports = {
 						width: '100%',
 						fontWeight: '600',
 						padding: '0',
-						fontSize: '1.4rem',
 						color: '#3840c7',
 						border: 'none',
 						outline: 'none',

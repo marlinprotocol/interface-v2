@@ -95,4 +95,4 @@ export type ToastModel = {
 	variant: CommonVariant;
 };
 
-export type InputCardVariant = 'primary' | 'warning' | 'none' | 'search';
+export type InputCardVariant = 'primary' | 'warning' | 'none' | 'search' | 'primary-mini';

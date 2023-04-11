@@ -6,6 +6,7 @@
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { InputCardVariant, ModalInputModel } from '$lib/types/componentTypes';
+	import AmountInput from './AmountInput.svelte';
 
 	export let title: ModalInputModel['title'];
 	export let tooltipText: ModalInputModel['tooltipText'] = '';
@@ -17,7 +18,8 @@
 
 	const styles = {
 		titleIcon: 'flex items-center gap-1',
-		inputNumber: 'input input-ghost input-primary p-0 ml-0.5 placeholder:text-primary/[.2]'
+		inputNumber:
+			'input input-ghost input-primary text-[1.4rem] p-0 ml-0.5 placeholder:text-primary/[.2]'
 	};
 </script>
 
@@ -34,38 +36,18 @@
 	</div>
 	<form>
 		<div class="flex items-center gap-2">
-			<input
+			<AmountInput
+				styleClass={styles.inputNumber}
 				disabled={!handleUpdatedAmount || !$connected}
 				bind:value={inputAmountString}
-				on:input={handleUpdatedAmount}
-				id="pond-input-amount"
-				class={`hideInputNumberAppearance ${styles.inputNumber}`}
-				placeholder="0.00"
-				autocomplete="off"
-				on:keydown={(e) => {
-					// user can only enter numbers and one decimal point, arrows, backspace, delete
-					if (
-						(e.key >= '0' && e.key <= '9') ||
-						(e.key == '.' && !inputAmountString.includes('.')) ||
-						e.key == 'Backspace' ||
-						e.key == 'Delete' ||
-						e.key == 'ArrowLeft' ||
-						e.key == 'ArrowRight' ||
-						e.key == 'ArrowUp' ||
-						e.key == 'ArrowDown'
-					) {
-						return true;
-					} else {
-						e.preventDefault();
-					}
-				}}
+				onChange={handleUpdatedAmount}
 			/>
 			<slot name="input-end-button" />
 		</div>
-		{#if inputCardVariant !== 'none'}
-			<Divider />
-		{/if}
 		{#if $$slots.inputMaxButton}
+			{#if inputCardVariant !== 'none'}
+				<Divider />
+			{/if}
 			<div class="flex items-center gap-2">
 				<slot name="inputMaxButton" />
 				<div class={dividerClasses.vertical} />

@@ -41,8 +41,8 @@
 				Copy Address
 			</div>
 			<!-- TODO: make link and text dynamic based on chain -->
-			<a href={blockChainExplorerLink} target="_blank" rel="noopener noreferrer"
-				><div class={`${buttonClasses.greyFilled} h-10 text-small font-medium gap-3`}>
+			<a href={blockChainExplorerLink} target="_blank" rel="noopener noreferrer">
+				<div class={`${buttonClasses.greyFilled} h-10 text-small font-medium gap-3`}>
 					<img src={staticImages.OpenInNew} alt="Open" />
 					View on Arbiscan
 				</div></a

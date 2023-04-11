@@ -90,3 +90,26 @@ export const getImagebyWalletProvider = (walletProvider: string) => {
 			return '';
 	}
 };
+
+export const getColorHexByVariant = (variant: CommonVariant | undefined) => {
+	switch (variant) {
+		case 'primary':
+			return '#0F62FE';
+		case 'secondary':
+			return '#6F6F6F';
+		case 'success':
+			return '#24A148';
+		case 'info':
+			return '#0062FF';
+		case 'warning':
+			return '#f1861b';
+		case 'error':
+			return '#DA1E28';
+		case 'disabled':
+			return '#0F62FE';
+		case 'grey':
+			return '#6F6F6F';
+		default:
+			return '#0F62FE';
+	}
+};

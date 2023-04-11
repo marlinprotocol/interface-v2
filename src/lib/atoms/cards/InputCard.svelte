@@ -16,6 +16,9 @@
 			case 'none':
 				return '';
 
+			case 'search':
+				return 'bg-[#dfedf9] px-6 py-3';
+
 			default:
 				return 'bg-base-200 p-4';
 		}
@@ -24,6 +27,6 @@
 	const variantClass = getClassFromVariant();
 </script>
 
-<div class={`${cardStyle} ${styleClass} ${variantClass}`}>
+<div class={`${styleClass} ${cardStyle} ${variantClass}`}>
 	<slot />
 </div>

@@ -20,6 +20,7 @@
 	} from '$lib/utils/helpers/commonHelper';
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
+	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 
 	export let modalFor: string;
 	const subtitle =
@@ -95,6 +96,10 @@
 				} else {
 					value.queuedBalance = value.queuedBalance.sub(inputAmount);
 				}
+				return value;
+			});
+			walletBalance.update((value) => {
+				value.pond = value.pond.add(inputAmount);
 				return value;
 			});
 

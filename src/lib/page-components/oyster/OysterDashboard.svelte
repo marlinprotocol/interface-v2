@@ -15,6 +15,7 @@
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from './sub-components/InstancesTable.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import { getInstancesFromControlPlane } from '$lib/controllers/contractController';
 
 	const styles = {
 		docButton: 'text-primary',
@@ -59,8 +60,40 @@
 		}
 	};
 
+	// TODO: add types
+	async function getTableDataFromInstanceResponse(cpUrl: any) {
+		try {
+			const res = await getInstancesFromControlPlane(cpUrl);
+			// transforming response data so that each object in the array
+			// corresponds to a row in the table
+			return res.min_rates.flatMap((region: any) => {
+				return region.rate_cards.map((rate: any) => {
+					return {
+						instanceType: rate.instance,
+						region: region.region,
+						price: (rate.min_rate * 0.01).toFixed(4)
+					};
+				});
+			});
+		} catch (error) {
+			console.log(error);
+			return [];
+		}
+	}
+
+	async function getInstances(useUpdatedCpURL: boolean) {
+		if (useUpdatedCpURL) {
+			return await getTableDataFromInstanceResponse(updatedCpURL);
+		} else if (registeredCpURL !== '') {
+			return await getTableDataFromInstanceResponse(registeredCpURL);
+		} else {
+			return [];
+		}
+	}
+
 	// using regex to validate CP URL
 	$: validCPUrl = checkValidURL(updatedCpURL);
+	$: instances = getInstances(validCPUrl);
 </script>
 
 <ContainerCard>
@@ -114,7 +147,12 @@
 			{/if}
 		</svelte:fragment>
 	</TextInputWithEndButton>
-	<InstancesTable {updatedCpURL} {registeredCpURL} {validCPUrl} />
+	{#await instances}
+		<!-- TODO: have an empty state when there is no data here -->
+		<InstancesTable {updatedCpURL} {registeredCpURL} {validCPUrl} tableData={[]} />
+	{:then value}
+		<InstancesTable {updatedCpURL} {registeredCpURL} {validCPUrl} tableData={value} />
+	{/await}
 	<div class="mt-4" />
 	{#if $connected}
 		<Button

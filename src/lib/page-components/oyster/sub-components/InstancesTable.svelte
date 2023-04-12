@@ -17,45 +17,7 @@
 	export let registeredCpURL: string = '';
 	export let updatedCpURL: string = '';
 	export let validCPUrl: boolean = false;
-
-	//load data based on cpURL when validCPUrl is entered
-	const tableData = [
-		{
-			instanceType: 't3.small',
-			region: 'US East',
-			price: '0.0001'
-		},
-		{
-			instanceType: 't3.small',
-			region: 'EMEA',
-			price: '0.00013'
-		},
-		{
-			instanceType: 't3.small',
-			region: 'US West',
-			price: '0.00028'
-		},
-		{
-			instanceType: 't3.small',
-			region: 'EMEA',
-			price: '0.00013'
-		},
-		{
-			instanceType: 't3.small',
-			region: 'US West',
-			price: '0.00028'
-		},
-		{
-			instanceType: 't3.small',
-			region: 'EMEA',
-			price: '0.00013'
-		},
-		{
-			instanceType: 't3.small',
-			region: 'US West',
-			price: '0.00028'
-		}
-	];
+	export let tableData: any = [];
 </script>
 
 <InputCardWithEndButton styleClass={'mt-4'} title={'Details'}>

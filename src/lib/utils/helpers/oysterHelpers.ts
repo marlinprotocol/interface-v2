@@ -1,8 +1,10 @@
 export const getInventoryStatusVariant = (status: string) => {
 	switch (status) {
 		case 'Active':
+		case 'Completed':
 			return 'success';
 		case 'Inactive':
+		case 'Stopped':
 			return 'error';
 		default:
 			return 'primary';

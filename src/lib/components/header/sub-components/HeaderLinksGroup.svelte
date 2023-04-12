@@ -15,8 +15,13 @@
 			openInNewTab: false
 		},
 		{
-			title: 'Oyster',
-			href: '/oyster',
+			title: 'Merchant',
+			href: '/oyster/merchant',
+			openInNewTab: false
+		},
+		{
+			title: 'Inventory',
+			href: '/oyster/inventory',
 			openInNewTab: false
 		},
 		{

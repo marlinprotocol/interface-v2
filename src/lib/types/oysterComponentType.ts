@@ -26,3 +26,26 @@ export type OysterInventoryDataModel = {
 	durationLeft: number;
 	status: 'Active' | 'Inactive';
 };
+
+export type OysterHistoryDataModel = {
+	merchant: {
+		name: string;
+		address: string;
+	};
+	instance: string;
+	region: string;
+	amountPaid: {
+		amount: BigNumber;
+		symbol: string;
+	};
+	amountUsed: {
+		amount: BigNumber;
+		symbol: string;
+	};
+	refund: {
+		amount: BigNumber;
+		symbol: string;
+	};
+	status: 'Completed' | 'Stopped' | 'Refunded';
+	txHash: string;
+};

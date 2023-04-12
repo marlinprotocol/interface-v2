@@ -3,10 +3,10 @@
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 
+	export let input: string;
 	export let placeholder: string = '';
 	export let disabled: boolean = false;
-
-	export let input: string;
+	export let styleClass: string = '';
 
 	$: fontSize = input.length > 35 ? 'text-lg' : 'text-xl';
 
@@ -15,14 +15,7 @@
 	};
 </script>
 
-<InputCard variant="search" styleClass="flex gap-4 items-center">
+<InputCard variant="search" styleClass={`${styleClass} flex gap-4 items-center`}>
 	<Icon data={search} size={18} iconColorClass={'icon-info'} />
-	<input
-		prefix="0x"
-		bind:value={input}
-		id="address-display"
-		class={`hideInputNumberAppearance ${fontSize} ${styles.inputNumber}`}
-		{placeholder}
-		{disabled}
-	/>
+	<input class={`hideInputNumberAppearance ${fontSize} ${styles.inputNumber}`} {disabled} />
 </InputCard>

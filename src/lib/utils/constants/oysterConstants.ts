@@ -1,5 +1,8 @@
 import type { TableModel } from '$lib/types/componentTypes';
-import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+import type {
+	OysterHistoryDataModel,
+	OysterInventoryDataModel
+} from '$lib/types/oysterComponentType';
 import { BigNumber } from 'ethers';
 
 export const kInstancesTableHeader: TableModel['header'][] = [
@@ -58,15 +61,11 @@ export const kOysterInventoryTableHeader: TableModel['header'][] = [
 		title: 'Duration Left',
 		id: 'durationLeft',
 		sorting: true
-	},
-	{
-		title: 'Status',
-		id: 'status'
 	}
 ];
 
 //TODO: remove this later
-export const inventoryData: OysterInventoryDataModel[] = [
+export const kInventoryData: OysterInventoryDataModel[] = [
 	{
 		merchant: {
 			name: 'InfStones',
@@ -222,6 +221,117 @@ export const inventoryData: OysterInventoryDataModel[] = [
 		},
 		durationLeft: 111222,
 		status: 'Inactive'
+	}
+];
+
+// Merchant, Region, Instance,  Amount Paid, Amount Used, Refund, Status, TX Hash
+export const kOysterHistoryTableHeader: TableModel['header'][] = [
+	{
+		title: 'Merchant',
+		id: 'merchant'
+	},
+	{
+		title: 'Instance',
+		id: 'instance'
+	},
+	{
+		title: 'Region',
+		id: 'region'
+	},
+	{
+		title: 'Amount Paid',
+		id: 'amountPaid',
+		sorting: true
+	},
+	{
+		title: 'Amount Used',
+		id: 'amountUsed',
+		sorting: true
+	},
+	{
+		title: 'Refund',
+		id: 'refund',
+		sorting: true
+	},
+	{
+		title: 'Status',
+		id: 'status'
+	},
+	{
+		title: 'TX Hash',
+		id: 'txHash'
+	}
+];
+
+export const kHistoryData: OysterHistoryDataModel[] = [
+	{
+		merchant: {
+			name: 'InfStones',
+			address: '0x0000000000000000000000000000'
+		},
+		instance: 't2.micro',
+		region: 'Germany',
+
+		amountPaid: {
+			amount: BigNumber.from('3000000000000000000'),
+			symbol: '$'
+		},
+		amountUsed: {
+			amount: BigNumber.from('2000000000000000000'),
+			symbol: '$'
+		},
+		refund: {
+			amount: BigNumber.from('1000000000000000000'),
+			symbol: '$'
+		},
+		status: 'Completed',
+		txHash: '0x00000000000'
+	},
+	{
+		merchant: {
+			name: 'InfStones',
+			address: '0x0000000000000000000000000000'
+		},
+		instance: 't2.micro',
+		region: 'Germany',
+
+		amountPaid: {
+			amount: BigNumber.from('3000000000000000000'),
+			symbol: '$'
+		},
+		amountUsed: {
+			amount: BigNumber.from('2000000000000000000'),
+			symbol: '$'
+		},
+		refund: {
+			amount: BigNumber.from('1000000000000000000'),
+			symbol: '$'
+		},
+		status: 'Stopped',
+		txHash: '0x00000000000'
+	},
+	{
+		merchant: {
+			name: 'InfStones',
+			address: '0x0000000000000000000000000000'
+		},
+		instance: 't2.micro',
+		region: 'Germany',
+
+		amountPaid: {
+			amount: BigNumber.from('3000000000000000000'),
+			symbol: '$'
+		},
+		amountUsed: {
+			amount: BigNumber.from('2000000000000000000'),
+			symbol: '$'
+		},
+		refund: {
+			amount: BigNumber.from('1000000000000000000'),
+			symbol: '$'
+		},
+		status: 'Completed',
+		txHash: '0x00000000000'
 	}
 ];
 

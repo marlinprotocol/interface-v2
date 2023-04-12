@@ -61,14 +61,11 @@
 	</TableDataCell>
 	<TableDataCell>
 		<div
-			class="py-1 px-4 w-fit text-white rounded mx-auto text-sm"
+			class="py-1 w-24 text-white rounded mx-auto text-sm"
 			style={`background-color:${durationColor}`}
 		>
 			{epochToDurationString(durationLeft, true)}
 		</div>
-	</TableDataCell>
-	<TableDataCell>
-		<StatusCircle variant={statusVariant} />
 	</TableDataCell>
 	<TableDataCell>
 		<CollapseButton

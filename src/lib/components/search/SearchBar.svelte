@@ -17,5 +17,12 @@
 
 <InputCard variant="search" styleClass={`${styleClass} flex gap-4 items-center`}>
 	<Icon data={search} size={18} iconColorClass={'icon-info'} />
-	<input class={`hideInputNumberAppearance ${fontSize} ${styles.inputNumber}`} {disabled} />
+	<input
+		prefix="0x"
+		bind:value={input}
+		id="address-display"
+		class={`hideInputNumberAppearance ${fontSize} ${styles.inputNumber}`}
+		{placeholder}
+		{disabled}
+	/>
 </InputCard>

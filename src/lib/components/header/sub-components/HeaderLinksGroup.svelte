@@ -23,11 +23,6 @@
 			title: 'Inventory',
 			href: '/oyster/inventory',
 			openInNewTab: false
-		},
-		{
-			title: 'Oyster Inventory',
-			href: '/oyster/inventory',
-			openInNewTab: false
 		}
 	];
 </script>

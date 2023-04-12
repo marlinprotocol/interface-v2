@@ -11,7 +11,7 @@
 
 <div class={`flex gap-1 text-primary justify-center`}>
 	<Text
-		text={title}
+		text={title?.toUpperCase()}
 		variant="small"
 		fontWeight={'font-semibold'}
 		styleClass={`${styleClass} tracking-widest mt-0.5`}

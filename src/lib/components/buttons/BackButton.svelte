@@ -2,7 +2,7 @@
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import { staticImages } from '../images/staticImages';
 
-	export let text = 'Back';
+	export let text: string = 'Back';
 	export let href: string;
 </script>
 

@@ -148,7 +148,7 @@
 			loading={submitLoading}
 			onclick={handleSubmitClick}
 			size="large"
-			styleClass={'btn-block my-0'}>CONFIRM</Button
+			styleClass={'btn-block my-0'}>DEPLOY</Button
 		>
 	</svelte:fragment>
 </Modal>

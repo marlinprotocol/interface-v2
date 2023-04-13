@@ -28,7 +28,6 @@
 		txHash
 	} = rowData);
 
-	let openRow: number = -1;
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
@@ -37,7 +36,7 @@
 		width={`${kHistoryTableColumnsWidth('merchant')}`}
 		styleClass="flex gap-2 items-center"
 	>
-		<NameWithAddress {name} {address}>
+		<NameWithAddress {name} {address} index={rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="copy-icon cursor-pointer">
 					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />

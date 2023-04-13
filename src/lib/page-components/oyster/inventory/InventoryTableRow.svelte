@@ -80,6 +80,7 @@
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kInventoryTableColumnsWidth('action')}`}>
 		<CollapseButton
+			isOpen={openRow === rowIndex}
 			onclick={() => {
 				openRow = openRow === rowIndex ? -1 : rowIndex;
 			}}

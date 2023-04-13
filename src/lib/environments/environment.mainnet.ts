@@ -11,6 +11,8 @@ export const ENVIRONMENT_MAINNET = {
 		'https://api.thegraph.com/subgraphs/name/marlinprotocol/staking-kovan',
 	public_bridge_contract_subgraph_url:
 		'https://api.thegraph.com/subgraphs/name/marlinprotocol/bridge-kovan',
+	public_enclaves_contract_subgraph_url:
+		'https://api.thegraph.com/subgraphs/name/marlinprotocol/enclaves-arb-goerli',
 	public_contract_details_url: '',
 	public_bridge_contract_details_url: 'https://api.aragog.live/getBridgeDetails',
 	valid_chain_ids: [421613]

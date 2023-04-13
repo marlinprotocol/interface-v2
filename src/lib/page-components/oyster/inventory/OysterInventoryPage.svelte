@@ -13,12 +13,32 @@
 	import CreateOrderModal from './CreateOrderModal.svelte';
 	import OysterInventoryTable from './InventoryTable.svelte';
 	import OysterInventoryTableRow from './InventoryTableRow.svelte';
+	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import type { Unsubscriber } from 'svelte/store';
+	import { walletStore } from '$lib/data-stores/walletProviderStore';
+	import type { Address, WalletStore } from '$lib/types/storeTypes';
+	import { getOysterJobs } from '$lib/controllers/subgraphController';
+	import { onDestroy } from 'svelte';
 
 	let input = '';
 	let activePage = 1;
 
 	// TODO: move to utils and make it 10
 	const itemsPerPage = 5;
+
+	let address: Address;
+	let inventoryData: OysterInventoryDataModel[] | undefined;
+	let loading = true;
+	const unsubscribeWalletStore: Unsubscriber = walletStore.subscribe(async (value: WalletStore) => {
+		address = value.address;
+		if (address) {
+			loading = true;
+			inventoryData = await getOysterJobs('0xd7e109d2219b5b5b90656fb8b33f2ba679b22062');
+			console.log('inventoryData :>> ', inventoryData);
+			loading = false;
+		}
+	});
+	onDestroy(unsubscribeWalletStore);
 
 	// get page array based on kInventoryData and itemsPerPage
 	const pageCount = Math.ceil(kInventoryData.length / itemsPerPage);

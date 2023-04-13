@@ -154,3 +154,26 @@ export const QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY = `query Users($addres
     liqudityReleaseEpochs
   }
 }`;
+
+export const QUERY_TO_GET_JOBS_DATA = `query Jobs($address: String) {
+  jobs(
+    where: { owner: $address }
+  ) {
+    id
+    live
+    metadata
+    owner
+    rate
+    provider
+    lastSettled
+    balance
+  }
+}`;
+
+export const QUERY_TO_GET_PROVIDERS_DATA = `query Providers() {
+  providers {
+    id
+    cp
+    live
+  }
+}`;

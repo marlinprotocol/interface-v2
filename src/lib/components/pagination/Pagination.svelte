@@ -9,37 +9,50 @@
 	export let styleClass: string = '';
 
 	$: pageArray = Array.from({ length: pageCount }, (_, i) => i + 1);
+	$: isLastPage = activePage === pageArray.length;
+	$: isFirstPage = activePage === 1;
 </script>
 
 <div class={`btn-group ${styleClass}`}>
 	<button
-		class={`${buttonClasses.paginationButton} ${'text-primary'}`}
+		disabled={isFirstPage}
+		class={buttonClasses.paginationButton}
 		on:click={() => {
 			if (activePage > 1) {
 				handlePageChange(activePage - 1);
 			}
 		}}
 	>
-		<Icon data={chevronLeft} size={12} iconColorClass={'icon-primary'} />
+		<Icon
+			data={chevronLeft}
+			size={12}
+			iconColorClass={isFirstPage ? 'icon-info' : 'icon-primary'}
+		/>
 	</button>
 	{#each pageArray as page}
 		{#if page > activePage - 3 && page < activePage + 3}
 			<button
+				disabled={page === activePage}
 				class={`${buttonClasses.paginationButton} ${page === activePage ? 'text-primary' : ''}`}
 				on:click={() => handlePageChange(page)}
 			>
-				{page}</button
-			>
+				{page}
+			</button>
 		{/if}
 	{/each}
 	<button
-		class={`${buttonClasses.paginationButton} ${'text-primary'}`}
+		disabled={isLastPage}
+		class={buttonClasses.paginationButton}
 		on:click={() => {
 			if (activePage < pageArray.length) {
 				handlePageChange(activePage + 1);
 			}
 		}}
 	>
-		<Icon data={chevronRight} size={12} iconColorClass={'icon-primary'} />
+		<Icon
+			data={chevronRight}
+			size={12}
+			iconColorClass={isLastPage ? 'icon-info' : 'icon-primary'}
+		/>
 	</button>
 </div>

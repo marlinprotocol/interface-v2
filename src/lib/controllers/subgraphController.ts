@@ -9,6 +9,7 @@ import {
 } from '$lib/utils/constants/storeDefaults';
 import {
 	QUERY_TO_CHECK_IF_SIGNER_EXISTS,
+	QUERY_TO_GET_JOBS_DATA,
 	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY,
 	QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES,
@@ -337,6 +338,26 @@ export async function getMPondToPondConversionHistory(address: Address) {
 		return data;
 	} catch (error) {
 		console.log('Error pond to mPond history data from subgraph', error);
+		return undefined;
+	}
+}
+
+export async function getOysterJobs(address: Address) {
+	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
+	const query = QUERY_TO_GET_JOBS_DATA;
+
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
+
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+
+	try {
+		const result = await fetchHttpData(url, options);
+		if (!result['data']?.jobs?.length) return undefined;
+		return result['data']['jobs'];
+	} catch (error) {
+		console.log('Error getting enclaves jobs from subgraph', error);
 		return undefined;
 	}
 }

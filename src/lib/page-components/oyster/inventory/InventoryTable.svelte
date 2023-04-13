@@ -13,7 +13,7 @@
 	let noDataFound = false;
 </script>
 
-<div class={`card max-w-full bg-base-100 rounded-lg`}>
+<div class={`card max-w-full bg-base-100 rounded-lg overflow-x-auto`}>
 	{#if !$connected}
 		<div class={`text-center flex justify-center my-4`}>
 			<HeaderConnectWallet />

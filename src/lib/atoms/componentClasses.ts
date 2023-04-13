@@ -17,7 +17,8 @@ export const buttonClasses = {
 	largeButton: 'flex gap-2 text-primary h-14 text-base font-semibold items-center',
 	tableConvertButton:
 		'btn btn-xs text-xs h-[35px] w-[126px] rounded btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white',
-	paginationButton: 'btn btn-sm px-2 border-none bg-base-200 hover:bg-base-300'
+	paginationButton:
+		'btn btn-sm px-2 border-none bg-base-200 hover:bg-base-300 disabled:bg-base-200 disabled:text-primary disabled:curson-not-allowed'
 };
 
 export const dividerClasses = {

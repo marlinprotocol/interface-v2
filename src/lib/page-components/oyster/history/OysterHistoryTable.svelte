@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import LoadingCircular from '$lib/atoms/loading/LoadingCircular.svelte';
-	import Table from '$lib/atoms/table/Table.svelte';
+	import GridTable from '$lib/atoms/table/GridTable.svelte';
 	import HeaderConnectWallet from '$lib/components/header/sub-components/HeaderConnectWallet.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { TableModel } from '$lib/types/componentTypes';
+	import { kHistoryTableColumnsWidth } from '$lib/utils/constants/oysterConstants';
 
 	export let tableHeading: TableModel['header'][];
 	export let handleSortData: () => void;
@@ -22,11 +23,9 @@
 			<LoadingCircular />
 		</div>
 	{:else}
-		<Table {tableHeading} {handleSortData}>
-			<tbody slot="tableBody">
-				<slot />
-			</tbody>
-		</Table>
+		<GridTable {tableHeading} {handleSortData} widthFunction={kHistoryTableColumnsWidth}>
+			<slot />
+		</GridTable>
 		{#if noDataFound}
 			<div class={tableCellClasses.empty}>
 				{'No data found!'}

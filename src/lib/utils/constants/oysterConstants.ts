@@ -59,10 +59,40 @@ export const kOysterInventoryTableHeader: TableModel['header'][] = [
 	},
 	{
 		title: 'Duration Left',
-		id: 'durationLeft',
-		sorting: true
+		id: 'durationLeft'
+	},
+	{
+		title: '',
+		id: 'action'
 	}
 ];
+
+export const kInventoryTableColumnsWidth = (id: string) => {
+	switch (id) {
+		case 'tag':
+			return '5%';
+		case 'merchant':
+			return '15%';
+		case 'instance':
+			return '10%';
+		case 'region':
+			return '10%';
+		case 'rate':
+			return '10%';
+		case 'amountPaid':
+			return '12.5%';
+		case 'amountUsed':
+			return '12.5%';
+		case 'balance':
+			return '10%';
+		case 'durationLeft':
+			return '10%';
+		case 'action':
+			return '5%';
+		default:
+			return '5%';
+	}
+};
 
 //TODO: remove this later
 export const kInventoryData: OysterInventoryDataModel[] = [
@@ -89,8 +119,56 @@ export const kInventoryData: OysterInventoryDataModel[] = [
 			amount: BigNumber.from('1000000000000000000'),
 			symbol: '$'
 		},
-		durationLeft: 1112222,
-		status: 'Active'
+		durationLeft: 1112222
+	},
+	{
+		merchant: {
+			address: '0x0000000000000000000000000000'
+		},
+		instance: 't2.micro',
+		region: 'Germany',
+		rate: {
+			amount: BigNumber.from('1000000000000000000'),
+			symbol: '$'
+		},
+		amountPaid: {
+			amount: BigNumber.from('3000000000000000000'),
+			symbol: '$'
+		},
+		amountUsed: {
+			amount: BigNumber.from('2000000000000000000'),
+			symbol: '$'
+		},
+		balance: {
+			amount: BigNumber.from('1000000000000000000'),
+			symbol: '$'
+		},
+		durationLeft: 12222
+	},
+	{
+		merchant: {
+			name: 'InfStones Big Name Very InfStones InfStones',
+			address: '0x0000000000000000000000000000'
+		},
+		instance: 't2.micro',
+		region: 'Germany',
+		rate: {
+			amount: BigNumber.from('1000000000000000000'),
+			symbol: '$'
+		},
+		amountPaid: {
+			amount: BigNumber.from('3000000000000000000'),
+			symbol: '$'
+		},
+		amountUsed: {
+			amount: BigNumber.from('2000000000000000000'),
+			symbol: '$'
+		},
+		balance: {
+			amount: BigNumber.from('1000000000000000000'),
+			symbol: '$'
+		},
+		durationLeft: 111222
 	},
 	{
 		merchant: {
@@ -115,60 +193,7 @@ export const kInventoryData: OysterInventoryDataModel[] = [
 			amount: BigNumber.from('1000000000000000000'),
 			symbol: '$'
 		},
-		durationLeft: 12222,
-		status: 'Active'
-	},
-	{
-		merchant: {
-			name: 'InfStones',
-			address: '0x0000000000000000000000000000'
-		},
-		instance: 't2.micro',
-		region: 'Germany',
-		rate: {
-			amount: BigNumber.from('1000000000000000000'),
-			symbol: '$'
-		},
-		amountPaid: {
-			amount: BigNumber.from('3000000000000000000'),
-			symbol: '$'
-		},
-		amountUsed: {
-			amount: BigNumber.from('2000000000000000000'),
-			symbol: '$'
-		},
-		balance: {
-			amount: BigNumber.from('1000000000000000000'),
-			symbol: '$'
-		},
-		durationLeft: 111222,
-		status: 'Inactive'
-	},
-	{
-		merchant: {
-			name: 'InfStones',
-			address: '0x0000000000000000000000000000'
-		},
-		instance: 't2.micro',
-		region: 'Germany',
-		rate: {
-			amount: BigNumber.from('1000000000000000000'),
-			symbol: '$'
-		},
-		amountPaid: {
-			amount: BigNumber.from('3000000000000000000'),
-			symbol: '$'
-		},
-		amountUsed: {
-			amount: BigNumber.from('2000000000000000000'),
-			symbol: '$'
-		},
-		balance: {
-			amount: BigNumber.from('1000000000000000000'),
-			symbol: '$'
-		},
-		durationLeft: 111222,
-		status: 'Inactive'
+		durationLeft: 111222
 	},
 	{
 		merchant: {
@@ -193,12 +218,10 @@ export const kInventoryData: OysterInventoryDataModel[] = [
 			amount: BigNumber.from('1000000000000000000'),
 			symbol: '$'
 		},
-		durationLeft: 11341222,
-		status: 'Active'
+		durationLeft: 11341222
 	},
 	{
 		merchant: {
-			name: 'InfStones',
 			address: '0x0000000000000000000000000000'
 		},
 		instance: 't2.micro',
@@ -219,8 +242,7 @@ export const kInventoryData: OysterInventoryDataModel[] = [
 			amount: BigNumber.from('1000000000000000000'),
 			symbol: '$'
 		},
-		durationLeft: 111222,
-		status: 'Inactive'
+		durationLeft: 111222
 	}
 ];
 
@@ -260,9 +282,37 @@ export const kOysterHistoryTableHeader: TableModel['header'][] = [
 	{
 		title: 'TX Hash',
 		id: 'txHash'
+	},
+	{
+		title: '',
+		id: 'action'
 	}
 ];
 
+export const kHistoryTableColumnsWidth = (id: string) => {
+	switch (id) {
+		case 'merchant':
+			return '15%';
+		case 'instance':
+			return '10%';
+		case 'region':
+			return '10%';
+		case 'amountPaid':
+			return '12.5%';
+		case 'amountUsed':
+			return '12.5%';
+		case 'refund':
+			return '10%';
+		case 'status':
+			return '10%';
+		case 'txHash':
+			return '10%';
+		case 'action':
+			return '10%';
+		default:
+			return '5%';
+	}
+};
 export const kHistoryData: OysterHistoryDataModel[] = [
 	{
 		merchant: {

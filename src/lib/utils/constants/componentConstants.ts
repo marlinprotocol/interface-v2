@@ -113,3 +113,29 @@ export const getColorHexByVariant = (variant: CommonVariant | undefined) => {
 			return '#0F62FE';
 	}
 };
+
+export const getColorHexForTableRow = (index: number) => {
+	const remainder = index % 10;
+	switch (remainder) {
+		case 0:
+			return '#AF2EFF';
+		case 1:
+			return '#9868FF';
+		case 2:
+			return '#4171EA';
+		case 3:
+			return '#4FA0FF';
+		case 4:
+			return '#4FC0FF';
+		case 5:
+			return '#25CFDA';
+		case 6:
+			return '#19CDB7';
+		case 7:
+			return '#1EC086';
+		case 8:
+			return '#3DAE56';
+		case 9:
+			return '#D8D013';
+	}
+};

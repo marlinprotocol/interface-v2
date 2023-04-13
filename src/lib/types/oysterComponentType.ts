@@ -2,7 +2,7 @@ import type { BigNumber } from 'ethers';
 
 export type OysterInventoryDataModel = {
 	merchant: {
-		name: string;
+		name?: string;
 		address: string;
 	};
 	instance: string;
@@ -24,7 +24,6 @@ export type OysterInventoryDataModel = {
 		symbol: string;
 	};
 	durationLeft: number;
-	status: 'Active' | 'Inactive';
 };
 
 export type OysterHistoryDataModel = {

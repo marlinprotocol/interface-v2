@@ -35,8 +35,7 @@
 			{#each kMPondConversionCycleTableHeader as headingData, i}
 				<div class="flex-1">
 					<TableHeadingText
-						title={headingData.title}
-						tooltipText={headingData.tooltipText}
+						heading={headingData}
 						tooltipDirection={i === kMPondConversionCycleTableHeader.length - 1
 							? 'tooltip-left'
 							: i === 0

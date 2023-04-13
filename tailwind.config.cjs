@@ -33,6 +33,9 @@ module.exports = {
 			zIndex: {
 				100: '100',
 				1000: '1000'
+			},
+			gridColumn: {
+				'span-16': 'span 16 / span 16'
 			}
 		}
 	},

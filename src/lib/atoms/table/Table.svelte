@@ -17,24 +17,17 @@
 			<tr>
 				{#each tableHeading as columnHeading, i}
 					<th class={`w-[${100 / tableHeading.length}%] ${tableCellClasses.heading}`}>
-						<div class="flex justify-center items-center gap-0.5">
-							{#if columnHeading.sorting}
-								<button on:click={handleSortData}>
-									<img src={staticImages.Sort} alt="sort" width="14px" />
-								</button>
-							{/if}
-							<TableHeadingText
-								styleClass={headingStyleClass}
-								{iconWidth}
-								title={columnHeading.title}
-								tooltipText={columnHeading.tooltipText}
-								tooltipDirection={i === tableHeading.length - 1
-									? 'tooltip-left'
-									: i === 0
-									? 'tooltip-right'
-									: 'tooltip-bottom'}
-							/>
-						</div>
+						<TableHeadingText
+							styleClass={headingStyleClass}
+							{iconWidth}
+							heading={columnHeading}
+							{handleSortData}
+							tooltipDirection={i === tableHeading.length - 1
+								? 'tooltip-left'
+								: i === 0
+								? 'tooltip-right'
+								: 'tooltip-bottom'}
+						/>
 					</th>
 				{/each}
 			</tr>

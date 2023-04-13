@@ -1,17 +1,18 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
+	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import TxnHashText from '$lib/components/TxnHashText.svelte';
 	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
-	import TableDataCell from '$lib/components/table-cells/TableDataCell.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
+	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterHistoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
 	import { pondPrecisions } from '$lib/utils/constants/constants';
+	import { kHistoryTableColumnsWidth } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
-	import { slide } from 'svelte/transition';
 
 	export let rowData: OysterHistoryDataModel;
 	export let rowIndex: number;
@@ -31,48 +32,63 @@
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
-<tr>
-	<TableDataCell>
-		<NameWithAddress {name} {address} />
-	</TableDataCell>
-	<TableDataCell>
+<div class="main-row flex gap-1 hover:bg-base-200 px-8 items-center h-16">
+	<TableGridDataCell
+		width={`${kHistoryTableColumnsWidth('merchant')}`}
+		styleClass="flex gap-2 items-center"
+	>
+		<NameWithAddress {name} {address}>
+			<svelte:fragment slot="copyIcon">
+				<div class="copy-icon cursor-pointer">
+					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
+				</div>
+			</svelte:fragment>
+		</NameWithAddress>
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kHistoryTableColumnsWidth('instance')}`}>
 		{instance}
-	</TableDataCell>
-	<TableDataCell>
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kHistoryTableColumnsWidth('region')}`}>
 		{region}
-	</TableDataCell>
-	<TableDataCell>
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kHistoryTableColumnsWidth('amountPaid')}`}>
 		{amountPaid.symbol}{bigNumberToCommaString(amountPaid.amount, pondPrecisions)}
-	</TableDataCell>
-	<TableDataCell>
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kHistoryTableColumnsWidth('amountUsed')}`}>
 		{amountUsed.symbol}{bigNumberToCommaString(amountUsed.amount, pondPrecisions)}
-	</TableDataCell>
-	<TableDataCell>
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kHistoryTableColumnsWidth('refund')}`}>
 		{refund.symbol}{bigNumberToCommaString(refund.amount, pondPrecisions)}
-	</TableDataCell>
-	<TableDataCell>
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kHistoryTableColumnsWidth('status')}`}>
 		<div
-			class="py-1 w-28 w-fit text-white rounded mx-auto text-sm"
+			class="py-1 w-28 text-white rounded mx-auto text-sm"
 			style={`background-color:${statusColor}`}
 		>
 			{status}
 		</div>
-	</TableDataCell>
-	<TableDataCell>
-		<!-- TODO: check this -->
-		<TxnHashText txnHash={txHash} txnHashUrl={bridgeTxnUrls(txHash)} />
-	</TableDataCell>
-	<TableDataCell>
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kHistoryTableColumnsWidth('txHash')}`}>
+		<TxnHashText txnHash={txHash} txnHashUrl={bridgeTxnUrls(txHash)} startInt={2} endInt={2} />
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kHistoryTableColumnsWidth('action')}`}>
 		<TableConvertButton modalFor={`redploy-${rowIndex}`} text="REDEPLOY" />
-	</TableDataCell>
-</tr>
+	</TableGridDataCell>
+</div>
 
 <style>
-	tr {
+	.main-row {
 		border-bottom: 1px solid #e5e5e5;
 	}
 
-	tr:last-child {
+	.main-row:last-child {
 		border-bottom: none;
+	}
+
+	.main-row:hover .copy-icon {
+		display: flex;
+	}
+	.main-row .copy-icon {
+		display: none;
 	}
 </style>

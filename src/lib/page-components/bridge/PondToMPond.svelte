@@ -20,7 +20,6 @@
 	import { onDestroy } from 'svelte';
 	import AmountInputWithMaxButton from '../../components/inputs/AmountInputWithMaxButton.svelte';
 	import PondApproveConfirmModal from './PondApproveConfirmModal.svelte';
-	import onboard from '$lib/controllers/web3OnboardController';
 
 	const styles = {
 		wrapper: 'w-full flex flex-col items-center justify-center py-8',
@@ -54,12 +53,6 @@
 		balanceText = `Balance: ${bigNumberToCommaString(maxPondBalance, pondPrecisions)}`;
 	});
 	onDestroy(unsubscribeWalletBalanceStore);
-
-	const connect = async () => {
-		console.log('connecting to the wallet...');
-		const connection = await onboard.connectWallet();
-		console.log('connection', connection);
-	};
 
 	const handleMaxClick = () => {
 		if (maxPondBalance) {
@@ -116,6 +109,6 @@
 		<ModalButton {modalFor} styleClass={`${styles.buttonLarge}`}>PROCEED TO CONVERSION</ModalButton>
 	{/if}
 {:else}
-	<ConnectWalletButton isLarge={true} {connect} />
+	<ConnectWalletButton isLarge={true} />
 {/if}
 <PondApproveConfirmModal pond={inputAmount} {modalFor} />

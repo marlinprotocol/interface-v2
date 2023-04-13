@@ -1,9 +1,11 @@
 <script lang="ts">
+	import Button from '$lib/atoms/buttons/Button.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import {
 		approvePondTokenForReceiverStaking,
 		depositStakingToken,
 		getContractDetails,
+		getInstancesFromControlPlane,
 		withdrawStakingToken
 	} from '$lib/controllers/contractController';
 	import { getReceiverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
@@ -50,6 +52,11 @@
 	function fetchContractDetails() {
 		console.log('fetching contract details');
 		getContractDetails();
+	}
+
+	async function fetchInstancesFromControlPlane() {
+		console.log('fetching instances from control plane');
+		await getInstancesFromControlPlane('http://3.110.115.29:8080/spec');
 	}
 
 	function onClickHandlerForToastError() {
@@ -144,4 +151,5 @@
 			>this is a modal button</ModalButton
 		>
 	</div>
+	<Button onclick={() => fetchInstancesFromControlPlane()}>fetch the instances</Button>
 </div>

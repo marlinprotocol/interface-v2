@@ -3,7 +3,7 @@ import type { OysterHistoryDataModel } from '$lib/types/oysterComponentType';
 import { BigNumber } from 'ethers';
 
 export const kOysterRateMetaData = {
-	name: 'USD',
+	currency: 'USDC',
 	symbol: '$',
 	decimal: 18,
 	unit: 'hour',

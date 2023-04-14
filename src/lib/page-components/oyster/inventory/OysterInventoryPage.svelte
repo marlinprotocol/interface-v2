@@ -7,7 +7,7 @@
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { kOysterInventoryTableHeader } from '$lib/utils/constants/oysterConstants';
 	import plus from 'svelte-awesome/icons/plus';
-	import CreateOrderModal from './CreateOrderModal.svelte';
+	import CreateOrderModal from './modals/CreateOrderModal.svelte';
 	import OysterInventoryTable from './InventoryTable.svelte';
 	import OysterInventoryTableRow from './InventoryTableRow.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
@@ -33,6 +33,7 @@
 		if (address) {
 			loading = true;
 			inventoryData = await getOysterJobs('0x7aa8e222deddd49a6bdb5bffd0ac5fe17e1e0176');
+			inventoryData = inventoryData?.filter((data) => data.live);
 			loading = false;
 		}
 	});

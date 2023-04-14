@@ -1,0 +1,80 @@
+<script lang="ts">
+	import Button from '$lib/atoms/buttons/Button.svelte';
+	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
+	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { bigNumberToCommaString, epochToDurationString } from '$lib/utils/conversion';
+	import { closeModal } from '$lib/utils/helpers/commonHelper';
+	import { handleStopJob } from '$lib/utils/services/oysterServices';
+
+	export let modalFor: string;
+	export let jobData: OysterInventoryDataModel;
+
+	const { currency } = kOysterRateMetaData;
+	$: ({ balance, durationLeft } = jobData);
+
+	// TODO: check if we can access this state from jobData
+	let stopInitiated = false;
+	let submitLoading = false;
+
+	const handleInitialClick = async () => {
+		submitLoading = true;
+		// jobData = await handleStopJob(jobData);
+		submitLoading = false;
+		stopInitiated = true;
+	};
+	const handleConfirmClick = async () => {
+		submitLoading = true;
+		jobData = await handleStopJob(jobData);
+		submitLoading = false;
+		closeModal(modalFor);
+	};
+
+	$: modalTitle = stopInitiated ? 'CONFIRM STOP' : 'INITIATE STOP';
+	$: submitButtonText = stopInitiated ? 'CONFIRM' : 'INITIATE';
+	$: submitFunction = stopInitiated ? handleConfirmClick : handleInitialClick;
+
+	const subtitle =
+		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
+
+	const styles = {
+		textPrimary: 'text-primary'
+	};
+</script>
+
+<Modal {modalFor}>
+	<svelte:fragment slot="title">
+		{modalTitle}
+	</svelte:fragment>
+	<svelte:fragment slot="subtitle">
+		{subtitle}
+	</svelte:fragment>
+	<svelte:fragment slot="content">
+		<div class="flex flex-col gap-4">
+			<div class="flex gap-4">
+				<TextInputCard
+					title={'Current Balance'}
+					value={`${bigNumberToCommaString(balance, 6)} ${currency}`}
+					centered
+					textStyle={styles.textPrimary}
+				/>
+				<TextInputCard
+					title={'Duration Left'}
+					value={durationLeft === 0 ? 'Ended' : epochToDurationString(durationLeft)}
+					centered
+					textStyle={styles.textPrimary}
+				/>
+			</div>
+		</div>
+	</svelte:fragment>
+	<svelte:fragment slot="actionButtons">
+		<Button
+			variant="filled"
+			loading={submitLoading}
+			onclick={submitFunction}
+			size="large"
+			styleClass={'btn-block my-0'}>{submitButtonText}</Button
+		>
+	</svelte:fragment>
+</Modal>

@@ -8,7 +8,7 @@
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/conversion';
-	import PaymentHistoryTable from './PaymentHistoryTable.svelte';
+	import PaymentHistoryTable from '../../sub-components/PaymentHistoryTable.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;

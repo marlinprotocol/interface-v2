@@ -1,4 +1,4 @@
-import type { BigNumber } from 'ethers';
+import type { BigNumber, Bytes } from 'ethers';
 
 // balance: '999999999999964700';
 // id: '0x0000000000000000000000000000000000000000000000000000000000000000';
@@ -35,7 +35,7 @@ export type OysterInventoryDataModel = {
 	owner: string;
 	live: boolean;
 	settlementHistory: OysterSettlementHistoryDataModel[];
-	id: string;
+	id: Bytes;
 };
 
 export type OysterSettlementHistoryDataModel = {

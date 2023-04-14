@@ -16,7 +16,7 @@ export type ButtonModel = {
 		| 'whiteFilled'
 		| 'tableConvertButton';
 	size?: 'tiniest' | 'tiny' | 'small' | 'medium' | 'large';
-	onclick: (() => void) | undefined;
+	onclick: (() => Promise<void> | void) | undefined;
 };
 
 export type TextModel = {

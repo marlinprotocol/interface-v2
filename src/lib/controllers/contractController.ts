@@ -850,7 +850,7 @@ export async function stopOysterJob(jobId: Bytes) {
 	}
 }
 
-export async function withdrawOysterJob(jobId: Bytes, amount: BigNumber) {
+export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber) {
 	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	const oysterContractAbi = oysterMarketAbi;
 	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
@@ -889,7 +889,7 @@ export async function withdrawOysterJob(jobId: Bytes, amount: BigNumber) {
 			variant: 'error'
 		});
 		console.log('error :>> ', error);
-		throw new Error('Transaction Error while withdrawing Oyster Job');
+		throw new Error('Transaction Error while withdrawing funds from Oyster Job');
 	}
 }
 

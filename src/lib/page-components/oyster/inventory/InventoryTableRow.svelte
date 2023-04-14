@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
+	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import CollapseButton from '$lib/components/buttons/CollapseButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
@@ -10,7 +11,10 @@
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
 	import { pondPrecisions } from '$lib/utils/constants/constants';
-	import { kInventoryTableColumnsWidth } from '$lib/utils/constants/oysterConstants';
+	import {
+		kInventoryTableColumnsWidth,
+		kOysterRateMetaData
+	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString, epochToDurationString } from '$lib/utils/conversion';
 	import { getInventoryDurationVariant } from '$lib/utils/helpers/oysterHelpers';
 	import plus from 'svelte-awesome/icons/plus';
@@ -19,10 +23,18 @@
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
 
-	$: ({ merchant, instance, region, rate, amountPaid, amountUsed, balance, durationLeft } =
-		rowData);
-
-	$: ({ name = '', address } = merchant);
+	const { symbol } = kOysterRateMetaData;
+	$: ({
+		provider: { name, address },
+		instance,
+		region,
+		rate,
+		amountPaid,
+		amountUsed,
+		balance,
+		durationLeft,
+		endEpochTime
+	} = rowData);
 
 	let openRow: number = -1;
 	$: durationColor = getColorHexByVariant(
@@ -50,27 +62,31 @@
 		{region}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kInventoryTableColumnsWidth('rate')}`}>
-		{rate.symbol}{bigNumberToCommaString(rate.amount, pondPrecisions)}
+		{symbol}{bigNumberToCommaString(rate, pondPrecisions)}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kInventoryTableColumnsWidth('amountPaid')}`}>
-		{amountPaid.symbol}{bigNumberToCommaString(amountPaid.amount, pondPrecisions)}
+		{symbol}{bigNumberToCommaString(amountPaid, pondPrecisions)}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kInventoryTableColumnsWidth('amountUsed')}`}>
-		{amountUsed.symbol}{bigNumberToCommaString(amountUsed.amount, pondPrecisions)}
+		{symbol}{bigNumberToCommaString(amountUsed, pondPrecisions)}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kInventoryTableColumnsWidth('balance')}`}>
-		{balance.symbol}{bigNumberToCommaString(balance.amount, pondPrecisions)}
+		{symbol}{bigNumberToCommaString(balance, pondPrecisions)}
 	</TableGridDataCell>
-	<!-- TODO: check if these are timer? -->
 	<TableGridDataCell width={`${kInventoryTableColumnsWidth('durationLeft')}`}>
-		<Tooltip tooltipText={epochToDurationString(durationLeft)}>
-			<div
-				class="py-1 w-24 text-white rounded mx-auto text-sm text-center"
-				style={`background-color:${durationColor}`}
-			>
-				{epochToDurationString(durationLeft, true)}
+		<Timer {endEpochTime}>
+			<div slot="active" let:timer class="mx-auto">
+				<Tooltip tooltipText={epochToDurationString(timer)}>
+					<div
+						class="py-1 w-24 text-white rounded mx-auto text-sm text-center"
+						style={`background-color:${getColorHexByVariant(getInventoryDurationVariant(timer))}`}
+					>
+						{epochToDurationString(timer, true)}
+					</div>
+				</Tooltip>
 			</div>
-		</Tooltip>
+			<div slot="inactive" class="mx-auto">Ended</div>
+		</Timer>
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kInventoryTableColumnsWidth('action')}`}>
 		<CollapseButton

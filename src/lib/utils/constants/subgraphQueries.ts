@@ -166,7 +166,17 @@ export const QUERY_TO_GET_JOBS_DATA = `query Jobs($address: String) {
     rate
     provider
     lastSettled
+    createdAt
+    amountPaid
     balance
+    settlementHistory(
+      orderBy: ts, 
+      orderDirection: desc
+    ) {
+      amount
+      id
+      ts
+    }
   }
 }`;
 

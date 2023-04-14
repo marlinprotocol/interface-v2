@@ -69,18 +69,7 @@
 	// TODO: add types
 	async function getTableDataFromInstanceResponse(cpUrl: any) {
 		try {
-			const res = await getInstancesFromControlPlane(cpUrl);
-			// transforming response data so that each object in the array
-			// corresponds to a row in the table
-			return res.min_rates.flatMap((region: any) => {
-				return region.rate_cards.map((rate: any) => {
-					return {
-						instanceType: rate.instance,
-						region: region.region,
-						price: (rate.min_rate * 0.01).toFixed(4)
-					};
-				});
-			});
+			return await getInstancesFromControlPlane(cpUrl);
 		} catch (error) {
 			console.log(error);
 			return [];

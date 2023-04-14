@@ -6,6 +6,7 @@
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
+	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
 	import { kInstancesTableHeader } from '$lib/utils/constants/oysterConstants';
 	import refresh from 'svelte-awesome/icons/refresh';
 
@@ -17,7 +18,7 @@
 	export let registeredCpURL: string = '';
 	export let updatedCpURL: string = '';
 	export let validCPUrl: boolean = false;
-	export let tableData: any = [];
+	export let tableData: CPUrlDataModel[] = [];
 </script>
 
 <InputCardWithEndButton styleClass={'mt-4'} title={'Details'}>
@@ -28,7 +29,7 @@
 					<tr>
 						<td class={styles.tableCell}>{row.instanceType}</td>
 						<td class={styles.tableCell}>{row.region}</td>
-						<td class={styles.tableCell}>{row.price}</td>
+						<td class={styles.tableCell}>{row.min_rate}</td>
 					</tr>
 				{/each}
 			</tbody>

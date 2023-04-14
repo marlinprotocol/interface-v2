@@ -5,10 +5,7 @@
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import SearchBar from '$lib/components/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
-	import {
-		kInventoryData,
-		kOysterInventoryTableHeader
-	} from '$lib/utils/constants/oysterConstants';
+	import { kOysterInventoryTableHeader } from '$lib/utils/constants/oysterConstants';
 	import plus from 'svelte-awesome/icons/plus';
 	import CreateOrderModal from './CreateOrderModal.svelte';
 	import OysterInventoryTable from './InventoryTable.svelte';
@@ -19,6 +16,7 @@
 	import type { Address, WalletStore } from '$lib/types/storeTypes';
 	import { getOysterJobs } from '$lib/controllers/subgraphController';
 	import { onDestroy } from 'svelte';
+	import { getSearchedInventoryData } from '$lib/utils/helpers/oysterHelpers';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -29,12 +27,12 @@
 	let address: Address;
 	let inventoryData: OysterInventoryDataModel[] | undefined;
 	let loading = true;
+
 	const unsubscribeWalletStore: Unsubscriber = walletStore.subscribe(async (value: WalletStore) => {
 		address = value.address;
 		if (address) {
 			loading = true;
-			inventoryData = await getOysterJobs('0xd7e109d2219b5b5b90656fb8b33f2ba679b22062');
-			console.log('inventoryData :>> ', inventoryData);
+			inventoryData = await getOysterJobs('0x7aa8e222deddd49a6bdb5bffd0ac5fe17e1e0176');
 			loading = false;
 		}
 	});
@@ -44,17 +42,13 @@
 		activePage = page;
 	};
 
-	$: searchedData = !searchInput
-		? kInventoryData
-		: kInventoryData.filter((data) => {
-				return (
-					data.merchant?.name?.toLowerCase().includes(searchInput.toLowerCase()) ||
-					data.merchant?.address?.toLowerCase().includes(searchInput.toLowerCase())
-				);
-		  });
+	// get searched data based on searchInput
+	$: searchedData = getSearchedInventoryData(searchInput, inventoryData);
 
-	// get page array based on kInventoryData and itemsPerPage
-	$: pageCount = Math.ceil(searchedData?.length / itemsPerPage);
+	// get page array based on inventory and itemsPerPage
+	$: pageCount = Math.ceil((searchedData?.length ?? 0) / itemsPerPage);
+
+	// get paginated data based on activePage
 	$: paginatedData = searchedData?.slice(
 		(activePage - 1) * itemsPerPage,
 		activePage * itemsPerPage

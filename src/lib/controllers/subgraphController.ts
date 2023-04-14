@@ -19,6 +19,7 @@ import {
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
+import { getOysterJobsModified } from '$lib/utils/data-modifiers/oysterModifiers';
 import { getModifiedMPondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
@@ -351,13 +352,90 @@ export async function getOysterJobs(address: Address) {
 	};
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+	//https://api.aragog.live/getVerifiedoperators
 
 	try {
 		const result = await fetchHttpData(url, options);
-		if (!result['data']?.jobs?.length) return undefined;
-		return result['data']['jobs'];
+		const jobs = result['data']?.jobs;
+		if (!jobs?.length) return [];
+		const ret = getOysterJobsModified(jobs);
+		return ret;
 	} catch (error) {
 		console.log('Error getting enclaves jobs from subgraph', error);
-		return undefined;
+		return [];
 	}
 }
+
+// provider: {
+// 		name?: string;
+// 		address: string;
+// 	};
+// 	instance: string;
+// 	region: string;
+// 	rate: BigNumber;
+// 	amountPaid: BigNumber;
+// 	amountUsed: BigNumber;
+// 	balance: BigNumber;
+// 	lastSettled: number;
+// 	createdAt: number;
+// 	durationLeft: number;
+// 	owner: string;
+// 	settlementHistory: OysterSettlementHistoryDataModel[];
+
+// const jobsModified: (Promise<CPUrlDataModel[]> | undefined)[] = jobs.map((job: any) => {
+// 	let { metadata } = job ?? {};
+// 	//remove unwanted single quote and \
+// 	metadata = metadata.replaceAll("'", '');
+// 	metadata = metadata.replaceAll('\\', '');
+// 	const metadataParsed = JSON.parse(metadata);
+// 	return getInstancesFromControlPlane(metadataParsed?.url);
+// });
+// const promises: {
+// 		typeId: TypeIdModel;
+// 		blockId: string;
+// 		products: Promise<ProductModel['ProductCardModel'][] | undefined>;
+// 	}[] = [];
+// 	const projectDoc = `projects/${project}`;
+// 	productCards?.forEach((productSection) => {
+// 		const ids = productSection.data?.map((item) => item.id);
+// 		if (!!ids) {
+// 			promises.push({
+// 				typeId: 'productCards',
+// 				blockId: productSection.blockId ?? '',
+// 				products: getProductsByIds(projectDoc, ids.slice(0, 10))
+// 			});
+// 		}
+// 	});
+// 	if (!!defaultProducts?.length) {
+// 		defaultProducts.forEach((productSection) => {
+// 			promises.push({
+// 				typeId: 'landingProducts',
+// 				blockId: productSection.blockData?.blockId ?? '',
+// 				products: getAllProductsbyRank(projectDoc, 10)
+// 			});
+// 		});
+// 	}
+
+// 	let results = await Promise.all(promises.map((p) => p.products));
+// 	const productsList: LandingProductsStaticData[] = results?.map((result, index) => {
+// 		const { typeId, blockId } = promises[index];
+// 		return { typeId, blockId, products: result };
+// 	});
+
+// export type OysterInventoryDataModel = {
+// 	provider: {
+// 		name?: string;
+// 		address: string;
+// 	};
+// 	instance: string;
+// 	region: string;
+// 	rate: BigNumber;
+// 	amountPaid: BigNumber;
+// 	amountUsed: BigNumber;
+// 	balance: BigNumber;
+// 	lastSettled: number;
+// 	createdAt: number;
+// 	durationLeft: number;
+// 	owner: string;
+// 	settlementHistory: OysterSettlementHistoryDataModel[];
+// };

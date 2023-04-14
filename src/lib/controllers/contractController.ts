@@ -2,6 +2,7 @@ import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contrac
 import { addToast } from '$lib/data-stores/toastStore';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
 import ENVIRONMENT from '$lib/environments/environment';
+import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
 import type { ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
 import {
 	GET_OPTIONS,
@@ -116,7 +117,22 @@ export async function getInstancesFromControlPlane(controlPlaneUrl: string) {
 	if (!instances) {
 		throw new Error('Unable to fetch instances');
 	}
-	return instances;
+	const { min_rates } = instances;
+	let ret: CPUrlDataModel[];
+
+	// transforming response data so that each object in the array
+	// corresponds to a row in the table
+	ret = min_rates.flatMap((region: any) => {
+		return region.rate_cards.map((rate: any) => {
+			return {
+				url: controlPlaneUrl,
+				instanceType: rate.instance,
+				region: region.region,
+				min_rate: (rate.min_rate * 0.01).toFixed(4)
+			};
+		});
+	});
+	return ret;
 }
 
 // ----------------------------- receiver staking contract methods -----------------------------

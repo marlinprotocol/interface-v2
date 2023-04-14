@@ -15,7 +15,11 @@
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from './sub-components/InstancesTable.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import { getInstancesFromControlPlane } from '$lib/controllers/contractController';
+	import {
+		getInstancesFromControlPlane,
+		registerOysterInfrastructureProvider,
+		updateOysterInfrastructureProvider
+	} from '$lib/controllers/contractController';
 
 	const styles = {
 		docButton: 'text-primary',
@@ -40,18 +44,20 @@
 	});
 	onDestroy(unsubscribeOysterStore);
 
-	const handleOnRegister = () => {
+	const handleOnRegister = async () => {
 		if (connected) {
+			if (registered) {
+				await updateOysterInfrastructureProvider(updatedCpURL);
+			} else {
+				await registerOysterInfrastructureProvider(updatedCpURL);
+			}
+
 			oysterStore.update((value) => {
 				value.cpURL = updatedCpURL;
 				value.registered = true;
 				return value;
 			});
 			registered = true;
-			addToast({
-				variant: 'success',
-				message: 'Successfully registered'
-			});
 		} else {
 			addToast({
 				variant: 'error',

@@ -127,6 +127,34 @@ export const MESSAGES = {
 				 * @returns 'Cancelled request for conversion of MPOND to POND.'
 				 */
 				MPOND_TO_POND_CANCELLED: 'Cancelled request for conversion of MPOND to POND.'
+			},
+			REGISTER: {
+				REGISTERING: 'Registering you as a merchant.',
+				REGISTERED: 'Registered you as a merchant.'
+			},
+			UPDATE: {
+				UPDATING: 'Updating your control plane url.',
+				UPDATED: 'Updated your control plane url.'
+			},
+			REMOVE: {
+				REMOVING: 'Removing you as a merchant.',
+				REMOVED: 'Removed you as a merchant.'
+			},
+			CREATE_JOB: {
+				CREATING: 'Creating a new job.',
+				CREATED: 'Created a new job.'
+			},
+			STOP_JOB: {
+				STOPPING: 'Stopping job.',
+				STOPPED: 'Stopped job.'
+			},
+			WITHDRAW_JOB: {
+				WITHDRAWING: 'Withdrawing job.',
+				WITHDRAWN: 'Withdrawn job.'
+			},
+			ADD_FUNDS_JOB: {
+				ADDING_FUNDS: 'Adding funds to job.',
+				FUNDS_ADDED: 'Funds added to job.'
 			}
 		}
 	},

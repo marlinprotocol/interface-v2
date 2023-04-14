@@ -21,7 +21,7 @@ export type OysterInventoryDataModel = {
 		name?: string;
 		address: string;
 	};
-	cpUrl: string;
+	enclaveUrl: string;
 	instance: string;
 	region: string;
 	rate: BigNumber;

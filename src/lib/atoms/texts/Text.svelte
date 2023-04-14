@@ -56,7 +56,7 @@
 	const fontSize = getFontSize();
 	const _fontWeight = fontWeight ? fontWeight : getDefaultFontWeight();
 
-	$: textClass = `${fontSize} ${_fontWeight} text-left ${styleClass}`;
+	$: textClass = `${styleClass} ${fontSize} ${_fontWeight} text-left`;
 </script>
 
 <div class={textClass}>{text}</div>

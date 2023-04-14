@@ -9,13 +9,11 @@ export const getSearchedInventoryData = (
 	const searchInputLowerCase = searchInput.toLowerCase();
 	return data.filter((item) => {
 		const {
-			cpUrl,
 			instance,
 			region,
 			provider: { name = '', address }
 		} = item;
 		return (
-			cpUrl.toLowerCase().includes(searchInputLowerCase) ||
 			instance.toLowerCase().includes(searchInputLowerCase) ||
 			region.toLowerCase().includes(searchInputLowerCase) ||
 			name.toLowerCase().includes(searchInputLowerCase) ||

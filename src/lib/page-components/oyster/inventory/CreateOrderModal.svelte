@@ -57,7 +57,7 @@
 		!!cost &&
 		!!enclaveImageUrl;
 
-	$: subtitle =
+	const subtitle =
 		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
 	const styles = {
 		inputText: 'px-4 py-2',

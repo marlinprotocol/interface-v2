@@ -6,7 +6,7 @@
 	import { kMPondConversionHistoryTableHeader } from '$lib/utils/constants/bridgeConstants';
 	import { pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, epochSecToString, mPondToPond } from '$lib/utils/conversion';
-	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
+	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 
 	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];
 
@@ -43,7 +43,7 @@
 				<div class="flex-1">
 					<TxnHashText
 						txnHash={rowData.transactionHash}
-						txnHashUrl={bridgeTxnUrls(rowData.transactionHash)}
+						txnHashUrl={goerliArbiUrl(rowData.transactionHash)}
 					/>
 				</div>
 			</div>

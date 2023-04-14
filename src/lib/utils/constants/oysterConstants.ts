@@ -99,6 +99,21 @@ export const kInventoryTableColumnsWidth = (id: string) => {
 	}
 };
 
+export const kOysterPaymentHistoryTableHeader: TableModel['header'][] = [
+	{
+		title: 'DATE',
+		id: 'date'
+	},
+	{
+		title: 'AMOUNT',
+		id: 'amount'
+	},
+	{
+		title: 'TX HASH',
+		id: 'txHash'
+	}
+];
+
 // //TODO: remove this later
 // export const kInventoryData: OysterInventoryDataModel[] = [
 // 	{

@@ -11,7 +11,7 @@
 	import { pondPrecisions } from '$lib/utils/constants/constants';
 	import { kHistoryTableColumnsWidth } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
-	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
+	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
 
 	export let rowData: OysterHistoryDataModel;
@@ -68,7 +68,7 @@
 		</div>
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('txHash')}`}>
-		<TxnHashText txnHash={txHash} txnHashUrl={bridgeTxnUrls(txHash)} startInt={2} endInt={2} />
+		<TxnHashText txnHash={txHash} txnHashUrl={goerliArbiUrl(txHash)} startInt={2} endInt={2} />
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('action')}`}>
 		<TableConvertButton modalFor={`redploy-${rowIndex}`} text="REDEPLOY" />

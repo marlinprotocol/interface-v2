@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
+	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import CollapseButton from '$lib/components/buttons/CollapseButton.svelte';
@@ -19,6 +20,7 @@
 	import { getInventoryDurationVariant } from '$lib/utils/helpers/oysterHelpers';
 	import plus from 'svelte-awesome/icons/plus';
 	import { slide } from 'svelte/transition';
+	import InventoryJobDetailsModal from '../sub-components/InventoryJobDetailsModal.svelte';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -104,10 +106,14 @@
 			<Button variant="filled" size="small" icon={plus} onclick={() => {}}>ADD FUNDS</Button>
 			<Button variant="outlined" size="small" onclick={() => {}}>STOP</Button>
 			<Button variant="outlined" size="small" onclick={() => {}}>WITHDRAW</Button>
-			<Button variant="outlined" size="small" onclick={() => {}}>DETAILS</Button>
+			<ModalButton variant="outlined" size="small" modalFor={`job-details-modal-${rowIndex}`}>
+				DETAILS
+			</ModalButton>
 		</div>
 	{/if}
 </div>
+
+<InventoryJobDetailsModal jobData={rowData} modalFor={`job-details-modal-${rowIndex}`} />
 
 <style>
 	.expanded-row {

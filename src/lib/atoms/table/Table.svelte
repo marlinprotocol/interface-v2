@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { staticImages } from '$lib/components/images/staticImages';
 	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
 	import type { TableModel } from '$lib/types/componentTypes';
 	import { tableCellClasses } from '../componentClasses';
@@ -11,8 +10,8 @@
 	export let iconWidth = 16;
 </script>
 
-<div class="overflow-x-auto overflow-y-hidden px-8 py-6">
-	<table class={styleClass}>
+<div class={`${styleClass} overflow-x-auto overflow-y-hidden px-8 py-6`}>
+	<table>
 		<thead>
 			<tr>
 				{#each tableHeading as columnHeading, i}

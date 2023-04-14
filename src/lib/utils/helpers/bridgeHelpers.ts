@@ -145,7 +145,3 @@ export const getModifiedMPondToPondHistory = (
 	});
 	return ret;
 };
-
-export const bridgeTxnUrls = (txnHash: string) => {
-	return `https://goerli.arbiscan.io/tx/${txnHash}`;
-};

@@ -124,3 +124,7 @@ export function checkValidURL(str: string) {
 	); // fragment locator
 	return !!pattern.test(str);
 }
+
+export const goerliArbiUrl = (txnHash: string) => {
+	return `https://goerli.arbiscan.io/tx/${txnHash}`;
+};

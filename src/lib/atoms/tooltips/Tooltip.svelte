@@ -9,6 +9,8 @@
 	$: tooltipClass = `tooltip text-left shrink-0 font-normal ${styleClass} ${tooltipVariant} ${tooltipDirection} flex`;
 </script>
 
+<!-- TODO: check tooltip hidden issue: something to do with position -->
+
 <div class={tooltipClass} data-tip={tooltipText}>
 	<slot />
 </div>

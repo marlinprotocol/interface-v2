@@ -18,18 +18,13 @@
 <div
 	class={`${styleClass} flex gap-1 text-primary justify-center items-center tracking-widest mt-0.5 text-center`}
 >
+	<!-- TODO: move this to span -->
 	{#if sorting}
 		<button on:click={handleSortData}>
 			<img src={staticImages.Sort} alt="sort" width="16px" />
 		</button>
 	{/if}
 	{title?.toUpperCase()}
-	<!-- <Text
-		text={title?.toUpperCase()}
-		variant="small"
-		fontWeight={'font-semibold'}
-		styleClass={`${styleClass} tracking-widest mt-0.5 text-center`}
-	/> -->
 	{#if !!tooltipText}
 		<TooltipIcon {tooltipText} {tooltipDirection} {iconWidth} />
 	{/if}

@@ -20,7 +20,7 @@
 	import { getOysterJobs } from '$lib/controllers/subgraphController';
 	import { onDestroy } from 'svelte';
 
-	let input = '';
+	let searchInput = '';
 	let activePage = 1;
 
 	// TODO: move to utils and make it 10
@@ -40,14 +40,22 @@
 	});
 	onDestroy(unsubscribeWalletStore);
 
-	// get page array based on kInventoryData and itemsPerPage
-	const pageCount = Math.ceil(kInventoryData.length / itemsPerPage);
-
 	const handlePageChange = (page: number) => {
 		activePage = page;
 	};
 
-	$: paginatedData = kInventoryData.slice(
+	$: searchedData = !searchInput
+		? kInventoryData
+		: kInventoryData.filter((data) => {
+				return (
+					data.merchant?.name?.toLowerCase().includes(searchInput.toLowerCase()) ||
+					data.merchant?.address?.toLowerCase().includes(searchInput.toLowerCase())
+				);
+		  });
+
+	// get page array based on kInventoryData and itemsPerPage
+	$: pageCount = Math.ceil(searchedData?.length / itemsPerPage);
+	$: paginatedData = searchedData?.slice(
 		(activePage - 1) * itemsPerPage,
 		activePage * itemsPerPage
 	);
@@ -59,7 +67,7 @@
 	</svelte:fragment>
 </PageTitle>
 <div class="flex gap-4 items-center mb-6">
-	<SearchBar bind:input placeholder={'Search for Operator'} styleClass={'w-full'} />
+	<SearchBar bind:input={searchInput} placeholder={'Search for Operator'} styleClass={'w-full'} />
 	<a href={`/oyster/history`}>
 		<div class={`h-12 ${buttonClasses.outlined}`}>HISTORY</div>
 	</a>

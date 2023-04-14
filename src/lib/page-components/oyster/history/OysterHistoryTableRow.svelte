@@ -36,7 +36,7 @@
 		width={`${kHistoryTableColumnsWidth('merchant')}`}
 		styleClass="flex gap-2 items-center"
 	>
-		<NameWithAddress {name} {address} index={rowIndex}>
+		<NameWithAddress {name} {address} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="copy-icon cursor-pointer">
 					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />

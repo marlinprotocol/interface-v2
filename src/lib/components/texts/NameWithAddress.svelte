@@ -7,7 +7,7 @@
 
 	export let name: string = '';
 	export let address: string = '';
-	export let index: number = -1;
+	export let rowIndex: number = -1;
 
 	const onCopyAddress = () => {
 		copyTextToClipboard(address);
@@ -18,13 +18,13 @@
 	};
 
 	//get first 2 letters of name or address if name is empty
-	const startLetters = !!name ? name.slice(0, 2) : address.slice(0, 2);
-	const bgColor = getColorHexForTableRow(index);
+	const startLetters = name ? name.slice(0, 2) : address.slice(0, 2);
+	const bgColor = getColorHexForTableRow(rowIndex);
 </script>
 
 <div class="flex gap-4 items-center overflow-hidden">
 	<div>
-		{#if index > -1}
+		{#if rowIndex > -1}
 			<div
 				class="w-[32px] h-[32px] bg-primary rounded text-sm font-medium text-white flex flex-col justify-center"
 				style="background-color:{bgColor};"
@@ -34,12 +34,12 @@
 		{/if}
 	</div>
 	<div class="overflow-hidden">
-		<Text variant="body" fontWeight="font-medium" text={name ?? ''} styleClass="truncate" />
+		<Text variant="body" fontWeight="font-medium" text={name} styleClass="truncate" />
 		<div class="flex gap-1 items-center">
 			<Text
-				variant={!!name ? 'tiny' : 'body'}
-				styleClass={!!name ? 'text-grey' : ''}
-				fontWeight={!!name ? 'font-normal' : 'font-medium'}
+				variant={name ? 'tiny' : 'body'}
+				styleClass={name ? 'text-grey' : ''}
+				fontWeight={name ? 'font-normal' : 'font-medium'}
 				text={shortenText(address, 6, 3)}
 			/>
 			<div on:keypress={onCopyAddress} on:click={onCopyAddress}>

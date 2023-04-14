@@ -19,16 +19,10 @@
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
 
-	$: ({
-		merchant: { name, address },
-		instance,
-		region,
-		rate,
-		amountPaid,
-		amountUsed,
-		balance,
-		durationLeft
-	} = rowData);
+	$: ({ merchant, instance, region, rate, amountPaid, amountUsed, balance, durationLeft } =
+		rowData);
+
+	$: ({ name = '', address } = merchant);
 
 	let openRow: number = -1;
 	$: durationColor = getColorHexByVariant(
@@ -41,7 +35,7 @@
 		width={`${kInventoryTableColumnsWidth('merchant')}`}
 		styleClass="flex gap-2 items-center"
 	>
-		<NameWithAddress {name} {address} index={rowIndex}>
+		<NameWithAddress {name} {address} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="copy-icon cursor-pointer">
 					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />

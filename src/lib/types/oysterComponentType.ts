@@ -16,6 +16,17 @@ export type CPUrlDataModel = {
 	min_rate: BigNumber;
 };
 
+export type CPInstances = {
+	allowed_regions: string[];
+	min_rates: {
+		region: string;
+		rate_cards: {
+			instance: string;
+			min_rate: number;
+		}[];
+	}[];
+};
+
 export type OysterInventoryDataModel = {
 	provider: {
 		name?: string;

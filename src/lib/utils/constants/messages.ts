@@ -149,8 +149,8 @@ export const MESSAGES = {
 				STOPPED: 'Stopped job.'
 			},
 			WITHDRAW_JOB: {
-				WITHDRAWING: 'Withdrawing job.',
-				WITHDRAWN: 'Withdrawn job.'
+				WITHDRAWING: 'Withdrawing funds from job.',
+				WITHDRAWN: 'Withdrew funds from job.'
 			},
 			ADD_FUNDS_JOB: {
 				ADDING_FUNDS: 'Adding funds to job.',
@@ -158,6 +158,7 @@ export const MESSAGES = {
 			}
 		}
 	},
+
 	FORM: {
 		VALIDATION: {
 			ADDRESS: 'Please enter a valid address.',

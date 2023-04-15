@@ -127,7 +127,7 @@ export async function getInstancesFromControlPlane(controlPlaneUrl: string) {
 				url: controlPlaneUrl,
 				instanceType: rate.instance,
 				region: region.region,
-				min_rate: BigNumber.from(rate.min_rate.toFixed(4))
+				min_rate: BigNumber.from(rate.min_rate)
 			};
 		});
 	});

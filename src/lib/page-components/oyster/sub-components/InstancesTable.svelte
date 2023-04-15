@@ -1,9 +1,11 @@
 <script lang="ts">
+	import Button from '$lib/atoms/buttons/Button.svelte';
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
-	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+
 	import Table from '$lib/atoms/table/Table.svelte';
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
+	import { getInstancesFromControlPlane } from '$lib/controllers/contractController';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
@@ -15,10 +17,18 @@
 		tableCell: tableCellClasses.rowMini
 	};
 
-	export let registeredCpURL: string = '';
 	export let updatedCpURL: string = '';
 	export let validCPUrl: boolean = false;
 	export let tableData: CPUrlDataModel[] = [];
+
+	const onRefresh = async () => {
+		try {
+			tableData = await getInstancesFromControlPlane(updatedCpURL);
+		} catch (error) {
+			console.log(error);
+			tableData = [];
+		}
+	};
 </script>
 
 <InputCardWithEndButton styleClass={'mt-4'} title={'Details'}>
@@ -37,9 +47,9 @@
 	</div>
 	<svelte:fragment slot="titleEndButton">
 		{#if $connected}
-			<ModalButton disabled={!validCPUrl} variant="text" size="tiniest" modalFor={''}>
+			<Button onclick={onRefresh} disabled={!validCPUrl} variant="text" size="tiniest">
 				<Icon data={refresh} size={18} />
-			</ModalButton>
+			</Button>
 		{:else}
 			<button
 				type="button"

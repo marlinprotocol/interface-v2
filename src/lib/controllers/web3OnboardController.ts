@@ -6,17 +6,19 @@ import ledgerModule from '@web3-onboard/ledger';
 import trezorModule from '@web3-onboard/trezor';
 import coinbaseWalletModule from '@web3-onboard/coinbase';
 import gnosisModule from '@web3-onboard/gnosis';
-import torusModule from '@web3-onboard/torus';
+import mewWallet from '@web3-onboard/mew-wallet';
+import infinityWalletWalletModule from '@web3-onboard/infinity-wallet';
 import icon from '../../logos/logo-name.svg';
 
 const injected = injectedWalletsModule();
-const torus = torusModule();
 const ledger = ledgerModule();
 const coinbaseWalletSdk = coinbaseWalletModule();
 const gnosis = gnosisModule();
+const mewWalletModule = mewWallet();
+const infinityWalletSDK = infinityWalletWalletModule();
 const trezor = trezorModule({
-	email: '<EMAIL_CONTACT>',
-	appUrl: '<APP_URL>'
+	email: 'roshan@blackfishtech.in',
+	appUrl: 'https://app2.aragog.live'
 });
 const walletConnect = walletConnectModule({
 	connectFirstChainId: true,
@@ -25,7 +27,16 @@ const walletConnect = walletConnectModule({
 	}
 });
 
-const wallets = [injected, walletConnect, ledger, trezor, coinbaseWalletSdk, gnosis, torus];
+const wallets = [
+	injected,
+	walletConnect,
+	ledger,
+	trezor,
+	coinbaseWalletSdk,
+	gnosis,
+	mewWalletModule,
+	infinityWalletSDK
+];
 
 const chains = [
 	{

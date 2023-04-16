@@ -152,7 +152,8 @@
 	{#if $connected}
 		<Button
 			variant="filled"
-			styleClass="w-44"
+			size="large"
+			styleClass="w-full"
 			disabled={!validCPUrl || registeredCpURL === updatedCpURL}
 			onclick={handleOnRegister}
 		>
@@ -163,6 +164,6 @@
 			{/if}
 		</Button>
 	{:else}
-		<ConnectWalletButton />
+		<ConnectWalletButton isLarge={true} />
 	{/if}
 </ContainerCard>

@@ -2,7 +2,7 @@
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import { fetchProviderDetailsFromSubgraph } from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import { oysterStore, resetOysterStore } from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import OysterDashboard from '$lib/page-components/oyster/OysterDashboard.svelte';
 
@@ -18,10 +18,12 @@
 					cpURL: providerDetails.cp
 				};
 			});
+		} else {
+			resetOysterStore();
 		}
 	}
 
-	$: if ($connected) {
+	$: if ($connected && $walletStore.address) {
 		fetchProviderDetails();
 	}
 </script>

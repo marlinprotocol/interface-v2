@@ -67,7 +67,7 @@
 	};
 
 	// TODO: add types
-	async function getTableDataFromInstanceResponse(cpUrl: any) {
+	export async function getTableDataFromInstanceResponse(cpUrl: any) {
 		try {
 			return await getInstancesFromControlPlane(cpUrl);
 		} catch (error) {
@@ -144,15 +144,16 @@
 	</TextInputWithEndButton>
 	{#await instances}
 		<!-- TODO: have an empty state when there is no data here -->
-		<InstancesTable {updatedCpURL} {registeredCpURL} {validCPUrl} tableData={[]} />
+		<InstancesTable {updatedCpURL} {validCPUrl} tableData={[]} />
 	{:then value}
-		<InstancesTable {updatedCpURL} {registeredCpURL} {validCPUrl} tableData={value} />
+		<InstancesTable {updatedCpURL} {validCPUrl} tableData={value} />
 	{/await}
 	<div class="mt-4" />
 	{#if $connected}
 		<Button
 			variant="filled"
-			styleClass="w-44"
+			size="large"
+			styleClass="w-full"
 			disabled={!validCPUrl || registeredCpURL === updatedCpURL}
 			onclick={handleOnRegister}
 		>
@@ -163,6 +164,6 @@
 			{/if}
 		</Button>
 	{:else}
-		<ConnectWalletButton />
+		<ConnectWalletButton isLarge={true} />
 	{/if}
 </ContainerCard>

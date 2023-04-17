@@ -15,6 +15,7 @@ import {
 	QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES,
 	QUERY_TO_GET_POND_BALANCE_QUERY,
 	QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY,
+	QUERY_TO_GET_PROVIDERS_DATA,
 	QUERY_TO_GET_RECEIVER_POND_BALANCE,
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
@@ -96,7 +97,7 @@ export async function getMPondBalance(address: Address): Promise<BigNumber> {
 		return DEFAULT_WALLET_BALANCE.mPond;
 	}
 }
-// ----------------------------- smart contract subgraph methods -----------------------------
+// ----------------------------- receiver staking smart contract subgraph methods -----------------------------
 export async function getReceiverPondBalanceFromSubgraph(address: Address): Promise<any> {
 	const url = ENVIRONMENT.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_RECEIVER_POND_BALANCE;
@@ -285,6 +286,8 @@ export async function getRequestedMPondForConversion(address: Address) {
 	}
 }
 
+// ----------------------------- bridge smart contract subgraph methods -----------------------------
+
 export async function getPondToMPondConversionHistory(address: Address) {
 	const url = ENVIRONMENT.public_bridge_contract_subgraph_url;
 	const query = QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY;
@@ -343,6 +346,8 @@ export async function getMPondToPondConversionHistory(address: Address) {
 	}
 }
 
+// ----------------------------- enclaves smart contract subgraph methods -----------------------------
+
 export async function getOysterJobs(address: Address) {
 	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
 	const query = QUERY_TO_GET_JOBS_DATA;
@@ -363,5 +368,26 @@ export async function getOysterJobs(address: Address) {
 	} catch (error) {
 		console.log('Error getting enclaves jobs from subgraph', error);
 		return [];
+	}
+}
+
+export async function fetchProviderDetailsFromSubgraph(address: Address) {
+	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
+	const query = QUERY_TO_GET_PROVIDERS_DATA;
+
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
+
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+
+	try {
+		const result = await fetchHttpData(url, options);
+		const provider = result['data']?.providers[0];
+		if (!provider) return null;
+		return provider;
+	} catch (error) {
+		console.log('Error getting provider details from subgraph', error);
+		return undefined;
 	}
 }

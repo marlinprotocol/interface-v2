@@ -9,10 +9,8 @@
 
 	export let input: string;
 
-	$: fontSize = input.length > 35 ? 'text-lg' : 'text-xl';
-
 	const styles = {
-		inputNumber: `input input-ghost h-[30px] w-full mt-1 p-0 font-semibold disabled:text-primary disabled:placeholder:text-primary/[.3] focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent`
+		inputNumber: `input input-ghost h-[30px] w-full text-lg mt-1 p-0 font-semibold text-primary disabled:text-primary disabled:placeholder:text-primary/[.3] focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent`
 	};
 </script>
 
@@ -20,7 +18,7 @@
 	<input
 		bind:value={input}
 		id="address-display"
-		class={`hideInputNumberAppearance ${fontSize} ${styles.inputNumber}`}
+		class={`hideInputNumberAppearance ${styles.inputNumber}`}
 		{placeholder}
 		{disabled}
 	/>

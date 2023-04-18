@@ -1,25 +1,33 @@
 <script>
-	import { getApprovedOysterAllowances, getOysterJobs } from '$lib/controllers/subgraphController';
+	import {
+		getAllProvidersDetailsFromSubgraph,
+		getApprovedOysterAllowances,
+		getOysterJobs,
+		getProviderDetailsFromSubgraph
+	} from '$lib/controllers/subgraphController';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
-	import { onMount } from 'svelte';
 
-	onMount(async () => {
-		// TODO: read oyster contract details
-		// await getBridgeContractDetails();
-	});
 	async function init() {
 		// TODO: read oyster contract details
-		const [allowance, oysterJobs] = await Promise.all([
+		const [allowance, oysterJobs, providerDetail, allProviders] = await Promise.all([
 			getApprovedOysterAllowances($walletStore.address, $contractAddressStore.Bridge),
-			getOysterJobs($walletStore.address)
+			getOysterJobs($walletStore.address),
+			getProviderDetailsFromSubgraph($walletStore.address),
+			getAllProvidersDetailsFromSubgraph()
 		]);
+		console.log('all providers from api call:>> ', allProviders);
 		console.log('allowance from api call', allowance);
 		oysterStore.set({
 			...$oysterStore,
+			providerData: {
+				data: providerDetail,
+				registered: providerDetail != null
+			},
 			allowance: allowance,
-			jobsData: oysterJobs
+			jobsData: oysterJobs,
+			allProviders
 		});
 	}
 	$: if ($connected) {

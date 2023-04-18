@@ -1,11 +1,14 @@
 import type {
+	CPUrlDataModel,
 	OysterInventoryDataModel,
-	OysterProviderDataModel
+	OysterProviderDataModel,
+	ProviderMetaDataModel
 } from '$lib/types/oysterComponentType';
 import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
 import { bigNumberToString } from '../conversion';
+import { getInstancesFromControlPlane } from '$lib/controllers/contractController';
 
 export function getOysterJobsModified(jobs: any[]) {
 	if (!jobs?.length) return [];
@@ -91,13 +94,52 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 	};
 };
 
+async function _getInstancesForCpURL(controlPlaneUrl: string) {
+	try {
+		// TODO: check why its not working
+		// controlPlaneUrl = 'http://3.108.237.212:8080/spec';
+		// const instances = await getInstancesFromControlPlane(controlPlaneUrl);
+		// console.log('instances :>> ', instances);
+
+		return [
+			{
+				url: 'enclave_url',
+				instanceType: 'instance_type',
+				region: 'Region 1',
+				min_rate: BigNumber.from('1000000000000000000'),
+				vcpu: '2',
+				memory: '0.5GB'
+			}
+		];
+	} catch (e) {
+		console.log('error fetching data from  controlPlaneUrl:>> ', e);
+		return [];
+	}
+}
+
 export async function getOysterProvidersModified(providers: any[]) {
 	if (!providers?.length) return [];
 
-	return providers.map((job: any) => {
+	const promises: {
+		providerData: ProviderMetaDataModel;
+		instances: Promise<CPUrlDataModel[] | undefined>;
+	}[] = [];
+
+	providers?.forEach((provider) => {
+		promises.push({
+			providerData: provider,
+			instances: _getInstancesForCpURL(provider.cp)
+		});
+	});
+	// TODO: implement name
+	const results = await Promise.all(promises.map((p) => p.instances));
+	const ret: OysterProviderDataModel[] = results?.map((result, index) => {
+		const { providerData } = promises[index];
 		return {
-			...job,
-			cp: job.cp
+			...providerData,
+			name: '',
+			instances: result
 		};
-	}) as OysterProviderDataModel[];
+	});
+	return ret;
 }

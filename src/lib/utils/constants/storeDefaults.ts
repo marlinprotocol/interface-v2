@@ -79,9 +79,9 @@ export const DEFAULT_BRIDGE_STORE: BridgeStore = {
 
 export const DEFAULT_OYSTER_STORE: OysterStore = {
 	providerData: {
-		registered: false,
-		cpURL: ''
+		registered: false
 	},
+	allProviders: [],
 	jobsData: [],
 	allowance: BigNumberZero
 };

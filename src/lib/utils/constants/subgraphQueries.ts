@@ -199,7 +199,7 @@ export const QUERY_TO_GET_PROVIDER_DATA = `query Providers($address: String) {
   }
 }`;
 
-export const QUERY_TO_GET_ALL_PROVIDERS_DATA = `query Providers() {
+export const QUERY_TO_GET_ALL_PROVIDERS_DATA = `query Providers {
   providers {
     id
     cp

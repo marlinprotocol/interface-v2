@@ -406,13 +406,14 @@ export async function getAllProvidersDetailsFromSubgraph() {
 
 	try {
 		const result = await fetchHttpData(url, options);
+
 		const providers = result['data']?.providers;
 		if (!providers?.length) return [];
 		const ret = getOysterProvidersModified(providers);
 		return ret;
 	} catch (error) {
 		console.log('Error getting provider details from subgraph', error);
-		return undefined;
+		return [];
 	}
 }
 

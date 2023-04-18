@@ -1,61 +1,105 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
-	import CollapseButton from '$lib/components/buttons/CollapseButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
-	import { connected } from '$lib/data-stores/walletProviderStore';
+	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import { BigNumber } from 'ethers';
 
 	export let modalFor: string;
 
+	// TODO: get real data for all selections
+	const searchList = [
+		'Operator 1',
+		'Operator 2',
+		'Operator 3',
+		'Operator 4',
+		'Operator 5',
+		'ADVV',
+		'cdsjkv',
+		'cdsbjkcnkdsj',
+		'cdsjkcnkdsj',
+		'fierdss',
+		'Aaaa',
+		'asdaaaa'
+	];
+
 	//initial states
-	let merchant: string = '';
-	let instance: string = '';
-	let region: string = '';
-	let rate: BigNumber = BigNumber.from('12300000000000000000');
+	const initalValues = {
+		merchant: {
+			value: '',
+			error: '',
+			isDirty: false,
+			dataList: searchList
+		},
+		instance: {
+			value: '',
+			error: '',
+			isDirty: false,
+			dataList: searchList
+		},
+		region: {
+			value: '',
+			error: '',
+			isDirty: false,
+			dataList: searchList
+		},
+		memory: {
+			value: '',
+			error: '',
+			isDirty: false,
+			dataList: searchList
+		},
+		vcpu: {
+			value: '',
+			error: '',
+			isDirty: false,
+			dataList: searchList
+		},
+		enclaveImageUrl: {
+			value: '',
+			error: '',
+			isDirty: false,
+			dataList: searchList
+		}
+	};
+
+	let values = initalValues;
+
 	let durationString: string = '';
-	let enclaveImageUrl: string = '';
-
 	$: duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
-
+	$: rate = BigNumber.from('1000000000000000000'); //TODO: calculate based on selections
 	$: cost = rate.mul(duration);
 
 	//loading states
 	let submitLoading = false;
 
-	//merchant states
-	let merchantIsValid = true;
-	let inValidMessage = '';
-	let merchantInputDirty = false;
-
-	/**
-	 * checks if address is valid as user types input
-	 * @param event
-	 */
-	const handleUpdatedSignerAddressInput = async (event: Event) => {};
-
 	const handleSubmitClick = async () => {};
 
 	//reset amount and signer address
 	const resetInputs = () => {
-		merchantIsValid = true;
-		merchantInputDirty = false;
-		inValidMessage = '';
+		values = initalValues;
+		durationString = '';
 	};
 
-	$: submitEnable =
-		merchantIsValid &&
-		!!merchant &&
-		!!instance &&
-		!!region &&
-		!!rate &&
-		!!duration &&
-		!!cost &&
-		!!enclaveImageUrl;
+	const handleFieldChange = (
+		value: string,
+		fieldName: 'merchant' | 'region' | 'instance' | 'memory' | 'vcpu' | 'enclaveImageUrl'
+	) => {
+		values[fieldName].value = value;
+		values[fieldName].isDirty = true;
+		if (value == '') {
+			values[fieldName].error = `${fieldName} is required`;
+		} else if (values[fieldName].dataList.indexOf(value) == -1) {
+		} else {
+			values[fieldName].error = '';
+		}
+	};
+
+	$: submitEnable = !!duration && !!cost;
 
 	const subtitle =
 		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
@@ -74,46 +118,73 @@
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4">
-			<TextInputWithEndButton
-				styleClass={styles.inputText}
-				title={'Merchant'}
-				placeholder={'Enter merchant name or address'}
-				bind:input={merchant}
-			>
-				<svelte:fragment slot="endButton">
-					{#if $connected}
-						<CollapseButton />
-					{/if}
-				</svelte:fragment>
-			</TextInputWithEndButton>
-			<ErrorTextCard
-				showError={!merchantIsValid && merchantInputDirty}
-				errorMessage={inValidMessage}
+			<SearchWithSelect
+				dataList={values.merchant.dataList}
+				setSearchValue={(value) => handleFieldChange(value, 'merchant')}
+				title={'Operator'}
+				placeholder={'Enter operator name or address'}
 			/>
-			<TextInputWithEndButton
-				styleClass={styles.inputText}
-				title={'Instance'}
-				placeholder={'Enter or select instance'}
-				bind:input={instance}
-			>
-				<svelte:fragment slot="endButton">
-					{#if $connected}
-						<CollapseButton />
-					{/if}
-				</svelte:fragment>
-			</TextInputWithEndButton>
-			<TextInputWithEndButton
-				styleClass={styles.inputText}
-				title={'Region'}
-				placeholder={'Enter or select region'}
-				bind:input={region}
-			>
-				<svelte:fragment slot="endButton">
-					{#if $connected}
-						<CollapseButton />
-					{/if}
-				</svelte:fragment>
-			</TextInputWithEndButton>
+			<ErrorTextCard
+				showError={values.merchant.isDirty && values.merchant.error != ''}
+				errorMessage={values.merchant.error}
+				styleClass={'mt-0'}
+			/>
+			<div class="flex gap-4">
+				<div class="w-full">
+					<SearchWithSelect
+						dataList={values.instance.dataList}
+						setSearchValue={(value) => handleFieldChange(value, 'instance')}
+						title={'Instance'}
+						placeholder={'Select instance'}
+					/>
+					<ErrorTextCard
+						showError={values.instance.isDirty && values.instance.error != ''}
+						errorMessage={values.instance.error}
+						styleClass={'mt-4'}
+					/>
+				</div>
+				<div class="w-full">
+					<SearchWithSelect
+						dataList={values.region.dataList}
+						setSearchValue={(value) => handleFieldChange(value, 'region')}
+						title={'Region'}
+						placeholder={'Select region'}
+					/>
+					<ErrorTextCard
+						showError={values.region.isDirty && values.region.error != ''}
+						errorMessage={values.region.error}
+						styleClass={'mt-4'}
+					/>
+				</div>
+			</div>
+			<div class="flex gap-4">
+				<div class="w-full">
+					<SearchWithSelect
+						dataList={values.vcpu.dataList}
+						setSearchValue={(value) => handleFieldChange(value, 'vcpu')}
+						title={'vCPU'}
+						placeholder={'Select vcpu'}
+					/>
+					<ErrorTextCard
+						showError={values.vcpu.isDirty && values.vcpu.error != ''}
+						errorMessage={values.vcpu.error}
+						styleClass={'mt-4'}
+					/>
+				</div>
+				<div class="w-full">
+					<SearchWithSelect
+						dataList={values.memory.dataList}
+						setSearchValue={(value) => handleFieldChange(value, 'memory')}
+						title={'Memory'}
+						placeholder={'Select memory'}
+					/>
+					<ErrorTextCard
+						showError={values.memory.isDirty && values.memory.error != ''}
+						errorMessage={values.memory.error}
+						styleClass={'mt-4'}
+					/>
+				</div>
+			</div>
 			<div class="flex gap-4">
 				<AmountInputWithTitle
 					title={'Rate'}
@@ -137,7 +208,12 @@
 				styleClass={styles.inputText}
 				title={'Enclave Image URL'}
 				placeholder={'Paste URL here'}
-				bind:input={enclaveImageUrl}
+				bind:input={values.enclaveImageUrl.value}
+			/>
+			<ErrorTextCard
+				showError={values.enclaveImageUrl.isDirty && values.enclaveImageUrl.error != ''}
+				errorMessage={values.enclaveImageUrl.error}
+				styleClass={'mt-4'}
 			/>
 		</div>
 	</svelte:fragment>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { inputClasses } from '$lib/atoms/componentClasses';
 	import InputCardWithEndButton from './InputCardWithEndButton.svelte';
 
 	export let styleClass: string = '';
@@ -10,7 +11,7 @@
 	export let input: string;
 
 	const styles = {
-		inputNumber: `input input-ghost h-[30px] w-full text-lg mt-1 p-0 font-semibold text-primary disabled:text-primary disabled:placeholder:text-primary/[.3] focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent`
+		inputNumber: inputClasses.inputText
 	};
 </script>
 

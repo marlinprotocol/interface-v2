@@ -1,6 +1,10 @@
 import type { WALLET_TYPE } from '$lib/utils/constants/constants';
 import type { BigNumber, providers, Signer } from 'ethers';
-import type { OysterInventoryDataModel, ProviderMetaDataModel } from './oysterComponentType';
+import type {
+	OysterInventoryDataModel,
+	OysterProviderDataModel,
+	ProviderMetaDataModel
+} from './oysterComponentType';
 
 //common types
 export type Address = string;
@@ -82,9 +86,13 @@ export type BridgeStore = {
 export type OysterStore = {
 	providerData: {
 		registered?: boolean;
-		data: ProviderMetaDataModel;
+		data?: {
+			id: string;
+			cp: string;
+			live: boolean;
+		};
 	};
-	allProviders: ProviderMetaDataModel[];
+	allProviders: OysterProviderDataModel[];
 	jobsData: OysterInventoryDataModel[];
 	allowance: BigNumber;
 };

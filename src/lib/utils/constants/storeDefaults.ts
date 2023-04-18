@@ -78,6 +78,10 @@ export const DEFAULT_BRIDGE_STORE: BridgeStore = {
 };
 
 export const DEFAULT_OYSTER_STORE: OysterStore = {
-	registered: false,
-	cpURL: ''
+	providerData: {
+		registered: false,
+		cpURL: ''
+	},
+	jobsData: [],
+	allowance: BigNumberZero
 };

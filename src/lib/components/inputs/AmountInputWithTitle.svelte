@@ -12,10 +12,9 @@
 
 	const styles = {
 		titleIcon: 'flex items-center gap-1',
-		inputNumber:
-			'input input-ghost input-primary text-base p-0 ml-0.5 placeholder:text-primary/[.2]',
-		prefix: 'text-base text-primary',
-		suffix: 'text-base text-primary'
+		inputNumber: 'input input-ghost input-primary text-sm p-0 ml-0.5 placeholder:text-primary/[.2]',
+		prefix: 'text-sm text-primary',
+		suffix: 'text-sm text-primary ml-1'
 	};
 </script>
 

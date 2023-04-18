@@ -48,7 +48,19 @@ export const MESSAGES = {
 				 * @param value
 				 * @returns `Approved ${value} MPOND.`
 				 */
-				MPOND_APPROVED: (value: string | number) => `Approved ${value} MPOND.`
+				MPOND_APPROVED: (value: string | number) => `Approved ${value} MPOND.`,
+				/**
+				 * @param value
+				 * @returns `Approving ${value} POND.`
+				 */
+				APPROVING: (value: string | number, currency: string | undefined = 'POND') =>
+					`Approving ${value} ${currency}.`,
+				/**
+				 * @param value
+				 * @returns `Approved ${value} POND.`
+				 */
+				APPROVED: (value: string | number, currency: string | undefined = 'POND') =>
+					`Approved ${value} ${currency}.`
 			},
 			WITHDRAW: {
 				/**

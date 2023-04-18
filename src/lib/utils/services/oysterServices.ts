@@ -1,10 +1,26 @@
 import {
 	addFundsToOysterJob,
+	approveFundsForOysterJobAdd,
 	stopOysterJob,
 	withdrawFundsFromOysterJob
 } from '$lib/controllers/contractController';
+import { oysterStore } from '$lib/data-stores/oysterStore';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 import type { BigNumber } from 'ethers';
+
+export async function handleApproveFundForOysterJob(amount: BigNumber) {
+	try {
+		await approveFundsForOysterJobAdd(amount);
+		oysterStore.update((value) => {
+			return {
+				...value,
+				allowance: amount
+			};
+		});
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
 
 export async function handleFundsAddToJob(jobData: OysterInventoryDataModel, amount: BigNumber) {
 	const { id } = jobData;

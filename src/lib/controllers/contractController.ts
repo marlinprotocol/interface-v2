@@ -11,6 +11,7 @@ import {
 	pondPrecisions
 } from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
+import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 import { bigNumberToCommaString } from '$lib/utils/conversion';
 import { capitalizeFirstLetter, minifyAddress } from '$lib/utils/helpers/commonHelper';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
@@ -890,6 +891,59 @@ export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber
 		});
 		console.log('error :>> ', error);
 		throw new Error('Transaction Error while withdrawing funds from Oyster Job');
+	}
+}
+
+export async function approveFundsForOysterJobAdd(amount: BigNumber) {
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	// TODO: check token, its is POND on testnet
+	const token = 'POND';
+	const pondTokenContractAddress = contractAddresses.tokens[token].address;
+	const ERC20ContractAbi = contractAbi.ERC20;
+	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.APPROVE.APPROVING(
+				bigNumberToCommaString(amount, pondPrecisions),
+				token
+			),
+			variant: 'info'
+		});
+		const tx = await pondTokenContract.approve(oysterContractAddress, amount);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to approve staking token');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS +
+				' ' +
+				MESSAGES.TOAST.ACTIONS.APPROVE.APPROVED(
+					bigNumberToCommaString(amount, pondPrecisions),
+					token
+				),
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while approving staking token');
 	}
 }
 

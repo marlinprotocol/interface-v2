@@ -14,7 +14,6 @@
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
-	import JobDetailsModal from '../inventory/modals/JobDetailsModal.svelte';
 	import PastJobDetailsModal from '../inventory/modals/PastJobDetailsModal.svelte';
 
 	export let rowData: OysterInventoryDataModel;

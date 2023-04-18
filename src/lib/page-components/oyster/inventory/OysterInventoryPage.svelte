@@ -5,18 +5,16 @@
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import SearchBar from '$lib/components/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
+	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { kOysterInventoryTableHeader } from '$lib/utils/constants/oysterConstants';
+	import { getSearchedInventoryData } from '$lib/utils/helpers/oysterHelpers';
+	import { onDestroy } from 'svelte';
 	import plus from 'svelte-awesome/icons/plus';
-	import CreateOrderModal from './modals/CreateOrderModal.svelte';
+	import type { Unsubscriber } from 'svelte/store';
 	import OysterInventoryTable from './InventoryTable.svelte';
 	import OysterInventoryTableRow from './InventoryTableRow.svelte';
-	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import type { Unsubscriber } from 'svelte/store';
-	import { walletStore } from '$lib/data-stores/walletProviderStore';
-	import type { Address, WalletStore } from '$lib/types/storeTypes';
-	import { getOysterJobs } from '$lib/controllers/subgraphController';
-	import { onDestroy } from 'svelte';
-	import { getSearchedInventoryData } from '$lib/utils/helpers/oysterHelpers';
+	import CreateOrderModal from './modals/CreateOrderModal.svelte';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -24,21 +22,13 @@
 	// TODO: move to utils and make it 10
 	const itemsPerPage = 5;
 
-	let address: Address;
 	let inventoryData: OysterInventoryDataModel[] | undefined;
-	let loading = true;
 
-	const unsubscribeWalletStore: Unsubscriber = walletStore.subscribe(async (value: WalletStore) => {
-		address = value.address;
-		if (address) {
-			loading = true;
-			// TODO: change to address
-			inventoryData = await getOysterJobs('0x7aa8e222deddd49a6bdb5bffd0ac5fe17e1e0176');
-			inventoryData = inventoryData?.filter((data) => data.live);
-			loading = false;
-		}
+	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
+		inventoryData = value.jobsData;
+		inventoryData = inventoryData?.filter((data) => data.live);
 	});
-	onDestroy(unsubscribeWalletStore);
+	onDestroy(unsubscribeOysterStore);
 
 	const handlePageChange = (page: number) => {
 		activePage = page;

@@ -352,6 +352,8 @@ export async function getOysterJobs(address: Address) {
 	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
 	const query = QUERY_TO_GET_JOBS_DATA;
 
+	//TODO: remove later
+	address = '0x7aa8e222deddd49a6bdb5bffd0ac5fe17e1e0176';
 	const queryVariables = {
 		address: address.toLowerCase()
 	};
@@ -390,5 +392,31 @@ export async function fetchProviderDetailsFromSubgraph(address: Address) {
 	} catch (error) {
 		console.log('Error getting provider details from subgraph', error);
 		return undefined;
+	}
+}
+
+export async function getApprovedOysterAllowances(address: Address, contractAddress: Address) {
+	const url = ENVIRONMENT.public_contract_subgraph_url;
+	// TODO: change this to get allowance
+	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
+
+	const queryVariables = {
+		address: address.toLowerCase(),
+		contractAddress: contractAddress.toLowerCase()
+	};
+
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+	let amount = BigNumberZero;
+	try {
+		const result = await fetchHttpData(url, options);
+		console.log('oyster allowances', result);
+
+		if (!result['data']) {
+			return amount;
+		}
+		return amount;
+	} catch (error) {
+		console.log('Error fetching oyster allowances from subgraph', error);
+		return amount;
 	}
 }

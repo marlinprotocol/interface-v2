@@ -27,6 +27,24 @@ export type CPInstances = {
 	}[];
 };
 
+export type ProviderMetaDataModel = {
+	cp: string;
+	id: string;
+	live: boolean;
+};
+
+export type OysterProviderDataModel = {
+	cp: string;
+	id: string;
+	live: boolean;
+	name: string;
+	instance: string;
+	region: string;
+	vcpu: string;
+	memory: string;
+	rate: BigNumber;
+};
+
 export type OysterInventoryDataModel = {
 	provider: {
 		name?: string;

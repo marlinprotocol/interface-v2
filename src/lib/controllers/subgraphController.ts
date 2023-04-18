@@ -9,18 +9,22 @@ import {
 } from '$lib/utils/constants/storeDefaults';
 import {
 	QUERY_TO_CHECK_IF_SIGNER_EXISTS,
+	QUERY_TO_GET_ALL_PROVIDERS_DATA,
 	QUERY_TO_GET_JOBS_DATA,
 	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY,
 	QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES,
 	QUERY_TO_GET_POND_BALANCE_QUERY,
 	QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY,
-	QUERY_TO_GET_PROVIDERS_DATA,
+	QUERY_TO_GET_PROVIDER_DATA,
 	QUERY_TO_GET_RECEIVER_POND_BALANCE,
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
-import { getOysterJobsModified } from '$lib/utils/data-modifiers/oysterModifiers';
+import {
+	getOysterJobsModified,
+	getOysterProvidersModified
+} from '$lib/utils/data-modifiers/oysterModifiers';
 import { getModifiedMPondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
@@ -364,7 +368,6 @@ export async function getOysterJobs(address: Address) {
 	try {
 		const result = await fetchHttpData(url, options);
 		const jobs = result['data']?.jobs;
-		console.log('jobs :>> ', jobs);
 		if (!jobs?.length) return [];
 		const ret = getOysterJobsModified(jobs);
 		return ret;
@@ -374,9 +377,9 @@ export async function getOysterJobs(address: Address) {
 	}
 }
 
-export async function fetchProviderDetailsFromSubgraph(address: Address) {
+export async function getProviderDetailsFromSubgraph(address: Address) {
 	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
-	const query = QUERY_TO_GET_PROVIDERS_DATA;
+	const query = QUERY_TO_GET_PROVIDER_DATA;
 
 	const queryVariables = {
 		address: address.toLowerCase()
@@ -389,6 +392,24 @@ export async function fetchProviderDetailsFromSubgraph(address: Address) {
 		const provider = result['data']?.providers[0];
 		if (!provider) return null;
 		return provider;
+	} catch (error) {
+		console.log('Error getting provider details from subgraph', error);
+		return undefined;
+	}
+}
+
+export async function getAllProvidersDetailsFromSubgraph() {
+	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
+	const query = QUERY_TO_GET_ALL_PROVIDERS_DATA;
+
+	const options: RequestInit = subgraphQueryWrapper(query, {});
+
+	try {
+		const result = await fetchHttpData(url, options);
+		const providers = result['data']?.providers;
+		if (!providers?.length) return [];
+		const ret = getOysterProvidersModified(providers);
+		return ret;
 	} catch (error) {
 		console.log('Error getting provider details from subgraph', error);
 		return undefined;

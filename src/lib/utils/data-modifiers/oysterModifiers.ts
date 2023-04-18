@@ -1,4 +1,7 @@
-import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+import type {
+	OysterInventoryDataModel,
+	OysterProviderDataModel
+} from '$lib/types/oysterComponentType';
 import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
@@ -87,3 +90,14 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 		})
 	};
 };
+
+export async function getOysterProvidersModified(providers: any[]) {
+	if (!providers?.length) return [];
+
+	return providers.map((job: any) => {
+		return {
+			...job,
+			cp: job.cp
+		};
+	}) as OysterProviderDataModel[];
+}

@@ -25,7 +25,8 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 		createdAt,
 		amountPaid = '0',
 		balance = '0',
-		settlementHistory = []
+		settlementHistory = [],
+		depositHistory = []
 	} = job ?? {};
 
 	//remove unwanted single quote and \
@@ -67,9 +68,16 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 		live: live,
 		settlementHistory: settlementHistory.map((settlement: any) => {
 			return {
+				...settlement,
 				amount: BigNumber.from(settlement.amount),
-				ts: Number(settlement.ts),
-				id: settlement.id
+				timestamp: Number(settlement.timestamp)
+			};
+		}),
+		depositHistory: depositHistory.map((deposit: any) => {
+			return {
+				...deposit,
+				amount: BigNumber.from(deposit.amount),
+				timestamp: Number(deposit.timestamp)
 			};
 		})
 	};

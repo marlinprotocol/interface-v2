@@ -169,13 +169,22 @@ export const QUERY_TO_GET_JOBS_DATA = `query Jobs($address: String) {
     createdAt
     amountPaid
     balance
-    settlementHistory(
-      orderBy: ts, 
+    depositHistory(
+      orderBy: timestamp,
       orderDirection: desc
     ) {
       amount
       id
-      ts
+      isWithdrawal
+      timestamp
+    }
+    settlementHistory(
+      orderBy: timestamp, 
+      orderDirection: desc
+    ) {
+      amount
+      id
+      timestamp
     }
   }
 }`;

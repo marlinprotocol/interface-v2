@@ -22,7 +22,7 @@
 		amountUsed,
 		createdAt,
 		durationLeft,
-		settlementHistory
+		depositHistory
 	} = jobData);
 
 	const subtitle =
@@ -44,14 +44,29 @@
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4">
 			<div class="flex gap-4">
-				<TextInputCard title={'Merchant'} value={name !== '' ? name : address} centered />
-				<TextInputCard title={'Region'} value={region} centered />
+				<TextInputCard
+					title={'Merchant'}
+					value={name !== '' ? name : address}
+					centered
+					textStyle={styles.textPrimary}
+				/>
+				<TextInputCard title={'Region'} value={region} centered textStyle={styles.textPrimary} />
 			</div>
 			<div class="flex gap-4">
-				<TextInputCard title={'Instance'} value={instance} centered />
-				<TextInputCard title={'vCPU'} value={instance} centered />
-				<TextInputCard title={'Memory'} value={instance} centered />
-				<TextInputCard title={'Rate'} value={`$${bigNumberToCommaString(rate)}/day`} centered />
+				<TextInputCard
+					title={'Instance'}
+					value={instance}
+					centered
+					textStyle={styles.textPrimary}
+				/>
+				<TextInputCard title={'vCPU'} value={instance} centered textStyle={styles.textPrimary} />
+				<TextInputCard title={'Memory'} value={instance} centered textStyle={styles.textPrimary} />
+				<TextInputCard
+					title={'Rate'}
+					value={`$${bigNumberToCommaString(rate)}/day`}
+					centered
+					textStyle={styles.textPrimary}
+				/>
 			</div>
 			<div class="flex gap-4">
 				<TextInputCard
@@ -84,7 +99,7 @@
 				value={enclaveUrl}
 				textStyle={styles.textPrimary}
 			/>
-			<PaymentHistoryTable tableData={settlementHistory} />
+			<PaymentHistoryTable tableData={depositHistory} />
 		</div>
 	</svelte:fragment>
 	<!-- TODO: s- check why scroll is not working, and button is not visible if outside -->

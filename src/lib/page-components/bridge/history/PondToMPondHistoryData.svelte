@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
-	import TxnHashText from '$lib/components/TxnHashText.svelte';
+	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
 	import { getPondToMPondConversionHistory } from '$lib/controllers/subgraphController';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';

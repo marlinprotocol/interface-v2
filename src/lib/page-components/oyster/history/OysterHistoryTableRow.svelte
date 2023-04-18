@@ -1,31 +1,35 @@
 <script lang="ts">
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
-	import TxnHashText from '$lib/components/TxnHashText.svelte';
 	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { CommonVariant } from '$lib/types/componentTypes';
-	import type { OysterHistoryDataModel } from '$lib/types/oysterComponentType';
+	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
 	import { pondPrecisions } from '$lib/utils/constants/constants';
-	import { kHistoryTableColumnsWidth } from '$lib/utils/constants/oysterConstants';
+	import {
+		kHistoryTableColumnsWidth,
+		kOysterRateMetaData
+	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
-	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
 
-	export let rowData: OysterHistoryDataModel;
+	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
 
+	const { symbol } = kOysterRateMetaData;
 	$: ({
-		merchant: { name, address },
+		provider: { name, address },
 		instance,
 		region,
-		refund,
+		rate,
+		live,
 		amountPaid,
 		amountUsed,
-		status,
-		txHash
+		durationLeft,
+		balance,
+		endEpochTime
 	} = rowData);
 
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
@@ -51,13 +55,16 @@
 		{region}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('amountPaid')}`}>
-		{amountPaid.symbol}{bigNumberToCommaString(amountPaid.amount, pondPrecisions)}
+		{symbol}{bigNumberToCommaString(amountPaid, pondPrecisions)}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('amountUsed')}`}>
-		{amountUsed.symbol}{bigNumberToCommaString(amountUsed.amount, pondPrecisions)}
+		{symbol}{bigNumberToCommaString(amountUsed, pondPrecisions)}
 	</TableGridDataCell>
-	<TableGridDataCell width={`${kHistoryTableColumnsWidth('refund')}`}>
+	<!-- <TableGridDataCell width={`${kHistoryTableColumnsWidth('refund')}`}>
 		{refund.symbol}{bigNumberToCommaString(refund.amount, pondPrecisions)}
+	</TableGridDataCell> -->
+	<TableGridDataCell width={`${kHistoryTableColumnsWidth('duration')}`}>
+		{durationLeft}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('status')}`}>
 		<div
@@ -66,9 +73,6 @@
 		>
 			{status}
 		</div>
-	</TableGridDataCell>
-	<TableGridDataCell width={`${kHistoryTableColumnsWidth('txHash')}`}>
-		<TxnHashText txnHash={txHash} txnHashUrl={goerliArbiUrl(txHash)} startInt={2} endInt={2} />
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('action')}`}>
 		<TableConvertButton modalFor={`redploy-${rowIndex}`} text="REDEPLOY" />

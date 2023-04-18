@@ -32,6 +32,7 @@
 		address = value.address;
 		if (address) {
 			loading = true;
+			// TODO: change to address
 			inventoryData = await getOysterJobs('0x7aa8e222deddd49a6bdb5bffd0ac5fe17e1e0176');
 			inventoryData = inventoryData?.filter((data) => data.live);
 			loading = false;

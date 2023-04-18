@@ -46,36 +46,20 @@ export type OysterInventoryDataModel = {
 	owner: string;
 	live: boolean;
 	settlementHistory: OysterSettlementHistoryDataModel[];
+	depositHistory: OysterDepositHistoryDataModel[];
 	id: Bytes;
 };
 
 export type OysterSettlementHistoryDataModel = {
 	amount: BigNumber;
 	id: string;
-	ts: number;
+	timestamp: number;
 };
-
-export type OysterHistoryDataModel = {
-	merchant: {
-		name: string;
-		address: string;
-	};
-	instance: string;
-	region: string;
-	amountPaid: {
-		amount: BigNumber;
-		symbol: string;
-	};
-	amountUsed: {
-		amount: BigNumber;
-		symbol: string;
-	};
-	refund: {
-		amount: BigNumber;
-		symbol: string;
-	};
-	status: 'Completed' | 'Stopped' | 'Refunded';
-	txHash: string;
+export type OysterDepositHistoryDataModel = {
+	amount: BigNumber;
+	id: string;
+	timestamp: number;
+	isWithdrawal: boolean;
 };
 
 const _new = {

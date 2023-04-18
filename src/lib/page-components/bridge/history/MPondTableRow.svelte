@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
-	import TxnHashText from '$lib/components/TxnHashText.svelte';
 	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import TableDataWithButton from '$lib/components/table-cells/TableDataWithButton.svelte';
+	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
 	import { cancelMPondConversionRequest } from '$lib/controllers/contractController';
 	import type {
 		MPondEligibleCyclesModel,

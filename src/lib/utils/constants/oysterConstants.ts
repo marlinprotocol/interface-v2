@@ -1,5 +1,4 @@
 import type { TableModel } from '$lib/types/componentTypes';
-import type { OysterHistoryDataModel } from '$lib/types/oysterComponentType';
 import { BigNumber } from 'ethers';
 
 export const kOysterRateMetaData = {
@@ -296,12 +295,12 @@ export const kOysterHistoryTableHeader: TableModel['header'][] = [
 		sorting: true
 	},
 	{
-		title: 'Status',
-		id: 'status'
+		title: 'Duration Run',
+		id: 'duration'
 	},
 	{
-		title: 'TX Hash',
-		id: 'txHash'
+		title: 'Status',
+		id: 'status'
 	},
 	{
 		title: '',
@@ -323,9 +322,9 @@ export const kHistoryTableColumnsWidth = (id: string) => {
 			return '12.5%';
 		case 'refund':
 			return '10%';
-		case 'status':
+		case 'duration':
 			return '10%';
-		case 'txHash':
+		case 'status':
 			return '10%';
 		case 'action':
 			return '10%';
@@ -333,77 +332,6 @@ export const kHistoryTableColumnsWidth = (id: string) => {
 			return '5%';
 	}
 };
-export const kHistoryData: OysterHistoryDataModel[] = [
-	{
-		merchant: {
-			name: 'InfStones',
-			address: '0x0000000000000000000000000000'
-		},
-		instance: 't2.micro',
-		region: 'Germany',
-
-		amountPaid: {
-			amount: BigNumber.from('3000000000000000000'),
-			symbol: '$'
-		},
-		amountUsed: {
-			amount: BigNumber.from('2000000000000000000'),
-			symbol: '$'
-		},
-		refund: {
-			amount: BigNumber.from('1000000000000000000'),
-			symbol: '$'
-		},
-		status: 'Completed',
-		txHash: '0x00000000000'
-	},
-	{
-		merchant: {
-			name: 'InfStones',
-			address: '0x0000000000000000000000000000'
-		},
-		instance: 't2.micro',
-		region: 'Germany',
-
-		amountPaid: {
-			amount: BigNumber.from('3000000000000000000'),
-			symbol: '$'
-		},
-		amountUsed: {
-			amount: BigNumber.from('2000000000000000000'),
-			symbol: '$'
-		},
-		refund: {
-			amount: BigNumber.from('1000000000000000000'),
-			symbol: '$'
-		},
-		status: 'Stopped',
-		txHash: '0x00000000000'
-	},
-	{
-		merchant: {
-			name: 'InfStones',
-			address: '0x0000000000000000000000000000'
-		},
-		instance: 't2.micro',
-		region: 'Germany',
-
-		amountPaid: {
-			amount: BigNumber.from('3000000000000000000'),
-			symbol: '$'
-		},
-		amountUsed: {
-			amount: BigNumber.from('2000000000000000000'),
-			symbol: '$'
-		},
-		refund: {
-			amount: BigNumber.from('1000000000000000000'),
-			symbol: '$'
-		},
-		status: 'Completed',
-		txHash: '0x00000000000'
-	}
-];
 
 export const kOysterDocLink = 'https://docs.marlin.org/docs/User%20Guides/Oyster/';
 export const kOysterSupportLink = 'https://docs.marlin.org/docs/category/tutorials';

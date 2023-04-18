@@ -362,6 +362,7 @@ export async function getOysterJobs(address: Address) {
 	try {
 		const result = await fetchHttpData(url, options);
 		const jobs = result['data']?.jobs;
+		console.log('jobs :>> ', jobs);
 		if (!jobs?.length) return [];
 		const ret = getOysterJobsModified(jobs);
 		return ret;

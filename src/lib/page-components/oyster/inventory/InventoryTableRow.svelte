@@ -9,7 +9,7 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
-	import { pondPrecisions } from '$lib/utils/constants/constants';
+	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import {
 		kInventoryTableColumnsWidth,
 		kOysterRateMetaData
@@ -19,10 +19,10 @@
 	import { handleStopJob } from '$lib/utils/services/oysterServices';
 	import plus from 'svelte-awesome/icons/plus';
 	import { slide } from 'svelte/transition';
-	import InventoryJobDetailsModal from './modals/JobDetailsModal.svelte';
 	import AddFundsToJobModal from './modals/AddFundsToJobModal.svelte';
-	import WithdrawFundsFromJobModal from './modals/WithdrawFundsFromJobModal.svelte';
+	import InventoryJobDetailsModal from './modals/JobDetailsModal.svelte';
 	import StopJobModal from './modals/StopJobModal.svelte';
+	import WithdrawFundsFromJobModal from './modals/WithdrawFundsFromJobModal.svelte';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -68,16 +68,16 @@
 			{region}
 		</TableGridDataCell>
 		<TableGridDataCell width={`${kInventoryTableColumnsWidth('rate')}`}>
-			{symbol}{bigNumberToCommaString(rate, pondPrecisions)}
+			{symbol}{bigNumberToCommaString(rate, oysterAmountPrecision)}
 		</TableGridDataCell>
 		<TableGridDataCell width={`${kInventoryTableColumnsWidth('amountPaid')}`}>
-			{symbol}{bigNumberToCommaString(amountPaid, pondPrecisions)}
+			{symbol}{bigNumberToCommaString(amountPaid, oysterAmountPrecision)}
 		</TableGridDataCell>
 		<TableGridDataCell width={`${kInventoryTableColumnsWidth('amountUsed')}`}>
-			{symbol}{bigNumberToCommaString(amountUsed, pondPrecisions)}
+			{symbol}{bigNumberToCommaString(amountUsed, oysterAmountPrecision)}
 		</TableGridDataCell>
 		<TableGridDataCell width={`${kInventoryTableColumnsWidth('balance')}`}>
-			{symbol}{bigNumberToCommaString(balance, pondPrecisions)}
+			{symbol}{bigNumberToCommaString(balance, oysterAmountPrecision)}
 		</TableGridDataCell>
 		<TableGridDataCell width={`${kInventoryTableColumnsWidth('durationLeft')}`}>
 			<Timer {endEpochTime}>
@@ -123,6 +123,9 @@
 					modalFor={`job-withdraw-fund-modal-${rowIndex}`}
 				>
 					WITHDRAW
+				</ModalButton>
+				<ModalButton variant="outlined" size="small" modalFor={`job-stop-modal-${rowIndex}`}>
+					AMEND RATE
 				</ModalButton>
 				<ModalButton variant="outlined" size="small" modalFor={`job-details-modal-${rowIndex}`}>
 					DETAILS

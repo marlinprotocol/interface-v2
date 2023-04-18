@@ -18,7 +18,7 @@ export async function handleFundsAddToJob(jobData: OysterInventoryDataModel, amo
 				{
 					amount,
 					id: txn.hash,
-					ts: Date.now()
+					timestamp: Date.now()
 				}
 			]
 		};
@@ -43,7 +43,7 @@ export async function handleFundsWithdrawFromJob(
 				{
 					amount,
 					id: txn.hash,
-					ts: Date.now()
+					timestamp: Date.now()
 				}
 			]
 		};
@@ -60,6 +60,20 @@ export async function handleStopJob(jobData: OysterInventoryDataModel) {
 		return {
 			...jobData,
 			live: false
+		};
+	} catch (e) {
+		console.log('e :>> ', e);
+		return jobData;
+	}
+}
+
+export async function handleAmendRateToJob(jobData: OysterInventoryDataModel, rate: BigNumber) {
+	const { id } = jobData;
+	try {
+		await stopOysterJob(id);
+		return {
+			...jobData,
+			rate: rate
 		};
 	} catch (e) {
 		console.log('e :>> ', e);

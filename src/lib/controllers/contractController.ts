@@ -634,6 +634,7 @@ export async function confirmMPondConversion(epoch: BigNumber, amount: BigNumber
 // ----------------------------- Oyster contract methods -----------------------------
 
 export async function registerOysterInfrastructureProvider(controlPlaneUrl: string) {
+	// TODO: move oysterContractAddress to a config file
 	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	const oysterContractAbi = oysterMarketAbi;
 	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
@@ -932,5 +933,90 @@ export async function addFundsToOysterJob(jobId: Bytes, amount: BigNumber) {
 		});
 		console.log('error :>> ', error);
 		throw new Error('Transaction Error while adding funds to Oyster Job');
+	}
+}
+
+export async function initiateAmendRateOfOysterJob(jobId: Bytes, rate: BigNumber) {
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	const oysterContractAbi = oysterMarketAbi;
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATING,
+			variant: 'info'
+		});
+
+		const tx = await oysterContract.jobReviseRateInitiate(jobId, rate);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to initiate rate revision for Oyster Job.');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATED,
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while initiating rate revision for Oyster Job');
+	}
+}
+
+export async function finaliseAmendRateOfOysterJob(jobId: Bytes) {
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	const oysterContractAbi = oysterMarketAbi;
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.AMENDING,
+			variant: 'info'
+		});
+
+		const tx = await oysterContract.jobReviseRateFinalize(jobId);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to finalise rate revision for Oyster Job.');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.AMENDED,
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while finalising rate revision for Oyster Job');
 	}
 }

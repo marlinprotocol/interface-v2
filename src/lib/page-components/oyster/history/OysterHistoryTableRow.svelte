@@ -7,13 +7,15 @@
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
-	import { pondPrecisions } from '$lib/utils/constants/constants';
+	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import {
 		kHistoryTableColumnsWidth,
 		kOysterRateMetaData
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
+	import JobDetailsModal from '../inventory/modals/JobDetailsModal.svelte';
+	import PastJobDetailsModal from '../inventory/modals/PastJobDetailsModal.svelte';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -25,6 +27,7 @@
 		region,
 		rate,
 		live,
+		status,
 		amountPaid,
 		amountUsed,
 		durationLeft,
@@ -55,14 +58,14 @@
 		{region}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('amountPaid')}`}>
-		{symbol}{bigNumberToCommaString(amountPaid, pondPrecisions)}
+		{symbol}{bigNumberToCommaString(amountPaid, oysterAmountPrecision)}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('amountUsed')}`}>
-		{symbol}{bigNumberToCommaString(amountUsed, pondPrecisions)}
+		{symbol}{bigNumberToCommaString(amountUsed, oysterAmountPrecision)}
 	</TableGridDataCell>
-	<!-- <TableGridDataCell width={`${kHistoryTableColumnsWidth('refund')}`}>
-		{refund.symbol}{bigNumberToCommaString(refund.amount, pondPrecisions)}
-	</TableGridDataCell> -->
+	<TableGridDataCell width={`${kHistoryTableColumnsWidth('refund')}`}>
+		{symbol}{bigNumberToCommaString(amountUsed, oysterAmountPrecision)}
+	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('duration')}`}>
 		{durationLeft}
 	</TableGridDataCell>
@@ -75,9 +78,10 @@
 		</div>
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('action')}`}>
-		<TableConvertButton modalFor={`redploy-${rowIndex}`} text="REDEPLOY" />
+		<TableConvertButton modalFor={`job-history-details-${rowIndex}`} text="DETAILS" />
 	</TableGridDataCell>
 </div>
+<PastJobDetailsModal modalFor={`job-history-details-${rowIndex}`} jobData={rowData} />
 
 <style>
 	.main-row {

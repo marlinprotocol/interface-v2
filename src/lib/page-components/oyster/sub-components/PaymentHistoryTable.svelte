@@ -3,10 +3,7 @@
 	import Table from '$lib/atoms/table/Table.svelte';
 	import TxnIcon from '$lib/components/icons/TxnIcon.svelte';
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
-	import type {
-		OysterDepositHistoryDataModel,
-		OysterSettlementHistoryDataModel
-	} from '$lib/types/oysterComponentType';
+	import type { OysterDepositHistoryDataModel } from '$lib/types/oysterComponentType';
 	import { kOysterPaymentHistoryTableHeader } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
 	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';

@@ -24,11 +24,11 @@ export const getSearchedInventoryData = (
 
 export const getInventoryStatusVariant = (status: string) => {
 	switch (status) {
-		case 'Active':
-		case 'Completed':
+		case 'active':
+		case 'completed':
 			return 'success';
-		case 'Inactive':
-		case 'Stopped':
+		case 'inactive':
+		case 'stopped':
 			return 'error';
 		default:
 			return 'primary';

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
@@ -58,11 +57,7 @@
 	);
 </script>
 
-<PageTitle title={'My Active Orders'}>
-	<svelte:fragment slot="button">
-		<Button variant="outlined" size="tiny" onclick={() => {}}>GUIDE</Button>
-	</svelte:fragment>
-</PageTitle>
+<PageTitle title={'My Past Orders'} backHref={'/oyster/inventory'} />
 <div class="flex gap-4 items-center mb-6">
 	<SearchBar bind:input={searchInput} placeholder={'Search for Operator'} styleClass={'w-full'} />
 	<a href={`/oyster/history`}>

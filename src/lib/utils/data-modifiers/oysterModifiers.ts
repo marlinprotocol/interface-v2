@@ -26,7 +26,8 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 		amountPaid = '0',
 		balance = '0',
 		settlementHistory = [],
-		depositHistory = []
+		depositHistory = [],
+		status = 'active'
 	} = job ?? {};
 
 	//remove unwanted single quote and \
@@ -63,9 +64,10 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 		// endEpochTime: Number(createdAt) + durationPaidInNumber * unitInSeconds,
 		lastSettled: Number(lastSettled),
 		createdAt: Number(createdAt),
-		id: id,
-		owner: owner,
-		live: live,
+		id,
+		owner,
+		live,
+		status,
 		settlementHistory: settlementHistory.map((settlement: any) => {
 			return {
 				...settlement,
@@ -73,11 +75,14 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 				timestamp: Number(settlement.timestamp)
 			};
 		}),
-		depositHistory: depositHistory.map((deposit: any) => {
+		depositHistory: depositHistory.map((deposit: any, i: number) => {
 			return {
 				...deposit,
 				amount: BigNumber.from(deposit.amount),
-				timestamp: Number(deposit.timestamp)
+				timestamp: Number(deposit.timestamp),
+				transactionStatus:
+					i === 0 && !live ? status : deposit.isWithdrawal ? 'withdrawal' : 'deposit'
+				// if job is not live, then the first item i.e the last transaction status is the job status
 			};
 		})
 	};

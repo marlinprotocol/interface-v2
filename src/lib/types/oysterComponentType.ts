@@ -45,6 +45,7 @@ export type OysterInventoryDataModel = {
 	endEpochTime: number;
 	owner: string;
 	live: boolean;
+	status: string; //job status - active, inactive, stopped, completed
 	settlementHistory: OysterSettlementHistoryDataModel[];
 	depositHistory: OysterDepositHistoryDataModel[];
 	id: Bytes;
@@ -60,6 +61,7 @@ export type OysterDepositHistoryDataModel = {
 	id: string;
 	timestamp: number;
 	isWithdrawal: boolean;
+	transactionStatus: string;
 };
 
 const _new = {

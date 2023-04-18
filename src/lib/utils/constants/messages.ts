@@ -145,6 +145,8 @@ export const MESSAGES = {
 				CREATED: 'Created a new job.'
 			},
 			STOP_JOB: {
+				INITIATING: 'Initiating job stop.',
+				INITIATED: 'Initiated job stop.',
 				STOPPING: 'Stopping job.',
 				STOPPED: 'Stopped job.'
 			},
@@ -155,6 +157,12 @@ export const MESSAGES = {
 			ADD_FUNDS_JOB: {
 				ADDING_FUNDS: 'Adding funds to job.',
 				FUNDS_ADDED: 'Funds added to job.'
+			},
+			AMEND_RATE_JOB: {
+				INITIATING: 'Initiating rate amendment.',
+				INITIATED: 'Initiated rate amendment.',
+				AMENDING: 'Amending rate.',
+				AMENDED: 'Amended rate.'
 			}
 		}
 	},

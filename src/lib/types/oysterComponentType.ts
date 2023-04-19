@@ -51,6 +51,8 @@ export type OysterInventoryDataModel = {
 	enclaveUrl: string;
 	instance: string;
 	region: string;
+	vcpu?: number;
+	memory?: number;
 	rate: BigNumber;
 	totalDeposit: BigNumber;
 	amountUsed: BigNumber;

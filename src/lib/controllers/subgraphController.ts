@@ -20,6 +20,7 @@ import {
 	QUERY_TO_GET_PROVIDER_DATA,
 	QUERY_TO_GET_RECEIVER_POND_BALANCE,
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
+	QUERY_TO_JOB_REVISE_RATE_END_TIMESTAMP_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
 import {
@@ -29,7 +30,7 @@ import {
 import { getModifiedMPondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
 import { fetchHttpData, showFetchHttpDataError } from '$lib/utils/helpers/httpHelper';
-import { BigNumber } from 'ethers';
+import { BigNumber, type Bytes } from 'ethers';
 
 let contractAddresses: ContractAddress;
 
@@ -465,5 +466,33 @@ export async function getApprovedOysterAllowances(address: Address, contractAddr
 	} catch (error) {
 		console.log('Error fetching oyster allowances from subgraph', error);
 		return amount;
+	}
+}
+
+export async function getReviseRateInitiateEndTimestamp(jobId: Bytes) {
+	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
+	const query = QUERY_TO_JOB_REVISE_RATE_END_TIMESTAMP_DATA;
+
+	const queryVariables = {
+		jobId: jobId
+	};
+
+	console.log('queryVariables :>> ', queryVariables);
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+	try {
+		const result = await fetchHttpData(url, options);
+
+		const reviseRateRequests = result['data']?.reviseRateRequests;
+		console.log('resultresultresult :>> ', result);
+		if (!reviseRateRequests?.length) {
+			if (result['errors']) {
+				showFetchHttpDataError(result['errors']);
+			}
+			return 0;
+		}
+		return Number(reviseRateRequests[0]['updatesAt'] ?? 0);
+	} catch (error) {
+		console.log('Error getting provider details from subgraph', error);
+		return 0;
 	}
 }

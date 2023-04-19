@@ -11,7 +11,7 @@ export const GET_OPTIONS = {
 	}
 };
 
-export const oysterAmountPrecision = 4;
+export const oysterAmountPrecision = 6;
 export const pondPrecisions = 2;
 export const mPondPrecisions = 6;
 

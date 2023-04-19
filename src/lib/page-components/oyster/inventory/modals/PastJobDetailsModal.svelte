@@ -3,6 +3,7 @@
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import {
 		bigNumberToCommaString,
 		epochSecToString,
@@ -63,8 +64,8 @@
 				<TextInputCard title={'vCPU'} value={instance} centered textStyle={styles.textPrimary} />
 				<TextInputCard title={'Memory'} value={instance} centered textStyle={styles.textPrimary} />
 				<TextInputCard
-					title={'Rate'}
-					value={`$${bigNumberToCommaString(rate)}/day`}
+					title={'Hourly Rate'}
+					value={`$${bigNumberToCommaString(rate, oysterAmountPrecision)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
@@ -79,13 +80,13 @@
 				<!-- TODO: end date -->
 				<TextInputCard
 					title={'End Date'}
-					value={bigNumberToCommaString(totalDeposit)}
+					value={bigNumberToCommaString(totalDeposit, oysterAmountPrecision)}
 					centered
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
 					title={'Amount Used'}
-					value={bigNumberToCommaString(amountUsed)}
+					value={bigNumberToCommaString(amountUsed, oysterAmountPrecision)}
 					centered
 					textStyle={styles.textPrimary}
 				/>

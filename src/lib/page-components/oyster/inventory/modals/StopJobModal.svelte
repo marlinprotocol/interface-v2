@@ -1,44 +1,75 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
-	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
+	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToCommaString, epochToDurationString } from '$lib/utils/conversion';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
-	import { handleInitiateJobStop, handleConfirmJobStop } from '$lib/utils/services/oysterServices';
+	import {
+		handleCancelRateRevise,
+		handleConfirmJobStop,
+		handleInitiateRateRevise
+	} from '$lib/utils/services/oysterServices';
+	import StopModalContent from '../../sub-components/StopModalContent.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
+	export let stopInitiateEndTimestamp: number;
 
-	const { currency } = kOysterRateMetaData;
-	$: ({ balance, durationLeft, rate } = jobData);
-
-	let stopInitiateEndTimestamp: number;
-	$: stopInitiated = rate ? !rate.gt(BigNumberZero) : false;
 	let submitLoading = false;
+	const nowTime = Date.now() / 1000;
 
 	const handleInitialClick = async () => {
 		submitLoading = true;
-		const _stopInitiateEndTimestamp = await handleInitiateJobStop(jobData);
-		if (_stopInitiateEndTimestamp) {
-			stopInitiateEndTimestamp = _stopInitiateEndTimestamp;
-		}
-		submitLoading = false;
-	};
-
-	// TODO: run timer for stopInitiateEndTimestamp and update rate to 0 locally
-	const handleConfirmClick = async () => {
-		submitLoading = true;
-		jobData = await handleConfirmJobStop(jobData);
+		await handleInitiateRateRevise(jobData);
 		submitLoading = false;
 		closeModal(modalFor);
 	};
 
-	$: modalTitle = stopInitiated ? 'CONFIRM STOP' : 'INITIATE STOP';
-	$: submitButtonText = stopInitiated ? 'CONFIRM' : 'INITIATE';
-	$: submitFunction = stopInitiated ? handleConfirmClick : handleInitialClick;
+	const handleConfirmClick = async () => {
+		submitLoading = true;
+		jobData = await handleConfirmJobStop(jobData);
+		oysterStore.update((value) => {
+			return {
+				...value,
+				jobsData: value.jobsData.map((job) => {
+					if (job.id === jobData.id) {
+						return jobData;
+					}
+					return job;
+				})
+			};
+		});
+		submitLoading = false;
+		closeModal(modalFor);
+	};
+
+	const handleCancelInitiate = async () => {
+		submitLoading = true;
+		await handleCancelRateRevise(jobData);
+		submitLoading = false;
+		closeModal(modalFor);
+	};
+
+	$: modalTitle =
+		stopInitiateEndTimestamp === 0
+			? 'INITIATE STOP'
+			: stopInitiateEndTimestamp < nowTime
+			? 'CONFIRM STOP'
+			: 'INITIATING STOP';
+
+	$: submitButtonText =
+		stopInitiateEndTimestamp === 0
+			? 'INITIATE STOP'
+			: stopInitiateEndTimestamp < nowTime
+			? 'CONFIRM'
+			: 'CANCEL INITIATION';
+
+	$: submitButtonAction =
+		stopInitiateEndTimestamp === 0
+			? handleInitialClick
+			: stopInitiateEndTimestamp < nowTime
+			? handleConfirmClick
+			: handleCancelInitiate;
 
 	const subtitle =
 		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
@@ -56,30 +87,22 @@
 		{subtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex flex-col gap-4">
-			<div class="flex gap-4">
-				<TextInputCard
-					title={'Current Balance'}
-					value={`${bigNumberToCommaString(balance, 6)} ${currency}`}
-					centered
-					textStyle={styles.textPrimary}
-				/>
-				<TextInputCard
-					title={'Duration Left'}
-					value={durationLeft === 0 ? 'Ended' : epochToDurationString(durationLeft)}
-					centered
-					textStyle={styles.textPrimary}
-				/>
-			</div>
-		</div>
+		<StopModalContent {jobData} />
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		<Button
 			variant="filled"
 			loading={submitLoading}
-			onclick={submitFunction}
+			onclick={submitButtonAction}
 			size="large"
-			styleClass={'btn-block my-0'}>{submitButtonText}</Button
+			styleClass={`btn-block my-0 `}
 		>
+			{submitButtonText}
+		</Button>
+		<!-- {#if initiateInProcess}
+			<Button variant="filled" disabled size="large" styleClass={'btn-block mt-4'}>
+				{'CONFIRM'}
+			</Button>
+		{/if} -->
 	</svelte:fragment>
 </Modal>

@@ -49,7 +49,7 @@
 			case 'tiny':
 				return 'h-8';
 			case 'small':
-				return 'h-11';
+				return 'h-10';
 			case 'medium':
 				return 'h-12';
 			case 'large':

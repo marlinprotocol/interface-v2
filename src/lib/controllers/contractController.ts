@@ -912,7 +912,6 @@ export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber)
 				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATED,
 			variant: 'success'
 		});
-		// TODO: return endTimestamp
 		return tx;
 	} catch (error: any) {
 		addToast({
@@ -923,6 +922,49 @@ export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber)
 		});
 		console.log('error :>> ', error);
 		throw new Error('Transaction Error while initiating rate revision for Oyster Job');
+	}
+}
+
+export async function cancelRateReviseOysterJob(jobId: Bytes) {
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	const oysterContractAbi = oysterMarketAbi;
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.CANCELLING,
+			variant: 'info'
+		});
+
+		const tx = await oysterContract.jobReviseRateCancel(jobId);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to cancel rate revision for Oyster Job.');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.CANCELLED,
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while cancelling rate revision for Oyster Job');
 	}
 }
 

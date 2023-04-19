@@ -1,4 +1,5 @@
 import {
+	cancelRateReviseOysterJob,
 	createNewOysterJob,
 	initiateRateReviseOysterJob
 } from '$lib/controllers/contractController';
@@ -12,6 +13,7 @@ import { oysterStore } from '$lib/data-stores/oysterStore';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 import type { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
+import { getReviseRateInitiateEndTimestamp } from '$lib/controllers/subgraphController';
 
 export async function handleApproveFundForOysterJob(amount: BigNumber) {
 	try {
@@ -82,14 +84,33 @@ export async function handleFundsWithdrawFromJob(
 	}
 }
 
-export async function handleInitiateJobStop(jobData: OysterInventoryDataModel) {
+export async function handleInitiateRateRevise(jobData: OysterInventoryDataModel) {
 	const { id } = jobData;
 	try {
-		const tx = await initiateRateReviseOysterJob(id, BigNumberZero);
-		return 1781892132;
+		await initiateRateReviseOysterJob(id, BigNumberZero);
 	} catch (e) {
 		console.log('e :>> ', e);
-		return null;
+	}
+}
+
+export async function handleCancelRateRevise(jobData: OysterInventoryDataModel) {
+	const { id } = jobData;
+	try {
+		await cancelRateReviseOysterJob(id);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+export async function handleGetReviseRateInititaeEndTimestamp(jobData: OysterInventoryDataModel) {
+	const { id } = jobData;
+	try {
+		const timestamp = await getReviseRateInitiateEndTimestamp(id);
+		console.log('timestamp :>> ', timestamp);
+		return timestamp;
+	} catch (e) {
+		console.log('e :>> ', e);
+		return 0;
 	}
 }
 
@@ -101,20 +122,6 @@ export async function handleConfirmJobStop(jobData: OysterInventoryDataModel) {
 		return {
 			...jobData,
 			live: false
-		};
-	} catch (e) {
-		console.log('e :>> ', e);
-		return jobData;
-	}
-}
-
-export async function handleAmendRateToJob(jobData: OysterInventoryDataModel, rate: BigNumber) {
-	const { id } = jobData;
-	try {
-		await stopOysterJob(id);
-		return {
-			...jobData,
-			rate: rate
 		};
 	} catch (e) {
 		console.log('e :>> ', e);

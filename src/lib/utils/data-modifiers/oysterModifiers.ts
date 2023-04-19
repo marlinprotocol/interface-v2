@@ -1,3 +1,5 @@
+import { getInstancesFromControlPlane } from '$lib/controllers/httpController';
+import { instanceVcpuMemoryData } from '$lib/page-components/oyster/data/instanceVcpuMemoryData';
 import type {
 	CPUrlDataModel,
 	OysterInventoryDataModel,
@@ -6,8 +8,7 @@ import type {
 import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
-import { bigNumberToString } from '../conversion';
-import { getInstancesFromControlPlane } from '$lib/controllers/httpController';
+import { hundredYears } from '../conversion';
 
 export function getOysterJobsModified(jobs: any[]) {
 	if (!jobs?.length) return [];
@@ -18,22 +19,25 @@ export function getOysterJobsModified(jobs: any[]) {
 }
 
 const modifyJobData = (job: any): OysterInventoryDataModel => {
-	const { unitInSeconds, decimal } = kOysterRateMetaData;
+	const { unitInSeconds } = kOysterRateMetaData;
 	let {
 		metadata,
 		id,
-		live = false,
 		owner,
 		rate = '0',
 		provider,
-		lastSettled,
 		createdAt,
 		totalDeposit = '0',
+		lastSettled,
 		balance = '0',
+		refund = '0',
 		settlementHistory = [],
 		depositHistory = [],
 		status = 'active'
 	} = job ?? {};
+
+	const nowTime = Date.now() / 1000;
+	const _lastSettled = Number(lastSettled);
 
 	//remove unwanted single quote and \
 	metadata = metadata.replaceAll("'", '');
@@ -41,18 +45,18 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 	const metadataParsed = JSON.parse(metadata);
 	const { url, instanceType, region } = metadataParsed ?? {};
 
+	const vcpuMemoryData = instanceVcpuMemoryData.find((item: any) => item[0] === instanceType);
+
+	const vCPU = vcpuMemoryData?.[1];
+	const memory = vcpuMemoryData?.[2];
+
+	//convert to BigNumber
 	const _totalDeposit = BigNumber.from(totalDeposit);
 	const _balance = BigNumber.from(balance);
 	const _rate = BigNumber.from(rate);
+	const _refund = BigNumber.from(refund);
 
-	// rate is per hour rate in usd, totalDeposit is in usd
-	const durationUsed = (Date.now() / 1000 - Number(createdAt)) / unitInSeconds;
-	const durationPaid = _rate.gt(BigNumberZero) ? _totalDeposit.div(_rate) : BigNumberZero;
-
-	//convert to number
-	const durationPaidInNumber = parseFloat(bigNumberToString(durationPaid, decimal));
-
-	return {
+	let modifiedJob = {
 		provider: {
 			name: '', //TODO: get provider name from address
 			address: provider
@@ -60,18 +64,14 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 		enclaveUrl: url,
 		instance: instanceType,
 		region,
+		vcpu: vCPU,
+		memory: memory,
 		rate: _rate,
 		totalDeposit: _totalDeposit,
-		amountUsed: _totalDeposit.sub(_balance),
-		balance: _balance,
-		durationLeft: durationPaidInNumber > durationUsed ? durationPaidInNumber - durationUsed : 0,
-		endEpochTime: 1684075672,
-		// endEpochTime: Number(createdAt) + durationPaidInNumber * unitInSeconds,
 		lastSettled: Number(lastSettled),
 		createdAt: Number(createdAt),
 		id,
 		owner,
-		live,
 		status,
 		settlementHistory: settlementHistory.map((settlement: any) => {
 			return {
@@ -84,12 +84,58 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 			return {
 				...deposit,
 				amount: BigNumber.from(deposit.amount),
-				timestamp: Number(deposit.timestamp),
-				transactionStatus:
-					i === 0 && !live ? status : deposit.isWithdrawal ? 'withdrawal' : 'deposit'
-				// if job is not live, then the first item i.e the last transaction status is the job status
+				timestamp: Number(deposit.timestamp)
+				// transactionStatus: deposit.isWithdrawal ? 'withdrawal' : 'deposit'
 			};
 		})
+	};
+
+	let live = false;
+	let amountUsed = _totalDeposit.sub(_balance);
+	let currentBalance = _balance;
+	let durationLeft = 0;
+	let endEpochTime = _lastSettled;
+
+	if (_refund.gt(BigNumberZero)) {
+		//job is stopped and refunded so amount is used is total deposit - refund and current balance is 0
+		amountUsed = _totalDeposit.sub(_refund);
+		currentBalance = BigNumberZero;
+	} else {
+		if (_balance.div(_rate).gt(hundredYears / unitInSeconds)) {
+			//job is running and will never end
+			live = true;
+			durationLeft = hundredYears;
+			endEpochTime = _lastSettled + durationLeft;
+		} else {
+			const _paidDuration = _balance.div(_rate).toNumber() / unitInSeconds;
+			endEpochTime = _lastSettled + _paidDuration;
+
+			if (endEpochTime > nowTime) {
+				//job is running
+				const timeSpent = nowTime - _lastSettled;
+				live = true;
+				try {
+					currentBalance = _balance.sub(_rate.mul(timeSpent));
+				} catch (e) {
+					console.log('overflow error', e);
+				}
+				amountUsed = _totalDeposit.sub(currentBalance);
+				durationLeft = _paidDuration - timeSpent;
+			} else {
+				//job is completed
+				amountUsed = _totalDeposit;
+				currentBalance = BigNumberZero;
+			}
+		}
+	}
+
+	return {
+		...modifiedJob,
+		balance: currentBalance,
+		live,
+		amountUsed,
+		durationLeft,
+		endEpochTime: lastSettled + durationLeft
 	};
 };
 

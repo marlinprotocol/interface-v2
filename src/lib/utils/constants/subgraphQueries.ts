@@ -170,6 +170,7 @@ export const QUERY_TO_GET_JOBS_DATA = `query Jobs($address: String) {
     createdAt
     totalDeposit
     balance
+    refund
     depositHistory(
       orderBy: timestamp,
       orderDirection: desc
@@ -205,5 +206,20 @@ export const QUERY_TO_GET_ALL_PROVIDERS_DATA = `query Providers {
     id
     cp
     live
+  }
+}`;
+
+export const QUERY_TO_JOB_REVISE_RATE_END_TIMESTAMP_DATA = `query ReviseRateRequests($jobId: String) {
+  reviseRateRequests(
+    first: 1
+    where: { jobId: $jobId }
+    orderBy: updatesAt
+    orderDirection: desc
+  ) {
+    id
+    jobId
+    status
+    updatesAt
+    value
   }
 }`;

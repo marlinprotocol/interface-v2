@@ -1,14 +1,13 @@
+import { getInstancesFromControlPlane } from '$lib/controllers/contractController';
 import type {
 	CPUrlDataModel,
 	OysterInventoryDataModel,
-	OysterProviderDataModel,
-	ProviderMetaDataModel
+	OysterProviderDataModel
 } from '$lib/types/oysterComponentType';
 import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
 import { bigNumberToString } from '../conversion';
-import { getInstancesFromControlPlane } from '$lib/controllers/contractController';
 
 export function getOysterJobsModified(jobs: any[]) {
 	if (!jobs?.length) return [];
@@ -94,122 +93,73 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 	};
 };
 
-async function _getInstancesForCpURL(controlPlaneUrl: string) {
-	try {
-		// TODO: check why its not working
-		// controlPlaneUrl = 'http://3.108.237.212:8080/spec';
-		// const instances = await getInstancesFromControlPlane(controlPlaneUrl);
-		// console.log('instances :>> ', instances);
-
-		return [
-			{
-				url: 'enclave_url',
-				instanceType: 'instance 1',
-				region: 'Region 1',
-				min_rate: BigNumber.from('1000000000000000000000'),
-				vcpu: '2',
-				memory: '1.5GB'
-			},
-			{
-				url: 'enclave_url',
-				instanceType: 'instance 2',
-				region: 'Region 2',
-				min_rate: BigNumber.from('1500000000000000000000'),
-				vcpu: '10',
-				memory: '5GB'
-			},
-			{
-				url: 'enclave_url',
-				instanceType: 'instance 3',
-				region: 'Region 3',
-				min_rate: BigNumber.from('4000000000000000000000'),
-				vcpu: '2',
-				memory: '0.5GB'
-			}
-		];
-	} catch (e) {
-		console.log('error fetching data from  controlPlaneUrl:>> ', e);
-		return [];
-	}
-}
-
 export async function getOysterProvidersModified(providers: any[]) {
 	if (!providers?.length) return [];
-
-	const promises: {
-		providerData: ProviderMetaDataModel;
-		instances: Promise<CPUrlDataModel[] | undefined>;
-	}[] = [];
-
-	providers?.forEach((provider) => {
-		promises.push({
-			providerData: provider,
-			instances: _getInstancesForCpURL(provider.cp)
-		});
-	});
-	// TODO: implement name
-	const results = await Promise.all(promises.map((p) => p.instances));
-	const ret: OysterProviderDataModel[] = results?.map((result, index) => {
-		const { providerData } = promises[index];
+	//fetch all names here
+	return providers.map((provider: any) => {
 		return {
-			...providerData,
-			name: providerData.id, //TODO: get name from address
-			instances: result
-		};
+			...provider,
+			name: provider.id, //TODO: get name from address
+			instances: []
+		} as OysterProviderDataModel;
 	});
-	return ret;
 }
 
-export function getFiltersDataForCreateJob(
-	allProviders: OysterProviderDataModel[],
-	selectedFilters: Record<string, string>
-) {
+export async function getFiltersDataForCreateJob(provider: OysterProviderDataModel | undefined) {
 	const filters: {
-		merchant: string[];
+		allInstances: CPUrlDataModel[];
 		region: string[];
 		instance: string[];
 		vcpu: string[];
 		memory: string[];
 	} = {
-		merchant: [],
+		allInstances: [],
 		region: [],
 		instance: [],
 		vcpu: [],
 		memory: []
 	};
 
-	interface ProviderListing extends CPUrlDataModel {
-		merchantName: string;
-		merchantAddress: string;
+	if (!provider) return filters;
+
+	let instances: CPUrlDataModel[] = [];
+	try {
+		instances = await getInstancesFromControlPlane(provider.cp);
+	} catch (e) {
+		console.log('error fetching data from  controlPlaneUrl:>> ', e);
 	}
 
-	// get all instances from all providers and based on filters
-	const instances = allProviders?.reduce((acc, provider) => {
-		provider.instances?.forEach((instance) => {
-			if (selectedFilters.merchant && selectedFilters.merchant !== provider.name) return;
-			if (selectedFilters.region && selectedFilters.region !== instance.region) return;
-			if (selectedFilters.instance && selectedFilters.instance !== instance.instanceType) return;
-			if (selectedFilters.vcpu && selectedFilters.vcpu !== instance.vcpu) return;
-			if (selectedFilters.memory && selectedFilters.memory !== instance.memory) return;
-			acc.push({
-				...instance,
-				merchantName: provider.name, //TODO: get provider name from address
-				merchantAddress: provider.id
-			});
-		});
-		return acc;
-	}, [] as ProviderListing[]);
-
-	// get all unique values for each filter
 	instances?.forEach((instance) => {
-		if (!filters.merchant.includes(instance.merchantName))
-			filters.merchant.push(instance.merchantName);
-		if (!filters.region.includes(instance.region)) filters.region.push(instance.region);
-		if (!filters.instance.includes(instance.instanceType))
+		if (!filters.region.includes(instance.region)) {
+			filters.region.push(instance.region);
+		}
+		if (!filters.instance.includes(instance.instanceType)) {
 			filters.instance.push(instance.instanceType);
-		if (!filters.vcpu.includes(instance.vcpu)) filters.vcpu.push(instance.vcpu);
-		if (!filters.memory.includes(instance.memory)) filters.memory.push(instance.memory);
+		}
+		if (!filters.vcpu.includes(instance.vcpu)) {
+			filters.vcpu.push(instance.vcpu);
+		}
+		if (!filters.memory.includes(instance.memory)) {
+			filters.memory.push(instance.memory);
+		}
 	});
-
-	return filters;
+	return {
+		...filters,
+		allInstances: instances
+	};
 }
+
+export const getRateForProviderAndFilters = (values: any, instances: CPUrlDataModel[]) => {
+	const { instance, region, vcpu, memory } = values;
+	if (!instance.value || !region.value || !vcpu.value || !memory.value) return null;
+
+	const instanceSelected = instances?.find(
+		(_item) =>
+			_item.instanceType === instance.value &&
+			_item.region === region.value &&
+			_item.vcpu === vcpu.value &&
+			_item.memory === memory.value
+	);
+
+	return instanceSelected?.min_rate ?? null;
+};

@@ -114,8 +114,10 @@ export async function getBridgeContractDetails() {
 // TODO: ask if /spec is expected in the input of control place or we have to explicitly check
 export async function getInstancesFromControlPlane(controlPlaneUrl: string) {
 	const options = GET_OPTIONS;
-	console.log('controlPlaneUrl :>> ', controlPlaneUrl);
+	console.log('fetching instances from control plane');
 	const instances: CPInstances = await fetchHttpData(controlPlaneUrl, options);
+	console.log('instances fetched');
+	// TODO: add timeout
 	if (!instances) {
 		throw new Error('Unable to fetch instances');
 	}

@@ -114,7 +114,7 @@
 			loading={submitLoading}
 			onclick={handleSubmitClick}
 			size="large"
-			styleClass={'btn-block my-0'}>WITHDRAW</Button
+			styleClass={'btn-block w-full my-0'}>WITHDRAW</Button
 		>
 	</svelte:fragment>
 </Modal>

@@ -20,7 +20,7 @@
 	<span class={styles.subtitle}
 		>Please switch to the Arbitrum network to use the Receiver Staking portal.</span
 	>
-	<Button styleClass="mt-8" variant="filled" size="large" onclick={() => handleChainSwitch()}
+	<Button styleClass="mt-8 w-full" variant="filled" size="large" onclick={() => handleChainSwitch()}
 		>SWITCH NETWORK</Button
 	>
 </ContainerCard>

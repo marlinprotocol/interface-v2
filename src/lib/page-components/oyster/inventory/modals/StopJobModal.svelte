@@ -79,7 +79,7 @@
 			loading={submitLoading}
 			onclick={submitFunction}
 			size="large"
-			styleClass={'btn-block my-0'}>{submitButtonText}</Button
+			styleClass={'btn-block w-full my-0'}>{submitButtonText}</Button
 		>
 	</svelte:fragment>
 </Modal>

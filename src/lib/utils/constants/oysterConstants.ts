@@ -1,5 +1,6 @@
 import type { TableModel } from '$lib/types/componentTypes';
-import { BigNumber } from 'ethers';
+
+export const kMerchantJobs = '/oyster/merchant/jobs';
 
 export const kOysterRateMetaData = {
 	currency: 'USDC',
@@ -9,7 +10,7 @@ export const kOysterRateMetaData = {
 	unitInSeconds: 3600
 };
 
-export const oysterTableItemsPerPage: number = 10;
+export const oysterTableItemsPerPage = 10;
 
 export const kInstancesTableHeader: TableModel['header'][] = [
 	{

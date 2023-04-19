@@ -116,7 +116,7 @@
 				loading={approvedLoading}
 				onclick={handleApproveClick}
 				size="large"
-				styleClass={'btn-block my-0'}>APPROVE</Button
+				styleClass={'btn-block w-full my-0'}>APPROVE</Button
 			>
 		{:else}
 			<Button
@@ -125,7 +125,7 @@
 				loading={submitLoading}
 				onclick={handleSubmitClick}
 				size="large"
-				styleClass={'btn-block my-0'}>CONFIRM</Button
+				styleClass={'btn-block w-full my-0'}>CONFIRM</Button
 			>
 		{/if}
 	</svelte:fragment>

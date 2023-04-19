@@ -77,31 +77,31 @@ export type OysterDepositHistoryDataModel = {
 	id: string;
 	timestamp: number;
 	isWithdrawal: boolean;
-	transactionStatus: string;
+	transactionStatus?: string; //TODO: remove this
 };
 
-const _new = {
-	allowed_regions: ['ap-south-1', 'ap-east-1', 'us-east-1'],
-	min_rates: [
-		{
-			region: 'ap-south-1',
-			rate_cards: [
-				{ instance: 'c6a.xlarge', min_rate: 2 },
-				{ instance: 'c6a.large', min_rate: 1 },
-				{ instance: 'c6a.2xlarge', min_rate: 3 }
-			]
-		},
-		{
-			region: 'ap-east-1',
-			rate_cards: [
-				{ instance: 'c6a.xlarge', min_rate: 1 },
-				{ instance: 'c6a.large', min_rate: 1 },
-				{ instance: 'c6a.2xlarge', min_rate: 2 }
-			]
-		}
-	]
-};
+// const _new = {
+// 	allowed_regions: ['ap-south-1', 'ap-east-1', 'us-east-1'],
+// 	min_rates: [
+// 		{
+// 			region: 'ap-south-1',
+// 			rate_cards: [
+// 				{ instance: 'c6a.xlarge', min_rate: 2 },
+// 				{ instance: 'c6a.large', min_rate: 1 },
+// 				{ instance: 'c6a.2xlarge', min_rate: 3 }
+// 			]
+// 		},
+// 		{
+// 			region: 'ap-east-1',
+// 			rate_cards: [
+// 				{ instance: 'c6a.xlarge', min_rate: 1 },
+// 				{ instance: 'c6a.large', min_rate: 1 },
+// 				{ instance: 'c6a.2xlarge', min_rate: 2 }
+// 			]
+// 		}
+// 	]
+// };
 
-const metadata = '{region: ap-south-1, instance_type: c6a.xlarge, url: 2}';
+// const metadata = '{region: ap-south-1, instance_type: c6a.xlarge, url: 2}';
 
 // "'{\"url\": \"http://3.2.3.2:7000\", \"instanceType\": \"4543452\", \"region\": \"pdfskod\"}'";

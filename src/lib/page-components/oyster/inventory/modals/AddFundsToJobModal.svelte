@@ -2,7 +2,6 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
-	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
@@ -70,7 +69,9 @@
 		closeModal(modalFor);
 	};
 
-	$: cost = rate.mul(inputAmount);
+	const inputUnitToRate = 24; //24 hours in a day
+
+	$: cost = rate.mul(inputAmount).mul(inputUnitToRate);
 
 	$: approved = connected && cost && approvedAmount.gte(cost) && inputAmount.gt(BigNumberZero);
 	$: approveEnable =
@@ -92,13 +93,12 @@
 		<div class="flex flex-col gap-4">
 			<div class="flex gap-4">
 				<AmountInputWithTitle
-					title={`Rate per ${unit}`}
+					title={`Hourly Rate`}
 					inputAmountString={bigNumberToCommaString(rate, 6)}
 					disabled
 					prefix={symbol}
 				/>
-				<AmountInputWithTitle title={'Duration'} bind:inputAmountString suffix={unit} />
-				<!-- TODO check conversion unit not working -->
+				<AmountInputWithTitle title={'Duration'} bind:inputAmountString suffix={'days'} />
 				<AmountInputWithTitle
 					title={'Cost'}
 					inputAmountString={bigNumberToCommaString(cost, 6)}

@@ -18,7 +18,7 @@
 		inputAmountInValidMessage,
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
-	import { handleFundsAddToJob } from '$lib/utils/services/oysterServices';
+	import { handleFundsWithdrawFromJob } from '$lib/utils/services/oysterServices';
 	import type { BigNumber } from 'ethers';
 
 	export let modalFor: string;
@@ -36,7 +36,7 @@
 	let updatedAmountInputDirty = false;
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
-		? stringToBigNumber(inputAmountString, 0)
+		? stringToBigNumber(inputAmountString)
 		: BigNumberZero;
 
 	//loading states
@@ -69,15 +69,13 @@
 
 	const handleSubmitClick = async () => {
 		submitLoading = true;
-		// TODO: open approve modal
-		jobData = await handleFundsAddToJob(jobData, cost);
+		jobData = await handleFundsWithdrawFromJob(jobData, inputAmount);
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
 	};
 
 	// TODO: check why diasabled is not working
-	$: cost = rate.mul(inputAmount);
 	$: maxDisabedText = inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient balance' : '';
 	$: submitEnable = inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
 

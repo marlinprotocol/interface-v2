@@ -171,10 +171,10 @@ export const MESSAGES = {
 				FUNDS_ADDED: 'Funds added to job.'
 			},
 			AMEND_RATE_JOB: {
-				INITIATING: 'Initiating rate amendment.',
-				INITIATED: 'Initiated rate amendment.',
-				AMENDING: 'Amending rate.',
-				AMENDED: 'Amended rate.'
+				INITIATING: 'Initiating rate revision.',
+				INITIATED: 'Initiated rate revision.',
+				AMENDING: 'Revising rate.',
+				AMENDED: 'Revised rate.'
 			}
 		}
 	},

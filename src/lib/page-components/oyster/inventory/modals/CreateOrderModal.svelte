@@ -14,6 +14,10 @@
 		getRateForProviderAndFilters
 	} from '$lib/utils/data-modifiers/oysterModifiers';
 	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import {
+		handleApproveFundForOysterJob,
+		handleCreateJob
+	} from '$lib/utils/services/oysterServices';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
@@ -89,7 +93,32 @@
 	//loading states
 	let submitLoading = false;
 
-	const handleSubmitClick = async () => {};
+	const handleSubmitClick = async () => {
+		if (
+			!selectedProvider ||
+			!selectedProvider.cp ||
+			!rate ||
+			!cost ||
+			!values.instance.value ||
+			!values.region.value ||
+			!values.memory.value ||
+			!values.vcpu.value
+		) {
+			return;
+		}
+		const metadata = JSON.stringify({
+			instanceType: values.instance.value,
+			region: values.region.value,
+			memory: values.memory.value,
+			vcpu: values.vcpu.value,
+			url: selectedProvider.cp
+		});
+		submitLoading = true;
+		// TODO: approve modal
+		await handleApproveFundForOysterJob(cost);
+		await handleCreateJob(metadata, merchant.value, rate, cost);
+		submitLoading = false;
+	};
 
 	//reset amount and signer address
 	const resetInputs = () => {

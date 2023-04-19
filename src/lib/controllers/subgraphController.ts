@@ -356,14 +356,11 @@ export async function getOysterJobs(address: Address) {
 	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
 	const query = QUERY_TO_GET_JOBS_DATA;
 
-	//TODO: remove later
-	address = '0x7aa8e222deddd49a6bdb5bffd0ac5fe17e1e0176';
 	const queryVariables = {
 		address: address.toLowerCase()
 	};
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-	//https://api.aragog.live/getVerifiedoperators
 
 	try {
 		const result = await fetchHttpData(url, options);
@@ -419,7 +416,6 @@ export async function getAllProvidersDetailsFromSubgraph() {
 
 export async function getApprovedOysterAllowances(address: Address, contractAddress: Address) {
 	const url = ENVIRONMENT.public_contract_subgraph_url;
-	// TODO: change this to get allowance
 	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
 
 	const queryVariables = {
@@ -433,8 +429,10 @@ export async function getApprovedOysterAllowances(address: Address, contractAddr
 		const result = await fetchHttpData(url, options);
 		console.log('oyster allowances', result);
 
-		if (!result['data']) {
-			return amount;
+		const pondApprovals = result['data']?.pondApprovals;
+
+		if (pondApprovals && pondApprovals.length > 0) {
+			return pondApprovals[0].amount;
 		}
 		return amount;
 	} catch (error) {

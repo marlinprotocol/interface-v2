@@ -16,7 +16,6 @@
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString, epochToDurationString } from '$lib/utils/conversion';
 	import { getInventoryDurationVariant } from '$lib/utils/helpers/oysterHelpers';
-	import { handleStopJob } from '$lib/utils/services/oysterServices';
 	import plus from 'svelte-awesome/icons/plus';
 	import { slide } from 'svelte/transition';
 	import AddFundsToJobModal from './modals/AddFundsToJobModal.svelte';
@@ -39,10 +38,6 @@
 		balance,
 		endEpochTime // epoch time in seconds based on duration left
 	} = rowData);
-
-	const stopJob = async () => {
-		rowData = await handleStopJob(rowData);
-	};
 
 	let openRow: number = -1;
 </script>

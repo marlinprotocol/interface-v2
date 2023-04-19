@@ -4,7 +4,10 @@
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { kOysterHistoryTableHeader } from '$lib/utils/constants/oysterConstants';
+	import {
+		kOysterHistoryTableHeader,
+		oysterTableItemsPerPage
+	} from '$lib/utils/constants/oysterConstants';
 	import { getSearchedInventoryData } from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
@@ -14,8 +17,7 @@
 	let searchInput = '';
 	let activePage = 1;
 
-	// TODO: move to utils and make it 10
-	const itemsPerPage = 5;
+	const itemsPerPage = oysterTableItemsPerPage;
 
 	let inventoryData: OysterInventoryDataModel[] | undefined;
 

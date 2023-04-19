@@ -9,6 +9,8 @@ export const kOysterRateMetaData = {
 	unitInSeconds: 3600
 };
 
+export const oysterTableItemsPerPage: number = 10;
+
 export const kInstancesTableHeader: TableModel['header'][] = [
 	{
 		title: 'Instance Type',
@@ -30,7 +32,7 @@ export const kInstancesTableHeader: TableModel['header'][] = [
 // Merchant, Region, Instance, Rate, Amount Paid, Amount Used, Balance, Duration Left, Status
 export const kOysterInventoryTableHeader: TableModel['header'][] = [
 	{
-		title: 'Merchant',
+		title: 'Operator',
 		id: 'merchant'
 	},
 	{
@@ -113,162 +115,9 @@ export const kOysterPaymentHistoryTableHeader: TableModel['header'][] = [
 	}
 ];
 
-// //TODO: remove this later
-// export const kInventoryData: OysterInventoryDataModel[] = [
-// 	{
-// 		merchant: {
-// 			name: 'InfStones',
-// 			address: '0x0000000000000000000000000000'
-// 		},
-// 		instance: 't2.micro',
-// 		region: 'Germany',
-// 		rate: {
-// 			amount: BigNumber.from('1000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		amountPaid: {
-// 			amount: BigNumber.from('3000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		amountUsed: {
-// 			amount: BigNumber.from('2000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		balance: {
-// 			amount: BigNumber.from('1000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		durationLeft: 1112222
-// 	},
-// 	{
-// 		merchant: {
-// 			address: '0x0000000000000000000000000000'
-// 		},
-// 		instance: 't2.micro',
-// 		region: 'Germany',
-// 		rate: {
-// 			amount: BigNumber.from('1000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		amountPaid: {
-// 			amount: BigNumber.from('3000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		amountUsed: {
-// 			amount: BigNumber.from('2000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		balance: {
-// 			amount: BigNumber.from('1000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		durationLeft: 12222
-// 	},
-// 	{
-// 		merchant: {
-// 			name: 'InfStones Big Name Very InfStones InfStones',
-// 			address: '0x0000000000000000000000000000'
-// 		},
-// 		instance: 't2.micro',
-// 		region: 'Germany',
-// 		rate: {
-// 			amount: BigNumber.from('1000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		amountPaid: {
-// 			amount: BigNumber.from('3000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		amountUsed: {
-// 			amount: BigNumber.from('2000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		balance: {
-// 			amount: BigNumber.from('1000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		durationLeft: 111222
-// 	},
-// 	{
-// 		merchant: {
-// 			name: 'InfStones',
-// 			address: '0x0000000000000000000000000000'
-// 		},
-// 		instance: 't2.micro',
-// 		region: 'Germany',
-// 		rate: {
-// 			amount: BigNumber.from('1000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		amountPaid: {
-// 			amount: BigNumber.from('3000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		amountUsed: {
-// 			amount: BigNumber.from('2000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		balance: {
-// 			amount: BigNumber.from('1000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		durationLeft: 111222
-// 	},
-// 	{
-// 		merchant: {
-// 			name: 'InfStones',
-// 			address: '0x0000000000000000000000000000'
-// 		},
-// 		instance: 't2.micro',
-// 		region: 'France',
-// 		rate: {
-// 			amount: BigNumber.from('1000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		amountPaid: {
-// 			amount: BigNumber.from('3000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		amountUsed: {
-// 			amount: BigNumber.from('2000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		balance: {
-// 			amount: BigNumber.from('1000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		durationLeft: 11341222
-// 	},
-// 	{
-// 		merchant: {
-// 			address: '0x0000000000000000000000000000'
-// 		},
-// 		instance: 't2.micro',
-// 		region: 'Germany',
-// 		rate: {
-// 			amount: BigNumber.from('1000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		amountPaid: {
-// 			amount: BigNumber.from('3000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		amountUsed: {
-// 			amount: BigNumber.from('2000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		balance: {
-// 			amount: BigNumber.from('1000000000000000000'),
-// 			symbol: '$'
-// 		},
-// 		durationLeft: 111222
-// 	}
-// ];
-
-// Merchant, Region, Instance,  Amount Paid, Amount Used, Refund, Status, TX Hash
 export const kOysterHistoryTableHeader: TableModel['header'][] = [
 	{
-		title: 'Merchant',
+		title: 'Operator',
 		id: 'merchant'
 	},
 	{

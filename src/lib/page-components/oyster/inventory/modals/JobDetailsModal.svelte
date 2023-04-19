@@ -102,8 +102,8 @@
 			<PaymentHistoryTable tableData={depositHistory} />
 		</div>
 	</svelte:fragment>
-	<!-- TODO: s- check why scroll is not working, and button is not visible if outside -->
-	<!-- TODO: s - check if button should not be fixed -->
+	<!-- TODO: check why scroll is not working, and button is not visible if outside -->
+	<!-- TODO: check if button should not be fixed -->
 	<svelte:fragment slot="actionButtons">
 		<ModalButton variant="filled" {modalFor} size="large" styleClass={'btn-block my-0'}>
 			OK

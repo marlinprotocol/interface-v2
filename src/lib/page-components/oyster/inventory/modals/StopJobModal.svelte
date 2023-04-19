@@ -3,30 +3,35 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString, epochToDurationString } from '$lib/utils/conversion';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
-	import { handleStopJob } from '$lib/utils/services/oysterServices';
+	import { handleInitiateJobStop, handleConfirmJobStop } from '$lib/utils/services/oysterServices';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
 	const { currency } = kOysterRateMetaData;
-	$: ({ balance, durationLeft } = jobData);
+	$: ({ balance, durationLeft, rate } = jobData);
 
-	// TODO: check if we can access this state from jobData
-	let stopInitiated = false;
+	let stopInitiateEndTimestamp: number;
+	$: stopInitiated = rate ? !rate.gt(BigNumberZero) : false;
 	let submitLoading = false;
 
 	const handleInitialClick = async () => {
 		submitLoading = true;
-		// jobData = await handleStopJob(jobData);
+		const _stopInitiateEndTimestamp = await handleInitiateJobStop(jobData);
+		if (_stopInitiateEndTimestamp) {
+			stopInitiateEndTimestamp = _stopInitiateEndTimestamp;
+		}
 		submitLoading = false;
-		stopInitiated = true;
 	};
+
+	// TODO: run timer for stopInitiateEndTimestamp and update rate to 0 locally
 	const handleConfirmClick = async () => {
 		submitLoading = true;
-		jobData = await handleStopJob(jobData);
+		jobData = await handleConfirmJobStop(jobData);
 		submitLoading = false;
 		closeModal(modalFor);
 	};

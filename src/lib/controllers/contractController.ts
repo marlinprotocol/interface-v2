@@ -657,8 +657,8 @@ export async function removeOysterInfrastructureProvider() {
 export async function createNewOysterJob(
 	metadata: string,
 	provider: string,
-	rate: string,
-	balance: string
+	rate: BigNumber,
+	balance: BigNumber
 ) {
 	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	const oysterContractAbi = oysterMarketAbi;
@@ -788,7 +788,7 @@ export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber
 
 export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
-	// TODO: check token, its is POND on testnet
+	// TODO: check token on mainnet, its POND on testnet
 	const token = 'POND';
 	const pondTokenContractAddress = contractAddresses.tokens[token].address;
 	const ERC20ContractAbi = contractAbi.ERC20;
@@ -882,7 +882,7 @@ export async function addFundsToOysterJob(jobId: Bytes, amount: BigNumber) {
 	}
 }
 
-export async function initiateAmendRateOfOysterJob(jobId: Bytes, rate: BigNumber) {
+export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber) {
 	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	const oysterContractAbi = oysterMarketAbi;
 	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
@@ -912,6 +912,7 @@ export async function initiateAmendRateOfOysterJob(jobId: Bytes, rate: BigNumber
 				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATED,
 			variant: 'success'
 		});
+		// TODO: return endTimestamp
 		return tx;
 	} catch (error: any) {
 		addToast({
@@ -925,7 +926,7 @@ export async function initiateAmendRateOfOysterJob(jobId: Bytes, rate: BigNumber
 	}
 }
 
-export async function finaliseAmendRateOfOysterJob(jobId: Bytes) {
+export async function finaliseRateReviseOysterJob(jobId: Bytes) {
 	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	const oysterContractAbi = oysterMarketAbi;
 	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);

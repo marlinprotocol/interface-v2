@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Toast from '$lib/atoms/toast/Toast.svelte';
 	import Header from '$lib/components/header/Header.svelte';
-	import { getContractDetails } from '$lib/controllers/contractController';
 	import { restoreWalletConnection } from '$lib/data-stores/walletProviderStore';
 	import ENVIRONMENT from '$lib/environments/environment';
 	import { onMount } from 'svelte';
 	import '../app.css';
+	import { getContractDetails } from '$lib/controllers/httpController';
 
 	onMount(async () => {
 		// removes console logs in production

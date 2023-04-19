@@ -16,10 +16,10 @@
 	import InstancesTable from './sub-components/InstancesTable.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import {
-		getInstancesFromControlPlane,
 		registerOysterInfrastructureProvider,
 		updateOysterInfrastructureProvider
 	} from '$lib/controllers/contractController';
+	import { getInstancesFromControlPlane } from '$lib/controllers/httpController';
 
 	const styles = {
 		docButton: 'text-primary',

@@ -5,7 +5,7 @@
 
 	import Table from '$lib/atoms/table/Table.svelte';
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
-	import { getInstancesFromControlPlane } from '$lib/controllers/contractController';
+	import { getInstancesFromControlPlane } from '$lib/controllers/httpController';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';

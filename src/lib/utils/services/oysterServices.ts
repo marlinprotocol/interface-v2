@@ -39,7 +39,7 @@ export async function handleFundsAddToJob(jobData: OysterInventoryDataModel, amo
 		});
 		return {
 			...jobData,
-			amountPaid: jobData.amountPaid.add(amount),
+			totalDeposit: jobData.totalDeposit.add(amount),
 			depositHistory: [
 				{
 					amount,
@@ -65,7 +65,7 @@ export async function handleFundsWithdrawFromJob(
 		const txn = await withdrawFundsFromOysterJob(id, amount);
 		return {
 			...jobData,
-			amountPaid: jobData.amountPaid.sub(amount),
+			totalDeposit: jobData.totalDeposit.sub(amount),
 			depositHistory: [
 				{
 					amount,

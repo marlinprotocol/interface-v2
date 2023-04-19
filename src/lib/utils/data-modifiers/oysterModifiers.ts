@@ -28,7 +28,7 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 		provider,
 		lastSettled,
 		createdAt,
-		amountPaid = '0',
+		totalDeposit = '0',
 		balance = '0',
 		settlementHistory = [],
 		depositHistory = [],
@@ -41,13 +41,13 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 	const metadataParsed = JSON.parse(metadata);
 	const { url, instanceType, region } = metadataParsed ?? {};
 
-	const _amountPaid = BigNumber.from(amountPaid);
+	const _totalDeposit = BigNumber.from(totalDeposit);
 	const _balance = BigNumber.from(balance);
 	const _rate = BigNumber.from(rate);
 
-	// rate is per hour rate in usd, amountPaid is in usd
+	// rate is per hour rate in usd, totalDeposit is in usd
 	const durationUsed = (Date.now() / 1000 - Number(createdAt)) / unitInSeconds;
-	const durationPaid = _rate.gt(BigNumberZero) ? _amountPaid.div(_rate) : BigNumberZero;
+	const durationPaid = _rate.gt(BigNumberZero) ? _totalDeposit.div(_rate) : BigNumberZero;
 
 	//convert to number
 	const durationPaidInNumber = parseFloat(bigNumberToString(durationPaid, decimal));
@@ -61,8 +61,8 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 		instance: instanceType,
 		region,
 		rate: _rate,
-		amountPaid: _amountPaid,
-		amountUsed: _amountPaid.sub(_balance),
+		totalDeposit: _totalDeposit,
+		amountUsed: _totalDeposit.sub(_balance),
 		balance: _balance,
 		durationLeft: durationPaidInNumber > durationUsed ? durationPaidInNumber - durationUsed : 0,
 		endEpochTime: 1684075672,

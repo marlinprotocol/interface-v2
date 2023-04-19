@@ -1,4 +1,5 @@
 import { contractAddressStore } from '$lib/data-stores/contractStore';
+import { addToast } from '$lib/data-stores/toastStore';
 import ENVIRONMENT from '$lib/environments/environment';
 import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/storeTypes';
@@ -27,7 +28,7 @@ import {
 } from '$lib/utils/data-modifiers/oysterModifiers';
 import { getModifiedMPondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
-import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
+import { fetchHttpData, showFetchHttpDataError } from '$lib/utils/helpers/httpHelper';
 import { BigNumber } from 'ethers';
 
 let contractAddresses: ContractAddress;
@@ -364,12 +365,24 @@ export async function getOysterJobs(address: Address) {
 
 	try {
 		const result = await fetchHttpData(url, options);
+
 		const jobs = result['data']?.jobs;
-		if (!jobs?.length) return [];
+		console.log('result :>> ', result);
+
+		if (!jobs?.length) {
+			if (result['errors']) {
+				showFetchHttpDataError(result['errors']);
+			}
+			return [];
+		}
 		const ret = getOysterJobsModified(jobs);
 		return ret;
-	} catch (error) {
-		console.log('Error getting enclaves jobs from subgraph', error);
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: `Error getting enclaves jobs from subgraph. ${error.message}`
+		});
+		console.error('Error getting enclaves jobs from subgraph', error);
 		return [];
 	}
 }
@@ -387,7 +400,12 @@ export async function getProviderDetailsFromSubgraph(address: Address) {
 	try {
 		const result = await fetchHttpData(url, options);
 		const provider = result['data']?.providers[0];
-		if (!provider) return null;
+		if (!provider) {
+			if (result['errors']) {
+				showFetchHttpDataError(result['errors']);
+			}
+			return null;
+		}
 		return provider;
 	} catch (error) {
 		console.log('Error getting provider details from subgraph', error);
@@ -405,7 +423,12 @@ export async function getAllProvidersDetailsFromSubgraph() {
 		const result = await fetchHttpData(url, options);
 
 		const providers = result['data']?.providers;
-		if (!providers?.length) return [];
+		if (!providers?.length) {
+			if (result['errors']) {
+				showFetchHttpDataError(result['errors']);
+			}
+			return [];
+		}
 		const ret = getOysterProvidersModified(providers);
 		return ret;
 	} catch (error) {
@@ -433,6 +456,10 @@ export async function getApprovedOysterAllowances(address: Address, contractAddr
 
 		if (pondApprovals && pondApprovals.length > 0) {
 			return pondApprovals[0].amount;
+		} else {
+			if (result['errors']) {
+				showFetchHttpDataError(result['errors']);
+			}
 		}
 		return amount;
 	} catch (error) {

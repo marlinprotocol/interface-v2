@@ -52,7 +52,7 @@ export type OysterInventoryDataModel = {
 	instance: string;
 	region: string;
 	rate: BigNumber;
-	amountPaid: BigNumber;
+	totalDeposit: BigNumber;
 	amountUsed: BigNumber;
 	balance: BigNumber;
 	lastSettled: number;

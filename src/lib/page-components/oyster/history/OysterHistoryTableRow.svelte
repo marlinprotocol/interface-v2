@@ -27,7 +27,7 @@
 		rate,
 		live,
 		status,
-		amountPaid,
+		totalDeposit,
 		amountUsed,
 		durationLeft,
 		balance,
@@ -56,8 +56,8 @@
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('region')}`}>
 		{region}
 	</TableGridDataCell>
-	<TableGridDataCell width={`${kHistoryTableColumnsWidth('amountPaid')}`}>
-		{symbol}{bigNumberToCommaString(amountPaid, oysterAmountPrecision)}
+	<TableGridDataCell width={`${kHistoryTableColumnsWidth('totalDeposit')}`}>
+		{symbol}{bigNumberToCommaString(totalDeposit, oysterAmountPrecision)}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('amountUsed')}`}>
 		{symbol}{bigNumberToCommaString(amountUsed, oysterAmountPrecision)}

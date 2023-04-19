@@ -18,7 +18,7 @@
 		region,
 		enclaveUrl,
 		rate,
-		amountPaid,
+		totalDeposit,
 		amountUsed,
 		createdAt,
 		durationLeft,
@@ -77,7 +77,7 @@
 				/>
 				<TextInputCard
 					title={'Total Paid'}
-					value={bigNumberToCommaString(amountPaid)}
+					value={bigNumberToCommaString(totalDeposit)}
 					centered
 					textStyle={styles.textPrimary}
 				/>

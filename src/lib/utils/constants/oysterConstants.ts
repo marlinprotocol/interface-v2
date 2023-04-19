@@ -51,7 +51,7 @@ export const kOysterInventoryTableHeader: TableModel['header'][] = [
 	},
 	{
 		title: 'Amount Paid',
-		id: 'amountPaid',
+		id: 'totalDeposit',
 		sorting: true
 	},
 	{
@@ -86,7 +86,7 @@ export const kInventoryTableColumnsWidth = (id: string) => {
 			return '10%';
 		case 'rate':
 			return '10%';
-		case 'amountPaid':
+		case 'totalDeposit':
 			return '12.5%';
 		case 'amountUsed':
 			return '12.5%';
@@ -131,7 +131,7 @@ export const kOysterHistoryTableHeader: TableModel['header'][] = [
 	},
 	{
 		title: 'Amount Paid',
-		id: 'amountPaid',
+		id: 'totalDeposit',
 		sorting: true
 	},
 	{
@@ -166,7 +166,7 @@ export const kHistoryTableColumnsWidth = (id: string) => {
 			return '10%';
 		case 'region':
 			return '10%';
-		case 'amountPaid':
+		case 'totalDeposit':
 			return '12.5%';
 		case 'amountUsed':
 			return '12.5%';

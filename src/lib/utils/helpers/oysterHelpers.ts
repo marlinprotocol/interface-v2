@@ -24,6 +24,7 @@ export const getSearchedInventoryData = (
 
 export const getInventoryStatusVariant = (status: string) => {
 	switch (status) {
+		case 'running':
 		case 'active':
 		case 'completed':
 			return 'success';

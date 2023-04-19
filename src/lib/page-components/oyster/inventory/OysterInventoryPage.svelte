@@ -18,17 +18,21 @@
 	import OysterInventoryTable from './InventoryTable.svelte';
 	import OysterInventoryTableRow from './InventoryTableRow.svelte';
 	import CreateOrderModal from './modals/CreateOrderModal.svelte';
+	import LoadingCircular from '$lib/atoms/loading/LoadingCircular.svelte';
 
 	let searchInput = '';
 	let activePage = 1;
 
 	const itemsPerPage = oysterTableItemsPerPage;
 
+	let loading = true;
 	let inventoryData: OysterInventoryDataModel[] | undefined;
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		inventoryData = value.jobsData;
-		console.log('inventoryData :>> ', inventoryData);
+		inventoryData = inventoryData.filter((job) => job.live);
+		// TODO: check loading logic
+		loading = false;
 	});
 	onDestroy(unsubscribeOysterStore);
 
@@ -62,7 +66,11 @@
 	<ModalButton variant="filled" modalFor={'create-new-order'} icon={plus}>ADD ORDER</ModalButton>
 </div>
 <OysterInventoryTable handleSortData={() => {}} tableHeading={kOysterInventoryTableHeader}>
-	{#if paginatedData?.length}
+	{#if loading}
+		<div class={'text-center flex justify-center my-4'}>
+			<LoadingCircular />
+		</div>
+	{:else if paginatedData?.length}
 		{#each paginatedData as rowData, rowIndex}
 			<OysterInventoryTableRow {rowData} {rowIndex} />
 		{/each}

@@ -69,7 +69,7 @@
 
 	const handleSubmitClick = async () => {
 		submitLoading = true;
-		jobData = await handleFundsWithdrawFromJob(jobData, inputAmount);
+		await handleFundsWithdrawFromJob(jobData, inputAmount);
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);

@@ -173,6 +173,8 @@ export const MESSAGES = {
 			AMEND_RATE_JOB: {
 				INITIATING: 'Initiating rate revision.',
 				INITIATED: 'Initiated rate revision.',
+				CANCELLING: 'Cancelling rate revision.',
+				CANCELLED: 'Cancelled rate revision.',
 				AMENDING: 'Revising rate.',
 				AMENDED: 'Revised rate.'
 			}

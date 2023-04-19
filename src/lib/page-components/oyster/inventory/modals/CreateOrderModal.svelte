@@ -8,6 +8,7 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type { OysterProviderDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import {
 		getFiltersDataForCreateJob,
@@ -81,14 +82,9 @@
 	let durationString: string = '';
 	let rate: BigNumber | null;
 	$: duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
-	// $: rate = getRateForProviderAndFilters(
-	// 	selectedProvider,
-	// 	values.instance.value,
-	// 	values.region.value,
-	// 	values.memory.value,
-	// 	values.vcpu.value
-	// );
-	$: cost = rate ? rate.mul(duration) : null;
+
+	// TODO: check duration unit, considering days and rate in hours
+	$: cost = rate ? rate.mul(duration * 24 * 60) : null;
 
 	//loading states
 	let submitLoading = false;
@@ -116,7 +112,13 @@
 		submitLoading = true;
 		// TODO: approve modal
 		await handleApproveFundForOysterJob(cost);
-		await handleCreateJob(metadata, merchant.value, rate, cost);
+		await handleCreateJob(
+			metadata,
+			merchant.value,
+			rate,
+			cost,
+			duration * kOysterRateMetaData.unitInSeconds
+		);
 		submitLoading = false;
 	};
 

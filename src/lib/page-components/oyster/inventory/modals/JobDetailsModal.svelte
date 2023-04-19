@@ -3,6 +3,7 @@
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import {
 		bigNumberToCommaString,
 		epochSecToString,
@@ -13,6 +14,7 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 	$: ({
+		id,
 		provider: { name, address },
 		instance,
 		region,
@@ -21,10 +23,11 @@
 		totalDeposit,
 		amountUsed,
 		createdAt,
-		durationLeft,
+		endEpochTime,
 		depositHistory
 	} = jobData);
 
+	const nowTime = new Date().getTime() / 1000;
 	const subtitle =
 		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
 
@@ -62,8 +65,8 @@
 				<TextInputCard title={'vCPU'} value={instance} centered textStyle={styles.textPrimary} />
 				<TextInputCard title={'Memory'} value={instance} centered textStyle={styles.textPrimary} />
 				<TextInputCard
-					title={'Rate'}
-					value={`$${bigNumberToCommaString(rate)}/day`}
+					title={'Hourly Rate'}
+					value={`$${bigNumberToCommaString(rate, oysterAmountPrecision)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
@@ -77,19 +80,21 @@
 				/>
 				<TextInputCard
 					title={'Total Paid'}
-					value={bigNumberToCommaString(totalDeposit)}
+					value={bigNumberToCommaString(totalDeposit, oysterAmountPrecision)}
 					centered
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
 					title={'Amount Used'}
-					value={bigNumberToCommaString(amountUsed)}
+					value={bigNumberToCommaString(amountUsed, oysterAmountPrecision)}
 					centered
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
 					title={'Duration Left'}
-					value={durationLeft < 1 ? 'Ended' : epochToDurationString(durationLeft, true)}
+					value={nowTime > endEpochTime
+						? 'Ended'
+						: epochToDurationString(endEpochTime - nowTime, true)}
 					centered
 					textStyle={styles.textPrimary}
 				/>

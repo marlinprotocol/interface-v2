@@ -33,39 +33,37 @@ export const kInstancesTableHeader: TableModel['header'][] = [
 // Merchant, Region, Instance, Rate, Amount Paid, Amount Used, Balance, Duration Left, Status
 export const kOysterInventoryTableHeader: TableModel['header'][] = [
 	{
-		title: 'Operator',
+		title: 'OPERATOR',
 		id: 'merchant'
 	},
 	{
-		title: 'Instance',
+		title: 'INSTANCE',
 		id: 'instance'
 	},
 	{
-		title: 'Region',
+		title: 'REGION',
 		id: 'region'
 	},
 	{
-		title: 'Rate',
+		title: 'HOURLY RATE',
 		id: 'rate',
 		sorting: true
 	},
 	{
-		title: 'Amount Paid',
-		id: 'totalDeposit',
-		sorting: true
+		title: 'vCPU',
+		id: 'vcpu'
 	},
 	{
-		title: 'Amount Used',
-		id: 'amountUsed',
-		sorting: true
+		title: 'MEMORY',
+		id: 'memory'
 	},
 	{
-		title: 'Balance',
+		title: 'BALANCE',
 		id: 'balance',
 		sorting: true
 	},
 	{
-		title: 'Duration Left',
+		title: 'DURATION LEFT',
 		id: 'durationLeft'
 	},
 	{
@@ -76,8 +74,6 @@ export const kOysterInventoryTableHeader: TableModel['header'][] = [
 
 export const kInventoryTableColumnsWidth = (id: string) => {
 	switch (id) {
-		case 'tag':
-			return '5%';
 		case 'merchant':
 			return '15%';
 		case 'instance':
@@ -86,14 +82,14 @@ export const kInventoryTableColumnsWidth = (id: string) => {
 			return '10%';
 		case 'rate':
 			return '10%';
-		case 'totalDeposit':
+		case 'vcpu':
 			return '12.5%';
-		case 'amountUsed':
+		case 'memory':
 			return '12.5%';
 		case 'balance':
 			return '10%';
 		case 'durationLeft':
-			return '10%';
+			return '15%';
 		case 'action':
 			return '5%';
 		default:

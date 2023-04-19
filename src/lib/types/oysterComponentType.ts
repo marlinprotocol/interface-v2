@@ -51,17 +51,19 @@ export type OysterInventoryDataModel = {
 	enclaveUrl: string;
 	instance: string;
 	region: string;
+	vcpu?: number;
+	memory?: number;
 	rate: BigNumber;
 	totalDeposit: BigNumber;
 	amountUsed: BigNumber;
 	balance: BigNumber;
+	refund: BigNumber;
 	lastSettled: number;
 	createdAt: number;
 	durationLeft: number;
 	endEpochTime: number;
-	owner: string;
 	live: boolean;
-	status: string; //job status - active, inactive, stopped, completed
+	status: string; //job status - running, stopped, completed
 	settlementHistory: OysterSettlementHistoryDataModel[];
 	depositHistory: OysterDepositHistoryDataModel[];
 	id: Bytes;

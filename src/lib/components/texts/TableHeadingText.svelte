@@ -24,7 +24,7 @@
 			<img src={staticImages.Sort} alt="sort" width="16px" />
 		</button>
 	{/if}
-	{title?.toUpperCase()}
+	{title}
 	{#if !!tooltipText}
 		<TooltipIcon {tooltipText} {tooltipDirection} {iconWidth} />
 	{/if}

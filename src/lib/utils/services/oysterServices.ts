@@ -1,5 +1,7 @@
 import {
+	cancelRateReviseOysterJob,
 	createNewOysterJob,
+	finaliseRateReviseOysterJob,
 	initiateRateReviseOysterJob
 } from '$lib/controllers/contractController';
 import {
@@ -12,6 +14,8 @@ import { oysterStore } from '$lib/data-stores/oysterStore';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 import type { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
+import { getReviseRateInitiateEndTimestamp } from '$lib/controllers/subgraphController';
+import { parseMetadata } from '../data-modifiers/oysterModifiers';
 
 export async function handleApproveFundForOysterJob(amount: BigNumber) {
 	try {
@@ -31,15 +35,10 @@ export async function handleFundsAddToJob(jobData: OysterInventoryDataModel, amo
 	const { id } = jobData;
 	try {
 		const txn = await addFundsToOysterJob(id, amount);
-		oysterStore.update((value) => {
-			return {
-				...value,
-				allowance: value.allowance.sub(amount)
-			};
-		});
-		return {
+		const modifiedJobData = {
 			...jobData,
 			totalDeposit: jobData.totalDeposit.add(amount),
+			balance: jobData.balance.add(amount),
 			depositHistory: [
 				{
 					amount,
@@ -50,6 +49,19 @@ export async function handleFundsAddToJob(jobData: OysterInventoryDataModel, amo
 				...jobData.depositHistory
 			]
 		};
+		oysterStore.update((value) => {
+			return {
+				...value,
+				allowance: value.allowance.sub(amount),
+				jobsData: value.jobsData.map((job) => {
+					if (job.id === id) {
+						return modifiedJobData;
+					}
+					return job;
+				})
+			};
+		});
+		// return modifiedJobData;
 	} catch (e) {
 		console.log('e :>> ', e);
 		return jobData;
@@ -63,9 +75,10 @@ export async function handleFundsWithdrawFromJob(
 	const { id } = jobData;
 	try {
 		const txn = await withdrawFundsFromOysterJob(id, amount);
-		return {
+		const modifiedJobData = {
 			...jobData,
 			totalDeposit: jobData.totalDeposit.sub(amount),
+			balance: jobData.balance.sub(amount),
 			depositHistory: [
 				{
 					amount,
@@ -76,46 +89,109 @@ export async function handleFundsWithdrawFromJob(
 				...jobData.depositHistory
 			]
 		};
+		oysterStore.update((value) => {
+			return {
+				...value,
+				jobsData: value.jobsData.map((job) => {
+					if (job.id === id) {
+						return modifiedJobData;
+					}
+					return job;
+				})
+			};
+		});
 	} catch (e) {
 		console.log('e :>> ', e);
 		return jobData;
 	}
 }
 
-export async function handleInitiateJobStop(jobData: OysterInventoryDataModel) {
+export async function handleInitiateRateRevise(jobData: OysterInventoryDataModel) {
 	const { id } = jobData;
 	try {
-		const tx = await initiateRateReviseOysterJob(id, BigNumberZero);
-		return 1781892132;
+		await initiateRateReviseOysterJob(id, BigNumberZero);
 	} catch (e) {
 		console.log('e :>> ', e);
-		return null;
+	}
+}
+
+export async function handleCancelRateRevise(jobData: OysterInventoryDataModel) {
+	const { id } = jobData;
+	try {
+		await cancelRateReviseOysterJob(id);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+export async function handleFinaliseRateRevise(
+	jobData: OysterInventoryDataModel,
+	newRate: BigNumber
+) {
+	const { id } = jobData;
+	try {
+		await finaliseRateReviseOysterJob(id);
+		oysterStore.update((value) => {
+			return {
+				...value,
+				jobsData: value.jobsData.map((job) => {
+					if (job.id === id) {
+						return {
+							...job,
+							rate: newRate
+						};
+					}
+					return job;
+				})
+			};
+		});
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+export async function handleGetReviseRateInititaeEndTimestamp(jobData: OysterInventoryDataModel) {
+	const { id } = jobData;
+	try {
+		const timestamp = await getReviseRateInitiateEndTimestamp(id);
+		return timestamp;
+	} catch (e) {
+		console.log('e :>> ', e);
+		return 0;
 	}
 }
 
 export async function handleConfirmJobStop(jobData: OysterInventoryDataModel) {
 	const { id } = jobData;
-	// TODO: add logic to stop job
 	try {
-		await stopOysterJob(id);
-		return {
+		const tx = await stopOysterJob(id);
+		const modifiedJobData = {
 			...jobData,
-			live: false
+			live: false,
+			refund: jobData.balance,
+			balance: BigNumberZero,
+			status: 'stopped',
+			depositHistory: [
+				{
+					amount: jobData.balance,
+					id: tx,
+					timestamp: Date.now() / 1000,
+					isWithdrawal: true
+				},
+				...jobData.depositHistory
+			]
 		};
-	} catch (e) {
-		console.log('e :>> ', e);
-		return jobData;
-	}
-}
-
-export async function handleAmendRateToJob(jobData: OysterInventoryDataModel, rate: BigNumber) {
-	const { id } = jobData;
-	try {
-		await stopOysterJob(id);
-		return {
-			...jobData,
-			rate: rate
-		};
+		oysterStore.update((value) => {
+			return {
+				...value,
+				jobsData: value.jobsData.map((job) => {
+					if (job.id === id) {
+						return modifiedJobData;
+					}
+					return job;
+				})
+			};
+		});
 	} catch (e) {
 		console.log('e :>> ', e);
 		return jobData;
@@ -126,14 +202,50 @@ export async function handleCreateJob(
 	metadata: string,
 	provider: string,
 	rate: BigNumber,
-	balance: BigNumber
+	balance: BigNumber,
+	duration: number
 ) {
 	try {
 		const tx = await createNewOysterJob(metadata, provider, rate, balance);
-		// return {
-		// 	...jobData,
-		// 	live: true
-		// };
+		const nowTime = Date.now() / 1000;
+		const { enclaveUrl, instance, region, vcpu, memory } = parseMetadata(metadata);
+		const newJob: OysterInventoryDataModel = {
+			id: tx,
+			provider: {
+				address: provider,
+				name: ''
+			},
+			enclaveUrl,
+			instance,
+			region,
+			vcpu,
+			memory,
+			amountUsed: BigNumberZero,
+			rate,
+			balance,
+			totalDeposit: balance,
+			live: true,
+			lastSettled: nowTime,
+			createdAt: nowTime,
+			endEpochTime: nowTime + duration,
+			durationLeft: duration,
+			status: 'running',
+			depositHistory: [
+				{
+					amount: balance,
+					id: tx,
+					timestamp: nowTime,
+					isWithdrawal: false
+				}
+			],
+			settlementHistory: []
+		};
+		oysterStore.update((value) => {
+			return {
+				...value,
+				jobsData: [newJob, ...value.jobsData]
+			};
+		});
 	} catch (e) {
 		console.log('e :>> ', e);
 		// return jobData;

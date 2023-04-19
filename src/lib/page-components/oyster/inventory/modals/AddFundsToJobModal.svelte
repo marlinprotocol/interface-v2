@@ -45,7 +45,6 @@
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		approvedAmount = value.allowance;
-		console.log('object :>> ', approvedAmount);
 	});
 	onDestroy(unsubscribeOysterStore);
 

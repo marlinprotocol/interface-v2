@@ -6,68 +6,85 @@
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import type { OysterProviderDataModel } from '$lib/types/oysterComponentType';
+	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
-	import { getFiltersDataForCreateJob } from '$lib/utils/data-modifiers/oysterModifiers';
+	import {
+		getFiltersDataForCreateJob,
+		getRateForProviderAndFilters
+	} from '$lib/utils/data-modifiers/oysterModifiers';
 	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
-	import { BigNumber } from 'ethers';
+	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 
 	export let modalFor: string;
 
-	let merchantList: string[] = [];
-	let instanceList: string[] = [];
-	let regionList: string[] = [];
-	let vcpuList: string[] = [];
-	let memoryList: string[] = [];
+	let allProviders: OysterProviderDataModel[] = [];
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
-		const allProviders = value.allProviders;
-		const dataList = getFiltersDataForCreateJob(allProviders, {});
-		console.log('dataListdataList :>> ', dataList);
-		merchantList = dataList.merchant ?? [];
-		instanceList = dataList.instance ?? [];
-		regionList = dataList.region ?? [];
-		vcpuList = dataList.vcpu ?? [];
-		memoryList = dataList.memory ?? [];
+		allProviders = value.allProviders;
 	});
 	onDestroy(unsubscribeOysterStore);
 
+	$: merchantList = allProviders.map((provider) =>
+		provider.name != '' ? provider.name : provider.id
+	);
+
 	//initial states
-	const initalValues = {
-		merchant: {
-			value: '',
-			error: '',
-			isDirty: false
-		},
+	const initalFilterValues = {
 		instance: {
 			value: '',
 			error: '',
-			isDirty: false
+			isDirty: false,
+			title: 'Instance'
 		},
 		region: {
 			value: '',
 			error: '',
-			isDirty: false
+			isDirty: false,
+			title: 'Region'
 		},
 		memory: {
 			value: '',
 			error: '',
-			isDirty: false
+			isDirty: false,
+			title: 'Memory'
 		},
 		vcpu: {
 			value: '',
 			error: '',
-			isDirty: false
+			isDirty: false,
+			title: 'vCPU'
 		}
 	};
+	const initialMerchant = {
+		value: '',
+		error: '',
+		isDirty: false,
+		title: 'Merchant'
+	};
+	let values = initalFilterValues;
+	let merchant = initialMerchant;
 
-	let values = initalValues;
+	$: selectedProvider = allProviders.find(
+		(provider) => provider.id == merchant.value || provider.name == merchant.value
+	);
+
+	$: filterData = getFiltersDataForCreateJob(selectedProvider);
+
 	let enclaveImageUrl = '';
 	let durationString: string = '';
+	let rate: BigNumber | null;
 	$: duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
-	$: rate = BigNumber.from('1000000000000000000'); //TODO: calculate based on selections
-	$: cost = rate.mul(duration);
+	// $: rate = getRateForProviderAndFilters(
+	// 	selectedProvider,
+	// 	values.instance.value,
+	// 	values.region.value,
+	// 	values.memory.value,
+	// 	values.vcpu.value
+	// );
+	$: cost = rate ? rate.mul(duration) : null;
 
 	//loading states
 	let submitLoading = false;
@@ -76,32 +93,46 @@
 
 	//reset amount and signer address
 	const resetInputs = () => {
-		values = initalValues;
+		values = initalFilterValues;
+		merchant = initialMerchant;
 		durationString = '';
 	};
 
 	const handleFieldChange = (
+		valueMap: { value: string; error: string; isDirty: boolean; title: string },
 		value: string,
 		dataList: string[],
-		fieldName: 'merchant' | 'region' | 'instance' | 'memory' | 'vcpu',
 		fieldTitle: string
 	) => {
-		values[fieldName].value = value;
-		values[fieldName].isDirty = true;
+		valueMap.value = value;
+		valueMap.isDirty = true;
 		if (value == '') {
-			values[fieldName].error = `${fieldTitle} is required`;
+			valueMap.error = `${fieldTitle} is required`;
 		} else if (dataList.indexOf(value) == -1) {
-			values[fieldName].error = `${value} is not a valid ${fieldTitle}`;
+			valueMap.error = `${value} is not a valid ${fieldTitle}`;
 		} else {
-			values[fieldName].error = '';
+			valueMap.error = '';
 		}
+		return valueMap;
+	};
+
+	const handleFilterDataChange = (
+		field: 'instance' | 'region' | 'memory' | 'vcpu',
+		value: string,
+		allFilterList: any
+	) => {
+		const dataList = allFilterList[field];
+		const valueMap = values[field];
+		values[field] = handleFieldChange(valueMap, value, dataList, valueMap.title);
+		rate = getRateForProviderAndFilters(values, allFilterList['allInstances']);
 	};
 
 	$: submitEnable =
-		!!duration &&
-		!!cost &&
-		!values.merchant.error &&
-		values.merchant.value != '' &&
+		duration &&
+		cost?.gt(BigNumberZero) &&
+		rate &&
+		!merchant.error &&
+		merchant.value != '' &&
 		!values.region.error &&
 		values.region.value != '' &&
 		!values.instance.error &&
@@ -131,79 +162,84 @@
 		<div class="flex flex-col gap-4">
 			<SearchWithSelect
 				dataList={merchantList}
-				setSearchValue={(value) => handleFieldChange(value, merchantList, 'merchant', 'Operator')}
+				setSearchValue={(value) => {
+					merchant = handleFieldChange(merchant, value, merchantList, 'Merchant');
+					values = initalFilterValues;
+				}}
 				title={'Operator'}
 				placeholder={'Enter operator name or address'}
 			/>
 			<ErrorTextCard
-				showError={values.merchant.isDirty && values.merchant.error != ''}
-				errorMessage={values.merchant.error}
+				showError={merchant.isDirty && merchant.error != ''}
+				errorMessage={merchant.error}
 				styleClass={'mt-0'}
 			/>
-			<div class="flex gap-4">
-				<div class="w-full">
-					<SearchWithSelect
-						dataList={instanceList}
-						setSearchValue={(value) =>
-							handleFieldChange(value, instanceList, 'instance', 'Instance')}
-						title={'Instance'}
-						placeholder={'Select instance'}
-					/>
-					<ErrorTextCard
-						showError={values.instance.isDirty && values.instance.error != ''}
-						errorMessage={values.instance.error}
-						styleClass={'mt-4'}
-					/>
+			{#await filterData}
+				<div class="flex justify-center items-center">loading...</div>
+			{:then filterValue}
+				<div class="flex gap-4">
+					<div class="w-full">
+						<SearchWithSelect
+							dataList={filterValue.instance}
+							setSearchValue={(value) => handleFilterDataChange('instance', value, filterValue)}
+							title={'Instance'}
+							placeholder={'Select instance'}
+						/>
+						<ErrorTextCard
+							showError={values.instance.isDirty && values.instance.error != ''}
+							errorMessage={values.instance.error}
+							styleClass={'mt-4'}
+						/>
+					</div>
+					<div class="w-full">
+						<SearchWithSelect
+							dataList={filterValue.region}
+							setSearchValue={(value) => handleFilterDataChange('region', value, filterValue)}
+							title={'Region'}
+							placeholder={'Select region'}
+						/>
+						<ErrorTextCard
+							showError={values.region.isDirty && values.region.error != ''}
+							errorMessage={values.region.error}
+							styleClass={'mt-4'}
+						/>
+					</div>
 				</div>
-				<div class="w-full">
-					<SearchWithSelect
-						dataList={regionList}
-						setSearchValue={(value) => handleFieldChange(value, regionList, 'region', 'Region')}
-						title={'Region'}
-						placeholder={'Select region'}
-					/>
-					<ErrorTextCard
-						showError={values.region.isDirty && values.region.error != ''}
-						errorMessage={values.region.error}
-						styleClass={'mt-4'}
-					/>
+				<div class="flex gap-4">
+					<div class="w-full">
+						<SearchWithSelect
+							dataList={filterValue.vcpu}
+							setSearchValue={(value) => handleFilterDataChange('vcpu', value, filterValue)}
+							title={'vCPU'}
+							placeholder={'Select vcpu'}
+						/>
+						<ErrorTextCard
+							showError={values.vcpu.isDirty && values.vcpu.error != ''}
+							errorMessage={values.vcpu.error}
+							styleClass={'mt-4'}
+						/>
+					</div>
+					<div class="w-full">
+						<SearchWithSelect
+							dataList={filterValue.memory}
+							setSearchValue={(value) => handleFilterDataChange('memory', value, filterValue)}
+							title={'Memory'}
+							placeholder={'Select memory'}
+						/>
+						<ErrorTextCard
+							showError={values.memory.isDirty && values.memory.error != ''}
+							errorMessage={values.memory.error}
+							styleClass={'mt-4'}
+						/>
+					</div>
 				</div>
-			</div>
-			<div class="flex gap-4">
-				<div class="w-full">
-					<SearchWithSelect
-						dataList={vcpuList}
-						setSearchValue={(value) => handleFieldChange(value, vcpuList, 'vcpu', 'vCPU')}
-						title={'vCPU'}
-						placeholder={'Select vcpu'}
-					/>
-					<ErrorTextCard
-						showError={values.vcpu.isDirty && values.vcpu.error != ''}
-						errorMessage={values.vcpu.error}
-						styleClass={'mt-4'}
-					/>
-				</div>
-				<div class="w-full">
-					<SearchWithSelect
-						dataList={memoryList}
-						setSearchValue={(value) => handleFieldChange(value, memoryList, 'memory', 'Memory')}
-						title={'Memory'}
-						placeholder={'Select memory'}
-					/>
-					<ErrorTextCard
-						showError={values.memory.isDirty && values.memory.error != ''}
-						errorMessage={values.memory.error}
-						styleClass={'mt-4'}
-					/>
-				</div>
-			</div>
+			{/await}
 			<div class="flex gap-4">
 				<AmountInputWithTitle
-					title={'Rate'}
-					inputAmountString={bigNumberToCommaString(rate)}
+					title={'Hourly Rate'}
+					inputAmountString={rate ? bigNumberToCommaString(rate, 6) : ''}
 					disabled
 					prefix={'$'}
-					suffix={'/day'}
 				/>
 				<AmountInputWithTitle
 					title={'Duration'}
@@ -212,7 +248,7 @@
 				/>
 				<AmountInputWithTitle
 					title={'Cost'}
-					inputAmountString={bigNumberToCommaString(cost)}
+					inputAmountString={cost ? bigNumberToCommaString(cost, 6) : ''}
 					suffix={'USDC'}
 				/>
 			</div>

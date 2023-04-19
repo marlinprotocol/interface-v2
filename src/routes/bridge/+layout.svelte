@@ -1,5 +1,4 @@
 <script>
-	import { getBridgeContractDetails } from '$lib/controllers/contractController';
 	import { onMount } from 'svelte';
 	import {
 		getPondAndMPondBridgeAllowances,
@@ -8,6 +7,7 @@
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
+	import { getBridgeContractDetails } from '$lib/controllers/httpController';
 
 	onMount(async () => {
 		await getBridgeContractDetails();

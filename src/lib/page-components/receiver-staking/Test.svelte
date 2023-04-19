@@ -4,10 +4,12 @@
 	import {
 		approvePondTokenForReceiverStaking,
 		depositStakingToken,
-		getContractDetails,
-		getInstancesFromControlPlane,
 		withdrawStakingToken
 	} from '$lib/controllers/contractController';
+	import {
+		getContractDetails,
+		getInstancesFromControlPlane
+	} from '$lib/controllers/httpController';
 	import { getReceiverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';

@@ -1,5 +1,6 @@
 <script>
-	import { getBridgeContractDetails } from '$lib/controllers/contractController';
+	import { getBridgeContractDetails } from '$lib/controllers/httpController';
+
 	import { onMount } from 'svelte';
 
 	onMount(async () => {

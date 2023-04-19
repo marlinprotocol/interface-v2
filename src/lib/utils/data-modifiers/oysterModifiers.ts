@@ -8,7 +8,7 @@ import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
 import { bigNumberToString } from '../conversion';
-import { getInstancesFromControlPlane } from '$lib/controllers/contractController';
+import { getInstancesFromControlPlane } from '$lib/controllers/httpController';
 
 export function getOysterJobsModified(jobs: any[]) {
 	if (!jobs?.length) return [];

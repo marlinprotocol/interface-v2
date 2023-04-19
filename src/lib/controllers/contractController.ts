@@ -1,21 +1,12 @@
 import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 import { addToast } from '$lib/data-stores/toastStore';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
-import ENVIRONMENT from '$lib/environments/environment';
-import type { CPInstances, CPUrlDataModel } from '$lib/types/oysterComponentType';
 import type { ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
-import {
-	GET_OPTIONS,
-	mPondPrecisions,
-	oysterMarketAbi,
-	pondPrecisions
-} from '$lib/utils/constants/constants';
+import { mPondPrecisions, oysterMarketAbi, pondPrecisions } from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToCommaString } from '$lib/utils/conversion';
 import { capitalizeFirstLetter, minifyAddress } from '$lib/utils/helpers/commonHelper';
-import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
 import { BigNumber, ethers, type Bytes } from 'ethers';
-import { get } from 'svelte/store';
 
 let contractAbi: ContractAbi;
 let contractAddresses: ContractAddress;
@@ -24,119 +15,17 @@ let signer: WalletStore['signer'];
 let walletAddress: WalletStore['address'];
 
 // TODO: Souvik to check its implementation, throwing error rn
-// walletStore.subscribe((value) => {
-// 	provider = value.provider;
-// 	signer = value.signer;
-// 	walletAddress = value.address;
-// });
-// contractAbiStore.subscribe((value) => {
-// 	contractAbi = value;
-// });
-// contractAddressStore.subscribe((value) => {
-// 	contractAddresses = value;
-// });
-
-export async function getContractDetails() {
-	const url = ENVIRONMENT.public_contract_details_url;
-	const options = GET_OPTIONS;
-	// TODO: add type for contractDetails
-	const contractDetails = await fetchHttpData(url, options);
-	if (!contractDetails) {
-		throw new Error('Unable to fetch contract details');
-	}
-	if (!contractDetails.ABI) {
-		throw new Error('Unable to fetch contract ABI');
-	}
-	if (!contractDetails.addresses) {
-		throw new Error('Unable to fetch contract addresses');
-	} else {
-		contractAbiStore.update((value) => {
-			return {
-				...value,
-				ClusterRegistry: contractDetails.ABI.ClusterRegistry,
-				ERC20: contractDetails.ABI.ERC20,
-				EpochSelector: contractDetails.ABI.EpochSelector,
-				MPond: contractDetails.ABI.MPond,
-				ReceiverStaking: contractDetails.ABI.ReceiverStaking,
-				RewardDelegators: contractDetails.ABI.RewardDelegators,
-				StakeManager: contractDetails.ABI.StakeManager
-			};
-		});
-		contractAddressStore.update((value) => {
-			return {
-				...value,
-				ClusterRegistry: contractDetails.addresses.ClusterRegistry,
-				ClusterRewards: contractDetails.addresses.ClusterRewards,
-				EpochSelector: contractDetails.addresses.EpochSelector,
-				ReceiverStaking: contractDetails.addresses.ReceiverStaking,
-				RewardDelegators: contractDetails.addresses.RewardDelegators,
-				StakeManager: contractDetails.addresses.StakeManager,
-				tokens: contractDetails.addresses.tokens
-			};
-		});
-		console.log('contractAbiStore', get(contractAbiStore));
-		console.log('contractAddressStore', get(contractAddressStore));
-	}
-}
-
-export async function getBridgeContractDetails() {
-	const url = ENVIRONMENT.public_bridge_contract_details_url;
-	const options = GET_OPTIONS;
-
-	const bridgeContractDetails = await fetchHttpData(url, options);
-	if (!bridgeContractDetails) {
-		throw new Error('Unable to fetch bridge contract details');
-	}
-	if (!bridgeContractDetails.ABI) {
-		throw new Error('Unable to fetch bridge contract ABI');
-	}
-	if (!bridgeContractDetails.addresses) {
-		throw new Error('Unable to fetch bridge contract addresses');
-	} else {
-		console.log('bridgeContractDetails', bridgeContractDetails);
-		contractAbiStore.update((value) => {
-			return {
-				...value,
-				Bridge: bridgeContractDetails.ABI.Bridge
-			};
-		});
-		contractAddressStore.update((value) => {
-			return {
-				...value,
-				Bridge: bridgeContractDetails.addresses.bridge,
-				tokens: bridgeContractDetails.addresses.tokens
-			};
-		});
-		console.log(get(contractAbiStore));
-		console.log(get(contractAddressStore));
-	}
-}
-// TODO: ask if /spec is expected in the input of control place or we have to explicitly check
-export async function getInstancesFromControlPlane(controlPlaneUrl: string) {
-	const options = GET_OPTIONS;
-	console.log('controlPlaneUrl :>> ', controlPlaneUrl);
-	const instances: CPInstances = await fetchHttpData(controlPlaneUrl, options);
-	if (!instances) {
-		throw new Error('Unable to fetch instances');
-	}
-	const { min_rates } = instances;
-
-	// transforming response data so that each object in the array
-	// corresponds to a row in the table
-	const ret: CPUrlDataModel[] = min_rates.flatMap((region) => {
-		return region.rate_cards.map((rate) => {
-			return {
-				url: controlPlaneUrl,
-				instanceType: rate.instance,
-				region: region.region,
-				vcpu: region.region, //TODO: replace with actual vcpu value
-				memory: region.region, // TODO: replace with actual memory value
-				min_rate: BigNumber.from(rate.min_rate)
-			};
-		});
-	});
-	return ret;
-}
+walletStore.subscribe((value) => {
+	provider = value.provider;
+	signer = value.signer;
+	walletAddress = value.address;
+});
+contractAbiStore.subscribe((value) => {
+	contractAbi = value;
+});
+contractAddressStore.subscribe((value) => {
+	contractAddresses = value;
+});
 
 // ----------------------------- receiver staking contract methods -----------------------------
 

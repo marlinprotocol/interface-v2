@@ -148,9 +148,9 @@
 	</TextInputWithEndButton>
 	{#await instances}
 		<!-- TODO: have an empty state when there is no data here -->
-		<InstancesTable {updatedCpURL} {validCPUrl} tableData={[]} />
+		<InstancesTable tableData={[]} />
 	{:then value}
-		<InstancesTable {updatedCpURL} {validCPUrl} tableData={value} />
+		<InstancesTable tableData={value} />
 	{/await}
 	<div class="mt-4" />
 	{#if $connected}

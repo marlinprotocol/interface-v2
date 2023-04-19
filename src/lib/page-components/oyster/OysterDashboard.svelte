@@ -92,29 +92,24 @@
 		});
 	};
 
-	// TODO: add types
-	export async function getTableDataFromInstanceResponse(cpUrl: string) {
+	async function getInstances(useUpdatedCpURL: boolean) {
 		try {
-			return await getInstancesFromControlPlane(cpUrl);
+			if (useUpdatedCpURL) {
+				return await getInstancesFromControlPlane(updatedCpURL);
+			} else if (registeredCpURL !== '') {
+				return await getInstancesFromControlPlane(registeredCpURL);
+			} else {
+				return [];
+			}
 		} catch (error) {
 			console.log(error);
-			return [];
-		}
-	}
-
-	async function getInstances(useUpdatedCpURL: boolean) {
-		if (useUpdatedCpURL) {
-			return await getTableDataFromInstanceResponse(updatedCpURL);
-		} else if (registeredCpURL !== '') {
-			return await getTableDataFromInstanceResponse(registeredCpURL);
-		} else {
-			return [];
+			throw error;
 		}
 	}
 
 	// using regex to validate CP URL
 	$: validCPUrl = checkValidURL(updatedCpURL);
-	$: instances = getInstances(validCPUrl);
+	$: instances = updatedCpURL ? getInstances(validCPUrl) : [];
 </script>
 
 <ContainerCard>
@@ -169,10 +164,11 @@
 		</svelte:fragment>
 	</TextInputWithEndButton>
 	{#await instances}
-		<!-- TODO: have an empty state when there is no data here -->
-		<InstancesTable tableData={[]} />
+		<InstancesTable tableData={[]} loading />
 	{:then value}
 		<InstancesTable tableData={value} />
+	{:catch error}
+		<InstancesTable tableData={[]} error />
 	{/await}
 	<div class="mt-4" />
 	{#if $connected}

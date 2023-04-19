@@ -23,10 +23,11 @@
 		totalDeposit,
 		amountUsed,
 		createdAt,
-		durationLeft,
+		endEpochTime,
 		depositHistory
 	} = jobData);
 
+	const nowTime = new Date().getTime() / 1000;
 	const subtitle =
 		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
 
@@ -91,7 +92,9 @@
 				/>
 				<TextInputCard
 					title={'Duration Left'}
-					value={durationLeft < 1 ? 'Ended' : epochToDurationString(durationLeft, true)}
+					value={nowTime > endEpochTime
+						? 'Ended'
+						: epochToDurationString(endEpochTime - nowTime, true)}
 					centered
 					textStyle={styles.textPrimary}
 				/>

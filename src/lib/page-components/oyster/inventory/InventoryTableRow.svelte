@@ -25,6 +25,7 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import { handleGetReviseRateInititaeEndTimestamp } from '$lib/utils/services/oysterServices';
 	import { openModal } from '$lib/utils/helpers/commonHelper';
+	import AmendRateModal from './modals/AmendRateModal.svelte';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -44,13 +45,21 @@
 
 	let openRow: number = -1;
 	let stopInitiateEndTimestamp: number = 0;
+	let amendInitiateEndTimestamp: number = 0;
 	let stopLoading: boolean = false;
+	let amendLoading: boolean = false;
 
 	const handleStopClick = async () => {
 		stopLoading = true;
 		stopInitiateEndTimestamp = await handleGetReviseRateInititaeEndTimestamp(rowData);
 		openModal(`job-stop-modal-${rowIndex}`);
 		stopLoading = false;
+	};
+	const handleAmendClick = async () => {
+		amendLoading = true;
+		amendInitiateEndTimestamp = await handleGetReviseRateInititaeEndTimestamp(rowData);
+		openModal(`job-amend-rate-modal-${rowIndex}`);
+		amendLoading = false;
 	};
 </script>
 
@@ -137,9 +146,15 @@
 				>
 					WITHDRAW
 				</ModalButton>
-				<ModalButton variant="outlined" size="small" modalFor={`job-stop-modal-${rowIndex}`}>
+				<Button
+					variant="outlined"
+					size="small"
+					onclick={handleAmendClick}
+					loading={stopLoading}
+					styleClass="w-36"
+				>
 					AMEND RATE
-				</ModalButton>
+				</Button>
 				<ModalButton variant="outlined" size="small" modalFor={`job-details-modal-${rowIndex}`}>
 					DETAILS
 				</ModalButton>
@@ -157,6 +172,11 @@
 	bind:jobData={rowData}
 	modalFor={`job-stop-modal-${rowIndex}`}
 	{stopInitiateEndTimestamp}
+/>
+<AmendRateModal
+	bind:jobData={rowData}
+	modalFor={`job-amend-rate-modal-${rowIndex}`}
+	{amendInitiateEndTimestamp}
 />
 
 <style>

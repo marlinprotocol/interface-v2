@@ -16,9 +16,14 @@ export const epochToDurationString = (epoch: number, mini = false) => {
 	const minutes = Math.floor(epoch / 60) % 60;
 	const hours = Math.floor(epoch / (60 * 60)) % 24;
 	const days = Math.floor(epoch / (60 * 60 * 24)) % 30;
-	const months = Math.floor(epoch / (60 * 60 * 24 * 30));
+	const months = Math.floor(epoch / (60 * 60 * 24 * 30)) % 12;
+	const years = Math.floor(epoch / (60 * 60 * 24 * 365));
 
 	let durationString = '';
+	if (years > 0) {
+		durationString += years + (years > 1 ? ' years ' : ' year ');
+		if (mini) return durationString;
+	}
 	if (months > 0) {
 		durationString += months + (months > 1 ? ' months ' : ' month ');
 		if (mini) return durationString;

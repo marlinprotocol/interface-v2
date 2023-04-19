@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
+	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
@@ -12,7 +13,7 @@
 		kHistoryTableColumnsWidth,
 		kOysterRateMetaData
 	} from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToCommaString } from '$lib/utils/conversion';
+	import { bigNumberToCommaString, epochToDurationString } from '$lib/utils/conversion';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
 	import PastJobDetailsModal from '../inventory/modals/PastJobDetailsModal.svelte';
 
@@ -24,13 +25,11 @@
 		provider: { name, address },
 		instance,
 		region,
-		rate,
-		live,
 		status,
 		totalDeposit,
 		amountUsed,
-		durationLeft,
-		balance,
+		refund,
+		createdAt,
 		endEpochTime
 	} = rowData);
 
@@ -63,14 +62,16 @@
 		{symbol}{bigNumberToCommaString(amountUsed, oysterAmountPrecision)}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('refund')}`}>
-		{symbol}{bigNumberToCommaString(amountUsed, oysterAmountPrecision)}
+		{symbol}{bigNumberToCommaString(refund, oysterAmountPrecision)}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('duration')}`}>
-		{durationLeft}
+		<Tooltip tooltipText={epochToDurationString(endEpochTime - createdAt)}>
+			{epochToDurationString(endEpochTime - createdAt, true)}
+		</Tooltip>
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('status')}`}>
 		<div
-			class="py-1 w-28 text-white rounded mx-auto text-sm"
+			class="py-1 w-28 text-white rounded mx-auto text-sm capitalize"
 			style={`background-color:${statusColor}`}
 		>
 			{status}

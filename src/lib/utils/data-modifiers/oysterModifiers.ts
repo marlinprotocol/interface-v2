@@ -18,6 +18,26 @@ export function getOysterJobsModified(jobs: any[]) {
 	}) as OysterInventoryDataModel[];
 }
 
+export const parseMetadata = (metadata: string) => {
+	//remove unwanted single quote and \
+	metadata = metadata.replaceAll("'", '');
+	metadata = metadata.replaceAll('\\', '');
+	const metadataParsed = JSON.parse(metadata);
+
+	const { url, instanceType, region } = metadataParsed ?? {};
+
+	const vcpuMemoryData = instanceVcpuMemoryData.find((item: any) => item[0] === instanceType);
+
+	const vcpu = vcpuMemoryData?.[1];
+	const memory = vcpuMemoryData?.[2];
+	return {
+		enclaveUrl: url,
+		instance: instanceType,
+		region,
+		vcpu,
+		memory
+	};
+};
 const modifyJobData = (job: any): OysterInventoryDataModel => {
 	const { unitInSeconds } = kOysterRateMetaData;
 	let {
@@ -33,22 +53,13 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 		refund = '0',
 		settlementHistory = [],
 		depositHistory = [],
-		status = 'active'
+		status = 'running'
 	} = job ?? {};
 
 	const nowTime = Date.now() / 1000;
 	const _lastSettled = Number(lastSettled);
 
-	//remove unwanted single quote and \
-	metadata = metadata.replaceAll("'", '');
-	metadata = metadata.replaceAll('\\', '');
-	const metadataParsed = JSON.parse(metadata);
-	const { url, instanceType, region } = metadataParsed ?? {};
-
-	const vcpuMemoryData = instanceVcpuMemoryData.find((item: any) => item[0] === instanceType);
-
-	const vCPU = vcpuMemoryData?.[1];
-	const memory = vcpuMemoryData?.[2];
+	const { enclaveUrl, instance, region, vcpu, memory } = parseMetadata(metadata);
 
 	//convert to BigNumber
 	const _totalDeposit = BigNumber.from(totalDeposit);
@@ -61,18 +72,17 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 			name: '', //TODO: get provider name from address
 			address: provider
 		},
-		enclaveUrl: url,
-		instance: instanceType,
+		enclaveUrl,
+		instance,
 		region,
-		vcpu: vCPU,
-		memory: memory,
+		vcpu,
+		memory,
+		refund: _refund,
 		rate: _rate,
 		totalDeposit: _totalDeposit,
 		lastSettled: Number(lastSettled),
 		createdAt: Number(createdAt),
 		id,
-		owner,
-		status,
 		settlementHistory: settlementHistory.map((settlement: any) => {
 			return {
 				...settlement,
@@ -84,8 +94,13 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 			return {
 				...deposit,
 				amount: BigNumber.from(deposit.amount),
-				timestamp: Number(deposit.timestamp)
-				// transactionStatus: deposit.isWithdrawal ? 'withdrawal' : 'deposit'
+				timestamp: Number(deposit.timestamp),
+				transactionStatus:
+					_refund.gt(BigNumberZero) && i == 0
+						? 'refunded'
+						: deposit.isWithdrawal
+						? 'withdrawal'
+						: 'deposit'
 			};
 		})
 	};
@@ -100,12 +115,14 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 		//job is stopped and refunded so amount is used is total deposit - refund and current balance is 0
 		amountUsed = _totalDeposit.sub(_refund);
 		currentBalance = BigNumberZero;
+		status = 'stopped';
 	} else {
 		if (_balance.div(_rate).gt(hundredYears / unitInSeconds)) {
 			//job is running and will never end
 			live = true;
 			durationLeft = hundredYears;
 			endEpochTime = _lastSettled + durationLeft;
+			status = 'running';
 		} else {
 			const _paidDuration = _balance.div(_rate).toNumber() / unitInSeconds;
 			endEpochTime = _lastSettled + _paidDuration;
@@ -121,10 +138,12 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 				}
 				amountUsed = _totalDeposit.sub(currentBalance);
 				durationLeft = _paidDuration - timeSpent;
+				status = 'running';
 			} else {
 				//job is completed
 				amountUsed = _totalDeposit;
 				currentBalance = BigNumberZero;
+				status = 'completed';
 			}
 		}
 	}
@@ -133,9 +152,10 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 		...modifiedJob,
 		balance: currentBalance,
 		live,
+		status,
 		amountUsed,
 		durationLeft,
-		endEpochTime: lastSettled + durationLeft
+		endEpochTime: _lastSettled + durationLeft
 	};
 };
 

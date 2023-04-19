@@ -22,9 +22,8 @@
 		totalDeposit,
 		amountUsed,
 		createdAt,
-		durationLeft,
 		depositHistory,
-		status
+		endEpochTime
 	} = jobData);
 
 	const subtitle =
@@ -77,10 +76,9 @@
 					centered
 					textStyle={styles.textPrimary}
 				/>
-				<!-- TODO: end date -->
 				<TextInputCard
 					title={'End Date'}
-					value={bigNumberToCommaString(totalDeposit, oysterAmountPrecision)}
+					value={epochSecToString(endEpochTime)}
 					centered
 					textStyle={styles.textPrimary}
 				/>
@@ -90,10 +88,9 @@
 					centered
 					textStyle={styles.textPrimary}
 				/>
-				<!-- TODO: -->
 				<TextInputCard
 					title={'Duration Run'}
-					value={durationLeft < 1 ? 'Ended' : epochToDurationString(durationLeft, true)}
+					value={epochToDurationString(endEpochTime - createdAt, true)}
 					centered
 					textStyle={styles.textPrimary}
 				/>

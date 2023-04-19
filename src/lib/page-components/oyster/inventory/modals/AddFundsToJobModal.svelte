@@ -5,7 +5,7 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { BigNumberZero, oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString, stringToBigNumber } from '$lib/utils/conversion';
 	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
@@ -20,7 +20,7 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	const { symbol, unit, currency } = kOysterRateMetaData;
+	const { symbol, currency } = kOysterRateMetaData;
 	$: ({ rate } = jobData);
 
 	//initial states
@@ -63,7 +63,7 @@
 
 	const handleSubmitClick = async () => {
 		submitLoading = true;
-		jobData = await handleFundsAddToJob(jobData, cost);
+		await handleFundsAddToJob(jobData, cost);
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
@@ -94,14 +94,14 @@
 			<div class="flex gap-4">
 				<AmountInputWithTitle
 					title={`Hourly Rate`}
-					inputAmountString={bigNumberToCommaString(rate, 6)}
+					inputAmountString={bigNumberToCommaString(rate, oysterAmountPrecision)}
 					disabled
 					prefix={symbol}
 				/>
 				<AmountInputWithTitle title={'Duration'} bind:inputAmountString suffix={'days'} />
 				<AmountInputWithTitle
 					title={'Cost'}
-					inputAmountString={bigNumberToCommaString(cost, 6)}
+					inputAmountString={bigNumberToCommaString(cost, oysterAmountPrecision)}
 					suffix={currency}
 					disabled
 				/>

@@ -1,18 +1,33 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { closeModal } from '$lib/utils/helpers/commonHelper';
+	import { BigNumberZero, oysterAmountPrecision } from '$lib/utils/constants/constants';
+	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { bigNumberToCommaString, stringToBigNumber } from '$lib/utils/conversion';
+	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleCancelRateRevise,
-		handleConfirmJobStop,
+		handleFinaliseRateRevise,
 		handleInitiateRateRevise
 	} from '$lib/utils/services/oysterServices';
-	import StopModalContent from '../../sub-components/StopModalContent.svelte';
+	import type { BigNumber } from 'ethers';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
-	export let stopInitiateEndTimestamp: number;
+	export let amendInitiateEndTimestamp: number;
+
+	$: ({ rate } = jobData);
+	const { symbol } = kOysterRateMetaData;
+
+	//initial states
+	let inputAmount: BigNumber = BigNumberZero;
+	let inputAmountString: string;
+
+	$: inputAmount = isInputAmountValid(inputAmountString)
+		? stringToBigNumber(inputAmountString)
+		: BigNumberZero;
 
 	let submitLoading = false;
 	const nowTime = Date.now() / 1000;
@@ -26,7 +41,7 @@
 
 	const handleConfirmClick = async () => {
 		submitLoading = true;
-		await handleConfirmJobStop(jobData);
+		await handleFinaliseRateRevise(jobData, inputAmount);
 		submitLoading = false;
 		closeModal(modalFor);
 	};
@@ -39,25 +54,27 @@
 	};
 
 	$: modalTitle =
-		stopInitiateEndTimestamp === 0
-			? 'INITIATE STOP'
-			: stopInitiateEndTimestamp < nowTime
-			? 'CONFIRM STOP'
-			: 'INITIATING STOP';
+		amendInitiateEndTimestamp === 0
+			? 'INITIATE RATE REVISE'
+			: amendInitiateEndTimestamp < nowTime
+			? 'CONFIRM RATE REVISE'
+			: 'INITIATING RATE REVISE';
 
 	$: submitButtonText =
-		stopInitiateEndTimestamp === 0
-			? 'INITIATE STOP'
-			: stopInitiateEndTimestamp < nowTime
+		amendInitiateEndTimestamp === 0
+			? 'INITIATE'
+			: amendInitiateEndTimestamp < nowTime
 			? 'CONFIRM'
-			: 'CANCEL INITIATION';
+			: 'CANCEL';
 
 	$: submitButtonAction =
-		stopInitiateEndTimestamp === 0
+		amendInitiateEndTimestamp === 0
 			? handleInitialClick
-			: stopInitiateEndTimestamp < nowTime
+			: amendInitiateEndTimestamp < nowTime
 			? handleConfirmClick
 			: handleCancelInitiate;
+
+	$: submitEnable = inputAmount && isInputAmountValid(inputAmountString) && inputAmount.gt(0);
 
 	const subtitle =
 		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
@@ -75,11 +92,22 @@
 		{subtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<StopModalContent {jobData} />
+		<div class="flex flex-col gap-4">
+			<div class="flex gap-4">
+				<AmountInputWithTitle
+					title={`Current Rate`}
+					inputAmountString={bigNumberToCommaString(rate, oysterAmountPrecision)}
+					disabled
+					prefix={symbol}
+				/>
+				<AmountInputWithTitle title="New Rate" bind:inputAmountString />
+			</div>
+		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		<Button
 			variant="filled"
+			disabled={!submitEnable}
 			loading={submitLoading}
 			onclick={submitButtonAction}
 			size="large"
@@ -87,10 +115,5 @@
 		>
 			{submitButtonText}
 		</Button>
-		<!-- {#if initiateInProcess}
-			<Button variant="filled" disabled size="large" styleClass={'btn-block mt-4'}>
-				{'CONFIRM'}
-			</Button>
-		{/if} -->
 	</svelte:fragment>
 </Modal>

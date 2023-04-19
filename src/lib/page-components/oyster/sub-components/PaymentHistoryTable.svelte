@@ -30,8 +30,8 @@
 						<td class={styles.tableCell}>{epochSecToString(rowData.timestamp)}</td>
 						<td class={styles.tableCell}>{bigNumberToCommaString(rowData.amount, 8)}</td>
 						<td class={styles.tableCell}>
-							<div class="flex justify-center items-center gap-2">
-								{rowData.isWithdrawal ? 'Withdrawal' : 'Deposit'}
+							<div class="flex justify-center items-center gap-2 capitalize">
+								{rowData.transactionStatus}
 								<TxnIcon txnHashUrl={goerliArbiUrl(rowData.id)} />
 							</div>
 						</td>

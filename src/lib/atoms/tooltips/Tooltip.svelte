@@ -6,10 +6,8 @@
 	export let tooltipVariant: TooltipVariant = 'tooltip-secondary';
 	export let tooltipDirection: TooltipDirection = 'tooltip-top';
 
-	$: tooltipClass = `tooltip text-left shrink-0 font-normal ${styleClass} ${tooltipVariant} ${tooltipDirection} flex`;
+	$: tooltipClass = `tooltip text-left items-center justify-center shrink-0 font-normal ${styleClass} ${tooltipVariant} ${tooltipDirection} flex`;
 </script>
-
-<!-- TODO: check tooltip hidden issue: something to do with position -->
 
 <div class={tooltipClass} data-tip={tooltipText}>
 	<slot />

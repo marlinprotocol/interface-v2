@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import { buttonClasses } from '$lib/atoms/componentClasses';
+	import { buttonClasses, tableCellClasses } from '$lib/atoms/componentClasses';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import SearchBar from '$lib/components/search/SearchBar.svelte';
@@ -28,7 +28,7 @@
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		inventoryData = value.jobsData;
-		inventoryData = inventoryData?.filter((data) => data.live);
+		console.log('inventoryData :>> ', inventoryData);
 	});
 	onDestroy(unsubscribeOysterStore);
 
@@ -66,6 +66,10 @@
 		{#each paginatedData as rowData, rowIndex}
 			<OysterInventoryTableRow {rowData} {rowIndex} />
 		{/each}
+	{:else}
+		<div class={tableCellClasses.empty}>
+			{'No data found!'}
+		</div>
 	{/if}
 	<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
 </OysterInventoryTable>

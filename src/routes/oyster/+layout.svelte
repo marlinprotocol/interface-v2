@@ -17,8 +17,10 @@
 			getProviderDetailsFromSubgraph($walletStore.address),
 			getAllProvidersDetailsFromSubgraph()
 		]);
-		console.log('all providers from api call:>> ', allProviders);
-		console.log('allowance from api call', allowance);
+		console.log('Oyster Data Fetch - allProviders:>> ', allProviders);
+		console.log('Oyster Data Fetch - allowance', allowance);
+		console.log('Oyster Data Fetch - oysterJobs', oysterJobs);
+		console.log('Oyster Data Fetch - providerDetail', providerDetail);
 		oysterStore.set({
 			...$oysterStore,
 			providerData: {

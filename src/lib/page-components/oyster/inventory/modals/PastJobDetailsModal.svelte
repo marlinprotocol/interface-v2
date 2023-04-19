@@ -18,7 +18,7 @@
 		region,
 		enclaveUrl,
 		rate,
-		amountPaid,
+		totalDeposit,
 		amountUsed,
 		createdAt,
 		durationLeft,
@@ -79,7 +79,7 @@
 				<!-- TODO: end date -->
 				<TextInputCard
 					title={'End Date'}
-					value={bigNumberToCommaString(amountPaid)}
+					value={bigNumberToCommaString(totalDeposit)}
 					centered
 					textStyle={styles.textPrimary}
 				/>

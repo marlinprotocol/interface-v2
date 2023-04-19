@@ -13,6 +13,7 @@
 	import type { Unsubscriber } from 'svelte/store';
 	import OysterHistoryTable from './OysterHistoryTable.svelte';
 	import OysterHistoryTableRow from './OysterHistoryTableRow.svelte';
+	import { tableCellClasses } from '$lib/atoms/componentClasses';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -54,6 +55,10 @@
 		{#each paginatedData as rowData, rowIndex}
 			<OysterHistoryTableRow {rowData} {rowIndex} />
 		{/each}
+	{:else}
+		<div class={tableCellClasses.empty}>
+			{'No data found!'}
+		</div>
 	{/if}
 	<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
 </OysterHistoryTable>

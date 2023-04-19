@@ -162,14 +162,13 @@ export const QUERY_TO_GET_JOBS_DATA = `query Jobs($address: String) {
     orderDirection: desc
   ) {
     id
-    live
     metadata
     owner
     rate
     provider
     lastSettled
     createdAt
-    amountPaid
+    totalDeposit
     balance
     depositHistory(
       orderBy: timestamp,

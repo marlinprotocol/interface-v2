@@ -6,7 +6,6 @@ import ledgerModule from '@web3-onboard/ledger';
 import trezorModule from '@web3-onboard/trezor';
 import coinbaseWalletModule from '@web3-onboard/coinbase';
 import gnosisModule from '@web3-onboard/gnosis';
-import mewWallet from '@web3-onboard/mew-wallet';
 import infinityWalletWalletModule from '@web3-onboard/infinity-wallet';
 import icon from '../../logos/logo-name.svg';
 
@@ -14,7 +13,6 @@ const injected = injectedWalletsModule();
 const ledger = ledgerModule();
 const coinbaseWalletSdk = coinbaseWalletModule();
 const gnosis = gnosisModule();
-const mewWalletModule = mewWallet();
 const infinityWalletSDK = infinityWalletWalletModule();
 const trezor = trezorModule({
 	email: 'roshan@blackfishtech.in',
@@ -34,7 +32,6 @@ const wallets = [
 	trezor,
 	coinbaseWalletSdk,
 	gnosis,
-	mewWalletModule,
 	infinityWalletSDK
 ];
 

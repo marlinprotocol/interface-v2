@@ -11,7 +11,6 @@ import {
 	pondPrecisions
 } from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
-import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 import { bigNumberToCommaString } from '$lib/utils/conversion';
 import { capitalizeFirstLetter, minifyAddress } from '$lib/utils/helpers/commonHelper';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
@@ -24,17 +23,18 @@ let provider: WalletStore['provider'];
 let signer: WalletStore['signer'];
 let walletAddress: WalletStore['address'];
 
-walletStore.subscribe((value) => {
-	provider = value.provider;
-	signer = value.signer;
-	walletAddress = value.address;
-});
-contractAbiStore.subscribe((value) => {
-	contractAbi = value;
-});
-contractAddressStore.subscribe((value) => {
-	contractAddresses = value;
-});
+// TODO: Souvik to check its implementation, throwing error rn
+// walletStore.subscribe((value) => {
+// 	provider = value.provider;
+// 	signer = value.signer;
+// 	walletAddress = value.address;
+// });
+// contractAbiStore.subscribe((value) => {
+// 	contractAbi = value;
+// });
+// contractAddressStore.subscribe((value) => {
+// 	contractAddresses = value;
+// });
 
 export async function getContractDetails() {
 	const url = ENVIRONMENT.public_contract_details_url;
@@ -129,6 +129,8 @@ export async function getInstancesFromControlPlane(controlPlaneUrl: string) {
 				url: controlPlaneUrl,
 				instanceType: rate.instance,
 				region: region.region,
+				vcpu: region.region, //TODO: replace with actual vcpu value
+				memory: region.region, // TODO: replace with actual memory value
 				min_rate: BigNumber.from(rate.min_rate)
 			};
 		});

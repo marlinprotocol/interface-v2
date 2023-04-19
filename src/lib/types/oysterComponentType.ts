@@ -14,8 +14,8 @@ export type CPUrlDataModel = {
 	instanceType: string;
 	region: string;
 	min_rate: BigNumber;
-	vcpu?: string; //TODO: make mandatory
-	memory?: string;
+	vcpu: string; //TODO: make mandatory
+	memory: string;
 };
 
 export type CPInstances = {
@@ -39,7 +39,7 @@ export type OysterProviderDataModel = {
 	cp: string;
 	id: string;
 	live: boolean;
-	name?: string;
+	name: string;
 	instances?: CPUrlDataModel[];
 };
 

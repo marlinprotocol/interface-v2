@@ -104,9 +104,25 @@ async function _getInstancesForCpURL(controlPlaneUrl: string) {
 		return [
 			{
 				url: 'enclave_url',
-				instanceType: 'instance_type',
+				instanceType: 'instance 1',
 				region: 'Region 1',
-				min_rate: BigNumber.from('1000000000000000000'),
+				min_rate: BigNumber.from('1000000000000000000000'),
+				vcpu: '2',
+				memory: '1.5GB'
+			},
+			{
+				url: 'enclave_url',
+				instanceType: 'instance 2',
+				region: 'Region 2',
+				min_rate: BigNumber.from('1500000000000000000000'),
+				vcpu: '10',
+				memory: '5GB'
+			},
+			{
+				url: 'enclave_url',
+				instanceType: 'instance 3',
+				region: 'Region 3',
+				min_rate: BigNumber.from('4000000000000000000000'),
 				vcpu: '2',
 				memory: '0.5GB'
 			}
@@ -137,9 +153,63 @@ export async function getOysterProvidersModified(providers: any[]) {
 		const { providerData } = promises[index];
 		return {
 			...providerData,
-			name: '',
+			name: providerData.id, //TODO: get name from address
 			instances: result
 		};
 	});
 	return ret;
+}
+
+export function getFiltersDataForCreateJob(
+	allProviders: OysterProviderDataModel[],
+	selectedFilters: Record<string, string>
+) {
+	const filters: {
+		merchant: string[];
+		region: string[];
+		instance: string[];
+		vcpu: string[];
+		memory: string[];
+	} = {
+		merchant: [],
+		region: [],
+		instance: [],
+		vcpu: [],
+		memory: []
+	};
+
+	interface ProviderListing extends CPUrlDataModel {
+		merchantName: string;
+		merchantAddress: string;
+	}
+
+	// get all instances from all providers and based on filters
+	const instances = allProviders?.reduce((acc, provider) => {
+		provider.instances?.forEach((instance) => {
+			if (selectedFilters.merchant && selectedFilters.merchant !== provider.name) return;
+			if (selectedFilters.region && selectedFilters.region !== instance.region) return;
+			if (selectedFilters.instance && selectedFilters.instance !== instance.instanceType) return;
+			if (selectedFilters.vcpu && selectedFilters.vcpu !== instance.vcpu) return;
+			if (selectedFilters.memory && selectedFilters.memory !== instance.memory) return;
+			acc.push({
+				...instance,
+				merchantName: provider.name, //TODO: get provider name from address
+				merchantAddress: provider.id
+			});
+		});
+		return acc;
+	}, [] as ProviderListing[]);
+
+	// get all unique values for each filter
+	instances?.forEach((instance) => {
+		if (!filters.merchant.includes(instance.merchantName))
+			filters.merchant.push(instance.merchantName);
+		if (!filters.region.includes(instance.region)) filters.region.push(instance.region);
+		if (!filters.instance.includes(instance.instanceType))
+			filters.instance.push(instance.instanceType);
+		if (!filters.vcpu.includes(instance.vcpu)) filters.vcpu.push(instance.vcpu);
+		if (!filters.memory.includes(instance.memory)) filters.memory.push(instance.memory);
+	});
+
+	return filters;
 }

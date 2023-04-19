@@ -5,70 +5,65 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
+	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
+	import { getFiltersDataForCreateJob } from '$lib/utils/data-modifiers/oysterModifiers';
 	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import { BigNumber } from 'ethers';
+	import { onDestroy } from 'svelte';
+	import type { Unsubscriber } from 'svelte/store';
 
 	export let modalFor: string;
 
-	// TODO: get real data for all selections
-	const searchList = [
-		'Operator 1',
-		'Operator 2',
-		'Operator 3',
-		'Operator 4',
-		'Operator 5',
-		'ADVV',
-		'cdsjkv',
-		'cdsbjkcnkdsj',
-		'cdsjkcnkdsj',
-		'fierdss',
-		'Aaaa',
-		'asdaaaa'
-	];
+	let merchantList: string[] = [];
+	let instanceList: string[] = [];
+	let regionList: string[] = [];
+	let vcpuList: string[] = [];
+	let memoryList: string[] = [];
+
+	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
+		const allProviders = value.allProviders;
+		const dataList = getFiltersDataForCreateJob(allProviders, {});
+		console.log('dataListdataList :>> ', dataList);
+		merchantList = dataList.merchant ?? [];
+		instanceList = dataList.instance ?? [];
+		regionList = dataList.region ?? [];
+		vcpuList = dataList.vcpu ?? [];
+		memoryList = dataList.memory ?? [];
+	});
+	onDestroy(unsubscribeOysterStore);
 
 	//initial states
 	const initalValues = {
 		merchant: {
 			value: '',
 			error: '',
-			isDirty: false,
-			dataList: searchList
+			isDirty: false
 		},
 		instance: {
 			value: '',
 			error: '',
-			isDirty: false,
-			dataList: searchList
+			isDirty: false
 		},
 		region: {
 			value: '',
 			error: '',
-			isDirty: false,
-			dataList: searchList
+			isDirty: false
 		},
 		memory: {
 			value: '',
 			error: '',
-			isDirty: false,
-			dataList: searchList
+			isDirty: false
 		},
 		vcpu: {
 			value: '',
 			error: '',
-			isDirty: false,
-			dataList: searchList
-		},
-		enclaveImageUrl: {
-			value: '',
-			error: '',
-			isDirty: false,
-			dataList: searchList
+			isDirty: false
 		}
 	};
 
 	let values = initalValues;
-
+	let enclaveImageUrl = '';
 	let durationString: string = '';
 	$: duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
 	$: rate = BigNumber.from('1000000000000000000'); //TODO: calculate based on selections
@@ -87,19 +82,35 @@
 
 	const handleFieldChange = (
 		value: string,
-		fieldName: 'merchant' | 'region' | 'instance' | 'memory' | 'vcpu' | 'enclaveImageUrl'
+		dataList: string[],
+		fieldName: 'merchant' | 'region' | 'instance' | 'memory' | 'vcpu',
+		fieldTitle: string
 	) => {
 		values[fieldName].value = value;
 		values[fieldName].isDirty = true;
 		if (value == '') {
-			values[fieldName].error = `${fieldName} is required`;
-		} else if (values[fieldName].dataList.indexOf(value) == -1) {
+			values[fieldName].error = `${fieldTitle} is required`;
+		} else if (dataList.indexOf(value) == -1) {
+			values[fieldName].error = `${value} is not a valid ${fieldTitle}`;
 		} else {
 			values[fieldName].error = '';
 		}
 	};
 
-	$: submitEnable = !!duration && !!cost;
+	$: submitEnable =
+		!!duration &&
+		!!cost &&
+		!values.merchant.error &&
+		values.merchant.value != '' &&
+		!values.region.error &&
+		values.region.value != '' &&
+		!values.instance.error &&
+		values.instance.value != '' &&
+		!values.memory.error &&
+		values.memory.value != '' &&
+		!values.vcpu.error &&
+		values.vcpu.value != '' &&
+		enclaveImageUrl != '';
 
 	const subtitle =
 		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
@@ -119,8 +130,8 @@
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4">
 			<SearchWithSelect
-				dataList={values.merchant.dataList}
-				setSearchValue={(value) => handleFieldChange(value, 'merchant')}
+				dataList={merchantList}
+				setSearchValue={(value) => handleFieldChange(value, merchantList, 'merchant', 'Operator')}
 				title={'Operator'}
 				placeholder={'Enter operator name or address'}
 			/>
@@ -132,8 +143,9 @@
 			<div class="flex gap-4">
 				<div class="w-full">
 					<SearchWithSelect
-						dataList={values.instance.dataList}
-						setSearchValue={(value) => handleFieldChange(value, 'instance')}
+						dataList={instanceList}
+						setSearchValue={(value) =>
+							handleFieldChange(value, instanceList, 'instance', 'Instance')}
 						title={'Instance'}
 						placeholder={'Select instance'}
 					/>
@@ -145,8 +157,8 @@
 				</div>
 				<div class="w-full">
 					<SearchWithSelect
-						dataList={values.region.dataList}
-						setSearchValue={(value) => handleFieldChange(value, 'region')}
+						dataList={regionList}
+						setSearchValue={(value) => handleFieldChange(value, regionList, 'region', 'Region')}
 						title={'Region'}
 						placeholder={'Select region'}
 					/>
@@ -160,8 +172,8 @@
 			<div class="flex gap-4">
 				<div class="w-full">
 					<SearchWithSelect
-						dataList={values.vcpu.dataList}
-						setSearchValue={(value) => handleFieldChange(value, 'vcpu')}
+						dataList={vcpuList}
+						setSearchValue={(value) => handleFieldChange(value, vcpuList, 'vcpu', 'vCPU')}
 						title={'vCPU'}
 						placeholder={'Select vcpu'}
 					/>
@@ -173,8 +185,8 @@
 				</div>
 				<div class="w-full">
 					<SearchWithSelect
-						dataList={values.memory.dataList}
-						setSearchValue={(value) => handleFieldChange(value, 'memory')}
+						dataList={memoryList}
+						setSearchValue={(value) => handleFieldChange(value, memoryList, 'memory', 'Memory')}
 						title={'Memory'}
 						placeholder={'Select memory'}
 					/>
@@ -208,12 +220,7 @@
 				styleClass={styles.inputText}
 				title={'Enclave Image URL'}
 				placeholder={'Paste URL here'}
-				bind:input={values.enclaveImageUrl.value}
-			/>
-			<ErrorTextCard
-				showError={values.enclaveImageUrl.isDirty && values.enclaveImageUrl.error != ''}
-				errorMessage={values.enclaveImageUrl.error}
-				styleClass={'mt-4'}
+				bind:input={enclaveImageUrl}
 			/>
 		</div>
 	</svelte:fragment>

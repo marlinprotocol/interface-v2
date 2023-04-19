@@ -4,6 +4,7 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import CollapseButton from '../buttons/CollapseButton.svelte';
+	import { shortenText } from '$lib/utils/conversion';
 
 	export let dataList: string[] = [];
 	export let title: string;
@@ -73,7 +74,7 @@
 
 		{#if showSuggestions && suggestions.length > 0}
 			<ul
-				class="absolute z-10 w-56 right-0 text-base bg-white border border-gray-300 rounded-md shadow-lg max-h-72 overflow-y-auto focus:outline-none sm:text-sm"
+				class="absolute z-10 w-fit right-0 text-base bg-white border border-gray-300 rounded-md shadow-lg max-h-72 overflow-y-auto focus:outline-none sm:text-sm"
 			>
 				<div class="flex justify-between px-8 py-4 items-center">
 					<Text variant="small" styleClass="" fontWeight="font-semibold" text={`Select ${title}`} />

@@ -36,7 +36,7 @@
 	};
 </script>
 
-<Modal {modalFor} modalWidth={styles.modalWidth}>
+<Modal {modalFor} modalWidth={styles.modalWidth} padding={false}>
 	<svelte:fragment slot="title">
 		{'Past Order Details'}
 	</svelte:fragment>
@@ -44,7 +44,7 @@
 		{subtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex flex-col gap-4">
+		<div class="flex flex-col gap-4 px-4">
 			<div class="flex gap-4">
 				<TextInputCard
 					title={'Merchant'}
@@ -116,7 +116,7 @@
 	</svelte:fragment>
 	<!-- TODO: s- check why scroll is not working, and button is not visible if outside -->
 	<svelte:fragment slot="actionButtons">
-		<div class="flex gap-2">
+		<div class="flex gap-2 p-4">
 			<ModalButton variant="filled" {modalFor} styleClass={'btn-block my-0 w-[49%]'}>
 				CLOSE
 			</ModalButton>

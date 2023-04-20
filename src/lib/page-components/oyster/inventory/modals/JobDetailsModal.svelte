@@ -38,7 +38,7 @@
 	};
 </script>
 
-<Modal {modalFor} modalWidth={styles.modalWidth}>
+<Modal {modalFor} modalWidth={styles.modalWidth} padding={false}>
 	<svelte:fragment slot="title">
 		{'Order Details'}
 	</svelte:fragment>
@@ -46,7 +46,7 @@
 		{subtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex flex-col gap-4">
+		<div class="flex flex-col gap-4 px-4">
 			<div class="flex gap-4">
 				<TextInputCard
 					title={'Merchant'}
@@ -119,8 +119,10 @@
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<ModalButton variant="filled" {modalFor} size="large" styleClass={'btn-block my-0'}>
-			OK
-		</ModalButton>
+		<div class="p-4">
+			<ModalButton variant="filled" {modalFor} size="large" styleClass={'btn-block my-0'}>
+				OK
+			</ModalButton>
+		</div>
 	</svelte:fragment>
 </Modal>

@@ -45,7 +45,7 @@
 	};
 </script>
 
-<div class="flex gap-4">
+<div class="flex gap-2">
 	<div class="w-full">
 		<SearchWithSelect
 			dataList={filterValue?.instance}
@@ -73,7 +73,7 @@
 		/>
 	</div>
 </div>
-<div class="flex gap-4">
+<div class="flex gap-2">
 	<div class="w-full">
 		<TextInputWithEndButton title={'vCPU'} input={vcpu} placeholder={'Select Instance'} disabled />
 	</div>

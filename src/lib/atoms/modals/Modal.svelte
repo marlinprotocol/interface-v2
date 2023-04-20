@@ -5,6 +5,7 @@
 	export let modalFor = '';
 	export let modalWidth = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
 	export let onClose: () => void = () => {};
+	export let padding: boolean = true;
 
 	const styles = {
 		icon: 'mb-6',
@@ -48,11 +49,16 @@
 				<img src={staticImages.CloseCircle} alt="Close" />
 			</button>
 		</div>
-		<div class="modal-body pt-2 pb-4 px-6">
+		<div
+			class={`modal-body ${padding ? 'pt-2 pb-4 px-6' : ''}`}
+			style={`max-height: ${
+				$$slots.actionButtons ? 'calc(100vh - 320px)' : 'calc(100vh - 200px)'
+			};`}
+		>
 			<slot name="content" />
 		</div>
 		{#if $$slots.actionButtons}
-			<div class="modal-footer mt-4 px-6 mb-6">
+			<div class={`modal-footer ${padding ? 'mt-4 px-6 mb-6' : ''}`}>
 				<slot name="actionButtons" />
 			</div>
 		{/if}
@@ -63,7 +69,6 @@
 	.modal-body {
 		overflow-y: auto;
 		overflow-x: hidden;
-		max-height: 76vh;
 	}
 	/* redesign scrollbar */
 	.modal-body::-webkit-scrollbar {

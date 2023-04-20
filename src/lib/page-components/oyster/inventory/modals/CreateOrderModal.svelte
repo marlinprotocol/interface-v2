@@ -162,7 +162,7 @@
 	};
 </script>
 
-<Modal {modalFor} onClose={resetInputs}>
+<Modal {modalFor} onClose={resetInputs} padding={false}>
 	<svelte:fragment slot="title">
 		{'Create Order'}
 	</svelte:fragment>
@@ -170,7 +170,7 @@
 		{subtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex flex-col gap-4">
+		<div class="flex flex-col gap-2 px-4">
 			<SearchWithSelect
 				dataList={merchantList}
 				setSearchValue={(value) => {
@@ -191,7 +191,7 @@
 			{:then filterValue}
 				<CreateOrderModalContent bind:rate {filterValue} bind:values {handleFieldChange} />
 			{/await}
-			<div class="flex gap-4">
+			<div class="flex gap-2">
 				<AmountInputWithTitle
 					title={'Hourly Rate'}
 					inputAmountString={rate ? bigNumberToCommaString(rate, 6) : ''}
@@ -218,13 +218,17 @@
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<Button
-			variant="filled"
-			disabled={!submitEnable}
-			loading={submitLoading}
-			onclick={handleSubmitClick}
-			size="large"
-			styleClass={'btn-block w-full my-0'}>DEPLOY</Button
-		>
+		<div class="p-4">
+			<Button
+				variant="filled"
+				disabled={!submitEnable}
+				loading={submitLoading}
+				onclick={handleSubmitClick}
+				size="large"
+				styleClass={'btn-block w-full'}
+			>
+				DEPLOY
+			</Button>
+		</div>
 	</svelte:fragment>
 </Modal>

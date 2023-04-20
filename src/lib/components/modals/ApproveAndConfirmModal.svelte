@@ -30,7 +30,6 @@
 	$: conversionFromText = conversionFrom === 'pond' ? 'POND' : 'MPond';
 	$: conversionToText = conversionFrom === 'pond' ? 'MPond' : 'POND';
 	$: modalForSuccessConversion = `success-conversion-modal-${rowIndex}`;
-	$: console.log(modalForSuccessConversion);
 	let approveLoading: boolean;
 	let confirmLoading: boolean;
 

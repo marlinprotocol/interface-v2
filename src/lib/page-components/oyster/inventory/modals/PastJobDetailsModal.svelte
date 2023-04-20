@@ -51,7 +51,6 @@
 		if (!amountUsed) {
 			return;
 		}
-		console.log('amountUsed :>> ', amountUsed);
 		submitLoading = true;
 		await handleApproveFundForOysterJob(amountUsed);
 		submitLoading = false;
@@ -73,7 +72,6 @@
 		submitLoading = false;
 		closeModal(modalFor);
 	};
-	console.log('amountUsed :>> ', amountUsed);
 	$: approved = amountUsed && approvedAmount?.gte(amountUsed) && amountUsed.gt(BigNumberZero);
 
 	const subtitle =

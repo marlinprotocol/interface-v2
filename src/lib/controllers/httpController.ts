@@ -88,7 +88,6 @@ export async function getInstancesFromControlPlane(controlPlaneUrl: string) {
 
 	const options = GET_OPTIONS;
 	const instances: CPInstances = await fetchHttpData(controlPlaneUrlWithSpecEndpoint, options);
-	console.log('controlPlaneUrl :>> ', controlPlaneUrl, instances);
 
 	if (!instances) {
 		throw new Error('Unable to fetch instances');
@@ -110,4 +109,11 @@ export async function getInstancesFromControlPlane(controlPlaneUrl: string) {
 		});
 	});
 	return ret;
+}
+
+export async function getProvidersNameJSON() {
+	const providerNameEndPoint = 'https://api.aragog.live/operators/names';
+	const options = GET_OPTIONS;
+	const response = await fetchHttpData(providerNameEndPoint, options);
+	return response ?? {};
 }

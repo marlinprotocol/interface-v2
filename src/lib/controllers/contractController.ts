@@ -391,7 +391,6 @@ export async function requestMPondConversion(amount: BigNumber) {
 
 		const tx = await bridgeContract.placeRequest(amount);
 
-		console.log('tx :>> ', tx);
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.CREATED,
 			variant: 'info'
@@ -439,7 +438,6 @@ export async function cancelMPondConversionRequest(epoch: BigNumber) {
 			variant: 'info'
 		});
 
-		console.log('epochepoch :>> ', epoch);
 		const tx = await bridgeContract.cancelRequest(epoch);
 
 		addToast({
@@ -891,10 +889,7 @@ export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber)
 			message: MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATING,
 			variant: 'info'
 		});
-
-		console.log('rate :>> ', rate, bigNumberToCommaString(rate));
 		const tx = await oysterContract.jobReviseRateInitiate(jobId, rate);
-		console.log('tx :>> ', tx);
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.CREATED,
 			variant: 'info'

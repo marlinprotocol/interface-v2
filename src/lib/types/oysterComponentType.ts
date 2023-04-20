@@ -73,6 +73,7 @@ export type OysterDepositHistoryDataModel = {
 	timestamp: number;
 	isWithdrawal: boolean;
 	transactionStatus: string;
+	txHash: string;
 };
 
 export type OysterRateRequestModel = {

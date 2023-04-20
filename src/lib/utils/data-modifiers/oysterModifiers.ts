@@ -1,4 +1,7 @@
-import { getInstancesFromControlPlane } from '$lib/controllers/httpController';
+import {
+	getInstancesFromControlPlane,
+	getProvidersNameJSON
+} from '$lib/controllers/httpController';
 import { instanceVcpuMemoryData } from '$lib/page-components/oyster/data/instanceVcpuMemoryData';
 import type {
 	CPUrlDataModel,
@@ -38,15 +41,17 @@ export const getvCpuMemoryData = (instance: string) => {
 	};
 };
 
-export function getOysterJobsModified(jobs: any[]) {
+export async function getOysterJobsModified(jobs: any[]) {
 	if (!jobs?.length) return [];
 
+	const names = await getProvidersNameJSON();
+
 	return jobs.map((job: any) => {
-		return modifyJobData(job);
+		return modifyJobData(job, names);
 	}) as OysterInventoryDataModel[];
 }
 
-const modifyJobData = (job: any): OysterInventoryDataModel => {
+const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	const { rateUnitInSeconds } = kOysterRateMetaData;
 	const {
 		metadata,
@@ -77,7 +82,7 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 	//job with all basic conversions
 	const modifiedJob = {
 		provider: {
-			name: '', //TODO: get provider name from address
+			name: names['test'] ?? provider,
 			address: provider
 		},
 		metadata,
@@ -183,11 +188,14 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 
 export async function getOysterProvidersModified(providers: any[]) {
 	if (!providers?.length) return [];
-	//fetch all names here
+
+	//fetch all providers name
+	const names = await getProvidersNameJSON();
+
 	return providers.map((provider) => {
 		return {
 			...provider,
-			name: provider.id, //TODO: get name from address
+			name: names[provider.id] ?? provider.id,
 			instances: []
 		} as OysterProviderDataModel;
 	});
@@ -210,7 +218,7 @@ export async function getFiltersDataForCreateJob(provider: OysterProviderDataMod
 	try {
 		instances = await getInstancesFromControlPlane(provider.cp);
 	} catch (e) {
-		console.log('error fetching data from  controlPlaneUrl:>> ', e);
+		console.log('error fetching data from  controlPlaneUrl ', e);
 	}
 
 	instances?.forEach((instance) => {

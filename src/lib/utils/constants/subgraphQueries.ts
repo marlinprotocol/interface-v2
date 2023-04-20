@@ -177,6 +177,7 @@ export const QUERY_TO_GET_JOBS_DATA = `query Jobs($address: String) {
     ) {
       amount
       id
+      txHash
       isWithdrawal
       timestamp
     }
@@ -186,6 +187,7 @@ export const QUERY_TO_GET_JOBS_DATA = `query Jobs($address: String) {
     ) {
       amount
       id
+      txHash
       timestamp
     }
   }

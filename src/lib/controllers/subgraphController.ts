@@ -369,15 +369,13 @@ export async function getOysterJobs(address: Address) {
 		const result = await fetchHttpData(url, options);
 
 		const jobs = result['data']?.jobs;
-		console.log('result :>> ', result);
-
 		if (!jobs?.length) {
 			if (result['errors']) {
 				showFetchHttpDataError(result['errors']);
 			}
 			return [];
 		}
-		const ret = getOysterJobsModified(jobs);
+		const ret = await getOysterJobsModified(jobs);
 		return ret;
 	} catch (error: any) {
 		addToast({

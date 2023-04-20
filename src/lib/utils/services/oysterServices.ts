@@ -41,7 +41,8 @@ export async function handleFundsAddToJob(jobData: OysterInventoryDataModel, amo
 			depositHistory: [
 				{
 					amount,
-					id: txn.hash,
+					id: txn.id,
+					txHash: txn.hash,
 					timestamp: Date.now() / 1000,
 					isWithdrawal: false,
 					transactionStatus: 'running'
@@ -82,7 +83,8 @@ export async function handleFundsWithdrawFromJob(
 			depositHistory: [
 				{
 					amount,
-					id: txn.hash,
+					id: txn.id,
+					txHash: txn.hash,
 					timestamp: Date.now() / 1000,
 					isWithdrawal: true,
 					transactionStatus: 'running'
@@ -158,7 +160,6 @@ export async function handleGetReviseRateInititaeEndTimestamp(jobData: OysterInv
 	const { id } = jobData;
 	try {
 		const requestData = await getReviseRateInitiateEndTimestamp(id);
-		console.log('requestData :>> ', requestData);
 		if (!requestData || !['IN_PROGRESS'].includes(requestData.status)) return {};
 		return {
 			updatesAt: Number(requestData.updatesAt),
@@ -183,7 +184,8 @@ export async function handleConfirmJobStop(jobData: OysterInventoryDataModel) {
 			depositHistory: [
 				{
 					amount: jobData.balance,
-					id: tx,
+					id: tx.id,
+					txHash: tx.hash,
 					timestamp: Date.now() / 1000,
 					isWithdrawal: true,
 					transactionStatus: 'stopped'
@@ -247,7 +249,8 @@ export async function handleCreateJob(
 			depositHistory: [
 				{
 					amount: balance,
-					id: tx,
+					id: tx.id,
+					txHash: tx.hash,
 					timestamp: nowTime,
 					isWithdrawal: false,
 					transactionStatus: 'running'

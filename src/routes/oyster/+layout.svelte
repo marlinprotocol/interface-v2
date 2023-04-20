@@ -10,7 +10,6 @@
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 
 	async function init() {
-		// TODO: read oyster contract details
 		const [allowance, oysterJobs, providerDetail, allProviders] = await Promise.all([
 			getApprovedOysterAllowances($walletStore.address, $contractAddressStore.Bridge),
 			getOysterJobs($walletStore.address),

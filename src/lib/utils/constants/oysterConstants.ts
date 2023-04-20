@@ -6,8 +6,10 @@ export const kOysterRateMetaData = {
 	currency: 'USDC',
 	symbol: '$',
 	decimal: 18,
-	unit: 'hour',
-	unitInSeconds: 3600
+	rateUnit: 'hour',
+	rateUnitInSeconds: 3600,
+	userDurationUnit: 'day',
+	userDurationUnitInRateUnit: 24
 };
 
 export const oysterTableItemsPerPage = 10;
@@ -114,38 +116,38 @@ export const kOysterPaymentHistoryTableHeader: TableModel['header'][] = [
 
 export const kOysterHistoryTableHeader: TableModel['header'][] = [
 	{
-		title: 'Operator',
+		title: 'OPERATOR',
 		id: 'merchant'
 	},
 	{
-		title: 'Instance',
+		title: 'INSTANCE',
 		id: 'instance'
 	},
 	{
-		title: 'Region',
+		title: 'REGION',
 		id: 'region'
 	},
 	{
-		title: 'Amount Paid',
+		title: 'AMOUNT PAID',
 		id: 'totalDeposit',
 		sorting: true
 	},
 	{
-		title: 'Amount Used',
+		title: 'AMOUNT USED',
 		id: 'amountUsed',
 		sorting: true
 	},
 	{
-		title: 'Refund',
+		title: 'REFUND',
 		id: 'refund',
 		sorting: true
 	},
 	{
-		title: 'Duration Run',
+		title: 'DURATION RUN',
 		id: 'duration'
 	},
 	{
-		title: 'Status',
+		title: 'STATUS',
 		id: 'status'
 	},
 	{

@@ -14,7 +14,7 @@ export type CPUrlDataModel = {
 	instanceType: string;
 	region: string;
 	min_rate: BigNumber;
-	vcpu: string; //TODO: make mandatory
+	vcpu: string;
 	memory: string;
 };
 
@@ -66,6 +66,7 @@ export type OysterInventoryDataModel = {
 	status: string; //job status - running, stopped, completed
 	settlementHistory: OysterSettlementHistoryDataModel[];
 	depositHistory: OysterDepositHistoryDataModel[];
+	durationRun: number;
 	id: Bytes;
 };
 
@@ -79,7 +80,7 @@ export type OysterDepositHistoryDataModel = {
 	id: string;
 	timestamp: number;
 	isWithdrawal: boolean;
-	transactionStatus?: string; //TODO: remove this
+	transactionStatus: string;
 };
 
 // const _new = {

@@ -115,7 +115,6 @@
 		</div>
 	</svelte:fragment>
 	<!-- TODO: s- check why scroll is not working, and button is not visible if outside -->
-	<!-- TODO: s - check if button should not be fixed -->
 	<svelte:fragment slot="actionButtons">
 		<div class="flex gap-2">
 			<ModalButton variant="filled" {modalFor} styleClass={'btn-block my-0 w-[49%]'}>

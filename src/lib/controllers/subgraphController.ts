@@ -448,7 +448,7 @@ export async function getApprovedOysterAllowances(address: Address, contractAddr
 	};
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-	let amount = BigNumberZero;
+	const amount = BigNumberZero;
 	try {
 		const result = await fetchHttpData(url, options);
 		console.log('oyster allowances', result);

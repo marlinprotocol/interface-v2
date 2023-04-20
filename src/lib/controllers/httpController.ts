@@ -1,10 +1,9 @@
 import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 import ENVIRONMENT from '$lib/environments/environment';
-import type { CPInstances, CPUrlDataModel } from '$lib/types/oysterComponentType';
+import type { CPInstances } from '$lib/types/oysterComponentType';
 import { GET_OPTIONS } from '$lib/utils/constants/constants';
 import { getModifiedInstances } from '$lib/utils/data-modifiers/oysterModifiers';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
-import { BigNumber } from 'ethers';
 import { get } from 'svelte/store';
 
 export async function getContractDetails() {

@@ -49,7 +49,7 @@
 		<div class="flex flex-col gap-4 px-4">
 			<div class="flex gap-4">
 				<TextInputCard
-					title={'Merchant'}
+					title={'Operator'}
 					value={name !== '' ? name : address}
 					centered
 					textStyle={styles.textPrimary}

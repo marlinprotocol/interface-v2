@@ -1,6 +1,6 @@
 import type { TableModel } from '$lib/types/componentTypes';
 
-export const kMerchantJobs = '/oyster/merchant/jobs';
+export const kMerchantJobs = '/oyster/operator/jobs';
 
 export const kOysterRateMetaData = {
 	currency: 'USDC',
@@ -32,7 +32,7 @@ export const kInstancesTableHeader: TableModel['header'][] = [
 	}
 ];
 
-// Merchant, Region, Instance, Rate, Amount Paid, Amount Used, Balance, Duration Left, Status
+// Operator, Region, Instance, Rate, Amount Paid, Amount Used, Balance, Duration Left, Status
 export const kOysterInventoryTableHeader: TableModel['header'][] = [
 	{
 		title: 'OPERATOR',

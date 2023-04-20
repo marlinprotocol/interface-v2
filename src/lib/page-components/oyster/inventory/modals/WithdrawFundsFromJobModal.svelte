@@ -28,7 +28,7 @@
 	$: ({ rate, balance: maxAmount } = jobData);
 
 	//initial states
-	let inputAmount: BigNumber = BigNumberZero;
+	let inputAmount: BigNumber;
 	let inputAmountString: string;
 	//error message states
 	let inputAmountIsValid = true;
@@ -75,7 +75,10 @@
 		closeModal(modalFor);
 	};
 
-	$: maxDisabedText = inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient balance' : '';
+	$: maxDisabedText =
+		updatedAmountInputDirty && inputAmount && inputAmount.gt(maxAmount)
+			? 'Insufficient balance'
+			: '';
 	$: submitEnable = inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
 
 	const subtitle =

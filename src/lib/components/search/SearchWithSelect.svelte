@@ -6,6 +6,7 @@
 	import CollapseButton from '../buttons/CollapseButton.svelte';
 
 	export let dataList: string[] = [];
+	export let searchValue: string = '';
 	export let title: string;
 	export let placeholder: string = 'Search';
 	export let styleClass: string = '';
@@ -13,16 +14,15 @@
 
 	// const dispatch = createEventDispatcher();
 
-	let searchTerm: string = '';
 	let suggestions: string[] = [];
 	let showSuggestions: boolean = false;
 
 	const handleSearch = async (event: any) => {
 		const input = event.target as HTMLInputElement;
-		searchTerm = input.value;
-		suggestions = dataList.filter((item) => item.toLowerCase().includes(searchTerm.toLowerCase()));
+		searchValue = input.value;
+		suggestions = dataList.filter((item) => item.toLowerCase().includes(searchValue.toLowerCase()));
 		showSuggestions = suggestions.length > 0;
-		await setSearchValue(searchTerm);
+		await setSearchValue(searchValue);
 	};
 
 	const handleClickOutside = (event: MouseEvent) => {
@@ -38,9 +38,9 @@
 	};
 
 	const handleSearchSuggestionClick = async (suggestion: string) => {
-		searchTerm = suggestion;
+		searchValue = suggestion;
 		showSuggestions = false;
-		await setSearchValue(searchTerm);
+		await setSearchValue(searchValue);
 	};
 
 	onMount(() => {
@@ -67,7 +67,7 @@
 	</div>
 	<div class="relative search-container">
 		<div class="input-group items-center">
-			<input class={styles.inputSearch} {placeholder} value={searchTerm} on:input={handleSearch} />
+			<input class={styles.inputSearch} {placeholder} value={searchValue} on:input={handleSearch} />
 			<CollapseButton
 				isOpen={showSuggestions}
 				onclick={handleToggleShowAllSuggestions}
@@ -85,7 +85,7 @@
 				{#each suggestions as suggestion}
 					<li
 						class={`px-8 py-3 cursor-pointer hover:bg-gray-100 text-left  ${
-							suggestion === searchTerm ? 'bg-blue-50' : 'bg-white'
+							suggestion === searchValue ? 'bg-blue-50' : 'bg-white'
 						}`}
 						on:click={() => handleSearchSuggestionClick(suggestion)}
 						on:keydown={(event) => {

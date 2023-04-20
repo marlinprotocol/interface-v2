@@ -1,10 +1,7 @@
-import {
-	getInstancesFromControlPlane,
-	getProvidersInstancesJSON,
-	getProvidersNameJSON
-} from '$lib/controllers/httpController';
+import { getProvidersInstancesJSON, getProvidersNameJSON } from '$lib/controllers/httpController';
 import { instanceVcpuMemoryData } from '$lib/page-components/oyster/data/instanceVcpuMemoryData';
 import type {
+	CPInstances,
 	CPUrlDataModel,
 	OysterInventoryDataModel,
 	OysterProviderDataModel
@@ -13,7 +10,6 @@ import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
 import { hundredYears } from '../conversion';
-import type { CPInstances } from '$lib/types/oysterComponentType';
 
 export const parseMetadata = (metadata: string) => {
 	//remove unwanted single quote and \
@@ -84,7 +80,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	//job with all basic conversions
 	const modifiedJob = {
 		provider: {
-			name: names['test'] ?? provider,
+			name: names[provider] ?? '',
 			address: provider
 		},
 		metadata,

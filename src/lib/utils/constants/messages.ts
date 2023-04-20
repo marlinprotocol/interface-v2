@@ -141,16 +141,16 @@ export const MESSAGES = {
 				MPOND_TO_POND_CANCELLED: 'Cancelled request for conversion of MPOND to POND.'
 			},
 			REGISTER: {
-				REGISTERING: 'Registering you as a merchant.',
-				REGISTERED: 'Registered you as a merchant.'
+				REGISTERING: 'Registering you as an operator.',
+				REGISTERED: 'Registered you as an operator.'
 			},
 			UPDATE: {
 				UPDATING: 'Updating your control plane url.',
 				UPDATED: 'Updated your control plane url.'
 			},
 			REMOVE: {
-				REMOVING: 'Removing you as a merchant.',
-				REMOVED: 'Removed you as a merchant.'
+				REMOVING: 'Removing you as an operator.',
+				REMOVED: 'Removed you as an operator.'
 			},
 			CREATE_JOB: {
 				CREATING: 'Creating a new job.',

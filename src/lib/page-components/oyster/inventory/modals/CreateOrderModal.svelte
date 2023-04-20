@@ -6,7 +6,8 @@
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import type { CPUrlDataModel, OysterProviderDataModel } from '$lib/types/oysterComponentType';
+	import { walletBalance } from '$lib/data-stores/walletProviderStore';
+	import type { OysterProviderDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
@@ -23,8 +24,6 @@
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import CreateOrderModalContent from '../../sub-components/CreateOrderModalContent.svelte';
-	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 
 	export let modalFor: string;
 
@@ -33,11 +32,6 @@
 	let allProviders: OysterProviderDataModel[] = [];
 	let approvedAmount: BigNumber;
 	let maxBalance = BigNumberZero;
-	let filterData: {
-		allInstances: CPUrlDataModel[];
-		region: string[];
-		instance: string[];
-	};
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		allProviders = value.allProviders;
@@ -55,12 +49,12 @@
 	);
 
 	//initial states
-	const initalFilterValues = {
+	let values = {
 		merchant: {
 			value: '',
 			error: '',
 			isDirty: false,
-			title: 'Merchant'
+			title: 'Operator'
 		},
 		instance: {
 			value: '',
@@ -75,24 +69,10 @@
 			title: 'Region'
 		}
 	};
-	const initialMerchant = {
-		value: '',
-		error: '',
-		isDirty: false,
-		title: 'Merchant'
-	};
-	let values = initalFilterValues;
-	let merchant = initialMerchant;
-
-	$: selectedProvider = allProviders.find(
-		(provider) => provider.id == merchant.value || provider.name == merchant.value
-	);
 
 	let enclaveImageUrl = '';
 	let durationString: string = '';
-	let rate: BigNumber | null;
-	let vcpu: string = '';
-	let memory: string = '';
+	let selectedProvider: OysterProviderDataModel | undefined;
 
 	//loading states
 	let submitLoading = false;
@@ -121,7 +101,7 @@
 		submitLoading = true;
 		await handleCreateJob(
 			metadata,
-			merchant.value,
+			values.merchant.value,
 			rate,
 			cost,
 			duration * rateUnitInSeconds * userDurationUnitInRateUnit
@@ -141,8 +121,26 @@
 	};
 
 	const resetInputs = () => {
-		values = initalFilterValues;
-		merchant = initialMerchant;
+		values = {
+			merchant: {
+				value: '',
+				error: '',
+				isDirty: false,
+				title: 'Operator'
+			},
+			instance: {
+				value: '',
+				error: '',
+				isDirty: false,
+				title: 'Instance'
+			},
+			region: {
+				value: '',
+				error: '',
+				isDirty: false,
+				title: 'Region'
+			}
+		};
 		durationString = '';
 		cost = null;
 		rate = null;
@@ -166,32 +164,35 @@
 		return valueMap;
 	};
 
-	const handleFilterDataChange = (
-		field: 'instance' | 'region',
-		value: string,
-		allFilterList: any
-	) => {
-		const dataList = allFilterList[field];
-		const valueMap = values[field];
-		values[field] = handleFieldChange(valueMap, value, dataList, valueMap.title);
-		if (field == 'instance') {
-			const instanceData = getvCpuMemoryData(value);
-			vcpu = instanceData.vcpu?.toString() ?? '';
-			memory = instanceData.memory?.toString() ?? '';
-		}
-		rate = getRateForProviderAndFilters(values, allFilterList['allInstances']);
+	const handleMerchantChange = async (value: string) => {
+		const merchant = handleFieldChange(values.merchant, value, merchantList, 'Operator');
+		selectedProvider = allProviders.find(
+			(provider) => provider.id == values.merchant.value || provider.name == values.merchant.value
+		);
+		values = {
+			instance: {
+				value: '',
+				error: '',
+				isDirty: false,
+				title: 'Instance'
+			},
+			region: {
+				value: '',
+				error: '',
+				isDirty: false,
+				title: 'Region'
+			},
+			merchant
+		};
 	};
 
-	const handleMerchantChange = async (value: string) => {
-		merchant = handleFieldChange(merchant, value, merchantList, 'Merchant');
-		values = initalFilterValues;
-		handleFilterDataChange('instance', '', filterData);
-		handleFilterDataChange('region', '', filterData);
-	};
+	$: instanceData = getvCpuMemoryData(values.instance.value);
+	$: vcpu = instanceData.vcpu?.toString() ?? '';
+	$: memory = instanceData.memory?.toString() ?? '';
 
 	$: filterData = getFiltersDataForCreateJob(selectedProvider);
 	$: duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
-
+	$: rate = getRateForProviderAndFilters(values, filterData['allInstances']);
 	// duration in rate unit
 	$: cost = rate ? rate.mul(duration * userDurationUnitInRateUnit) : null;
 
@@ -202,8 +203,8 @@
 		cost?.gt(BigNumberZero) &&
 		rate &&
 		maxBalance.gte(cost) &&
-		!merchant.error &&
-		merchant.value != '' &&
+		!values.merchant.error &&
+		values.merchant.value != '' &&
 		!values.region.error &&
 		values.region.value != '' &&
 		!values.instance.error &&
@@ -231,20 +232,29 @@
 		<div class="flex flex-col gap-2 px-4">
 			<SearchWithSelect
 				dataList={merchantList}
+				searchValue={values.merchant.value}
 				setSearchValue={handleMerchantChange}
 				title={'Operator'}
 				placeholder={'Enter operator name or address'}
 			/>
 			<ErrorTextCard
-				showError={merchant.isDirty && merchant.error != ''}
-				errorMessage={merchant.error}
+				showError={values.merchant.isDirty && values.merchant.error != ''}
+				errorMessage={values.merchant.error}
 				styleClass={'mt-0'}
 			/>
 			<div class="flex gap-2">
 				<div class="w-full">
 					<SearchWithSelect
-						dataList={filterData?.instance}
-						setSearchValue={(value) => handleFilterDataChange('instance', value, filterData)}
+						dataList={filterData?.instance ?? []}
+						searchValue={values.instance.value}
+						setSearchValue={(value) => {
+							values.instance = handleFieldChange(
+								values.instance,
+								value,
+								filterData?.instance ?? [],
+								values.instance.title
+							);
+						}}
 						title={'Instance'}
 						placeholder={'Select instance'}
 					/>
@@ -256,8 +266,16 @@
 				</div>
 				<div class="w-full">
 					<SearchWithSelect
-						dataList={filterData?.region}
-						setSearchValue={(value) => handleFilterDataChange('region', value, filterData)}
+						dataList={filterData?.region ?? []}
+						searchValue={values.region.value}
+						setSearchValue={(value) => {
+							values.region = handleFieldChange(
+								values.region,
+								value,
+								filterData?.region ?? [],
+								values.region.title
+							);
+						}}
 						title={'Region'}
 						placeholder={'Select region'}
 					/>

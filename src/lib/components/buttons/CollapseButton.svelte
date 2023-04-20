@@ -12,5 +12,5 @@
 </script>
 
 <button on:click={onclick} {disabled} class={`${buttonClasses.iconLightBlue}`}>
-	<Icon data={chevronIcon} size={12} iconColorClass={'icon-primary'} />
+	<Icon data={chevronIcon} size={12} iconColorClass={disabled ? 'icon-disabled' : 'icon-primary'} />
 </button>

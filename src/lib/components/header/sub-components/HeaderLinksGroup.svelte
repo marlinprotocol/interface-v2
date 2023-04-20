@@ -15,8 +15,8 @@
 			openInNewTab: false
 		},
 		{
-			title: 'Merchant',
-			href: '/oyster/merchant',
+			title: 'Operator',
+			href: '/oyster/operator',
 			openInNewTab: false
 		},
 		{

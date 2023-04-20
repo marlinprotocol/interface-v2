@@ -67,7 +67,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		depositHistory = []
 	} = job ?? {};
 
-	const nowTime = Date.now() / 1000;
+	const nowTime = Math.floor(Date.now() / 1000);
 	const _lastSettled = Number(lastSettled);
 	const _createdAt = Number(createdAt);
 
@@ -168,10 +168,10 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	let currentBalance = _balance;
 	//job is running
 	try {
+		// check for overflow and underflow errors
 		currentBalance = _balance.sub(_rate.mul(nowTime - _lastSettled));
 	} catch (e) {
-		// TODO: handle overflow error
-		console.log('overflow error', e);
+		console.log('overflow error', e, id);
 	}
 
 	return {

@@ -22,7 +22,7 @@
 			tableHeading={kOysterPaymentHistoryTableHeader}
 			headingStyleClass={'text-xs'}
 			iconWidth={13}
-			styleClass={'py-0'}
+			tablePadding={'pt-2 px-0'}
 		>
 			<tbody slot="tableBody">
 				{#each tableData as rowData}

@@ -14,10 +14,11 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 	$: ({
-		id,
 		provider: { name, address },
 		instance,
 		region,
+		vcpu,
+		memory,
 		enclaveUrl,
 		rate,
 		totalDeposit,
@@ -62,8 +63,18 @@
 					centered
 					textStyle={styles.textPrimary}
 				/>
-				<TextInputCard title={'vCPU'} value={instance} centered textStyle={styles.textPrimary} />
-				<TextInputCard title={'Memory'} value={instance} centered textStyle={styles.textPrimary} />
+				<TextInputCard
+					title={'vCPU'}
+					value={vcpu?.toString() ?? ''}
+					centered
+					textStyle={styles.textPrimary}
+				/>
+				<TextInputCard
+					title={'Memory'}
+					value={memory?.toString() ?? ''}
+					centered
+					textStyle={styles.textPrimary}
+				/>
 				<TextInputCard
 					title={'Hourly Rate'}
 					value={`$${bigNumberToCommaString(rate, oysterAmountPrecision)}`}

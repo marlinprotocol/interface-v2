@@ -8,9 +8,10 @@
 	export let headingStyleClass = '';
 	export let handleSortData: (() => void) | undefined = undefined;
 	export let iconWidth = 16;
+	export let tablePadding = 'px-8 py-6';
 </script>
 
-<div class={`${styleClass} overflow-x-auto overflow-y-hidden px-8 py-6`}>
+<div class={`${styleClass} overflow-x-auto overflow-y-hidden ${tablePadding}`}>
 	<table>
 		<thead>
 			<tr>

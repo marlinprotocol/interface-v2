@@ -16,17 +16,21 @@
 
 <div class="flex flex-col gap-4">
 	<div class="flex gap-4">
-		<TextInputCard
-			title={'Current Balance'}
-			value={`${bigNumberToCommaString(balance, 6)} ${currency}`}
-			centered
-			textStyle={styles.textPrimary}
-		/>
-		<TextInputCard
-			title={'Duration Left'}
-			value={durationLeft === 0 ? 'Ended' : epochToDurationString(durationLeft, true)}
-			centered
-			textStyle={styles.textPrimary}
-		/>
+		<div class="w-full">
+			<TextInputCard
+				title={'Current Balance'}
+				value={`${bigNumberToCommaString(balance, 6)} ${currency}`}
+				centered
+				textStyle={styles.textPrimary}
+			/>
+		</div>
+		<div class="w-full">
+			<TextInputCard
+				title={'Duration Left'}
+				value={durationLeft === 0 ? 'Ended' : epochToDurationString(durationLeft, false, true)}
+				centered
+				textStyle={styles.textPrimary}
+			/>
+		</div>
 	</div>
 </div>

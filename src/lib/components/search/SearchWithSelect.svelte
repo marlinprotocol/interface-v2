@@ -9,7 +9,7 @@
 	export let title: string;
 	export let placeholder: string = 'Search';
 	export let styleClass: string = '';
-	export let setSearchValue = (value: string) => {};
+	export let setSearchValue: (value: string) => any;
 
 	// const dispatch = createEventDispatcher();
 
@@ -17,12 +17,12 @@
 	let suggestions: string[] = [];
 	let showSuggestions: boolean = false;
 
-	const handleSearch = (event: any) => {
+	const handleSearch = async (event: any) => {
 		const input = event.target as HTMLInputElement;
 		searchTerm = input.value;
 		suggestions = dataList.filter((item) => item.toLowerCase().includes(searchTerm.toLowerCase()));
 		showSuggestions = suggestions.length > 0;
-		setSearchValue(searchTerm);
+		await setSearchValue(searchTerm);
 	};
 
 	const handleClickOutside = (event: MouseEvent) => {
@@ -37,10 +37,10 @@
 		showSuggestions = !showSuggestions;
 	};
 
-	const handleSearchSuggestionClick = (suggestion: string) => {
+	const handleSearchSuggestionClick = async (suggestion: string) => {
 		searchTerm = suggestion;
 		showSuggestions = false;
-		setSearchValue(searchTerm);
+		await setSearchValue(searchTerm);
 	};
 
 	onMount(() => {

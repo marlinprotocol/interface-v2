@@ -226,6 +226,7 @@ export async function handleCreateJob(
 				address: provider,
 				name: ''
 			},
+			metadata,
 			enclaveUrl,
 			instance,
 			region,
@@ -257,7 +258,8 @@ export async function handleCreateJob(
 		oysterStore.update((value) => {
 			return {
 				...value,
-				jobsData: [newJob, ...value.jobsData]
+				jobsData: [newJob, ...value.jobsData],
+				allowance: value.allowance.sub(balance)
 			};
 		});
 	} catch (e) {

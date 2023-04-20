@@ -11,7 +11,7 @@
 
 	export let values: any;
 	export let rate: BigNumber | undefined | null;
-	export let filterValue:
+	export let filterData:
 		| {
 				allInstances: CPUrlDataModel[];
 				region: string[];
@@ -48,8 +48,8 @@
 <div class="flex gap-2">
 	<div class="w-full">
 		<SearchWithSelect
-			dataList={filterValue?.instance}
-			setSearchValue={(value) => handleFilterDataChange('instance', value, filterValue)}
+			dataList={filterData?.instance}
+			setSearchValue={(value) => handleFilterDataChange('instance', value, filterData)}
 			title={'Instance'}
 			placeholder={'Select instance'}
 		/>
@@ -61,8 +61,8 @@
 	</div>
 	<div class="w-full">
 		<SearchWithSelect
-			dataList={filterValue?.region}
-			setSearchValue={(value) => handleFilterDataChange('region', value, filterValue)}
+			dataList={filterData?.region}
+			setSearchValue={(value) => handleFilterDataChange('region', value, filterData)}
 			title={'Region'}
 			placeholder={'Select region'}
 		/>

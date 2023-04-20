@@ -80,6 +80,7 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 			name: '', //TODO: get provider name from address
 			address: provider
 		},
+		metadata,
 		enclaveUrl,
 		instance,
 		region,

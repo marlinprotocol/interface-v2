@@ -6,7 +6,7 @@
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import type { OysterProviderDataModel } from '$lib/types/oysterComponentType';
+	import type { CPUrlDataModel, OysterProviderDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
@@ -23,17 +23,31 @@
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import CreateOrderModalContent from '../../sub-components/CreateOrderModalContent.svelte';
+	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 
 	export let modalFor: string;
 
 	const { userDurationUnitInRateUnit, rateUnitInSeconds } = kOysterRateMetaData;
 
 	let allProviders: OysterProviderDataModel[] = [];
+	let approvedAmount: BigNumber;
+	let maxBalance = BigNumberZero;
+	let filterData: {
+		allInstances: CPUrlDataModel[];
+		region: string[];
+		instance: string[];
+	};
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		allProviders = value.allProviders;
+		approvedAmount = value.allowance;
 	});
 	onDestroy(unsubscribeOysterStore);
+
+	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
+		maxBalance = value.pond;
+	});
+	onDestroy(unsubscribeWalletBalanceStore);
 
 	$: merchantList = allProviders.map((provider) =>
 		provider.name != '' ? provider.name : provider.id
@@ -67,15 +81,9 @@
 		(provider) => provider.id == merchant.value || provider.name == merchant.value
 	);
 
-	$: filterData = getFiltersDataForCreateJob(selectedProvider);
-
 	let enclaveImageUrl = '';
 	let durationString: string = '';
 	let rate: BigNumber | null;
-	$: duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
-
-	// duration in rate unit
-	$: cost = rate ? rate.mul(duration * userDurationUnitInRateUnit) : null;
 
 	//loading states
 	let submitLoading = false;
@@ -102,8 +110,6 @@
 		});
 
 		submitLoading = true;
-		// TODO: approve modal
-		await handleApproveFundForOysterJob(cost);
 		await handleCreateJob(
 			metadata,
 			merchant.value,
@@ -112,10 +118,19 @@
 			duration * rateUnitInSeconds * userDurationUnitInRateUnit
 		);
 		submitLoading = false;
+		resetInputs();
 		closeModal(modalFor);
 	};
 
-	//reset amount and signer address
+	const handleApproveClick = async () => {
+		if (!cost) {
+			return;
+		}
+		submitLoading = true;
+		await handleApproveFundForOysterJob(cost);
+		submitLoading = false;
+	};
+
 	const resetInputs = () => {
 		values = initalFilterValues;
 		merchant = initialMerchant;
@@ -142,10 +157,24 @@
 		return valueMap;
 	};
 
+	const handleMerchantChange = async (value: string) => {
+		merchant = handleFieldChange(merchant, value, merchantList, 'Merchant');
+		values = initalFilterValues;
+		filterData = await getFiltersDataForCreateJob(selectedProvider);
+	};
+
+	$: duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
+
+	// duration in rate unit
+	$: cost = rate ? rate.mul(duration * userDurationUnitInRateUnit) : null;
+
+	$: approved = cost && approvedAmount?.gte(cost) && cost.gt(BigNumberZero);
+
 	$: submitEnable =
 		duration &&
 		cost?.gt(BigNumberZero) &&
 		rate &&
+		maxBalance.gte(cost) &&
 		!merchant.error &&
 		merchant.value != '' &&
 		!values.region.error &&
@@ -154,6 +183,7 @@
 		values.instance.value != '' &&
 		enclaveImageUrl != '';
 
+	$: inValidMessage = !cost ? '' : !maxBalance.gte(cost) ? 'Insufficient balance' : '';
 	const subtitle =
 		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
 	const styles = {
@@ -173,10 +203,7 @@
 		<div class="flex flex-col gap-2 px-4">
 			<SearchWithSelect
 				dataList={merchantList}
-				setSearchValue={(value) => {
-					merchant = handleFieldChange(merchant, value, merchantList, 'Merchant');
-					values = initalFilterValues;
-				}}
+				setSearchValue={handleMerchantChange}
 				title={'Operator'}
 				placeholder={'Enter operator name or address'}
 			/>
@@ -185,12 +212,7 @@
 				errorMessage={merchant.error}
 				styleClass={'mt-0'}
 			/>
-
-			{#await filterData}
-				<CreateOrderModalContent bind:rate bind:values {handleFieldChange} />
-			{:then filterValue}
-				<CreateOrderModalContent bind:rate {filterValue} bind:values {handleFieldChange} />
-			{/await}
+			<CreateOrderModalContent bind:rate {filterData} bind:values {handleFieldChange} />
 			<div class="flex gap-2">
 				<AmountInputWithTitle
 					title={'Hourly Rate'}
@@ -209,6 +231,11 @@
 					suffix={'USDC'}
 				/>
 			</div>
+			<ErrorTextCard
+				showError={inValidMessage != ''}
+				errorMessage={inValidMessage}
+				styleClass="mt-0"
+			/>
 			<TextInputWithEndButton
 				styleClass={styles.inputText}
 				title={'Enclave Image URL'}
@@ -223,11 +250,11 @@
 				variant="filled"
 				disabled={!submitEnable}
 				loading={submitLoading}
-				onclick={handleSubmitClick}
+				onclick={approved ? handleSubmitClick : handleApproveClick}
 				size="large"
 				styleClass={'btn-block w-full'}
 			>
-				DEPLOY
+				{approved ? 'DEPLOY' : 'APPROVE'}
 			</Button>
 		</div>
 	</svelte:fragment>

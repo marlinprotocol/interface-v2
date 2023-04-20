@@ -10,7 +10,7 @@ export const hundredYears = 60 * 60 * 24 * 365 * 100; //not accounting for leap 
  * @returns string
  * @example 12334422 => 4 months 22 days 18 hours 13 mins 42 secs
  */
-export const epochToDurationString = (epoch: number, mini = false) => {
+export const epochToDurationString = (epoch: number, mini = false, uptoHoursOnly = false) => {
 	if (epoch >= hundredYears) return '100+ years';
 	const seconds = epoch % 60;
 	const minutes = Math.floor(epoch / 60) % 60;
@@ -36,13 +36,15 @@ export const epochToDurationString = (epoch: number, mini = false) => {
 		durationString += hours + (hours > 1 ? ' hours ' : ' hour ');
 		if (mini) return durationString;
 	}
-	if (minutes > 0) {
-		durationString += minutes + (minutes > 1 ? ' mins ' : ' min ');
-		if (mini) return durationString;
-	}
-	if (seconds > 0) {
-		durationString += seconds.toFixed() + ' secs';
-		if (mini) return durationString;
+	if (!uptoHoursOnly) {
+		if (minutes > 0) {
+			durationString += minutes + (minutes > 1 ? ' mins ' : ' min ');
+			if (mini) return durationString;
+		}
+		if (seconds > 0) {
+			durationString += seconds.toFixed() + ' secs';
+			if (mini) return durationString;
+		}
 	}
 
 	return durationString;
@@ -66,7 +68,14 @@ export const bigNumberToCommaString = (value: BigNumber, decimals = 2) => {
 	// Replace 0.0 by an empty value
 	if (result === '0.0') return '0';
 
-	const compareNum = BigNumber.from(10).pow(18 - decimals);
+	let compareNum = BigNumberZero;
+
+	try {
+		compareNum = BigNumber.from(10).pow(18 - decimals);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+
 	if (value.gt(compareNum)) {
 		result = ethers.utils.commify(roundNumberString(result, decimals));
 		//add 0 to the end if decimal count is less than 2

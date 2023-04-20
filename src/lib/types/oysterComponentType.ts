@@ -39,6 +39,7 @@ export type OysterInventoryDataModel = {
 		name?: string;
 		address: string;
 	};
+	metadata: string;
 	enclaveUrl: string;
 	instance: string;
 	region: string;

@@ -151,7 +151,7 @@
 			loading={submitLoading}
 			onclick={handleSubmitClick}
 			size="large"
-			styleClass={'btn-block'}
+			styleClass={'btn-block w-full'}
 		>
 			CONFIRM
 		</Button>

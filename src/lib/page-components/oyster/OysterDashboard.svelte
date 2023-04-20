@@ -9,17 +9,23 @@
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
-	import { kOysterDocLink, kOysterSupportLink } from '$lib/utils/constants/oysterConstants';
+	import {
+		kMerchantJobs,
+		kOysterDocLink,
+		kOysterSupportLink
+	} from '$lib/utils/constants/oysterConstants';
 	import { checkValidURL } from '$lib/utils/helpers/commonHelper';
 	import { onDestroy } from 'svelte';
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from './sub-components/InstancesTable.svelte';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import { oysterStore, resetOysterStore } from '$lib/data-stores/oysterStore';
 	import {
 		registerOysterInfrastructureProvider,
+		removeOysterInfrastructureProvider,
 		updateOysterInfrastructureProvider
 	} from '$lib/controllers/contractController';
 	import { getInstancesFromControlPlane } from '$lib/controllers/httpController';
+	import { staticImages } from '$lib/components/images/staticImages';
 
 	const styles = {
 		docButton: 'text-primary',
@@ -58,6 +64,8 @@
 				value.providerData.registered = true;
 				if (value.providerData.data) {
 					value.providerData.data.cp = updatedCpURL;
+					value.providerData.data.id = $walletStore.address;
+					value.providerData.data.live = true;
 				}
 				return value;
 			});
@@ -70,29 +78,38 @@
 		}
 	};
 
-	// TODO: add types
-	export async function getTableDataFromInstanceResponse(cpUrl: any) {
-		try {
-			return await getInstancesFromControlPlane(cpUrl);
-		} catch (error) {
-			console.log(error);
-			return [];
-		}
-	}
+	const handleOnUnregister = async () => {
+		console.log('clicked on unregister');
+		await removeOysterInfrastructureProvider();
+		oysterStore.update((value) => {
+			value.providerData.registered = false;
+			if (value.providerData.data) {
+				value.providerData.data.cp = '';
+				value.providerData.data.id = '';
+				value.providerData.data.live = false;
+			}
+			return value;
+		});
+	};
 
 	async function getInstances(useUpdatedCpURL: boolean) {
-		if (useUpdatedCpURL) {
-			return await getTableDataFromInstanceResponse(updatedCpURL);
-		} else if (registeredCpURL !== '') {
-			return await getTableDataFromInstanceResponse(registeredCpURL);
-		} else {
-			return [];
+		try {
+			if (useUpdatedCpURL) {
+				return await getInstancesFromControlPlane(updatedCpURL);
+			} else if (registeredCpURL !== '') {
+				return await getInstancesFromControlPlane(registeredCpURL);
+			} else {
+				return [];
+			}
+		} catch (error) {
+			console.log(error);
+			throw error;
 		}
 	}
 
 	// using regex to validate CP URL
 	$: validCPUrl = checkValidURL(updatedCpURL);
-	$: instances = getInstances(validCPUrl);
+	$: instances = updatedCpURL ? getInstances(validCPUrl) : [];
 </script>
 
 <ContainerCard>
@@ -147,27 +164,66 @@
 		</svelte:fragment>
 	</TextInputWithEndButton>
 	{#await instances}
-		<!-- TODO: have an empty state when there is no data here -->
-		<InstancesTable {updatedCpURL} {validCPUrl} tableData={[]} />
+		<InstancesTable tableData={[]} loading />
 	{:then value}
-		<InstancesTable {updatedCpURL} {validCPUrl} tableData={value} />
+		<InstancesTable tableData={value} />
+	{:catch error}
+		<InstancesTable tableData={[]} error />
 	{/await}
 	<div class="mt-4" />
 	{#if $connected}
-		<Button
-			variant="filled"
-			size="large"
-			styleClass="w-full"
-			disabled={!validCPUrl || registeredCpURL === updatedCpURL}
-			onclick={handleOnRegister}
-		>
-			{#if registered}
-				Update
-			{:else}
+		{#if registered}
+			<div class="flex justify-center gap-4">
+				<div class="w-1/2">
+					<Button
+						variant="filled"
+						size="large"
+						styleClass="w-full"
+						disabled={!validCPUrl || registeredCpURL === updatedCpURL}
+						onclick={handleOnRegister}
+					>
+						Update
+					</Button>
+				</div>
+				<div class="w-1/2">
+					<Button
+						variant="outlined"
+						size="large"
+						styleClass="w-full"
+						disabled={!validCPUrl || registeredCpURL !== updatedCpURL}
+						onclick={handleOnUnregister}
+					>
+						Unregister
+					</Button>
+				</div>
+			</div>
+		{:else}
+			<Button
+				variant="filled"
+				size="large"
+				styleClass="w-full"
+				disabled={!validCPUrl}
+				onclick={handleOnRegister}
+			>
 				Register
-			{/if}
-		</Button>
+			</Button>
+		{/if}
 	{:else}
 		<ConnectWalletButton isLarge={true} />
 	{/if}
 </ContainerCard>
+{#if $connected}
+	<a href={kMerchantJobs}>
+		<Button
+			variant="whiteFilled"
+			onclick={() => {}}
+			size={'large'}
+			styleClass="w-full sm:w-130 mt-4 mx-auto"
+		>
+			<div class="flex justify-between w-full">
+				<div class="w-full flex justify-center">TRACK USAGE</div>
+				<img src={staticImages.RightArrow} alt="Right Arrow" />
+			</div>
+		</Button>
+	</a>
+{/if}

@@ -340,7 +340,7 @@
 			loading={submitLoading}
 			onclick={handleSubmitClick}
 			size="large"
-			styleClass={'btn-block'}>CONFIRM</Button
+			styleClass={'btn-block w-full'}>CONFIRM</Button
 		>
 	</svelte:fragment>
 </Modal>

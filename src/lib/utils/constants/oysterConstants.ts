@@ -1,5 +1,7 @@
 import type { TableModel } from '$lib/types/componentTypes';
 
+export const kMerchantJobs = '/oyster/merchant/jobs';
+
 export const kOysterRateMetaData = {
 	currency: 'USDC',
 	symbol: '$',

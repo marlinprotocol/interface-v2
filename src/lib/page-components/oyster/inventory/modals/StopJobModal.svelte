@@ -83,7 +83,7 @@
 			loading={submitLoading}
 			onclick={submitButtonAction}
 			size="large"
-			styleClass={`btn-block my-0 `}
+			styleClass={'btn-block w-full my-0'}
 		>
 			{submitButtonText}
 		</Button>

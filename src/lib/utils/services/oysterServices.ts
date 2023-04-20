@@ -157,11 +157,16 @@ export async function handleFinaliseRateRevise(
 export async function handleGetReviseRateInititaeEndTimestamp(jobData: OysterInventoryDataModel) {
 	const { id } = jobData;
 	try {
-		const timestamp = await getReviseRateInitiateEndTimestamp(id);
-		return timestamp;
+		const requestData = await getReviseRateInitiateEndTimestamp(id);
+		console.log('requestData :>> ', requestData);
+		if (!requestData || !['IN_PROGRESS'].includes(requestData.status)) return {};
+		return {
+			updatesAt: Number(requestData.updatesAt),
+			value: Number(requestData.value)
+		};
 	} catch (e) {
 		console.log('e :>> ', e);
-		return 0;
+		return {};
 	}
 }
 

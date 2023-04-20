@@ -16,23 +16,26 @@
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
-	export let amendInitiateEndTimestamp: number;
+	export let rateReviseInitiateEndTimestamp: number;
+	export let revisedRate: BigNumber;
 
 	$: ({ rate } = jobData);
 	const { symbol } = kOysterRateMetaData;
 
 	//initial states
 	let inputAmount: BigNumber = BigNumberZero;
-	let inputAmountString: string;
+	let inputAmountString: string = '';
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
 		: BigNumberZero;
 
 	let submitLoading = false;
+	let cancelLoading = false;
 	const nowTime = Date.now() / 1000;
 
 	const handleInitiateClick = async () => {
+		console.log('handleInitiateClick :>> ', rateReviseInitiateEndTimestamp);
 		submitLoading = true;
 		await handleInitiateRateRevise(jobData, inputAmount);
 		submitLoading = false;
@@ -40,6 +43,7 @@
 	};
 
 	const handleConfirmClick = async () => {
+		console.log('handleConfirmClick :>> ', rateReviseInitiateEndTimestamp);
 		submitLoading = true;
 		await handleFinaliseRateRevise(jobData, inputAmount);
 		submitLoading = false;
@@ -47,34 +51,31 @@
 	};
 
 	const handleCancelInitiate = async () => {
-		submitLoading = true;
+		console.log('handleCancelInitiate :>> ', rateReviseInitiateEndTimestamp);
+		cancelLoading = true;
 		await handleCancelRateRevise(jobData);
-		submitLoading = false;
+		cancelLoading = false;
 		closeModal(modalFor);
 	};
 
 	$: modalTitle =
-		amendInitiateEndTimestamp === 0
+		state === 'initiate'
 			? 'INITIATE RATE REVISE'
-			: amendInitiateEndTimestamp < nowTime
+			: state === 'confirm'
 			? 'CONFIRM RATE REVISE'
-			: 'INITIATING RATE REVISE';
+			: 'INITIATED RATE REVISE';
 
-	$: submitButtonText =
-		amendInitiateEndTimestamp === 0
-			? 'INITIATE'
-			: amendInitiateEndTimestamp < nowTime
-			? 'CONFIRM'
-			: 'CANCEL';
+	$: submitButtonText = state === 'initiate' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
+	$: submitButtonAction = state === 'initiate' ? handleInitiateClick : handleConfirmClick;
 
-	$: submitButtonAction =
-		amendInitiateEndTimestamp === 0
-			? handleInitiateClick
-			: amendInitiateEndTimestamp < nowTime
-			? handleConfirmClick
-			: handleCancelInitiate;
+	$: state =
+		rateReviseInitiateEndTimestamp === 0
+			? 'initiate'
+			: rateReviseInitiateEndTimestamp < nowTime
+			? 'confirm'
+			: 'cancel';
 
-	$: submitEnable = inputAmount && isInputAmountValid(inputAmountString) && inputAmount.gt(0);
+	$: submitEnable = inputAmount && isInputAmountValid(inputAmountString) && state !== 'cancel';
 
 	const subtitle =
 		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
@@ -95,25 +96,51 @@
 		<div class="flex flex-col gap-4">
 			<div class="flex gap-4">
 				<AmountInputWithTitle
-					title={`Current Rate`}
+					title={`Current Hourly Rate`}
 					inputAmountString={bigNumberToCommaString(rate, oysterAmountPrecision)}
 					disabled
 					prefix={symbol}
 				/>
-				<AmountInputWithTitle title="New Rate" bind:inputAmountString />
+				{#if state === 'initiate'}
+					<AmountInputWithTitle title="New Hourly Rate" bind:inputAmountString prefix={symbol} />
+				{:else}
+					<AmountInputWithTitle
+						title="New Hourly Rate"
+						inputAmountString={bigNumberToCommaString(revisedRate, oysterAmountPrecision)}
+						prefix={symbol}
+						disabled
+					/>
+				{/if}
 			</div>
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<Button
-			variant="filled"
-			disabled={!submitEnable}
-			loading={submitLoading}
-			onclick={submitButtonAction}
-			size="large"
-			styleClass={`btn-block my-0 `}
-		>
-			{submitButtonText}
-		</Button>
+		<div class="flex gap-4">
+			{#if state !== 'initiate'}
+				<div class="w-full">
+					<Button
+						variant="outlined"
+						loading={cancelLoading}
+						onclick={handleCancelInitiate}
+						size="large"
+						styleClass={'btn-block w-full my-0'}
+					>
+						{'CANCEL'}
+					</Button>
+				</div>
+			{/if}
+			<div class="w-full">
+				<Button
+					variant="filled"
+					disabled={!submitEnable}
+					loading={submitLoading}
+					onclick={submitButtonAction}
+					size="large"
+					styleClass={'btn-block w-full my-0'}
+				>
+					{submitButtonText}
+				</Button>
+			</div>
+		</div>
 	</svelte:fragment>
 </Modal>

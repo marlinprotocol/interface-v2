@@ -71,7 +71,7 @@
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('status')}`}>
 		<div
-			class="py-1 w-24 text-white rounded mx-auto text-xs capitalize"
+			class="py-1 w-24 text-white rounded mx-auto text-sm capitalize"
 			style={`background-color:${statusColor}`}
 		>
 			{status}

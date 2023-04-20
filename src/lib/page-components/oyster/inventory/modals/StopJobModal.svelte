@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
+	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import Text from '$lib/atoms/texts/Text.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
@@ -14,8 +16,10 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 	export let stopInitiateEndTimestamp: number;
+	export let rateReviseInitiateEndTimestamp: number = 0;
 
 	let submitLoading = false;
+	let cancelLoading = false;
 	const nowTime = Date.now() / 1000;
 
 	const handleInitiateClick = async () => {
@@ -33,39 +37,32 @@
 	};
 
 	const handleCancelInitiate = async () => {
-		submitLoading = true;
+		cancelLoading = true;
 		await handleCancelRateRevise(jobData);
-		submitLoading = false;
+		cancelLoading = false;
 		closeModal(modalFor);
 	};
 
 	$: modalTitle =
-		stopInitiateEndTimestamp === 0
+		state === 'initiate'
 			? 'INITIATE STOP'
-			: stopInitiateEndTimestamp < nowTime
+			: state === 'confirm'
 			? 'CONFIRM STOP'
-			: 'INITIATING STOP';
+			: 'INITIATED STOP';
 
-	$: submitButtonText =
+	$: submitButtonText = state === 'initiate' ? 'INITIATE STOP' : 'CONFIRM';
+	$: submitButtonAction = state === 'initiate' ? handleInitiateClick : handleConfirmClick;
+	$: state =
 		stopInitiateEndTimestamp === 0
-			? 'INITIATE STOP'
+			? 'initiate'
 			: stopInitiateEndTimestamp < nowTime
-			? 'CONFIRM'
-			: 'CANCEL INITIATION';
+			? 'confirm'
+			: 'cancel';
 
-	$: submitButtonAction =
-		stopInitiateEndTimestamp === 0
-			? handleInitiateClick
-			: stopInitiateEndTimestamp < nowTime
-			? handleConfirmClick
-			: handleCancelInitiate;
-
+	$: disableSubmit =
+		(state === 'initiate' && rateReviseInitiateEndTimestamp > nowTime) || state === 'cancel';
 	const subtitle =
 		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
-
-	const styles = {
-		textPrimary: 'text-primary'
-	};
 </script>
 
 <Modal {modalFor}>
@@ -77,21 +74,44 @@
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<StopModalContent {jobData} />
+		{#if rateReviseInitiateEndTimestamp > nowTime && state === 'initiate'}
+			<!-- TODO: check with shabbir for the text -->
+			<InputCard variant="warning" styleClass="mt-4">
+				<Text
+					styleClass={'py-2'}
+					text={'A non-zero rate revision has been initiated, you may cancel it using AMEND RATE button.'}
+					variant="small"
+				/>
+			</InputCard>
+		{/if}
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<Button
-			variant="filled"
-			loading={submitLoading}
-			onclick={submitButtonAction}
-			size="large"
-			styleClass={'btn-block w-full my-0'}
-		>
-			{submitButtonText}
-		</Button>
-		<!-- {#if initiateInProcess}
-			<Button variant="filled" disabled size="large" styleClass={'btn-block mt-4'}>
-				{'CONFIRM'}
-			</Button>
-		{/if} -->
+		<div class="flex gap-4">
+			{#if state !== 'initiate'}
+				<div class="w-full">
+					<Button
+						variant="outlined"
+						loading={cancelLoading}
+						onclick={handleCancelInitiate}
+						size="large"
+						styleClass={'btn-block w-full my-0'}
+					>
+						{'CANCEL'}
+					</Button>
+				</div>
+			{/if}
+			<div class="w-full">
+				<Button
+					variant="filled"
+					disabled={disableSubmit}
+					loading={submitLoading}
+					onclick={submitButtonAction}
+					size="large"
+					styleClass={'btn-block w-full my-0'}
+				>
+					{submitButtonText}
+				</Button>
+			</div>
+		</div>
 	</svelte:fragment>
 </Modal>

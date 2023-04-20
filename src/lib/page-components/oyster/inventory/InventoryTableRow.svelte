@@ -9,7 +9,7 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
-	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
+	import { BigNumberZero, oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import {
 		kInventoryTableColumnsWidth,
 		kOysterRateMetaData
@@ -26,6 +26,7 @@
 	import { handleGetReviseRateInititaeEndTimestamp } from '$lib/utils/services/oysterServices';
 	import { openModal } from '$lib/utils/helpers/commonHelper';
 	import AmendRateModal from './modals/AmendRateModal.svelte';
+	import { BigNumber } from 'ethers';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -44,20 +45,28 @@
 	} = rowData);
 
 	let openRow: number = -1;
+
 	let stopInitiateEndTimestamp: number = 0;
-	let amendInitiateEndTimestamp: number = 0;
+	let rateReviseInitiateEndTimestamp: number = 0;
+	let revisedRate: BigNumber = BigNumberZero;
 	let stopLoading: boolean = false;
 	let amendLoading: boolean = false;
 
 	const handleStopClick = async () => {
 		stopLoading = true;
-		stopInitiateEndTimestamp = await handleGetReviseRateInititaeEndTimestamp(rowData);
+		const { updatesAt = 0, value } = await handleGetReviseRateInititaeEndTimestamp(rowData);
+		rateReviseInitiateEndTimestamp = updatesAt;
+		if (value === 0) {
+			stopInitiateEndTimestamp = updatesAt;
+		}
 		openModal(`job-stop-modal-${rowIndex}`);
 		stopLoading = false;
 	};
 	const handleAmendClick = async () => {
 		amendLoading = true;
-		amendInitiateEndTimestamp = await handleGetReviseRateInititaeEndTimestamp(rowData);
+		const { updatesAt = 0, value } = await handleGetReviseRateInititaeEndTimestamp(rowData);
+		rateReviseInitiateEndTimestamp = updatesAt;
+		revisedRate = BigNumber.from(value ?? 0);
 		openModal(`job-amend-rate-modal-${rowIndex}`);
 		amendLoading = false;
 	};
@@ -172,11 +181,13 @@
 	bind:jobData={rowData}
 	modalFor={`job-stop-modal-${rowIndex}`}
 	{stopInitiateEndTimestamp}
+	{rateReviseInitiateEndTimestamp}
 />
 <AmendRateModal
 	bind:jobData={rowData}
 	modalFor={`job-amend-rate-modal-${rowIndex}`}
-	{amendInitiateEndTimestamp}
+	{rateReviseInitiateEndTimestamp}
+	{revisedRate}
 />
 
 <style>

@@ -2,6 +2,7 @@ import { contractAddressStore } from '$lib/data-stores/contractStore';
 import { addToast } from '$lib/data-stores/toastStore';
 import ENVIRONMENT from '$lib/environments/environment';
 import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
+import type { OysterRateRequestModel } from '$lib/types/oysterComponentType';
 import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/storeTypes';
 import { BigNumberZero } from '$lib/utils/constants/constants';
 import {
@@ -486,11 +487,11 @@ export async function getReviseRateInitiateEndTimestamp(jobId: Bytes) {
 			if (result['errors']) {
 				showFetchHttpDataError(result['errors']);
 			}
-			return 0;
+			return null;
 		}
-		return Number(reviseRateRequests[0]['updatesAt'] ?? 0);
+		return reviseRateRequests[0] as OysterRateRequestModel;
 	} catch (error) {
 		console.log('Error getting provider details from subgraph', error);
-		return 0;
+		return null;
 	}
 }

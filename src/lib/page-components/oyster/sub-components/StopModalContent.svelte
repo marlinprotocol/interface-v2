@@ -24,7 +24,7 @@
 		/>
 		<TextInputCard
 			title={'Duration Left'}
-			value={durationLeft === 0 ? 'Ended' : epochToDurationString(durationLeft)}
+			value={durationLeft === 0 ? 'Ended' : epochToDurationString(durationLeft, true)}
 			centered
 			textStyle={styles.textPrimary}
 		/>

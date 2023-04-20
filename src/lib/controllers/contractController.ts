@@ -892,8 +892,9 @@ export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber)
 			variant: 'info'
 		});
 
+		console.log('rate :>> ', rate, bigNumberToCommaString(rate));
 		const tx = await oysterContract.jobReviseRateInitiate(jobId, rate);
-
+		console.log('tx :>> ', tx);
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.CREATED,
 			variant: 'info'

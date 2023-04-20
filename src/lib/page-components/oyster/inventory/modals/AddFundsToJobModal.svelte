@@ -98,7 +98,7 @@
 					disabled
 					prefix={symbol}
 				/>
-				<AmountInputWithTitle title={'Duration'} bind:inputAmountString suffix={'days'} />
+				<AmountInputWithTitle title={'Additonal Duration'} bind:inputAmountString suffix={'days'} />
 				<AmountInputWithTitle
 					title={'Cost'}
 					inputAmountString={bigNumberToCommaString(cost, oysterAmountPrecision)}

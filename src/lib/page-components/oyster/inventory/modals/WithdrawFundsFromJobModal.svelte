@@ -75,7 +75,6 @@
 		closeModal(modalFor);
 	};
 
-	// TODO: check why diasabled is not working
 	$: maxDisabedText = inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient balance' : '';
 	$: submitEnable = inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
 

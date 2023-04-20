@@ -26,7 +26,7 @@ export const parseMetadata = (metadata: string) => {
 
 	const { url, instanceType, region } = metadataParsed ?? {};
 
-	const vcpuMemoryData = instanceVcpuMemoryData.find((item: any) => item[0] === instanceType);
+	const vcpuMemoryData = instanceVcpuMemoryData.find((item) => item[0] === instanceType);
 
 	const vcpu = vcpuMemoryData?.[1];
 	const memory = vcpuMemoryData?.[2];
@@ -38,12 +38,12 @@ export const parseMetadata = (metadata: string) => {
 		memory
 	};
 };
+
 const modifyJobData = (job: any): OysterInventoryDataModel => {
-	const { unitInSeconds } = kOysterRateMetaData;
-	let {
+	const { rateUnitInSeconds } = kOysterRateMetaData;
+	const {
 		metadata,
 		id,
-		owner,
 		rate = '0',
 		provider,
 		createdAt,
@@ -52,12 +52,12 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 		balance = '0',
 		refund = '0',
 		settlementHistory = [],
-		depositHistory = [],
-		status = 'running'
+		depositHistory = []
 	} = job ?? {};
 
 	const nowTime = Date.now() / 1000;
 	const _lastSettled = Number(lastSettled);
+	const _createdAt = Number(createdAt);
 
 	const { enclaveUrl, instance, region, vcpu, memory } = parseMetadata(metadata);
 
@@ -67,7 +67,7 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 	const _rate = BigNumber.from(rate);
 	const _refund = BigNumber.from(refund);
 
-	let modifiedJob = {
+	const modifiedJob = {
 		provider: {
 			name: '', //TODO: get provider name from address
 			address: provider
@@ -109,7 +109,9 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 	let amountUsed = _totalDeposit.sub(_balance);
 	let currentBalance = _balance;
 	let durationLeft = 0;
+	let durationRun = _lastSettled - _createdAt;
 	let endEpochTime = _lastSettled;
+	let status = 'running';
 
 	if (_refund.gt(BigNumberZero)) {
 		//job is stopped and refunded so amount is used is total deposit - refund and current balance is 0
@@ -117,14 +119,15 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 		currentBalance = BigNumberZero;
 		status = 'stopped';
 	} else {
-		if (_balance.div(_rate).gt(hundredYears / unitInSeconds)) {
+		if (_balance.div(_rate).gt(hundredYears / rateUnitInSeconds)) {
 			//job is running and will never end
 			live = true;
 			durationLeft = hundredYears;
+			durationRun = nowTime - _createdAt;
 			endEpochTime = _lastSettled + durationLeft;
 			status = 'running';
 		} else {
-			const _paidDuration = _balance.div(_rate).toNumber() / unitInSeconds;
+			const _paidDuration = _balance.div(_rate).toNumber() * rateUnitInSeconds;
 			endEpochTime = _lastSettled + _paidDuration;
 
 			if (endEpochTime > nowTime) {
@@ -134,16 +137,19 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 				try {
 					currentBalance = _balance.sub(_rate.mul(timeSpent));
 				} catch (e) {
+					// TODO: handle overflow error
 					console.log('overflow error', e);
 				}
 				amountUsed = _totalDeposit.sub(currentBalance);
 				durationLeft = _paidDuration - timeSpent;
+				durationRun = nowTime - _createdAt;
 				status = 'running';
 			} else {
 				//job is completed
 				amountUsed = _totalDeposit;
 				currentBalance = BigNumberZero;
 				status = 'completed';
+				durationRun = _lastSettled + _paidDuration - _createdAt;
 			}
 		}
 	}
@@ -155,6 +161,7 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 		status,
 		amountUsed,
 		durationLeft,
+		durationRun,
 		endEpochTime: _lastSettled + durationLeft
 	};
 };
@@ -162,7 +169,7 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 export async function getOysterProvidersModified(providers: any[]) {
 	if (!providers?.length) return [];
 	//fetch all names here
-	return providers.map((provider: any) => {
+	return providers.map((provider) => {
 		return {
 			...provider,
 			name: provider.id, //TODO: get name from address

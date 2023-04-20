@@ -16,6 +16,7 @@ import type { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
 import { getReviseRateInitiateEndTimestamp } from '$lib/controllers/subgraphController';
 import { parseMetadata } from '../data-modifiers/oysterModifiers';
+import type { OysterStore } from '$lib/types/storeTypes';
 
 export async function handleApproveFundForOysterJob(amount: BigNumber) {
 	try {
@@ -44,12 +45,13 @@ export async function handleFundsAddToJob(jobData: OysterInventoryDataModel, amo
 					amount,
 					id: txn.hash,
 					timestamp: Date.now() / 1000,
-					isWithdrawal: false
+					isWithdrawal: false,
+					transactionStatus: 'running'
 				},
 				...jobData.depositHistory
 			]
 		};
-		oysterStore.update((value) => {
+		oysterStore.update((value: OysterStore) => {
 			return {
 				...value,
 				allowance: value.allowance.sub(amount),
@@ -84,12 +86,13 @@ export async function handleFundsWithdrawFromJob(
 					amount,
 					id: txn.hash,
 					timestamp: Date.now() / 1000,
-					isWithdrawal: true
+					isWithdrawal: true,
+					transactionStatus: 'running'
 				},
 				...jobData.depositHistory
 			]
 		};
-		oysterStore.update((value) => {
+		oysterStore.update((value: OysterStore) => {
 			return {
 				...value,
 				jobsData: value.jobsData.map((job) => {
@@ -176,7 +179,8 @@ export async function handleConfirmJobStop(jobData: OysterInventoryDataModel) {
 					amount: jobData.balance,
 					id: tx,
 					timestamp: Date.now() / 1000,
-					isWithdrawal: true
+					isWithdrawal: true,
+					transactionStatus: 'stopped'
 				},
 				...jobData.depositHistory
 			]
@@ -221,6 +225,7 @@ export async function handleCreateJob(
 			vcpu,
 			memory,
 			amountUsed: BigNumberZero,
+			refund: BigNumberZero,
 			rate,
 			balance,
 			totalDeposit: balance,
@@ -229,13 +234,15 @@ export async function handleCreateJob(
 			createdAt: nowTime,
 			endEpochTime: nowTime + duration,
 			durationLeft: duration,
+			durationRun: 0,
 			status: 'running',
 			depositHistory: [
 				{
 					amount: balance,
 					id: tx,
 					timestamp: nowTime,
-					isWithdrawal: false
+					isWithdrawal: false,
+					transactionStatus: 'running'
 				}
 			],
 			settlementHistory: []

@@ -25,6 +25,8 @@
 
 	export let modalFor: string;
 
+	const { userDurationUnitInRateUnit, rateUnitInSeconds } = kOysterRateMetaData;
+
 	let allProviders: OysterProviderDataModel[] = [];
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
@@ -83,8 +85,8 @@
 	let rate: BigNumber | null;
 	$: duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
 
-	// TODO: check duration unit, considering days and rate in hours
-	$: cost = rate ? rate.mul(duration * 24 * 60) : null;
+	// duration in rate unit
+	$: cost = rate ? rate.mul(duration * userDurationUnitInRateUnit) : null;
 
 	//loading states
 	let submitLoading = false;
@@ -112,13 +114,7 @@
 		submitLoading = true;
 		// TODO: approve modal
 		await handleApproveFundForOysterJob(cost);
-		await handleCreateJob(
-			metadata,
-			merchant.value,
-			rate,
-			cost,
-			duration * kOysterRateMetaData.unitInSeconds
-		);
+		await handleCreateJob(metadata, merchant.value, rate, cost, duration * rateUnitInSeconds);
 		submitLoading = false;
 	};
 

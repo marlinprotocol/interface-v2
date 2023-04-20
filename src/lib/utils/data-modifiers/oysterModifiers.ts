@@ -1,5 +1,6 @@
 import {
 	getInstancesFromControlPlane,
+	getProvidersInstancesJSON,
 	getProvidersNameJSON
 } from '$lib/controllers/httpController';
 import { instanceVcpuMemoryData } from '$lib/page-components/oyster/data/instanceVcpuMemoryData';
@@ -12,6 +13,7 @@ import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
 import { hundredYears } from '../conversion';
+import type { CPInstances } from '$lib/types/oysterComponentType';
 
 export const parseMetadata = (metadata: string) => {
 	//remove unwanted single quote and \
@@ -189,19 +191,23 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 export async function getOysterProvidersModified(providers: any[]) {
 	if (!providers?.length) return [];
 
-	//fetch all providers name
-	const names = await getProvidersNameJSON();
+	//fetch all providers name and instances
+	const [allNames, allInstances] = await Promise.all([
+		getProvidersNameJSON(),
+		getProvidersInstancesJSON()
+	]);
 
 	return providers.map((provider) => {
+		const instances = allInstances[provider.id];
 		return {
 			...provider,
-			name: names[provider.id] ?? provider.id,
-			instances: []
+			name: allNames[provider.id] ?? provider.id,
+			instances: getModifiedInstances(instances)
 		} as OysterProviderDataModel;
 	});
 }
 
-export async function getFiltersDataForCreateJob(provider: OysterProviderDataModel | undefined) {
+export function getFiltersDataForCreateJob(provider: OysterProviderDataModel | undefined) {
 	const filters: {
 		allInstances: CPUrlDataModel[];
 		region: string[];
@@ -214,14 +220,7 @@ export async function getFiltersDataForCreateJob(provider: OysterProviderDataMod
 
 	if (!provider) return filters;
 
-	let instances: CPUrlDataModel[] = [];
-	try {
-		instances = await getInstancesFromControlPlane(provider.cp);
-	} catch (e) {
-		console.log('error fetching data from  controlPlaneUrl ', e);
-	}
-
-	instances?.forEach((instance) => {
+	provider.instances?.forEach((instance) => {
 		if (!filters.region.includes(instance.region)) {
 			filters.region.push(instance.region);
 		}
@@ -231,7 +230,7 @@ export async function getFiltersDataForCreateJob(provider: OysterProviderDataMod
 	});
 	return {
 		...filters,
-		allInstances: instances
+		allInstances: provider.instances ?? []
 	};
 }
 
@@ -242,4 +241,20 @@ export const getRateForProviderAndFilters = (values: any, instances: CPUrlDataMo
 		(_item) => _item.instanceType === instance.value && _item.region === region.value
 	);
 	return instanceSelected?.min_rate ?? null;
+};
+
+export const getModifiedInstances = (instances?: CPInstances) => {
+	const { min_rates } = instances ?? {};
+	// transforming response data so that each object in the array
+	// corresponds to a row in the table
+	const ret: CPUrlDataModel[] | undefined = min_rates?.flatMap((region) => {
+		return region.rate_cards.map((rate) => {
+			return {
+				instanceType: rate.instance,
+				region: region.region,
+				min_rate: BigNumber.from(rate.min_rate)
+			};
+		});
+	});
+	return ret;
 };

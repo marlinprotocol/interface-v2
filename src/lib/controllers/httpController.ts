@@ -2,6 +2,7 @@ import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contrac
 import ENVIRONMENT from '$lib/environments/environment';
 import type { CPInstances, CPUrlDataModel } from '$lib/types/oysterComponentType';
 import { GET_OPTIONS } from '$lib/utils/constants/constants';
+import { getModifiedInstances } from '$lib/utils/data-modifiers/oysterModifiers';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
 import { BigNumber } from 'ethers';
 import { get } from 'svelte/store';
@@ -92,23 +93,7 @@ export async function getInstancesFromControlPlane(controlPlaneUrl: string) {
 	if (!instances) {
 		throw new Error('Unable to fetch instances');
 	}
-	const { min_rates } = instances;
-
-	// transforming response data so that each object in the array
-	// corresponds to a row in the table
-	const ret: CPUrlDataModel[] = min_rates.flatMap((region) => {
-		return region.rate_cards.map((rate) => {
-			return {
-				url: controlPlaneUrl,
-				instanceType: rate.instance,
-				region: region.region,
-				vcpu: region.region, //TODO: replace with actual vcpu value
-				memory: region.region, // TODO: replace with actual memory value
-				min_rate: BigNumber.from(rate.min_rate)
-			};
-		});
-	});
-	return ret;
+	return getModifiedInstances(instances);
 }
 
 export async function getProvidersNameJSON() {
@@ -116,4 +101,14 @@ export async function getProvidersNameJSON() {
 	const options = GET_OPTIONS;
 	const response = await fetchHttpData(providerNameEndPoint, options);
 	return response ?? {};
+}
+
+export async function getProvidersInstancesJSON() {
+	const providerNameEndPoint = 'https://api.aragog.live/operators/spec';
+	const options = GET_OPTIONS;
+	const response: Record<string, CPInstances> = await fetchHttpData(providerNameEndPoint, options);
+	if (!response) {
+		console.log('no  getProvidersInstancesJSON');
+	}
+	return response;
 }

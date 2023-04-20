@@ -12,6 +12,7 @@
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import {
 		getFiltersDataForCreateJob,
+		getRateForProviderAndFilters,
 		getvCpuMemoryData
 	} from '$lib/utils/data-modifiers/oysterModifiers';
 	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
@@ -55,6 +56,12 @@
 
 	//initial states
 	const initalFilterValues = {
+		merchant: {
+			value: '',
+			error: '',
+			isDirty: false,
+			title: 'Merchant'
+		},
 		instance: {
 			value: '',
 			error: '',
@@ -84,6 +91,8 @@
 	let enclaveImageUrl = '';
 	let durationString: string = '';
 	let rate: BigNumber | null;
+	let vcpu: string = '';
+	let memory: string = '';
 
 	//loading states
 	let submitLoading = false;
@@ -157,12 +166,30 @@
 		return valueMap;
 	};
 
+	const handleFilterDataChange = (
+		field: 'instance' | 'region',
+		value: string,
+		allFilterList: any
+	) => {
+		const dataList = allFilterList[field];
+		const valueMap = values[field];
+		values[field] = handleFieldChange(valueMap, value, dataList, valueMap.title);
+		if (field == 'instance') {
+			const instanceData = getvCpuMemoryData(value);
+			vcpu = instanceData.vcpu?.toString() ?? '';
+			memory = instanceData.memory?.toString() ?? '';
+		}
+		rate = getRateForProviderAndFilters(values, allFilterList['allInstances']);
+	};
+
 	const handleMerchantChange = async (value: string) => {
 		merchant = handleFieldChange(merchant, value, merchantList, 'Merchant');
 		values = initalFilterValues;
-		filterData = await getFiltersDataForCreateJob(selectedProvider);
+		handleFilterDataChange('instance', '', filterData);
+		handleFilterDataChange('region', '', filterData);
 	};
 
+	$: filterData = getFiltersDataForCreateJob(selectedProvider);
 	$: duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
 
 	// duration in rate unit
@@ -184,6 +211,7 @@
 		enclaveImageUrl != '';
 
 	$: inValidMessage = !cost ? '' : !maxBalance.gte(cost) ? 'Insufficient balance' : '';
+
 	const subtitle =
 		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
 	const styles = {
@@ -212,7 +240,52 @@
 				errorMessage={merchant.error}
 				styleClass={'mt-0'}
 			/>
-			<CreateOrderModalContent bind:rate {filterData} bind:values {handleFieldChange} />
+			<div class="flex gap-2">
+				<div class="w-full">
+					<SearchWithSelect
+						dataList={filterData?.instance}
+						setSearchValue={(value) => handleFilterDataChange('instance', value, filterData)}
+						title={'Instance'}
+						placeholder={'Select instance'}
+					/>
+					<ErrorTextCard
+						showError={values.instance.isDirty && values.instance.error != ''}
+						errorMessage={values.instance.error}
+						styleClass={'mt-4'}
+					/>
+				</div>
+				<div class="w-full">
+					<SearchWithSelect
+						dataList={filterData?.region}
+						setSearchValue={(value) => handleFilterDataChange('region', value, filterData)}
+						title={'Region'}
+						placeholder={'Select region'}
+					/>
+					<ErrorTextCard
+						showError={values.region.isDirty && values.region.error != ''}
+						errorMessage={values.region.error}
+						styleClass={'mt-4'}
+					/>
+				</div>
+			</div>
+			<div class="flex gap-2">
+				<div class="w-full">
+					<TextInputWithEndButton
+						title={'vCPU'}
+						input={vcpu}
+						placeholder={'Select Instance'}
+						disabled
+					/>
+				</div>
+				<div class="w-full">
+					<TextInputWithEndButton
+						title={'Memory'}
+						input={memory}
+						placeholder={'Select Instance'}
+						disabled
+					/>
+				</div>
+			</div>
 			<div class="flex gap-2">
 				<AmountInputWithTitle
 					title={'Hourly Rate'}

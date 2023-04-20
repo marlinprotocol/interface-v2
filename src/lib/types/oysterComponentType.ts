@@ -1,12 +1,10 @@
 import type { BigNumber, Bytes } from 'ethers';
 
 export type CPUrlDataModel = {
-	url: string;
+	url?: string;
 	instanceType: string;
 	region: string;
 	min_rate: BigNumber;
-	vcpu: string;
-	memory: string;
 };
 
 export type CPInstances = {

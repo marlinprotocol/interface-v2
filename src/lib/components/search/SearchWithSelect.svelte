@@ -68,7 +68,11 @@
 	<div class="relative search-container">
 		<div class="input-group items-center">
 			<input class={styles.inputSearch} {placeholder} value={searchTerm} on:input={handleSearch} />
-			<CollapseButton isOpen={showSuggestions} onclick={handleToggleShowAllSuggestions} />
+			<CollapseButton
+				isOpen={showSuggestions}
+				onclick={handleToggleShowAllSuggestions}
+				disabled={dataList.length === 0}
+			/>
 		</div>
 
 		{#if showSuggestions && suggestions.length > 0}

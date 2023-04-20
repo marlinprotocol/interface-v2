@@ -10,14 +10,6 @@ import { BigNumberZero } from '../constants/constants';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
 import { hundredYears } from '../conversion';
 
-export function getOysterJobsModified(jobs: any[]) {
-	if (!jobs?.length) return [];
-
-	return jobs.map((job: any) => {
-		return modifyJobData(job);
-	}) as OysterInventoryDataModel[];
-}
-
 export const parseMetadata = (metadata: string) => {
 	//remove unwanted single quote and \
 	metadata = metadata.replaceAll("'", '');
@@ -25,11 +17,8 @@ export const parseMetadata = (metadata: string) => {
 	const metadataParsed = JSON.parse(metadata);
 
 	const { url, instanceType, region } = metadataParsed ?? {};
+	const { vcpu, memory } = getvCpuMemoryData(instanceType);
 
-	const vcpuMemoryData = instanceVcpuMemoryData.find((item) => item[0] === instanceType);
-
-	const vcpu = vcpuMemoryData?.[1];
-	const memory = vcpuMemoryData?.[2];
 	return {
 		enclaveUrl: url,
 		instance: instanceType,
@@ -38,6 +27,24 @@ export const parseMetadata = (metadata: string) => {
 		memory
 	};
 };
+
+export const getvCpuMemoryData = (instance: string) => {
+	const vcpuMemoryData = instanceVcpuMemoryData.find((item) => item[0] === instance);
+	const vcpu = vcpuMemoryData?.[1];
+	const memory = vcpuMemoryData?.[2];
+	return {
+		vcpu,
+		memory
+	};
+};
+
+export function getOysterJobsModified(jobs: any[]) {
+	if (!jobs?.length) return [];
+
+	return jobs.map((job: any) => {
+		return modifyJobData(job);
+	}) as OysterInventoryDataModel[];
+}
 
 const modifyJobData = (job: any): OysterInventoryDataModel => {
 	const { rateUnitInSeconds } = kOysterRateMetaData;
@@ -67,6 +74,7 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 	const _rate = BigNumber.from(rate);
 	const _refund = BigNumber.from(refund);
 
+	//job with all basic conversions
 	const modifiedJob = {
 		provider: {
 			name: '', //TODO: get provider name from address
@@ -105,64 +113,70 @@ const modifyJobData = (job: any): OysterInventoryDataModel => {
 		})
 	};
 
-	let live = false;
-	let amountUsed = _totalDeposit.sub(_balance);
-	let currentBalance = _balance;
-	let durationLeft = 0;
-	let durationRun = _lastSettled - _createdAt;
-	let endEpochTime = _lastSettled;
-	let status = 'running';
-
 	if (_refund.gt(BigNumberZero)) {
 		//job is stopped and refunded so amount is used is total deposit - refund and current balance is 0
-		amountUsed = _totalDeposit.sub(_refund);
-		currentBalance = BigNumberZero;
-		status = 'stopped';
-	} else {
-		if (_balance.div(_rate).gt(hundredYears / rateUnitInSeconds)) {
-			//job is running and will never end
-			live = true;
-			durationLeft = hundredYears;
-			durationRun = nowTime - _createdAt;
-			endEpochTime = _lastSettled + durationLeft;
-			status = 'running';
-		} else {
-			const _paidDuration = _balance.div(_rate).toNumber() * rateUnitInSeconds;
-			endEpochTime = _lastSettled + _paidDuration;
+		return {
+			...modifiedJob,
+			amountUsed: _totalDeposit.sub(_refund),
+			balance: BigNumberZero,
+			durationLeft: 0,
+			durationRun: _lastSettled - _createdAt,
+			endEpochTime: _lastSettled,
+			live: false,
+			status: 'stopped'
+		};
+	}
 
-			if (endEpochTime > nowTime) {
-				//job is running
-				const timeSpent = nowTime - _lastSettled;
-				live = true;
-				try {
-					currentBalance = _balance.sub(_rate.mul(timeSpent));
-				} catch (e) {
-					// TODO: handle overflow error
-					console.log('overflow error', e);
-				}
-				amountUsed = _totalDeposit.sub(currentBalance);
-				durationLeft = _paidDuration - timeSpent;
-				durationRun = nowTime - _createdAt;
-				status = 'running';
-			} else {
-				//job is completed
-				amountUsed = _totalDeposit;
-				currentBalance = BigNumberZero;
-				status = 'completed';
-				durationRun = _lastSettled + _paidDuration - _createdAt;
-			}
-		}
+	if (_rate.eq(BigNumberZero) || _balance.div(_rate).gt(hundredYears / rateUnitInSeconds)) {
+		//job is running and will never end
+		return {
+			...modifiedJob,
+			amountUsed: _totalDeposit.sub(_balance),
+			balance: _balance,
+			durationLeft: hundredYears * 2,
+			durationRun: nowTime - _createdAt,
+			endEpochTime: _lastSettled + hundredYears * 2,
+			live: true,
+			status: 'running'
+		};
+	}
+
+	//job is running or has completed
+	const _paidDuration = _balance.div(_rate).toNumber() * rateUnitInSeconds;
+	const endEpochTime = _lastSettled + _paidDuration;
+
+	if (endEpochTime < nowTime) {
+		//job is completed
+		return {
+			...modifiedJob,
+			amountUsed: _totalDeposit,
+			balance: BigNumberZero,
+			durationLeft: 0,
+			durationRun: endEpochTime - _createdAt,
+			endEpochTime,
+			live: false,
+			status: 'completed'
+		};
+	}
+
+	let currentBalance = _balance;
+	//job is running
+	try {
+		currentBalance = _balance.sub(_rate.mul(nowTime - _lastSettled));
+	} catch (e) {
+		// TODO: handle overflow error
+		console.log('overflow error', e);
 	}
 
 	return {
 		...modifiedJob,
+		amountUsed: _totalDeposit.sub(currentBalance),
 		balance: currentBalance,
-		live,
-		status,
-		amountUsed,
-		durationLeft,
-		durationRun,
-		endEpochTime: _lastSettled + durationLeft
+		durationLeft: _paidDuration - (nowTime - _lastSettled),
+		durationRun: nowTime - _createdAt,
+		endEpochTime,
+		live: true,
+		status: 'running'
 	};
 };
 
@@ -183,14 +197,10 @@ export async function getFiltersDataForCreateJob(provider: OysterProviderDataMod
 		allInstances: CPUrlDataModel[];
 		region: string[];
 		instance: string[];
-		vcpu: string[];
-		memory: string[];
 	} = {
 		allInstances: [],
 		region: [],
-		instance: [],
-		vcpu: [],
-		memory: []
+		instance: []
 	};
 
 	if (!provider) return filters;
@@ -209,12 +219,6 @@ export async function getFiltersDataForCreateJob(provider: OysterProviderDataMod
 		if (!filters.instance.includes(instance.instanceType)) {
 			filters.instance.push(instance.instanceType);
 		}
-		if (!filters.vcpu.includes(instance.vcpu)) {
-			filters.vcpu.push(instance.vcpu);
-		}
-		if (!filters.memory.includes(instance.memory)) {
-			filters.memory.push(instance.memory);
-		}
 	});
 	return {
 		...filters,
@@ -223,16 +227,10 @@ export async function getFiltersDataForCreateJob(provider: OysterProviderDataMod
 }
 
 export const getRateForProviderAndFilters = (values: any, instances: CPUrlDataModel[]) => {
-	const { instance, region, vcpu, memory } = values;
-	if (!instance.value || !region.value || !vcpu.value || !memory.value) return null;
-
+	const { instance, region } = values;
+	if (!instance.value || !region.value) return null;
 	const instanceSelected = instances?.find(
-		(_item) =>
-			_item.instanceType === instance.value &&
-			_item.region === region.value &&
-			_item.vcpu === vcpu.value &&
-			_item.memory === memory.value
+		(_item) => _item.instanceType === instance.value && _item.region === region.value
 	);
-
 	return instanceSelected?.min_rate ?? null;
 };

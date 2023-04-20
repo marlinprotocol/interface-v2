@@ -477,13 +477,11 @@ export async function getReviseRateInitiateEndTimestamp(jobId: Bytes) {
 		jobId: jobId
 	};
 
-	console.log('queryVariables :>> ', queryVariables);
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
 	try {
 		const result = await fetchHttpData(url, options);
 
 		const reviseRateRequests = result['data']?.reviseRateRequests;
-		console.log('resultresultresult :>> ', result);
 		if (!reviseRateRequests?.length) {
 			if (result['errors']) {
 				showFetchHttpDataError(result['errors']);

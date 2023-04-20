@@ -32,9 +32,9 @@
 	let submitLoading = false;
 	const nowTime = Date.now() / 1000;
 
-	const handleInitialClick = async () => {
+	const handleInitiateClick = async () => {
 		submitLoading = true;
-		await handleInitiateRateRevise(jobData);
+		await handleInitiateRateRevise(jobData, inputAmount);
 		submitLoading = false;
 		closeModal(modalFor);
 	};
@@ -69,7 +69,7 @@
 
 	$: submitButtonAction =
 		amendInitiateEndTimestamp === 0
-			? handleInitialClick
+			? handleInitiateClick
 			: amendInitiateEndTimestamp < nowTime
 			? handleConfirmClick
 			: handleCancelInitiate;

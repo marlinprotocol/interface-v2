@@ -12,9 +12,9 @@
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import {
 		getFiltersDataForCreateJob,
-		getRateForProviderAndFilters
+		getvCpuMemoryData
 	} from '$lib/utils/data-modifiers/oysterModifiers';
-	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleApproveFundForOysterJob,
 		handleCreateJob
@@ -22,6 +22,7 @@
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
+	import CreateOrderModalContent from '../../sub-components/CreateOrderModalContent.svelte';
 
 	export let modalFor: string;
 
@@ -51,18 +52,6 @@
 			error: '',
 			isDirty: false,
 			title: 'Region'
-		},
-		memory: {
-			value: '',
-			error: '',
-			isDirty: false,
-			title: 'Memory'
-		},
-		vcpu: {
-			value: '',
-			error: '',
-			isDirty: false,
-			title: 'vCPU'
 		}
 	};
 	const initialMerchant = {
@@ -98,24 +87,32 @@
 			!rate ||
 			!cost ||
 			!values.instance.value ||
-			!values.region.value ||
-			!values.memory.value ||
-			!values.vcpu.value
+			!values.region.value
 		) {
 			return;
 		}
+
+		const { vcpu, memory } = getvCpuMemoryData(values.instance.value);
 		const metadata = JSON.stringify({
 			instanceType: values.instance.value,
 			region: values.region.value,
-			memory: values.memory.value,
-			vcpu: values.vcpu.value,
+			memory: memory ?? '',
+			vcpu: vcpu ?? '',
 			url: selectedProvider.cp
 		});
+
 		submitLoading = true;
 		// TODO: approve modal
 		await handleApproveFundForOysterJob(cost);
-		await handleCreateJob(metadata, merchant.value, rate, cost, duration * rateUnitInSeconds);
+		await handleCreateJob(
+			metadata,
+			merchant.value,
+			rate,
+			cost,
+			duration * rateUnitInSeconds * userDurationUnitInRateUnit
+		);
 		submitLoading = false;
+		closeModal(modalFor);
 	};
 
 	//reset amount and signer address
@@ -123,6 +120,8 @@
 		values = initalFilterValues;
 		merchant = initialMerchant;
 		durationString = '';
+		cost = null;
+		rate = null;
 	};
 
 	const handleFieldChange = (
@@ -143,17 +142,6 @@
 		return valueMap;
 	};
 
-	const handleFilterDataChange = (
-		field: 'instance' | 'region' | 'memory' | 'vcpu',
-		value: string,
-		allFilterList: any
-	) => {
-		const dataList = allFilterList[field];
-		const valueMap = values[field];
-		values[field] = handleFieldChange(valueMap, value, dataList, valueMap.title);
-		rate = getRateForProviderAndFilters(values, allFilterList['allInstances']);
-	};
-
 	$: submitEnable =
 		duration &&
 		cost?.gt(BigNumberZero) &&
@@ -164,10 +152,6 @@
 		values.region.value != '' &&
 		!values.instance.error &&
 		values.instance.value != '' &&
-		!values.memory.error &&
-		values.memory.value != '' &&
-		!values.vcpu.error &&
-		values.vcpu.value != '' &&
 		enclaveImageUrl != '';
 
 	const subtitle =
@@ -201,65 +185,11 @@
 				errorMessage={merchant.error}
 				styleClass={'mt-0'}
 			/>
+
 			{#await filterData}
-				<div class="flex justify-center items-center">loading...</div>
+				<CreateOrderModalContent bind:rate bind:values {handleFieldChange} />
 			{:then filterValue}
-				<div class="flex gap-4">
-					<div class="w-full">
-						<SearchWithSelect
-							dataList={filterValue.instance}
-							setSearchValue={(value) => handleFilterDataChange('instance', value, filterValue)}
-							title={'Instance'}
-							placeholder={'Select instance'}
-						/>
-						<ErrorTextCard
-							showError={values.instance.isDirty && values.instance.error != ''}
-							errorMessage={values.instance.error}
-							styleClass={'mt-4'}
-						/>
-					</div>
-					<div class="w-full">
-						<SearchWithSelect
-							dataList={filterValue.region}
-							setSearchValue={(value) => handleFilterDataChange('region', value, filterValue)}
-							title={'Region'}
-							placeholder={'Select region'}
-						/>
-						<ErrorTextCard
-							showError={values.region.isDirty && values.region.error != ''}
-							errorMessage={values.region.error}
-							styleClass={'mt-4'}
-						/>
-					</div>
-				</div>
-				<div class="flex gap-4">
-					<div class="w-full">
-						<SearchWithSelect
-							dataList={filterValue.vcpu}
-							setSearchValue={(value) => handleFilterDataChange('vcpu', value, filterValue)}
-							title={'vCPU'}
-							placeholder={'Select vcpu'}
-						/>
-						<ErrorTextCard
-							showError={values.vcpu.isDirty && values.vcpu.error != ''}
-							errorMessage={values.vcpu.error}
-							styleClass={'mt-4'}
-						/>
-					</div>
-					<div class="w-full">
-						<SearchWithSelect
-							dataList={filterValue.memory}
-							setSearchValue={(value) => handleFilterDataChange('memory', value, filterValue)}
-							title={'Memory'}
-							placeholder={'Select memory'}
-						/>
-						<ErrorTextCard
-							showError={values.memory.isDirty && values.memory.error != ''}
-							errorMessage={values.memory.error}
-							styleClass={'mt-4'}
-						/>
-					</div>
-				</div>
+				<CreateOrderModalContent bind:rate {filterValue} bind:values {handleFieldChange} />
 			{/await}
 			<div class="flex gap-4">
 				<AmountInputWithTitle

@@ -150,8 +150,8 @@
 					variant="outlined"
 					size="small"
 					onclick={handleAmendClick}
-					loading={stopLoading}
-					styleClass="w-36"
+					loading={amendLoading}
+					styleClass="w-40"
 				>
 					AMEND RATE
 				</Button>

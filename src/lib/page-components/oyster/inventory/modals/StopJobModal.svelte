@@ -2,6 +2,7 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleCancelRateRevise,
@@ -17,9 +18,9 @@
 	let submitLoading = false;
 	const nowTime = Date.now() / 1000;
 
-	const handleInitialClick = async () => {
+	const handleInitiateClick = async () => {
 		submitLoading = true;
-		await handleInitiateRateRevise(jobData);
+		await handleInitiateRateRevise(jobData, BigNumberZero);
 		submitLoading = false;
 		closeModal(modalFor);
 	};
@@ -54,7 +55,7 @@
 
 	$: submitButtonAction =
 		stopInitiateEndTimestamp === 0
-			? handleInitialClick
+			? handleInitiateClick
 			: stopInitiateEndTimestamp < nowTime
 			? handleConfirmClick
 			: handleCancelInitiate;

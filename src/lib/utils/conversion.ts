@@ -1,7 +1,7 @@
 import { BigNumber, ethers } from 'ethers';
 import { BigNumberZero } from './constants/constants';
 
-export const hundredYears = 60 * 60 * 24 * 365 * 100;
+export const hundredYears = 60 * 60 * 24 * 365 * 100; //not accounting for leap years
 
 /**
  * Returns duration string for a epoch
@@ -66,7 +66,8 @@ export const bigNumberToCommaString = (value: BigNumber, decimals = 2) => {
 	// Replace 0.0 by an empty value
 	if (result === '0.0') return '0';
 
-	if (value.gt(10 ** (decimals - 1))) {
+	const compareNum = BigNumber.from(10).pow(18 - decimals);
+	if (value.gt(compareNum)) {
 		result = ethers.utils.commify(roundNumberString(result, decimals));
 		//add 0 to the end if decimal count is less than 2
 		if (result.split('.')[1]?.length < 2) {

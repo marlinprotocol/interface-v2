@@ -2,9 +2,8 @@
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 	import { inputClasses } from '$lib/atoms/componentClasses';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import CollapseButton from '../buttons/CollapseButton.svelte';
-	import { shortenText } from '$lib/utils/conversion';
 
 	export let dataList: string[] = [];
 	export let title: string;

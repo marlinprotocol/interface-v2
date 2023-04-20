@@ -1,22 +1,20 @@
 import {
+	addFundsToOysterJob,
+	approveFundsForOysterJobAdd,
 	cancelRateReviseOysterJob,
 	createNewOysterJob,
 	finaliseRateReviseOysterJob,
-	initiateRateReviseOysterJob
-} from '$lib/controllers/contractController';
-import {
-	addFundsToOysterJob,
-	approveFundsForOysterJobAdd,
+	initiateRateReviseOysterJob,
 	stopOysterJob,
 	withdrawFundsFromOysterJob
 } from '$lib/controllers/contractController';
+import { getReviseRateInitiateEndTimestamp } from '$lib/controllers/subgraphController';
 import { oysterStore } from '$lib/data-stores/oysterStore';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+import type { OysterStore } from '$lib/types/storeTypes';
 import type { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
-import { getReviseRateInitiateEndTimestamp } from '$lib/controllers/subgraphController';
 import { parseMetadata } from '../data-modifiers/oysterModifiers';
-import type { OysterStore } from '$lib/types/storeTypes';
 
 export async function handleApproveFundForOysterJob(amount: BigNumber) {
 	try {
@@ -109,10 +107,13 @@ export async function handleFundsWithdrawFromJob(
 	}
 }
 
-export async function handleInitiateRateRevise(jobData: OysterInventoryDataModel) {
+export async function handleInitiateRateRevise(
+	jobData: OysterInventoryDataModel,
+	newRate: BigNumber
+) {
 	const { id } = jobData;
 	try {
-		await initiateRateReviseOysterJob(id, BigNumberZero);
+		await initiateRateReviseOysterJob(id, newRate);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}
@@ -207,11 +208,12 @@ export async function handleCreateJob(
 	provider: string,
 	rate: BigNumber,
 	balance: BigNumber,
-	duration: number
+	durationInSec: number
 ) {
 	try {
 		const tx = await createNewOysterJob(metadata, provider, rate, balance);
 		const nowTime = Date.now() / 1000;
+
 		const { enclaveUrl, instance, region, vcpu, memory } = parseMetadata(metadata);
 		const newJob: OysterInventoryDataModel = {
 			id: tx,
@@ -232,8 +234,8 @@ export async function handleCreateJob(
 			live: true,
 			lastSettled: nowTime,
 			createdAt: nowTime,
-			endEpochTime: nowTime + duration,
-			durationLeft: duration,
+			endEpochTime: nowTime + durationInSec,
+			durationLeft: durationInSec,
 			durationRun: 0,
 			status: 'running',
 			depositHistory: [

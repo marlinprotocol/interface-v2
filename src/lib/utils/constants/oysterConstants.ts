@@ -96,19 +96,21 @@ export const kOysterMerchantJobTableColumnsWidth = (id: string) => {
 	}
 };
 
-// Merchant, Region, Instance, Rate, Amount Paid, Amount Used, Balance, Duration Left, Status
+// make sure the id matches the id in Data Model
 export const kOysterInventoryTableHeader: TableModel['header'][] = [
 	{
 		title: 'OPERATOR',
-		id: 'merchant'
+		id: 'provider'
 	},
 	{
 		title: 'INSTANCE',
-		id: 'instance'
+		id: 'instance',
+		sorting: true
 	},
 	{
 		title: 'REGION',
-		id: 'region'
+		id: 'region',
+		sorting: true
 	},
 	{
 		title: 'HOURLY RATE',
@@ -118,12 +120,14 @@ export const kOysterInventoryTableHeader: TableModel['header'][] = [
 	{
 		title: 'vCPU',
 		id: 'vcpu',
-		tooltipText: 'The number of vCPU(s) allocated to the instance.'
+		tooltipText: 'The number of vCPU(s) allocated to the instance.',
+		sorting: true
 	},
 	{
 		title: 'MEMORY',
 		id: 'memory',
-		tooltipText: 'The amount of memory allocated to the instance.'
+		tooltipText: 'The amount of memory allocated to the instance.',
+		sorting: true
 	},
 	{
 		title: 'BALANCE',
@@ -132,7 +136,8 @@ export const kOysterInventoryTableHeader: TableModel['header'][] = [
 	},
 	{
 		title: 'DURATION LEFT',
-		id: 'durationLeft'
+		id: 'durationLeft',
+		sorting: true
 	},
 	{
 		title: '',
@@ -142,20 +147,20 @@ export const kOysterInventoryTableHeader: TableModel['header'][] = [
 
 export const kInventoryTableColumnsWidth = (id: string) => {
 	switch (id) {
-		case 'merchant':
-			return '20%';
+		case 'provider':
+			return '17.5%';
 		case 'instance':
 			return '10%';
 		case 'region':
 			return '10%';
 		case 'rate':
-			return '12.5%';
+			return '10%';
 		case 'vcpu':
-			return '7.5%';
+			return '10%';
 		case 'memory':
-			return '7.5%';
-		case 'balance':
 			return '12.5%';
+		case 'balance':
+			return '10%';
 		case 'durationLeft':
 			return '15%';
 		case 'action':
@@ -183,15 +188,17 @@ export const kOysterPaymentHistoryTableHeader: TableModel['header'][] = [
 export const kOysterHistoryTableHeader: TableModel['header'][] = [
 	{
 		title: 'OPERATOR',
-		id: 'merchant'
+		id: 'provider'
 	},
 	{
 		title: 'INSTANCE',
-		id: 'instance'
+		id: 'instance',
+		sorting: true
 	},
 	{
 		title: 'REGION',
-		id: 'region'
+		id: 'region',
+		sorting: true
 	},
 	{
 		title: 'AMOUNT PAID',
@@ -210,11 +217,13 @@ export const kOysterHistoryTableHeader: TableModel['header'][] = [
 	},
 	{
 		title: 'DURATION RUN',
-		id: 'duration'
+		id: 'durationRun',
+		sorting: true
 	},
 	{
 		title: 'STATUS',
-		id: 'status'
+		id: 'status',
+		sorting: true
 	},
 	{
 		title: '',
@@ -224,7 +233,7 @@ export const kOysterHistoryTableHeader: TableModel['header'][] = [
 
 export const kHistoryTableColumnsWidth = (id: string) => {
 	switch (id) {
-		case 'merchant':
+		case 'provider':
 			return '20%';
 		case 'instance':
 			return '10%';
@@ -236,7 +245,7 @@ export const kHistoryTableColumnsWidth = (id: string) => {
 			return '10%';
 		case 'refund':
 			return '10%';
-		case 'duration':
+		case 'durationRun':
 			return '10%';
 		case 'status':
 			return '12.5%';

@@ -11,13 +11,14 @@
 		kOysterHistoryTableHeader,
 		oysterTableItemsPerPage
 	} from '$lib/utils/constants/oysterConstants';
-	import { getSearchedInventoryData } from '$lib/utils/helpers/oysterHelpers';
+	import { getSearchedInventoryData, sortOysterInventory } from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import OysterHistoryTableRow from './OysterHistoryTableRow.svelte';
 
 	let searchInput = '';
 	let activePage = 1;
+	let sortingMap: Record<string, 'asc' | 'desc'> = {};
 
 	const itemsPerPage = oysterTableItemsPerPage;
 
@@ -28,6 +29,19 @@
 		inventoryData = inventoryData?.filter((data) => !data.live);
 	});
 	onDestroy(unsubscribeOysterStore);
+
+	const handleSortData = (id: string) => {
+		if (sortingMap[id]) {
+			sortingMap[id] = sortingMap[id] === 'asc' ? 'desc' : 'asc';
+		} else {
+			sortingMap[id] = 'asc';
+		}
+		inventoryData = sortOysterInventory(
+			inventoryData,
+			id as keyof OysterInventoryDataModel,
+			sortingMap[id]
+		);
+	};
 
 	const handlePageChange = (page: number) => {
 		activePage = page;
@@ -56,7 +70,7 @@
 		/>
 	</div>
 	<OysterInventoryTable
-		handleSortData={() => {}}
+		{handleSortData}
 		tableHeading={kOysterHistoryTableHeader}
 		widthFunction={kHistoryTableColumnsWidth}
 	>

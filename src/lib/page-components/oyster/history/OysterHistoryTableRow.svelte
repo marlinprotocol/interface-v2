@@ -39,7 +39,7 @@
 
 <div class="main-row flex gap-1 hover:bg-base-200 px-8 items-center h-16">
 	<TableGridDataCell
-		width={`${kHistoryTableColumnsWidth('merchant')}`}
+		width={`${kHistoryTableColumnsWidth('provider')}`}
 		styleClass="flex gap-2 items-center"
 	>
 		<NameWithAddress {name} {address} {rowIndex}>
@@ -65,7 +65,7 @@
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('refund')}`}>
 		{symbol}{bigNumberToCommaString(refund, oysterAmountPrecision)}
 	</TableGridDataCell>
-	<TableGridDataCell width={`${kHistoryTableColumnsWidth('duration')}`}>
+	<TableGridDataCell width={`${kHistoryTableColumnsWidth('durationRun')}`}>
 		<Tooltip tooltipText={epochToDurationString(endEpochTime - createdAt)}>
 			{epochToDurationString(endEpochTime - createdAt, true)}
 		</Tooltip>

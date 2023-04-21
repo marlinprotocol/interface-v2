@@ -12,7 +12,7 @@
 		kOysterInventoryTableHeader,
 		oysterTableItemsPerPage
 	} from '$lib/utils/constants/oysterConstants';
-	import { getSearchedInventoryData } from '$lib/utils/helpers/oysterHelpers';
+	import { getSearchedInventoryData, sortOysterInventory } from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import plus from 'svelte-awesome/icons/plus';
 	import type { Unsubscriber } from 'svelte/store';
@@ -23,6 +23,7 @@
 
 	let searchInput = '';
 	let activePage = 1;
+	let sortingMap: Record<string, 'asc' | 'desc'> = {};
 
 	const itemsPerPage = oysterTableItemsPerPage;
 
@@ -36,6 +37,19 @@
 		loading = false;
 	});
 	onDestroy(unsubscribeOysterStore);
+
+	const handleSortData = (id: string) => {
+		if (sortingMap[id]) {
+			sortingMap[id] = sortingMap[id] === 'asc' ? 'desc' : 'asc';
+		} else {
+			sortingMap[id] = 'asc';
+		}
+		inventoryData = sortOysterInventory(
+			inventoryData,
+			id as keyof OysterInventoryDataModel,
+			sortingMap[id]
+		);
+	};
 
 	const handlePageChange = (page: number) => {
 		activePage = page;
@@ -72,7 +86,7 @@
 		<ModalButton variant="filled" modalFor={'create-new-order'} icon={plus}>ADD ORDER</ModalButton>
 	</div>
 	<OysterInventoryTable
-		handleSortData={() => {}}
+		{handleSortData}
 		tableHeading={kOysterInventoryTableHeader}
 		widthFunction={kInventoryTableColumnsWidth}
 	>

@@ -31,8 +31,8 @@ export const parseMetadata = (metadata: string) => {
 
 export const getvCpuMemoryData = (instance: string) => {
 	const vcpuMemoryData = instanceVcpuMemoryData.find((item) => item[0] === instance);
-	const vcpu = vcpuMemoryData?.[1];
-	const memory = vcpuMemoryData?.[2];
+	const memory = vcpuMemoryData?.[1];
+	const vcpu = vcpuMemoryData?.[2];
 	return {
 		vcpu,
 		memory

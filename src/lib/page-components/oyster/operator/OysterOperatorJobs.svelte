@@ -15,6 +15,7 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type { OysterMerchantJobsDataModel } from '$lib/types/oysterComponentType';
 	import OysterOperatorInventoryTableRow from '$lib/page-components/oyster/operator/OysterOperatorInventoryTableRow.svelte';
+	import { onDestroy } from 'svelte';
 
 	let searchInput = '';
 	let loading = true;
@@ -40,15 +41,19 @@
 		(activePage - 1) * itemsPerPage,
 		activePage * itemsPerPage
 	);
+	onDestroy(() => {
+		unsubscribeOysterStore();
+	});
 </script>
 
 <PageTitle title={'My Job List'} />
 <div class="flex gap-4 items-center mb-6">
-	<SearchBar bind:input={searchInput} placeholder={'Search for User'} styleClass={'w-full'} />
+	<SearchBar bind:input={searchInput} placeholder={'Search'} styleClass={'w-full'} />
 	<a href={kMerchantHistory}>
 		<div class={`h-12 ${buttonClasses.outlined}`}>HISTORY</div>
 	</a>
 </div>
+<div>loading is: {loading}</div>
 <OysterInventoryTable
 	handleSortData={() => {}}
 	tableHeading={kOysterMerchantJobTableHeader}

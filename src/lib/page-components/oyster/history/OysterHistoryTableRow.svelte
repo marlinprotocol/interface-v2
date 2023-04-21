@@ -78,7 +78,11 @@
 		</div>
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('action')}`}>
-		<TableConvertButton modalFor={`job-history-details-${rowIndex}`} text="DETAILS" />
+		<TableConvertButton
+			modalFor={`job-history-details-${rowIndex}`}
+			text="DETAILS"
+			styleClass="w-full"
+		/>
 	</TableGridDataCell>
 </div>
 <PastJobDetailsModal modalFor={`job-history-details-${rowIndex}`} jobData={rowData} />

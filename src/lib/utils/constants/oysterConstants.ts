@@ -232,11 +232,11 @@ export const kHistoryTableColumnsWidth = (id: string) => {
 		case 'duration':
 			return '10%';
 		case 'status':
-			return '10%';
+			return '12.5%';
 		case 'action':
-			return '10%';
+			return '7.5%';
 		default:
-			return '5%';
+			return '0%';
 	}
 };
 

@@ -1,5 +1,4 @@
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-import { BigNumber } from 'ethers';
 
 export const getSearchedInventoryData = (
 	searchInput: string,

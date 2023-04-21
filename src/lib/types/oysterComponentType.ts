@@ -1,12 +1,5 @@
 import type { BigNumber, Bytes } from 'ethers';
 
-export type CPUrlDataModel = {
-	url?: string;
-	instanceType: string;
-	region: string;
-	min_rate: BigNumber;
-};
-
 export type CPInstances = {
 	allowed_regions: string[];
 	min_rates: {
@@ -24,26 +17,24 @@ export type ProviderMetaDataModel = {
 	live: boolean;
 };
 
-export type OysterProviderDataModel = {
-	cp: string;
-	id: string;
-	live: boolean;
-	name: string;
-	instances?: CPUrlDataModel[];
+export type CPUrlDataModel = {
+	instance: string;
+	region: string;
+	rate: BigNumber;
+	vcpu?: number;
+	memory?: number;
 };
 
-export type OysterInventoryDataModel = {
+export interface OysterMarketplaceDataModel extends CPUrlDataModel {
 	provider: {
 		name?: string;
 		address: string;
 	};
+}
+
+export interface OysterInventoryDataModel extends OysterMarketplaceDataModel {
 	metadata: string;
 	enclaveUrl: string;
-	instance: string;
-	region: string;
-	vcpu?: number;
-	memory?: number;
-	rate: BigNumber;
 	totalDeposit: BigNumber;
 	amountUsed: BigNumber;
 	balance: BigNumber;
@@ -58,7 +49,7 @@ export type OysterInventoryDataModel = {
 	depositHistory: OysterDepositHistoryDataModel[];
 	durationRun: number;
 	id: Bytes;
-};
+}
 
 export type OysterMerchantJobsDataModel = {
 	provider: {

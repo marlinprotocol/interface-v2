@@ -430,7 +430,7 @@ export async function getAllProvidersDetailsFromSubgraph() {
 			}
 			return [];
 		}
-		const ret = getOysterProvidersModified(providers);
+		const ret = await getOysterProvidersModified(providers);
 		return ret;
 	} catch (error) {
 		console.log('Error getting provider details from subgraph', error);

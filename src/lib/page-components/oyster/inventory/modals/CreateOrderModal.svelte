@@ -10,14 +10,10 @@
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import type {
 		OysterInventoryDataModel,
-		OysterProviderDataModel
+		OysterMarketplaceDataModel
 	} from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import {
-		kMerchantJobs,
-		kOysterOwnerInventory,
-		kOysterRateMetaData
-	} from '$lib/utils/constants/oysterConstants';
+	import { kOysterOwnerInventory, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import {
 		getFiltersDataForCreateJob,
@@ -38,12 +34,12 @@
 
 	const { userDurationUnitInRateUnit, rateUnitInSeconds } = kOysterRateMetaData;
 
-	let allProviders: OysterProviderDataModel[] = [];
+	let allMarketplaceData: OysterMarketplaceDataModel[] = [];
 	let approvedAmount: BigNumber;
 	let maxBalance = BigNumberZero;
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
-		allProviders = value.allProviders;
+		allMarketplaceData = value.allMarketplaceData;
 		approvedAmount = value.allowance;
 	});
 	onDestroy(unsubscribeOysterStore);
@@ -53,9 +49,13 @@
 	});
 	onDestroy(unsubscribeWalletBalanceStore);
 
-	$: merchantList = allProviders.map((provider) =>
-		provider.name != '' ? provider.name : provider.id
-	);
+	$: merchantList = [
+		...new Set(
+			allMarketplaceData.map((data) =>
+				data.provider.name && data.provider.name !== '' ? data.provider.name : data.provider.address
+			) ?? []
+		)
+	];
 
 	//initial states
 	const initialStates = {
@@ -99,20 +99,13 @@
 	};
 
 	$: durationString = '';
-	$: selectedProvider = allProviders.find((provider) => provider.id == values.merchant.value);
 
 	//loading states
 	let submitLoading = false;
+	let providerAddress: string | undefined;
 
 	const handleSubmitClick = async () => {
-		if (
-			!selectedProvider ||
-			!selectedProvider.cp ||
-			!rate ||
-			!cost ||
-			!values.instance.value ||
-			!values.region.value
-		) {
+		if (!rate || !cost || !values.instance.value || !values.region.value) {
 			return;
 		}
 
@@ -122,7 +115,7 @@
 			region: values.region.value,
 			memory: memory ?? '',
 			vcpu: vcpu ?? '',
-			url: selectedProvider.cp
+			url: values.enclaveImageUrl.value
 		});
 
 		submitLoading = true;
@@ -175,9 +168,9 @@
 
 	const handleMerchantChange = async (value: string) => {
 		const merchant = handleFieldChange(values.merchant, value, merchantList, 'Operator');
-		selectedProvider = allProviders.find(
-			(provider) => provider.id == values.merchant.value || provider.name == values.merchant.value
-		);
+		providerAddress = allMarketplaceData.find(
+			(data) => data.provider.name === value || data.provider.address === value
+		)?.provider.address;
 		values = {
 			...values,
 			instance: initialStates.instance,
@@ -190,9 +183,9 @@
 	$: vcpu = instanceData.vcpu?.toString() ?? '';
 	$: memory = instanceData.memory?.toString() ?? '';
 
-	$: filterData = getFiltersDataForCreateJob(selectedProvider);
+	$: filterData = getFiltersDataForCreateJob(allMarketplaceData, providerAddress);
 	$: duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
-	$: rate = getRateForProviderAndFilters(values, filterData['allInstances']);
+	$: rate = getRateForProviderAndFilters(values, allMarketplaceData);
 	// duration in rate unit
 	$: cost = rate ? rate.mul(duration * userDurationUnitInRateUnit) : null;
 
@@ -245,13 +238,13 @@
 			<div class="flex gap-2">
 				<div class="w-full">
 					<SearchWithSelect
-						dataList={filterData?.instance ?? []}
+						dataList={filterData?.instances ?? []}
 						searchValue={values.instance.value}
 						setSearchValue={(value) => {
 							values.instance = handleFieldChange(
 								values.instance,
 								value,
-								filterData?.instance ?? [],
+								filterData?.instances ?? [],
 								values.instance.title
 							);
 						}}
@@ -266,13 +259,13 @@
 				</div>
 				<div class="w-full">
 					<SearchWithSelect
-						dataList={filterData?.region ?? []}
+						dataList={filterData?.regions ?? []}
 						searchValue={values.region.value}
 						setSearchValue={(value) => {
 							values.region = handleFieldChange(
 								values.region,
 								value,
-								filterData?.region ?? [],
+								filterData?.regions ?? [],
 								values.region.title
 							);
 						}}

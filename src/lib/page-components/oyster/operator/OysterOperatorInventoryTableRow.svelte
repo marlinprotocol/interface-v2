@@ -80,7 +80,7 @@
 		</div>
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('action')}`}>
-		<Button size="tiny" styleClass="w-full">Claim</Button>
+		<Button size="tiny" styleClass="w-full">CLAIM</Button>
 	</TableGridDataCell>
 </div>
 

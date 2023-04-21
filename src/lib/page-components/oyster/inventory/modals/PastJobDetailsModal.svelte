@@ -60,15 +60,8 @@
 		if (!rate || !amountUsed) {
 			return;
 		}
-		const { userDurationUnitInRateUnit, rateUnitInSeconds } = kOysterRateMetaData;
 		submitLoading = true;
-		await handleCreateJob(
-			metadata,
-			address,
-			rate,
-			amountUsed,
-			durationRun * rateUnitInSeconds * userDurationUnitInRateUnit
-		);
+		await handleCreateJob(metadata, address, rate, amountUsed, durationRun);
 		submitLoading = false;
 		closeModal(modalFor);
 	};
@@ -176,7 +169,7 @@
 					loading={submitLoading}
 					onclick={approved ? handleSubmitClick : handleApproveClick}
 				>
-					{approved ? 'DEPLOY' : 'APPROVE'}
+					{approved ? 'CONFIRM DEPLOY' : 'DEPLOY'}
 				</Button>
 			</div>
 		</div>

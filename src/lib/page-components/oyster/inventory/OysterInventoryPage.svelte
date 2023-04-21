@@ -20,6 +20,7 @@
 	import OysterInventoryTableRow from '$lib/page-components/oyster/inventory/OysterInventoryTableRow.svelte';
 	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
 	import LoadingCircular from '$lib/atoms/loading/LoadingCircular.svelte';
+	import { connected } from '$lib/data-stores/walletProviderStore';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -83,7 +84,9 @@
 		<a href={`/oyster/history`}>
 			<div class={`h-12 ${buttonClasses.outlined}`}>HISTORY</div>
 		</a>
-		<ModalButton variant="filled" modalFor={'create-new-order'} icon={plus}>ADD ORDER</ModalButton>
+		<ModalButton variant="filled" modalFor={'create-new-order'} disabled={!$connected} icon={plus}>
+			ADD ORDER
+		</ModalButton>
 	</div>
 	<OysterInventoryTable
 		{handleSortData}

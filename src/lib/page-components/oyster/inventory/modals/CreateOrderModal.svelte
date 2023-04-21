@@ -15,12 +15,12 @@
 	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { kOysterOwnerInventory, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
-	import {
-		getFiltersDataForCreateJob,
-		getRateForProviderAndFilters,
-		getvCpuMemoryData
-	} from '$lib/utils/data-modifiers/oysterModifiers';
+	import { getvCpuMemoryData } from '$lib/utils/data-modifiers/oysterModifiers';
 	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import {
+		getAllFiltersListforMarketplaceData,
+		getRateForProviderAndFilters
+	} from '$lib/utils/helpers/oysterHelpers';
 	import {
 		handleApproveFundForOysterJob,
 		handleCreateJob
@@ -150,15 +150,15 @@
 
 	const handleFieldChange = (
 		valueMap: { value: string; error: string; isDirty: boolean; title: string },
-		value: string,
+		value: string | number,
 		dataList: string[],
 		fieldTitle: string
 	) => {
-		valueMap.value = value;
+		valueMap.value = value as string;
 		valueMap.isDirty = true;
 		if (value == '') {
 			valueMap.error = `${fieldTitle} is required`;
-		} else if (dataList.indexOf(value) == -1) {
+		} else if (dataList.indexOf(value.toString()) == -1) {
 			valueMap.error = `${value} is not a valid ${fieldTitle}`;
 		} else {
 			valueMap.error = '';
@@ -166,7 +166,7 @@
 		return valueMap;
 	};
 
-	const handleMerchantChange = async (value: string) => {
+	const handleMerchantChange = async (value: string | number) => {
 		const merchant = handleFieldChange(values.merchant, value, merchantList, 'Operator');
 		providerAddress = allMarketplaceData.find(
 			(data) => data.provider.name === value || data.provider.address === value
@@ -183,7 +183,9 @@
 	$: vcpu = instanceData.vcpu?.toString() ?? '';
 	$: memory = instanceData.memory?.toString() ?? '';
 
-	$: filterData = getFiltersDataForCreateJob(allMarketplaceData, providerAddress);
+	$: filterData = getAllFiltersListforMarketplaceData(allMarketplaceData, {
+		provider: providerAddress
+	});
 	$: duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
 	$: rate = getRateForProviderAndFilters(values, allMarketplaceData);
 	// duration in rate unit

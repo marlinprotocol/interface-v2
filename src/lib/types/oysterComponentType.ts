@@ -32,6 +32,9 @@ export interface OysterMarketplaceDataModel extends CPUrlDataModel {
 	};
 }
 
+export interface OysterMarketplaceFilterModel extends CPUrlDataModel {
+	provider: string;
+}
 export interface OysterInventoryDataModel extends OysterMarketplaceDataModel {
 	metadata: string;
 	enclaveUrl: string;

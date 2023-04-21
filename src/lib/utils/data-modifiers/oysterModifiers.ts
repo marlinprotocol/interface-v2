@@ -4,7 +4,8 @@ import type {
 	CPInstances,
 	CPUrlDataModel,
 	OysterInventoryDataModel,
-	OysterMarketplaceDataModel
+	OysterMarketplaceDataModel,
+	OysterMarketplaceFilterModel
 } from '$lib/types/oysterComponentType';
 import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
@@ -200,7 +201,7 @@ export async function getOysterProvidersModified(providers: any[]) {
 			ret.push({
 				...instance,
 				provider: {
-					name: allNames[provider.id] ?? provider.id,
+					name: allNames[provider.id] ?? '',
 					address: provider.id
 				}
 			});
@@ -208,42 +209,6 @@ export async function getOysterProvidersModified(providers: any[]) {
 	});
 	return ret;
 }
-
-export function getFiltersDataForCreateJob(
-	allMarketplaceData: OysterMarketplaceDataModel[],
-	providerAddress: string | undefined
-) {
-	if (!providerAddress) return { instances: [], regions: [] };
-	const providerData = allMarketplaceData.filter(
-		(item) => item.provider.address === providerAddress
-	);
-	const regions = providerData.map((item) => item.region);
-	const instances = providerData.map((item) => item.instance);
-	const vcpus = providerData.map((item) => item.vcpu);
-	const memories = providerData.map((item) => item.memory);
-	const rates = providerData.map((item) => item.rate);
-
-	return {
-		instances: [...new Set(instances)],
-		regions: [...new Set(regions)],
-		vcpus: [...new Set(vcpus)],
-		memories: [...new Set(memories)],
-		rates: [...new Set(rates)]
-	};
-}
-
-export const getRateForProviderAndFilters = (
-	values: any,
-	allMarketplaceData: OysterMarketplaceDataModel[]
-) => {
-	const { instance, region } = values;
-	if (!instance.value || !region.value) return null;
-
-	const instanceSelected = allMarketplaceData?.find(
-		(_item) => _item.instance === instance.value && _item.region === region.value
-	);
-	return instanceSelected?.rate ?? null;
-};
 
 export const getModifiedInstances = (instances?: CPInstances) => {
 	const { min_rates } = instances ?? {};

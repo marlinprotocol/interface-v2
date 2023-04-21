@@ -45,7 +45,7 @@
 	);
 </script>
 
-<div class="mx-auto max-w-[1200px]">
+<div class="mx-auto">
 	<PageTitle title={'My Past Orders'} backHref={'/oyster/inventory'} />
 	<div class="flex gap-4 items-center mb-6">
 		<SearchBar bind:input={searchInput} placeholder={'Search for Operator'} styleClass={'w-full'} />

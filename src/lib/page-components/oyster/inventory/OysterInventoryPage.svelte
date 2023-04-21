@@ -54,7 +54,7 @@
 	);
 </script>
 
-<div class="max-w-[1200px] mx-auto">
+<div class="mx-auto">
 	<PageTitle title={'My Active Orders'}>
 		<svelte:fragment slot="button">
 			<Button variant="outlined" size="tiny" onclick={() => {}}>GUIDE</Button>

@@ -53,7 +53,6 @@
 		<div class={`h-12 ${buttonClasses.outlined}`}>HISTORY</div>
 	</a>
 </div>
-<div>loading is: {loading}</div>
 <OysterInventoryTable
 	handleSortData={() => {}}
 	tableHeading={kOysterMerchantJobTableHeader}

@@ -6,7 +6,7 @@
 	import CollapseButton from '../buttons/CollapseButton.svelte';
 
 	export let dataList: (string | number)[] = [];
-	export let searchValue: string | number = '';
+	export let searchValue: string | number | undefined = '';
 	export let title: string;
 	export let placeholder: string = 'Search';
 	export let styleClass: string = '';
@@ -21,7 +21,10 @@
 		const input = event.target as HTMLInputElement;
 		searchValue = input.value;
 		suggestions = dataList.filter((item) =>
-			item.toString().toLowerCase().includes(searchValue.toString().toLowerCase())
+			item
+				.toString()
+				.toLowerCase()
+				.includes((searchValue ?? '').toString().toLowerCase())
 		);
 		showSuggestions = suggestions.length > 0;
 		await setSearchValue(searchValue);
@@ -69,7 +72,12 @@
 	</div>
 	<div class="relative search-container">
 		<div class="input-group items-center">
-			<input class={styles.inputSearch} {placeholder} value={searchValue} on:input={handleSearch} />
+			<input
+				class={styles.inputSearch}
+				{placeholder}
+				value={searchValue ?? ''}
+				on:input={handleSearch}
+			/>
 			<CollapseButton
 				isOpen={showSuggestions}
 				onclick={handleToggleShowAllSuggestions}

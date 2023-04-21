@@ -4,18 +4,23 @@
 		OysterMarketplaceDataModel,
 		OysterMarketplaceFilterModel
 	} from '$lib/types/oysterComponentType';
-	import { getAllFiltersListforMarketplaceData } from '$lib/utils/helpers/oysterHelpers';
+	import {
+		getAllFiltersListforMarketplaceData,
+		getFilteredMarketplaceData
+	} from '$lib/utils/helpers/oysterHelpers';
 
 	export let filterMap: any = {};
 	export let allMarketplaceData: OysterMarketplaceDataModel[];
+	export let filteredData: OysterMarketplaceDataModel[];
 
-	$: allFilters = getAllFiltersListforMarketplaceData(allMarketplaceData, filterMap);
+	$: allFilters = getAllFiltersListforMarketplaceData(filteredData);
 
 	const handleFilterData = (id: keyof OysterMarketplaceFilterModel, value: string | number) => {
-		console.log('object :>> ', id, value, filterMap);
 		filterMap[id] = value;
+		filteredData = getFilteredMarketplaceData(allMarketplaceData, filterMap);
 	};
-	$: console.log('allFilters :>> ', allFilters, filterMap);
+
+	$: console.log('allFilters :>> ', allFilters, filterMap, filteredData);
 </script>
 
 <div class="flex gap-4 items-center mb-6">
@@ -34,6 +39,13 @@
 		placeholder={'Select Instance'}
 	/>
 	<SearchWithSelect
+		dataList={allFilters.regions}
+		searchValue={filterMap.region}
+		setSearchValue={(value) => handleFilterData('region', value)}
+		title={'Region'}
+		placeholder={'Select Region'}
+	/>
+	<SearchWithSelect
 		dataList={allFilters.memories}
 		searchValue={filterMap.memory}
 		setSearchValue={(value) => handleFilterData('memory', value)}
@@ -41,10 +53,10 @@
 		placeholder={'Select Memory'}
 	/>
 	<SearchWithSelect
-		dataList={allFilters.instances}
-		searchValue={filterMap.instance}
-		setSearchValue={(value) => handleFilterData('instance', value)}
-		title={'Instance'}
-		placeholder={'Select Instance'}
+		dataList={allFilters.vcpus}
+		searchValue={filterMap.vcpu}
+		setSearchValue={(value) => handleFilterData('vcpu', value)}
+		title={'vCPU'}
+		placeholder={'Select vCPU'}
 	/>
 </div>

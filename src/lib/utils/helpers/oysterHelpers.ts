@@ -162,50 +162,69 @@ export const sortOysterMarketplace = (
 	return sortedData;
 };
 
-export function getAllFiltersListforMarketplaceData(
+export let getFilteredMarketplaceData = (
 	allMarketplaceData: OysterMarketplaceDataModel[],
 	filterMap: Partial<OysterMarketplaceFilterModel>
-) {
-	allMarketplaceData = allMarketplaceData.filter((item) => {
-		if (filterMap.provider) {
+) => {
+	if (filterMap.provider) {
+		allMarketplaceData = allMarketplaceData.filter((item) => {
 			return (
 				item.provider.address === filterMap.provider || item.provider.name === filterMap.provider
 			);
-		}
-		if (filterMap.region) {
-			return item.region === filterMap.region;
-		}
-		if (filterMap.instance) {
-			return item.instance === filterMap.instance;
-		}
-		if (filterMap.vcpu) {
-			return item.vcpu === filterMap.vcpu;
-		}
-		if (filterMap.memory) {
-			return item.memory === filterMap.memory;
-		}
-		if (filterMap.rate) {
-			return item.rate.eq(filterMap.rate);
-		}
-		return true;
-	});
+		});
+	}
 
-	const providers = allMarketplaceData.map((item) =>
+	if (filterMap.region) {
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return item.region === filterMap.region;
+		});
+	}
+
+	if (filterMap.memory) {
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return item.memory === filterMap.memory;
+		});
+	}
+
+	if (filterMap.vcpu) {
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return item.vcpu === filterMap.vcpu;
+		});
+	}
+
+	if (filterMap.instance) {
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return item.instance === filterMap.instance;
+		});
+	}
+
+	if (filterMap.rate) {
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return item.rate === filterMap.rate;
+		});
+	}
+
+	return allMarketplaceData;
+};
+
+export function getAllFiltersListforMarketplaceData(filteredData: OysterMarketplaceDataModel[]) {
+	const providers = filteredData.map((item) =>
 		item.provider.name && item.provider.name != '' ? item.provider.name : item.provider.address
 	);
-	const regions = allMarketplaceData.map((item) => item.region);
-	const instances = allMarketplaceData.map((item) => item.instance);
-	const vcpus = allMarketplaceData
+	const regions = filteredData.map((item) => item.region);
+	const instances = filteredData.map((item) => item.instance);
+	const vcpus = filteredData
 		.map((item) => item.vcpu ?? 0)
 		.filter((item) => item !== 0)
 		.sort((a, b) => a - b);
-	const memories = allMarketplaceData
+	const memories = filteredData
 		.map((item) => item.memory ?? 0)
 		.filter((item) => item !== 0)
 		.sort((a, b) => a - b);
-	const rates = allMarketplaceData.map((item) => item.rate);
+	const rates = filteredData.map((item) => item.rate).sort((a, b) => (a.gt(b) ? 1 : -1));
 
 	return {
+		allMarketplaceData: filteredData,
 		providers: [...new Set(providers)],
 		instances: [...new Set(instances)],
 		regions: [...new Set(regions)],

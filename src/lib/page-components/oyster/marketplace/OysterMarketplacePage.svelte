@@ -12,16 +12,12 @@
 		kOysterMarketplaceTableHeader,
 		oysterTableItemsPerPage
 	} from '$lib/utils/constants/oysterConstants';
-	import {
-		getSearchedMarketplaceData,
-		sortOysterMarketplace
-	} from '$lib/utils/helpers/oysterHelpers';
+	import { sortOysterMarketplace } from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import OysterMarketplaceTableRow from './OysterMarketplaceTableRow.svelte';
 	import OysterMarketplaceFilters from './OysterMarketplaceFilters.svelte';
+	import OysterMarketplaceTableRow from './OysterMarketplaceTableRow.svelte';
 
-	let searchInput = '';
 	let activePage = 1;
 	let loading = true;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
@@ -30,9 +26,11 @@
 	const itemsPerPage = oysterTableItemsPerPage;
 
 	let allMarketplaceData: OysterMarketplaceDataModel[];
+	let filteredData: OysterMarketplaceDataModel[];
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		allMarketplaceData = value.allMarketplaceData;
+		filteredData = allMarketplaceData;
 		loading = false;
 	});
 	onDestroy(unsubscribeOysterStore);
@@ -46,23 +44,15 @@
 		allMarketplaceData = sortOysterMarketplace(allMarketplaceData, id, sortingMap[id]);
 	};
 
-	const handleFilterData = (id: string, value: string) => {
-		console.log('object :>> ', id, value);
-		filterMap[id] = value;
-	};
-
 	const handlePageChange = (page: number) => {
 		activePage = page;
 	};
 
-	// get searched data based on searchInput
-	$: searchedData = getSearchedMarketplaceData(searchInput, allMarketplaceData);
-
 	// get page array based on inventory and itemsPerPage
-	$: pageCount = Math.ceil((searchedData?.length ?? 0) / itemsPerPage);
+	$: pageCount = Math.ceil((filteredData?.length ?? 0) / itemsPerPage);
 
 	// get paginated data based on activePage
-	$: paginatedData = searchedData?.slice(
+	$: paginatedData = filteredData?.slice(
 		(activePage - 1) * itemsPerPage,
 		activePage * itemsPerPage
 	);
@@ -71,16 +61,7 @@
 <div class="mx-auto">
 	<PageTitle title={'Infrastructure Providers'} />
 	<div class="flex gap-4 items-center mb-6">
-		<OysterMarketplaceFilters {allMarketplaceData} {filterMap} />
-		<!-- <SearchBar
-			bind:input={searchInput}
-			placeholder={'Search for operator, instance or region'}
-			styleClass={'w-full'}
-		/>
-		<a href={`/oyster/history`}>
-			<div class={`h-12 ${buttonClasses.outlined}`}>HISTORY</div>
-		</a>
-		<ModalButton variant="filled" modalFor={'create-new-order'} icon={plus}>ADD ORDER</ModalButton> -->
+		<OysterMarketplaceFilters bind:filteredData bind:filterMap {allMarketplaceData} />
 	</div>
 	<OysterInventoryTable
 		{handleSortData}

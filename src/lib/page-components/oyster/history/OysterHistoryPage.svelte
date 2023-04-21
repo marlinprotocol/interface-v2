@@ -45,19 +45,21 @@
 	);
 </script>
 
-<PageTitle title={'My Past Orders'} backHref={'/oyster/inventory'} />
-<div class="flex gap-4 items-center mb-6">
-	<SearchBar bind:input={searchInput} placeholder={'Search for Operator'} styleClass={'w-full'} />
+<div class="mx-auto max-w-[1200px]">
+	<PageTitle title={'My Past Orders'} backHref={'/oyster/inventory'} />
+	<div class="flex gap-4 items-center mb-6">
+		<SearchBar bind:input={searchInput} placeholder={'Search for Operator'} styleClass={'w-full'} />
+	</div>
+	<OysterHistoryTable handleSortData={() => {}} tableHeading={kOysterHistoryTableHeader}>
+		{#if paginatedData?.length}
+			{#each paginatedData as rowData, rowIndex}
+				<OysterHistoryTableRow {rowData} {rowIndex} />
+			{/each}
+		{:else}
+			<div class={tableCellClasses.empty}>
+				{'No data found!'}
+			</div>
+		{/if}
+		<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
+	</OysterHistoryTable>
 </div>
-<OysterHistoryTable handleSortData={() => {}} tableHeading={kOysterHistoryTableHeader}>
-	{#if paginatedData?.length}
-		{#each paginatedData as rowData, rowIndex}
-			<OysterHistoryTableRow {rowData} {rowIndex} />
-		{/each}
-	{:else}
-		<div class={tableCellClasses.empty}>
-			{'No data found!'}
-		</div>
-	{/if}
-	<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
-</OysterHistoryTable>

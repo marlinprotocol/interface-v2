@@ -13,6 +13,7 @@ import {
 	QUERY_TO_CHECK_IF_SIGNER_EXISTS,
 	QUERY_TO_GET_ALL_PROVIDERS_DATA,
 	QUERY_TO_GET_JOBS_DATA,
+	QUERY_TO_GET_MERCHANT_JOBS_DATA,
 	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY,
 	QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES,
@@ -491,5 +492,37 @@ export async function getReviseRateInitiateEndTimestamp(jobId: Bytes) {
 	} catch (error) {
 		console.log('Error getting provider details from subgraph', error);
 		return null;
+	}
+}
+
+export async function getOysterMerchantJobs(address: Address) {
+	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
+	const query = QUERY_TO_GET_MERCHANT_JOBS_DATA;
+
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
+
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+
+	try {
+		const result = await fetchHttpData(url, options);
+		const jobs = result['data']?.jobs;
+
+		if (!jobs?.length) {
+			if (result['errors']) {
+				showFetchHttpDataError(result['errors']);
+			}
+			return [];
+		}
+		const ret = await getOysterJobsModified(jobs);
+		return ret;
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: `Error getting enclaves jobs from subgraph. ${error.message}`
+		});
+		console.error('Error getting enclaves jobs from subgraph', error);
+		return [];
 	}
 }

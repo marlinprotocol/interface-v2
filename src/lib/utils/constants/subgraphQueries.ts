@@ -225,3 +225,39 @@ export const QUERY_TO_JOB_REVISE_RATE_END_TIMESTAMP_DATA = `query ReviseRateRequ
     value
   }
 }`;
+
+export const QUERY_TO_GET_MERCHANT_JOBS_DATA = `query Jobs($address: String) {
+  jobs(
+    where: { provider: $address }
+    orderBy: createdAt
+    orderDirection: desc
+  ) {
+    id
+    metadata
+    owner
+    rate
+    provider
+    lastSettled
+    createdAt
+    totalDeposit
+    balance
+    refund
+    depositHistory(
+      orderBy: timestamp,
+      orderDirection: desc
+    ) {
+      amount
+      id
+      isWithdrawal
+      timestamp
+    }
+    settlementHistory(
+      orderBy: timestamp, 
+      orderDirection: desc
+    ) {
+      amount
+      id
+      timestamp
+    }
+  }
+}`;

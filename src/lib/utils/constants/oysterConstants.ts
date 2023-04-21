@@ -1,6 +1,7 @@
 import type { TableModel } from '$lib/types/componentTypes';
 
 export const kMerchantJobs = '/oyster/operator/jobs';
+export const kMerchantHistory = '/oyster/operator/history';
 
 export const kOysterRateMetaData = {
 	currency: 'USDC',
@@ -32,7 +33,65 @@ export const kInstancesTableHeader: TableModel['header'][] = [
 	}
 ];
 
-// Operator, Region, Instance, Rate, Amount Paid, Amount Used, Balance, Duration Left, Status
+export const kOysterMerchantJobTableHeader: TableModel['header'][] = [
+	{
+		title: 'USER',
+		id: 'user',
+		sorting: true
+	},
+	{
+		title: 'INSTANCE',
+		id: 'instance'
+	},
+	{
+		title: 'REGION',
+		id: 'region'
+	},
+	{
+		title: 'STARTED',
+		id: 'started'
+	},
+	{
+		title: 'DURATION RUN',
+		id: 'duration'
+	},
+	{
+		title: 'ACCRUED',
+		id: 'accrued'
+	},
+	{
+		title: 'STATUS',
+		id: 'status',
+		sorting: true
+	},
+	{
+		title: '',
+		id: 'action'
+	}
+];
+
+export const kOysterMerchantJobTableColumnsWidth = (id: string) => {
+	switch (id) {
+		case 'user':
+			return '17.5%';
+		case 'instance':
+			return '10%';
+		case 'region':
+			return '10%';
+		case 'started':
+			return '12.5%';
+		case 'duration':
+			return '12.5%';
+		case 'accrued':
+			return '12.5%';
+		case 'status':
+			return '12.5%';
+		default:
+			return '12.5%';
+	}
+};
+
+// Merchant, Region, Instance, Rate, Amount Paid, Amount Used, Balance, Duration Left, Status
 export const kOysterInventoryTableHeader: TableModel['header'][] = [
 	{
 		title: 'OPERATOR',

@@ -1,5 +1,10 @@
 import type { TableModel } from '$lib/types/componentTypes';
 
+//
+export const kOysterOwnerInventory = '/oyster/inventory';
+export const kOysterOwnerHistory = '/oyster/history';
+
+//merchant pages
 export const kMerchantJobs = '/oyster/operator/jobs';
 export const kMerchantHistory = '/oyster/operator/history';
 
@@ -108,7 +113,8 @@ export const kOysterInventoryTableHeader: TableModel['header'][] = [
 	{
 		title: 'HOURLY RATE',
 		id: 'rate',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Hourly rate of the instance'
 	},
 	{
 		title: 'vCPU',
@@ -136,19 +142,19 @@ export const kOysterInventoryTableHeader: TableModel['header'][] = [
 export const kInventoryTableColumnsWidth = (id: string) => {
 	switch (id) {
 		case 'merchant':
-			return '15%';
+			return '20%';
 		case 'instance':
 			return '10%';
 		case 'region':
 			return '10%';
 		case 'rate':
-			return '10%';
+			return '12.5%';
 		case 'vcpu':
-			return '12.5%';
+			return '7.5%';
 		case 'memory':
-			return '12.5%';
+			return '7.5%';
 		case 'balance':
-			return '10%';
+			return '12.5%';
 		case 'durationLeft':
 			return '15%';
 		case 'action':
@@ -218,15 +224,15 @@ export const kOysterHistoryTableHeader: TableModel['header'][] = [
 export const kHistoryTableColumnsWidth = (id: string) => {
 	switch (id) {
 		case 'merchant':
-			return '15%';
+			return '20%';
 		case 'instance':
 			return '10%';
 		case 'region':
 			return '10%';
 		case 'totalDeposit':
-			return '12.5%';
+			return '10%';
 		case 'amountUsed':
-			return '12.5%';
+			return '10%';
 		case 'refund':
 			return '10%';
 		case 'duration':

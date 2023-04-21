@@ -40,7 +40,7 @@
 				variant={name ? 'tiny' : 'body'}
 				styleClass={name ? 'text-grey' : ''}
 				fontWeight={name ? 'font-normal' : 'font-medium'}
-				text={shortenText(address, 6, 3)}
+				text={shortenText(address, 6, 6)}
 			/>
 			<div on:keypress={onCopyAddress} on:click={onCopyAddress}>
 				<slot name="copyIcon" />

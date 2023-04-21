@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
@@ -7,9 +8,16 @@
 	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
-	import type { OysterProviderDataModel } from '$lib/types/oysterComponentType';
+	import type {
+		OysterInventoryDataModel,
+		OysterProviderDataModel
+	} from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import {
+		kMerchantJobs,
+		kOysterOwnerInventory,
+		kOysterRateMetaData
+	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import {
 		getFiltersDataForCreateJob,
@@ -26,6 +34,7 @@
 	import type { Unsubscriber } from 'svelte/store';
 
 	export let modalFor: string;
+	export let preFilledData: Partial<OysterInventoryDataModel> = {};
 
 	const { userDurationUnitInRateUnit, rateUnitInSeconds } = kOysterRateMetaData;
 
@@ -49,30 +58,48 @@
 	);
 
 	//initial states
-	let values = {
+	const initialStates = {
 		merchant: {
-			value: '',
+			value: preFilledData?.provider?.address || '',
 			error: '',
 			isDirty: false,
 			title: 'Operator'
 		},
 		instance: {
-			value: '',
+			value: preFilledData?.instance || '',
 			error: '',
 			isDirty: false,
 			title: 'Instance'
 		},
 		region: {
-			value: '',
+			value: preFilledData?.region || '',
 			error: '',
 			isDirty: false,
 			title: 'Region'
+		},
+		enclaveImageUrl: {
+			value: preFilledData?.enclaveUrl || ''
 		}
 	};
 
-	let enclaveImageUrl = '';
-	let durationString: string = '';
-	let selectedProvider: OysterProviderDataModel | undefined;
+	// deep copy of initial states
+	let values = {
+		merchant: {
+			...initialStates.merchant
+		},
+		instance: {
+			...initialStates.instance
+		},
+		region: {
+			...initialStates.region
+		},
+		enclaveImageUrl: {
+			...initialStates.enclaveImageUrl
+		}
+	};
+
+	$: durationString = '';
+	$: selectedProvider = allProviders.find((provider) => provider.id == values.merchant.value);
 
 	//loading states
 	let submitLoading = false;
@@ -109,6 +136,7 @@
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
+		goto(kOysterOwnerInventory);
 	};
 
 	const handleApproveClick = async () => {
@@ -121,26 +149,7 @@
 	};
 
 	const resetInputs = () => {
-		values = {
-			merchant: {
-				value: '',
-				error: '',
-				isDirty: false,
-				title: 'Operator'
-			},
-			instance: {
-				value: '',
-				error: '',
-				isDirty: false,
-				title: 'Instance'
-			},
-			region: {
-				value: '',
-				error: '',
-				isDirty: false,
-				title: 'Region'
-			}
-		};
+		values = initialStates;
 		durationString = '';
 		cost = null;
 		rate = null;
@@ -170,18 +179,9 @@
 			(provider) => provider.id == values.merchant.value || provider.name == values.merchant.value
 		);
 		values = {
-			instance: {
-				value: '',
-				error: '',
-				isDirty: false,
-				title: 'Instance'
-			},
-			region: {
-				value: '',
-				error: '',
-				isDirty: false,
-				title: 'Region'
-			},
+			...values,
+			instance: initialStates.instance,
+			region: initialStates.region,
 			merchant
 		};
 	};
@@ -209,7 +209,7 @@
 		values.region.value != '' &&
 		!values.instance.error &&
 		values.instance.value != '' &&
-		enclaveImageUrl != '';
+		values.enclaveImageUrl.value != '';
 
 	$: inValidMessage = !cost ? '' : !maxBalance.gte(cost) ? 'Insufficient balance' : '';
 
@@ -331,7 +331,7 @@
 				styleClass={styles.inputText}
 				title={'Enclave Image URL'}
 				placeholder={'Paste URL here'}
-				bind:input={enclaveImageUrl}
+				bind:input={values.enclaveImageUrl.value}
 			/>
 		</div>
 	</svelte:fragment>

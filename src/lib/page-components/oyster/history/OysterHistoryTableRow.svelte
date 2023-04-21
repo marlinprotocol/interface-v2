@@ -15,6 +15,7 @@
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString, epochToDurationString } from '$lib/utils/conversion';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
+	import CreateOrderModal from '../inventory/modals/CreateOrderModal.svelte';
 	import PastJobDetailsModal from '../inventory/modals/PastJobDetailsModal.svelte';
 
 	export let rowData: OysterInventoryDataModel;
@@ -85,7 +86,8 @@
 		/>
 	</TableGridDataCell>
 </div>
-<PastJobDetailsModal modalFor={`job-history-details-${rowIndex}`} jobData={rowData} />
+<PastJobDetailsModal modalFor={`job-history-details-${rowIndex}`} jobData={rowData} {rowIndex} />
+<CreateOrderModal modalFor={`create-order-modal-${rowIndex}`} preFilledData={rowData} />
 
 <style>
 	.main-row {

@@ -1,32 +1,24 @@
 <script lang="ts">
+	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
-	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BigNumberZero, oysterAmountPrecision } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import {
 		bigNumberToCommaString,
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/conversion';
-	import { closeModal } from '$lib/utils/helpers/commonHelper';
-	import {
-		handleApproveFundForOysterJob,
-		handleCreateJob
-	} from '$lib/utils/services/oysterServices';
-	import { onDestroy } from 'svelte';
+	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
 	import PaymentHistoryTable from '../../sub-components/PaymentHistoryTable.svelte';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import Button from '$lib/atoms/buttons/Button.svelte';
 
 	export let modalFor: string;
+	export let rowIndex: number;
 	export let jobData: OysterInventoryDataModel;
 	$: ({
 		provider: { name, address },
 		instance,
-		metadata,
 		region,
 		enclaveUrl,
 		rate,
@@ -39,33 +31,11 @@
 		endEpochTime
 	} = jobData);
 
-	let submitLoading = false;
-	let approvedAmount = BigNumberZero;
-
-	const unsubscribeOysterStore = oysterStore.subscribe((value) => {
-		approvedAmount = value.allowance;
-	});
-	onDestroy(unsubscribeOysterStore);
-
-	const handleApproveClick = async () => {
-		if (!amountUsed) {
-			return;
-		}
-		submitLoading = true;
-		await handleApproveFundForOysterJob(amountUsed);
-		submitLoading = false;
-	};
-
-	const handleSubmitClick = async () => {
-		if (!rate || !amountUsed) {
-			return;
-		}
-		submitLoading = true;
-		await handleCreateJob(metadata, address, rate, amountUsed, durationRun);
-		submitLoading = false;
+	const handleRedeploy = () => {
+		console.log('handleRedeploy', modalFor, `create-order-modal-${rowIndex}`);
+		openModal(`create-order-modal-${rowIndex}`);
 		closeModal(modalFor);
 	};
-	$: approved = amountUsed && approvedAmount?.gte(amountUsed) && amountUsed.gt(BigNumberZero);
 
 	const subtitle =
 		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
@@ -157,7 +127,12 @@
 	<svelte:fragment slot="actionButtons">
 		<div class="flex gap-2 p-4">
 			<div class="w-full">
-				<ModalButton variant="filled" size="large" styleClass={'btn-block w-full my-0'} {modalFor}>
+				<ModalButton
+					variant="outlined"
+					size="large"
+					styleClass={'btn-block w-full my-0'}
+					{modalFor}
+				>
 					CLOSE
 				</ModalButton>
 			</div>
@@ -166,10 +141,9 @@
 					variant="filled"
 					size="large"
 					styleClass={'btn-block w-full my-0'}
-					loading={submitLoading}
-					onclick={approved ? handleSubmitClick : handleApproveClick}
+					onclick={handleRedeploy}
 				>
-					{approved ? 'CONFIRM DEPLOY' : 'DEPLOY'}
+					{'REDEPLOY'}
 				</Button>
 			</div>
 		</div>

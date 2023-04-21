@@ -15,7 +15,7 @@
 	};
 </script>
 
-<InputCard variant={'primary-mini'}>
+<InputCard variant={'primary'}>
 	<div class={styles.titleIcon}>
 		<Text variant="small" text={title} />
 		{#if tooltipText}

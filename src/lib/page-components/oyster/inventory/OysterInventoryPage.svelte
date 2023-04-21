@@ -17,7 +17,7 @@
 	import plus from 'svelte-awesome/icons/plus';
 	import type { Unsubscriber } from 'svelte/store';
 	import OysterInventoryTable from '$lib/page-components/oyster/inventory/InventoryTable.svelte';
-	import OysterInventoryTableRow from '$lib/page-components/oyster/inventory/InventoryTableRow.svelte';
+	import OysterInventoryTableRow from '$lib/page-components/oyster/inventory/OysterInventoryTableRow.svelte';
 	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
 	import LoadingCircular from '$lib/atoms/loading/LoadingCircular.svelte';
 
@@ -61,7 +61,11 @@
 		</svelte:fragment>
 	</PageTitle>
 	<div class="flex gap-4 items-center mb-6">
-		<SearchBar bind:input={searchInput} placeholder={'Search for Operator'} styleClass={'w-full'} />
+		<SearchBar
+			bind:input={searchInput}
+			placeholder={'Search for operator, instance or region'}
+			styleClass={'w-full'}
+		/>
 		<a href={`/oyster/history`}>
 			<div class={`h-12 ${buttonClasses.outlined}`}>HISTORY</div>
 		</a>

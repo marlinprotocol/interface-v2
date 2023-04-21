@@ -5,10 +5,10 @@
 	import HeaderConnectWallet from '$lib/components/header/sub-components/HeaderConnectWallet.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { TableModel } from '$lib/types/componentTypes';
-	import { kInventoryTableColumnsWidth } from '$lib/utils/constants/oysterConstants';
 
 	export let tableHeading: TableModel['header'][];
 	export let handleSortData: () => void;
+	export let widthFunction: (id: string) => string;
 	let loading = false;
 	let noDataFound = false;
 </script>
@@ -23,7 +23,7 @@
 			<LoadingCircular />
 		</div>
 	{:else}
-		<GridTable {tableHeading} {handleSortData} widthFunction={kInventoryTableColumnsWidth}>
+		<GridTable {tableHeading} {handleSortData} {widthFunction}>
 			<slot />
 		</GridTable>
 		{#if noDataFound}

@@ -10,7 +10,7 @@
 	export let widthFunction: (id: string) => string;
 </script>
 
-<div class="overflow-y-hidden py-6 min-w-[1100px]">
+<div class="overflow-y-hidden py-6">
 	<div class={`flex gap-1 px-8`}>
 		{#each tableHeading as columnHeading, i}
 			<div class={`${tableCellClasses.heading}`} style={`width:${widthFunction(columnHeading.id)}`}>

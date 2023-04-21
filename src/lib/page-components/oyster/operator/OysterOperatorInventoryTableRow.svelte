@@ -1,44 +1,48 @@
 <script lang="ts">
+	import Button from '$lib/atoms/buttons/Button.svelte';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
-	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
+
 	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { CommonVariant } from '$lib/types/componentTypes';
-	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import type { OysterMerchantJobsDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
 	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import {
-		kHistoryTableColumnsWidth,
+		kOysterMerchantJobTableColumnsWidth,
 		kOysterRateMetaData
 	} from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToCommaString, epochToDurationString } from '$lib/utils/conversion';
+	import {
+		bigNumberToCommaString,
+		epochSecToString,
+		epochToDurationString
+	} from '$lib/utils/conversion';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
-	import PastJobDetailsModal from '../inventory/modals/PastJobDetailsModal.svelte';
 
-	export let rowData: OysterInventoryDataModel;
+	export let rowData: OysterMerchantJobsDataModel;
 	export let rowIndex: number;
 
 	const { symbol } = kOysterRateMetaData;
+
 	$: ({
 		provider: { name, address },
 		instance,
 		region,
-		status,
-		totalDeposit,
-		amountUsed,
-		refund,
 		createdAt,
-		endEpochTime
+		rate,
+		status,
+		durationRun,
+		live,
+		balance
 	} = rowData);
-
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
 <div class="main-row flex gap-1 hover:bg-base-200 px-8 items-center h-16">
 	<TableGridDataCell
-		width={`${kHistoryTableColumnsWidth('merchant')}`}
+		width={`${kOysterMerchantJobTableColumnsWidth('user')}`}
 		styleClass="flex gap-2 items-center"
 	>
 		<NameWithAddress {name} {address} {rowIndex}>
@@ -49,27 +53,25 @@
 			</svelte:fragment>
 		</NameWithAddress>
 	</TableGridDataCell>
-	<TableGridDataCell width={`${kHistoryTableColumnsWidth('instance')}`}>
+	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('instance')}`}>
 		{instance}
 	</TableGridDataCell>
-	<TableGridDataCell width={`${kHistoryTableColumnsWidth('region')}`}>
+	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('region')}`}>
 		{region}
 	</TableGridDataCell>
-	<TableGridDataCell width={`${kHistoryTableColumnsWidth('totalDeposit')}`}>
-		{symbol}{bigNumberToCommaString(totalDeposit, oysterAmountPrecision)}
+	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('started')}`}>
+		{epochSecToString(createdAt)}
 	</TableGridDataCell>
-	<TableGridDataCell width={`${kHistoryTableColumnsWidth('amountUsed')}`}>
-		{symbol}{bigNumberToCommaString(amountUsed, oysterAmountPrecision)}
-	</TableGridDataCell>
-	<TableGridDataCell width={`${kHistoryTableColumnsWidth('refund')}`}>
-		{symbol}{bigNumberToCommaString(refund, oysterAmountPrecision)}
-	</TableGridDataCell>
-	<TableGridDataCell width={`${kHistoryTableColumnsWidth('duration')}`}>
-		<Tooltip tooltipText={epochToDurationString(endEpochTime - createdAt)}>
-			{epochToDurationString(endEpochTime - createdAt, true)}
+	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('duration')}`}>
+		<Tooltip tooltipText={epochToDurationString(durationRun)}>
+			{epochToDurationString(durationRun, true)}
 		</Tooltip>
 	</TableGridDataCell>
-	<TableGridDataCell width={`${kHistoryTableColumnsWidth('status')}`}>
+	<!-- TODO: ask shivani how to compute this -->
+	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('accrued')}`}>
+		{symbol}{bigNumberToCommaString(balance, oysterAmountPrecision)}
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('status')}`}>
 		<div
 			class="py-1 w-24 text-white rounded mx-auto text-sm capitalize"
 			style={`background-color:${statusColor}`}
@@ -77,25 +79,13 @@
 			{status}
 		</div>
 	</TableGridDataCell>
-	<TableGridDataCell width={`${kHistoryTableColumnsWidth('action')}`}>
-		<TableConvertButton
-			modalFor={`job-history-details-${rowIndex}`}
-			text="DETAILS"
-			styleClass="w-full"
-		/>
+	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('action')}`}>
+		<Button size="tiny" styleClass="w-full">Claim</Button>
 	</TableGridDataCell>
 </div>
-<PastJobDetailsModal modalFor={`job-history-details-${rowIndex}`} jobData={rowData} />
 
 <style>
-	.main-row {
-		border-bottom: 1px solid #e5e5e5;
-	}
-
-	.main-row:last-child {
-		border-bottom: none;
-	}
-
+	/* show icon only on hover on table-row */
 	.main-row:hover .copy-icon {
 		display: flex;
 	}

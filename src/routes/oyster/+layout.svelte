@@ -10,13 +10,13 @@
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 
 	async function init() {
-		const [allowance, oysterJobs, providerDetail, allProviders] = await Promise.all([
+		const [allowance, oysterJobs, providerDetail, allMarketplaceData] = await Promise.all([
 			getApprovedOysterAllowances($walletStore.address, $contractAddressStore.Bridge),
 			getOysterJobs($walletStore.address),
 			getProviderDetailsFromSubgraph($walletStore.address),
 			getAllProvidersDetailsFromSubgraph()
 		]);
-		console.log('Oyster Data Fetch - allProviders:>> ', allProviders);
+		console.log('Oyster Data Fetch - allMarketplaceData:>> ', allMarketplaceData);
 		console.log('Oyster Data Fetch - allowance', allowance);
 		console.log('Oyster Data Fetch - oysterJobs', oysterJobs);
 		console.log('Oyster Data Fetch - providerDetail', providerDetail);
@@ -28,7 +28,7 @@
 			},
 			allowance: allowance,
 			jobsData: oysterJobs,
-			allProviders
+			allMarketplaceData
 		});
 	}
 	$: if ($connected) {

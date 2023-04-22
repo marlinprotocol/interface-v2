@@ -2,9 +2,8 @@ import type { WALLET_TYPE } from '$lib/utils/constants/constants';
 import type { BigNumber, providers, Signer } from 'ethers';
 import type {
 	OysterInventoryDataModel,
-	OysterMerchantJobsDataModel,
-	OysterProviderDataModel,
-	ProviderMetaDataModel
+	OysterMarketplaceDataModel,
+	OysterMerchantJobsDataModel
 } from './oysterComponentType';
 
 //common types
@@ -93,7 +92,7 @@ export type OysterStore = {
 			live: boolean;
 		};
 	};
-	allProviders: OysterProviderDataModel[];
+	allMarketplaceData: OysterMarketplaceDataModel[];
 	jobsData: OysterInventoryDataModel[];
 	allowance: BigNumber;
 	merchantJobsData: OysterMerchantJobsDataModel[];

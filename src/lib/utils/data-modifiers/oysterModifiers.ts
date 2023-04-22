@@ -4,7 +4,8 @@ import type {
 	CPInstances,
 	CPUrlDataModel,
 	OysterInventoryDataModel,
-	OysterProviderDataModel
+	OysterMarketplaceDataModel,
+	OysterMarketplaceFilterModel
 } from '$lib/types/oysterComponentType';
 import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
@@ -192,52 +193,22 @@ export async function getOysterProvidersModified(providers: any[]) {
 		getProvidersNameJSON(),
 		getProvidersInstancesJSON()
 	]);
+	let ret: OysterMarketplaceDataModel[] = [];
 
-	return providers.map((provider) => {
-		const instances = allInstances[provider.id];
-		return {
-			...provider,
-			name: allNames[provider.id] ?? provider.id,
-			instances: getModifiedInstances(instances)
-		} as OysterProviderDataModel;
+	providers.forEach((provider) => {
+		const instances = getModifiedInstances(allInstances[provider.id]);
+		instances?.forEach((instance: any) => {
+			ret.push({
+				...instance,
+				provider: {
+					name: allNames[provider.id] ?? '',
+					address: provider.id
+				}
+			});
+		});
 	});
+	return ret;
 }
-
-export function getFiltersDataForCreateJob(provider: OysterProviderDataModel | undefined) {
-	const filters: {
-		allInstances: CPUrlDataModel[];
-		region: string[];
-		instance: string[];
-	} = {
-		allInstances: [],
-		region: [],
-		instance: []
-	};
-
-	if (!provider) return filters;
-
-	provider.instances?.forEach((instance) => {
-		if (!filters.region.includes(instance.region)) {
-			filters.region.push(instance.region);
-		}
-		if (!filters.instance.includes(instance.instanceType)) {
-			filters.instance.push(instance.instanceType);
-		}
-	});
-	return {
-		...filters,
-		allInstances: provider.instances ?? []
-	};
-}
-
-export const getRateForProviderAndFilters = (values: any, instances: CPUrlDataModel[]) => {
-	const { instance, region } = values;
-	if (!instance.value || !region.value) return null;
-	const instanceSelected = instances?.find(
-		(_item) => _item.instanceType === instance.value && _item.region === region.value
-	);
-	return instanceSelected?.min_rate ?? null;
-};
 
 export const getModifiedInstances = (instances?: CPInstances) => {
 	const { min_rates } = instances ?? {};
@@ -245,10 +216,13 @@ export const getModifiedInstances = (instances?: CPInstances) => {
 	// corresponds to a row in the table
 	const ret: CPUrlDataModel[] | undefined = min_rates?.flatMap((region) => {
 		return region.rate_cards.map((rate) => {
+			const { vcpu, memory } = getvCpuMemoryData(rate.instance);
 			return {
-				instanceType: rate.instance,
+				instance: rate.instance,
 				region: region.region,
-				min_rate: BigNumber.from(rate.min_rate)
+				rate: BigNumber.from(rate.min_rate),
+				vcpu,
+				memory
 			};
 		});
 	});

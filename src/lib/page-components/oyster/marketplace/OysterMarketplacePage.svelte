@@ -1,32 +1,37 @@
 <script lang="ts">
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
+	import LoadingCircular from '$lib/atoms/loading/LoadingCircular.svelte';
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
-	import SearchBar from '$lib/components/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import OysterInventoryTable from '$lib/page-components/oyster/inventory/InventoryTable.svelte';
-	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
+	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
 	import {
-		kHistoryTableColumnsWidth,
-		kOysterHistoryTableHeader,
+		kMarketplaceTableColumnsWidth,
+		kOysterMarketplaceTableHeader,
 		oysterTableItemsPerPage
 	} from '$lib/utils/constants/oysterConstants';
-	import { getSearchedInventoryData, sortOysterInventory } from '$lib/utils/helpers/oysterHelpers';
+	import { sortOysterMarketplace } from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import OysterHistoryTableRow from './OysterHistoryTableRow.svelte';
+	import OysterMarketplaceFilters from './OysterMarketplaceFilters.svelte';
+	import OysterMarketplaceTableRow from './OysterMarketplaceTableRow.svelte';
 
-	let searchInput = '';
 	let activePage = 1;
+	let loading = true;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
+	let filterMap: Record<string, string> = {};
 
 	const itemsPerPage = oysterTableItemsPerPage;
 
-	let inventoryData: OysterInventoryDataModel[] | undefined;
+	let allMarketplaceData: OysterMarketplaceDataModel[];
+	let filteredData: OysterMarketplaceDataModel[];
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
-		inventoryData = value.jobsData;
-		inventoryData = inventoryData?.filter((data) => !data.live);
+		allMarketplaceData = value.allMarketplaceData;
+		filteredData = allMarketplaceData;
+		loading = false;
 	});
 	onDestroy(unsubscribeOysterStore);
 
@@ -36,47 +41,40 @@
 		} else {
 			sortingMap[id] = 'asc';
 		}
-		inventoryData = sortOysterInventory(
-			inventoryData,
-			id as keyof OysterInventoryDataModel,
-			sortingMap[id]
-		);
+		allMarketplaceData = sortOysterMarketplace(allMarketplaceData, id, sortingMap[id]);
 	};
 
 	const handlePageChange = (page: number) => {
 		activePage = page;
 	};
 
-	// get searched data based on searchInput
-	$: searchedData = getSearchedInventoryData(searchInput, inventoryData);
-
 	// get page array based on inventory and itemsPerPage
-	$: pageCount = Math.ceil((searchedData?.length ?? 0) / itemsPerPage);
+	$: pageCount = Math.ceil((filteredData?.length ?? 0) / itemsPerPage);
 
 	// get paginated data based on activePage
-	$: paginatedData = searchedData?.slice(
+	$: paginatedData = filteredData?.slice(
 		(activePage - 1) * itemsPerPage,
 		activePage * itemsPerPage
 	);
 </script>
 
 <div class="mx-auto">
-	<PageTitle title={'My Past Orders'} backHref={'/oyster/inventory'} />
+	<PageTitle title={'Infrastructure Providers'} />
 	<div class="flex gap-4 items-center mb-6">
-		<SearchBar
-			bind:input={searchInput}
-			placeholder={'Search for operator, instance or region'}
-			styleClass={'w-full'}
-		/>
+		<OysterMarketplaceFilters bind:filteredData bind:filterMap {allMarketplaceData} />
 	</div>
 	<OysterInventoryTable
 		{handleSortData}
-		tableHeading={kOysterHistoryTableHeader}
-		widthFunction={kHistoryTableColumnsWidth}
+		tableHeading={kOysterMarketplaceTableHeader}
+		widthFunction={kMarketplaceTableColumnsWidth}
 	>
-		{#if paginatedData?.length}
+		{#if loading}
+			<div class={'text-center flex justify-center my-4'}>
+				<LoadingCircular />
+			</div>
+		{:else if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex}
-				<OysterHistoryTableRow {rowData} {rowIndex} />
+				<OysterMarketplaceTableRow {rowData} {rowIndex} />
 			{/each}
 		{:else}
 			<div class={tableCellClasses.empty}>
@@ -86,3 +84,4 @@
 		<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
 	</OysterInventoryTable>
 </div>
+<CreateOrderModal modalFor="create-new-order" />

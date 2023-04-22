@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
-
 	import Table from '$lib/atoms/table/Table.svelte';
 	import CollapseButton from '$lib/components/buttons/CollapseButton.svelte';
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
@@ -38,9 +37,9 @@
 					<tbody slot="tableBody">
 						{#each tableData as row}
 							<tr>
-								<td class={styles.tableCell}>{row.instanceType}</td>
+								<td class={styles.tableCell}>{row.instance}</td>
 								<td class={styles.tableCell}>{row.region}</td>
-								<td class={styles.tableCell}>{row.min_rate}</td>
+								<td class={styles.tableCell}>{row.rate}</td>
 							</tr>
 						{/each}
 					</tbody>

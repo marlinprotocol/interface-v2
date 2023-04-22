@@ -1,5 +1,10 @@
 import type { TableModel } from '$lib/types/componentTypes';
 
+//
+export const kOysterOwnerInventory = '/oyster/inventory';
+export const kOysterOwnerHistory = '/oyster/history';
+
+//merchant pages
 export const kMerchantJobs = '/oyster/operator/jobs';
 export const kMerchantHistory = '/oyster/operator/history';
 
@@ -91,19 +96,21 @@ export const kOysterMerchantJobTableColumnsWidth = (id: string) => {
 	}
 };
 
-// Merchant, Region, Instance, Rate, Amount Paid, Amount Used, Balance, Duration Left, Status
+// make sure the id matches the id in Data Model
 export const kOysterInventoryTableHeader: TableModel['header'][] = [
 	{
 		title: 'OPERATOR',
-		id: 'merchant'
+		id: 'provider'
 	},
 	{
 		title: 'INSTANCE',
-		id: 'instance'
+		id: 'instance',
+		sorting: true
 	},
 	{
 		title: 'REGION',
-		id: 'region'
+		id: 'region',
+		sorting: true
 	},
 	{
 		title: 'HOURLY RATE',
@@ -112,11 +119,15 @@ export const kOysterInventoryTableHeader: TableModel['header'][] = [
 	},
 	{
 		title: 'vCPU',
-		id: 'vcpu'
+		id: 'vcpu',
+		tooltipText: 'The number of vCPU(s) allocated to the instance.',
+		sorting: true
 	},
 	{
 		title: 'MEMORY',
-		id: 'memory'
+		id: 'memory',
+		tooltipText: 'The amount of memory allocated to the instance.',
+		sorting: true
 	},
 	{
 		title: 'BALANCE',
@@ -125,7 +136,8 @@ export const kOysterInventoryTableHeader: TableModel['header'][] = [
 	},
 	{
 		title: 'DURATION LEFT',
-		id: 'durationLeft'
+		id: 'durationLeft',
+		sorting: true
 	},
 	{
 		title: '',
@@ -135,8 +147,8 @@ export const kOysterInventoryTableHeader: TableModel['header'][] = [
 
 export const kInventoryTableColumnsWidth = (id: string) => {
 	switch (id) {
-		case 'merchant':
-			return '15%';
+		case 'provider':
+			return '17.5%';
 		case 'instance':
 			return '10%';
 		case 'region':
@@ -144,7 +156,7 @@ export const kInventoryTableColumnsWidth = (id: string) => {
 		case 'rate':
 			return '10%';
 		case 'vcpu':
-			return '12.5%';
+			return '10%';
 		case 'memory':
 			return '12.5%';
 		case 'balance':
@@ -176,15 +188,17 @@ export const kOysterPaymentHistoryTableHeader: TableModel['header'][] = [
 export const kOysterHistoryTableHeader: TableModel['header'][] = [
 	{
 		title: 'OPERATOR',
-		id: 'merchant'
+		id: 'provider'
 	},
 	{
 		title: 'INSTANCE',
-		id: 'instance'
+		id: 'instance',
+		sorting: true
 	},
 	{
 		title: 'REGION',
-		id: 'region'
+		id: 'region',
+		sorting: true
 	},
 	{
 		title: 'AMOUNT PAID',
@@ -203,11 +217,13 @@ export const kOysterHistoryTableHeader: TableModel['header'][] = [
 	},
 	{
 		title: 'DURATION RUN',
-		id: 'duration'
+		id: 'durationRun',
+		sorting: true
 	},
 	{
 		title: 'STATUS',
-		id: 'status'
+		id: 'status',
+		sorting: true
 	},
 	{
 		title: '',
@@ -217,19 +233,19 @@ export const kOysterHistoryTableHeader: TableModel['header'][] = [
 
 export const kHistoryTableColumnsWidth = (id: string) => {
 	switch (id) {
-		case 'merchant':
-			return '15%';
+		case 'provider':
+			return '20%';
 		case 'instance':
 			return '10%';
 		case 'region':
 			return '10%';
 		case 'totalDeposit':
-			return '12.5%';
+			return '10%';
 		case 'amountUsed':
-			return '12.5%';
+			return '10%';
 		case 'refund':
 			return '10%';
-		case 'duration':
+		case 'durationRun':
 			return '10%';
 		case 'status':
 			return '12.5%';
@@ -237,6 +253,66 @@ export const kHistoryTableColumnsWidth = (id: string) => {
 			return '7.5%';
 		default:
 			return '0%';
+	}
+};
+
+// make sure the id matches the id in Data Model
+export const kOysterMarketplaceTableHeader: TableModel['header'][] = [
+	{
+		title: 'OPERATOR',
+		id: 'provider'
+	},
+	{
+		title: 'INSTANCE',
+		id: 'instance',
+		sorting: true
+	},
+	{
+		title: 'REGION',
+		id: 'region',
+		sorting: true
+	},
+	{
+		title: 'HOURLY RATE',
+		id: 'rate',
+		sorting: true
+	},
+	{
+		title: 'vCPU',
+		id: 'vcpu',
+		tooltipText: 'The number of vCPU(s) allocated to the instance.',
+		sorting: true
+	},
+	{
+		title: 'MEMORY',
+		id: 'memory',
+		tooltipText: 'The amount of memory allocated to the instance.',
+		sorting: true
+	},
+	{
+		title: '',
+		id: 'action'
+	}
+];
+
+export const kMarketplaceTableColumnsWidth = (id: string) => {
+	switch (id) {
+		case 'provider':
+			return '17.5%';
+		case 'instance':
+			return '15%';
+		case 'region':
+			return '15%';
+		case 'rate':
+			return '15%';
+		case 'vcpu':
+			return '10%';
+		case 'memory':
+			return '12.5%';
+		case 'action':
+			return '10%';
+		default:
+			return '5%';
 	}
 };
 

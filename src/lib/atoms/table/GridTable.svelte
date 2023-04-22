@@ -5,7 +5,7 @@
 
 	export let tableHeading: TableModel['header'][];
 	export let headingStyleClass = '';
-	export let handleSortData: (() => void) | undefined = undefined;
+	export let handleSortData: ((id: string) => void) | undefined = undefined;
 	export let iconWidth = 16;
 	export let widthFunction: (id: string) => string;
 </script>
@@ -16,7 +16,7 @@
 			<div class={`${tableCellClasses.heading}`} style={`width:${widthFunction(columnHeading.id)}`}>
 				<TableHeadingText
 					heading={columnHeading}
-					{handleSortData}
+					handleSortData={() => handleSortData?.(columnHeading.id)}
 					styleClass={headingStyleClass}
 					{iconWidth}
 					tooltipDirection={i === tableHeading.length - 1

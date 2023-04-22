@@ -45,7 +45,7 @@ export async function handleFundsAddToJob(jobData: OysterInventoryDataModel, amo
 					txHash: txn.hash,
 					timestamp: Date.now() / 1000,
 					isWithdrawal: false,
-					transactionStatus: 'running'
+					transactionStatus: 'deposit'
 				},
 				...jobData.depositHistory
 			]
@@ -87,7 +87,7 @@ export async function handleFundsWithdrawFromJob(
 					txHash: txn.hash,
 					timestamp: Date.now() / 1000,
 					isWithdrawal: true,
-					transactionStatus: 'running'
+					transactionStatus: 'withdrawal'
 				},
 				...jobData.depositHistory
 			]
@@ -253,7 +253,7 @@ export async function handleCreateJob(
 					txHash: tx.hash,
 					timestamp: nowTime,
 					isWithdrawal: false,
-					transactionStatus: 'running'
+					transactionStatus: 'deposit'
 				}
 			],
 			settlementHistory: []

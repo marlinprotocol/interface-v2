@@ -6,7 +6,15 @@
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
+	import {
+		registerOysterInfrastructureProvider,
+		removeOysterInfrastructureProvider,
+		updateOysterInfrastructureProvider
+	} from '$lib/controllers/contractController';
+	import { getInstancesFromControlPlane } from '$lib/controllers/httpController';
+	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import {
@@ -18,14 +26,6 @@
 	import { onDestroy } from 'svelte';
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from './sub-components/InstancesTable.svelte';
-	import { oysterStore, resetOysterStore } from '$lib/data-stores/oysterStore';
-	import {
-		registerOysterInfrastructureProvider,
-		removeOysterInfrastructureProvider,
-		updateOysterInfrastructureProvider
-	} from '$lib/controllers/contractController';
-	import { getInstancesFromControlPlane } from '$lib/controllers/httpController';
-	import { staticImages } from '$lib/components/images/staticImages';
 
 	const styles = {
 		docButton: 'text-primary',

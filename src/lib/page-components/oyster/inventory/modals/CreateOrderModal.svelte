@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
@@ -7,16 +8,19 @@
 	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
-	import type { OysterProviderDataModel } from '$lib/types/oysterComponentType';
+	import type {
+		OysterInventoryDataModel,
+		OysterMarketplaceDataModel
+	} from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { kOysterOwnerInventory, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
-	import {
-		getFiltersDataForCreateJob,
-		getRateForProviderAndFilters,
-		getvCpuMemoryData
-	} from '$lib/utils/data-modifiers/oysterModifiers';
+	import { getvCpuMemoryData } from '$lib/utils/data-modifiers/oysterModifiers';
 	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import {
+		getAllFiltersListforMarketplaceData,
+		getRateForProviderAndFilters
+	} from '$lib/utils/helpers/oysterHelpers';
 	import {
 		handleApproveFundForOysterJob,
 		handleCreateJob
@@ -26,15 +30,16 @@
 	import type { Unsubscriber } from 'svelte/store';
 
 	export let modalFor: string;
+	export let preFilledData: Partial<OysterInventoryDataModel> = {};
 
 	const { userDurationUnitInRateUnit, rateUnitInSeconds } = kOysterRateMetaData;
 
-	let allProviders: OysterProviderDataModel[] = [];
+	let allMarketplaceData: OysterMarketplaceDataModel[] = [];
 	let approvedAmount: BigNumber;
 	let maxBalance = BigNumberZero;
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
-		allProviders = value.allProviders;
+		allMarketplaceData = value.allMarketplaceData;
 		approvedAmount = value.allowance;
 	});
 	onDestroy(unsubscribeOysterStore);
@@ -44,48 +49,63 @@
 	});
 	onDestroy(unsubscribeWalletBalanceStore);
 
-	$: merchantList = allProviders.map((provider) =>
-		provider.name != '' ? provider.name : provider.id
-	);
+	$: merchantList = [
+		...new Set(
+			allMarketplaceData.map((data) =>
+				data.provider.name && data.provider.name !== '' ? data.provider.name : data.provider.address
+			) ?? []
+		)
+	];
 
 	//initial states
-	let values = {
+	const initialStates = {
 		merchant: {
-			value: '',
+			value: preFilledData?.provider?.address || '',
 			error: '',
 			isDirty: false,
 			title: 'Operator'
 		},
 		instance: {
-			value: '',
+			value: preFilledData?.instance || '',
 			error: '',
 			isDirty: false,
 			title: 'Instance'
 		},
 		region: {
-			value: '',
+			value: preFilledData?.region || '',
 			error: '',
 			isDirty: false,
 			title: 'Region'
+		},
+		enclaveImageUrl: {
+			value: preFilledData?.enclaveUrl || ''
 		}
 	};
 
-	let enclaveImageUrl = '';
-	let durationString: string = '';
-	let selectedProvider: OysterProviderDataModel | undefined;
+	// deep copy of initial states
+	let values = {
+		merchant: {
+			...initialStates.merchant
+		},
+		instance: {
+			...initialStates.instance
+		},
+		region: {
+			...initialStates.region
+		},
+		enclaveImageUrl: {
+			...initialStates.enclaveImageUrl
+		}
+	};
+
+	$: durationString = '';
 
 	//loading states
 	let submitLoading = false;
+	let providerAddress: string | undefined;
 
 	const handleSubmitClick = async () => {
-		if (
-			!selectedProvider ||
-			!selectedProvider.cp ||
-			!rate ||
-			!cost ||
-			!values.instance.value ||
-			!values.region.value
-		) {
+		if (!rate || !cost || !values.instance.value || !values.region.value) {
 			return;
 		}
 
@@ -95,7 +115,7 @@
 			region: values.region.value,
 			memory: memory ?? '',
 			vcpu: vcpu ?? '',
-			url: selectedProvider.cp
+			url: values.enclaveImageUrl.value
 		});
 
 		submitLoading = true;
@@ -109,6 +129,7 @@
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
+		goto(kOysterOwnerInventory);
 	};
 
 	const handleApproveClick = async () => {
@@ -121,26 +142,7 @@
 	};
 
 	const resetInputs = () => {
-		values = {
-			merchant: {
-				value: '',
-				error: '',
-				isDirty: false,
-				title: 'Operator'
-			},
-			instance: {
-				value: '',
-				error: '',
-				isDirty: false,
-				title: 'Instance'
-			},
-			region: {
-				value: '',
-				error: '',
-				isDirty: false,
-				title: 'Region'
-			}
-		};
+		values = initialStates;
 		durationString = '';
 		cost = null;
 		rate = null;
@@ -148,15 +150,15 @@
 
 	const handleFieldChange = (
 		valueMap: { value: string; error: string; isDirty: boolean; title: string },
-		value: string,
+		value: string | number,
 		dataList: string[],
 		fieldTitle: string
 	) => {
-		valueMap.value = value;
+		valueMap.value = value as string;
 		valueMap.isDirty = true;
 		if (value == '') {
 			valueMap.error = `${fieldTitle} is required`;
-		} else if (dataList.indexOf(value) == -1) {
+		} else if (dataList.indexOf(value.toString()) == -1) {
 			valueMap.error = `${value} is not a valid ${fieldTitle}`;
 		} else {
 			valueMap.error = '';
@@ -164,24 +166,15 @@
 		return valueMap;
 	};
 
-	const handleMerchantChange = async (value: string) => {
+	const handleMerchantChange = async (value: string | number) => {
 		const merchant = handleFieldChange(values.merchant, value, merchantList, 'Operator');
-		selectedProvider = allProviders.find(
-			(provider) => provider.id == values.merchant.value || provider.name == values.merchant.value
-		);
+		providerAddress = allMarketplaceData.find(
+			(data) => data.provider.name === value || data.provider.address === value
+		)?.provider.address;
 		values = {
-			instance: {
-				value: '',
-				error: '',
-				isDirty: false,
-				title: 'Instance'
-			},
-			region: {
-				value: '',
-				error: '',
-				isDirty: false,
-				title: 'Region'
-			},
+			...values,
+			instance: initialStates.instance,
+			region: initialStates.region,
 			merchant
 		};
 	};
@@ -190,9 +183,11 @@
 	$: vcpu = instanceData.vcpu?.toString() ?? '';
 	$: memory = instanceData.memory?.toString() ?? '';
 
-	$: filterData = getFiltersDataForCreateJob(selectedProvider);
+	$: filterData = getAllFiltersListforMarketplaceData(allMarketplaceData, {
+		provider: providerAddress
+	});
 	$: duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
-	$: rate = getRateForProviderAndFilters(values, filterData['allInstances']);
+	$: rate = getRateForProviderAndFilters(values, allMarketplaceData);
 	// duration in rate unit
 	$: cost = rate ? rate.mul(duration * userDurationUnitInRateUnit) : null;
 
@@ -209,7 +204,7 @@
 		values.region.value != '' &&
 		!values.instance.error &&
 		values.instance.value != '' &&
-		enclaveImageUrl != '';
+		values.enclaveImageUrl.value != '';
 
 	$: inValidMessage = !cost ? '' : !maxBalance.gte(cost) ? 'Insufficient balance' : '';
 
@@ -245,13 +240,13 @@
 			<div class="flex gap-2">
 				<div class="w-full">
 					<SearchWithSelect
-						dataList={filterData?.instance ?? []}
+						dataList={filterData?.instances ?? []}
 						searchValue={values.instance.value}
 						setSearchValue={(value) => {
 							values.instance = handleFieldChange(
 								values.instance,
 								value,
-								filterData?.instance ?? [],
+								filterData?.instances ?? [],
 								values.instance.title
 							);
 						}}
@@ -266,13 +261,13 @@
 				</div>
 				<div class="w-full">
 					<SearchWithSelect
-						dataList={filterData?.region ?? []}
+						dataList={filterData?.regions ?? []}
 						searchValue={values.region.value}
 						setSearchValue={(value) => {
 							values.region = handleFieldChange(
 								values.region,
 								value,
-								filterData?.region ?? [],
+								filterData?.regions ?? [],
 								values.region.title
 							);
 						}}
@@ -331,7 +326,7 @@
 				styleClass={styles.inputText}
 				title={'Enclave Image URL'}
 				placeholder={'Paste URL here'}
-				bind:input={enclaveImageUrl}
+				bind:input={values.enclaveImageUrl.value}
 			/>
 		</div>
 	</svelte:fragment>

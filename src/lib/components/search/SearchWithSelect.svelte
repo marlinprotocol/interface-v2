@@ -5,22 +5,27 @@
 	import { onDestroy, onMount } from 'svelte';
 	import CollapseButton from '../buttons/CollapseButton.svelte';
 
-	export let dataList: string[] = [];
-	export let searchValue: string = '';
+	export let dataList: (string | number)[] = [];
+	export let searchValue: string | number | undefined = '';
 	export let title: string;
 	export let placeholder: string = 'Search';
 	export let styleClass: string = '';
-	export let setSearchValue: (value: string) => any;
+	export let setSearchValue: (value: string | number) => any;
 
 	// const dispatch = createEventDispatcher();
 
-	let suggestions: string[] = [];
+	let suggestions: (string | number)[] = [];
 	let showSuggestions: boolean = false;
 
 	const handleSearch = async (event: any) => {
 		const input = event.target as HTMLInputElement;
 		searchValue = input.value;
-		suggestions = dataList.filter((item) => item.toLowerCase().includes(searchValue.toLowerCase()));
+		suggestions = dataList.filter((item) =>
+			item
+				.toString()
+				.toLowerCase()
+				.includes((searchValue ?? '').toString().toLowerCase())
+		);
 		showSuggestions = suggestions.length > 0;
 		await setSearchValue(searchValue);
 	};
@@ -37,7 +42,7 @@
 		showSuggestions = !showSuggestions;
 	};
 
-	const handleSearchSuggestionClick = async (suggestion: string) => {
+	const handleSearchSuggestionClick = async (suggestion: string | number) => {
 		searchValue = suggestion;
 		showSuggestions = false;
 		await setSearchValue(searchValue);
@@ -67,7 +72,12 @@
 	</div>
 	<div class="relative search-container">
 		<div class="input-group items-center">
-			<input class={styles.inputSearch} {placeholder} value={searchValue} on:input={handleSearch} />
+			<input
+				class={styles.inputSearch}
+				{placeholder}
+				value={searchValue ?? ''}
+				on:input={handleSearch}
+			/>
 			<CollapseButton
 				isOpen={showSuggestions}
 				onclick={handleToggleShowAllSuggestions}

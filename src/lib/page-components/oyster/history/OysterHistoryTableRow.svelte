@@ -15,6 +15,7 @@
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString, epochToDurationString } from '$lib/utils/conversion';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
+	import CreateOrderModal from '../inventory/modals/CreateOrderModal.svelte';
 	import PastJobDetailsModal from '../inventory/modals/PastJobDetailsModal.svelte';
 
 	export let rowData: OysterInventoryDataModel;
@@ -38,7 +39,7 @@
 
 <div class="main-row flex gap-1 hover:bg-base-200 px-8 items-center h-16">
 	<TableGridDataCell
-		width={`${kHistoryTableColumnsWidth('merchant')}`}
+		width={`${kHistoryTableColumnsWidth('provider')}`}
 		styleClass="flex gap-2 items-center"
 	>
 		<NameWithAddress {name} {address} {rowIndex}>
@@ -64,7 +65,7 @@
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('refund')}`}>
 		{symbol}{bigNumberToCommaString(refund, oysterAmountPrecision)}
 	</TableGridDataCell>
-	<TableGridDataCell width={`${kHistoryTableColumnsWidth('duration')}`}>
+	<TableGridDataCell width={`${kHistoryTableColumnsWidth('durationRun')}`}>
 		<Tooltip tooltipText={epochToDurationString(endEpochTime - createdAt)}>
 			{epochToDurationString(endEpochTime - createdAt, true)}
 		</Tooltip>
@@ -85,7 +86,8 @@
 		/>
 	</TableGridDataCell>
 </div>
-<PastJobDetailsModal modalFor={`job-history-details-${rowIndex}`} jobData={rowData} />
+<PastJobDetailsModal modalFor={`job-history-details-${rowIndex}`} jobData={rowData} {rowIndex} />
+<CreateOrderModal modalFor={`create-order-modal-${rowIndex}`} preFilledData={rowData} />
 
 <style>
 	.main-row {

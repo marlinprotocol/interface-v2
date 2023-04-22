@@ -7,7 +7,7 @@
 	import type { TableModel } from '$lib/types/componentTypes';
 
 	export let tableHeading: TableModel['header'][];
-	export let handleSortData: () => void;
+	export let handleSortData: (id: string) => void;
 	export let widthFunction: (id: string) => string;
 	let loading = false;
 	let noDataFound = false;

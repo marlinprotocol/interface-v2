@@ -13,7 +13,7 @@
 	export let pond: BigNumber;
 	export let modalFor: string;
 
-	let approved: boolean = false;
+	let approved = false;
 	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
 		const amount = value.allowances.pond;
 		approved = amount.gte(pond) || false;

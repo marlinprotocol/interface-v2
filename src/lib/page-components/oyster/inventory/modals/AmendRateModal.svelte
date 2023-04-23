@@ -24,7 +24,7 @@
 
 	//initial states
 	let inputAmount: BigNumber = BigNumberZero;
-	let inputAmountString: string = '';
+	let inputAmountString = '';
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
@@ -79,10 +79,6 @@
 
 	const subtitle =
 		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
-
-	const styles = {
-		textPrimary: 'text-primary'
-	};
 </script>
 
 <Modal {modalFor}>

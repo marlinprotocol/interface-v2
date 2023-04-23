@@ -183,9 +183,7 @@
 	$: vcpu = instanceData.vcpu?.toString() ?? '';
 	$: memory = instanceData.memory?.toString() ?? '';
 
-	$: filterData = getAllFiltersListforMarketplaceData(allMarketplaceData, {
-		provider: providerAddress
-	});
+	$: filterData = getAllFiltersListforMarketplaceData(allMarketplaceData);
 	$: duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
 	$: rate = getRateForProviderAndFilters(values, allMarketplaceData);
 	// duration in rate unit

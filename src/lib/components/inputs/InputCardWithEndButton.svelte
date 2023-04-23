@@ -3,8 +3,8 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 
-	export let styleClass: string = '';
-	export let tooltipText: string = '';
+	export let styleClass = '';
+	export let tooltipText = '';
 	export let title: string;
 
 	const styles = {

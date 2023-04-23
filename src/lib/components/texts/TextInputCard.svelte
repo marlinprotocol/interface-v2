@@ -4,10 +4,10 @@
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 
 	export let title: string;
-	export let tooltipText: string = '';
-	export let value: string = '';
-	export let textStyle: string = '';
-	export let centered: boolean = false;
+	export let tooltipText = '';
+	export let value = '';
+	export let textStyle = '';
+	export let centered = false;
 
 	const styles = {
 		titleIcon: `flex items-center gap-1 ${centered ? 'justify-center' : ''} mb-1`,

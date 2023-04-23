@@ -18,7 +18,7 @@
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import {
-		kMerchantJobs,
+		kOperatorJobs,
 		kOysterDocLink,
 		kOysterSupportLink
 	} from '$lib/utils/constants/oysterConstants';
@@ -213,7 +213,7 @@
 	{/if}
 </ContainerCard>
 {#if $connected}
-	<a href={kMerchantJobs}>
+	<a href={kOperatorJobs}>
 		<Button
 			variant="whiteFilled"
 			onclick={() => {}}

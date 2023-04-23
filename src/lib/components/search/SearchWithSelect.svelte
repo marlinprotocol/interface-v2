@@ -8,14 +8,14 @@
 	export let dataList: (string | number)[] = [];
 	export let searchValue: string | number | undefined = '';
 	export let title: string;
-	export let placeholder: string = 'Search';
-	export let styleClass: string = '';
+	export let placeholder = 'Search';
+	export let styleClass = '';
 	export let setSearchValue: (value: string | number) => any;
 
 	// const dispatch = createEventDispatcher();
 
 	let suggestions: (string | number)[] = [];
-	let showSuggestions: boolean = false;
+	let showSuggestions = false;
 
 	const handleSearch = async (event: any) => {
 		const input = event.target as HTMLInputElement;

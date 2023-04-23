@@ -256,6 +256,7 @@ export async function handleCreateJob(
 					transactionStatus: 'deposit'
 				}
 			],
+			amountToBeSettled: BigNumberZero,
 			settlementHistory: []
 		};
 		oysterStore.update((value) => {

@@ -3,7 +3,7 @@
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
 
 	export let variant: CommonVariant = 'primary';
-	export let styleClass: string = '';
+	export let styleClass = '';
 
 	const color = getColorHexByVariant(variant);
 	$: style = `${styleClass} w-5 h-5 rounded-full mx-auto`;

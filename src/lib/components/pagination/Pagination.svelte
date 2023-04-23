@@ -6,7 +6,7 @@
 	export let activePage: number;
 	export let pageCount: number;
 	export let handlePageChange: (page: number) => void;
-	export let styleClass: string = '';
+	export let styleClass = '';
 
 	$: pageArray = Array.from({ length: pageCount }, (_, i) => i + 1);
 	$: isLastPage = activePage === pageArray.length;

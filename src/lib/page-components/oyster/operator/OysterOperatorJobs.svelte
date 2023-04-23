@@ -3,7 +3,7 @@
 	import SearchBar from '$lib/components/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import {
-		kMerchantHistory,
+		kOperatorHistory,
 		kOysterMerchantJobTableHeader,
 		kOysterMerchantJobTableColumnsWidth,
 		oysterTableItemsPerPage
@@ -63,7 +63,7 @@
 <PageTitle title={'My Job List'} backHref={'/oyster/operator'} />
 <div class="flex gap-4 items-center mb-6">
 	<SearchBar bind:input={searchInput} placeholder={'Search'} styleClass={'w-full'} />
-	<a href={kMerchantHistory}>
+	<a href={kOperatorHistory}>
 		<div class={`h-12 ${buttonClasses.outlined}`}>HISTORY</div>
 	</a>
 </div>

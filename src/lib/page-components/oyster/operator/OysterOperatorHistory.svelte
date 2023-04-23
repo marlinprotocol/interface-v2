@@ -7,6 +7,7 @@
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import {
 		kOperatorHistoryTableColumnsWidth,
+		kOperatorJobs,
 		kOysterOperatorHistoryTableHeader,
 		oysterTableItemsPerPage
 	} from '$lib/utils/constants/oysterConstants';
@@ -64,7 +65,7 @@
 </script>
 
 <div class="mx-auto">
-	<PageTitle title={'History of Claims'} backHref={'/oyster/operator/jobs'} />
+	<PageTitle title={'History of Claims'} backHref={kOperatorJobs} />
 	<div class="flex gap-4 items-center mb-6">
 		<SearchBar
 			bind:input={searchInput}

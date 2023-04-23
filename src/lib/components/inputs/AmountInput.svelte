@@ -1,8 +1,8 @@
 <script lang="ts">
-	export let disabled: boolean = false;
-	export let value: string = '';
+	export let disabled = false;
+	export let value = '';
 	export let onChange: any = undefined;
-	export let styleClass: string = '';
+	export let styleClass = '';
 </script>
 
 <input

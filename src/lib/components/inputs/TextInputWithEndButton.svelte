@@ -2,11 +2,11 @@
 	import { inputClasses } from '$lib/atoms/componentClasses';
 	import InputCardWithEndButton from './InputCardWithEndButton.svelte';
 
-	export let styleClass: string = '';
-	export let tooltipText: string = '';
+	export let styleClass = '';
+	export let tooltipText = '';
 	export let title: string;
-	export let placeholder: string = '';
-	export let disabled: boolean = false;
+	export let placeholder = '';
+	export let disabled = false;
 
 	export let input: string;
 

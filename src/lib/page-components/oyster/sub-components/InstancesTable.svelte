@@ -15,9 +15,9 @@
 	};
 
 	export let tableData: CPUrlDataModel[] = [];
-	export let loading: boolean = false;
-	export let error: boolean = false;
-	export let validCPUrl: boolean = false;
+	export let loading = false;
+	export let error = false;
+	export let validCPUrl = false;
 
 	let isOpen = false;
 </script>

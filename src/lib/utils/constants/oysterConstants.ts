@@ -4,9 +4,9 @@ import type { TableModel } from '$lib/types/componentTypes';
 export const kOysterOwnerInventory = '/oyster/inventory';
 export const kOysterOwnerHistory = '/oyster/history';
 
-//merchant pages
-export const kMerchantJobs = '/oyster/operator/jobs';
-export const kMerchantHistory = '/oyster/operator/history';
+//operator pages
+export const kOperatorJobs = '/oyster/operator/jobs';
+export const kOperatorHistory = '/oyster/operator/history';
 
 export const kOysterRateMetaData = {
 	currency: 'USDC',

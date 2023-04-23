@@ -13,7 +13,7 @@
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import type { OysterMerchantJobsDataModel } from '$lib/types/oysterComponentType';
+	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import OysterOperatorInventoryTableRow from '$lib/page-components/oyster/operator/OysterOperatorInventoryTableRow.svelte';
 	import { onDestroy } from 'svelte';
 	import { sortOysterOperatorInventory } from '$lib/utils/helpers/oysterHelpers';
@@ -21,7 +21,7 @@
 	let searchInput = '';
 	let loading = true;
 	let activePage = 1;
-	let merchantJobsData: OysterMerchantJobsDataModel[] | undefined;
+	let merchantJobsData: OysterInventoryDataModel[] | undefined;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
@@ -45,7 +45,7 @@
 		}
 		merchantJobsData = sortOysterOperatorInventory(
 			merchantJobsData,
-			id as keyof OysterMerchantJobsDataModel,
+			id as keyof OysterInventoryDataModel,
 			sortingMap[id]
 		);
 	};

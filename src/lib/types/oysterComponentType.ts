@@ -55,34 +55,6 @@ export interface OysterInventoryDataModel extends OysterMarketplaceDataModel {
 	amountToBeSettled: BigNumber;
 }
 
-export type OysterMerchantJobsDataModel = {
-	provider: {
-		name?: string;
-		address: string;
-	};
-	enclaveUrl: string;
-	instance: string;
-	region: string;
-	vcpu?: number;
-	memory?: number;
-	rate: BigNumber;
-	totalDeposit: BigNumber;
-	amountUsed: BigNumber;
-	balance: BigNumber;
-	refund: BigNumber;
-	lastSettled: number;
-	createdAt: number;
-	durationLeft: number;
-	endEpochTime: number;
-	live: boolean;
-	status: string; //job status - running, stopped, completed
-	settlementHistory: OysterSettlementHistoryDataModel[];
-	depositHistory: OysterDepositHistoryDataModel[];
-	durationRun: number;
-	id: Bytes;
-	amountToBeSettled: BigNumber;
-};
-
 export type OysterSettlementHistoryDataModel = {
 	amount: BigNumber;
 	id: string;

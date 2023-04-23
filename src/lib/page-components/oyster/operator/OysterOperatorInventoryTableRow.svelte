@@ -8,7 +8,7 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import { settleOysterJob } from '$lib/controllers/contractController';
 	import type { CommonVariant } from '$lib/types/componentTypes';
-	import type { OysterMerchantJobsDataModel } from '$lib/types/oysterComponentType';
+	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
 	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import {
@@ -22,7 +22,7 @@
 	} from '$lib/utils/conversion';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
 
-	export let rowData: OysterMerchantJobsDataModel;
+	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
 
 	const { symbol } = kOysterRateMetaData;

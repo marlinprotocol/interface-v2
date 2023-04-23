@@ -1,8 +1,7 @@
 import type {
 	OysterInventoryDataModel,
 	OysterMarketplaceDataModel,
-	OysterMarketplaceFilterModel,
-	OysterMerchantJobsDataModel
+	OysterMarketplaceFilterModel
 } from '$lib/types/oysterComponentType';
 
 export const getSearchedInventoryData = (
@@ -126,14 +125,53 @@ export const sortOysterInventory = (
 };
 
 export const sortOysterOperatorInventory = (
-	data: OysterMerchantJobsDataModel[] | undefined,
+	data: OysterInventoryDataModel[] | undefined,
 	sort: string,
 	order: 'asc' | 'desc'
 ) => {
 	console.log('sortOysterOperatorInventory', data, sort, order);
 	if (!data) return [];
 
-	const ascendingSort = (a: OysterMerchantJobsDataModel, b: OysterMerchantJobsDataModel) => {
+	const ascendingSort = (a: OysterInventoryDataModel, b: OysterInventoryDataModel) => {
+		if (sort === 'amountToBeSettled') {
+			const bnA = a[sort];
+			const bnB = b[sort];
+			return bnA?.gt(bnB) ? 1 : -1;
+		}
+
+		if (sort === 'durationLeft' || sort === 'durationRun' || sort === 'createdAt') {
+			const nmA = a[sort] ?? 0;
+			const nmB = b[sort] ?? 0;
+			return nmA > nmB ? 1 : -1;
+		}
+
+		if (sort === 'instance' || sort === 'region' || sort === 'status' || sort === 'provider') {
+			const stA = a[sort];
+			const stB = b[sort];
+			return stA > stB ? 1 : -1;
+		}
+
+		return 1;
+	};
+	const sortedData = data.sort((a, b) => {
+		if (order === 'asc') {
+			return ascendingSort(a, b);
+		} else {
+			return ascendingSort(b, a);
+		}
+	});
+	return sortedData;
+};
+
+export const sortOysterOperatorHistory = (
+	data: OysterInventoryDataModel[] | undefined,
+	sort: string,
+	order: 'asc' | 'desc'
+) => {
+	console.log('sortOysterOperatorInventory', data, sort, order);
+	if (!data) return [];
+
+	const ascendingSort = (a: OysterInventoryDataModel, b: OysterInventoryDataModel) => {
 		if (sort === 'amountToBeSettled') {
 			const bnA = a[sort];
 			const bnB = b[sort];

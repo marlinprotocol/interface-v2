@@ -60,7 +60,7 @@
 	});
 </script>
 
-<PageTitle title={'My Job List'} />
+<PageTitle title={'My Job List'} backHref={'/oyster/operator'} />
 <div class="flex gap-4 items-center mb-6">
 	<SearchBar bind:input={searchInput} placeholder={'Search'} styleClass={'w-full'} />
 	<a href={kMerchantHistory}>

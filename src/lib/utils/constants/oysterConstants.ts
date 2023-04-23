@@ -20,6 +20,7 @@ export const kOysterRateMetaData = {
 
 export const oysterTableItemsPerPage = 10;
 
+// make sure the id matches the id in Data Model
 export const kInstancesTableHeader: TableModel['header'][] = [
 	{
 		title: 'Instance Type',
@@ -38,6 +39,7 @@ export const kInstancesTableHeader: TableModel['header'][] = [
 	}
 ];
 
+// make sure the id matches the id in Data Model
 export const kOysterMerchantJobTableHeader: TableModel['header'][] = [
 	{
 		title: 'USER',
@@ -95,6 +97,68 @@ export const kOysterMerchantJobTableColumnsWidth = (id: string) => {
 		case 'amountToBeSettled':
 			return '12.5%';
 		case 'status':
+			return '12.5%';
+		default:
+			return '12.5%';
+	}
+};
+
+// make sure the id matches the id in Data Model
+export const kOysterOperatorHistoryTableHeader: TableModel['header'][] = [
+	{
+		title: 'USER',
+		id: 'provider',
+		sorting: true
+	},
+	{
+		title: 'INSTANCE',
+		id: 'instance',
+		sorting: true
+	},
+	{
+		title: 'REGION',
+		id: 'region',
+		sorting: true
+	},
+	{
+		title: 'STARTED',
+		id: 'createdAt',
+		sorting: true
+	},
+	{
+		title: 'ENDED',
+		id: 'createdAt',
+		sorting: true
+	},
+	{
+		title: 'DURATION RUN',
+		id: 'durationRun',
+		sorting: true
+	},
+	{
+		title: 'CLAIMED',
+		id: 'amountToBeSettled',
+		sorting: true
+	},
+	{
+		title: '',
+		id: 'action'
+	}
+];
+
+export const kOperatorHistoryTableColumnsWidth = (id: string) => {
+	switch (id) {
+		case 'provider':
+			return '17.5%';
+		case 'instance':
+			return '10%';
+		case 'region':
+			return '10%';
+		case 'createdAt':
+			return '12.5%';
+		case 'durationRun':
+			return '12.5%';
+		case 'amountToBeSettled':
 			return '12.5%';
 		default:
 			return '12.5%';
@@ -190,6 +254,7 @@ export const kOysterPaymentHistoryTableHeader: TableModel['header'][] = [
 	}
 ];
 
+// make sure the id matches the id in Data Model
 export const kOysterHistoryTableHeader: TableModel['header'][] = [
 	{
 		title: 'OPERATOR',

@@ -6,6 +6,7 @@
 
 	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
+	import { settleOysterJob } from '$lib/controllers/contractController';
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterMerchantJobsDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
@@ -28,21 +29,20 @@
 
 	$: ({
 		provider: { name, address },
+		id,
 		instance,
 		region,
 		createdAt,
-		rate,
 		status,
 		durationRun,
-		live,
-		balance
+		amountToBeSettled
 	} = rowData);
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
 <div class="main-row flex gap-1 hover:bg-base-200 px-8 items-center h-16">
 	<TableGridDataCell
-		width={`${kOysterMerchantJobTableColumnsWidth('user')}`}
+		width={`${kOysterMerchantJobTableColumnsWidth('provider')}`}
 		styleClass="flex gap-2 items-center"
 	>
 		<NameWithAddress {name} {address} {rowIndex}>
@@ -59,17 +59,16 @@
 	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('region')}`}>
 		{region}
 	</TableGridDataCell>
-	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('started')}`}>
+	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('createdAt')}`}>
 		{epochSecToString(createdAt)}
 	</TableGridDataCell>
-	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('duration')}`}>
+	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('durationRun')}`}>
 		<Tooltip tooltipText={epochToDurationString(durationRun)}>
 			{epochToDurationString(durationRun, true)}
 		</Tooltip>
 	</TableGridDataCell>
-	<!-- TODO: ask shivani how to compute this -->
-	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('accrued')}`}>
-		{symbol}{bigNumberToCommaString(balance, oysterAmountPrecision)}
+	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('amountToBeSettled')}`}>
+		{symbol}{bigNumberToCommaString(amountToBeSettled, oysterAmountPrecision)}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('status')}`}>
 		<div
@@ -80,7 +79,9 @@
 		</div>
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('action')}`}>
-		<Button size="tiny" styleClass="w-full">CLAIM</Button>
+		<Button onclick={async () => await settleOysterJob(id)} size="tiny" styleClass="w-full"
+			>CLAIM</Button
+		>
 	</TableGridDataCell>
 </div>
 

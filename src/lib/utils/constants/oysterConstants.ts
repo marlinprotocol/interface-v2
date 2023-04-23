@@ -41,28 +41,33 @@ export const kInstancesTableHeader: TableModel['header'][] = [
 export const kOysterMerchantJobTableHeader: TableModel['header'][] = [
 	{
 		title: 'USER',
-		id: 'user',
+		id: 'provider',
 		sorting: true
 	},
 	{
 		title: 'INSTANCE',
-		id: 'instance'
+		id: 'instance',
+		sorting: true
 	},
 	{
 		title: 'REGION',
-		id: 'region'
+		id: 'region',
+		sorting: true
 	},
 	{
 		title: 'STARTED',
-		id: 'started'
+		id: 'createdAt',
+		sorting: true
 	},
 	{
 		title: 'DURATION RUN',
-		id: 'duration'
+		id: 'durationRun',
+		sorting: true
 	},
 	{
 		title: 'ACCRUED',
-		id: 'accrued'
+		id: 'amountToBeSettled',
+		sorting: true
 	},
 	{
 		title: 'STATUS',
@@ -77,17 +82,17 @@ export const kOysterMerchantJobTableHeader: TableModel['header'][] = [
 
 export const kOysterMerchantJobTableColumnsWidth = (id: string) => {
 	switch (id) {
-		case 'user':
+		case 'provider':
 			return '17.5%';
 		case 'instance':
 			return '10%';
 		case 'region':
 			return '10%';
-		case 'started':
+		case 'createdAt':
 			return '12.5%';
-		case 'duration':
+		case 'durationRun':
 			return '12.5%';
-		case 'accrued':
+		case 'amountToBeSettled':
 			return '12.5%';
 		case 'status':
 			return '12.5%';

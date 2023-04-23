@@ -16,11 +16,13 @@
 	import type { OysterMerchantJobsDataModel } from '$lib/types/oysterComponentType';
 	import OysterOperatorInventoryTableRow from '$lib/page-components/oyster/operator/OysterOperatorInventoryTableRow.svelte';
 	import { onDestroy } from 'svelte';
+	import { sortOysterOperatorInventory } from '$lib/utils/helpers/oysterHelpers';
 
 	let searchInput = '';
 	let loading = true;
 	let activePage = 1;
 	let merchantJobsData: OysterMerchantJobsDataModel[] | undefined;
+	let sortingMap: Record<string, 'asc' | 'desc'> = {};
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		merchantJobsData = value.merchantJobsData;
@@ -35,6 +37,18 @@
 		activePage = page;
 	};
 
+	const handleSortData = (id: string) => {
+		if (sortingMap[id]) {
+			sortingMap[id] = sortingMap[id] === 'asc' ? 'desc' : 'asc';
+		} else {
+			sortingMap[id] = 'asc';
+		}
+		merchantJobsData = sortOysterOperatorInventory(
+			merchantJobsData,
+			id as keyof OysterMerchantJobsDataModel,
+			sortingMap[id]
+		);
+	};
 	$: pageCount = Math.ceil((merchantJobsData?.length ?? 0) / itemsPerPage);
 
 	$: paginatedData = merchantJobsData?.slice(
@@ -54,7 +68,7 @@
 	</a>
 </div>
 <OysterInventoryTable
-	handleSortData={() => {}}
+	{handleSortData}
 	tableHeading={kOysterMerchantJobTableHeader}
 	widthFunction={kOysterMerchantJobTableColumnsWidth}
 >

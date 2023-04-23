@@ -52,6 +52,7 @@ export interface OysterInventoryDataModel extends OysterMarketplaceDataModel {
 	depositHistory: OysterDepositHistoryDataModel[];
 	durationRun: number;
 	id: Bytes;
+	amountToBeSettled: BigNumber;
 }
 
 export type OysterMerchantJobsDataModel = {
@@ -79,6 +80,7 @@ export type OysterMerchantJobsDataModel = {
 	depositHistory: OysterDepositHistoryDataModel[];
 	durationRun: number;
 	id: Bytes;
+	amountToBeSettled: BigNumber;
 };
 
 export type OysterSettlementHistoryDataModel = {

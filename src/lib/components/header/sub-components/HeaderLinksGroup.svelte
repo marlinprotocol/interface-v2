@@ -20,6 +20,11 @@
 			openInNewTab: false
 		},
 		{
+			title: 'Marketplace',
+			href: '/oyster/marketplace',
+			openInNewTab: false
+		},
+		{
 			title: 'Inventory',
 			href: '/oyster/inventory',
 			openInNewTab: false

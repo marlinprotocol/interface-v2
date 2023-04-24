@@ -61,7 +61,7 @@
 <div class="mx-auto">
 	<PageTitle title={'Infrastructure Providers'} />
 	<div class="flex gap-4 items-center mb-6">
-		<OysterMarketplaceFilters bind:filteredData bind:filterMap {allMarketplaceData} />
+		<!-- <OysterMarketplaceFilters bind:filteredData bind:filterMap {allMarketplaceData} /> -->
 	</div>
 	<OysterInventoryTable
 		{handleSortData}

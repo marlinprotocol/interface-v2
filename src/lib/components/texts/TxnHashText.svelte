@@ -3,8 +3,8 @@
 	import TxnIcon from '../icons/TxnIcon.svelte';
 	export let txnHash: string;
 	export let txnHashUrl: string;
-	export let startInt: number = 6;
-	export let endInt: number = 3;
+	export let startInt = 6;
+	export let endInt = 3;
 </script>
 
 <div class="flex justify-center items-center gap-2">

@@ -44,13 +44,13 @@
 		endEpochTime // epoch time in seconds based on duration left
 	} = rowData);
 
-	let openRow: number = -1;
+	let openRow = -1;
 
-	let stopInitiateEndTimestamp: number = 0;
-	let rateReviseInitiateEndTimestamp: number = 0;
+	let stopInitiateEndTimestamp = 0;
+	let rateReviseInitiateEndTimestamp = 0;
 	let revisedRate: BigNumber = BigNumberZero;
-	let stopLoading: boolean = false;
-	let amendLoading: boolean = false;
+	let stopLoading = false;
+	let amendLoading = false;
 
 	const handleStopClick = async () => {
 		stopLoading = true;

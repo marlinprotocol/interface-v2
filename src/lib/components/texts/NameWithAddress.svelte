@@ -5,9 +5,9 @@
 	import { shortenText } from '$lib/utils/conversion';
 	import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
 
-	export let name: string = '';
-	export let address: string = '';
-	export let rowIndex: number = -1;
+	export let name = '';
+	export let address = '';
+	export let rowIndex = -1;
 
 	const onCopyAddress = () => {
 		copyTextToClipboard(address);

@@ -4,9 +4,9 @@
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 
 	export let input: string;
-	export let placeholder: string = '';
-	export let disabled: boolean = false;
-	export let styleClass: string = '';
+	export let placeholder = '';
+	export let disabled = false;
+	export let styleClass = '';
 
 	$: fontSize = input.length > 35 ? 'text-lg' : 'text-xl';
 

@@ -4,7 +4,7 @@
 
 	export let showError = false;
 	export let errorMessage = 'Error Message';
-	export let styleClass: string = 'mt-4';
+	export let styleClass = 'mt-4';
 </script>
 
 {#if showError}

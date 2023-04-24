@@ -18,7 +18,7 @@
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import {
-		kMerchantJobs,
+		kOperatorJobs,
 		kOysterDocLink,
 		kOysterSupportLink
 	} from '$lib/utils/constants/oysterConstants';
@@ -164,11 +164,11 @@
 		</svelte:fragment>
 	</TextInputWithEndButton>
 	{#await instances}
-		<InstancesTable tableData={[]} loading />
+		<InstancesTable {validCPUrl} tableData={[]} loading />
 	{:then value}
-		<InstancesTable tableData={value} />
+		<InstancesTable {validCPUrl} tableData={value} />
 	{:catch error}
-		<InstancesTable tableData={[]} error />
+		<InstancesTable {validCPUrl} tableData={[]} error />
 	{/await}
 	<div class="mt-4" />
 	{#if $connected}
@@ -213,7 +213,7 @@
 	{/if}
 </ContainerCard>
 {#if $connected}
-	<a href={kMerchantJobs}>
+	<a href={kOperatorJobs}>
 		<Button
 			variant="whiteFilled"
 			onclick={() => {}}

@@ -177,6 +177,10 @@ export const MESSAGES = {
 				CANCELLED: 'Cancelled rate revision.',
 				AMENDING: 'Revising rate.',
 				AMENDED: 'Revised rate.'
+			},
+			SETTLE_JOB: {
+				SETTLING: 'Settling job.',
+				SETTLED: 'Job Settled.'
 			}
 		}
 	},

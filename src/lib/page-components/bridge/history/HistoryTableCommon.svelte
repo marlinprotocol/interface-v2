@@ -2,7 +2,6 @@
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import LoadingCircular from '$lib/atoms/loading/LoadingCircular.svelte';
 	import Table from '$lib/atoms/table/Table.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
 	import HeaderConnectWallet from '$lib/components/header/sub-components/HeaderConnectWallet.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';

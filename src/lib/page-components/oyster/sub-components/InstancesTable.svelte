@@ -15,8 +15,9 @@
 	};
 
 	export let tableData: CPUrlDataModel[] = [];
-	export let loading: boolean = false;
-	export let error: boolean = false;
+	export let loading = false;
+	export let error = false;
+	export let validCPUrl = false;
 
 	let isOpen = false;
 </script>
@@ -47,11 +48,20 @@
 		</div>
 	{/if}
 	<svelte:fragment slot="titleEndButton">
-		{#if $connected}
+		{#if $connected && validCPUrl}
 			<CollapseButton
 				{isOpen}
 				onclick={() => {
 					isOpen = !isOpen;
+				}}
+			/>
+		{:else if $connected && !validCPUrl}
+			<CollapseButton
+				onclick={() => {
+					addToast({
+						message: 'Please enter a valid control plane URL.',
+						variant: 'error'
+					});
 				}}
 			/>
 		{:else}

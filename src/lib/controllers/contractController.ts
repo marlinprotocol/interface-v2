@@ -1005,3 +1005,44 @@ export async function finaliseRateReviseOysterJob(jobId: Bytes) {
 		throw new Error('Transaction Error while finalising rate revision for Oyster Job');
 	}
 }
+
+export async function settleOysterJob(jobId: Bytes) {
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	const oysterContractAbi = oysterMarketAbi;
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.SETTLE_JOB.SETTLING,
+			variant: 'info'
+		});
+
+		const tx = await oysterContract.jobSettle(jobId);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to settle Oyster Job.');
+		}
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.SETTLE_JOB.SETTLED,
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while settling Oyster Job');
+	}
+}

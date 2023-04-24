@@ -118,6 +118,10 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		})
 	};
 
+	const _totalSettledAmount = settlementHistory.reduce((acc: any, settlement: any) => {
+		return acc.add(settlement.amount);
+	}, BigNumberZero);
+
 	if (_refund.gt(BigNumberZero)) {
 		//job is stopped and refunded so amount is used is total deposit - refund and current balance is 0
 		return {
@@ -128,7 +132,8 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 			durationRun: _lastSettled - _createdAt,
 			endEpochTime: _lastSettled,
 			live: false,
-			status: 'stopped'
+			status: 'stopped',
+			amountToBeSettled: _totalDeposit.sub(_refund).sub(_totalSettledAmount)
 		};
 	}
 
@@ -142,7 +147,8 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 			durationRun: nowTime - _createdAt,
 			endEpochTime: _lastSettled + hundredYears * 2,
 			live: true,
-			status: 'running'
+			status: 'running',
+			amountToBeSettled: _totalDeposit.sub(_refund).sub(_totalSettledAmount)
 		};
 	}
 
@@ -160,7 +166,8 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 			durationRun: endEpochTime - _createdAt,
 			endEpochTime,
 			live: false,
-			status: 'completed'
+			status: 'completed',
+			amountToBeSettled: _totalDeposit.sub(_totalSettledAmount)
 		};
 	}
 
@@ -181,7 +188,8 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		durationRun: nowTime - _createdAt,
 		endEpochTime,
 		live: true,
-		status: 'running'
+		status: 'running',
+		amountToBeSettled: _totalDeposit.sub(currentBalance).sub(_totalSettledAmount)
 	};
 };
 
@@ -193,7 +201,7 @@ export async function getOysterProvidersModified(providers: any[]) {
 		getProvidersNameJSON(),
 		getProvidersInstancesJSON()
 	]);
-	let ret: OysterMarketplaceDataModel[] = [];
+	const ret: OysterMarketplaceDataModel[] = [];
 
 	providers.forEach((provider) => {
 		const instances = getModifiedInstances(allInstances[provider.id]);

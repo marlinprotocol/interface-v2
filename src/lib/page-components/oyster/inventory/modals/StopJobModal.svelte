@@ -16,7 +16,7 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 	export let stopInitiateEndTimestamp: number;
-	export let rateReviseInitiateEndTimestamp: number = 0;
+	export let rateReviseInitiateEndTimestamp = 0;
 
 	let submitLoading = false;
 	let cancelLoading = false;

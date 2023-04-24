@@ -4,11 +4,11 @@
 	import AmountInput from './AmountInput.svelte';
 
 	export let title: string;
-	export let disabled: boolean = false;
-	export let inputAmountString: string = '';
+	export let disabled = false;
+	export let inputAmountString = '';
 	export let handleUpdatedAmount: any = undefined;
-	export let prefix: string = '';
-	export let suffix: string = '';
+	export let prefix = '';
+	export let suffix = '';
 
 	const styles = {
 		titleIcon: 'flex items-center gap-1',

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Text from '$lib/atoms/texts/Text.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import type { TableModel, TooltipDirection } from '$lib/types/componentTypes';
 	import { staticImages } from '../images/staticImages';

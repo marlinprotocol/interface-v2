@@ -4,9 +4,9 @@ import type { TableModel } from '$lib/types/componentTypes';
 export const kOysterOwnerInventory = '/oyster/inventory';
 export const kOysterOwnerHistory = '/oyster/history';
 
-//merchant pages
-export const kMerchantJobs = '/oyster/operator/jobs';
-export const kMerchantHistory = '/oyster/operator/history';
+//operator pages
+export const kOperatorJobs = '/oyster/operator/jobs';
+export const kOperatorHistory = '/oyster/operator/history';
 
 export const kOysterRateMetaData = {
 	currency: 'USDC',
@@ -20,6 +20,7 @@ export const kOysterRateMetaData = {
 
 export const oysterTableItemsPerPage = 10;
 
+// make sure the id matches the id in Data Model
 export const kInstancesTableHeader: TableModel['header'][] = [
 	{
 		title: 'Instance Type',
@@ -38,31 +39,37 @@ export const kInstancesTableHeader: TableModel['header'][] = [
 	}
 ];
 
+// make sure the id matches the id in Data Model
 export const kOysterMerchantJobTableHeader: TableModel['header'][] = [
 	{
 		title: 'USER',
-		id: 'user',
+		id: 'provider',
 		sorting: true
 	},
 	{
 		title: 'INSTANCE',
-		id: 'instance'
+		id: 'instance',
+		sorting: true
 	},
 	{
 		title: 'REGION',
-		id: 'region'
+		id: 'region',
+		sorting: true
 	},
 	{
 		title: 'STARTED',
-		id: 'started'
+		id: 'createdAt',
+		sorting: true
 	},
 	{
 		title: 'DURATION RUN',
-		id: 'duration'
+		id: 'durationRun',
+		sorting: true
 	},
 	{
 		title: 'ACCRUED',
-		id: 'accrued'
+		id: 'amountToBeSettled',
+		sorting: true
 	},
 	{
 		title: 'STATUS',
@@ -77,19 +84,81 @@ export const kOysterMerchantJobTableHeader: TableModel['header'][] = [
 
 export const kOysterMerchantJobTableColumnsWidth = (id: string) => {
 	switch (id) {
-		case 'user':
+		case 'provider':
 			return '17.5%';
 		case 'instance':
 			return '10%';
 		case 'region':
 			return '10%';
-		case 'started':
+		case 'createdAt':
 			return '12.5%';
-		case 'duration':
+		case 'durationRun':
 			return '12.5%';
-		case 'accrued':
+		case 'amountToBeSettled':
 			return '12.5%';
 		case 'status':
+			return '12.5%';
+		default:
+			return '12.5%';
+	}
+};
+
+// make sure the id matches the id in Data Model
+export const kOysterOperatorHistoryTableHeader: TableModel['header'][] = [
+	{
+		title: 'USER',
+		id: 'provider',
+		sorting: true
+	},
+	{
+		title: 'INSTANCE',
+		id: 'instance',
+		sorting: true
+	},
+	{
+		title: 'REGION',
+		id: 'region',
+		sorting: true
+	},
+	{
+		title: 'STARTED',
+		id: 'createdAt',
+		sorting: true
+	},
+	{
+		title: 'ENDED',
+		id: 'createdAt',
+		sorting: true
+	},
+	{
+		title: 'DURATION RUN',
+		id: 'durationRun',
+		sorting: true
+	},
+	{
+		title: 'CLAIMED',
+		id: 'amountToBeSettled',
+		sorting: true
+	},
+	{
+		title: '',
+		id: 'action'
+	}
+];
+
+export const kOperatorHistoryTableColumnsWidth = (id: string) => {
+	switch (id) {
+		case 'provider':
+			return '17.5%';
+		case 'instance':
+			return '10%';
+		case 'region':
+			return '10%';
+		case 'createdAt':
+			return '12.5%';
+		case 'durationRun':
+			return '12.5%';
+		case 'amountToBeSettled':
 			return '12.5%';
 		default:
 			return '12.5%';
@@ -185,6 +254,7 @@ export const kOysterPaymentHistoryTableHeader: TableModel['header'][] = [
 	}
 ];
 
+// make sure the id matches the id in Data Model
 export const kOysterHistoryTableHeader: TableModel['header'][] = [
 	{
 		title: 'OPERATOR',

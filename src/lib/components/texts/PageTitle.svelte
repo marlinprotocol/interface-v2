@@ -3,7 +3,7 @@
 	import BackButton from '../buttons/BackButton.svelte';
 
 	export let title: string;
-	export let backHref: string = '';
+	export let backHref = '';
 </script>
 
 <div class="flex gap-4 mt-3 mb-8 items-center">

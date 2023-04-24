@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let itemLabel: string;
-	export let highlighted: boolean = false;
+	export let highlighted = false;
 </script>
 
 <li class="autocomplete-items" class:autocomplete-active={highlighted}>

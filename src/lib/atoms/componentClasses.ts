@@ -13,6 +13,8 @@ export const buttonClasses = {
 	icon: 'btn btn-xs btn-ghost btn-circle p-0 bg-transparent hover:bg-transparent flex',
 	iconLightBlue:
 		'btn btn-xs btn-circle p-0 bg-base-300 hover:bg-base-300 border-none disabled:bg-base-200 disabled:cursor-not-allowed',
+	dropdownIcon:
+		'btn btn-xs rounded-full btn-circle p-0 bg-base-300 border-primary/[.2] ml-4 hover:bg-base-300 disabled:bg-base-200 disabled:cursor-not-allowed',
 	maxButton:
 		'btn btn-sm btn-text btn-ghost p-0 bg-transparent hover:bg-transparent font-bold text-primary tracking-widest disabled:text-primary',
 	largeButton: 'flex gap-2 text-primary h-14 text-base font-semibold items-center',

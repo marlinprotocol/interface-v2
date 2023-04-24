@@ -100,6 +100,9 @@ module.exports = {
 							background: 'transparent'
 						}
 					},
+					'.input-group :last-child': {
+						'border-radius': '100px'
+					},
 					'.btn': {
 						'text-transform': 'none'
 					},

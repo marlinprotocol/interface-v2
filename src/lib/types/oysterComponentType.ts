@@ -76,3 +76,13 @@ export type OysterRateRequestModel = {
 	updatesAt: number;
 	value: string;
 };
+
+export interface OysterFiltersModel {
+	allMarketplaceData: OysterMarketplaceDataModel[];
+	provider: string[];
+	instance: string[];
+	region: string[];
+	vcpu: (number | string)[];
+	memory: (number | string)[];
+	rate: (number | string)[];
+}

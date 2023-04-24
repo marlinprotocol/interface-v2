@@ -1,4 +1,5 @@
 import type {
+	OysterFiltersModel,
 	OysterInventoryDataModel,
 	OysterMarketplaceDataModel,
 	OysterMarketplaceFilterModel
@@ -303,13 +304,25 @@ export function getAllFiltersListforMarketplaceData(filteredData: OysterMarketpl
 
 	return {
 		allMarketplaceData: filteredData,
-		providers: [...new Set(providers)],
-		instances: [...new Set(instances)],
-		regions: [...new Set(regions)],
-		vcpus: [...new Set(vcpus)],
-		memories: [...new Set(memories)],
-		rates: [...new Set(rates)]
-	};
+		provider: ['All', ...new Set(providers)],
+		instance: ['All', ...new Set(instances)],
+		region: ['All', ...new Set(regions)],
+		vcpu: ['All', ...new Set(vcpus)],
+		memory: ['All', ...new Set(memories)],
+		rate: ['All', ...new Set(rates)]
+	} as OysterFiltersModel;
+}
+
+export function getUpdatedFiltersList(
+	previousFilters: OysterFiltersModel,
+	currentFilters: OysterFiltersModel,
+	filterIdOrders: (keyof OysterFiltersModel)[]
+) {
+	let newFilter: any = { ...currentFilters };
+	for (const id of filterIdOrders) {
+		newFilter[id as keyof OysterFiltersModel] = previousFilters[id as keyof OysterFiltersModel];
+	}
+	return newFilter;
 }
 
 export const getRateForProviderAndFilters = (

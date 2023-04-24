@@ -27,6 +27,7 @@
 	import { openModal } from '$lib/utils/helpers/commonHelper';
 	import AmendRateModal from './modals/AmendRateModal.svelte';
 	import { BigNumber } from 'ethers';
+	import { buttonClasses } from '$lib/atoms/componentClasses';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;

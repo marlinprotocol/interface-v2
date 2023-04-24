@@ -1,18 +1,20 @@
 <script lang="ts">
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
-	import { inputClasses } from '$lib/atoms/componentClasses';
+	import { buttonClasses, inputClasses } from '$lib/atoms/componentClasses';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import CollapseButton from '../buttons/CollapseButton.svelte';
+	import type { InputCardVariant } from '$lib/types/componentTypes';
 
 	export let dataList: (string | number)[] = [];
 	export let searchValue: string | number | undefined = '';
 	export let title: string;
+	export let showTitle = true;
+	export let onlyFilters = false;
 	export let placeholder = 'Search';
 	export let styleClass = '';
+	export let cardVariant: InputCardVariant | undefined = 'primary';
 	export let setSearchValue: (value: string | number) => any;
-
-	// const dispatch = createEventDispatcher();
 
 	let suggestions: (string | number)[] = [];
 	let showSuggestions = false;
@@ -63,27 +65,39 @@
 	};
 </script>
 
-<InputCard {styleClass}>
-	<div class={styles.rowWrapper}>
-		<div class={styles.titleIcon}>
-			<Text variant="small" text={title} />
-		</div>
-		<slot name="titleEndButton" />
-	</div>
+<InputCard {styleClass} variant={cardVariant}>
 	<div class="relative search-container">
-		<div class="input-group items-center">
-			<input
-				class={styles.inputSearch}
-				{placeholder}
-				value={searchValue ?? ''}
-				on:input={handleSearch}
-			/>
-			<CollapseButton
-				isOpen={showSuggestions}
-				onclick={handleToggleShowAllSuggestions}
-				disabled={dataList.length === 0}
-			/>
-		</div>
+		{#if showTitle}
+			<div class={styles.rowWrapper}>
+				<div class={styles.titleIcon}>
+					<Text variant="small" text={onlyFilters ? placeholder : title} />
+				</div>
+				{#if onlyFilters}
+					<CollapseButton
+						isOpen={showSuggestions}
+						onclick={handleToggleShowAllSuggestions}
+						disabled={dataList.length === 0}
+						styleClass={buttonClasses.dropdownIcon}
+					/>
+				{/if}
+			</div>
+		{/if}
+		{#if !onlyFilters}
+			<div class="input-group items-center">
+				<input
+					class={styles.inputSearch}
+					{placeholder}
+					value={searchValue ?? ''}
+					on:input={handleSearch}
+				/>
+				<CollapseButton
+					isOpen={showSuggestions}
+					onclick={handleToggleShowAllSuggestions}
+					disabled={dataList.length === 0}
+					styleClass={buttonClasses.dropdownIcon}
+				/>
+			</div>
+		{/if}
 
 		{#if showSuggestions && suggestions.length > 0}
 			<ul

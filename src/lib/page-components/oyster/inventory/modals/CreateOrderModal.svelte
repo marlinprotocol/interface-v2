@@ -238,13 +238,13 @@
 			<div class="flex gap-2">
 				<div class="w-full">
 					<SearchWithSelect
-						dataList={filterData?.instances ?? []}
+						dataList={filterData?.instance ?? []}
 						searchValue={values.instance.value}
 						setSearchValue={(value) => {
 							values.instance = handleFieldChange(
 								values.instance,
 								value,
-								filterData?.instances ?? [],
+								filterData?.instance ?? [],
 								values.instance.title
 							);
 						}}
@@ -259,13 +259,13 @@
 				</div>
 				<div class="w-full">
 					<SearchWithSelect
-						dataList={filterData?.regions ?? []}
+						dataList={filterData?.region ?? []}
 						searchValue={values.region.value}
 						setSearchValue={(value) => {
 							values.region = handleFieldChange(
 								values.region,
 								value,
-								filterData?.regions ?? [],
+								filterData?.region ?? [],
 								values.region.title
 							);
 						}}

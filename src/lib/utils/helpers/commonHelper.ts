@@ -111,18 +111,16 @@ export function capitalizeFirstLetter(string: string) {
  * @param string
  * @returns
  * @example checkValidURL('https://google.com') => true
+ * @example checkValidURL('http://3.108.237.212:8080') => true
+ * @example checkValidURL('http://example.com/path') => true
+ * @example checkValidURL('http://example.com/') => false as it has an ending slash at the end
+ * @example checkValidURL('example.com') => false as it has no http:// or https:// at the start
  */
 export function checkValidURL(str: string) {
-	const pattern = new RegExp(
-		'^(https?:\\/\\/)?' + // protocol
-			'((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-			'((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-			'(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-			'(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-			'(\\#[-a-z\\d_]*)?$',
-		'i'
-	); // fragment locator
-	return !!pattern.test(str);
+	const validPattern = '^(http|https):\\/\\/[\\w.-]+(:\\d+)?(\\/\\S*)?[^\\/]$';
+	const validUrlRegex = new RegExp(validPattern);
+
+	return validUrlRegex.test(str);
 }
 
 export const goerliArbiUrl = (txnHash: string) => {

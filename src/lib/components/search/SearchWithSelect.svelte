@@ -59,7 +59,6 @@
 			<Select
 				{dataList}
 				bind:value={searchValue}
-				{title}
 				setValue={setSearchValue}
 				bind:showSuggestions
 				bind:suggestions

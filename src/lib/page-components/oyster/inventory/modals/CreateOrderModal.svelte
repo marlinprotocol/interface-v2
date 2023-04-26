@@ -115,7 +115,6 @@
 		if (!rate || !cost || !values.instance.value || !values.region.value) {
 			return;
 		}
-
 		const { vcpu, memory } = getvCpuMemoryData(values.instance.value);
 		const metadata = JSON.stringify({
 			instanceType: values.instance.value,
@@ -190,7 +189,7 @@
 	$: vcpu = instanceData.vcpu?.toString() ?? '';
 	$: memory = instanceData.memory?.toString() ?? '';
 
-	$: filterData = getAllFiltersListforMarketplaceData(allMarketplaceData);
+	$: filterData = getAllFiltersListforMarketplaceData(allMarketplaceData, false);
 	$: duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
 	$: durationUnitInSec = kDurationUnitsList.find((unit) => unit.label === durationUnit)?.value ?? 1;
 

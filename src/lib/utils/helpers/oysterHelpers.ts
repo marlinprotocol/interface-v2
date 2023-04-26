@@ -245,11 +245,11 @@ export const getFilteredMarketplaceData = (
 	allMarketplaceData: OysterMarketplaceDataModel[],
 	filterMap: Partial<OysterMarketplaceFilterModel>
 ) => {
+	// for provider, we are checking substring match and need do check on both name and address
 	if (filterMap.provider) {
+		const value = filterMap.provider.toLowerCase();
 		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return (
-				item.provider.address === filterMap.provider || item.provider.name === filterMap.provider
-			);
+			return item.provider.address.includes(value) || item.provider.name?.includes(value);
 		});
 	}
 
@@ -286,7 +286,10 @@ export const getFilteredMarketplaceData = (
 	return allMarketplaceData;
 };
 
-export function getAllFiltersListforMarketplaceData(filteredData: OysterMarketplaceDataModel[]) {
+export function getAllFiltersListforMarketplaceData(
+	filteredData: OysterMarketplaceDataModel[],
+	addAllOption = true
+) {
 	const providers = filteredData.map((item) =>
 		item.provider.name && item.provider.name != '' ? item.provider.name : item.provider.address
 	);
@@ -304,15 +307,20 @@ export function getAllFiltersListforMarketplaceData(filteredData: OysterMarketpl
 
 	return {
 		allMarketplaceData: filteredData,
-		provider: ['All', ...new Set(providers)],
-		instance: ['All', ...new Set(instances)],
-		region: ['All', ...new Set(regions)],
-		vcpu: ['All', ...new Set(vcpus)],
-		memory: ['All', ...new Set(memories)],
-		rate: ['All', ...new Set(rates)]
+		provider: addAllToList(providers, addAllOption),
+		instance: addAllToList(instances, addAllOption),
+		region: addAllToList(regions, addAllOption),
+		vcpu: addAllToList(vcpus, addAllOption),
+		memory: addAllToList(memories, addAllOption)
+		// rate: addAllToList(rates, addAllOption)
 	} as OysterFiltersModel;
 }
 
+const addAllToList = (data: (string | number)[], addAllOption: boolean) => {
+	const setData = [...new Set(data)];
+	if (!addAllOption || setData.length === 0) return setData;
+	return ['All', ...setData];
+};
 export function getUpdatedFiltersList(
 	previousFilters: OysterFiltersModel,
 	currentFilters: OysterFiltersModel,

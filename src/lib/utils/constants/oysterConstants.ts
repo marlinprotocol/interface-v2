@@ -14,7 +14,7 @@ export const kOysterRateMetaData = {
 	decimal: 18,
 	rateUnit: 'hour',
 	rateUnitInSeconds: 3600,
-	userDurationUnit: 'day',
+	userDurationUnit: 'day', //TODO: remove these two
 	userDurationUnitInRateUnit: 24
 };
 

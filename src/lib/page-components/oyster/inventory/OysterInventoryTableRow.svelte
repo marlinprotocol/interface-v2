@@ -27,10 +27,10 @@
 	import { openModal } from '$lib/utils/helpers/commonHelper';
 	import AmendRateModal from './modals/AmendRateModal.svelte';
 	import { BigNumber } from 'ethers';
-	import { buttonClasses } from '$lib/atoms/componentClasses';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
+	export let expandedRows: Set<string>;
 
 	const { symbol } = kOysterRateMetaData;
 	$: ({
@@ -40,18 +40,28 @@
 		vcpu,
 		memory,
 		rate,
+		id,
 		live,
 		balance,
 		endEpochTime // epoch time in seconds based on duration left
 	} = rowData);
-
-	let openRow = -1;
 
 	let stopInitiateEndTimestamp = 0;
 	let rateReviseInitiateEndTimestamp = 0;
 	let revisedRate: BigNumber = BigNumberZero;
 	let stopLoading = false;
 	let amendLoading = false;
+
+	// Handler function for toggling the expansion of a row
+	function toggleRowExpansion(rowId: string) {
+		if (expandedRows.has(rowId)) {
+			expandedRows.delete(rowId);
+		} else {
+			expandedRows.add(rowId);
+		}
+		// assignment to self for reactivity purposes check out svelte docs updating arrays and object for more info
+		expandedRows = expandedRows;
+	}
 
 	const handleStopClick = async () => {
 		stopLoading = true;
@@ -71,6 +81,8 @@
 		openModal(`job-amend-rate-modal-${rowIndex}`);
 		amendLoading = false;
 	};
+
+	$: isOpen = expandedRows.has(id.toString());
 </script>
 
 {#if live}
@@ -122,15 +134,15 @@
 		</TableGridDataCell>
 		<TableGridDataCell width={`${kInventoryTableColumnsWidth('action')}`}>
 			<CollapseButton
-				isOpen={openRow === rowIndex}
+				{isOpen}
 				onclick={() => {
-					openRow = openRow === rowIndex ? -1 : rowIndex;
+					toggleRowExpansion(id.toString());
 				}}
 			/>
 		</TableGridDataCell>
 	</div>
 	<div class="expanded-row">
-		{#if openRow === rowIndex}
+		{#if isOpen}
 			<div transition:slide={{ duration: 400 }} class="flex gap-4 mt-4 mb-8 px-8">
 				<ModalButton
 					variant="filled"

@@ -99,8 +99,11 @@
 		});
 
 		submitLoading = true;
-		await handleCreateJob(metadata, jobValues.merchant.value, rate, cost, duration);
+		const success = await handleCreateJob(metadata, jobValues.merchant.value, rate, cost, duration);
 		submitLoading = false;
+		if (!success) {
+			return;
+		}
 		resetInputs();
 		closeModal(modalFor);
 		goto(kOysterOwnerInventory);

@@ -272,8 +272,9 @@ export async function handleCreateJob(
 				allowance: value.allowance.sub(balance)
 			};
 		});
+		return true;
 	} catch (e) {
 		console.log('e :>> ', e);
-		// return jobData;
+		return false;
 	}
 }

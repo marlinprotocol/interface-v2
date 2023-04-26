@@ -25,6 +25,7 @@
 	import { onDestroy } from 'svelte';
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from './sub-components/InstancesTable.svelte';
+	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import {
 		getInstancesFromControlPlaneUsingCpUrl,
 		getInstancesFromControlPlaneUsingOperatorAddress
@@ -36,6 +37,7 @@
 	};
 
 	let displayAddress = '';
+	let enableRegisterButton = false;
 
 	let updatedCpURL = '';
 	let registeredCpURL = '';
@@ -112,8 +114,12 @@
 
 	// using regex to validate CP URL
 	$: validCPUrl = checkValidURL(updatedCpURL);
+	$: console.log(updatedCpURL, validCPUrl);
 	$: instances =
 		registeredCpURL === '' && updatedCpURL && validCPUrl ? getInstances(true) : getInstances(false);
+	$: instances
+		.then((data) => (enableRegisterButton = true))
+		.catch((error) => (enableRegisterButton = false));
 </script>
 
 <ContainerCard>
@@ -167,6 +173,10 @@
 			{/if}
 		</svelte:fragment>
 	</TextInputWithEndButton>
+	<ErrorTextCard
+		showError={!validCPUrl && updatedCpURL !== ''}
+		errorMessage={'Invalid control plane URL. Make sure to use the full url along with http:// or https:// and remove any trailing slashes.'}
+	/>
 	{#await instances}
 		<InstancesTable {validCPUrl} tableData={[]} loading />
 	{:then value}
@@ -206,7 +216,7 @@
 				variant="filled"
 				size="large"
 				styleClass="w-full"
-				disabled={!validCPUrl}
+				disabled={!validCPUrl || !enableRegisterButton}
 				onclick={handleOnRegister}
 			>
 				Register

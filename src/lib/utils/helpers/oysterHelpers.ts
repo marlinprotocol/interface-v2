@@ -339,10 +339,10 @@ export const getRateForProviderAndFilters = (
 	allMarketplaceData: OysterMarketplaceDataModel[]
 ) => {
 	const { instance, region } = values;
-	if (!instance.value || !region.value) return null;
+	if (!instance.value || !region.value) return undefined;
 
 	const instanceSelected = allMarketplaceData?.find(
 		(_item) => _item.instance === instance.value && _item.region === region.value
 	);
-	return instanceSelected?.rate ?? null;
+	return instanceSelected?.rate ?? undefined;
 };

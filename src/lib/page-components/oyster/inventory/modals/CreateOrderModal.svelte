@@ -2,35 +2,17 @@
 	import { goto } from '$app/navigation';
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
-	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
-	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
-	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
-	import Select from '$lib/components/select/Select.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import type {
 		OysterInventoryDataModel,
 		OysterMarketplaceDataModel
 	} from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import {
-		getDurationInSecondsForUnit,
-		kDurationUnitsList,
-		kOysterOwnerInventory,
-		kOysterRateMetaData
-	} from '$lib/utils/constants/oysterConstants';
-	import {
-		bigNumberToCommaString,
-		bigNumberToString,
-		stringToBigNumber
-	} from '$lib/utils/conversion';
+	import { kOysterOwnerInventory } from '$lib/utils/constants/oysterConstants';
 	import { getvCpuMemoryData } from '$lib/utils/data-modifiers/oysterModifiers';
-	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
-	import {
-		getAllFiltersListforMarketplaceData,
-		getRateForProviderAndFilters
-	} from '$lib/utils/helpers/oysterHelpers';
+	import { closeModal } from '$lib/utils/helpers/commonHelper';
+	import { getRateForProviderAndFilters } from '$lib/utils/helpers/oysterHelpers';
 	import {
 		handleApproveFundForOysterJob,
 		handleCreateJob
@@ -38,50 +20,28 @@
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
+	import AddFundsToJob from '../../sub-components/AddFundsToJob.svelte';
+	import MetadetailsForNewOrder from '../../sub-components/MetadetailsForNewOrder.svelte';
 
 	export let modalFor: string;
 	export let preFilledData: Partial<OysterInventoryDataModel> = {};
 
-	const { rateUnitInSeconds } = kOysterRateMetaData;
-	const durationUnitList = kDurationUnitsList.map((unit) => unit.label);
-
 	let allMarketplaceData: OysterMarketplaceDataModel[] = [];
 	let approvedAmount: BigNumber;
-	let maxBalance = BigNumberZero;
-	let durationUnit = 'Days';
 
-	let durationString = '';
-	let duration = 0;
-
-	let costString = '';
+	let duration = 0; //durationInSecs
 	let cost = BigNumberZero;
-	let rate = BigNumberZero;
+	let rate: BigNumber | undefined = undefined;
+	let invalidCost = false;
 
 	//loading states
 	let submitLoading = false;
-	let providerAddress: string | undefined;
-
-	let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		allMarketplaceData = value.allMarketplaceData;
-		console.log('allMarketplaceData :>> ', allMarketplaceData);
 		approvedAmount = value.allowance;
 	});
 	onDestroy(unsubscribeOysterStore);
-
-	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
-		maxBalance = value.pond;
-	});
-	onDestroy(unsubscribeWalletBalanceStore);
-
-	$: merchantList = [
-		...new Set(
-			allMarketplaceData.map((data) =>
-				data.provider.name && data.provider.name !== '' ? data.provider.name : data.provider.address
-			) ?? []
-		)
-	];
 
 	//initial states
 	const initialStates = {
@@ -109,7 +69,7 @@
 	};
 
 	// deep copy of initial states
-	let values = {
+	let jobValues = {
 		merchant: {
 			...initialStates.merchant
 		},
@@ -125,26 +85,20 @@
 	};
 
 	const handleSubmitClick = async () => {
-		if (!rate || !cost || !values.instance.value || !values.region.value) {
+		if (!rate || !cost || !jobValues.instance.value || !jobValues.region.value) {
 			return;
 		}
-		const { vcpu, memory } = getvCpuMemoryData(values.instance.value);
+		const { vcpu, memory } = getvCpuMemoryData(jobValues.instance.value);
 		const metadata = JSON.stringify({
-			instanceType: values.instance.value,
-			region: values.region.value,
+			instanceType: jobValues.instance.value,
+			region: jobValues.region.value,
 			memory: memory ?? '',
 			vcpu: vcpu ?? '',
-			url: values.enclaveImageUrl.value
+			url: jobValues.enclaveImageUrl.value
 		});
 
 		submitLoading = true;
-		await handleCreateJob(
-			metadata,
-			values.merchant.value,
-			rate,
-			cost,
-			duration * durationUnitInSec
-		);
+		await handleCreateJob(metadata, jobValues.merchant.value, rate, cost, duration);
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
@@ -161,86 +115,13 @@
 	};
 
 	const resetInputs = () => {
-		values = initialStates;
-		durationString = '';
+		jobValues = initialStates;
 		duration = 0;
-		costString = '';
 		cost = BigNumberZero;
-		rate = BigNumberZero;
+		rate = undefined;
 	};
 
-	const handleFieldChange = (
-		valueMap: { value: string; error: string; isDirty: boolean; title: string },
-		value: string | number,
-		dataList: string[],
-		fieldTitle: string
-	) => {
-		valueMap.value = value as string;
-		valueMap.isDirty = true;
-		if (value == '') {
-			valueMap.error = `${fieldTitle} is required`;
-		} else if (dataList.indexOf(value.toString()) == -1) {
-			valueMap.error = `${value} is not a valid ${fieldTitle}`;
-		} else {
-			valueMap.error = '';
-		}
-		return valueMap;
-	};
-
-	const handleMerchantChange = async (value: string | number) => {
-		const merchant = handleFieldChange(values.merchant, value, merchantList, 'Operator');
-		providerAddress = allMarketplaceData.find(
-			(data) => data.provider.name === value || data.provider.address === value
-		)?.provider.address;
-		values = {
-			...values,
-			instance: initialStates.instance,
-			region: initialStates.region,
-			merchant
-		};
-	};
-
-	// TODO: reset duration, cost on rate change
-	const handleDurationChange = (e: any) => {
-		const value = e.target.value;
-		durationString = value;
-		duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
-		const durationInSecond = Math.floor(duration * durationUnitInSec);
-		if (rate) {
-			cost = rate.mul(durationInSecond).div(rateUnitInSeconds);
-			costString = bigNumberToString(cost);
-		}
-	};
-
-	const handleDurationUnitChange = (unit: any) => {
-		durationUnitInSec = getDurationInSecondsForUnit(unit);
-		const durationInSecond = Math.floor(duration * durationUnitInSec);
-		if (rate) {
-			if (duration) {
-				cost = rate.mul(durationInSecond).div(rateUnitInSeconds);
-				costString = bigNumberToString(cost);
-			}
-		}
-	};
-
-	const handleCostChange = (e: any) => {
-		const value = e.target.value;
-		costString = value;
-		cost = isInputAmountValid(costString) ? stringToBigNumber(costString) : BigNumberZero;
-
-		if (cost && rate) {
-			const durationInSecond = cost.mul(rateUnitInSeconds).div(rate).toNumber();
-			duration = Math.floor(durationInSecond / durationUnitInSec);
-			durationString = duration.toString();
-		}
-	};
-
-	$: instanceData = getvCpuMemoryData(values.instance.value);
-	$: vcpu = instanceData.vcpu?.toString() ?? '';
-	$: memory = instanceData.memory?.toString() ?? '';
-
-	$: filterData = getAllFiltersListforMarketplaceData(allMarketplaceData, false);
-	$: rate = getRateForProviderAndFilters(values, allMarketplaceData) ?? BigNumberZero;
+	$: rate = getRateForProviderAndFilters(jobValues, allMarketplaceData);
 
 	$: approved = cost && approvedAmount?.gte(cost) && cost.gt(BigNumberZero);
 
@@ -248,16 +129,14 @@
 		duration &&
 		cost?.gt(BigNumberZero) &&
 		rate &&
-		maxBalance.gte(cost) &&
-		!values.merchant.error &&
-		values.merchant.value != '' &&
-		!values.region.error &&
-		values.region.value != '' &&
-		!values.instance.error &&
-		values.instance.value != '' &&
-		values.enclaveImageUrl.value != '';
-
-	$: inValidMessage = !cost ? '' : !maxBalance.gte(cost) ? 'Insufficient balance' : '';
+		!invalidCost &&
+		!jobValues.merchant.error &&
+		jobValues.merchant.value != '' &&
+		!jobValues.region.error &&
+		jobValues.region.value != '' &&
+		!jobValues.instance.error &&
+		jobValues.instance.value != '' &&
+		jobValues.enclaveImageUrl.value != '';
 
 	const subtitle =
 		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
@@ -276,119 +155,13 @@
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-2 px-4">
-			<SearchWithSelect
-				dataList={merchantList}
-				searchValue={values.merchant.value}
-				setSearchValue={handleMerchantChange}
-				title={'Operator'}
-				placeholder={'Enter operator name or address'}
-			/>
-			<ErrorTextCard
-				showError={values.merchant.isDirty && values.merchant.error != ''}
-				errorMessage={values.merchant.error}
-				styleClass={'mt-0'}
-			/>
-			<div class="flex gap-2">
-				<div class="w-full">
-					<SearchWithSelect
-						dataList={filterData?.instance ?? []}
-						searchValue={values.instance.value}
-						setSearchValue={(value) => {
-							values.instance = handleFieldChange(
-								values.instance,
-								value,
-								filterData?.instance ?? [],
-								values.instance.title
-							);
-						}}
-						title={'Instance'}
-						placeholder={'Select instance'}
-					/>
-				</div>
-				<div class="w-full">
-					<SearchWithSelect
-						dataList={filterData?.region ?? []}
-						searchValue={values.region.value}
-						setSearchValue={(value) => {
-							values.region = handleFieldChange(
-								values.region,
-								value,
-								filterData?.region ?? [],
-								values.region.title
-							);
-						}}
-						title={'Region'}
-						placeholder={'Select region'}
-					/>
-				</div>
-			</div>
-			<ErrorTextCard
-				showError={values.instance.isDirty && values.instance.error != ''}
-				errorMessage={values.instance.error}
-				styleClass={'mt-0'}
-			/>
-			<ErrorTextCard
-				showError={values.region.isDirty && values.region.error != ''}
-				errorMessage={values.region.error}
-				styleClass={'mt-0'}
-			/>
-			<div class="flex gap-2">
-				<div class="w-full">
-					<TextInputWithEndButton
-						title={'vCPU'}
-						input={vcpu}
-						placeholder={'Select Instance'}
-						disabled
-					/>
-				</div>
-				<div class="w-full">
-					<TextInputWithEndButton
-						title={'Memory'}
-						input={memory}
-						placeholder={'Select Instance'}
-						disabled
-					/>
-				</div>
-			</div>
-			<div class="flex gap-2">
-				<AmountInputWithTitle
-					title={'Hourly Rate'}
-					inputAmountString={rate ? bigNumberToCommaString(rate, 6) : ''}
-					disabled
-					prefix={'$'}
-				/>
-				<AmountInputWithTitle
-					title={'Duration'}
-					inputAmountString={durationString}
-					suffix={durationUnit}
-					handleUpdatedAmount={handleDurationChange}
-					onlyInteger
-				>
-					<div slot="endButton">
-						<Select
-							dataList={durationUnitList}
-							bind:value={durationUnit}
-							setValue={handleDurationUnitChange}
-						/>
-					</div>
-				</AmountInputWithTitle>
-				<AmountInputWithTitle
-					title={'Cost'}
-					inputAmountString={costString}
-					handleUpdatedAmount={handleCostChange}
-					suffix={'USDC'}
-				/>
-			</div>
-			<ErrorTextCard
-				showError={inValidMessage != ''}
-				errorMessage={inValidMessage}
-				styleClass="mt-0"
-			/>
+			<MetadetailsForNewOrder bind:jobValues {initialStates} {allMarketplaceData} />
+			<AddFundsToJob bind:cost bind:duration bind:invalidCost {rate} />
 			<TextInputWithEndButton
 				styleClass={styles.inputText}
 				title={'Enclave Image URL'}
 				placeholder={'Paste URL here'}
-				bind:input={values.enclaveImageUrl.value}
+				bind:input={jobValues.enclaveImageUrl.value}
 			/>
 		</div>
 	</svelte:fragment>

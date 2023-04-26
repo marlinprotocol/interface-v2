@@ -4,8 +4,7 @@ import type {
 	CPInstances,
 	CPUrlDataModel,
 	OysterInventoryDataModel,
-	OysterMarketplaceDataModel,
-	OysterMarketplaceFilterModel
+	OysterMarketplaceDataModel
 } from '$lib/types/oysterComponentType';
 import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';

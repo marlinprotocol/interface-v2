@@ -13,7 +13,6 @@
 		removeOysterInfrastructureProvider,
 		updateOysterInfrastructureProvider
 	} from '$lib/controllers/contractController';
-	import { getInstancesFromControlPlane } from '$lib/controllers/httpController';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
@@ -26,6 +25,10 @@
 	import { onDestroy } from 'svelte';
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from './sub-components/InstancesTable.svelte';
+	import {
+		getInstancesFromControlPlaneUsingCpUrl,
+		getInstancesFromControlPlaneUsingOperatorAddress
+	} from '$lib/controllers/httpController';
 
 	const styles = {
 		docButton: 'text-primary',
@@ -95,9 +98,9 @@
 	async function getInstances(useUpdatedCpURL: boolean) {
 		try {
 			if (useUpdatedCpURL) {
-				return await getInstancesFromControlPlane(updatedCpURL);
+				return await getInstancesFromControlPlaneUsingCpUrl(updatedCpURL);
 			} else if (registeredCpURL !== '') {
-				return await getInstancesFromControlPlane(registeredCpURL);
+				return await getInstancesFromControlPlaneUsingOperatorAddress($walletStore.address);
 			} else {
 				return [];
 			}
@@ -109,7 +112,8 @@
 
 	// using regex to validate CP URL
 	$: validCPUrl = checkValidURL(updatedCpURL);
-	$: instances = updatedCpURL ? getInstances(validCPUrl) : [];
+	$: instances =
+		registeredCpURL === '' && updatedCpURL && validCPUrl ? getInstances(true) : getInstances(false);
 </script>
 
 <ContainerCard>

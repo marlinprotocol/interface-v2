@@ -6,10 +6,7 @@
 		depositStakingToken,
 		withdrawStakingToken
 	} from '$lib/controllers/contractController';
-	import {
-		getContractDetails,
-		getInstancesFromControlPlane
-	} from '$lib/controllers/httpController';
+	import { getContractDetails } from '$lib/controllers/httpController';
 	import { getReceiverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
@@ -54,11 +51,6 @@
 	function fetchContractDetails() {
 		console.log('fetching contract details');
 		getContractDetails();
-	}
-
-	async function fetchInstancesFromControlPlane() {
-		console.log('fetching instances from control plane');
-		await getInstancesFromControlPlane('http://3.110.115.29:8080/spec');
 	}
 
 	function onClickHandlerForToastError() {
@@ -153,5 +145,4 @@
 			>this is a modal button</ModalButton
 		>
 	</div>
-	<Button onclick={() => fetchInstancesFromControlPlane()}>fetch the instances</Button>
 </div>

@@ -1,6 +1,7 @@
 import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 import ENVIRONMENT from '$lib/environments/environment';
 import type { CPInstances } from '$lib/types/oysterComponentType';
+import type { Address } from '$lib/types/storeTypes';
 import { GET_OPTIONS } from '$lib/utils/constants/constants';
 import { getModifiedInstances } from '$lib/utils/data-modifiers/oysterModifiers';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
@@ -82,12 +83,23 @@ export async function getBridgeContractDetails() {
 	}
 }
 
-// TODO: ask if /spec is expected in the input of control place or we have to explicitly check
-export async function getInstancesFromControlPlane(controlPlaneUrl: string) {
-	const controlPlaneUrlWithSpecEndpoint = controlPlaneUrl.trim() + '/spec';
-
+export async function getInstancesFromControlPlaneUsingCpUrl(controlPlaneUrl: string) {
+	const controlPlaneDetailsEndpoint =
+		'https://api.aragog.live/operators/spec/cp/' + encodeURIComponent(controlPlaneUrl.trim());
 	const options = GET_OPTIONS;
-	const instances: CPInstances = await fetchHttpData(controlPlaneUrlWithSpecEndpoint, options);
+	const instances: CPInstances = await fetchHttpData(controlPlaneDetailsEndpoint, options);
+
+	if (!instances) {
+		throw new Error('Unable to fetch instances');
+	}
+	return getModifiedInstances(instances);
+}
+
+export async function getInstancesFromControlPlaneUsingOperatorAddress(operatorAddress: Address) {
+	const controlPlaneDetailsEndpoint =
+		'https://api.aragog.live/operators/spec/' + operatorAddress.trim();
+	const options = GET_OPTIONS;
+	const instances: CPInstances = await fetchHttpData(controlPlaneDetailsEndpoint, options);
 
 	if (!instances) {
 		throw new Error('Unable to fetch instances');

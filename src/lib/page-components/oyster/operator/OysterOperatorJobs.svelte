@@ -37,9 +37,9 @@
 		activePage = page;
 	};
 
-	const onSearchClick = () => {
-		activePage = 1;
-	};
+	// const onSearchClick = () => {
+	// 	activePage = 1;
+	// };
 
 	const handleSortData = (id: string) => {
 		if (sortingMap[id]) {
@@ -66,15 +66,11 @@
 
 <PageTitle title={'My Job List'} backHref={'/oyster/operator'} />
 <div class="flex gap-4 items-center mb-6">
-	<SearchBar
-		{onSearchClick}
-		bind:input={searchInput}
-		placeholder={'Search'}
-		styleClass={'w-full'}
-	/>
-	<a href={kOperatorHistory}>
+	<SearchBar bind:input={searchInput} placeholder={'Search'} styleClass={'w-full'} />
+	<!-- commenting the operator history page -->
+	<!-- <a href={kOperatorHistory}>
 		<div class={`h-12 ${buttonClasses.outlined}`}>HISTORY</div>
-	</a>
+	</a> -->
 </div>
 <OysterInventoryTable
 	{handleSortData}

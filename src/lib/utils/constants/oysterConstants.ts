@@ -14,7 +14,7 @@ export const kOysterRateMetaData = {
 	decimal: 18,
 	rateUnit: 'hour',
 	rateUnitInSeconds: 3600,
-	userDurationUnit: 'day',
+	userDurationUnit: 'day', //TODO: remove these two
 	userDurationUnitInRateUnit: 24
 };
 
@@ -388,3 +388,31 @@ export const kMarketplaceTableColumnsWidth = (id: string) => {
 
 export const kOysterDocLink = 'https://docs.marlin.org/docs/User%20Guides/Oyster/';
 export const kOysterSupportLink = 'https://docs.marlin.org/docs/category/tutorials';
+
+export const kDurationUnitsList = [
+	{
+		label: 'Minutes',
+		id: 'minute',
+		value: 60
+	},
+	{
+		label: 'Hours',
+		id: 'hour',
+		value: 3600
+	},
+	{
+		label: 'Days',
+		id: 'day',
+		value: 86400
+	},
+	{
+		label: 'Weeks',
+		id: 'week',
+		value: 86400 * 7
+	},
+	{
+		label: 'Months',
+		id: 'month',
+		value: 86400 * 30
+	}
+];

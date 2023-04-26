@@ -84,5 +84,5 @@ export interface OysterFiltersModel {
 	region: string[];
 	vcpu: (number | string)[];
 	memory: (number | string)[];
-	rate: (number | string)[];
+	// rate: (number | string)[];
 }

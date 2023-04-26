@@ -48,7 +48,7 @@
 	};
 </script>
 
-<div class="w-full flex gap-2 items-end my-2">
+<div class="w-full flex gap-2 items-end">
 	<div class="w-full">
 		<SearchWithSelect
 			dataList={allFilters?.provider}
@@ -65,7 +65,7 @@
 				dataList={allFilters?.instance}
 				searchValue={filterMap.instance ?? 'All'}
 				setSearchValue={(value) => handleFilterData('instance', value)}
-				title={'Instance'}
+				title={'Filter by Instance'}
 				placeholder={'Filter by Instance'}
 				onlyFilters={true}
 				styleClass={'w-full'}
@@ -75,7 +75,7 @@
 				dataList={allFilters?.region}
 				searchValue={filterMap.region ?? 'All'}
 				setSearchValue={(value) => handleFilterData('region', value)}
-				title={'Region'}
+				title={'Filter by Region'}
 				placeholder={'Filter by Region'}
 				onlyFilters={true}
 				cardVariant={'search'}
@@ -84,7 +84,7 @@
 				dataList={allFilters?.memory}
 				searchValue={filterMap.memory ?? 'All'}
 				setSearchValue={(value) => handleFilterData('memory', value)}
-				title={'Memory'}
+				title={'Filter by Memory'}
 				placeholder={'Filter by Memory'}
 				onlyFilters={true}
 				cardVariant={'search'}
@@ -93,7 +93,7 @@
 				dataList={allFilters?.vcpu}
 				searchValue={filterMap.vcpu ?? 'All'}
 				setSearchValue={(value) => handleFilterData('vcpu', value)}
-				title={'vCPU'}
+				title={'Filter by vCPU'}
 				placeholder={'Filter by vCPU'}
 				onlyFilters={true}
 				cardVariant={'search'}

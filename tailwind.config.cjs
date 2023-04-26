@@ -116,7 +116,7 @@ module.exports = {
 							background: 'transparent'
 						}
 					},
-					'.input-group :last-child': {
+					'.input-group :icon': {
 						'border-radius': '100px'
 					},
 					'.btn': {

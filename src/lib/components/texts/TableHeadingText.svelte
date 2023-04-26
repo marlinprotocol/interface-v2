@@ -20,10 +20,15 @@
 	<!-- TODO: move this to span -->
 	{#if sorting}
 		<button on:click={handleSortData}>
-			<img src={staticImages.Sort} alt="sort" width="16px" />
+			<div class="flex gap-1 items-center">
+				<img src={staticImages.Sort} alt="sort" width="16px" />
+				{title}
+			</div>
 		</button>
+	{:else}
+		{title}
 	{/if}
-	{title}
+
 	{#if !!tooltipText}
 		<TooltipIcon {tooltipText} {tooltipDirection} {iconWidth} />
 	{/if}

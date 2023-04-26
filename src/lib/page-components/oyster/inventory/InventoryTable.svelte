@@ -9,12 +9,14 @@
 	export let tableHeading: TableModel['header'][];
 	export let handleSortData: (id: string) => void;
 	export let widthFunction: (id: string) => string;
+	export let walletConnectionRequired: boolean = true;
+
 	let loading = false;
 	let noDataFound = false;
 </script>
 
 <div class={`card max-w-full bg-base-100 rounded-lg overflow-x-auto`}>
-	{#if !$connected}
+	{#if !$connected && walletConnectionRequired}
 		<div class={`text-center flex justify-center my-4`}>
 			<HeaderConnectWallet />
 		</div>

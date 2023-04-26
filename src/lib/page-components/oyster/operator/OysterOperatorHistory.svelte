@@ -32,6 +32,10 @@
 		activePage = page;
 	};
 
+	const onSearchClick = () => {
+		activePage = 1;
+	};
+
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		operatorHistoryData = value.jobsData;
 		operatorHistoryData = operatorHistoryData?.filter((data) => !data.live);
@@ -68,6 +72,7 @@
 	<PageTitle title={'History of Claims'} backHref={kOperatorJobs} />
 	<div class="flex gap-4 items-center mb-6">
 		<SearchBar
+			{onSearchClick}
 			bind:input={searchInput}
 			placeholder={'Search for user, instance or region'}
 			styleClass={'w-full'}

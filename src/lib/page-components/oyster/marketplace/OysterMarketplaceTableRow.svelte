@@ -1,9 +1,11 @@
 <script lang="ts">
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
+	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
+	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
 	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import {
@@ -56,11 +58,17 @@
 		{memory}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kMarketplaceTableColumnsWidth('action')}`}>
-		<TableConvertButton
-			modalFor={`create-order-modal-${rowIndex}`}
-			text="DEPLOY"
-			styleClass="w-full"
-		/>
+		{#if !$connected}
+			<div class={`text-center flex justify-center`}>
+				<ConnectWalletButton connectButtonText={'Connect'} />
+			</div>
+		{:else}
+			<TableConvertButton
+				modalFor={`create-order-modal-${rowIndex}`}
+				text="DEPLOY"
+				styleClass="w-fit px-6"
+			/>
+		{/if}
 	</TableGridDataCell>
 </div>
 <CreateOrderModal modalFor={`create-order-modal-${rowIndex}`} preFilledData={rowData} />

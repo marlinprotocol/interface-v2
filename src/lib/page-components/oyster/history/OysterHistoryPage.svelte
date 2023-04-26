@@ -4,6 +4,7 @@
 	import SearchBar from '$lib/components/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import { connected } from '$lib/data-stores/walletProviderStore';
 	import OysterInventoryTable from '$lib/page-components/oyster/inventory/InventoryTable.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import {
@@ -47,6 +48,10 @@
 		activePage = page;
 	};
 
+	const onSearchClick = () => {
+		activePage = 1;
+	};
+
 	// get searched data based on searchInput
 	$: searchedData = getSearchedInventoryData(searchInput, inventoryData);
 
@@ -64,6 +69,8 @@
 	<PageTitle title={'My Past Orders'} backHref={'/oyster/inventory'} />
 	<div class="flex gap-4 items-center mb-6">
 		<SearchBar
+			disabled={!$connected}
+			{onSearchClick}
 			bind:input={searchInput}
 			placeholder={'Search for operator, instance or region'}
 			styleClass={'w-full'}

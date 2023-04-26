@@ -37,6 +37,10 @@
 		activePage = page;
 	};
 
+	// const onSearchClick = () => {
+	// 	activePage = 1;
+	// };
+
 	const handleSortData = (id: string) => {
 		if (sortingMap[id]) {
 			sortingMap[id] = sortingMap[id] === 'asc' ? 'desc' : 'asc';

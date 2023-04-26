@@ -31,9 +31,12 @@
 			allMarketplaceData
 		});
 	}
-	$: if ($connected) {
-		init();
-	}
+	// marketplace data will be fetched even if user is not connected
+	init();
+
+	// $: if ($connected) {
+	// 	init();
+	// }
 </script>
 
 <slot />

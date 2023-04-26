@@ -5,6 +5,7 @@
 	import onboard from '$lib/controllers/web3OnboardController';
 
 	export let isLarge = false;
+	export let connectButtonText = 'Connect Wallet';
 
 	const connect = async () => {
 		console.log('connecting to the wallet...');
@@ -27,9 +28,9 @@
 		onclick={connect}
 		size="small"
 		variant="outlined"
-		styleClass={`${connectWalletStyles} w-fit text-sm h-11`}
+		styleClass={`${connectWalletStyles} w-fit text-sm h-11 flex items-center`}
 	>
 		<img src="/images/lockicon.svg" alt="Connect" />
-		Connect Wallet
+		{connectButtonText}
 	</Button>
 {/if}

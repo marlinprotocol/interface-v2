@@ -31,6 +31,9 @@
 	let loading = true;
 	let inventoryData: OysterInventoryDataModel[] | undefined;
 
+	// Defining a Set to store the indices of the expanded rows
+	let expandedRows = new Set<string>();
+
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		inventoryData = value.jobsData;
 		inventoryData = inventoryData.filter((job) => job.live);
@@ -105,7 +108,7 @@
 			</div>
 		{:else if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex}
-				<OysterInventoryTableRow {rowData} {rowIndex} />
+				<OysterInventoryTableRow {rowData} {rowIndex} {expandedRows} />
 			{/each}
 		{:else}
 			<div class={tableCellClasses.empty}>

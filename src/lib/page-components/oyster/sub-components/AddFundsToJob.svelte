@@ -38,18 +38,12 @@
 	});
 	onDestroy(unsubscribeWalletBalanceStore);
 
-	const resetInputs = () => {
-		durationString = '';
-		duration = 0;
-		costString = '';
-		cost = BigNumberZero;
-	};
-
 	// TODO: reset duration, cost on rate change
 	const handleDurationChange = (e: any) => {
 		const value = e.target.value;
 		durationString = value;
-		duration = Math.floor(durationInOtherUnit * durationUnitInSec);
+		const _durationInOtherUnit = isInputAmountValid(durationString) ? Number(durationString) : 0;
+		duration = Math.floor(_durationInOtherUnit * durationUnitInSec);
 		if (rate) {
 			cost = rate.mul(duration).div(rateUnitInSeconds);
 			costString = bigNumberToString(cost);

@@ -28,7 +28,7 @@
 
 	let allMarketplaceData: OysterMarketplaceDataModel[] = [];
 	let approvedAmount: BigNumber;
-	let providerAddress: string | undefined;
+	let providerAddress: string | undefined = preFilledData.provider?.address;
 
 	let duration = 0; //durationInSecs
 	let cost = BigNumberZero;

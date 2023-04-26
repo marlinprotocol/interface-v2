@@ -7,10 +7,9 @@
 	import { getAllFiltersListforMarketplaceData } from '$lib/utils/helpers/oysterHelpers';
 
 	export let allMarketplaceData: OysterMarketplaceDataModel[];
-	export let initialStates: any;
 	export let jobValues: any;
+	export let providerAddress: string | undefined;
 
-	let providerAddress: string | undefined;
 	$: merchantList = [
 		...new Set(
 			allMarketplaceData.map((data) =>
@@ -39,13 +38,26 @@
 
 	const handleMerchantChange = async (value: string | number) => {
 		const merchant = handleFieldChange(jobValues.merchant, value, merchantList, 'Operator');
-		providerAddress = allMarketplaceData.find(
-			(data) => data.provider.name === value || data.provider.address === value
-		)?.provider.address;
+		providerAddress =
+			value != ''
+				? allMarketplaceData.find(
+						(data) => data.provider.name === value || data.provider.address === value
+				  )?.provider.address
+				: undefined;
 		jobValues = {
 			...jobValues,
-			instance: initialStates.instance,
-			region: initialStates.region,
+			instance: {
+				...jobValues.instance,
+				error: '',
+				isDirty: false,
+				value: ''
+			},
+			region: {
+				...jobValues.region,
+				error: '',
+				isDirty: false,
+				value: ''
+			},
 			merchant
 		};
 	};

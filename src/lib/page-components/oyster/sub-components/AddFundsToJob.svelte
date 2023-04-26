@@ -58,6 +58,8 @@
 		const _cost = isInputAmountValid(_costString) ? stringToBigNumber(_costString) : BigNumberZero;
 		if (_cost && rate) {
 			duration = cost.mul(rateUnitInSeconds).div(rate).toNumber();
+		} else {
+			duration = 0;
 		}
 	};
 

@@ -5,7 +5,6 @@
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleApproveFundForOysterJob,

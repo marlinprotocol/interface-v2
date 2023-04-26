@@ -28,6 +28,7 @@
 
 	let allMarketplaceData: OysterMarketplaceDataModel[] = [];
 	let approvedAmount: BigNumber;
+	let providerAddress: string | undefined;
 
 	let duration = 0; //durationInSecs
 	let cost = BigNumberZero;
@@ -122,7 +123,7 @@
 		invalidCost = false;
 	};
 
-	$: rate = getRateForProviderAndFilters(jobValues, allMarketplaceData);
+	$: rate = getRateForProviderAndFilters(providerAddress, jobValues, allMarketplaceData);
 
 	$: approved = cost && approvedAmount?.gte(cost) && cost.gt(BigNumberZero);
 
@@ -156,7 +157,7 @@
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-2 px-4">
-			<MetadetailsForNewOrder bind:jobValues {initialStates} {allMarketplaceData} />
+			<MetadetailsForNewOrder bind:jobValues bind:providerAddress {allMarketplaceData} />
 			<AddFundsToJob bind:cost bind:duration bind:invalidCost {rate} />
 			<TextInputWithEndButton
 				styleClass={styles.inputText}

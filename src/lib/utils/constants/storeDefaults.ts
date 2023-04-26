@@ -3,6 +3,7 @@ import type {
 	ChainStore,
 	ContractAbi,
 	ContractAddress,
+	OysterStore,
 	ReceiverStakingData,
 	WalletBalance,
 	WalletStore
@@ -74,4 +75,14 @@ export const DEFAULT_BRIDGE_STORE: BridgeStore = {
 		mPond: BigNumberZero
 	},
 	requestedMPond: BigNumberZero
+};
+
+export const DEFAULT_OYSTER_STORE: OysterStore = {
+	providerData: {
+		registered: false
+	},
+	allMarketplaceData: [],
+	jobsData: [],
+	allowance: BigNumberZero,
+	merchantJobsData: []
 };

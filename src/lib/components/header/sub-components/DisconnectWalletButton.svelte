@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { ChainStore } from '$lib/types/storeTypes';
@@ -37,7 +38,7 @@
 	variant="whiteFilled"
 	styleClass="bg-base-100 h-[50px] cursor-pointer text-primary rounded-lg shadow-sm flex gap-4 items-center"
 >
-	<img src="/images/wallet-connected.svg" alt="Metamask Logo" />
+	<img src={staticImages.WalletConnected} alt="Metamask Logo" />
 	<div class={'flex flex-col text-left'}>
 		<h6 class={styles.network}>{chain?.chainDisplayName?.toLocaleUpperCase()}</h6>
 		<p class={styles.address}>{shortAddress}</p>

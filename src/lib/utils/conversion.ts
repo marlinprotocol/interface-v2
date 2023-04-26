@@ -1,6 +1,8 @@
 import { BigNumber, ethers } from 'ethers';
 import { BigNumberZero } from './constants/constants';
 
+export const hundredYears = 60 * 60 * 24 * 365 * 100; //not accounting for leap years
+
 /**
  * Returns duration string for a epoch
  * @param epoch epoch
@@ -8,14 +10,20 @@ import { BigNumberZero } from './constants/constants';
  * @returns string
  * @example 12334422 => 4 months 22 days 18 hours 13 mins 42 secs
  */
-export const epochToDurationString = (epoch: number, mini = false) => {
+export const epochToDurationString = (epoch: number, mini = false, uptoHoursOnly = false) => {
+	if (epoch >= hundredYears) return '100+ years';
 	const seconds = epoch % 60;
 	const minutes = Math.floor(epoch / 60) % 60;
 	const hours = Math.floor(epoch / (60 * 60)) % 24;
 	const days = Math.floor(epoch / (60 * 60 * 24)) % 30;
-	const months = Math.floor(epoch / (60 * 60 * 24 * 30));
+	const months = Math.floor(epoch / (60 * 60 * 24 * 30)) % 12;
+	const years = Math.floor(epoch / (60 * 60 * 24 * 365));
 
 	let durationString = '';
+	if (years > 0) {
+		durationString += years + (years > 1 ? ' years ' : ' year ');
+		if (mini) return durationString;
+	}
 	if (months > 0) {
 		durationString += months + (months > 1 ? ' months ' : ' month ');
 		if (mini) return durationString;
@@ -28,13 +36,15 @@ export const epochToDurationString = (epoch: number, mini = false) => {
 		durationString += hours + (hours > 1 ? ' hours ' : ' hour ');
 		if (mini) return durationString;
 	}
-	if (minutes > 0) {
-		durationString += minutes + (minutes > 1 ? ' mins ' : ' min ');
-		if (mini) return durationString;
-	}
-	if (seconds > 0) {
-		durationString += seconds.toFixed() + ' secs';
-		if (mini) return durationString;
+	if (!uptoHoursOnly) {
+		if (minutes > 0) {
+			durationString += minutes + (minutes > 1 ? ' mins ' : ' min ');
+			if (mini) return durationString;
+		}
+		if (seconds > 0) {
+			durationString += seconds.toFixed() + ' secs';
+			if (mini) return durationString;
+		}
 	}
 
 	return durationString;
@@ -58,12 +68,24 @@ export const bigNumberToCommaString = (value: BigNumber, decimals = 2) => {
 	// Replace 0.0 by an empty value
 	if (result === '0.0') return '0';
 
-	result = ethers.utils.commify(roundNumberString(result, decimals));
-	//add 0 to the end if decimal count is less than 2
-	if (result.split('.')[1]?.length < 2) {
-		result = result + '0';
+	let compareNum = BigNumberZero;
+
+	try {
+		compareNum = BigNumber.from(10).pow(18 - decimals);
+	} catch (e) {
+		console.log('e :>> ', e);
 	}
-	return result;
+
+	if (value.gt(compareNum)) {
+		result = ethers.utils.commify(roundNumberString(result, decimals));
+		//add 0 to the end if decimal count is less than 2
+		if (result.split('.')[1]?.length < 2) {
+			result = result + '0';
+		}
+		return result;
+	} else {
+		return '0' + '.' + '0'.repeat(decimals);
+	}
 };
 
 /**

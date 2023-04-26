@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
-	import TxnHashText from '$lib/components/TxnHashText.svelte';
+	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
 	import { getPondToMPondConversionHistory } from '$lib/controllers/subgraphController';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
@@ -8,7 +8,7 @@
 	import { kMPondHistoryPage, kPondToMPondTableHeader } from '$lib/utils/constants/bridgeConstants';
 	import { mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
-	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
+	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import HistoryTableCommon from './HistoryTableCommon.svelte';
@@ -60,7 +60,7 @@
 				<td class={tableCellClasses.row}>
 					<TxnHashText
 						txnHash={row.transactionHash}
-						txnHashUrl={bridgeTxnUrls(row.transactionHash)}
+						txnHashUrl={goerliArbiUrl(row.transactionHash)}
 					/>
 				</td>
 			</tr>

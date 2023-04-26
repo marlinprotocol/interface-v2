@@ -7,6 +7,7 @@ import { resetWalletProviderStore } from '$lib/data-stores/walletProviderStore';
 import onboard from './web3OnboardController';
 import type { EIP1193Provider, WalletState } from '@web3-onboard/core';
 import { resetReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
+import { resetOysterStore } from '$lib/data-stores/oysterStore';
 
 export const web3WalletStore = onboard.state.select('wallets');
 let ethersProvider: ethers.providers.Web3Provider;
@@ -51,4 +52,5 @@ export function disconnectWallet(wallets: WalletState[]) {
 	resetWalletBalanceStore();
 	resetWalletProviderStore();
 	resetReceiverStakingStore();
+	resetOysterStore();
 }

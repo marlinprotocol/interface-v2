@@ -3,6 +3,7 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import { kPondHistoryPage } from '$lib/utils/constants/bridgeConstants';
 	import { BigNumberZero, mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
@@ -24,7 +25,7 @@
 </script>
 
 <Modal {modalFor}>
-	<img slot="icon" src="/images/shield.svg" alt="" width="38px" />
+	<img slot="icon" src={staticImages.Sheild} alt="" width="38px" />
 	<svelte:fragment slot="title">
 		{'Conversion Successful'}
 	</svelte:fragment>

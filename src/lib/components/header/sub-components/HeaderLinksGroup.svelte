@@ -13,11 +13,25 @@
 			title: 'Bridge',
 			href: '/bridge',
 			openInNewTab: false
+		},
+		{
+			title: 'Operator',
+			href: '/oyster/operator',
+			openInNewTab: false
+		},
+		{
+			title: 'Marketplace',
+			href: '/oyster/marketplace',
+			openInNewTab: false
+		},
+		{
+			title: 'Inventory',
+			href: '/oyster/inventory',
+			openInNewTab: false
 		}
 	];
 </script>
 
-<!-- TODO: add menu drawer for mobile -->
 <div class={`flex gap-10 nav-links ${isMobile ? 'flex-col' : 'flex-row'}`}>
 	{#each navLinks as navItem (navItem.title)}
 		<HeaderNavLinkItem {navItem} />

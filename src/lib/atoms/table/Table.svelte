@@ -7,31 +7,27 @@
 	export let styleClass = '';
 	export let headingStyleClass = '';
 	export let handleSortData: (() => void) | undefined = undefined;
+	export let iconWidth = 16;
+	export let tablePadding = 'px-8 py-6';
 </script>
 
-<div class="overflow-x-auto overflow-y-hidden px-8 py-6">
-	<table class={styleClass}>
+<div class={`${styleClass} overflow-x-auto overflow-y-hidden ${tablePadding}`}>
+	<table>
 		<thead>
 			<tr>
 				{#each tableHeading as columnHeading, i}
 					<th class={`w-[${100 / tableHeading.length}%] ${tableCellClasses.heading}`}>
-						<div class="flex justify-center items-center gap-0.5">
-							{#if columnHeading.sorting}
-								<button on:click={handleSortData}>
-									<img src="/images/sort.svg" alt="sort" width="14px" />
-								</button>
-							{/if}
-							<TableHeadingText
-								styleClass={headingStyleClass}
-								title={columnHeading.title}
-								tooltipText={columnHeading.tooltipText}
-								tooltipDirection={i === tableHeading.length - 1
-									? 'tooltip-left'
-									: i === 0
-									? 'tooltip-right'
-									: 'tooltip-bottom'}
-							/>
-						</div>
+						<TableHeadingText
+							styleClass={headingStyleClass}
+							{iconWidth}
+							heading={columnHeading}
+							{handleSortData}
+							tooltipDirection={i === tableHeading.length - 1
+								? 'tooltip-left'
+								: i === 0
+								? 'tooltip-right'
+								: 'tooltip-bottom'}
+						/>
 					</th>
 				{/each}
 			</tr>

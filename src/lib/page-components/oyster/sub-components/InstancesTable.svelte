@@ -1,27 +1,78 @@
 <script lang="ts">
+	import { tableCellClasses } from '$lib/atoms/componentClasses';
+	import Table from '$lib/atoms/table/Table.svelte';
+	import CollapseButton from '$lib/components/buttons/CollapseButton.svelte';
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
-
-	export let styleClass: string = '';
-	export let tooltipText: string = '';
-	export let title: string;
-	export let placeholder: string = '';
-
-	export let input: string;
+	import { addToast } from '$lib/data-stores/toastStore';
+	import { connected } from '$lib/data-stores/walletProviderStore';
+	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
+	import { kInstancesTableHeader } from '$lib/utils/constants/oysterConstants';
+	import { slide } from 'svelte/transition';
 
 	const styles = {
-		titleIcon: 'flex items-center gap-1',
-		inputNumber:
-			'input input-ghost h-[30px] w-full mt-1 p-0 font-semibold text-xl disabled:text-primary disabled:placeholder:text-primary/[.3] focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent'
+		docButton: 'text-primary font-medium',
+		tableCell: tableCellClasses.rowMini
 	};
+
+	export let tableData: CPUrlDataModel[] = [];
+	export let loading = false;
+	export let error = false;
+	export let validCPUrl = false;
+
+	let isOpen = false;
 </script>
 
-<InputCardWithEndButton {styleClass} {tooltipText} {title}>
-	<input
-		bind:value={input}
-		id="address-display"
-		class={`hideInputNumberAppearance ${styles.inputNumber}`}
-		{placeholder}
-		disabled={true}
-	/>
-	<slot name="endButton" />
+<InputCardWithEndButton styleClass={'mt-4'} title={'Details'}>
+	{#if isOpen}
+		<div
+			transition:slide={{ duration: 400 }}
+			class="w-full max-h-40 overflow-y-auto overflow-x-hidden"
+		>
+			{#if loading}
+				please wait while we fetch your instance details...
+			{:else if error}
+				There seems to be an error. Make sure that the entered URL is correct and check again.
+			{:else}
+				<Table tableHeading={kInstancesTableHeader} headingStyleClass={'text-xs'} iconWidth={13}>
+					<tbody slot="tableBody">
+						{#each tableData as row}
+							<tr>
+								<td class={styles.tableCell}>{row.instance}</td>
+								<td class={styles.tableCell}>{row.region}</td>
+								<td class={styles.tableCell}>{row.rate}</td>
+							</tr>
+						{/each}
+					</tbody>
+				</Table>
+			{/if}
+		</div>
+	{/if}
+	<svelte:fragment slot="titleEndButton">
+		{#if $connected && validCPUrl}
+			<CollapseButton
+				{isOpen}
+				onclick={() => {
+					isOpen = !isOpen;
+				}}
+			/>
+		{:else if $connected && !validCPUrl}
+			<CollapseButton
+				onclick={() => {
+					addToast({
+						message: 'Please enter a valid control plane URL.',
+						variant: 'error'
+					});
+				}}
+			/>
+		{:else}
+			<CollapseButton
+				onclick={() => {
+					addToast({
+						message: 'Please connect your wallet.',
+						variant: 'error'
+					});
+				}}
+			/>
+		{/if}
+	</svelte:fragment>
 </InputCardWithEndButton>

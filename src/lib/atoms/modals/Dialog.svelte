@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { staticImages } from '$lib/components/images/staticImages';
+
 	export let modalWidth = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
 	export let onClose: () => void = () => {};
 	export let showDialog: boolean; // boolean
@@ -51,7 +53,7 @@
 					onClose();
 				}}
 			>
-				<img src="/images/close-circle-icon.svg" alt="Close" />
+				<img src={staticImages.CloseCircle} alt="Close" />
 			</button>
 		</div>
 		<div class="dialog-body pt-2 pb-4 px-6">

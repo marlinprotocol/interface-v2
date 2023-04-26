@@ -4,7 +4,7 @@ import inject from '@rollup/plugin-inject';
 import type { UserConfig } from 'vite';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 
-const MODE = 'prod'; // change mode to development if using npm run dev
+const MODE = 'prod'; // change mode to development if using npm run dev //prod
 const development = MODE === 'development';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -14,11 +14,12 @@ const config: UserConfig = {
 		sveltekit(),
 		development &&
 			nodePolyfills({
-				include: ['node_modules/**/*.js', new RegExp('node_modules/.vite/.*js'), 'http']
+				include: ['node_modules/**/*.js', new RegExp('node_modules/.vite/.*js'), 'http', 'process']
 			})
 	],
 	resolve: {
 		alias: {
+			process: 'process/browser',
 			crypto: 'crypto-browserify',
 			stream: 'stream-browserify',
 			assert: 'assert',

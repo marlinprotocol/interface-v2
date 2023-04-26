@@ -48,7 +48,19 @@ export const MESSAGES = {
 				 * @param value
 				 * @returns `Approved ${value} MPOND.`
 				 */
-				MPOND_APPROVED: (value: string | number) => `Approved ${value} MPOND.`
+				MPOND_APPROVED: (value: string | number) => `Approved ${value} MPOND.`,
+				/**
+				 * @param value
+				 * @returns `Approving ${value} POND.`
+				 */
+				APPROVING: (value: string | number, currency: string | undefined = 'POND') =>
+					`Approving ${value} ${currency}.`,
+				/**
+				 * @param value
+				 * @returns `Approved ${value} POND.`
+				 */
+				APPROVED: (value: string | number, currency: string | undefined = 'POND') =>
+					`Approved ${value} ${currency}.`
 			},
 			WITHDRAW: {
 				/**
@@ -127,9 +139,52 @@ export const MESSAGES = {
 				 * @returns 'Cancelled request for conversion of MPOND to POND.'
 				 */
 				MPOND_TO_POND_CANCELLED: 'Cancelled request for conversion of MPOND to POND.'
+			},
+			REGISTER: {
+				REGISTERING: 'Registering you as an operator.',
+				REGISTERED: 'Registered you as an operator.'
+			},
+			UPDATE: {
+				UPDATING: 'Updating your control plane url.',
+				UPDATED: 'Updated your control plane url.'
+			},
+			REMOVE: {
+				REMOVING: 'Removing you as an operator.',
+				REMOVED: 'Removed you as an operator.'
+			},
+			CREATE_JOB: {
+				CREATING: 'Creating a new job.',
+				CREATED: 'Created a new job.'
+			},
+			STOP_JOB: {
+				INITIATING: 'Initiating job stop.',
+				INITIATED: 'Initiated job stop.',
+				STOPPING: 'Stopping job.',
+				STOPPED: 'Stopped job.'
+			},
+			WITHDRAW_JOB: {
+				WITHDRAWING: 'Withdrawing funds from job.',
+				WITHDRAWN: 'Withdrew funds from job.'
+			},
+			ADD_FUNDS_JOB: {
+				ADDING_FUNDS: 'Adding funds to job.',
+				FUNDS_ADDED: 'Funds added to job.'
+			},
+			AMEND_RATE_JOB: {
+				INITIATING: 'Initiating rate revision.',
+				INITIATED: 'Initiated rate revision.',
+				CANCELLING: 'Cancelling rate revision.',
+				CANCELLED: 'Cancelled rate revision.',
+				AMENDING: 'Revising rate.',
+				AMENDED: 'Revised rate.'
+			},
+			SETTLE_JOB: {
+				SETTLING: 'Settling job.',
+				SETTLED: 'Job Settled.'
 			}
 		}
 	},
+
 	FORM: {
 		VALIDATION: {
 			ADDRESS: 'Please enter a valid address.',

@@ -1,15 +1,12 @@
 import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 import { addToast } from '$lib/data-stores/toastStore';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
-import ENVIRONMENT from '$lib/environments/environment';
 import type { ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
-import { GET_OPTIONS, mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
+import { mPondPrecisions, oysterMarketAbi, pondPrecisions } from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToCommaString } from '$lib/utils/conversion';
 import { capitalizeFirstLetter, minifyAddress } from '$lib/utils/helpers/commonHelper';
-import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
-import { BigNumber, ethers } from 'ethers';
-import { get } from 'svelte/store';
+import { BigNumber, ethers, type Bytes } from 'ethers';
 
 let contractAbi: ContractAbi;
 let contractAddresses: ContractAddress;
@@ -17,6 +14,7 @@ let provider: WalletStore['provider'];
 let signer: WalletStore['signer'];
 let walletAddress: WalletStore['address'];
 
+// TODO: Souvik to check its implementation, throwing error rn
 walletStore.subscribe((value) => {
 	provider = value.provider;
 	signer = value.signer;
@@ -28,82 +26,6 @@ contractAbiStore.subscribe((value) => {
 contractAddressStore.subscribe((value) => {
 	contractAddresses = value;
 });
-
-export async function getContractDetails() {
-	const url = ENVIRONMENT.public_contract_details_url;
-	const options = GET_OPTIONS;
-	// TODO: add type for contractDetails
-	const contractDetails = await fetchHttpData(url, options);
-	if (!contractDetails) {
-		throw new Error('Unable to fetch contract details');
-	}
-	if (!contractDetails.ABI) {
-		throw new Error('Unable to fetch contract ABI');
-	}
-	if (!contractDetails.addresses) {
-		throw new Error('Unable to fetch contract addresses');
-	} else {
-		contractAbiStore.update((value) => {
-			return {
-				...value,
-				ClusterRegistry: contractDetails.ABI.ClusterRegistry,
-				ERC20: contractDetails.ABI.ERC20,
-				EpochSelector: contractDetails.ABI.EpochSelector,
-				MPond: contractDetails.ABI.MPond,
-				ReceiverStaking: contractDetails.ABI.ReceiverStaking,
-				RewardDelegators: contractDetails.ABI.RewardDelegators,
-				StakeManager: contractDetails.ABI.StakeManager
-			};
-		});
-		contractAddressStore.update((value) => {
-			return {
-				...value,
-				ClusterRegistry: contractDetails.addresses.ClusterRegistry,
-				ClusterRewards: contractDetails.addresses.ClusterRewards,
-				EpochSelector: contractDetails.addresses.EpochSelector,
-				ReceiverStaking: contractDetails.addresses.ReceiverStaking,
-				RewardDelegators: contractDetails.addresses.RewardDelegators,
-				StakeManager: contractDetails.addresses.StakeManager,
-				tokens: contractDetails.addresses.tokens
-			};
-		});
-		console.log('contractAbiStore', get(contractAbiStore));
-		console.log('contractAddressStore', get(contractAddressStore));
-	}
-}
-
-export async function getBridgeContractDetails() {
-	const url = ENVIRONMENT.public_bridge_contract_details_url;
-	const options = GET_OPTIONS;
-
-	const bridgeContractDetails = await fetchHttpData(url, options);
-	if (!bridgeContractDetails) {
-		throw new Error('Unable to fetch bridge contract details');
-	}
-	if (!bridgeContractDetails.ABI) {
-		throw new Error('Unable to fetch bridge contract ABI');
-	}
-	if (!bridgeContractDetails.addresses) {
-		throw new Error('Unable to fetch bridge contract addresses');
-	} else {
-		console.log('bridgeContractDetails', bridgeContractDetails);
-		contractAbiStore.update((value) => {
-			return {
-				...value,
-				Bridge: bridgeContractDetails.ABI.Bridge
-			};
-		});
-		contractAddressStore.update((value) => {
-			return {
-				...value,
-				Bridge: bridgeContractDetails.addresses.bridge,
-				tokens: bridgeContractDetails.addresses.tokens
-			};
-		});
-		console.log(get(contractAbiStore));
-		console.log(get(contractAddressStore));
-	}
-}
 
 // ----------------------------- receiver staking contract methods -----------------------------
 
@@ -469,7 +391,6 @@ export async function requestMPondConversion(amount: BigNumber) {
 
 		const tx = await bridgeContract.placeRequest(amount);
 
-		console.log('tx :>> ', tx);
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.CREATED,
 			variant: 'info'
@@ -517,7 +438,6 @@ export async function cancelMPondConversionRequest(epoch: BigNumber) {
 			variant: 'info'
 		});
 
-		console.log('epochepoch :>> ', epoch);
 		const tx = await bridgeContract.cancelRequest(epoch);
 
 		addToast({
@@ -599,5 +519,530 @@ export async function confirmMPondConversion(epoch: BigNumber, amount: BigNumber
 		});
 		console.log('error :>> ', error);
 		throw new Error('Transaction Error while confirming conversion of MPOND to POND');
+	}
+}
+
+// ----------------------------- Oyster contract methods -----------------------------
+
+export async function registerOysterInfrastructureProvider(controlPlaneUrl: string) {
+	// TODO: move oysterContractAddress to a config file
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	const oysterContractAbi = oysterMarketAbi;
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.REGISTER.REGISTERING,
+			variant: 'info'
+		});
+
+		const tx = await oysterContract.providerAdd(controlPlaneUrl);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to register as Oyster Infrastructure Provider.');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.REGISTER.REGISTERED,
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while registering as Oyster Infrastructure Provider');
+	}
+}
+
+export async function updateOysterInfrastructureProvider(controlPlaneUrl: string) {
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	const oysterContractAbi = oysterMarketAbi;
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.UPDATE.UPDATING,
+			variant: 'info'
+		});
+
+		const tx = await oysterContract.providerUpdateWithCp(controlPlaneUrl);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to update Oyster Infrastructure Provider.');
+		}
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.UPDATE.UPDATED,
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while updating Oyster Infrastructure Provider');
+	}
+}
+
+export async function removeOysterInfrastructureProvider() {
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	const oysterContractAbi = oysterMarketAbi;
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.REMOVE.REMOVING,
+			variant: 'info'
+		});
+
+		const tx = await oysterContract.providerRemove();
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to remove Oyster Infrastructure Provider.');
+		}
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.REMOVE.REMOVED,
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while removing Oyster Infrastructure Provider');
+	}
+}
+
+export async function createNewOysterJob(
+	metadata: string,
+	provider: string,
+	rate: BigNumber,
+	balance: BigNumber
+) {
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	const oysterContractAbi = oysterMarketAbi;
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.CREATE_JOB.CREATING,
+			variant: 'info'
+		});
+
+		const tx = await oysterContract.jobOpen(metadata, provider, rate, balance);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to create new Oyster Job.');
+		}
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.CREATE_JOB.CREATED,
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while creating new Oyster Job');
+	}
+}
+
+export async function stopOysterJob(jobId: Bytes) {
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	const oysterContractAbi = oysterMarketAbi;
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.STOP_JOB.STOPPING,
+			variant: 'info'
+		});
+
+		const tx = await oysterContract.jobClose(jobId);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to stop Oyster Job.');
+		}
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.STOP_JOB.STOPPED,
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while stopping Oyster Job');
+	}
+}
+
+export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber) {
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	const oysterContractAbi = oysterMarketAbi;
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.WITHDRAW_JOB.WITHDRAWING,
+			variant: 'info'
+		});
+
+		const tx = await oysterContract.jobWithdraw(jobId, amount);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to withdraw funds from Oyster Job.');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.WITHDRAW_JOB.WITHDRAWN,
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while withdrawing funds from Oyster Job');
+	}
+}
+
+export async function approveFundsForOysterJobAdd(amount: BigNumber) {
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	// TODO: check token on mainnet, its POND on testnet
+	const token = 'POND';
+	const pondTokenContractAddress = contractAddresses.tokens[token].address;
+	const ERC20ContractAbi = contractAbi.ERC20;
+	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.APPROVE.APPROVING(
+				bigNumberToCommaString(amount, pondPrecisions),
+				token
+			),
+			variant: 'info'
+		});
+		const tx = await pondTokenContract.approve(oysterContractAddress, amount);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to approve staking token');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS +
+				' ' +
+				MESSAGES.TOAST.ACTIONS.APPROVE.APPROVED(
+					bigNumberToCommaString(amount, pondPrecisions),
+					token
+				),
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while approving staking token');
+	}
+}
+
+export async function addFundsToOysterJob(jobId: Bytes, amount: BigNumber) {
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	const oysterContractAbi = oysterMarketAbi;
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.ADD_FUNDS_JOB.ADDING_FUNDS,
+			variant: 'info'
+		});
+
+		const tx = await oysterContract.jobDeposit(jobId, amount);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to add funds to Oyster Job.');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.ADD_FUNDS_JOB.FUNDS_ADDED,
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while adding funds to Oyster Job');
+	}
+}
+
+export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber) {
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	const oysterContractAbi = oysterMarketAbi;
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATING,
+			variant: 'info'
+		});
+		const tx = await oysterContract.jobReviseRateInitiate(jobId, rate);
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to initiate rate revision for Oyster Job.');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATED,
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while initiating rate revision for Oyster Job');
+	}
+}
+
+export async function cancelRateReviseOysterJob(jobId: Bytes) {
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	const oysterContractAbi = oysterMarketAbi;
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.CANCELLING,
+			variant: 'info'
+		});
+
+		const tx = await oysterContract.jobReviseRateCancel(jobId);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to cancel rate revision for Oyster Job.');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.CANCELLED,
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while cancelling rate revision for Oyster Job');
+	}
+}
+
+export async function finaliseRateReviseOysterJob(jobId: Bytes) {
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	const oysterContractAbi = oysterMarketAbi;
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.AMENDING,
+			variant: 'info'
+		});
+
+		const tx = await oysterContract.jobReviseRateFinalize(jobId);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to finalise rate revision for Oyster Job.');
+		}
+		addToast({
+			message:
+				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.AMENDED,
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while finalising rate revision for Oyster Job');
+	}
+}
+
+export async function settleOysterJob(jobId: Bytes) {
+	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	const oysterContractAbi = oysterMarketAbi;
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	try {
+		addToast({
+			message: MESSAGES.TOAST.ACTIONS.SETTLE_JOB.SETTLING,
+			variant: 'info'
+		});
+
+		const tx = await oysterContract.jobSettle(jobId);
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+		const approveReciept = await tx.wait();
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error('Unable to settle Oyster Job.');
+		}
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.SETTLE_JOB.SETTLED,
+			variant: 'success'
+		});
+		return tx;
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error('Transaction Error while settling Oyster Job');
 	}
 }

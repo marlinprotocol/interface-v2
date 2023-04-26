@@ -154,3 +154,110 @@ export const QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY = `query Users($addres
     liqudityReleaseEpochs
   }
 }`;
+
+export const QUERY_TO_GET_JOBS_DATA = `query Jobs($address: String) {
+  jobs(
+    where: { owner: $address }
+    orderBy: createdAt
+    orderDirection: desc
+  ) {
+    id
+    metadata
+    owner
+    rate
+    provider
+    lastSettled
+    createdAt
+    totalDeposit
+    balance
+    refund
+    depositHistory(
+      orderBy: timestamp,
+      orderDirection: desc
+    ) {
+      amount
+      id
+      txHash
+      isWithdrawal
+      timestamp
+    }
+    settlementHistory(
+      orderBy: timestamp, 
+      orderDirection: desc
+    ) {
+      amount
+      id
+      txHash
+      timestamp
+    }
+  }
+}`;
+
+export const QUERY_TO_GET_PROVIDER_DATA = `query Providers($address: String) {
+  providers(
+    where: { id: $address }
+  ) {
+    id
+    cp
+    live
+  }
+}`;
+
+export const QUERY_TO_GET_ALL_PROVIDERS_DATA = `query Providers {
+  providers {
+    id
+    cp
+    live
+  }
+}`;
+
+export const QUERY_TO_JOB_REVISE_RATE_END_TIMESTAMP_DATA = `query ReviseRateRequests($jobId: String) {
+  reviseRateRequests(
+    first: 1
+    where: { jobId: $jobId }
+    orderBy: updatesAt
+    orderDirection: desc
+  ) {
+    id
+    jobId
+    status
+    updatesAt
+    value
+  }
+}`;
+
+export const QUERY_TO_GET_MERCHANT_JOBS_DATA = `query Jobs($address: String) {
+  jobs(
+    where: { provider: $address }
+    orderBy: createdAt
+    orderDirection: desc
+  ) {
+    id
+    metadata
+    owner
+    rate
+    provider
+    lastSettled
+    createdAt
+    totalDeposit
+    balance
+    refund
+    depositHistory(
+      orderBy: timestamp,
+      orderDirection: desc
+    ) {
+      amount
+      id
+      isWithdrawal
+      timestamp
+    }
+    settlementHistory(
+      orderBy: timestamp, 
+      orderDirection: desc
+    ) {
+      amount
+      id
+      timestamp
+    }
+  }
+}`;

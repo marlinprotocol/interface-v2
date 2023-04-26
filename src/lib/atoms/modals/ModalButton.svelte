@@ -2,6 +2,8 @@
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import type { ButtonModel } from '$lib/types/componentTypes';
 	import { openModal } from '$lib/utils/helpers/commonHelper';
+	import type { IconData } from 'svelte-awesome/components/Icon.svelte';
+	import Icon from '../icons/Icon.svelte';
 
 	export let modalFor: string;
 	export let disabled = false;
@@ -9,6 +11,8 @@
 	export let size: ButtonModel['size'] = 'medium';
 	export let styleClass = '';
 	export let onClick: ButtonModel['onclick'] = undefined;
+	export let icon: Record<string, IconData> | undefined = undefined;
+	export let iconSrc: string | undefined = undefined;
 
 	const keydownHandler = (e: any) => {
 		if (e.key === 'Enter') {
@@ -45,7 +49,7 @@
 			case 'tiny':
 				return 'h-8';
 			case 'small':
-				return 'h-11';
+				return 'h-10';
 			case 'medium':
 				return 'h-12';
 			case 'large':
@@ -65,7 +69,13 @@
 	on:click={onClick}
 	on:keydown={keydownHandler}
 	for={modalFor}
-	class={`${labelStyleClass} ${labelSize} ${styleClass} ${disabledClass}`}
+	class={`${labelStyleClass} ${labelSize} ${styleClass} ${disabledClass} gap-1.5`}
 >
+	{#if icon}
+		<Icon data={icon} size={14} iconColorClass={'icon-white'} />
+	{/if}
+	{#if !!iconSrc}
+		<img src={iconSrc} alt="Icon" width={16} />
+	{/if}
 	<slot />
 </label>

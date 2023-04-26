@@ -105,3 +105,24 @@ export async function isAddressValid(address: string): Promise<boolean[]> {
 export function capitalizeFirstLetter(string: string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+/**
+ * returns true is the url is valid
+ * @param string
+ * @returns
+ * @example checkValidURL('https://google.com') => true
+ * @example checkValidURL('http://3.108.237.212:8080') => true
+ * @example checkValidURL('http://example.com/path') => true
+ * @example checkValidURL('http://example.com/') => false as it has an ending slash at the end
+ * @example checkValidURL('example.com') => false as it has no http:// or https:// at the start
+ */
+export function checkValidURL(str: string) {
+	const validPattern = '^(http|https):\\/\\/[\\w.-]+(:\\d+)?(\\/\\S*)?[^\\/]$';
+	const validUrlRegex = new RegExp(validPattern);
+
+	return validUrlRegex.test(str);
+}
+
+export const goerliArbiUrl = (txnHash: string) => {
+	return `https://goerli.arbiscan.io/tx/${txnHash}`;
+};

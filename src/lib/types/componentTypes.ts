@@ -16,7 +16,7 @@ export type ButtonModel = {
 		| 'whiteFilled'
 		| 'tableConvertButton';
 	size?: 'tiniest' | 'tiny' | 'small' | 'medium' | 'large';
-	onclick: (() => void) | undefined;
+	onclick: (() => Promise<void> | void) | undefined;
 };
 
 export type TextModel = {
@@ -95,4 +95,4 @@ export type ToastModel = {
 	variant: CommonVariant;
 };
 
-export type InputCardVariant = 'primary' | 'warning' | 'none';
+export type InputCardVariant = 'primary' | 'warning' | 'none' | 'search' | 'primary-mini';

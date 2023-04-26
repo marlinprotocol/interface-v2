@@ -2,8 +2,9 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import TableDataWithButton from '$lib/components/table-cells/TableDataWithButton.svelte';
-	import TxnHashText from '$lib/components/TxnHashText.svelte';
+	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
 	import { cancelMPondConversionRequest } from '$lib/controllers/contractController';
 	import type {
 		MPondEligibleCyclesModel,
@@ -17,7 +18,7 @@
 		mPondToPond,
 		pondToMPond
 	} from '$lib/utils/conversion';
-	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
+	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import MPondConversionCycleButton from '../buttons/MPondConversionCycleButton.svelte';
 	import MPondConversionHistoryButton from '../buttons/MPondConversionHistoryButton.svelte';
@@ -103,7 +104,7 @@
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			<TxnHashText txnHash={transactionHash} txnHashUrl={bridgeTxnUrls(transactionHash)} />
+			<TxnHashText txnHash={transactionHash} txnHashUrl={goerliArbiUrl(transactionHash)} />
 		</svelte:fragment>
 	</TableDataWithButton>
 	<TableDataWithButton>
@@ -138,7 +139,7 @@
 			<div slot="active" let:timer class="mx-auto">
 				<HistoryDataIconButton
 					disabled={true}
-					src={'/images/timerclock.svg'}
+					src={staticImages.Timer}
 					fontWeight={'font-normal'}
 					variant="grey"
 					text={epochToDurationString(timer, true)}

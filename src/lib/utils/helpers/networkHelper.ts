@@ -1,6 +1,5 @@
 import { connectWallet } from '$lib/controllers/walletController';
 import ENVIRONMENT from '$lib/environments/environment';
-import type { WALLET_TYPE } from '../constants/constants';
 
 /**
  * Checks if current chain is supported by the app or not
@@ -11,13 +10,13 @@ export function isValidChain(chainId: number): boolean {
 	return ENVIRONMENT.valid_chain_ids.includes(chainId);
 }
 
-export async function switchChain(provider: any, walletType: WALLET_TYPE, chainId: string) {
+export async function switchChain(provider: any, chainId: string) {
 	await Promise.all([
 		provider.provider.request({
 			method: 'wallet_switchEthereumChain',
 			params: [{ chainId: chainId }]
 		}),
-		connectWallet(walletType)
+		connectWallet(provider)
 	]);
 }
 

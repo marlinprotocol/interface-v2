@@ -1,12 +1,12 @@
 <script lang="ts">
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
-	import TxnHashText from '$lib/components/TxnHashText.svelte';
+	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import { kMPondConversionHistoryTableHeader } from '$lib/utils/constants/bridgeConstants';
 	import { pondPrecisions } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, epochSecToString, mPondToPond } from '$lib/utils/conversion';
-	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
+	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 
 	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];
 
@@ -22,8 +22,7 @@
 			{#each kMPondConversionHistoryTableHeader as headingData, i}
 				<div class="flex-1">
 					<TableHeadingText
-						title={headingData.title}
-						tooltipText={headingData.tooltipText}
+						heading={headingData}
 						tooltipDirection={i === kMPondConversionHistoryTableHeader.length - 1
 							? 'tooltip-left'
 							: i === 0
@@ -44,7 +43,7 @@
 				<div class="flex-1">
 					<TxnHashText
 						txnHash={rowData.transactionHash}
-						txnHashUrl={bridgeTxnUrls(rowData.transactionHash)}
+						txnHashUrl={goerliArbiUrl(rowData.transactionHash)}
 					/>
 				</div>
 			</div>

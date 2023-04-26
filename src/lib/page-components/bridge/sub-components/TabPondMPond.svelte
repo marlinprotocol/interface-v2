@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Chip from '$lib/atoms/chip/Chip.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import type { AppVariant } from '$lib/types/componentTypes';
 
 	export let firstText: string;
@@ -10,7 +11,7 @@
 <Chip {variant}>
 	{firstText}
 	<img
-		src="/images/arrowicon.svg"
+		src={staticImages.Arrow}
 		alt="Copy"
 		class={variant === 'secondary' ? 'secondary-img' : ''}
 		width="9px"

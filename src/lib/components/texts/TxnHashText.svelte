@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { shortenText } from '$lib/utils/conversion';
+	import TxnIcon from '../icons/TxnIcon.svelte';
 	export let txnHash: string;
 	export let txnHashUrl: string;
+	export let startInt = 6;
+	export let endInt = 3;
 </script>
 
 <div class="flex justify-center items-center gap-2">
-	{shortenText(txnHash, 6, 3)}
-	<a class="shrink-0" href={txnHashUrl} target="_blank" rel="noopener noreferrer">
-		<img src="/images/openinnew.svg" alt="txn link" width="13px" />
-	</a>
+	{shortenText(txnHash, startInt, endInt)}
+	<TxnIcon {txnHashUrl} />
 </div>

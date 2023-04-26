@@ -1,6 +1,8 @@
 import { contractAddressStore } from '$lib/data-stores/contractStore';
+import { addToast } from '$lib/data-stores/toastStore';
 import ENVIRONMENT from '$lib/environments/environment';
 import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
+import type { OysterRateRequestModel } from '$lib/types/oysterComponentType';
 import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/storeTypes';
 import { BigNumberZero } from '$lib/utils/constants/constants';
 import {
@@ -9,19 +11,28 @@ import {
 } from '$lib/utils/constants/storeDefaults';
 import {
 	QUERY_TO_CHECK_IF_SIGNER_EXISTS,
+	QUERY_TO_GET_ALL_PROVIDERS_DATA,
+	QUERY_TO_GET_JOBS_DATA,
+	QUERY_TO_GET_MERCHANT_JOBS_DATA,
 	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY,
 	QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES,
 	QUERY_TO_GET_POND_BALANCE_QUERY,
 	QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY,
+	QUERY_TO_GET_PROVIDER_DATA,
 	QUERY_TO_GET_RECEIVER_POND_BALANCE,
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
+	QUERY_TO_JOB_REVISE_RATE_END_TIMESTAMP_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
+import {
+	getOysterJobsModified,
+	getOysterProvidersModified
+} from '$lib/utils/data-modifiers/oysterModifiers';
 import { getModifiedMPondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
-import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
-import { BigNumber } from 'ethers';
+import { fetchHttpData, showFetchHttpDataError } from '$lib/utils/helpers/httpHelper';
+import { BigNumber, type Bytes } from 'ethers';
 
 let contractAddresses: ContractAddress;
 
@@ -94,7 +105,7 @@ export async function getMPondBalance(address: Address): Promise<BigNumber> {
 		return DEFAULT_WALLET_BALANCE.mPond;
 	}
 }
-// ----------------------------- smart contract subgraph methods -----------------------------
+// ----------------------------- receiver staking smart contract subgraph methods -----------------------------
 export async function getReceiverPondBalanceFromSubgraph(address: Address): Promise<any> {
 	const url = ENVIRONMENT.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_RECEIVER_POND_BALANCE;
@@ -283,6 +294,8 @@ export async function getRequestedMPondForConversion(address: Address) {
 	}
 }
 
+// ----------------------------- bridge smart contract subgraph methods -----------------------------
+
 export async function getPondToMPondConversionHistory(address: Address) {
 	const url = ENVIRONMENT.public_bridge_contract_subgraph_url;
 	const query = QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY;
@@ -338,5 +351,178 @@ export async function getMPondToPondConversionHistory(address: Address) {
 	} catch (error) {
 		console.log('Error pond to mPond history data from subgraph', error);
 		return undefined;
+	}
+}
+
+// ----------------------------- enclaves smart contract subgraph methods -----------------------------
+
+export async function getOysterJobs(address: Address) {
+	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
+	const query = QUERY_TO_GET_JOBS_DATA;
+
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
+
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+
+	try {
+		const result = await fetchHttpData(url, options);
+
+		const jobs = result['data']?.jobs;
+		if (!jobs?.length) {
+			if (result['errors']) {
+				showFetchHttpDataError(result['errors']);
+			}
+			return [];
+		}
+		const ret = await getOysterJobsModified(jobs);
+		return ret;
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: `Error getting enclaves jobs from subgraph. ${error.message}`
+		});
+		console.error('Error getting enclaves jobs from subgraph', error);
+		return [];
+	}
+}
+
+export async function getProviderDetailsFromSubgraph(address: Address) {
+	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
+	const query = QUERY_TO_GET_PROVIDER_DATA;
+
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
+
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+
+	try {
+		const result = await fetchHttpData(url, options);
+		const provider = result['data']?.providers[0];
+		if (!provider) {
+			if (result['errors']) {
+				showFetchHttpDataError(result['errors']);
+			}
+			return null;
+		}
+		return provider;
+	} catch (error) {
+		console.log('Error getting provider details from subgraph', error);
+		return undefined;
+	}
+}
+
+export async function getAllProvidersDetailsFromSubgraph() {
+	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
+	const query = QUERY_TO_GET_ALL_PROVIDERS_DATA;
+
+	const options: RequestInit = subgraphQueryWrapper(query, {});
+
+	try {
+		const result = await fetchHttpData(url, options);
+
+		const providers = result['data']?.providers;
+		if (!providers?.length) {
+			if (result['errors']) {
+				showFetchHttpDataError(result['errors']);
+			}
+			return [];
+		}
+		const ret = await getOysterProvidersModified(providers);
+		return ret;
+	} catch (error) {
+		console.log('Error getting provider details from subgraph', error);
+		return [];
+	}
+}
+
+export async function getApprovedOysterAllowances(address: Address, contractAddress: Address) {
+	const url = ENVIRONMENT.public_contract_subgraph_url;
+	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
+
+	const queryVariables = {
+		address: address.toLowerCase(),
+		contractAddress: contractAddress.toLowerCase()
+	};
+
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+	const amount = BigNumberZero;
+	try {
+		const result = await fetchHttpData(url, options);
+		console.log('oyster allowances', result);
+
+		const pondApprovals = result['data']?.pondApprovals;
+
+		if (pondApprovals && pondApprovals.length > 0) {
+			return pondApprovals[0].amount;
+		} else {
+			if (result['errors']) {
+				showFetchHttpDataError(result['errors']);
+			}
+		}
+		return amount;
+	} catch (error) {
+		console.log('Error fetching oyster allowances from subgraph', error);
+		return amount;
+	}
+}
+
+export async function getReviseRateInitiateEndTimestamp(jobId: Bytes) {
+	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
+	const query = QUERY_TO_JOB_REVISE_RATE_END_TIMESTAMP_DATA;
+
+	const queryVariables = {
+		jobId: jobId
+	};
+
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+	try {
+		const result = await fetchHttpData(url, options);
+
+		const reviseRateRequests = result['data']?.reviseRateRequests;
+		if (!reviseRateRequests?.length) {
+			if (result['errors']) {
+				showFetchHttpDataError(result['errors']);
+			}
+			return null;
+		}
+		return reviseRateRequests[0] as OysterRateRequestModel;
+	} catch (error) {
+		console.log('Error getting provider details from subgraph', error);
+		return null;
+	}
+}
+
+export async function getOysterMerchantJobs(address: Address) {
+	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
+	const query = QUERY_TO_GET_MERCHANT_JOBS_DATA;
+
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
+
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+
+	try {
+		const result = await fetchHttpData(url, options);
+		const jobs = result['data']?.jobs;
+
+		if (!jobs?.length) {
+			if (result['errors']) {
+				showFetchHttpDataError(result['errors']);
+			}
+			return [];
+		}
+		const ret = await getOysterJobsModified(jobs);
+		return ret;
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: `Error getting enclaves jobs from subgraph. ${error.message}`
+		});
+		console.error('Error getting enclaves jobs from subgraph', error);
+		return [];
 	}
 }

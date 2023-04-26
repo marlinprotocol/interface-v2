@@ -9,13 +9,19 @@ export const buttonClasses = {
 		'btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300',
 	error:
 		'btn btn-theme btn-sm text-error px-5 border-error bg-inherit hover:bg-inherit hover:border-error hover:text-error-focus',
-	text: 'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent',
+	text: 'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent disabled:bg-transparent',
 	icon: 'btn btn-xs btn-ghost btn-circle p-0 bg-transparent hover:bg-transparent flex',
+	iconLightBlue:
+		'btn btn-xs btn-circle p-0 bg-base-300 hover:bg-base-300 border-none disabled:bg-base-200 disabled:cursor-not-allowed',
+	dropdownIcon:
+		'btn btn-xs rounded-full btn-circle p-0 bg-base-300 border-primary/[.2] ml-4 hover:bg-base-300 disabled:bg-base-200 disabled:cursor-not-allowed',
 	maxButton:
 		'btn btn-sm btn-text btn-ghost p-0 bg-transparent hover:bg-transparent font-bold text-primary tracking-widest disabled:text-primary',
 	largeButton: 'flex gap-2 text-primary h-14 text-base font-semibold items-center',
 	tableConvertButton:
-		'btn btn-xs text-xs h-[35px] w-[126px] rounded btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white'
+		'btn btn-xs text-xs h-[35px] w-[126px] rounded btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white',
+	paginationButton:
+		'btn btn-sm px-2 border-none bg-base-200 hover:bg-base-300 disabled:bg-base-200 disabled:text-primary disabled:curson-not-allowed'
 };
 
 export const dividerClasses = {
@@ -27,7 +33,13 @@ export const dividerClasses = {
 export const tableCellClasses = {
 	heading: 'text-primary text-sm font-semibold px-2 pb-4',
 	row: 'font-semibold text-base px-2 py-3',
+	rowNormal: 'font-normal text-sm px-1 py-3',
 	rowMini: 'font-normal text-xs px-1 py-1',
 	rowWithIcon: 'flex flex-col items-center justify-start',
 	empty: 'text-base text-center p-4 w-full'
+};
+
+export const inputClasses = {
+	inputText:
+		'input input-ghost h-[30px] w-full text-lg mt-1 p-0 font-semibold text-primary disabled:text-primary disabled:placeholder:text-primary/[.2] focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent'
 };

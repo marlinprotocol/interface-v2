@@ -11,6 +11,7 @@
 	} from '$lib/utils/conversion';
 	import TableHeadingText from '../../../components/texts/TableHeadingText.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 
 	export let cycles: MPondEligibleCyclesModel[];
 	export let endEpochTime: number;
@@ -34,8 +35,7 @@
 			{#each kMPondConversionCycleTableHeader as headingData, i}
 				<div class="flex-1">
 					<TableHeadingText
-						title={headingData.title}
-						tooltipText={headingData.tooltipText}
+						heading={headingData}
 						tooltipDirection={i === kMPondConversionCycleTableHeader.length - 1
 							? 'tooltip-left'
 							: i === 0
@@ -52,13 +52,13 @@
 						<div class={`${currentCycle === i ? 'pl-0.5' : 'pl-1'} ${styles.conversionRow}`}>
 							<div class="flex flex-col items-center">
 								{#if currentCycle > i}
-									<img src="/images/vectorcheck.svg" alt="Copy" width="20px" height="20px" />
+									<img src={staticImages.Check} alt="Copy" width="20px" height="20px" />
 								{:else if currentCycle === i}
 									<LoadingAnimatedPing loading={true} hasPadding={true}>
-										<img src="/images/cycleloader.svg" alt="Copy" width="19px" height="19px" />
+										<img src={staticImages.CycleLoader} alt="Copy" width="19px" height="19px" />
 									</LoadingAnimatedPing>
 								{:else}
-									<img src="/images/unactivetick.svg" alt="Copy" width="20px" height="20px" />
+									<img src={staticImages.UnActiveTick} alt="Copy" width="20px" height="20px" />
 								{/if}
 								{#if i + 1 !== cycles?.length}
 									<div class="h-full w-[0.1px] bg-grey-400" />
@@ -77,13 +77,7 @@
 					{#each cycles as rowData, i}
 						<div class={styles.timerRow}>
 							{#if currentCycle <= i}
-								<img
-									src="/images/timerclock.svg"
-									alt="Clock"
-									width="15px"
-									height="15px"
-									class="mt-1"
-								/>
+								<img src={staticImages.Timer} alt="Clock" width="15px" height="15px" class="mt-1" />
 							{/if}
 							{#if currentCycle === i}
 								<Timer {endEpochTime}>

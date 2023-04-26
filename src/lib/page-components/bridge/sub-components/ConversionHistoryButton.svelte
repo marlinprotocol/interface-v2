@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 
 	export let firstText = 'POND';
 	export let secondText = 'MPond';
@@ -9,9 +10,9 @@
 	<div class="flex justify-between w-full">
 		<div class="w-full flex justify-center gap-1">
 			{firstText}
-			<img src="/images/arrowicon.svg" alt="Copy" width="8px" />
+			<img src={staticImages.Arrow} alt="Copy" width="8px" />
 			{`${secondText} conversion History`}
 		</div>
-		<img src="/images/rightarrow.svg" alt="Copy" />
+		<img src={staticImages.RightArrow} alt="Copy" />
 	</div>
 </Button>

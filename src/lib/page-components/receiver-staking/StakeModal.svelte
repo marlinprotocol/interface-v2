@@ -119,9 +119,7 @@
 			});
 			return;
 		}
-
 		approveLoading = true;
-
 		try {
 			await approvePondTokenForReceiverStaking(inputAmount);
 			receiverStakingStore.update((value: ReceiverStakingData) => {
@@ -342,7 +340,7 @@
 			loading={submitLoading}
 			onclick={handleSubmitClick}
 			size="large"
-			styleClass={'btn-block'}>CONFIRM</Button
+			styleClass={'btn-block w-full'}>CONFIRM</Button
 		>
 	</svelte:fragment>
 </Modal>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/atoms/componentClasses';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import type { BigNumber } from 'ethers';
 
@@ -22,7 +23,7 @@
 <button class={styleClass} on:click={handleApproveClick}>
 	<div class="flex gap-1 items-center">
 		{#if approved}
-			<img src="/images/verifiedicon.svg" alt="check-circle" />
+			<img src={staticImages.Verified} alt="check-circle" />
 		{/if}
 		{approved ? 'Approved' : 'Approve'}
 	</div>

@@ -20,7 +20,7 @@
 	export let handleOnSuccess: (txnHash: string) => void;
 
 	let amount = BigNumberZero;
-	let approved: boolean = false;
+	let approved = false;
 	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
 		amount = value.allowances.mPond;
 	});

@@ -3,6 +3,7 @@ import infoCircle from 'svelte-awesome/icons/infoCircle';
 import checkCircle from 'svelte-awesome/icons/checkCircle';
 import warning from 'svelte-awesome/icons/warning';
 import timesCircle from 'svelte-awesome/icons/timesCircle';
+import { staticImages } from '$lib/components/images/staticImages';
 
 export const getIconbyVariant = (variant: CommonVariant | undefined) => {
 	switch (variant) {
@@ -82,10 +83,59 @@ export const getImageClassByVariant = (variant: CommonVariant | undefined) => {
 export const getImagebyWalletProvider = (walletProvider: string) => {
 	switch (walletProvider?.toLowerCase()) {
 		case 'metamask':
-			return '/images/metamaskicon.svg';
+			return staticImages.Metamask;
 		case 'walletconnect':
-			return '/images/walleticon.svg';
+			return staticImages.WalletConnect;
 		default:
 			return '';
+	}
+};
+
+export const getColorHexByVariant = (variant: CommonVariant | undefined) => {
+	switch (variant) {
+		case 'primary':
+			return '#0F62FE';
+		case 'secondary':
+			return '#6F6F6F';
+		case 'success':
+			return '#24A148';
+		case 'info':
+			return '#0062FF';
+		case 'warning':
+			return '#f1861b';
+		case 'error':
+			return '#DA1E28';
+		case 'disabled':
+			return '#0F62FE';
+		case 'grey':
+			return '#6F6F6F';
+		default:
+			return '#0F62FE';
+	}
+};
+
+export const getColorHexForTableRow = (index: number) => {
+	const remainder = index % 10;
+	switch (remainder) {
+		case 0:
+			return '#AF2EFF';
+		case 1:
+			return '#9868FF';
+		case 2:
+			return '#4171EA';
+		case 3:
+			return '#4FA0FF';
+		case 4:
+			return '#4FC0FF';
+		case 5:
+			return '#25CFDA';
+		case 6:
+			return '#19CDB7';
+		case 7:
+			return '#1EC086';
+		case 8:
+			return '#3DAE56';
+		case 9:
+			return '#D8D013';
 	}
 };

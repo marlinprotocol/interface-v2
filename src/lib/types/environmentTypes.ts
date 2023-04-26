@@ -8,6 +8,7 @@ export type Environment = {
 	public_mPond_subgraph_url: string;
 	public_contract_subgraph_url: string;
 	public_bridge_contract_subgraph_url: string;
+	public_enclaves_contract_subgraph_url: string;
 	public_contract_details_url: string;
 	public_bridge_contract_details_url: string;
 	valid_chain_ids: number[];

@@ -1,0 +1,86 @@
+<script lang="ts">
+	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
+	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
+	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
+	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
+	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
+	import {
+		kOperatorHistoryTableColumnsWidth,
+		kOysterRateMetaData
+	} from '$lib/utils/constants/oysterConstants';
+	import {
+		bigNumberToCommaString,
+		epochSecToString,
+		epochToDurationString
+	} from '$lib/utils/conversion';
+
+	export let rowData: OysterInventoryDataModel;
+	export let rowIndex: number;
+
+	const { symbol } = kOysterRateMetaData;
+
+	$: ({
+		provider: { name, address },
+		id,
+		instance,
+		region,
+		createdAt,
+		durationRun,
+		amountToBeSettled,
+		endEpochTime
+	} = rowData);
+</script>
+
+<div class="main-row flex gap-1 hover:bg-base-200 px-8 items-center h-16">
+	<TableGridDataCell
+		width={`${kOperatorHistoryTableColumnsWidth('provider')}`}
+		styleClass="flex gap-2 items-center"
+	>
+		<NameWithAddress {name} {address} {rowIndex}>
+			<svelte:fragment slot="copyIcon">
+				<div class="copy-icon cursor-pointer">
+					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
+				</div>
+			</svelte:fragment>
+		</NameWithAddress>
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kOperatorHistoryTableColumnsWidth('instance')}`}>
+		{instance}
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kOperatorHistoryTableColumnsWidth('region')}`}>
+		{region}
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kOperatorHistoryTableColumnsWidth('createdAt')}`}>
+		{epochSecToString(createdAt)}
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kOperatorHistoryTableColumnsWidth('createdAt')}`}>
+		{epochSecToString(endEpochTime)}
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kOperatorHistoryTableColumnsWidth('durationRun')}`}>
+		<Tooltip tooltipText={epochToDurationString(durationRun)}>
+			{epochToDurationString(durationRun, true)}
+		</Tooltip>
+	</TableGridDataCell>
+	<!-- TODO: ask what this cell is supposed to show and the date thingy -->
+	<TableGridDataCell width={`${kOperatorHistoryTableColumnsWidth('amountToBeSettled')}`}>
+		{symbol}{bigNumberToCommaString(amountToBeSettled, oysterAmountPrecision)}
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kOperatorHistoryTableColumnsWidth('action')}`}>
+		<!-- <Button onclick={async () => await settleOysterJob(id)} size="tiny" styleClass="w-full"
+			>CLAIM</Button
+		> -->mellow
+		yellow
+	</TableGridDataCell>
+</div>
+
+<style>
+	/* show icon only on hover on table-row */
+	.main-row:hover .copy-icon {
+		display: flex;
+	}
+	.main-row .copy-icon {
+		display: none;
+	}
+</style>

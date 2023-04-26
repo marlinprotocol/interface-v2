@@ -33,6 +33,9 @@ module.exports = {
 			zIndex: {
 				100: '100',
 				1000: '1000'
+			},
+			gridColumn: {
+				'span-16': 'span 16 / span 16'
 			}
 		}
 	},
@@ -76,7 +79,6 @@ module.exports = {
 						width: '100%',
 						fontWeight: '600',
 						padding: '0',
-						fontSize: '1.4rem',
 						color: '#3840c7',
 						border: 'none',
 						outline: 'none',
@@ -90,13 +92,32 @@ module.exports = {
 						'&:focus-within': {
 							border: 'none',
 							outline: 'none',
-							color: '#3840c7'
+							color: '#3840c7',
+							background: 'transparent'
 						},
 						'&:disabled': {
 							border: 'none',
 							outline: 'none',
 							background: 'transparent'
 						}
+					},
+					'.input': {
+						background: 'transparent',
+						border: 'none',
+						outline: 'none',
+						'&:focus': {
+							border: 'none',
+							outline: 'none',
+							background: 'transparent'
+						},
+						'&:disabled': {
+							border: 'none',
+							outline: 'none',
+							background: 'transparent'
+						}
+					},
+					'.input-group :last-child': {
+						'border-radius': '100px'
 					},
 					'.btn': {
 						'text-transform': 'none'

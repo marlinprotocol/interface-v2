@@ -20,6 +20,7 @@
 	} from '$lib/utils/helpers/commonHelper';
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
+	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 
 	export let modalFor: string;
 	const subtitle =
@@ -97,6 +98,10 @@
 				}
 				return value;
 			});
+			walletBalance.update((value) => {
+				value.pond = value.pond.add(inputAmount);
+				return value;
+			});
 
 			//reset input
 			resetInputs();
@@ -146,7 +151,7 @@
 			loading={submitLoading}
 			onclick={handleSubmitClick}
 			size="large"
-			styleClass={'btn-block'}
+			styleClass={'btn-block w-full'}
 		>
 			CONFIRM
 		</Button>

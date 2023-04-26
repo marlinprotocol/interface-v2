@@ -1,11 +1,12 @@
 <script lang="ts">
+	import Button from '$lib/atoms/buttons/Button.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import {
 		approvePondTokenForReceiverStaking,
 		depositStakingToken,
-		getContractDetails,
 		withdrawStakingToken
 	} from '$lib/controllers/contractController';
+	import { getContractDetails } from '$lib/controllers/httpController';
 	import { getReceiverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';

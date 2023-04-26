@@ -6,7 +6,7 @@
 	export let tooltipVariant: TooltipVariant = 'tooltip-secondary';
 	export let tooltipDirection: TooltipDirection = 'tooltip-top';
 
-	$: tooltipClass = `tooltip text-left shrink-0 font-normal ${styleClass} ${tooltipVariant} ${tooltipDirection} flex`;
+	$: tooltipClass = `tooltip text-left items-center justify-center shrink-0 font-normal ${styleClass} ${tooltipVariant} ${tooltipDirection} flex`;
 </script>
 
 <div class={tooltipClass} data-tip={tooltipText}>

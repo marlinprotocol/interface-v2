@@ -87,9 +87,9 @@
 			styleClass={'w-full'}
 			disabled={!$connected}
 		/>
-		<a href={`/oyster/history`}>
+		<!-- <a href={`/oyster/history`}>
 			<div class={`h-12 ${buttonClasses.outlined}`}>HISTORY</div>
-		</a>
+		</a> -->
 		<ModalButton variant="filled" modalFor={'create-new-order'} disabled={!$connected} icon={plus}>
 			ADD ORDER
 		</ModalButton>

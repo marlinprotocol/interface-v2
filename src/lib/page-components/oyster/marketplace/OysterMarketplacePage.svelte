@@ -64,6 +64,7 @@
 		<OysterMarketplaceFilters bind:filteredData bind:filterMap {allMarketplaceData} />
 	</div>
 	<OysterInventoryTable
+		walletConnectionRequired={false}
 		{handleSortData}
 		tableHeading={kOysterMarketplaceTableHeader}
 		widthFunction={kMarketplaceTableColumnsWidth}

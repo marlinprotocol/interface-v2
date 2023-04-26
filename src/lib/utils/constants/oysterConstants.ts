@@ -380,7 +380,7 @@ export const kMarketplaceTableColumnsWidth = (id: string) => {
 		case 'memory':
 			return '12.5%';
 		case 'action':
-			return '10%';
+			return '15%';
 		default:
 			return '5%';
 	}

@@ -92,7 +92,23 @@ module.exports = {
 						'&:focus-within': {
 							border: 'none',
 							outline: 'none',
-							color: '#3840c7'
+							color: '#3840c7',
+							background: 'transparent'
+						},
+						'&:disabled': {
+							border: 'none',
+							outline: 'none',
+							background: 'transparent'
+						}
+					},
+					'.input': {
+						background: 'transparent',
+						border: 'none',
+						outline: 'none',
+						'&:focus': {
+							border: 'none',
+							outline: 'none',
+							background: 'transparent'
 						},
 						'&:disabled': {
 							border: 'none',

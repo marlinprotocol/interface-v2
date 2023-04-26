@@ -1,11 +1,16 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import { buttonClasses, tableCellClasses } from '$lib/atoms/componentClasses';
+	import LoadingCircular from '$lib/atoms/loading/LoadingCircular.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import SearchBar from '$lib/components/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import { connected } from '$lib/data-stores/walletProviderStore';
+	import OysterInventoryTable from '$lib/page-components/oyster/inventory/InventoryTable.svelte';
+	import OysterInventoryTableRow from '$lib/page-components/oyster/inventory/OysterInventoryTableRow.svelte';
+	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import {
 		kInventoryTableColumnsWidth,
@@ -16,11 +21,6 @@
 	import { onDestroy } from 'svelte';
 	import plus from 'svelte-awesome/icons/plus';
 	import type { Unsubscriber } from 'svelte/store';
-	import OysterInventoryTable from '$lib/page-components/oyster/inventory/InventoryTable.svelte';
-	import OysterInventoryTableRow from '$lib/page-components/oyster/inventory/OysterInventoryTableRow.svelte';
-	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
-	import LoadingCircular from '$lib/atoms/loading/LoadingCircular.svelte';
-	import { connected } from '$lib/data-stores/walletProviderStore';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -56,6 +56,10 @@
 		activePage = page;
 	};
 
+	const onSearchClick = () => {
+		activePage = 1;
+	};
+
 	// get searched data based on searchInput
 	$: searchedData = getSearchedInventoryData(searchInput, inventoryData);
 
@@ -77,9 +81,11 @@
 	</PageTitle>
 	<div class="flex gap-4 items-center mb-6">
 		<SearchBar
+			{onSearchClick}
 			bind:input={searchInput}
 			placeholder={'Search for operator, instance or region'}
 			styleClass={'w-full'}
+			disabled={!$connected}
 		/>
 		<a href={`/oyster/history`}>
 			<div class={`h-12 ${buttonClasses.outlined}`}>HISTORY</div>

@@ -15,11 +15,16 @@
 	} from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import {
+		getDurationInSecondsForUnit,
 		kDurationUnitsList,
 		kOysterOwnerInventory,
 		kOysterRateMetaData
 	} from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToCommaString } from '$lib/utils/conversion';
+	import {
+		bigNumberToCommaString,
+		bigNumberToString,
+		stringToBigNumber
+	} from '$lib/utils/conversion';
 	import { getvCpuMemoryData } from '$lib/utils/data-modifiers/oysterModifiers';
 	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
@@ -37,7 +42,7 @@
 	export let modalFor: string;
 	export let preFilledData: Partial<OysterInventoryDataModel> = {};
 
-	const { userDurationUnitInRateUnit, rateUnitInSeconds } = kOysterRateMetaData;
+	const { rateUnitInSeconds } = kOysterRateMetaData;
 	const durationUnitList = kDurationUnitsList.map((unit) => unit.label);
 
 	let allMarketplaceData: OysterMarketplaceDataModel[] = [];
@@ -45,8 +50,22 @@
 	let maxBalance = BigNumberZero;
 	let durationUnit = 'Days';
 
+	let durationString = '';
+	let duration = 0;
+
+	let costString = '';
+	let cost = BigNumberZero;
+	let rate = BigNumberZero;
+
+	//loading states
+	let submitLoading = false;
+	let providerAddress: string | undefined;
+
+	let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
+
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		allMarketplaceData = value.allMarketplaceData;
+		console.log('allMarketplaceData :>> ', allMarketplaceData);
 		approvedAmount = value.allowance;
 	});
 	onDestroy(unsubscribeOysterStore);
@@ -105,12 +124,6 @@
 		}
 	};
 
-	$: durationString = '';
-
-	//loading states
-	let submitLoading = false;
-	let providerAddress: string | undefined;
-
 	const handleSubmitClick = async () => {
 		if (!rate || !cost || !values.instance.value || !values.region.value) {
 			return;
@@ -150,8 +163,10 @@
 	const resetInputs = () => {
 		values = initialStates;
 		durationString = '';
-		cost = null;
-		rate = null;
+		duration = 0;
+		costString = '';
+		cost = BigNumberZero;
+		rate = BigNumberZero;
 	};
 
 	const handleFieldChange = (
@@ -185,18 +200,47 @@
 		};
 	};
 
+	// TODO: reset duration, cost on rate change
+	const handleDurationChange = (e: any) => {
+		const value = e.target.value;
+		durationString = value;
+		duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
+		const durationInSecond = Math.floor(duration * durationUnitInSec);
+		if (rate) {
+			cost = rate.mul(durationInSecond).div(rateUnitInSeconds);
+			costString = bigNumberToString(cost);
+		}
+	};
+
+	const handleDurationUnitChange = (unit: any) => {
+		durationUnitInSec = getDurationInSecondsForUnit(unit);
+		const durationInSecond = Math.floor(duration * durationUnitInSec);
+		if (rate) {
+			if (duration) {
+				cost = rate.mul(durationInSecond).div(rateUnitInSeconds);
+				costString = bigNumberToString(cost);
+			}
+		}
+	};
+
+	const handleCostChange = (e: any) => {
+		const value = e.target.value;
+		costString = value;
+		cost = isInputAmountValid(costString) ? stringToBigNumber(costString) : BigNumberZero;
+
+		if (cost && rate) {
+			const durationInSecond = cost.mul(rateUnitInSeconds).div(rate).toNumber();
+			duration = Math.floor(durationInSecond / durationUnitInSec);
+			durationString = duration.toString();
+		}
+	};
+
 	$: instanceData = getvCpuMemoryData(values.instance.value);
 	$: vcpu = instanceData.vcpu?.toString() ?? '';
 	$: memory = instanceData.memory?.toString() ?? '';
 
 	$: filterData = getAllFiltersListforMarketplaceData(allMarketplaceData, false);
-	$: duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
-	$: durationUnitInSec = kDurationUnitsList.find((unit) => unit.label === durationUnit)?.value ?? 1;
-
-	$: rate = getRateForProviderAndFilters(values, allMarketplaceData);
-	// duration in rate unit
-	$: durationInSecond = Math.ceil(duration * durationUnitInSec);
-	$: cost = rate ? rate.mul(durationInSecond).div(rateUnitInSeconds) : null;
+	$: rate = getRateForProviderAndFilters(values, allMarketplaceData) ?? BigNumberZero;
 
 	$: approved = cost && approvedAmount?.gte(cost) && cost.gt(BigNumberZero);
 
@@ -315,17 +359,23 @@
 				/>
 				<AmountInputWithTitle
 					title={'Duration'}
-					bind:inputAmountString={durationString}
+					inputAmountString={durationString}
 					suffix={durationUnit}
+					handleUpdatedAmount={handleDurationChange}
 					onlyInteger
 				>
 					<div slot="endButton">
-						<Select dataList={durationUnitList} bind:value={durationUnit} />
+						<Select
+							dataList={durationUnitList}
+							bind:value={durationUnit}
+							setValue={handleDurationUnitChange}
+						/>
 					</div>
 				</AmountInputWithTitle>
 				<AmountInputWithTitle
 					title={'Cost'}
-					inputAmountString={cost ? bigNumberToCommaString(cost, 6) : ''}
+					inputAmountString={costString}
+					handleUpdatedAmount={handleCostChange}
 					suffix={'USDC'}
 				/>
 			</div>

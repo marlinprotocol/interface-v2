@@ -30,7 +30,12 @@ export async function handleApproveFundForOysterJob(amount: BigNumber) {
 	}
 }
 
-export async function handleFundsAddToJob(jobData: OysterInventoryDataModel, amount: BigNumber) {
+export async function handleFundsAddToJob(
+	jobData: OysterInventoryDataModel,
+	amount: BigNumber,
+	duration: number
+) {
+	console.log('jobData duration :>> ', duration, jobData.durationLeft);
 	const { id } = jobData;
 	try {
 		const txn = await addFundsToOysterJob(id, amount);
@@ -38,6 +43,7 @@ export async function handleFundsAddToJob(jobData: OysterInventoryDataModel, amo
 			...jobData,
 			totalDeposit: jobData.totalDeposit.add(amount),
 			balance: jobData.balance.add(amount),
+			durationLeft: jobData.durationLeft + duration,
 			depositHistory: [
 				{
 					amount,

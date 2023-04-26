@@ -1,14 +1,12 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
-	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BigNumberZero, oysterAmountPrecision } from '$lib/utils/constants/constants';
+	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToCommaString, stringToBigNumber } from '$lib/utils/conversion';
-	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleApproveFundForOysterJob,
 		handleFundsAddToJob
@@ -16,24 +14,16 @@
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
+	import AddFundsToJob from '../../sub-components/AddFundsToJob.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	const { symbol, currency } = kOysterRateMetaData;
 	$: ({ rate } = jobData);
 
-	//initial states
-	let inputAmount: BigNumber = BigNumberZero;
-	let inputAmountString: string;
-	//error message states
-	let inputAmountIsValid = true;
-	let inValidMessage = '';
-	let updatedAmountInputDirty = false;
-
-	$: inputAmount = isInputAmountValid(inputAmountString)
-		? stringToBigNumber(inputAmountString, 0)
-		: BigNumberZero;
+	let duration: number | undefined = undefined; //durationInSecs
+	let cost = BigNumberZero;
+	let invalidCost = false;
 
 	//loading states
 	let submitLoading = false;
@@ -49,10 +39,9 @@
 
 	//reset amount
 	const resetInputs = () => {
-		inputAmountString = '';
-		inputAmountIsValid = true;
-		updatedAmountInputDirty = false;
-		inValidMessage = '';
+		duration = undefined;
+		cost = BigNumberZero;
+		invalidCost = false;
 	};
 
 	const handleApproveClick = async () => {
@@ -63,19 +52,14 @@
 
 	const handleSubmitClick = async () => {
 		submitLoading = true;
-		await handleFundsAddToJob(jobData, cost);
+		await handleFundsAddToJob(jobData, cost, duration ?? 0);
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
 	};
 
-	const inputUnitToRate = 24; //24 hours in a day
-
-	$: cost = rate.mul(inputAmount).mul(inputUnitToRate);
-
-	$: approved = connected && cost && approvedAmount.gte(cost) && inputAmount.gt(BigNumberZero);
-	$: approveEnable =
-		connected && !submitLoading && inputAmount.gt(BigNumberZero) && inputAmountIsValid;
+	$: approved = connected && cost && approvedAmount.gte(cost) && cost.gt(BigNumberZero);
+	$: approveEnable = connected && !submitLoading && cost.gt(BigNumberZero) && !invalidCost;
 	$: confirmEnable = approved && approveEnable;
 
 	const subtitle =
@@ -90,23 +74,7 @@
 		{subtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex flex-col gap-4">
-			<div class="flex gap-4">
-				<AmountInputWithTitle
-					title={`Hourly Rate`}
-					inputAmountString={bigNumberToCommaString(rate, oysterAmountPrecision)}
-					disabled
-					prefix={symbol}
-				/>
-				<AmountInputWithTitle title={'Additonal Duration'} bind:inputAmountString suffix={'days'} />
-				<AmountInputWithTitle
-					title={'Cost'}
-					inputAmountString={bigNumberToCommaString(cost, oysterAmountPrecision)}
-					suffix={currency}
-					disabled
-				/>
-			</div>
-		</div>
+		<AddFundsToJob bind:cost bind:duration bind:invalidCost {rate} />
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		{#if !approved}

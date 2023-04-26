@@ -119,6 +119,7 @@
 		duration = 0;
 		cost = BigNumberZero;
 		rate = undefined;
+		invalidCost = false;
 	};
 
 	$: rate = getRateForProviderAndFilters(jobValues, allMarketplaceData);

@@ -6,6 +6,7 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
+	import Select from '$lib/components/select/Select.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import type {
@@ -13,7 +14,11 @@
 		OysterMarketplaceDataModel
 	} from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import { kOysterOwnerInventory, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import {
+		kDurationUnitsList,
+		kOysterOwnerInventory,
+		kOysterRateMetaData
+	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString } from '$lib/utils/conversion';
 	import { getvCpuMemoryData } from '$lib/utils/data-modifiers/oysterModifiers';
 	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
@@ -33,10 +38,12 @@
 	export let preFilledData: Partial<OysterInventoryDataModel> = {};
 
 	const { userDurationUnitInRateUnit, rateUnitInSeconds } = kOysterRateMetaData;
+	const durationUnitList = kDurationUnitsList.map((unit) => unit.label);
 
 	let allMarketplaceData: OysterMarketplaceDataModel[] = [];
 	let approvedAmount: BigNumber;
 	let maxBalance = BigNumberZero;
+	let durationUnit = 'Days';
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		allMarketplaceData = value.allMarketplaceData;
@@ -124,7 +131,7 @@
 			values.merchant.value,
 			rate,
 			cost,
-			duration * rateUnitInSeconds * userDurationUnitInRateUnit
+			duration * durationUnitInSec
 		);
 		submitLoading = false;
 		resetInputs();
@@ -185,9 +192,12 @@
 
 	$: filterData = getAllFiltersListforMarketplaceData(allMarketplaceData);
 	$: duration = isInputAmountValid(durationString) ? Number(durationString) : 0;
+	$: durationUnitInSec = kDurationUnitsList.find((unit) => unit.label === durationUnit)?.value ?? 1;
+
 	$: rate = getRateForProviderAndFilters(values, allMarketplaceData);
 	// duration in rate unit
-	$: cost = rate ? rate.mul(duration * userDurationUnitInRateUnit) : null;
+	$: durationInSecond = Math.ceil(duration * durationUnitInSec);
+	$: cost = rate ? rate.mul(durationInSecond).div(rateUnitInSeconds) : null;
 
 	$: approved = cost && approvedAmount?.gte(cost) && cost.gt(BigNumberZero);
 
@@ -251,11 +261,6 @@
 						title={'Instance'}
 						placeholder={'Select instance'}
 					/>
-					<ErrorTextCard
-						showError={values.instance.isDirty && values.instance.error != ''}
-						errorMessage={values.instance.error}
-						styleClass={'mt-4'}
-					/>
 				</div>
 				<div class="w-full">
 					<SearchWithSelect
@@ -272,13 +277,18 @@
 						title={'Region'}
 						placeholder={'Select region'}
 					/>
-					<ErrorTextCard
-						showError={values.region.isDirty && values.region.error != ''}
-						errorMessage={values.region.error}
-						styleClass={'mt-4'}
-					/>
 				</div>
 			</div>
+			<ErrorTextCard
+				showError={values.instance.isDirty && values.instance.error != ''}
+				errorMessage={values.instance.error}
+				styleClass={'mt-0'}
+			/>
+			<ErrorTextCard
+				showError={values.region.isDirty && values.region.error != ''}
+				errorMessage={values.region.error}
+				styleClass={'mt-0'}
+			/>
 			<div class="flex gap-2">
 				<div class="w-full">
 					<TextInputWithEndButton
@@ -307,8 +317,13 @@
 				<AmountInputWithTitle
 					title={'Duration'}
 					bind:inputAmountString={durationString}
-					suffix={'Days'}
-				/>
+					suffix={durationUnit}
+					onlyInteger
+				>
+					<div slot="endButton">
+						<Select dataList={durationUnitList} bind:value={durationUnit} />
+					</div>
+				</AmountInputWithTitle>
 				<AmountInputWithTitle
 					title={'Cost'}
 					inputAmountString={cost ? bigNumberToCommaString(cost, 6) : ''}

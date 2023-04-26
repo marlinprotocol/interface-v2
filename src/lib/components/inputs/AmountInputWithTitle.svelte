@@ -9,6 +9,7 @@
 	export let handleUpdatedAmount: any = undefined;
 	export let prefix = '';
 	export let suffix = '';
+	export let onlyInteger = false;
 
 	const styles = {
 		titleIcon: 'flex items-center gap-1',
@@ -29,7 +30,9 @@
 			{disabled}
 			bind:value={inputAmountString}
 			onChange={handleUpdatedAmount}
+			{onlyInteger}
 		/>
 		<Text text={suffix} styleClass={styles.suffix} />
+		<slot name="endButton" />
 	</div>
 </InputCard>

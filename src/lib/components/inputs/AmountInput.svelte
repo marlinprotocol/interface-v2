@@ -3,21 +3,17 @@
 	export let value = '';
 	export let onChange: any = undefined;
 	export let styleClass = '';
-</script>
+	export let onlyInteger = false;
 
-<input
-	{disabled}
-	bind:value
-	on:input={onChange}
-	id="pond-input-amount"
-	class={`hideInputNumberAppearance ${styleClass}`}
-	placeholder="0.00"
-	autocomplete="off"
-	on:keydown={(e) => {
-		// user can only enter numbers and one decimal point, arrows, backspace, delete
+	const validateInput = (
+		e: KeyboardEvent & {
+			currentTarget: EventTarget & HTMLInputElement;
+		}
+	) => {
+		// user can only enter numbers, arrows, backspace, delete and one decimal point if onlyInteger is false
 		if (
 			(e.key >= '0' && e.key <= '9') ||
-			(e.key == '.' && !value.includes('.')) ||
+			(!onlyInteger && e.key == '.' && !value.includes('.')) ||
 			e.key == 'Backspace' ||
 			e.key == 'Delete' ||
 			e.key == 'ArrowLeft' ||
@@ -29,5 +25,17 @@
 		} else {
 			e.preventDefault();
 		}
-	}}
+	};
+</script>
+
+<input
+	{disabled}
+	bind:value
+	on:input={onChange}
+	id="pond-input-amount"
+	class={`hideInputNumberAppearance ${styleClass}`}
+	placeholder={onlyInteger ? '0' : '0.00'}
+	autocomplete="off"
+	on:keydown={validateInput}
+	on:keyup={validateInput}
 />

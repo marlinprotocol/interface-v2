@@ -9,7 +9,18 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 
-	async function init() {
+	async function loadMarketplaceData() {
+		const allMarketplaceData = await getAllProvidersDetailsFromSubgraph();
+		console.log('Oyster Data Fetch - allMarketplaceData:>> ', allMarketplaceData);
+		oysterStore.update((store) => {
+			return {
+				...store,
+				allMarketplaceData
+			};
+		});
+	}
+
+	async function loadConnectedData() {
 		const [allowance, oysterJobs, providerDetail] = await Promise.all([
 			getApprovedOysterAllowances($walletStore.address, $contractAddressStore.Bridge),
 			getOysterJobs($walletStore.address),
@@ -17,22 +28,36 @@
 			getAllProvidersDetailsFromSubgraph()
 		]);
 
+		console.log('Existing Oyster Data - ', $oysterStore);
 		console.log('Oyster Data Fetch - allowance', allowance);
 		console.log('Oyster Data Fetch - oysterJobs', oysterJobs);
 		console.log('Oyster Data Fetch - providerDetail', providerDetail);
-		oysterStore.set({
-			...$oysterStore,
-			providerData: {
-				data: providerDetail,
-				registered: providerDetail != null
-			},
-			allowance: allowance,
-			jobsData: oysterJobs
+		oysterStore.update((value) => {
+			return {
+				...value,
+				providerData: {
+					data: providerDetail,
+					registered: providerDetail != null
+				},
+				allowance: allowance,
+				jobsData: oysterJobs
+			};
 		});
+
+		// oysterStore.set({
+		// 	...$oysterStore,
+		// 	providerData: {
+		// 		data: providerDetail,
+		// 		registered: providerDetail != null
+		// 	},
+		// 	allowance: allowance,
+		// 	jobsData: oysterJobs
+		// });
 	}
 
+	loadMarketplaceData();
 	$: if ($connected) {
-		init();
+		loadConnectedData();
 	}
 </script>
 

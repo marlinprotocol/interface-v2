@@ -290,6 +290,7 @@ export function getAllFiltersListforMarketplaceData(
 	filteredData: OysterMarketplaceDataModel[],
 	addAllOption = true
 ) {
+	console.log('filteredData :>> ', filteredData);
 	const providers = filteredData.map((item) =>
 		item.provider.name && item.provider.name != '' ? item.provider.name : item.provider.address
 	);

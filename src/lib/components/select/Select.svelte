@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { buttonClasses, inputClasses } from '$lib/atoms/componentClasses';
+	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import CollapseButton from '../buttons/CollapseButton.svelte';
@@ -36,12 +36,6 @@
 	onDestroy(() => {
 		document.removeEventListener('click', handleClickOutside);
 	});
-
-	const styles = {
-		rowWrapper: 'flex items-center justify-between',
-		titleIcon: 'flex items-center gap-1',
-		inputSearch: inputClasses.inputText
-	};
 </script>
 
 <div class="relative search-container">

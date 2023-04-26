@@ -13,9 +13,7 @@ export const kOysterRateMetaData = {
 	symbol: '$',
 	decimal: 18,
 	rateUnit: 'hour',
-	rateUnitInSeconds: 3600,
-	userDurationUnit: 'day', //TODO: remove these two
-	userDurationUnitInRateUnit: 24
+	rateUnitInSeconds: 3600
 };
 
 export const oysterTableItemsPerPage = 10;
@@ -416,3 +414,7 @@ export const kDurationUnitsList = [
 		value: 86400 * 30
 	}
 ];
+
+export const getDurationInSecondsForUnit = (durationUnit: string) => {
+	return kDurationUnitsList.find((unit) => unit.label === durationUnit)?.value ?? 1;
+};

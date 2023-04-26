@@ -130,7 +130,6 @@ export const sortOysterOperatorInventory = (
 	sort: string,
 	order: 'asc' | 'desc'
 ) => {
-	console.log('sortOysterOperatorInventory', data, sort, order);
 	if (!data) return [];
 
 	const ascendingSort = (a: OysterInventoryDataModel, b: OysterInventoryDataModel) => {
@@ -169,7 +168,6 @@ export const sortOysterOperatorHistory = (
 	sort: string,
 	order: 'asc' | 'desc'
 ) => {
-	console.log('sortOysterOperatorInventory', data, sort, order);
 	if (!data) return [];
 
 	const ascendingSort = (a: OysterInventoryDataModel, b: OysterInventoryDataModel) => {
@@ -290,7 +288,6 @@ export function getAllFiltersListforMarketplaceData(
 	filteredData: OysterMarketplaceDataModel[],
 	addAllOption = true
 ) {
-	console.log('filteredData :>> ', filteredData);
 	const providers = filteredData.map((item) =>
 		item.provider.name && item.provider.name != '' ? item.provider.name : item.provider.address
 	);
@@ -335,14 +332,19 @@ export function getUpdatedFiltersList(
 }
 
 export const getRateForProviderAndFilters = (
+	providerAddress: string | undefined,
 	values: any,
 	allMarketplaceData: OysterMarketplaceDataModel[]
 ) => {
+	if (!providerAddress) return undefined;
 	const { instance, region } = values;
-	if (!instance.value || !region.value) return null;
+	if (!instance.value || !region.value) return undefined;
 
 	const instanceSelected = allMarketplaceData?.find(
-		(_item) => _item.instance === instance.value && _item.region === region.value
+		(_item) =>
+			_item.provider.address === providerAddress &&
+			_item.instance === instance.value &&
+			_item.region === region.value
 	);
-	return instanceSelected?.rate ?? null;
+	return instanceSelected?.rate ?? undefined;
 };

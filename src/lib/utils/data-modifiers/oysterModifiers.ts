@@ -4,8 +4,7 @@ import type {
 	CPInstances,
 	CPUrlDataModel,
 	OysterInventoryDataModel,
-	OysterMarketplaceDataModel,
-	OysterMarketplaceFilterModel
+	OysterMarketplaceDataModel
 } from '$lib/types/oysterComponentType';
 import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
@@ -16,8 +15,8 @@ export const parseMetadata = (metadata: string) => {
 	//remove unwanted single quote and \
 	metadata = metadata.replaceAll("'", '');
 	metadata = metadata.replaceAll('\\', '');
-	const metadataParsed = JSON.parse(metadata);
 
+	const metadataParsed = metadata ? JSON.parse(metadata) : {};
 	const { url, instanceType, region } = metadataParsed ?? {};
 	const { vcpu, memory } = getvCpuMemoryData(instanceType);
 

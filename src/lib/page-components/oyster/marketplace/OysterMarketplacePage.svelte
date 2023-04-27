@@ -41,7 +41,7 @@
 		} else {
 			sortingMap[id] = 'asc';
 		}
-		allMarketplaceData = sortOysterMarketplace(allMarketplaceData, id, sortingMap[id]);
+		filteredData = sortOysterMarketplace(filteredData, id, sortingMap[id]);
 	};
 
 	const handlePageChange = (page: number) => {

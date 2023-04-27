@@ -9,79 +9,68 @@
 		kDurationUnitsList,
 		kOysterRateMetaData
 	} from '$lib/utils/constants/oysterConstants';
-	import {
-		bigNumberToCommaString,
-		bigNumberToString,
-		stringToBigNumber
-	} from '$lib/utils/conversion';
+	import { bigNumberToCommaString, bigNumberToString } from '$lib/utils/conversion';
 	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import {
+		computeCost,
+		computeDuration,
+		computeDurationString
+	} from '$lib/utils/helpers/oysterHelpers';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
 	export let rate: BigNumber | undefined;
-	export let cost = BigNumberZero;
 	export let duration: number | undefined;
+	export let cost: BigNumber;
 	export let invalidCost = false;
 
-	let durationString = '';
 	let costString = '';
+	let maxBalance = BigNumberZero;
+	let durationUnit = 'Days';
+	let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
 
 	const { rateUnitInSeconds } = kOysterRateMetaData;
 	const durationUnitList = kDurationUnitsList.map((unit) => unit.label);
-
-	let maxBalance = BigNumberZero;
-	let durationUnit = 'Days';
-
-	let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
 
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		maxBalance = value.pond;
 	});
 	onDestroy(unsubscribeWalletBalanceStore);
 
-	const computeCost = (duration: number, rate?: BigNumber) => {
-		return rate ? rate.mul(duration).div(rateUnitInSeconds) : BigNumberZero;
-	};
-
-	const computeDuration = (durationString: string, durationUnitInSec: number) => {
-		return isInputAmountValid(durationString)
-			? Math.floor(Number(durationString) * durationUnitInSec)
-			: 0;
-	};
-
 	const handleDurationChange = (e: any) => {
 		const value = e.target.value;
-		durationString = value;
-		const _duration = computeDuration(durationString, durationUnitInSec);
-		const _cost = computeCost(_duration || 0, rate);
-		costString = bigNumberToString(_cost);
+		try {
+			duration = computeDuration(value, durationUnitInSec);
+			const _cost = computeCost(duration || 0, rate);
+			costString = bigNumberToString(_cost);
+		} catch (error) {
+			duration = 0;
+			console.log(error);
+		}
 	};
 
 	const handleDurationUnitChange = (unit: any) => {
 		durationUnitInSec = getDurationInSecondsForUnit(unit);
-		const _duration = computeDuration(durationString, durationUnitInSec);
-		const _cost = computeCost(_duration || 0, rate);
+		duration = computeDuration(durationString, durationUnitInSec);
+		const _cost = computeCost(duration || 0, rate);
 		costString = bigNumberToString(_cost);
 	};
 
 	const handleCostChange = (e: any) => {
 		const value = e.target.value;
-		const _costString = value;
-		const _cost = isInputAmountValid(_costString) ? Number(_costString) : 0;
-
+		const _cost = isInputAmountValid(value) ? Number(value) : 0;
 		if (_cost && rate) {
 			let _rate = rate.toNumber() / 10 ** 18;
-			const _duration = (_cost * rateUnitInSeconds) / _rate;
-			durationString = Math.floor(_duration / durationUnitInSec).toString();
+			duration = Math.floor((_cost * rateUnitInSeconds) / _rate);
+			costString = value;
 		} else {
-			durationString = '';
+			duration = 0;
+			costString = '';
 		}
 	};
 
-	$: cost = isInputAmountValid(costString) ? stringToBigNumber(costString) : BigNumberZero;
-	$: duration = isInputAmountValid(durationString)
-		? Math.floor(Number(durationString) * durationUnitInSec)
-		: 0;
+	$: durationString = computeDurationString(duration, durationUnitInSec);
+	$: cost = computeCost(duration || 0, rate);
 	$: invalidCost = !cost || !maxBalance.gte(cost);
 	$: inValidMessage = !cost ? '' : invalidCost ? 'Insufficient balance' : '';
 </script>
@@ -95,7 +84,7 @@
 	/>
 	<AmountInputWithTitle
 		title={'Duration'}
-		inputAmountString={durationString}
+		bind:inputAmountString={durationString}
 		suffix={durationUnit}
 		handleUpdatedAmount={handleDurationChange}
 		onlyInteger
@@ -111,7 +100,7 @@
 	</AmountInputWithTitle>
 	<AmountInputWithTitle
 		title={'Cost'}
-		inputAmountString={costString}
+		bind:inputAmountString={costString}
 		handleUpdatedAmount={handleCostChange}
 		suffix={'USDC'}
 		disabled={!rate}

@@ -59,6 +59,7 @@
 				on:click={(e) => onSearchClick?.()}
 			/>
 			<Select
+				{title}
 				{dataList}
 				bind:value={searchValue}
 				setValue={setSearchValue}

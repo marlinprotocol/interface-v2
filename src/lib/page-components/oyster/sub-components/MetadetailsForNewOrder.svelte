@@ -9,6 +9,7 @@
 	export let allMarketplaceData: OysterMarketplaceDataModel[];
 	export let jobValues: any;
 	export let providerAddress: string | undefined;
+	export let handleChange = () => {};
 
 	$: merchantList = [
 		...new Set(
@@ -60,6 +61,7 @@
 			},
 			merchant
 		};
+		handleChange();
 	};
 
 	$: instanceData = getvCpuMemoryData(jobValues.instance.value);

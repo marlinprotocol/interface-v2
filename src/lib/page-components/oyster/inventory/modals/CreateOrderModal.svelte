@@ -34,6 +34,7 @@
 	let cost = BigNumberZero;
 	let rate: BigNumber | undefined = undefined;
 	let invalidCost = false;
+	let costString = '';
 
 	//loading states
 	let submitLoading = false;
@@ -119,11 +120,30 @@
 	};
 
 	const resetInputs = () => {
-		jobValues = initialStates;
+		handleMerchantChange();
+		submitLoading = false;
+		jobValues = {
+			merchant: {
+				...initialStates.merchant
+			},
+			instance: {
+				...initialStates.instance
+			},
+			region: {
+				...initialStates.region
+			},
+			enclaveImageUrl: {
+				...initialStates.enclaveImageUrl
+			}
+		};
+	};
+
+	const handleMerchantChange = () => {
 		duration = 0;
 		cost = BigNumberZero;
 		rate = undefined;
 		invalidCost = false;
+		costString = '';
 	};
 
 	$: rate = getRateForProviderAndFilters(providerAddress, jobValues, allMarketplaceData);
@@ -160,8 +180,13 @@
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-2 px-4">
-			<MetadetailsForNewOrder bind:jobValues bind:providerAddress {allMarketplaceData} />
-			<AddFundsToJob bind:cost bind:duration bind:invalidCost {rate} />
+			<MetadetailsForNewOrder
+				bind:jobValues
+				bind:providerAddress
+				{allMarketplaceData}
+				handleChange={handleMerchantChange}
+			/>
+			<AddFundsToJob bind:cost bind:duration bind:invalidCost {rate} bind:costString />
 			<TextInputWithEndButton
 				styleClass={styles.inputText}
 				title={'Enclave Image URL'}

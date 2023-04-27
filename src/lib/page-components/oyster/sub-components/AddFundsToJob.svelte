@@ -23,8 +23,8 @@
 	export let duration: number | undefined;
 	export let cost: BigNumber;
 	export let invalidCost = false;
+	export let costString = '';
 
-	let costString = '';
 	let maxBalance = BigNumberZero;
 	let durationUnit = 'Days';
 	let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
@@ -59,13 +59,21 @@
 	const handleCostChange = (e: any) => {
 		const value = e.target.value;
 		const _cost = isInputAmountValid(value) ? Number(value) : 0;
+
+		if (!value) {
+			duration = 0;
+			costString = '';
+			return;
+		}
+		if (_cost === 0) {
+			duration = 0;
+			return;
+		}
 		if (_cost && rate) {
 			let _rate = rate.toNumber() / 10 ** 18;
 			duration = Math.floor((_cost * rateUnitInSeconds) / _rate);
 			costString = value;
-		} else {
-			duration = 0;
-			costString = '';
+			return;
 		}
 	};
 

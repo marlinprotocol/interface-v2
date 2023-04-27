@@ -20,9 +20,9 @@
 	<!-- TODO: move this to span -->
 	{#if sorting}
 		<button on:click={handleSortData}>
-			<div class="flex gap-1 items-center">
-				<img src={staticImages.Sort} alt="sort" width="16px" />
-				{title}
+			<div class="flex items-start">
+				<img class="mt-[2px]" src={staticImages.Sort} alt="sort" width="16px" />
+				<div class="ml-[4px]">{title}</div>
 			</div>
 		</button>
 	{:else}

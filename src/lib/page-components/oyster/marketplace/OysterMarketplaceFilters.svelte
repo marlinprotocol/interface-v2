@@ -16,12 +16,13 @@
 	export let filterMap: Record<string, string | number> = {};
 	export let allMarketplaceData: OysterMarketplaceDataModel[];
 	export let filteredData: OysterMarketplaceDataModel[];
-	export let onSearchClick: (() => void) | undefined = undefined;
+	export let onFilterClick: () => void;
 
 	let filterIdOrders: string[] = [];
 	$: allFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
 
 	const handleFilterData = (id: keyof OysterMarketplaceFilterModel, value: string | number) => {
+		onFilterClick();
 		if (value === 'All') {
 			delete filterMap[id];
 			filterIdOrders.filter((filterId) => filterId !== id);
@@ -61,7 +62,7 @@
 			placeholder={'Enter operator name or address'}
 			cardVariant={'search'}
 			styleClass={'w-full'}
-			{onSearchClick}
+			onSearchClick={onFilterClick}
 		/>
 		<div class="flex gap-4 items-center mt-4">
 			<TableFilter

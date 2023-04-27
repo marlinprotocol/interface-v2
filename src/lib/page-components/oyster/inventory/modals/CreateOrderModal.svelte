@@ -46,7 +46,7 @@
 	onDestroy(unsubscribeOysterStore);
 
 	//initial states
-	const initialStates = {
+	$: initialStates = {
 		merchant: {
 			value: preFilledData?.provider?.address || '',
 			error: '',
@@ -71,7 +71,7 @@
 	};
 
 	// deep copy of initial states
-	let jobValues = {
+	$: jobValues = {
 		merchant: {
 			...initialStates.merchant
 		},

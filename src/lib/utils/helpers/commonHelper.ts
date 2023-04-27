@@ -116,11 +116,41 @@ export function capitalizeFirstLetter(string: string) {
  * @example checkValidURL('http://example.com/') => false as it has an ending slash at the end
  * @example checkValidURL('example.com') => false as it has no http:// or https:// at the start
  */
-export function checkValidURL(str: string) {
-	const validPattern = '^(http|https):\\/\\/[\\w.-]+(:\\d+)?(\\/\\S*)?[^\\/]$';
-	const validUrlRegex = new RegExp(validPattern);
+export function checkValidURL(url: string) {
+	// TODO: the regex is not perfect and can be improved
+	const ipv4Regex = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
+	const ipv6Regex = /^(?:[a-fA-F0-9]{1,4}:){7}[a-fA-F0-9]{1,4}$/;
+	const urlRegex = /^(http|https):\/\/[\w.-]+(:\d+)?(\/\S*)?[^/]$/;
 
-	return validUrlRegex.test(str);
+	const hasValidProtocolAndHostname = urlRegex.test(url);
+	const hasNoTrailingSlashOrTrailingColon = !url.endsWith('/') && !url.endsWith(':');
+
+	let isValid = hasValidProtocolAndHostname && hasNoTrailingSlashOrTrailingColon;
+
+	if (!isValid) {
+		return false;
+	}
+
+	const ipv4Match = ipv4Regex.test(url);
+	const ipv6Match = ipv6Regex.test(url);
+
+	if (ipv4Match || ipv6Match) {
+		const urlWithoutProtocol = url.split('://')[1];
+		const urlWithoutProtocolAndPath = urlWithoutProtocol.split('/')[0];
+		const hostnameOrIP = urlWithoutProtocolAndPath.split(':')[0];
+
+		if (ipv4Match) {
+			const groups = hostnameOrIP.split('.');
+			isValid =
+				groups.length === 4 &&
+				groups.every((group) => parseInt(group) >= 0 && parseInt(group) <= 255);
+		} else {
+			isValid = true;
+		}
+		return isValid;
+	}
+
+	return true;
 }
 
 export const goerliArbiUrl = (txnHash: string) => {

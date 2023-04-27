@@ -43,6 +43,7 @@ export async function handleFundsAddToJob(
 			totalDeposit: jobData.totalDeposit.add(amount),
 			balance: jobData.balance.add(amount),
 			durationLeft: jobData.durationLeft + duration,
+			endEpochTime: jobData.endEpochTime + duration,
 			depositHistory: [
 				{
 					amount,

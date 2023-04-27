@@ -9,6 +9,7 @@
 	import TextButton from './TextButton.svelte';
 	import WhiteFilledButton from './WhiteFilledButton.svelte';
 	import Icon from '../icons/Icon.svelte';
+	import TableConvertButton from '$lib/atoms/buttons/TableConvertButton.svelte';
 
 	export let variant: ButtonModel['variant'] = 'filled';
 	export let size: ButtonModel['size'] = 'medium';
@@ -35,6 +36,8 @@
 				return GreyFilledButton;
 			case 'whiteFilled':
 				return WhiteFilledButton;
+			case 'tableConvertButton':
+				return TableConvertButton;
 			default:
 				return FilledButton;
 		}
@@ -43,6 +46,8 @@
 		switch (size) {
 			case 'tiny':
 				return 'h-8';
+			case 'smaller':
+				return 'h-9';
 			case 'small':
 				return 'h-10';
 			case 'medium':

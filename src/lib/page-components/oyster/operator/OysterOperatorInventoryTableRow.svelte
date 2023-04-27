@@ -79,8 +79,11 @@
 		</div>
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('action')}`}>
-		<Button onclick={async () => await settleOysterJob(id)} size="tiny" styleClass="w-full"
-			>CLAIM</Button
+		<Button
+			variant="tableConvertButton"
+			onclick={async () => await settleOysterJob(id)}
+			size="smaller"
+			styleClass="w-fit px-6 rounded text-xs">CLAIM</Button
 		>
 	</TableGridDataCell>
 </div>

@@ -112,14 +112,37 @@
 		}
 	}
 
+	function debounce<F extends (...args: any[]) => Promise<any>>(func: F, delay: number): F {
+		let timeoutID: ReturnType<typeof setTimeout> | undefined;
+
+		return async function (this: any, ...args: Parameters<F>): Promise<ReturnType<F>> {
+			const context = this;
+
+			// Return a Promise that resolves with the result of the original function
+			return new Promise<ReturnType<F>>((resolve) => {
+				clearTimeout(timeoutID);
+				timeoutID = setTimeout(async () => {
+					const result = await func.apply(context, args);
+					resolve(result);
+				}, delay);
+			});
+		} as F;
+	}
+
+	// Define the debounced version of getInstances
+	const debouncedGetInstances = debounce(getInstances, 2000);
+
+	$: if (updatedCpURL !== registeredCpURL) {
+		enableRegisterButton = false;
+	}
 	// using regex to validate CP URL
 	$: validCPUrl = checkValidURL(updatedCpURL);
-	$: console.log(updatedCpURL, validCPUrl);
 	$: instances =
-		registeredCpURL === '' && updatedCpURL && validCPUrl ? getInstances(true) : getInstances(false);
-	$: instances
-		.then((data) => (enableRegisterButton = true))
-		.catch((error) => (enableRegisterButton = false));
+		(registeredCpURL === '' && updatedCpURL && validCPUrl) ||
+		(registeredCpURL !== updatedCpURL && validCPUrl)
+			? debouncedGetInstances(true)
+			: debouncedGetInstances(false);
+	$: instances.then((data) => (enableRegisterButton = true));
 </script>
 
 <ContainerCard>
@@ -192,7 +215,7 @@
 						variant="filled"
 						size="large"
 						styleClass="w-full"
-						disabled={!validCPUrl || registeredCpURL === updatedCpURL}
+						disabled={!validCPUrl || registeredCpURL === updatedCpURL || !enableRegisterButton}
 						onclick={handleOnRegister}
 					>
 						Update

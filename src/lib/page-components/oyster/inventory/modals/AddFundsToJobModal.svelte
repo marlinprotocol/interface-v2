@@ -14,8 +14,6 @@
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import AddFundsToJob from '../../sub-components/AddFundsToJob.svelte';
-	import { computeCost } from '$lib/utils/helpers/oysterHelpers';
-	import { bigNumberToString } from '$lib/utils/conversion';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -38,10 +36,15 @@
 	});
 	onDestroy(unsubscribeOysterStore);
 
+	let costString = '';
+
 	//reset amount
 	const resetInputs = () => {
 		duration = undefined;
 		invalidCost = false;
+		costString = '';
+		approvedLoading = false;
+		submitLoading = false;
 	};
 
 	const handleApproveClick = async () => {
@@ -74,7 +77,7 @@
 		{subtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<AddFundsToJob bind:duration bind:invalidCost bind:cost {rate} />
+		<AddFundsToJob bind:duration bind:invalidCost bind:cost {rate} bind:costString />
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		{#if !approved}

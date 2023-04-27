@@ -41,11 +41,15 @@
 		} else {
 			sortingMap[id] = 'asc';
 		}
-		allMarketplaceData = sortOysterMarketplace(allMarketplaceData, id, sortingMap[id]);
+		filteredData = sortOysterMarketplace(filteredData, id, sortingMap[id]);
 	};
 
 	const handlePageChange = (page: number) => {
 		activePage = page;
+	};
+
+	const onSearchClick = () => {
+		activePage = 1;
 	};
 
 	// get page array based on inventory and itemsPerPage
@@ -61,7 +65,12 @@
 <div class="mx-auto">
 	<PageTitle title={'Infrastructure Providers'} />
 	<div class="flex gap-4 items-center mb-6">
-		<OysterMarketplaceFilters bind:filteredData bind:filterMap {allMarketplaceData} />
+		<OysterMarketplaceFilters
+			bind:filteredData
+			bind:filterMap
+			{allMarketplaceData}
+			{onSearchClick}
+		/>
 	</div>
 	<OysterInventoryTable
 		walletConnectionRequired={false}

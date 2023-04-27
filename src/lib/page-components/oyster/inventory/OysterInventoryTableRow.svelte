@@ -109,10 +109,10 @@
 			{symbol}{bigNumberToCommaString(rate, oysterAmountPrecision)}
 		</TableGridDataCell>
 		<TableGridDataCell width={`${kInventoryTableColumnsWidth('vcpu')}`}>
-			{vcpu}
+			{vcpu ? vcpu : 'N/A'}
 		</TableGridDataCell>
 		<TableGridDataCell width={`${kInventoryTableColumnsWidth('memory')}`}>
-			{memory}
+			{memory ? memory : 'N/A'}
 		</TableGridDataCell>
 		<TableGridDataCell width={`${kInventoryTableColumnsWidth('balance')}`}>
 			{symbol}{bigNumberToCommaString(balance, oysterAmountPrecision)}

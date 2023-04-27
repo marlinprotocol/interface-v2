@@ -52,10 +52,10 @@
 		{symbol}{bigNumberToCommaString(rate, oysterAmountPrecision)}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kMarketplaceTableColumnsWidth('vcpu')}`}>
-		{vcpu}
+		{vcpu ? vcpu : 'N/A'}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kMarketplaceTableColumnsWidth('memory')}`}>
-		{memory}
+		{memory ? memory : 'N/A'}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kMarketplaceTableColumnsWidth('action')}`}>
 		{#if !$connected}

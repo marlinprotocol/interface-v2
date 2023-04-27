@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import { buttonClasses, tableCellClasses } from '$lib/atoms/componentClasses';
+	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import LoadingCircular from '$lib/atoms/loading/LoadingCircular.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import Pagination from '$lib/components/pagination/Pagination.svelte';

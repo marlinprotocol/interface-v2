@@ -204,13 +204,14 @@ export async function getOysterProvidersModified(providers: any[]) {
 
 	providers.forEach((provider) => {
 		const instances = getModifiedInstances(allInstances[provider.id]);
-		instances?.forEach((instance: any) => {
+		instances?.forEach((instance: any, index: number) => {
 			ret.push({
 				...instance,
 				provider: {
 					name: allNames[provider.id] ?? '',
 					address: provider.id
-				}
+				},
+				id: `${provider.id}-${index}`
 			});
 		});
 	});

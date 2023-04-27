@@ -44,7 +44,7 @@
 			class="absolute z-10 min-w-[150px] w-fit right-0 text-base bg-white rounded-md border border-gray-300 shadow-lg max-h-72 overflow-y-auto focus:outline-none sm:text-sm"
 		>
 			<div class="flex justify-between px-8 py-4 items-center">
-				<Text variant="small" styleClass="" fontWeight="font-semibold" text={`Select ${title}`} />
+				<Text variant="small" styleClass="" fontWeight="font-semibold" text={title ?? 'Select'} />
 			</div>
 			{#each suggestions as suggestion}
 				<li

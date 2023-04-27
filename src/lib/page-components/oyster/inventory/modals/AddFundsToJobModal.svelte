@@ -14,6 +14,8 @@
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import AddFundsToJob from '../../sub-components/AddFundsToJob.svelte';
+	import { computeCost } from '$lib/utils/helpers/oysterHelpers';
+	import { bigNumberToString } from '$lib/utils/conversion';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -21,7 +23,7 @@
 	$: ({ rate } = jobData);
 
 	let duration: number | undefined = undefined; //durationInSecs
-	let cost = BigNumberZero;
+	let cost: BigNumber = BigNumberZero;
 	let invalidCost = false;
 
 	//loading states
@@ -39,7 +41,6 @@
 	//reset amount
 	const resetInputs = () => {
 		duration = undefined;
-		cost = BigNumberZero;
 		invalidCost = false;
 	};
 
@@ -73,7 +74,7 @@
 		{subtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<AddFundsToJob bind:cost bind:duration bind:invalidCost {rate} />
+		<AddFundsToJob bind:duration bind:invalidCost bind:cost {rate} />
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		{#if !approved}

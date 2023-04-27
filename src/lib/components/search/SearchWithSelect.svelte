@@ -8,6 +8,7 @@
 	export let dataList: (string | number)[] = [];
 	export let searchValue: string | number | undefined = '';
 	export let setSearchValue: (value: string | number) => any;
+	export let onSearchClick: (() => void) | undefined = undefined;
 
 	export let title: string;
 	export let showTitle = true;
@@ -55,6 +56,7 @@
 				value={searchValue ?? ''}
 				on:input={handleSearch}
 				disabled={onlyFilters}
+				on:click={(e) => onSearchClick?.()}
 			/>
 			<Select
 				{dataList}

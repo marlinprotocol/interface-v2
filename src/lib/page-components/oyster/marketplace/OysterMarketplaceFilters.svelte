@@ -15,6 +15,7 @@
 	export let filterMap: Record<string, string | number> = {};
 	export let allMarketplaceData: OysterMarketplaceDataModel[];
 	export let filteredData: OysterMarketplaceDataModel[];
+	export let onSearchClick: (() => void) | undefined = undefined;
 
 	let filterIdOrders: string[] = [];
 	$: allFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
@@ -59,6 +60,7 @@
 			placeholder={'Enter operator name or address'}
 			cardVariant={'search'}
 			styleClass={'w-full'}
+			{onSearchClick}
 		/>
 		<div class="flex gap-4 items-center mt-4">
 			<SearchWithSelect

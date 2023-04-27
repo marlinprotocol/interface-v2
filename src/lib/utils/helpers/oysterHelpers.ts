@@ -4,6 +4,10 @@ import type {
 	OysterMarketplaceDataModel,
 	OysterMarketplaceFilterModel
 } from '$lib/types/oysterComponentType';
+import type { BigNumber } from 'ethers';
+import { BigNumberZero } from '../constants/constants';
+import { isInputAmountValid } from './commonHelper';
+import { kOysterRateMetaData } from '../constants/oysterConstants';
 
 export const getSearchedInventoryData = (
 	searchInput: string,
@@ -347,4 +351,20 @@ export const getRateForProviderAndFilters = (
 			_item.region === region.value
 	);
 	return instanceSelected?.rate ?? undefined;
+};
+
+export const computeCost = (duration: number, rate?: BigNumber) => {
+	const { rateUnitInSeconds } = kOysterRateMetaData;
+	return rate ? rate.mul(duration).div(rateUnitInSeconds) : BigNumberZero;
+};
+
+export const computeDuration = (durationString: string, durationUnitInSec: number) => {
+	return isInputAmountValid(durationString)
+		? Math.floor(Number(durationString) * durationUnitInSec)
+		: 0;
+};
+
+export const computeDurationString = (duration: number | undefined, durationUnitInSec: number) => {
+	if (!duration || duration === 0 || durationUnitInSec === 0) return '';
+	return Math.floor(duration / durationUnitInSec).toString();
 };

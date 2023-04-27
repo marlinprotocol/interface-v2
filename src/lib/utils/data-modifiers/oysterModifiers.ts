@@ -152,7 +152,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	}
 
 	//job is running or has completed
-	const _paidDuration = _balance.div(_rate).toNumber() * rateUnitInSeconds;
+	const _paidDuration = _balance.mul(rateUnitInSeconds).div(_rate).toNumber();
 	const endEpochTime = _lastSettled + _paidDuration;
 
 	if (endEpochTime < nowTime) {

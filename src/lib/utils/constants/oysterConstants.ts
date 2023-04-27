@@ -402,17 +402,17 @@ export const kDurationUnitsList = [
 		label: 'Days',
 		id: 'day',
 		value: 86400
-	},
-	{
-		label: 'Weeks',
-		id: 'week',
-		value: 86400 * 7
-	},
-	{
-		label: 'Months',
-		id: 'month',
-		value: 86400 * 30
 	}
+	// {
+	// 	label: 'Weeks',
+	// 	id: 'week',
+	// 	value: 86400 * 7
+	// },
+	// {
+	// 	label: 'Months',
+	// 	id: 'month',
+	// 	value: 86400 * 30
+	// }
 ];
 
 export const getDurationInSecondsForUnit = (durationUnit: string) => {

@@ -35,7 +35,6 @@ export async function handleFundsAddToJob(
 	amount: BigNumber,
 	duration: number
 ) {
-	console.log('jobData duration :>> ', duration, jobData.durationLeft);
 	const { id } = jobData;
 	try {
 		const txn = await addFundsToOysterJob(id, amount);

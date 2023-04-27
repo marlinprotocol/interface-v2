@@ -21,7 +21,7 @@
 	$: ({ rate } = jobData);
 
 	let duration: number | undefined = undefined; //durationInSecs
-	let cost = BigNumberZero;
+	let cost: BigNumber = BigNumberZero;
 	let invalidCost = false;
 
 	//loading states
@@ -36,11 +36,15 @@
 	});
 	onDestroy(unsubscribeOysterStore);
 
+	let costString = '';
+
 	//reset amount
 	const resetInputs = () => {
 		duration = undefined;
-		cost = BigNumberZero;
 		invalidCost = false;
+		costString = '';
+		approvedLoading = false;
+		submitLoading = false;
 	};
 
 	const handleApproveClick = async () => {
@@ -73,7 +77,7 @@
 		{subtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<AddFundsToJob bind:cost bind:duration bind:invalidCost {rate} />
+		<AddFundsToJob bind:duration bind:invalidCost bind:cost {rate} bind:costString />
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		{#if !approved}

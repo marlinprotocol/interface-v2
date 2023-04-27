@@ -9,27 +9,28 @@
 		kDurationUnitsList,
 		kOysterRateMetaData
 	} from '$lib/utils/constants/oysterConstants';
-	import {
-		bigNumberToCommaString,
-		bigNumberToString,
-		stringToBigNumber
-	} from '$lib/utils/conversion';
+	import { bigNumberToCommaString, bigNumberToString } from '$lib/utils/conversion';
 	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import {
+		computeCost,
+		computeDuration,
+		computeDurationString
+	} from '$lib/utils/helpers/oysterHelpers';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
 	export let rate: BigNumber | undefined;
-	export let cost = BigNumberZero;
 	export let duration: number | undefined;
+	export let cost: BigNumber;
 	export let invalidCost = false;
-
-	const { rateUnitInSeconds } = kOysterRateMetaData;
-	const durationUnitList = kDurationUnitsList.map((unit) => unit.label);
+	export let costString = '';
 
 	let maxBalance = BigNumberZero;
 	let durationUnit = 'Days';
-
 	let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
+
+	const { rateUnitInSeconds } = kOysterRateMetaData;
+	const durationUnitList = kDurationUnitsList.map((unit) => unit.label);
 
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		maxBalance = value.pond;
@@ -38,36 +39,47 @@
 
 	const handleDurationChange = (e: any) => {
 		const value = e.target.value;
-		const _durationString = value;
-		const _durationInOtherUnit = isInputAmountValid(_durationString) ? Number(_durationString) : 0;
-		duration = Math.floor(_durationInOtherUnit * durationUnitInSec);
-	};
-
-	const computeRate = (duration: number, rate: BigNumber) => {
-		return rate.mul(duration).div(rateUnitInSeconds);
+		try {
+			duration = computeDuration(value, durationUnitInSec);
+			const _cost = computeCost(duration || 0, rate);
+			costString = bigNumberToString(_cost);
+		} catch (error) {
+			duration = 0;
+			console.log(error);
+		}
 	};
 
 	const handleDurationUnitChange = (unit: any) => {
 		durationUnitInSec = getDurationInSecondsForUnit(unit);
-		duration = Math.floor(durationInOtherUnit * durationUnitInSec);
+		duration = computeDuration(durationString, durationUnitInSec);
+		const _cost = computeCost(duration || 0, rate);
+		costString = bigNumberToString(_cost);
 	};
 
 	const handleCostChange = (e: any) => {
 		const value = e.target.value;
-		const _costString = value;
-		const _cost = isInputAmountValid(_costString) ? stringToBigNumber(_costString) : BigNumberZero;
-		if (_cost && rate) {
-			duration = cost.mul(rateUnitInSeconds).div(rate).toNumber();
-		} else {
+		const _cost = isInputAmountValid(value) ? Number(value) : 0;
+
+		if (!value) {
 			duration = 0;
+			costString = '';
+			return;
+		}
+		if (_cost === 0) {
+			duration = 0;
+			return;
+		}
+		if (_cost && rate) {
+			let _rate = rate.toNumber() / 10 ** 18;
+			duration = Math.floor((_cost * rateUnitInSeconds) / _rate);
+			costString = value;
+			return;
 		}
 	};
 
-	$: cost = rate ? computeRate(duration || 0, rate) : BigNumberZero;
-	$: durationString = !duration ? '' : Math.floor(duration / durationUnitInSec).toString();
-	$: costString = bigNumberToString(cost);
+	$: durationString = computeDurationString(duration, durationUnitInSec);
+	$: cost = computeCost(duration || 0, rate);
 	$: invalidCost = !cost || !maxBalance.gte(cost);
-	$: durationInOtherUnit = isInputAmountValid(durationString) ? Number(durationString) : 0;
 	$: inValidMessage = !cost ? '' : invalidCost ? 'Insufficient balance' : '';
 </script>
 
@@ -80,7 +92,7 @@
 	/>
 	<AmountInputWithTitle
 		title={'Duration'}
-		inputAmountString={durationString}
+		bind:inputAmountString={durationString}
 		suffix={durationUnit}
 		handleUpdatedAmount={handleDurationChange}
 		onlyInteger
@@ -96,7 +108,7 @@
 	</AmountInputWithTitle>
 	<AmountInputWithTitle
 		title={'Cost'}
-		inputAmountString={costString}
+		bind:inputAmountString={costString}
 		handleUpdatedAmount={handleCostChange}
 		suffix={'USDC'}
 		disabled={!rate}

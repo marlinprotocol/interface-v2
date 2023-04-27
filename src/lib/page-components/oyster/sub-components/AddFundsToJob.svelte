@@ -23,6 +23,9 @@
 	export let duration: number | undefined;
 	export let invalidCost = false;
 
+	let durationString = '';
+	let costString = '';
+
 	const { rateUnitInSeconds } = kOysterRateMetaData;
 	const durationUnitList = kDurationUnitsList.map((unit) => unit.label);
 
@@ -36,38 +39,50 @@
 	});
 	onDestroy(unsubscribeWalletBalanceStore);
 
-	const handleDurationChange = (e: any) => {
-		const value = e.target.value;
-		const _durationString = value;
-		const _durationInOtherUnit = isInputAmountValid(_durationString) ? Number(_durationString) : 0;
-		duration = Math.floor(_durationInOtherUnit * durationUnitInSec);
+	const computeCost = (duration: number, rate?: BigNumber) => {
+		return rate ? rate.mul(duration).div(rateUnitInSeconds) : BigNumberZero;
 	};
 
-	const computeRate = (duration: number, rate: BigNumber) => {
-		return rate.mul(duration).div(rateUnitInSeconds);
+	const computeDuration = (durationString: string, durationUnitInSec: number) => {
+		return isInputAmountValid(durationString)
+			? Math.floor(Number(durationString) * durationUnitInSec)
+			: 0;
+	};
+
+	const handleDurationChange = (e: any) => {
+		const value = e.target.value;
+		durationString = value;
+		const _duration = computeDuration(durationString, durationUnitInSec);
+		const _cost = computeCost(_duration || 0, rate);
+		costString = bigNumberToString(_cost);
 	};
 
 	const handleDurationUnitChange = (unit: any) => {
 		durationUnitInSec = getDurationInSecondsForUnit(unit);
-		duration = Math.floor(durationInOtherUnit * durationUnitInSec);
+		const _duration = computeDuration(durationString, durationUnitInSec);
+		const _cost = computeCost(_duration || 0, rate);
+		costString = bigNumberToString(_cost);
 	};
 
 	const handleCostChange = (e: any) => {
 		const value = e.target.value;
 		const _costString = value;
-		const _cost = isInputAmountValid(_costString) ? stringToBigNumber(_costString) : BigNumberZero;
+		const _cost = isInputAmountValid(_costString) ? Number(_costString) : 0;
+
 		if (_cost && rate) {
-			duration = cost.mul(rateUnitInSeconds).div(rate).toNumber();
+			let _rate = rate.toNumber() / 10 ** 18;
+			const _duration = (_cost * rateUnitInSeconds) / _rate;
+			durationString = Math.floor(_duration / durationUnitInSec).toString();
 		} else {
-			duration = 0;
+			durationString = '';
 		}
 	};
 
-	$: cost = rate ? computeRate(duration || 0, rate) : BigNumberZero;
-	$: durationString = !duration ? '' : Math.floor(duration / durationUnitInSec).toString();
-	$: costString = bigNumberToString(cost);
+	$: cost = isInputAmountValid(costString) ? stringToBigNumber(costString) : BigNumberZero;
+	$: duration = isInputAmountValid(durationString)
+		? Math.floor(Number(durationString) * durationUnitInSec)
+		: 0;
 	$: invalidCost = !cost || !maxBalance.gte(cost);
-	$: durationInOtherUnit = isInputAmountValid(durationString) ? Number(durationString) : 0;
 	$: inValidMessage = !cost ? '' : invalidCost ? 'Insufficient balance' : '';
 </script>
 

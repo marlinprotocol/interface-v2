@@ -340,6 +340,7 @@ export const getRateForProviderAndFilters = (
 	values: any,
 	allMarketplaceData: OysterMarketplaceDataModel[]
 ) => {
+	console.log('getRateForProviderAndFilters :>> ', values, allMarketplaceData, providerAddress);
 	if (!providerAddress) return undefined;
 	const { instance, region } = values;
 	if (!instance.value || !region.value) return undefined;
@@ -351,6 +352,21 @@ export const getRateForProviderAndFilters = (
 			_item.region === region.value
 	);
 	return instanceSelected?.rate ?? undefined;
+};
+
+export const getCreateOrderInstanceRegionFilters = (
+	providerAddress: string | undefined,
+	allMarketplaceData: OysterMarketplaceDataModel[] | undefined
+) => {
+	if (!providerAddress || !allMarketplaceData || allMarketplaceData.length === 0) return {};
+	const filteredData = allMarketplaceData.filter(
+		(_item) => _item.provider.address === providerAddress
+	);
+	const filters = getAllFiltersListforMarketplaceData(filteredData, false);
+	return {
+		instance: filters.instance,
+		region: filters.region
+	};
 };
 
 export const computeCost = (duration: number, rate?: BigNumber) => {

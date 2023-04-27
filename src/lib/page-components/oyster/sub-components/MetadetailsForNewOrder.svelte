@@ -2,14 +2,24 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
-	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
+	import type {
+		OysterFiltersModel,
+		OysterMarketplaceDataModel
+	} from '$lib/types/oysterComponentType';
 	import { getvCpuMemoryData } from '$lib/utils/data-modifiers/oysterModifiers';
-	import { getAllFiltersListforMarketplaceData } from '$lib/utils/helpers/oysterHelpers';
+	import { getCreateOrderInstanceRegionFilters } from '$lib/utils/helpers/oysterHelpers';
 
 	export let allMarketplaceData: OysterMarketplaceDataModel[];
 	export let jobValues: any;
 	export let providerAddress: string | undefined;
 	export let handleChange = () => {};
+
+	$: console.log('providerAddress 2:>> ', providerAddress);
+
+	let filters: Partial<OysterFiltersModel> = getCreateOrderInstanceRegionFilters(
+		providerAddress,
+		allMarketplaceData
+	);
 
 	$: merchantList = [
 		...new Set(
@@ -38,7 +48,9 @@
 	};
 
 	const handleMerchantChange = async (value: string | number) => {
+		console.log('handleMerchantChange providerAddress :>> ', value);
 		const merchant = handleFieldChange(jobValues.merchant, value, merchantList, 'Operator');
+		console.log('merchant :>> ', merchant);
 		providerAddress =
 			value != ''
 				? allMarketplaceData.find(
@@ -61,14 +73,14 @@
 			},
 			merchant
 		};
+		console.log('providerAddress:>> ', providerAddress);
+		filters = getCreateOrderInstanceRegionFilters(providerAddress, allMarketplaceData);
 		handleChange();
 	};
 
 	$: instanceData = getvCpuMemoryData(jobValues.instance.value);
 	$: vcpu = !jobValues.instance.value ? '' : instanceData.vcpu?.toString() ?? 'N/A';
 	$: memory = !jobValues.instance.value ? '' : instanceData.memory?.toString() ?? 'N/A';
-
-	$: filterData = getAllFiltersListforMarketplaceData(allMarketplaceData, false);
 </script>
 
 <SearchWithSelect
@@ -86,13 +98,13 @@
 <div class="flex gap-2">
 	<div class="w-full">
 		<SearchWithSelect
-			dataList={filterData?.instance ?? []}
+			dataList={filters?.instance ?? []}
 			searchValue={jobValues.instance.value}
 			setSearchValue={(value) => {
 				jobValues.instance = handleFieldChange(
 					jobValues.instance,
 					value,
-					filterData?.instance ?? [],
+					filters?.instance ?? [],
 					jobValues.instance.title
 				);
 			}}
@@ -102,13 +114,13 @@
 	</div>
 	<div class="w-full">
 		<SearchWithSelect
-			dataList={filterData?.region ?? []}
+			dataList={filters?.region ?? []}
 			searchValue={jobValues.region.value}
 			setSearchValue={(value) => {
 				jobValues.region = handleFieldChange(
 					jobValues.region,
 					value,
-					filterData?.region ?? [],
+					filters?.region ?? [],
 					jobValues.region.title
 				);
 			}}

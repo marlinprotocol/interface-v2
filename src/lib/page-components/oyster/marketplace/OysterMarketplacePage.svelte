@@ -83,7 +83,7 @@
 				<LoadingCircular />
 			</div>
 		{:else if paginatedData?.length}
-			{#each paginatedData as rowData, rowIndex}
+			{#each paginatedData as rowData, rowIndex (rowData.id)}
 				<OysterMarketplaceTableRow {rowData} {rowIndex} />
 			{/each}
 		{:else}

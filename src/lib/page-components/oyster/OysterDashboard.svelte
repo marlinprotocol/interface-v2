@@ -126,7 +126,6 @@
 	<svelte:fragment slot="header">
 		<Text variant="h2" text="Operator Registration" styleClass="text-left" />
 		<div class="text-left text-grey-700 flex flex-col gap-1 mt-2 mb-4">
-			<Text variant="body" text="For providers running instances" />
 			<div class="flex gap-2 items-center">
 				<Text variant="body" text="Quick access:" />
 				<a href={kOysterDocLink}>

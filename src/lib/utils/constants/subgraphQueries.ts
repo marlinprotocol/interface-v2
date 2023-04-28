@@ -211,15 +211,15 @@ export const QUERY_TO_GET_ALL_PROVIDERS_DATA = `query Providers {
   }
 }`;
 
-export const QUERY_TO_JOB_REVISE_RATE_END_TIMESTAMP_DATA = `query ReviseRateRequests($jobId: String) {
+export const QUERY_TO_JOB_REVISE_RATE_END_TIMESTAMP_DATA = `query ReviseRateRequests($job: String) {
   reviseRateRequests(
     first: 1
-    where: { jobId: $jobId }
+    where: { job: $job }
     orderBy: updatesAt
     orderDirection: desc
   ) {
     id
-    jobId
+    job
     status
     updatesAt
     value

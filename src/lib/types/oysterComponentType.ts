@@ -85,7 +85,7 @@ export type OysterDepositHistoryDataModel = {
 
 export type OysterRateRequestModel = {
 	id: string;
-	jobId: string;
+	job: string;
 	status: string;
 	updatesAt: number;
 	value: string;

@@ -523,12 +523,12 @@ export async function confirmMPondConversion(epoch: BigNumber, amount: BigNumber
 }
 
 // ----------------------------- Oyster contract methods -----------------------------
+// TODO: move oysterContractAddress to a config file
+export const kOysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 
 export async function registerOysterInfrastructureProvider(controlPlaneUrl: string) {
-	// TODO: move oysterContractAddress to a config file
-	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.REGISTER.REGISTERING,
@@ -569,9 +569,8 @@ export async function registerOysterInfrastructureProvider(controlPlaneUrl: stri
 }
 
 export async function updateOysterInfrastructureProvider(controlPlaneUrl: string) {
-	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.UPDATE.UPDATING,
@@ -611,9 +610,8 @@ export async function updateOysterInfrastructureProvider(controlPlaneUrl: string
 }
 
 export async function removeOysterInfrastructureProvider() {
-	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.REMOVE.REMOVING,
@@ -658,9 +656,8 @@ export async function createNewOysterJob(
 	rate: BigNumber,
 	balance: BigNumber
 ) {
-	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.CREATE_JOB.CREATING,
@@ -700,9 +697,8 @@ export async function createNewOysterJob(
 }
 
 export async function stopOysterJob(jobId: Bytes) {
-	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.STOP_JOB.STOPPING,
@@ -742,9 +738,8 @@ export async function stopOysterJob(jobId: Bytes) {
 }
 
 export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber) {
-	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.WITHDRAW_JOB.WITHDRAWING,
@@ -785,7 +780,6 @@ export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber
 }
 
 export async function approveFundsForOysterJobAdd(amount: BigNumber) {
-	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	// TODO: check token on mainnet, its POND on testnet
 	const token = 'POND';
 	const pondTokenContractAddress = contractAddresses.tokens[token].address;
@@ -799,7 +793,7 @@ export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 			),
 			variant: 'info'
 		});
-		const tx = await pondTokenContract.approve(oysterContractAddress, amount);
+		const tx = await pondTokenContract.approve(kOysterContractAddress, amount);
 
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.CREATED,
@@ -838,9 +832,8 @@ export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 }
 
 export async function addFundsToOysterJob(jobId: Bytes, amount: BigNumber) {
-	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.ADD_FUNDS_JOB.ADDING_FUNDS,
@@ -881,9 +874,8 @@ export async function addFundsToOysterJob(jobId: Bytes, amount: BigNumber) {
 }
 
 export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber) {
-	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATING,
@@ -922,9 +914,8 @@ export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber)
 }
 
 export async function cancelRateReviseOysterJob(jobId: Bytes) {
-	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.CANCELLING,
@@ -965,9 +956,8 @@ export async function cancelRateReviseOysterJob(jobId: Bytes) {
 }
 
 export async function finaliseRateReviseOysterJob(jobId: Bytes) {
-	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.AMENDING,
@@ -1007,9 +997,8 @@ export async function finaliseRateReviseOysterJob(jobId: Bytes) {
 }
 
 export async function settleOysterJob(jobId: Bytes) {
-	const oysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.SETTLE_JOB.SETTLING,

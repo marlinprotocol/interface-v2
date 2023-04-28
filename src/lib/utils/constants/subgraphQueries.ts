@@ -171,6 +171,17 @@ export const QUERY_TO_GET_JOBS_DATA = `query Jobs($address: String) {
     totalDeposit
     balance
     refund
+    rateRevisionHistory(
+      first: 1
+      where: {status: IN_PROGRESS}
+      orderBy: updatesAt
+      orderDirection: desc
+    ) {
+      id
+      status
+      updatesAt
+      value
+    }
     depositHistory(
       orderBy: timestamp,
       orderDirection: desc

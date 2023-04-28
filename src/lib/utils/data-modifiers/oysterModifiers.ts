@@ -62,12 +62,25 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		balance = '0',
 		refund = '0',
 		settlementHistory = [],
-		depositHistory = []
+		depositHistory = [],
+		rateRevisionHistory = []
 	} = job ?? {};
 
 	const nowTime = Math.floor(Date.now() / 1000);
 	const _lastSettled = Number(lastSettled);
 	const _createdAt = Number(createdAt);
+
+	let reviseRateMap: OysterInventoryDataModel['reviseRate'];
+
+	if (rateRevisionHistory?.length > 0) {
+		const { value, updatesAt } = rateRevisionHistory[0];
+		const _rateUpdatesAt = Number(updatesAt);
+		reviseRateMap = {
+			newRate: BigNumber.from(value),
+			status: _rateUpdatesAt > nowTime ? 'inProcess' : 'completed',
+			updatesAt: Number(updatesAt)
+		};
+	}
 
 	const { enclaveUrl, instance, region, vcpu, memory } = parseMetadata(metadata);
 
@@ -95,6 +108,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		lastSettled: Number(lastSettled),
 		createdAt: Number(createdAt),
 		id,
+		reviseRate: reviseRateMap,
 		settlementHistory: settlementHistory.map((settlement: any) => {
 			return {
 				...settlement,

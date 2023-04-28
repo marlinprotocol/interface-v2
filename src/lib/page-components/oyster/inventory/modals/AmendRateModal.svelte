@@ -16,10 +16,8 @@
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
-	export let rateReviseInitiateEndTimestamp: number;
-	export let revisedRate: BigNumber;
 
-	$: ({ rate } = jobData);
+	$: ({ rate, reviseRate: { newRate = BigNumberZero, updatesAt = 0, status = '' } = {} } = jobData);
 	const { symbol } = kOysterRateMetaData;
 
 	//initial states
@@ -35,7 +33,7 @@
 	const nowTime = Date.now() / 1000;
 
 	const handleInitiateClick = async () => {
-		console.log('handleInitiateClick :>> ', rateReviseInitiateEndTimestamp);
+		console.log('handleInitiateClick :>> ', updatesAt);
 		submitLoading = true;
 		await handleInitiateRateRevise(jobData, inputAmount);
 		submitLoading = false;
@@ -43,7 +41,7 @@
 	};
 
 	const handleConfirmClick = async () => {
-		console.log('handleConfirmClick :>> ', rateReviseInitiateEndTimestamp);
+		console.log('handleConfirmClick :>> ', updatesAt);
 		submitLoading = true;
 		await handleFinaliseRateRevise(jobData, inputAmount);
 		submitLoading = false;
@@ -51,7 +49,7 @@
 	};
 
 	const handleCancelInitiate = async () => {
-		console.log('handleCancelInitiate :>> ', rateReviseInitiateEndTimestamp);
+		console.log('handleCancelInitiate :>> ', updatesAt);
 		cancelLoading = true;
 		await handleCancelRateRevise(jobData);
 		cancelLoading = false;
@@ -68,12 +66,7 @@
 	$: submitButtonText = state === 'initiate' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
 	$: submitButtonAction = state === 'initiate' ? handleInitiateClick : handleConfirmClick;
 
-	$: state =
-		rateReviseInitiateEndTimestamp === 0
-			? 'initiate'
-			: rateReviseInitiateEndTimestamp < nowTime
-			? 'confirm'
-			: 'cancel';
+	$: state = !status ? 'initiate' : status === 'inProcess' ? 'cancel' : 'confirm';
 
 	$: submitEnable = inputAmount && isInputAmountValid(inputAmountString) && state !== 'cancel';
 
@@ -102,7 +95,7 @@
 				{:else}
 					<AmountInputWithTitle
 						title="New Hourly Rate"
-						inputAmountString={bigNumberToCommaString(revisedRate, oysterAmountPrecision)}
+						inputAmountString={bigNumberToCommaString(newRate, oysterAmountPrecision)}
 						prefix={symbol}
 						disabled
 					/>

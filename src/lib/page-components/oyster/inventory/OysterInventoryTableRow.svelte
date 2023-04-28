@@ -19,14 +19,11 @@
 	import plus from 'svelte-awesome/icons/plus';
 	import { slide } from 'svelte/transition';
 	import AddFundsToJobModal from './modals/AddFundsToJobModal.svelte';
+	import AmendRateModal from './modals/AmendRateModal.svelte';
 	import InventoryJobDetailsModal from './modals/JobDetailsModal.svelte';
 	import StopJobModal from './modals/StopJobModal.svelte';
 	import WithdrawFundsFromJobModal from './modals/WithdrawFundsFromJobModal.svelte';
-	import Button from '$lib/atoms/buttons/Button.svelte';
-	import { handleGetReviseRateInititaeEndTimestamp } from '$lib/utils/services/oysterServices';
-	import { openModal } from '$lib/utils/helpers/commonHelper';
-	import AmendRateModal from './modals/AmendRateModal.svelte';
-	import { BigNumber } from 'ethers';
+	import type { BigNumber } from 'ethers';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -43,14 +40,9 @@
 		id,
 		live,
 		balance,
-		endEpochTime // epoch time in seconds based on duration left
+		endEpochTime, // epoch time in seconds based on duration left,
+		reviseRate: { newRate = null, updatesAt = 0, status = '' } = {}
 	} = rowData);
-
-	let stopInitiateEndTimestamp = 0;
-	let rateReviseInitiateEndTimestamp = 0;
-	let revisedRate: BigNumber = BigNumberZero;
-	let stopLoading = false;
-	let amendLoading = false;
 
 	// Handler function for toggling the expansion of a row
 	function toggleRowExpansion(rowId: string) {
@@ -63,26 +55,19 @@
 		expandedRows = expandedRows;
 	}
 
-	const handleStopClick = async () => {
-		stopLoading = true;
-		const { updatesAt = 0, value } = await handleGetReviseRateInititaeEndTimestamp(rowData);
-		rateReviseInitiateEndTimestamp = updatesAt;
-		if (value === 0) {
-			stopInitiateEndTimestamp = updatesAt;
-		}
-		openModal(`job-stop-modal-${rowIndex}`);
-		stopLoading = false;
-	};
-	const handleAmendClick = async () => {
-		amendLoading = true;
-		const { updatesAt = 0, value } = await handleGetReviseRateInititaeEndTimestamp(rowData);
-		rateReviseInitiateEndTimestamp = updatesAt;
-		revisedRate = BigNumber.from(value ?? 0);
-		openModal(`job-amend-rate-modal-${rowIndex}`);
-		amendLoading = false;
-	};
-
 	$: isOpen = expandedRows.has(id.toString());
+	$: closeButtonText =
+		!status || newRate?.gt(BigNumberZero)
+			? 'INITIATE STOP'
+			: status === 'inProcess'
+			? 'CANCEL STOP'
+			: 'CONFIRM STOP';
+
+	$: amendRateButtonText = !status
+		? 'INITIATE RATE AMEND'
+		: status === 'inProcess'
+		? 'CANCEL RATE AMEND'
+		: 'CONFIRM RATE AMEND';
 </script>
 
 {#if live}
@@ -152,15 +137,9 @@
 				>
 					ADD FUNDS
 				</ModalButton>
-				<Button
-					variant="outlined"
-					size="small"
-					onclick={handleStopClick}
-					loading={stopLoading}
-					styleClass="w-28"
-				>
-					STOP
-				</Button>
+				<ModalButton variant="outlined" size="small" modalFor={`job-stop-modal-${rowIndex}`}>
+					{closeButtonText}
+				</ModalButton>
 				<ModalButton
 					variant="outlined"
 					size="small"
@@ -168,15 +147,9 @@
 				>
 					WITHDRAW
 				</ModalButton>
-				<Button
-					variant="outlined"
-					size="small"
-					onclick={handleAmendClick}
-					loading={amendLoading}
-					styleClass="w-40"
-				>
-					AMEND RATE
-				</Button>
+				<ModalButton variant="outlined" size="small" modalFor={`job-amend-rate-modal-${rowIndex}`}>
+					{amendRateButtonText}
+				</ModalButton>
 				<ModalButton variant="outlined" size="small" modalFor={`job-details-modal-${rowIndex}`}>
 					DETAILS
 				</ModalButton>
@@ -190,18 +163,8 @@
 	bind:jobData={rowData}
 	modalFor={`job-withdraw-fund-modal-${rowIndex}`}
 />
-<StopJobModal
-	bind:jobData={rowData}
-	modalFor={`job-stop-modal-${rowIndex}`}
-	{stopInitiateEndTimestamp}
-	{rateReviseInitiateEndTimestamp}
-/>
-<AmendRateModal
-	bind:jobData={rowData}
-	modalFor={`job-amend-rate-modal-${rowIndex}`}
-	{rateReviseInitiateEndTimestamp}
-	{revisedRate}
-/>
+<StopJobModal bind:jobData={rowData} modalFor={`job-stop-modal-${rowIndex}`} />
+<AmendRateModal bind:jobData={rowData} modalFor={`job-amend-rate-modal-${rowIndex}`} />
 
 <style>
 	.expanded-row {

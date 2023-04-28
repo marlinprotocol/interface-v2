@@ -58,6 +58,11 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 	durationRun: number;
 	id: Bytes;
 	amountToBeSettled: BigNumber;
+	reviseRate?: {
+		newRate: BigNumber;
+		updatesAt: number;
+		status: 'inProcess' | 'completed';
+	};
 }
 
 export interface CreateOrderPreFilledModel extends CPUrlDataModel {

@@ -15,12 +15,11 @@
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
-	export let stopInitiateEndTimestamp: number;
-	export let rateReviseInitiateEndTimestamp = 0;
+
+	$: ({ reviseRate: { newRate = null, updatesAt = 0, status = '' } = {} } = jobData);
 
 	let submitLoading = false;
 	let cancelLoading = false;
-	const nowTime = Date.now() / 1000;
 
 	const handleInitiateClick = async () => {
 		submitLoading = true;
@@ -53,14 +52,14 @@
 	$: submitButtonText = state === 'initiate' ? 'INITIATE STOP' : 'CONFIRM';
 	$: submitButtonAction = state === 'initiate' ? handleInitiateClick : handleConfirmClick;
 	$: state =
-		stopInitiateEndTimestamp === 0
+		!status || newRate?.gt(BigNumberZero)
 			? 'initiate'
-			: stopInitiateEndTimestamp < nowTime
-			? 'confirm'
-			: 'cancel';
+			: status === 'inProcess'
+			? 'cancel'
+			: 'confirm';
 
-	$: disableSubmit =
-		(state === 'initiate' && rateReviseInitiateEndTimestamp > nowTime) || state === 'cancel';
+	$: nonZeroRatePending = newRate?.gt(BigNumberZero);
+	$: disableConfirm = nonZeroRatePending || status === 'inProcess';
 	const subtitle =
 		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
 </script>
@@ -74,8 +73,7 @@
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<StopModalContent {jobData} />
-		{#if rateReviseInitiateEndTimestamp > nowTime && state === 'initiate'}
-			<!-- TODO: check with shabbir for the text -->
+		{#if nonZeroRatePending}
 			<InputCard variant="warning" styleClass="mt-4">
 				<Text
 					styleClass={'py-2'}
@@ -103,7 +101,7 @@
 			<div class="w-full">
 				<Button
 					variant="filled"
-					disabled={disableSubmit}
+					disabled={disableConfirm}
 					loading={submitLoading}
 					onclick={submitButtonAction}
 					size="large"

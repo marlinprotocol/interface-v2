@@ -16,7 +16,8 @@
 					providerData: {
 						data: providerDetails,
 						registered: true
-					}
+					},
+					providerDetailsLoaded: true
 				};
 			});
 		} else {

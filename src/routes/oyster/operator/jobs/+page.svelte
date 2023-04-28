@@ -13,14 +13,16 @@
 			oysterStore.update((value) => {
 				return {
 					...value,
-					merchantJobsData: merchantJobs
+					merchantJobsData: merchantJobs,
+					merchantJobsLoaded: true
 				};
 			});
 		} else {
 			oysterStore.update((value) => {
 				return {
 					...value,
-					merchantJobsData: []
+					merchantJobsData: [],
+					merchantJobsLoaded: true
 				};
 			});
 		}

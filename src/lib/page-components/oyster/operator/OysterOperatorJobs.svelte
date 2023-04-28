@@ -1,22 +1,21 @@
 <script lang="ts">
-	import { buttonClasses, tableCellClasses } from '$lib/atoms/componentClasses';
-	import SearchBar from '$lib/components/search/SearchBar.svelte';
-	import PageTitle from '$lib/components/texts/PageTitle.svelte';
-	import {
-		kOperatorHistory,
-		kOysterMerchantJobTableHeader,
-		kOysterMerchantJobTableColumnsWidth,
-		oysterTableItemsPerPage
-	} from '$lib/utils/constants/oysterConstants';
-	import OysterInventoryTable from '$lib/page-components/oyster/inventory/InventoryTable.svelte';
+	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import LoadingCircular from '$lib/atoms/loading/LoadingCircular.svelte';
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
-	import type { Unsubscriber } from 'svelte/store';
+	import SearchBar from '$lib/components/search/SearchBar.svelte';
+	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import OysterInventoryTable from '$lib/page-components/oyster/inventory/InventoryTable.svelte';
 	import OysterOperatorInventoryTableRow from '$lib/page-components/oyster/operator/OysterOperatorInventoryTableRow.svelte';
-	import { onDestroy } from 'svelte';
+	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import {
+		kOysterMerchantJobTableColumnsWidth,
+		kOysterMerchantJobTableHeader,
+		oysterTableItemsPerPage
+	} from '$lib/utils/constants/oysterConstants';
 	import { sortOysterOperatorInventory } from '$lib/utils/helpers/oysterHelpers';
+	import { onDestroy } from 'svelte';
+	import type { Unsubscriber } from 'svelte/store';
 
 	let searchInput = '';
 	let loading = true;
@@ -27,8 +26,7 @@
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		merchantJobsData = value.merchantJobsData;
 		merchantJobsData = merchantJobsData.filter((job) => job.live);
-		// TODO: check loading logic
-		loading = false;
+		loading = !value.merchantJobsLoaded;
 	});
 
 	const itemsPerPage = oysterTableItemsPerPage;

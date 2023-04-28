@@ -31,7 +31,7 @@
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		allMarketplaceData = value.allMarketplaceData;
 		filteredData = allMarketplaceData;
-		loading = false;
+		loading = !value.marketplaceLoaded;
 	});
 	onDestroy(unsubscribeOysterStore);
 

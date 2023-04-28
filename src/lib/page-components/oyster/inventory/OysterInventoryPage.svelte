@@ -37,8 +37,7 @@
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		inventoryData = value.jobsData;
 		inventoryData = inventoryData.filter((job) => job.live);
-		// TODO: check loading logic
-		loading = false;
+		loading = !value.oysterStoreLoaded;
 	});
 	onDestroy(unsubscribeOysterStore);
 

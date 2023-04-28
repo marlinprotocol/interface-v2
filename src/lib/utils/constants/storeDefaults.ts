@@ -84,5 +84,9 @@ export const DEFAULT_OYSTER_STORE: OysterStore = {
 	allMarketplaceData: [],
 	jobsData: [],
 	allowance: BigNumberZero,
-	merchantJobsData: []
+	merchantJobsData: [],
+	marketplaceLoaded: false,
+	oysterStoreLoaded: false,
+	merchantJobsLoaded: false,
+	providerDetailsLoaded: false
 };

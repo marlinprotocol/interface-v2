@@ -92,4 +92,8 @@ export type OysterStore = {
 	jobsData: OysterInventoryDataModel[];
 	allowance: BigNumber;
 	merchantJobsData: OysterInventoryDataModel[];
+	marketplaceLoaded: boolean;
+	oysterStoreLoaded: boolean;
+	merchantJobsLoaded: boolean;
+	providerDetailsLoaded: boolean;
 };

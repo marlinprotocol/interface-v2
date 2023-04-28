@@ -15,7 +15,8 @@
 		oysterStore.update((store) => {
 			return {
 				...store,
-				allMarketplaceData
+				allMarketplaceData,
+				marketplaceLoaded: true
 			};
 		});
 	}
@@ -40,19 +41,10 @@
 					registered: providerDetail != null
 				},
 				allowance: allowance,
-				jobsData: oysterJobs
+				jobsData: oysterJobs,
+				oysterStoreLoaded: true
 			};
 		});
-
-		// oysterStore.set({
-		// 	...$oysterStore,
-		// 	providerData: {
-		// 		data: providerDetail,
-		// 		registered: providerDetail != null
-		// 	},
-		// 	allowance: allowance,
-		// 	jobsData: oysterJobs
-		// });
 	}
 
 	loadMarketplaceData();

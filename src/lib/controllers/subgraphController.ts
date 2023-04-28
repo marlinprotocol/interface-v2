@@ -441,14 +441,16 @@ export async function getAllProvidersDetailsFromSubgraph() {
 export async function getApprovedOysterAllowances(address: Address, contractAddress: Address) {
 	const url = ENVIRONMENT.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
+	const _contractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
+	// TODO: change this address
 
 	const queryVariables = {
 		address: address.toLowerCase(),
-		contractAddress: contractAddress.toLowerCase()
+		contractAddress: _contractAddress.toLowerCase()
 	};
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-	const amount = BigNumberZero;
+	let pond = BigNumberZero;
 	try {
 		const result = await fetchHttpData(url, options);
 		console.log('oyster allowances', result);
@@ -456,16 +458,16 @@ export async function getApprovedOysterAllowances(address: Address, contractAddr
 		const pondApprovals = result['data']?.pondApprovals;
 
 		if (pondApprovals && pondApprovals.length > 0) {
-			return pondApprovals[0].amount;
+			pond = BigNumber.from(pondApprovals[0]?.value ?? 0);
 		} else {
 			if (result['errors']) {
 				showFetchHttpDataError(result['errors']);
 			}
 		}
-		return amount;
+		return pond;
 	} catch (error) {
 		console.log('Error fetching oyster allowances from subgraph', error);
-		return amount;
+		return pond;
 	}
 }
 

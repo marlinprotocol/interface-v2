@@ -5,6 +5,7 @@
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type {
+		CreateOrderPreFilledModel,
 		OysterInventoryDataModel,
 		OysterMarketplaceDataModel
 	} from '$lib/types/oysterComponentType';
@@ -24,11 +25,10 @@
 	import MetadetailsForNewOrder from '../../sub-components/MetadetailsForNewOrder.svelte';
 
 	export let modalFor: string;
-	export let preFilledData: Partial<OysterInventoryDataModel> = {};
+	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
 
 	let allMarketplaceData: OysterMarketplaceDataModel[] = [];
 	let approvedAmount: BigNumber;
-	let providerAddress: string | undefined = preFilledData.provider?.address;
 
 	let duration = 0; //durationInSecs
 	let cost = BigNumberZero;
@@ -45,8 +45,10 @@
 	});
 	onDestroy(unsubscribeOysterStore);
 
+	let providerAddress: string | undefined = preFilledData.provider?.address;
+
 	//initial states
-	const initialStates = {
+	let initialStates = {
 		merchant: {
 			value: preFilledData?.provider?.address || '',
 			error: '',
@@ -173,7 +175,7 @@
 
 <Modal {modalFor} onClose={resetInputs} padding={false}>
 	<svelte:fragment slot="title">
-		{'Create Order'}
+		{`Create Order`}
 	</svelte:fragment>
 	<svelte:fragment slot="subtitle">
 		{subtitle}

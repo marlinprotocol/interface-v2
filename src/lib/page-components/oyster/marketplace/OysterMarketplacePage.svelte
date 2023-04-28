@@ -48,7 +48,7 @@
 		activePage = page;
 	};
 
-	const onSearchClick = () => {
+	const onFilterClick = () => {
 		activePage = 1;
 	};
 
@@ -69,7 +69,7 @@
 			bind:filteredData
 			bind:filterMap
 			{allMarketplaceData}
-			{onSearchClick}
+			{onFilterClick}
 		/>
 	</div>
 	<OysterInventoryTable
@@ -83,7 +83,7 @@
 				<LoadingCircular />
 			</div>
 		{:else if paginatedData?.length}
-			{#each paginatedData as rowData, rowIndex}
+			{#each paginatedData as rowData, rowIndex (rowData.id)}
 				<OysterMarketplaceTableRow {rowData} {rowIndex} />
 			{/each}
 		{:else}

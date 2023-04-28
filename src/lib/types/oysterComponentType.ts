@@ -30,12 +30,17 @@ export interface OysterMarketplaceDataModel extends CPUrlDataModel {
 		name?: string;
 		address: string;
 	};
+	id: string;
 }
 
 export interface OysterMarketplaceFilterModel extends CPUrlDataModel {
 	provider: string;
 }
-export interface OysterInventoryDataModel extends OysterMarketplaceDataModel {
+export interface OysterInventoryDataModel extends CPUrlDataModel {
+	provider: {
+		name?: string;
+		address: string;
+	};
 	metadata: string;
 	enclaveUrl: string;
 	totalDeposit: BigNumber;
@@ -53,6 +58,15 @@ export interface OysterInventoryDataModel extends OysterMarketplaceDataModel {
 	durationRun: number;
 	id: Bytes;
 	amountToBeSettled: BigNumber;
+}
+
+export interface CreateOrderPreFilledModel extends CPUrlDataModel {
+	provider: {
+		name?: string;
+		address: string;
+	};
+	metadata: string;
+	enclaveUrl: string;
 }
 
 export type OysterSettlementHistoryDataModel = {

@@ -11,16 +11,18 @@
 		getFilteredMarketplaceData,
 		getUpdatedFiltersList
 	} from '$lib/utils/helpers/oysterHelpers';
+	import TableFilter from './TableFilter.svelte';
 
 	export let filterMap: Record<string, string | number> = {};
 	export let allMarketplaceData: OysterMarketplaceDataModel[];
 	export let filteredData: OysterMarketplaceDataModel[];
-	export let onSearchClick: (() => void) | undefined = undefined;
+	export let onFilterClick: () => void;
 
 	let filterIdOrders: string[] = [];
 	$: allFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
 
 	const handleFilterData = (id: keyof OysterMarketplaceFilterModel, value: string | number) => {
+		onFilterClick();
 		if (value === 'All') {
 			delete filterMap[id];
 			filterIdOrders.filter((filterId) => filterId !== id);
@@ -60,50 +62,37 @@
 			placeholder={'Enter operator name or address'}
 			cardVariant={'search'}
 			styleClass={'w-full'}
-			{onSearchClick}
+			onSearchClick={onFilterClick}
 		/>
 		<div class="flex gap-4 items-center mt-4">
-			<SearchWithSelect
+			<TableFilter
 				dataList={allFilters?.instance}
-				searchValue={filterMap.instance ?? 'All'}
-				setSearchValue={(value) => handleFilterData('instance', value)}
+				value={filterMap.instance ?? ''}
+				setValue={(value) => handleFilterData('instance', value)}
 				title={'Filter by Instance'}
-				placeholder={'Filter by Instance'}
-				onlyFilters={true}
-				styleClass={'w-full'}
-				cardVariant={'search'}
 			/>
-			<SearchWithSelect
+			<TableFilter
 				dataList={allFilters?.region}
-				searchValue={filterMap.region ?? 'All'}
-				setSearchValue={(value) => handleFilterData('region', value)}
+				value={filterMap.region ?? ''}
+				setValue={(value) => handleFilterData('region', value)}
 				title={'Filter by Region'}
-				placeholder={'Filter by Region'}
-				onlyFilters={true}
-				cardVariant={'search'}
 			/>
-			<SearchWithSelect
+			<TableFilter
 				dataList={allFilters?.memory}
-				searchValue={filterMap.memory ?? 'All'}
-				setSearchValue={(value) => handleFilterData('memory', value)}
+				value={filterMap.memory ?? ''}
+				setValue={(value) => handleFilterData('memory', value)}
 				title={'Filter by Memory'}
-				placeholder={'Filter by Memory'}
-				onlyFilters={true}
-				cardVariant={'search'}
 			/>
-			<SearchWithSelect
+			<TableFilter
 				dataList={allFilters?.vcpu}
-				searchValue={filterMap.vcpu ?? 'All'}
-				setSearchValue={(value) => handleFilterData('vcpu', value)}
+				value={filterMap.vcpu ?? ''}
+				setValue={(value) => handleFilterData('vcpu', value)}
 				title={'Filter by vCPU'}
-				placeholder={'Filter by vCPU'}
-				onlyFilters={true}
-				cardVariant={'search'}
 			/>
 		</div>
 	</div>
 	<div>
-		<Button variant="outlined" size="small" styleClass="w-[140px]" onclick={handleClearFilters}>
+		<Button variant="outlined" size="medium" styleClass="w-[140px]" onclick={handleClearFilters}>
 			CLEAR
 		</Button>
 	</div>

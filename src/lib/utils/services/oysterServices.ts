@@ -8,13 +8,15 @@ import {
 	stopOysterJob,
 	withdrawFundsFromOysterJob
 } from '$lib/controllers/contractController';
-import { getReviseRateInitiateEndTimestamp } from '$lib/controllers/subgraphController';
 import { oysterStore } from '$lib/data-stores/oysterStore';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 import type { OysterStore } from '$lib/types/storeTypes';
 import type { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
 import { parseMetadata } from '../data-modifiers/oysterModifiers';
+import { kOysterRateMetaData } from '../constants/oysterConstants';
+
+const nowTime = Date.now() / 1000;
 
 export async function handleApproveFundForOysterJob(amount: BigNumber) {
 	try {
@@ -49,7 +51,7 @@ export async function handleFundsAddToJob(
 					amount,
 					id: txn.id,
 					txHash: txn.hash,
-					timestamp: Date.now() / 1000,
+					timestamp: nowTime,
 					isWithdrawal: false,
 					transactionStatus: 'deposit'
 				},
@@ -91,7 +93,7 @@ export async function handleFundsWithdrawFromJob(
 					amount,
 					id: txn.id,
 					txHash: txn.hash,
-					timestamp: Date.now() / 1000,
+					timestamp: nowTime,
 					isWithdrawal: true,
 					transactionStatus: 'withdrawal'
 				},
@@ -119,9 +121,30 @@ export async function handleInitiateRateRevise(
 	jobData: OysterInventoryDataModel,
 	newRate: BigNumber
 ) {
+	const { rateReviseWaitingTime } = kOysterRateMetaData;
 	const { id } = jobData;
 	try {
 		await initiateRateReviseOysterJob(id, newRate);
+		const modifiedJobData = {
+			...jobData,
+			reviseRate: {
+				newRate: newRate,
+				rateStatus: 'pending',
+				stopStatus: newRate.gt(BigNumberZero) ? 'disabled' : 'pending',
+				updatesAt: nowTime + rateReviseWaitingTime
+			}
+		};
+		oysterStore.update((value: OysterStore) => {
+			return {
+				...value,
+				jobsData: value.jobsData.map((job) => {
+					if (job.id === id) {
+						return modifiedJobData;
+					}
+					return job;
+				})
+			};
+		});
 	} catch (e) {
 		console.log('e :>> ', e);
 	}
@@ -131,6 +154,21 @@ export async function handleCancelRateRevise(jobData: OysterInventoryDataModel) 
 	const { id } = jobData;
 	try {
 		await cancelRateReviseOysterJob(id);
+		const modifiedJobData = {
+			...jobData,
+			reviseRate: undefined
+		};
+		oysterStore.update((value: OysterStore) => {
+			return {
+				...value,
+				jobsData: value.jobsData.map((job) => {
+					if (job.id === id) {
+						return modifiedJobData;
+					}
+					return job;
+				})
+			};
+		});
 	} catch (e) {
 		console.log('e :>> ', e);
 	}
@@ -150,7 +188,8 @@ export async function handleFinaliseRateRevise(
 					if (job.id === id) {
 						return {
 							...job,
-							rate: newRate
+							rate: newRate,
+							reviseRate: undefined
 						};
 					}
 					return job;
@@ -159,21 +198,6 @@ export async function handleFinaliseRateRevise(
 		});
 	} catch (e) {
 		console.log('e :>> ', e);
-	}
-}
-
-export async function handleGetReviseRateInititaeEndTimestamp(jobData: OysterInventoryDataModel) {
-	const { id } = jobData;
-	try {
-		const requestData = await getReviseRateInitiateEndTimestamp(id);
-		if (!requestData || !['IN_PROGRESS'].includes(requestData.status)) return {};
-		return {
-			updatesAt: Number(requestData.updatesAt),
-			value: Number(requestData.value)
-		};
-	} catch (e) {
-		console.log('e :>> ', e);
-		return {};
 	}
 }
 
@@ -187,12 +211,14 @@ export async function handleConfirmJobStop(jobData: OysterInventoryDataModel) {
 			refund: jobData.balance,
 			balance: BigNumberZero,
 			status: 'stopped',
+			rate: BigNumberZero,
+			reviseRate: undefined,
 			depositHistory: [
 				{
 					amount: jobData.balance,
 					id: tx.id,
 					txHash: tx.hash,
-					timestamp: Date.now() / 1000,
+					timestamp: nowTime,
 					isWithdrawal: true,
 					transactionStatus: 'stopped'
 				},
@@ -224,12 +250,11 @@ export async function handleCreateJob(
 	durationInSec: number
 ) {
 	try {
-		const tx = await createNewOysterJob(metadata, provider, rate, balance);
-		const nowTime = Date.now() / 1000;
+		const { jobId, txHash } = await createNewOysterJob(metadata, provider, rate, balance);
 
 		const { enclaveUrl, instance, region, vcpu, memory } = parseMetadata(metadata);
 		const newJob: OysterInventoryDataModel = {
-			id: tx,
+			id: jobId,
 			provider: {
 				address: provider,
 				name: ''
@@ -255,8 +280,8 @@ export async function handleCreateJob(
 			depositHistory: [
 				{
 					amount: balance,
-					id: tx.id,
-					txHash: tx.hash,
+					id: txHash,
+					txHash: txHash,
 					timestamp: nowTime,
 					isWithdrawal: false,
 					transactionStatus: 'deposit'

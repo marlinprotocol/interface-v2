@@ -679,11 +679,16 @@ export async function createNewOysterJob(
 			});
 			throw new Error('Unable to create new Oyster Job.');
 		}
+		const jobOpenEvent = approveReciept.events?.find((event: any) => event.event === 'JobOpened');
+		const jobId = jobOpenEvent?.args?.job;
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.CREATE_JOB.CREATED,
 			variant: 'success'
 		});
-		return tx;
+		return {
+			jobId,
+			txHash: tx.hash
+		};
 	} catch (error: any) {
 		addToast({
 			message: error.reason

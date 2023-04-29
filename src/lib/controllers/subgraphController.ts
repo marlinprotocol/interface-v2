@@ -453,8 +453,6 @@ export async function getApprovedOysterAllowances(address: Address, contractAddr
 	let pond = BigNumberZero;
 	try {
 		const result = await fetchHttpData(url, options);
-		console.log('oyster allowances', result);
-
 		const pondApprovals = result['data']?.pondApprovals;
 
 		if (pondApprovals && pondApprovals.length > 0) {
@@ -468,32 +466,6 @@ export async function getApprovedOysterAllowances(address: Address, contractAddr
 	} catch (error) {
 		console.log('Error fetching oyster allowances from subgraph', error);
 		return pond;
-	}
-}
-
-export async function getReviseRateInitiateEndTimestamp(job: Bytes) {
-	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
-	const query = QUERY_TO_JOB_REVISE_RATE_END_TIMESTAMP_DATA;
-
-	const queryVariables = {
-		job: job
-	};
-
-	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-	try {
-		const result = await fetchHttpData(url, options);
-
-		const reviseRateRequests = result['data']?.reviseRateRequests;
-		if (!reviseRateRequests?.length) {
-			if (result['errors']) {
-				showFetchHttpDataError(result['errors']);
-			}
-			return null;
-		}
-		return reviseRateRequests[0] as OysterRateRequestModel;
-	} catch (error) {
-		console.log('Error getting provider details from subgraph', error);
-		return null;
 	}
 }
 

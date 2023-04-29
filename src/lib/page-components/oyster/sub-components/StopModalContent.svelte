@@ -10,7 +10,7 @@
 	$: ({ balance, durationLeft } = jobData);
 
 	const styles = {
-		textPrimary: 'text-primary'
+		textPrimary: 'text-primary '
 	};
 </script>
 

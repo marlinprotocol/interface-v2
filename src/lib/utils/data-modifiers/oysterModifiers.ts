@@ -75,9 +75,11 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	if (rateRevisionHistory?.length > 0) {
 		const { value, updatesAt } = rateRevisionHistory[0];
 		const _rateUpdatesAt = Number(updatesAt);
+		const _rateStatus = _rateUpdatesAt > nowTime ? 'pending' : 'completed';
 		reviseRateMap = {
 			newRate: BigNumber.from(value),
-			status: _rateUpdatesAt > nowTime ? 'inProcess' : 'completed',
+			rateStatus: _rateStatus,
+			stopStatus: BigNumber.from(value).gt(BigNumberZero) ? 'disabled' : _rateStatus,
 			updatesAt: Number(updatesAt)
 		};
 	}
@@ -186,12 +188,8 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 
 	let currentBalance = _balance;
 	//job is running
-	try {
-		// check for overflow and underflow errors
-		currentBalance = _balance.sub(_rate.mul(nowTime - _lastSettled));
-	} catch (e) {
-		console.log('overflow error', e, id);
-	}
+	const timeInRateUnit = Math.floor((nowTime - _lastSettled) / rateUnitInSeconds);
+	currentBalance = _balance.sub(_rate.mul(timeInRateUnit));
 
 	return {
 		...modifiedJob,

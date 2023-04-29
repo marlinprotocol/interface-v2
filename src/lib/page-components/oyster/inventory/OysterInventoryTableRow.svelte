@@ -9,7 +9,7 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
-	import { BigNumberZero, oysterAmountPrecision } from '$lib/utils/constants/constants';
+	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import {
 		kInventoryTableColumnsWidth,
 		kOysterRateMetaData
@@ -23,7 +23,6 @@
 	import InventoryJobDetailsModal from './modals/JobDetailsModal.svelte';
 	import StopJobModal from './modals/StopJobModal.svelte';
 	import WithdrawFundsFromJobModal from './modals/WithdrawFundsFromJobModal.svelte';
-	import type { BigNumber } from 'ethers';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -41,7 +40,7 @@
 		live,
 		balance,
 		endEpochTime, // epoch time in seconds based on duration left,
-		reviseRate: { newRate = null, updatesAt = 0, status = '' } = {}
+		reviseRate: { newRate = null, rateStatus = '', stopStatus = '' } = {}
 	} = rowData);
 
 	// Handler function for toggling the expansion of a row
@@ -57,17 +56,18 @@
 
 	$: isOpen = expandedRows.has(id.toString());
 	$: closeButtonText =
-		!status || newRate?.gt(BigNumberZero)
+		stopStatus === '' || stopStatus === 'disabled'
 			? 'INITIATE STOP'
-			: status === 'inProcess'
+			: stopStatus === 'pending'
 			? 'CANCEL STOP'
 			: 'CONFIRM STOP';
 
-	$: amendRateButtonText = !status
-		? 'INITIATE RATE AMEND'
-		: status === 'inProcess'
-		? 'CANCEL RATE AMEND'
-		: 'CONFIRM RATE AMEND';
+	$: amendRateButtonText =
+		rateStatus === ''
+			? 'INITIATE RATE AMEND'
+			: rateStatus === 'pending'
+			? 'CANCEL RATE AMEND'
+			: 'CONFIRM RATE AMEND';
 </script>
 
 {#if live}

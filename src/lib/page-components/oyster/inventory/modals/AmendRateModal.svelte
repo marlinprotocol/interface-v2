@@ -1,11 +1,18 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
+	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import Text from '$lib/atoms/texts/Text.svelte';
+	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero, oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import { kLoremSubtitle, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToCommaString, stringToBigNumber } from '$lib/utils/conversion';
+	import {
+		bigNumberToCommaString,
+		epochToDurationString,
+		stringToBigNumber
+	} from '$lib/utils/conversion';
 	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleCancelRateRevise,
@@ -31,7 +38,6 @@
 
 	let submitLoading = false;
 	let cancelLoading = false;
-	const nowTime = Date.now() / 1000;
 
 	const handleInitiateClick = async () => {
 		console.log('handleInitiateClick :>> ', updatesAt);
@@ -98,6 +104,21 @@
 					/>
 				{/if}
 			</div>
+			{#if rateStatus === 'pending'}
+				<div class="w-full">
+					<Timer endEpochTime={updatesAt}>
+						<div slot="active" let:timer class="w-full">
+							<InputCard variant="warning">
+								<Text
+									styleClass={'py-2'}
+									text={`Time left to confirm: ${epochToDurationString(timer)}`}
+									variant="small"
+								/>
+							</InputCard>
+						</div>
+					</Timer>
+				</div>
+			{/if}
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">

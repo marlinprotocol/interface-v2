@@ -14,6 +14,7 @@ import type { OysterStore } from '$lib/types/storeTypes';
 import type { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
 import { parseMetadata } from '../data-modifiers/oysterModifiers';
+import { kOysterRateMetaData } from '../constants/oysterConstants';
 
 const nowTime = Date.now() / 1000;
 
@@ -120,6 +121,7 @@ export async function handleInitiateRateRevise(
 	jobData: OysterInventoryDataModel,
 	newRate: BigNumber
 ) {
+	const { rateReviseWaitingTime } = kOysterRateMetaData;
 	const { id } = jobData;
 	try {
 		await initiateRateReviseOysterJob(id, newRate);
@@ -129,7 +131,7 @@ export async function handleInitiateRateRevise(
 				newRate: newRate,
 				rateStatus: 'pending',
 				stopStatus: newRate.gt(BigNumberZero) ? 'disabled' : 'pending',
-				updatesAt: nowTime + 10 * 60 //TODO: update this
+				updatesAt: nowTime + rateReviseWaitingTime
 			}
 		};
 		oysterStore.update((value: OysterStore) => {

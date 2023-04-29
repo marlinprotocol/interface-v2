@@ -17,7 +17,7 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	$: ({ reviseRate: { newRate = null, updatesAt = 0, status = '' } = {} } = jobData);
+	$: ({ reviseRate: { stopStatus = '' } = {} } = jobData);
 
 	let submitLoading = false;
 	let cancelLoading = false;
@@ -44,23 +44,16 @@
 	};
 
 	$: modalTitle =
-		state === 'initiate'
+		stopStatus === '' || stopStatus === 'disabled'
 			? 'INITIATE STOP'
-			: state === 'confirm'
+			: stopStatus === 'completed'
 			? 'CONFIRM STOP'
 			: 'INITIATED STOP';
 
-	$: submitButtonText = state === 'initiate' ? 'INITIATE STOP' : 'CONFIRM';
-	$: submitButtonAction = state === 'initiate' ? handleInitiateClick : handleConfirmClick;
-	$: state =
-		!status || newRate?.gt(BigNumberZero)
-			? 'initiate'
-			: status === 'inProcess'
-			? 'cancel'
-			: 'confirm';
-
-	$: nonZeroRatePending = newRate?.gt(BigNumberZero);
-	$: disableConfirm = nonZeroRatePending || status === 'inProcess';
+	$: submitButtonText =
+		stopStatus === '' || stopStatus === 'disabled' ? 'INITIATE STOP' : 'CONFIRM';
+	$: submitButtonAction =
+		stopStatus === '' || stopStatus === 'disabled' ? handleInitiateClick : handleConfirmClick;
 </script>
 
 <Modal {modalFor}>
@@ -70,11 +63,11 @@
 	<svelte:fragment slot="subtitle">{kLoremSubtitle}</svelte:fragment>
 	<svelte:fragment slot="content">
 		<StopModalContent {jobData} />
-		{#if nonZeroRatePending}
+		{#if stopStatus === 'disabled'}
 			<InputCard variant="warning" styleClass="mt-4">
 				<Text
 					styleClass={'py-2'}
-					text={'A non-zero rate revision has been initiated, you may cancel it using AMEND RATE button.'}
+					text={'A non-zero rate revision has been initiated, you may cancel it using RATE AMEND button.'}
 					variant="small"
 				/>
 			</InputCard>
@@ -82,7 +75,7 @@
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		<div class="flex gap-4">
-			{#if state !== 'initiate'}
+			{#if stopStatus === 'pending' || stopStatus === 'completed'}
 				<div class="w-full">
 					<Button
 						variant="outlined"
@@ -98,7 +91,7 @@
 			<div class="w-full">
 				<Button
 					variant="filled"
-					disabled={disableConfirm}
+					disabled={stopStatus === 'disabled'}
 					loading={submitLoading}
 					onclick={submitButtonAction}
 					size="large"

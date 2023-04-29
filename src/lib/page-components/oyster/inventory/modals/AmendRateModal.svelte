@@ -17,7 +17,8 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	$: ({ rate, reviseRate: { newRate = BigNumberZero, updatesAt = 0, status = '' } = {} } = jobData);
+	$: ({ rate, reviseRate: { newRate = BigNumberZero, updatesAt = 0, rateStatus = '' } = {} } =
+		jobData);
 	const { symbol } = kOysterRateMetaData;
 
 	//initial states
@@ -57,18 +58,17 @@
 	};
 
 	$: modalTitle =
-		state === 'initiate'
+		rateStatus === ''
 			? 'INITIATE RATE REVISE'
-			: state === 'confirm'
+			: rateStatus === 'completed'
 			? 'CONFIRM RATE REVISE'
 			: 'INITIATED RATE REVISE';
 
-	$: submitButtonText = state === 'initiate' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
-	$: submitButtonAction = state === 'initiate' ? handleInitiateClick : handleConfirmClick;
+	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
+	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
 
-	$: state = !status ? 'initiate' : status === 'inProcess' ? 'cancel' : 'confirm';
-
-	$: submitEnable = inputAmount && isInputAmountValid(inputAmountString) && state !== 'cancel';
+	$: submitEnable =
+		inputAmount && isInputAmountValid(inputAmountString) && rateStatus !== 'pending';
 </script>
 
 <Modal {modalFor}>
@@ -87,7 +87,7 @@
 					disabled
 					prefix={symbol}
 				/>
-				{#if state === 'initiate'}
+				{#if rateStatus === ''}
 					<AmountInputWithTitle title="New Hourly Rate" bind:inputAmountString prefix={symbol} />
 				{:else}
 					<AmountInputWithTitle
@@ -102,7 +102,7 @@
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		<div class="flex gap-4">
-			{#if state !== 'initiate'}
+			{#if rateStatus !== ''}
 				<div class="w-full">
 					<Button
 						variant="outlined"

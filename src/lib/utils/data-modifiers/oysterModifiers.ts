@@ -9,7 +9,7 @@ import type {
 import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
-import { bigNumberToCommaString, hundredYears } from '../conversion';
+import { hundredYears } from '../conversion';
 
 export const parseMetadata = (metadata: string) => {
 	//remove unwanted single quote and \
@@ -75,9 +75,11 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	if (rateRevisionHistory?.length > 0) {
 		const { value, updatesAt } = rateRevisionHistory[0];
 		const _rateUpdatesAt = Number(updatesAt);
+		const _rateStatus = _rateUpdatesAt > nowTime ? 'pending' : 'completed';
 		reviseRateMap = {
 			newRate: BigNumber.from(value),
-			status: _rateUpdatesAt > nowTime ? 'inProcess' : 'completed',
+			rateStatus: _rateStatus,
+			stopStatus: BigNumber.from(value).gt(BigNumberZero) ? 'disabled' : _rateStatus,
 			updatesAt: Number(updatesAt)
 		};
 	}

@@ -6,7 +6,6 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type {
 		CreateOrderPreFilledModel,
-		OysterInventoryDataModel,
 		OysterMarketplaceDataModel
 	} from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
@@ -166,7 +165,7 @@
 		jobValues.enclaveImageUrl.value != '';
 
 	const subtitle =
-		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
+		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eu nisl finibus mauris tristique luctus a vel sapien. Cras pulvinar leo non consectetur commodo.';
 	const styles = {
 		inputText: 'px-4 py-2',
 		inputNumber: ''
@@ -175,7 +174,7 @@
 
 <Modal {modalFor} onClose={resetInputs} padding={false}>
 	<svelte:fragment slot="title">
-		{`Create Order`}
+		{`CREATE ORDER`}
 	</svelte:fragment>
 	<svelte:fragment slot="subtitle">
 		{subtitle}

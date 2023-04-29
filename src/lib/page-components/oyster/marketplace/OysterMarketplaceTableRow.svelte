@@ -58,17 +58,12 @@
 		{memory ? memory : 'N/A'}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kMarketplaceTableColumnsWidth('action')}`}>
-		{#if !$connected}
-			<div class={`text-center flex justify-center`}>
-				<ConnectWalletButton connectButtonText={'Connect'} />
-			</div>
-		{:else}
-			<TableConvertButton
-				modalFor={`create-order-modal-${rowIndex}`}
-				text="DEPLOY"
-				styleClass="w-fit px-6"
-			/>
-		{/if}
+		<TableConvertButton
+			disabled={!$connected}
+			modalFor={`create-order-modal-${rowIndex}`}
+			text="DEPLOY"
+			styleClass="w-fit px-6"
+		/>
 	</TableGridDataCell>
 </div>
 <CreateOrderModal modalFor={`create-order-modal-${rowIndex}`} preFilledData={rowData} />

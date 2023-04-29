@@ -4,7 +4,7 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero, oysterAmountPrecision } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { kLoremSubtitle, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString, stringToBigNumber } from '$lib/utils/conversion';
 	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
@@ -16,10 +16,8 @@
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
-	export let rateReviseInitiateEndTimestamp: number;
-	export let revisedRate: BigNumber;
 
-	$: ({ rate } = jobData);
+	$: ({ rate, reviseRate: { newRate = BigNumberZero, updatesAt = 0, status = '' } = {} } = jobData);
 	const { symbol } = kOysterRateMetaData;
 
 	//initial states
@@ -35,7 +33,7 @@
 	const nowTime = Date.now() / 1000;
 
 	const handleInitiateClick = async () => {
-		console.log('handleInitiateClick :>> ', rateReviseInitiateEndTimestamp);
+		console.log('handleInitiateClick :>> ', updatesAt);
 		submitLoading = true;
 		await handleInitiateRateRevise(jobData, inputAmount);
 		submitLoading = false;
@@ -43,7 +41,7 @@
 	};
 
 	const handleConfirmClick = async () => {
-		console.log('handleConfirmClick :>> ', rateReviseInitiateEndTimestamp);
+		console.log('handleConfirmClick :>> ', updatesAt);
 		submitLoading = true;
 		await handleFinaliseRateRevise(jobData, inputAmount);
 		submitLoading = false;
@@ -51,7 +49,7 @@
 	};
 
 	const handleCancelInitiate = async () => {
-		console.log('handleCancelInitiate :>> ', rateReviseInitiateEndTimestamp);
+		console.log('handleCancelInitiate :>> ', updatesAt);
 		cancelLoading = true;
 		await handleCancelRateRevise(jobData);
 		cancelLoading = false;
@@ -68,17 +66,9 @@
 	$: submitButtonText = state === 'initiate' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
 	$: submitButtonAction = state === 'initiate' ? handleInitiateClick : handleConfirmClick;
 
-	$: state =
-		rateReviseInitiateEndTimestamp === 0
-			? 'initiate'
-			: rateReviseInitiateEndTimestamp < nowTime
-			? 'confirm'
-			: 'cancel';
+	$: state = !status ? 'initiate' : status === 'inProcess' ? 'cancel' : 'confirm';
 
 	$: submitEnable = inputAmount && isInputAmountValid(inputAmountString) && state !== 'cancel';
-
-	const subtitle =
-		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
 </script>
 
 <Modal {modalFor}>
@@ -86,7 +76,7 @@
 		{modalTitle}
 	</svelte:fragment>
 	<svelte:fragment slot="subtitle">
-		{subtitle}
+		{kLoremSubtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4">
@@ -102,7 +92,7 @@
 				{:else}
 					<AmountInputWithTitle
 						title="New Hourly Rate"
-						inputAmountString={bigNumberToCommaString(revisedRate, oysterAmountPrecision)}
+						inputAmountString={bigNumberToCommaString(newRate, oysterAmountPrecision)}
 						prefix={symbol}
 						disabled
 					/>

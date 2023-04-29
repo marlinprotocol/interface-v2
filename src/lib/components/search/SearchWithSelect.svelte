@@ -16,6 +16,7 @@
 	export let placeholder = 'Search';
 	export let styleClass = '';
 	export let cardVariant: InputCardVariant | undefined = 'primary';
+	export let disabled = false;
 
 	let suggestions: (string | number)[] = [];
 	let showSuggestions = false;
@@ -55,7 +56,7 @@
 				{placeholder}
 				value={searchValue ?? ''}
 				on:input={handleSearch}
-				disabled={onlyFilters}
+				disabled={onlyFilters || disabled}
 				on:click={(e) => onSearchClick?.()}
 			/>
 			<Select

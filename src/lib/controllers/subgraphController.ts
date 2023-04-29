@@ -471,12 +471,12 @@ export async function getApprovedOysterAllowances(address: Address, contractAddr
 	}
 }
 
-export async function getReviseRateInitiateEndTimestamp(jobId: Bytes) {
+export async function getReviseRateInitiateEndTimestamp(job: Bytes) {
 	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
 	const query = QUERY_TO_JOB_REVISE_RATE_END_TIMESTAMP_DATA;
 
 	const queryVariables = {
-		jobId: jobId
+		job: job
 	};
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);

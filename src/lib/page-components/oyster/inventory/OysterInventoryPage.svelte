@@ -76,11 +76,7 @@
 </script>
 
 <div class="mx-auto">
-	<PageTitle title={'My Active Orders'}>
-		<svelte:fragment slot="button">
-			<Button variant="outlined" size="tiny" onclick={() => {}}>GUIDE</Button>
-		</svelte:fragment>
-	</PageTitle>
+	<PageTitle title={'My Active Orders'} />
 	<div class="flex gap-4 items-center mb-6">
 		<SearchBar
 			{onSearchClick}

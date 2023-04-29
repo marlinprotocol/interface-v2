@@ -340,7 +340,6 @@ export const getRateForProviderAndFilters = (
 	values: any,
 	allMarketplaceData: OysterMarketplaceDataModel[]
 ) => {
-	console.log('getRateForProviderAndFilters :>> ', values, allMarketplaceData, providerAddress);
 	if (!providerAddress) return undefined;
 	const { instance, region } = values;
 	if (!instance.value || !region.value) return undefined;

@@ -14,8 +14,6 @@
 	export let providerAddress: string | undefined;
 	export let handleChange = () => {};
 
-	$: console.log('providerAddress 2:>> ', providerAddress);
-
 	let filters: Partial<OysterFiltersModel> = getCreateOrderInstanceRegionFilters(
 		providerAddress,
 		allMarketplaceData
@@ -48,9 +46,7 @@
 	};
 
 	const handleMerchantChange = async (value: string | number) => {
-		console.log('handleMerchantChange providerAddress :>> ', value);
 		const merchant = handleFieldChange(jobValues.merchant, value, merchantList, 'Operator');
-		console.log('merchant :>> ', merchant);
 		providerAddress =
 			value != ''
 				? allMarketplaceData.find(
@@ -73,7 +69,6 @@
 			},
 			merchant
 		};
-		console.log('providerAddress:>> ', providerAddress);
 		filters = getCreateOrderInstanceRegionFilters(providerAddress, allMarketplaceData);
 		handleChange();
 	};
@@ -110,6 +105,7 @@
 			}}
 			title={'Instance'}
 			placeholder={'Select instance'}
+			disabled={!jobValues.merchant.value}
 		/>
 	</div>
 	<div class="w-full">
@@ -126,6 +122,7 @@
 			}}
 			title={'Region'}
 			placeholder={'Select region'}
+			disabled={!jobValues.merchant.value}
 		/>
 	</div>
 </div>
@@ -141,14 +138,9 @@
 />
 <div class="flex gap-2">
 	<div class="w-full">
-		<TextInputWithEndButton title={'vCPU'} input={vcpu} placeholder={'Select Instance'} disabled />
+		<TextInputWithEndButton title={'vCPU'} input={vcpu} placeholder={'Select'} disabled />
 	</div>
 	<div class="w-full">
-		<TextInputWithEndButton
-			title={'Memory'}
-			input={memory}
-			placeholder={'Select Instance'}
-			disabled
-		/>
+		<TextInputWithEndButton title={'Memory'} input={memory} placeholder={'Select'} disabled />
 	</div>
 </div>

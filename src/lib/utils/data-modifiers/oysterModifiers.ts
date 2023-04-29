@@ -9,7 +9,7 @@ import type {
 import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
-import { hundredYears } from '../conversion';
+import { bigNumberToCommaString, hundredYears } from '../conversion';
 
 export const parseMetadata = (metadata: string) => {
 	//remove unwanted single quote and \
@@ -186,12 +186,8 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 
 	let currentBalance = _balance;
 	//job is running
-	try {
-		// check for overflow and underflow errors
-		currentBalance = _balance.sub(_rate.mul(nowTime - _lastSettled));
-	} catch (e) {
-		console.log('overflow error', e, id);
-	}
+	const timeInRateUnit = Math.floor((nowTime - _lastSettled) / rateUnitInSeconds);
+	currentBalance = _balance.sub(_rate.mul(timeInRateUnit));
 
 	return {
 		...modifiedJob,

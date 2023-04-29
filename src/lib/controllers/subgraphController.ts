@@ -453,8 +453,6 @@ export async function getApprovedOysterAllowances(address: Address, contractAddr
 	let pond = BigNumberZero;
 	try {
 		const result = await fetchHttpData(url, options);
-		console.log('oyster allowances', result);
-
 		const pondApprovals = result['data']?.pondApprovals;
 
 		if (pondApprovals && pondApprovals.length > 0) {

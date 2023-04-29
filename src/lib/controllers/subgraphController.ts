@@ -469,32 +469,6 @@ export async function getApprovedOysterAllowances(address: Address, contractAddr
 	}
 }
 
-export async function getReviseRateInitiateEndTimestamp(job: Bytes) {
-	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
-	const query = QUERY_TO_JOB_REVISE_RATE_END_TIMESTAMP_DATA;
-
-	const queryVariables = {
-		job: job
-	};
-
-	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-	try {
-		const result = await fetchHttpData(url, options);
-
-		const reviseRateRequests = result['data']?.reviseRateRequests;
-		if (!reviseRateRequests?.length) {
-			if (result['errors']) {
-				showFetchHttpDataError(result['errors']);
-			}
-			return null;
-		}
-		return reviseRateRequests[0] as OysterRateRequestModel;
-	} catch (error) {
-		console.log('Error getting provider details from subgraph', error);
-		return null;
-	}
-}
-
 export async function getOysterMerchantJobs(address: Address) {
 	const url = ENVIRONMENT.public_enclaves_contract_subgraph_url;
 	const query = QUERY_TO_GET_MERCHANT_JOBS_DATA;

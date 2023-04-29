@@ -3,9 +3,11 @@
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
+	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { kLoremSubtitle } from '$lib/utils/constants/oysterConstants';
+	import { epochToDurationString } from '$lib/utils/conversion';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleCancelRateRevise,
@@ -17,7 +19,7 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	$: ({ reviseRate: { stopStatus = '' } = {} } = jobData);
+	$: ({ reviseRate: { stopStatus = '', updatesAt = 0 } = {} } = jobData);
 
 	let submitLoading = false;
 	let cancelLoading = false;
@@ -63,6 +65,21 @@
 	<svelte:fragment slot="subtitle">{kLoremSubtitle}</svelte:fragment>
 	<svelte:fragment slot="content">
 		<StopModalContent {jobData} />
+		{#if stopStatus === 'pending'}
+			<div class="w-full">
+				<Timer endEpochTime={updatesAt}>
+					<div slot="active" let:timer class="w-full">
+						<InputCard variant="warning" styleClass="mt-4">
+							<Text
+								styleClass={'py-2'}
+								text={`Time left to confirm: ${epochToDurationString(timer)}`}
+								variant="small"
+							/>
+						</InputCard>
+					</div>
+				</Timer>
+			</div>
+		{/if}
 		{#if stopStatus === 'disabled'}
 			<InputCard variant="warning" styleClass="mt-4">
 				<Text
@@ -91,7 +108,7 @@
 			<div class="w-full">
 				<Button
 					variant="filled"
-					disabled={stopStatus === 'disabled'}
+					disabled={stopStatus === 'pending' || stopStatus === 'disabled'}
 					loading={submitLoading}
 					onclick={submitButtonAction}
 					size="large"

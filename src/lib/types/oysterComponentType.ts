@@ -61,8 +61,8 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 	reviseRate?: {
 		newRate: BigNumber;
 		updatesAt: number;
-		rateStatus: 'pending' | 'completed';
-		stopStatus: '' | 'disabled' | 'pending' | 'completed';
+		rateStatus: string; //'' | 'pending' | 'completed'
+		stopStatus: string; //'' | 'disabled' | 'pending' | 'completed'
 	};
 }
 

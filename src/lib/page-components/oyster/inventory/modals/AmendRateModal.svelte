@@ -4,7 +4,7 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero, oysterAmountPrecision } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { kLoremSubtitle, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString, stringToBigNumber } from '$lib/utils/conversion';
 	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
@@ -69,9 +69,6 @@
 	$: state = !status ? 'initiate' : status === 'inProcess' ? 'cancel' : 'confirm';
 
 	$: submitEnable = inputAmount && isInputAmountValid(inputAmountString) && state !== 'cancel';
-
-	const subtitle =
-		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
 </script>
 
 <Modal {modalFor}>
@@ -79,7 +76,7 @@
 		{modalTitle}
 	</svelte:fragment>
 	<svelte:fragment slot="subtitle">
-		{subtitle}
+		{kLoremSubtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4">

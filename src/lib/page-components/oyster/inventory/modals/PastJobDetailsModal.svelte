@@ -5,6 +5,7 @@
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
+	import { kLoremSubtitle } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToCommaString,
 		epochSecToString,
@@ -37,9 +38,6 @@
 		closeModal(modalFor);
 	};
 
-	const subtitle =
-		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
-
 	const styles = {
 		modalWidth: 'w-11/12 sm:max-w-[700px]',
 		textPrimary: 'text-primary'
@@ -48,10 +46,10 @@
 
 <Modal {modalFor} modalWidth={styles.modalWidth} padding={false}>
 	<svelte:fragment slot="title">
-		{'Past Order Details'}
+		{'PAST ORDER DETAILS'}
 	</svelte:fragment>
 	<svelte:fragment slot="subtitle">
-		{subtitle}
+		{kLoremSubtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4 px-4">

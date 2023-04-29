@@ -14,6 +14,7 @@
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import AddFundsToJob from '../../sub-components/AddFundsToJob.svelte';
+	import { kLoremSubtitle } from '$lib/utils/constants/oysterConstants';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -64,9 +65,6 @@
 	$: approved = connected && cost && approvedAmount.gte(cost) && cost.gt(BigNumberZero);
 	$: approveEnable = connected && !submitLoading && cost.gt(BigNumberZero) && !invalidCost;
 	$: confirmEnable = approved && approveEnable;
-
-	const subtitle =
-		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
@@ -74,7 +72,7 @@
 		{'ADD FUNDS'}
 	</svelte:fragment>
 	<svelte:fragment slot="subtitle">
-		{subtitle}
+		{kLoremSubtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AddFundsToJob bind:duration bind:invalidCost bind:cost {rate} bind:costString />

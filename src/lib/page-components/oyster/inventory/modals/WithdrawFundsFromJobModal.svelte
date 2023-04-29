@@ -7,7 +7,7 @@
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero, oysterAmountPrecision } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { kLoremSubtitle, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToCommaString,
 		bigNumberToString,
@@ -80,18 +80,13 @@
 			? 'Insufficient balance'
 			: '';
 	$: submitEnable = inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
-
-	const subtitle =
-		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
 	<svelte:fragment slot="title">
 		{'WITHDRAW FUNDS'}
 	</svelte:fragment>
-	<svelte:fragment slot="subtitle">
-		{subtitle}
-	</svelte:fragment>
+	<svelte:fragment slot="subtitle">{kLoremSubtitle}</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
 			title="From"

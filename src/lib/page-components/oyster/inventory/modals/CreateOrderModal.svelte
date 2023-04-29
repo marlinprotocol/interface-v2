@@ -6,7 +6,6 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type {
 		CreateOrderPreFilledModel,
-		OysterInventoryDataModel,
 		OysterMarketplaceDataModel
 	} from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';

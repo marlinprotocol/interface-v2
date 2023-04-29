@@ -105,6 +105,7 @@
 			}}
 			title={'Instance'}
 			placeholder={'Select instance'}
+			disabled={!jobValues.merchant.value}
 		/>
 	</div>
 	<div class="w-full">
@@ -121,6 +122,7 @@
 			}}
 			title={'Region'}
 			placeholder={'Select region'}
+			disabled={!jobValues.merchant.value}
 		/>
 	</div>
 </div>

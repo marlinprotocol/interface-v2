@@ -5,6 +5,7 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { kLoremSubtitle } from '$lib/utils/constants/oysterConstants';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleCancelRateRevise,
@@ -60,17 +61,13 @@
 
 	$: nonZeroRatePending = newRate?.gt(BigNumberZero);
 	$: disableConfirm = nonZeroRatePending || status === 'inProcess';
-	const subtitle =
-		'Creating a new stash requires users to approve the POND and/or MPond tokens. After approval, users can enter their operator of choice and confirm stash creation.';
 </script>
 
 <Modal {modalFor}>
 	<svelte:fragment slot="title">
 		{modalTitle}
 	</svelte:fragment>
-	<svelte:fragment slot="subtitle">
-		{subtitle}
-	</svelte:fragment>
+	<svelte:fragment slot="subtitle">{kLoremSubtitle}</svelte:fragment>
 	<svelte:fragment slot="content">
 		<StopModalContent {jobData} />
 		{#if nonZeroRatePending}

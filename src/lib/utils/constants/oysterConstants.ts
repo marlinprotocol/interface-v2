@@ -17,6 +17,8 @@ export const kOysterRateMetaData = {
 };
 
 export const oysterTableItemsPerPage = 10;
+export const kLoremSubtitle =
+	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eu nisl finibus mauris tristique luctus a vel sapien. Cras pulvinar leo non consectetur commodo.';
 
 // make sure the id matches the id in Data Model
 export const kInstancesTableHeader: TableModel['header'][] = [

@@ -84,7 +84,6 @@
 	};
 
 	const handleOnUnregister = async () => {
-		console.log('clicked on unregister');
 		await removeOysterInfrastructureProvider();
 		oysterStore.update((value) => {
 			value.providerData.registered = false;

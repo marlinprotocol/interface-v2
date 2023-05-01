@@ -276,8 +276,6 @@ export async function getRequestedMPondForConversion(address: Address) {
 
 	try {
 		const result: any | undefined = await fetchHttpData(url, options);
-		console.log('mPond requested', result);
-
 		if (!result['data']) {
 			return requestedMPond;
 		}
@@ -490,7 +488,6 @@ export async function getOysterMerchantJobs(address: Address) {
 			return [];
 		}
 
-		console.log('jobs :>> ', jobs);
 		const ret = await getOysterJobsModified(jobs);
 		return ret;
 	} catch (error: any) {

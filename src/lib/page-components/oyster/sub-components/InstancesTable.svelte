@@ -48,31 +48,12 @@
 		</div>
 	{/if}
 	<svelte:fragment slot="titleEndButton">
-		{#if $connected && validCPUrl}
-			<CollapseButton
-				{isOpen}
-				onclick={() => {
-					isOpen = !isOpen;
-				}}
-			/>
-		{:else if $connected && !validCPUrl}
-			<CollapseButton
-				onclick={() => {
-					addToast({
-						message: 'Please enter a valid control plane URL.',
-						variant: 'error'
-					});
-				}}
-			/>
-		{:else}
-			<CollapseButton
-				onclick={() => {
-					addToast({
-						message: 'Please connect your wallet.',
-						variant: 'error'
-					});
-				}}
-			/>
-		{/if}
+		<CollapseButton
+			disabled={!$connected || !validCPUrl}
+			{isOpen}
+			onclick={() => {
+				isOpen = !isOpen;
+			}}
+		/>
 	</svelte:fragment>
 </InputCardWithEndButton>

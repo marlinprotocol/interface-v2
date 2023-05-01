@@ -1,6 +1,6 @@
 export const ENVIRONMENT_DEV = {
 	environment_name: 'dev',
-	production: false,
+	production: true,
 	public_chain_id: '0x66eed',
 	public_pond_token_address: '0xa9472a9C135Cb33221de441a4DEd393FD515a69C',
 	public_mPond_token_address: '0x0B3d9b224496C2A2Fa1a4096D8EB4D350eFd9079',

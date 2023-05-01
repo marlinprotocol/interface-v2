@@ -78,6 +78,9 @@
 	<svelte:fragment slot="title">
 		{modalTitle}
 	</svelte:fragment>
+	<svelte:fragment slot="subtitle">
+		{"You're about to revise the hourly rate for this job."}
+	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4">
 			<div class="flex gap-4">

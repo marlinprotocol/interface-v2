@@ -61,6 +61,7 @@
 	<svelte:fragment slot="title">
 		{modalTitle}
 	</svelte:fragment>
+	<svelte:fragment slot="subtitle">{'You can stop your job here'}</svelte:fragment>
 	<svelte:fragment slot="content">
 		<StopModalContent {jobData} />
 		{#if stopStatus === 'pending'}

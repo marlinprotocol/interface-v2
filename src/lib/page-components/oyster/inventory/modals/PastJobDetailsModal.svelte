@@ -46,6 +46,9 @@
 	<svelte:fragment slot="title">
 		{'PAST ORDER DETAILS'}
 	</svelte:fragment>
+	<svelte:fragment slot="subtitle">
+		{'View the details of your past order'}
+	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4 px-4">
 			<div class="flex gap-4">

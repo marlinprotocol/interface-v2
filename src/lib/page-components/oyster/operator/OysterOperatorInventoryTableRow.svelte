@@ -27,16 +27,7 @@
 
 	const { symbol } = kOysterRateMetaData;
 
-	$: ({
-		provider: { name, address },
-		id,
-		instance,
-		region,
-		createdAt,
-		status,
-		durationRun,
-		amountToBeSettled
-	} = rowData);
+	$: ({ owner, id, instance, region, createdAt, status, durationRun, amountToBeSettled } = rowData);
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
@@ -45,7 +36,7 @@
 		width={`${kOysterMerchantJobTableColumnsWidth('provider')}`}
 		styleClass="flex gap-2 items-center"
 	>
-		<NameWithAddress {name} {address} {rowIndex}>
+		<NameWithAddress address={owner} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="copy-icon cursor-pointer">
 					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />

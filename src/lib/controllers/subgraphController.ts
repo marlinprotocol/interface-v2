@@ -489,6 +489,8 @@ export async function getOysterMerchantJobs(address: Address) {
 			}
 			return [];
 		}
+
+		console.log('jobs :>> ', jobs);
 		const ret = await getOysterJobsModified(jobs);
 		return ret;
 	} catch (error: any) {

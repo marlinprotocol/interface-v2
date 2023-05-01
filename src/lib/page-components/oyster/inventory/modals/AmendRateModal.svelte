@@ -7,7 +7,7 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero, oysterAmountPrecision } from '$lib/utils/constants/constants';
-	import { kLoremSubtitle, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToCommaString,
 		epochToDurationString,
@@ -80,9 +80,6 @@
 <Modal {modalFor}>
 	<svelte:fragment slot="title">
 		{modalTitle}
-	</svelte:fragment>
-	<svelte:fragment slot="subtitle">
-		{kLoremSubtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4">

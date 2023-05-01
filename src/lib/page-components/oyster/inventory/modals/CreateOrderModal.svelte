@@ -165,7 +165,7 @@
 		jobValues.enclaveImageUrl.value != '';
 
 	const subtitle =
-		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eu nisl finibus mauris tristique luctus a vel sapien. Cras pulvinar leo non consectetur commodo.';
+		'Select operator, instance and region of choice and then add duration/cost. User can also modify the hourly rate. Approve the USDC tokens first and then deploy the job.';
 	const styles = {
 		inputText: 'px-4 py-2',
 		inputNumber: ''

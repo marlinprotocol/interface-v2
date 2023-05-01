@@ -5,6 +5,7 @@
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
+	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
@@ -13,6 +14,10 @@
 		removeOysterInfrastructureProvider,
 		updateOysterInfrastructureProvider
 	} from '$lib/controllers/contractController';
+	import {
+		getInstancesFromControlPlaneUsingCpUrl,
+		getInstancesFromControlPlaneUsingOperatorAddress
+	} from '$lib/controllers/httpController';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
@@ -25,11 +30,6 @@
 	import { onDestroy } from 'svelte';
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from './sub-components/InstancesTable.svelte';
-	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
-	import {
-		getInstancesFromControlPlaneUsingCpUrl,
-		getInstancesFromControlPlaneUsingOperatorAddress
-	} from '$lib/controllers/httpController';
 
 	const styles = {
 		docButton: 'text-primary',
@@ -163,7 +163,7 @@
 	</svelte:fragment>
 	<TextInputWithEndButton
 		title={'Address'}
-		tooltipText={'Tooltip text here'}
+		tooltipText={'Address of oyster operator'}
 		placeholder={'Enter your address here'}
 		bind:input={displayAddress}
 		disabled={true}
@@ -171,7 +171,7 @@
 	<TextInputWithEndButton
 		styleClass="mt-4"
 		title={'Control Plane URL'}
-		tooltipText={'Tooltip text here'}
+		tooltipText={'URL of the control plane which is used to provide pricing data'}
 		placeholder={'Paste URL here'}
 		bind:input={updatedCpURL}
 	>

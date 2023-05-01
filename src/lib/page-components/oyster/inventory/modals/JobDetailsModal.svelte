@@ -4,7 +4,6 @@
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
-	import { kLoremSubtitle } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToCommaString,
 		epochSecToString,
@@ -39,9 +38,6 @@
 <Modal {modalFor} modalWidth={styles.modalWidth} padding={false}>
 	<svelte:fragment slot="title">
 		{'ORDER DETAILS'}
-	</svelte:fragment>
-	<svelte:fragment slot="subtitle">
-		{kLoremSubtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4 px-4">

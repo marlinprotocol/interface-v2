@@ -165,7 +165,7 @@
 		jobValues.enclaveImageUrl.value != '';
 
 	const subtitle =
-		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eu nisl finibus mauris tristique luctus a vel sapien. Cras pulvinar leo non consectetur commodo.';
+		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';
 	const styles = {
 		inputText: 'px-4 py-2',
 		inputNumber: ''

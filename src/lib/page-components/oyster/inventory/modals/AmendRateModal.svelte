@@ -7,7 +7,7 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero, oysterAmountPrecision } from '$lib/utils/constants/constants';
-	import { kLoremSubtitle, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToCommaString,
 		epochToDurationString,
@@ -82,7 +82,7 @@
 		{modalTitle}
 	</svelte:fragment>
 	<svelte:fragment slot="subtitle">
-		{kLoremSubtitle}
+		{"You're about to revise the hourly rate for this job."}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4">

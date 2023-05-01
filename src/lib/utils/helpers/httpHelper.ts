@@ -11,7 +11,8 @@ export function fetchHttpData(url: string, options: RequestInit) {
 				message: 'Error fetching data. Please try again later.',
 				variant: 'error'
 			});
-			console.error('fetchHttpData: ', error);
+			console.error('error from the fetch call');
+			throw new Error(error);
 		});
 }
 

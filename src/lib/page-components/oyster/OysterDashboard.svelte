@@ -107,7 +107,7 @@
 				return [];
 			}
 		} catch (error) {
-			console.log(error);
+			console.log('error from getInstances', error);
 			throw error;
 		}
 	}
@@ -119,11 +119,17 @@
 			const context = this;
 
 			// Return a Promise that resolves with the result of the original function
-			return new Promise<ReturnType<F>>((resolve) => {
+			return new Promise<ReturnType<F>>((resolve, reject) => {
 				clearTimeout(timeoutID);
 				timeoutID = setTimeout(async () => {
-					const result = await func.apply(context, args);
-					resolve(result);
+					try {
+						const result = await func.apply(context, args);
+
+						resolve(result);
+					} catch (error) {
+						console.log('error from debounce');
+						reject(error);
+					}
 				}, delay);
 			});
 		} as F;

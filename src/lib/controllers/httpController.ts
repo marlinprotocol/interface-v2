@@ -89,7 +89,8 @@ export async function getInstancesFromControlPlaneUsingCpUrl(controlPlaneUrl: st
 	const options = GET_OPTIONS;
 	const instances: CPInstances = await fetchHttpData(controlPlaneDetailsEndpoint, options);
 
-	if (!instances) {
+	if (!instances || instances.error) {
+		console.log('error from getInstancesFromControlPlaneUsingCpUrl');
 		throw new Error('Unable to fetch instances');
 	}
 	return getModifiedInstances(instances);

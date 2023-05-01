@@ -17,7 +17,6 @@
 			getPondAndMPondBridgeAllowances($walletStore.address, $contractAddressStore.Bridge),
 			getRequestedMPondForConversion($walletStore.address)
 		]);
-		console.log('allowances from api call', allowances);
 		bridgeStore.set({
 			allowances: {
 				pond: allowances.pond,

@@ -32,7 +32,6 @@
 	} = jobData);
 
 	const handleRedeploy = () => {
-		console.log('handleRedeploy', modalFor, `create-order-modal-${rowIndex}`);
 		openModal(`create-order-modal-${rowIndex}`);
 		closeModal(modalFor);
 	};

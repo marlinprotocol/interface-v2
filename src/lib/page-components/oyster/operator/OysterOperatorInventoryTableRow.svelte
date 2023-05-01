@@ -6,7 +6,6 @@
 
 	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
-	import { settleOysterJob } from '$lib/controllers/contractController';
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
@@ -21,22 +20,21 @@
 		epochToDurationString
 	} from '$lib/utils/conversion';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
+	import { handleClaimAmountFromOysterJob } from '$lib/utils/services/oysterServices';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
+	let submitLoading = false;
 
 	const { symbol } = kOysterRateMetaData;
 
-	$: ({
-		provider: { name, address },
-		id,
-		instance,
-		region,
-		createdAt,
-		status,
-		durationRun,
-		amountToBeSettled
-	} = rowData);
+	const handleClaimClick = async () => {
+		submitLoading = true;
+		await handleClaimAmountFromOysterJob(id);
+		submitLoading = false;
+	};
+
+	$: ({ owner, id, instance, region, createdAt, status, durationRun, amountToBeSettled } = rowData);
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
@@ -45,7 +43,7 @@
 		width={`${kOysterMerchantJobTableColumnsWidth('provider')}`}
 		styleClass="flex gap-2 items-center"
 	>
-		<NameWithAddress {name} {address} {rowIndex}>
+		<NameWithAddress address={owner} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="copy-icon cursor-pointer">
 					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
@@ -81,9 +79,10 @@
 	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('action')}`}>
 		<Button
 			variant="tableConvertButton"
-			onclick={async () => await settleOysterJob(id)}
+			onclick={handleClaimClick}
 			size="smaller"
-			styleClass="w-fit px-6 rounded text-xs">CLAIM</Button
+			loading={submitLoading}
+			styleClass="w-24 px-6 rounded text-xs">CLAIM</Button
 		>
 	</TableGridDataCell>
 </div>

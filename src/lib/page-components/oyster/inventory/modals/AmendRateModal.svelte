@@ -40,7 +40,6 @@
 	let cancelLoading = false;
 
 	const handleInitiateClick = async () => {
-		console.log('handleInitiateClick :>> ', updatesAt);
 		submitLoading = true;
 		await handleInitiateRateRevise(jobData, inputAmount);
 		submitLoading = false;
@@ -48,7 +47,6 @@
 	};
 
 	const handleConfirmClick = async () => {
-		console.log('handleConfirmClick :>> ', updatesAt);
 		submitLoading = true;
 		await handleFinaliseRateRevise(jobData, inputAmount);
 		submitLoading = false;
@@ -56,7 +54,6 @@
 	};
 
 	const handleCancelInitiate = async () => {
-		console.log('handleCancelInitiate :>> ', updatesAt);
 		cancelLoading = true;
 		await handleCancelRateRevise(jobData);
 		cancelLoading = false;

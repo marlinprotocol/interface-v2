@@ -23,7 +23,7 @@
 				<HeaderConnectWallet />
 			</div>
 		</div>
-		<div class="flex sm:hidden text-center text-center mx-auto w-full justify-center mt-6">
+		<div class="flex sm:hidden text-center mx-auto w-full justify-center mt-6">
 			<HeaderLinksGroup />
 		</div>
 	</header>

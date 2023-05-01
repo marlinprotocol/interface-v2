@@ -243,6 +243,7 @@ export async function handleConfirmJobStop(jobData: OysterInventoryDataModel) {
 }
 
 export async function handleCreateJob(
+	owner: string,
 	metadata: string,
 	provider: string,
 	rate: BigNumber,
@@ -259,6 +260,7 @@ export async function handleCreateJob(
 				address: provider,
 				name: ''
 			},
+			owner,
 			metadata,
 			enclaveUrl,
 			instance,

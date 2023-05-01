@@ -14,7 +14,6 @@
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import AddFundsToJob from '../../sub-components/AddFundsToJob.svelte';
-	import { kLoremSubtitle } from '$lib/utils/constants/oysterConstants';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -70,9 +69,6 @@
 <Modal {modalFor} onClose={resetInputs}>
 	<svelte:fragment slot="title">
 		{'ADD FUNDS'}
-	</svelte:fragment>
-	<svelte:fragment slot="subtitle">
-		{kLoremSubtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AddFundsToJob bind:duration bind:invalidCost bind:cost {rate} bind:costString />

@@ -52,7 +52,7 @@
 		<div
 			class={`modal-body ${padding ? 'pt-2 pb-4 px-6' : ''}`}
 			style={`max-height: ${
-				$$slots.actionButtons ? 'calc(100vh - 320px)' : 'calc(100vh - 200px)'
+				$$slots.actionButtons ? 'calc(100vh - 280px)' : 'calc(100vh - 200px)'
 			};`}
 		>
 			<slot name="content" />

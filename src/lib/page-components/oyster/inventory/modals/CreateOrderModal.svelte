@@ -22,12 +22,15 @@
 	import type { Unsubscriber } from 'svelte/store';
 	import AddFundsToJob from '../../sub-components/AddFundsToJob.svelte';
 	import MetadetailsForNewOrder from '../../sub-components/MetadetailsForNewOrder.svelte';
+	import type { Address } from '$lib/types/storeTypes';
+	import { walletStore } from '$lib/data-stores/walletProviderStore';
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
 
 	let allMarketplaceData: OysterMarketplaceDataModel[] = [];
 	let approvedAmount: BigNumber;
+	let owner: Address;
 
 	let duration = 0; //durationInSecs
 	let cost = BigNumberZero;
@@ -37,6 +40,12 @@
 
 	//loading states
 	let submitLoading = false;
+
+	const unsubscribeWalletStore: Unsubscriber = walletStore.subscribe(async (value) => {
+		owner = value.address;
+	});
+
+	onDestroy(unsubscribeWalletStore);
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		allMarketplaceData = value.allMarketplaceData;
@@ -101,7 +110,14 @@
 		});
 
 		submitLoading = true;
-		const success = await handleCreateJob(metadata, jobValues.merchant.value, rate, cost, duration);
+		const success = await handleCreateJob(
+			owner,
+			metadata,
+			jobValues.merchant.value,
+			rate,
+			cost,
+			duration
+		);
 		submitLoading = false;
 		if (!success) {
 			return;
@@ -165,7 +181,7 @@
 		jobValues.enclaveImageUrl.value != '';
 
 	const subtitle =
-		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eu nisl finibus mauris tristique luctus a vel sapien. Cras pulvinar leo non consectetur commodo.';
+		'Select operator, instance and region of choice and then add duration/cost. User can also modify the hourly rate. Approve the USDC tokens first and then deploy the job.';
 	const styles = {
 		inputText: 'px-4 py-2',
 		inputNumber: ''

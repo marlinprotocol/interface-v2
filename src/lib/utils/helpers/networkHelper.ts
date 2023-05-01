@@ -49,7 +49,7 @@ export async function switchChain(provider: any, chainId: string) {
 export const getChainDisplayName = (chainId: number): string | undefined => {
 	switch (chainId) {
 		case 421613:
-			return 'ETH GARB1';
+			return 'ARB Goerli';
 
 		default:
 			return undefined;

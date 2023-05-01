@@ -5,18 +5,41 @@ import {
 	createNewOysterJob,
 	finaliseRateReviseOysterJob,
 	initiateRateReviseOysterJob,
+	settleOysterJob,
 	stopOysterJob,
 	withdrawFundsFromOysterJob
 } from '$lib/controllers/contractController';
 import { oysterStore } from '$lib/data-stores/oysterStore';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 import type { OysterStore } from '$lib/types/storeTypes';
-import type { BigNumber } from 'ethers';
+import type { BigNumber, Bytes } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
 import { parseMetadata } from '../data-modifiers/oysterModifiers';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
 
 const nowTime = Date.now() / 1000;
+
+export async function handleClaimAmountFromOysterJob(jobId: Bytes) {
+	try {
+		await settleOysterJob(jobId);
+		// oysterStore.update((value: OysterStore) => {
+		// 	return {
+		// 		...value,
+		// 		jobsData: value.jobsData.map((job) => {
+		// 			if (job.id === jobId) {
+		// 				return {
+		// 					...job,
+		// 					amountToBeSettled: BigNumberZero
+		// 				};
+		// 			}
+		// 			return job;
+		// 		})
+		// 	};
+		// });
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
 
 export async function handleApproveFundForOysterJob(amount: BigNumber) {
 	try {

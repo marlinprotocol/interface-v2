@@ -6,7 +6,6 @@
 
 	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
-	import { settleOysterJob } from '$lib/controllers/contractController';
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
@@ -21,11 +20,19 @@
 		epochToDurationString
 	} from '$lib/utils/conversion';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
+	import { handleClaimAmountFromOysterJob } from '$lib/utils/services/oysterServices';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
+	let submitLoading = false;
 
 	const { symbol } = kOysterRateMetaData;
+
+	const handleClaimClick = async () => {
+		submitLoading = true;
+		await handleClaimAmountFromOysterJob(id);
+		submitLoading = false;
+	};
 
 	$: ({ owner, id, instance, region, createdAt, status, durationRun, amountToBeSettled } = rowData);
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
@@ -72,9 +79,10 @@
 	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('action')}`}>
 		<Button
 			variant="tableConvertButton"
-			onclick={async () => await settleOysterJob(id)}
+			onclick={handleClaimClick}
 			size="smaller"
-			styleClass="w-fit px-6 rounded text-xs">CLAIM</Button
+			loading={submitLoading}
+			styleClass="w-24 px-6 rounded text-xs">CLAIM</Button
 		>
 	</TableGridDataCell>
 </div>

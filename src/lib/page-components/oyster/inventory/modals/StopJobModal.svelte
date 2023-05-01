@@ -6,7 +6,6 @@
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import { kLoremSubtitle } from '$lib/utils/constants/oysterConstants';
 	import { epochToDurationString } from '$lib/utils/conversion';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import {
@@ -62,7 +61,7 @@
 	<svelte:fragment slot="title">
 		{modalTitle}
 	</svelte:fragment>
-	<svelte:fragment slot="subtitle">{kLoremSubtitle}</svelte:fragment>
+	<svelte:fragment slot="subtitle">{'You can stop your job here'}</svelte:fragment>
 	<svelte:fragment slot="content">
 		<StopModalContent {jobData} />
 		{#if stopStatus === 'pending'}

@@ -7,7 +7,7 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero, oysterAmountPrecision } from '$lib/utils/constants/constants';
-	import { kLoremSubtitle, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToCommaString,
 		epochToDurationString,
@@ -40,7 +40,6 @@
 	let cancelLoading = false;
 
 	const handleInitiateClick = async () => {
-		console.log('handleInitiateClick :>> ', updatesAt);
 		submitLoading = true;
 		await handleInitiateRateRevise(jobData, inputAmount);
 		submitLoading = false;
@@ -48,7 +47,6 @@
 	};
 
 	const handleConfirmClick = async () => {
-		console.log('handleConfirmClick :>> ', updatesAt);
 		submitLoading = true;
 		await handleFinaliseRateRevise(jobData, inputAmount);
 		submitLoading = false;
@@ -56,7 +54,6 @@
 	};
 
 	const handleCancelInitiate = async () => {
-		console.log('handleCancelInitiate :>> ', updatesAt);
 		cancelLoading = true;
 		await handleCancelRateRevise(jobData);
 		cancelLoading = false;
@@ -82,7 +79,7 @@
 		{modalTitle}
 	</svelte:fragment>
 	<svelte:fragment slot="subtitle">
-		{kLoremSubtitle}
+		{"You're about to revise the hourly rate for this job."}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4">

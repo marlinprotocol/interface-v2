@@ -7,7 +7,7 @@
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero, oysterAmountPrecision } from '$lib/utils/constants/constants';
-	import { kLoremSubtitle, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToCommaString,
 		bigNumberToString,
@@ -86,7 +86,9 @@
 	<svelte:fragment slot="title">
 		{'WITHDRAW FUNDS'}
 	</svelte:fragment>
-	<svelte:fragment slot="subtitle">{kLoremSubtitle}</svelte:fragment>
+	<svelte:fragment slot="subtitle"
+		>{"Enter the amount you'd like to withdraw from this job."}</svelte:fragment
+	>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
 			title="From"

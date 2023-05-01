@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
-	import LoadingCircular from '$lib/atoms/loading/LoadingCircular.svelte';
+	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import SearchBar from '$lib/components/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
@@ -13,7 +13,10 @@
 		kOysterMerchantJobTableHeader,
 		oysterTableItemsPerPage
 	} from '$lib/utils/constants/oysterConstants';
-	import { sortOysterOperatorInventory } from '$lib/utils/helpers/oysterHelpers';
+	import {
+		getSearchedOysterJobsData,
+		sortOysterOperatorInventory
+	} from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 
@@ -31,14 +34,6 @@
 
 	const itemsPerPage = oysterTableItemsPerPage;
 
-	const handlePageChange = (page: number) => {
-		activePage = page;
-	};
-
-	// const onSearchClick = () => {
-	// 	activePage = 1;
-	// };
-
 	const handleSortData = (id: string) => {
 		if (sortingMap[id]) {
 			sortingMap[id] = sortingMap[id] === 'asc' ? 'desc' : 'asc';
@@ -51,9 +46,21 @@
 			sortingMap[id]
 		);
 	};
-	$: pageCount = Math.ceil((merchantJobsData?.length ?? 0) / itemsPerPage);
 
-	$: paginatedData = merchantJobsData?.slice(
+	const handlePageChange = (page: number) => {
+		activePage = page;
+	};
+
+	const onSearchClick = () => {
+		activePage = 1;
+	};
+
+	// get searched data based on searchInput
+	$: searchedData = getSearchedOysterJobsData(searchInput, merchantJobsData);
+
+	$: pageCount = Math.ceil((searchedData?.length ?? 0) / itemsPerPage);
+
+	$: paginatedData = searchedData?.slice(
 		(activePage - 1) * itemsPerPage,
 		activePage * itemsPerPage
 	);
@@ -64,7 +71,12 @@
 
 <PageTitle title={'My Job List'} backHref={'/oyster/operator'} />
 <div class="flex gap-4 items-center mb-6">
-	<SearchBar bind:input={searchInput} placeholder={'Search'} styleClass={'w-full'} />
+	<SearchBar
+		{onSearchClick}
+		bind:input={searchInput}
+		placeholder={'Search'}
+		styleClass={'w-full'}
+	/>
 	<!-- commenting the operator history page -->
 	<!-- <a href={kOperatorHistory}>
 		<div class={`h-12 ${buttonClasses.outlined}`}>HISTORY</div>
@@ -77,10 +89,10 @@
 >
 	{#if loading}
 		<div class={'text-center flex justify-center my-4'}>
-			<LoadingCircular />
+			<LoadingAnimatedPing />
 		</div>
 	{:else if paginatedData?.length}
-		{#each paginatedData as rowData, rowIndex}
+		{#each paginatedData as rowData, rowIndex (rowData.id)}
 			<OysterOperatorInventoryTableRow {rowData} {rowIndex} />
 		{/each}
 	{:else}

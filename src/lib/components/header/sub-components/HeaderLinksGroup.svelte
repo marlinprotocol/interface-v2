@@ -15,13 +15,13 @@
 			openInNewTab: false
 		},
 		{
-			title: 'Operator',
-			href: '/oyster/operator',
+			title: 'Marketplace',
+			href: '/oyster/marketplace',
 			openInNewTab: false
 		},
 		{
-			title: 'Marketplace',
-			href: '/oyster/marketplace',
+			title: 'Operator',
+			href: '/oyster/operator',
 			openInNewTab: false
 		},
 		{

@@ -31,6 +31,23 @@ export const getSearchedInventoryData = (
 	});
 };
 
+export const getSearchedOysterJobsData = (
+	searchInput: string,
+	data: OysterInventoryDataModel[] | undefined
+) => {
+	if (!data) return [];
+	if (!searchInput) return data;
+	const searchInputLowerCase = searchInput.toLowerCase();
+	return data.filter((item) => {
+		const { instance, region, owner } = item;
+		return (
+			instance.toLowerCase().includes(searchInputLowerCase) ||
+			region.toLowerCase().includes(searchInputLowerCase) ||
+			owner.toLowerCase().includes(searchInputLowerCase)
+		);
+	});
+};
+
 export const getSearchedMarketplaceData = (
 	searchInput: string,
 	data: OysterMarketplaceDataModel[] | undefined

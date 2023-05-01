@@ -1,26 +1,54 @@
 <script lang="ts">
-	export let loading = false;
-	export let hasPadding = false;
-
-	const styles = {
-		baseStyle: `${hasPadding ? 'w-6 h-6' : 'w-5 h-5'}  rounded-3xl flex justify-center text-white`,
-		loadingBackground:
-			'animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75',
-		loadingText: `relative inline-flex rounded-full ${
-			hasPadding ? 'p-[2.5px] w-6 h-6' : 'w-5 h-5'
-		} bg-orange-400 text-center flex justify-center text-sm`
-	};
 </script>
 
-{#if loading}
-	<span class={`relative ${styles.baseStyle}`}>
-		<span class={styles.loadingBackground} />
-		<span class={styles.loadingText}>
-			<slot />
-		</span>
-	</span>
-{:else}
-	<div class={`${styles.baseStyle} bg-grey-400`}>
-		<slot />
+<div class={'marlin-loader'}>
+	<div class="lds-ripple">
+		<div />
+		<div />
 	</div>
-{/if}
+</div>
+
+<style>
+	.marlin-loader {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+	}
+
+	.lds-ripple {
+		display: inline-block;
+		position: relative;
+		width: 48px;
+		height: 48px;
+	}
+
+	.lds-ripple div {
+		position: absolute;
+		border: 4px solid #2db8e3;
+		opacity: 1;
+		border-radius: 50%;
+		animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+	}
+
+	.lds-ripple div:nth-child(2) {
+		animation-delay: -0.5s;
+	}
+
+	@keyframes lds-ripple {
+		0% {
+			top: 27px;
+			left: 27px;
+			width: 0;
+			height: 0;
+			opacity: 1;
+		}
+		100% {
+			top: 0px;
+			left: 0px;
+			width: 54px;
+			height: 54px;
+			opacity: 0;
+		}
+	}
+</style>

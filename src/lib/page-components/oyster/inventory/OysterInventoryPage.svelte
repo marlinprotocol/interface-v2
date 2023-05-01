@@ -1,8 +1,7 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
-	import LoadingCircular from '$lib/atoms/loading/LoadingCircular.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import SearchBar from '$lib/components/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
@@ -99,7 +98,7 @@
 	>
 		{#if loading}
 			<div class={'text-center flex justify-center my-4'}>
-				<LoadingCircular />
+				<LoadingAnimatedPing />
 			</div>
 		{:else if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex (rowData.id)}

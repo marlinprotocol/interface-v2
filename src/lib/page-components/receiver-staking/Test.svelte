@@ -49,26 +49,22 @@
 	});
 
 	function fetchContractDetails() {
-		console.log('fetching contract details');
 		getContractDetails();
 	}
 
 	function onClickHandlerForToastError() {
-		console.log('creating an error toast 🥪 ...');
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.APPROVE.POND(11),
 			variant: 'error'
 		});
 	}
 	function onClickHandlerForToastInfo() {
-		console.log('creating an info toast 🥪 ...');
 		addToast({
 			message: 'Hello, World!, Again',
 			variant: 'info'
 		});
 	}
 	function onClickHandlerForToastSuccess() {
-		console.log('creating success toast 🥪 ...');
 		addToast({
 			message: 'Hello, World!, Again',
 			variant: 'success',

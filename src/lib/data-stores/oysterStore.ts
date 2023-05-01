@@ -8,13 +8,15 @@ export const oysterStore: Writable<OysterStore> = writable(DEFAULT_OYSTER_STORE)
 export function resetOysterStore() {
 	oysterStore.update((state) => {
 		return {
+			...DEFAULT_OYSTER_STORE,
 			providerData: {
 				registered: false
 			},
 			allMarketplaceData: state.allMarketplaceData,
 			jobsData: [],
 			allowance: BigNumberZero,
-			merchantJobsData: []
+			merchantJobsData: [],
+			marketplaceLoaded: true
 		};
 	});
 }

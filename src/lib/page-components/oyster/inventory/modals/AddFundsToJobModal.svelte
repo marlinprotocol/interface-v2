@@ -14,7 +14,6 @@
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import AddFundsToJob from '../../sub-components/AddFundsToJob.svelte';
-	import { kLoremSubtitle } from '$lib/utils/constants/oysterConstants';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -72,7 +71,7 @@
 		{'ADD FUNDS'}
 	</svelte:fragment>
 	<svelte:fragment slot="subtitle">
-		{kLoremSubtitle}
+		{'Add funds by approving and depositing tokens for the job'}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AddFundsToJob bind:duration bind:invalidCost bind:cost {rate} bind:costString />

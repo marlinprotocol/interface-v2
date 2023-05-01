@@ -18,8 +18,6 @@ export const kOysterRateMetaData = {
 };
 
 export const oysterTableItemsPerPage = 10;
-export const kLoremSubtitle =
-	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eu nisl finibus mauris tristique luctus a vel sapien. Cras pulvinar leo non consectetur commodo.';
 
 // make sure the id matches the id in Data Model
 export const kInstancesTableHeader: TableModel['header'][] = [
@@ -30,13 +28,12 @@ export const kInstancesTableHeader: TableModel['header'][] = [
 	{
 		title: 'Region',
 		id: 'region',
-		tooltipText: 'The amount of POND which was placed for conversion to MPond.'
+		tooltipText: 'Region in which enclave is to be deployed.'
 	},
 	{
 		title: 'Price',
 		id: 'price',
-		tooltipText:
-			'The corresponding amount of MPond received as a result of the conversion from POND. Note: 1 Million POND equals 1 MPond.'
+		tooltipText: 'Price per hour to run the enclave'
 	}
 ];
 
@@ -45,32 +42,38 @@ export const kOysterMerchantJobTableHeader: TableModel['header'][] = [
 	{
 		title: 'USER',
 		id: 'provider',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Address of user who created the job'
 	},
 	{
 		title: 'INSTANCE',
 		id: 'instance',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Instance type used for the job'
 	},
 	{
 		title: 'REGION',
 		id: 'region',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Region in which the enclave is deployed.'
 	},
 	{
 		title: 'STARTED',
 		id: 'createdAt',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Time when the job was started'
 	},
 	{
 		title: 'DURATION RUN',
 		id: 'durationRun',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Duration for which the job has run so far'
 	},
 	{
 		title: 'ACCRUED',
 		id: 'amountToBeSettled',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Amount earned so far by this job. You can claim this amount at any time.'
 	},
 	{
 		title: 'STATUS',
@@ -170,44 +173,50 @@ export const kOperatorHistoryTableColumnsWidth = (id: string) => {
 export const kOysterInventoryTableHeader: TableModel['header'][] = [
 	{
 		title: 'OPERATOR',
-		id: 'provider'
+		id: 'provider',
+		tooltipText: 'Address of oyster operator'
 	},
 	{
 		title: 'INSTANCE',
 		id: 'instance',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Instance type used for the job'
 	},
 	{
 		title: 'REGION',
 		id: 'region',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Region in which the enclave is deployed.'
 	},
 	{
 		title: 'HOURLY RATE',
 		id: 'rate',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Rate that the operator charges for each hour of usage.'
 	},
 	{
 		title: 'vCPU',
 		id: 'vcpu',
-		tooltipText: 'The number of vCPU(s) allocated to the instance.',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Number of vCPUs in the instance'
 	},
 	{
 		title: 'MEMORY',
 		id: 'memory',
-		tooltipText: 'The amount of memory allocated to the instance.',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Memory allocated to the instance'
 	},
 	{
 		title: 'BALANCE',
 		id: 'balance',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Amount left in the job'
 	},
 	{
 		title: 'DURATION LEFT',
 		id: 'durationLeft',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Duration left for the job'
 	},
 	{
 		title: '',
@@ -331,34 +340,38 @@ export const kHistoryTableColumnsWidth = (id: string) => {
 export const kOysterMarketplaceTableHeader: TableModel['header'][] = [
 	{
 		title: 'OPERATOR',
-		id: 'provider'
+		id: 'provider',
+		tooltipText: 'Address of oyster operator'
 	},
 	{
 		title: 'INSTANCE',
 		id: 'instance',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Instance type used for the job'
 	},
 	{
 		title: 'REGION',
 		id: 'region',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Region in which the enclave is deployed.'
 	},
 	{
 		title: 'HOURLY RATE',
 		id: 'rate',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Rate that the operator charges for each hour of usage.'
 	},
 	{
 		title: 'vCPU',
 		id: 'vcpu',
-		tooltipText: 'The number of vCPU(s) allocated to the instance.',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Number of vCPUs in the instance'
 	},
 	{
 		title: 'MEMORY',
 		id: 'memory',
-		tooltipText: 'The amount of memory allocated to the instance.',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Memory allocated to the instance'
 	},
 	{
 		title: '',

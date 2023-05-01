@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
-	import LoadingCircular from '$lib/atoms/loading/LoadingCircular.svelte';
+	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
@@ -80,7 +80,7 @@
 	>
 		{#if loading}
 			<div class={'text-center flex justify-center my-4'}>
-				<LoadingCircular />
+				<LoadingAnimatedPing />
 			</div>
 		{:else if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex (rowData.id)}

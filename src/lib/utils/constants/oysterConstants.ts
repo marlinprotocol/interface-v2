@@ -30,13 +30,13 @@ export const kInstancesTableHeader: TableModel['header'][] = [
 	{
 		title: 'Region',
 		id: 'region',
-		tooltipText: 'The amount of POND which was placed for conversion to MPond.'
+		tooltipText: 'The region where the instance is located.'
 	},
 	{
 		title: 'Price',
 		id: 'price',
 		tooltipText:
-			'The corresponding amount of MPond received as a result of the conversion from POND. Note: 1 Million POND equals 1 MPond.'
+			'The price of the instance per hour. This is the price you will pay to run the instance.'
 	}
 ];
 

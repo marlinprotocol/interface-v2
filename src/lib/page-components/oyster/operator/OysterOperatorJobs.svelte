@@ -14,7 +14,7 @@
 		oysterTableItemsPerPage
 	} from '$lib/utils/constants/oysterConstants';
 	import {
-		getSearchedInventoryData,
+		getSearchedOysterJobsData,
 		sortOysterOperatorInventory
 	} from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
@@ -56,7 +56,7 @@
 	};
 
 	// get searched data based on searchInput
-	$: searchedData = getSearchedInventoryData(searchInput, merchantJobsData);
+	$: searchedData = getSearchedOysterJobsData(searchInput, merchantJobsData);
 
 	$: pageCount = Math.ceil((searchedData?.length ?? 0) / itemsPerPage);
 

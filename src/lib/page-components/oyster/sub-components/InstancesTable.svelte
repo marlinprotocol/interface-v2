@@ -3,7 +3,6 @@
 	import Table from '$lib/atoms/table/Table.svelte';
 	import CollapseButton from '$lib/components/buttons/CollapseButton.svelte';
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
-	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
 	import { kInstancesTableHeader } from '$lib/utils/constants/oysterConstants';

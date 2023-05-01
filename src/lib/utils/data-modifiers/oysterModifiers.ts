@@ -54,6 +54,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	const {
 		metadata,
 		id,
+		owner,
 		rate = '0',
 		provider,
 		createdAt,
@@ -98,6 +99,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 			name: names[provider] ?? '',
 			address: provider
 		},
+		owner,
 		metadata,
 		enclaveUrl,
 		instance,

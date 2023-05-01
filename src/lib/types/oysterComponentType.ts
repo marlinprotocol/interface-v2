@@ -41,6 +41,7 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 		name?: string;
 		address: string;
 	};
+	owner: string;
 	metadata: string;
 	enclaveUrl: string;
 	totalDeposit: BigNumber;

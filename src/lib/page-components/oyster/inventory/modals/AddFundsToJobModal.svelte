@@ -70,6 +70,9 @@
 	<svelte:fragment slot="title">
 		{'ADD FUNDS'}
 	</svelte:fragment>
+	<svelte:fragment slot="subtitle">
+		{'Add funds by approving and depositing tokens for the job'}
+	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AddFundsToJob bind:duration bind:invalidCost bind:cost {rate} bind:costString />
 	</svelte:fragment>

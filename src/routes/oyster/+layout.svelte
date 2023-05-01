@@ -47,10 +47,10 @@
 		});
 	}
 
-	loadMarketplaceData();
-	$: if ($connected) {
-		loadConnectedData();
-	}
+	// loadMarketplaceData();
+	// $: if ($connected) {
+	// 	loadConnectedData();
+	// }
 </script>
 
 <slot />

@@ -5,23 +5,13 @@
 	//nav-links list
 	const navLinks: NavLinkModel[] = [
 		{
-			title: 'Relay',
-			href: 'https://arb1.marlin.org/relay/operator',
-			openInNewTab: true
-		},
-		{
-			title: 'Bridge',
-			href: '/bridge',
+			title: 'Marketplace',
+			href: '/oyster/marketplace',
 			openInNewTab: false
 		},
 		{
 			title: 'Operator',
 			href: '/oyster/operator',
-			openInNewTab: false
-		},
-		{
-			title: 'Marketplace',
-			href: '/oyster/marketplace',
 			openInNewTab: false
 		},
 		{

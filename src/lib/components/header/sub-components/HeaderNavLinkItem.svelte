@@ -4,6 +4,6 @@
 	export let navItem: NavLinkModel;
 </script>
 
-<a href={navItem.href} target={navItem.openInNewTab ? '_blank' : '_self'}>
+<a href={navItem.href} target={navItem.openInNewTab ? '_blank' : ''}>
 	<Text variant="nav" text={navItem.title} />
 </a>

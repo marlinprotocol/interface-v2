@@ -15,7 +15,7 @@
 </script>
 
 <div
-	class={`${styleClass} flex gap-1 text-primary justify-center items-center tracking-widest mt-0.5 text-center`}
+	class={`${styleClass} flex gap-1 text-primary justify-center items-start tracking-widest mt-0.5 text-center`}
 >
 	<!-- TODO: move this to span -->
 	{#if sorting}
@@ -30,6 +30,6 @@
 	{/if}
 
 	{#if !!tooltipText}
-		<TooltipIcon {tooltipText} {tooltipDirection} {iconWidth} />
+		<TooltipIcon styleClass="mt-[1px]" {tooltipText} {tooltipDirection} {iconWidth} />
 	{/if}
 </div>

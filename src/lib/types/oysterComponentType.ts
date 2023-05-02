@@ -9,6 +9,7 @@ export type CPInstances = {
 			min_rate: number;
 		}[];
 	}[];
+	error?: string;
 };
 
 export type ProviderMetaDataModel = {

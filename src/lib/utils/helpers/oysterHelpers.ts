@@ -12,14 +12,7 @@ import { bigNumberToCommaString } from '../conversion';
 
 export const convertRateToPerHourString = (rate: BigNumber) => {
 	const { rateUnitInSeconds } = kOysterRateMetaData;
-	console.log('rate, rateUnitInSeconds :>> ', rate, rateUnitInSeconds);
 	const rateInHour = rate.mul(rateUnitInSeconds);
-	console.log(
-		'rateInHour :>> ',
-		rateInHour,
-		bigNumberToCommaString(rate, oysterAmountPrecision),
-		bigNumberToCommaString(rateInHour, oysterAmountPrecision)
-	);
 	return bigNumberToCommaString(rateInHour, oysterAmountPrecision);
 };
 

@@ -93,13 +93,6 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	const _rate = BigNumber.from(rate); // in seconds
 	const _refund = BigNumber.from(refund);
 
-	console.log(
-		'_rate :>> ',
-		id,
-		bigNumberToCommaString(_rate, 18),
-		convertRateToPerHourString(_rate)
-	);
-
 	//job with all basic conversions
 	const modifiedJob = {
 		provider: {

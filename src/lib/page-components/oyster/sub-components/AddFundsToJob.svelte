@@ -29,13 +29,6 @@
 	let durationUnit = 'Days';
 	let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
 
-	$: console.log(
-		'check rate, cost :>> ',
-		bigNumberToCommaString(rate ?? BigNumberZero, 12),
-		bigNumberToCommaString(cost ?? BigNumberZero, 12)
-	);
-	$: console.log('check duration :>> ', duration);
-
 	const durationUnitList = kDurationUnitsList.map((unit) => unit.label);
 
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {

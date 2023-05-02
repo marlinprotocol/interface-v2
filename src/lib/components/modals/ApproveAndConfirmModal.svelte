@@ -111,7 +111,13 @@
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		{#if !approved}
-			<Button variant="filled" size="large" loading={approveLoading} onclick={approveClick}>
+			<Button
+				variant="filled"
+				size="large"
+				styleClass="w-full"
+				loading={approveLoading}
+				onclick={approveClick}
+			>
 				{approveButtonText}
 			</Button>
 		{:else}

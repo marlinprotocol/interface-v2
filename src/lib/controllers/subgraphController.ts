@@ -2,7 +2,6 @@ import { contractAddressStore } from '$lib/data-stores/contractStore';
 import { addToast } from '$lib/data-stores/toastStore';
 import ENVIRONMENT from '$lib/environments/environment';
 import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
-import type { OysterRateRequestModel } from '$lib/types/oysterComponentType';
 import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/storeTypes';
 import { BigNumberZero } from '$lib/utils/constants/constants';
 import {
@@ -22,7 +21,6 @@ import {
 	QUERY_TO_GET_PROVIDER_DATA,
 	QUERY_TO_GET_RECEIVER_POND_BALANCE,
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
-	QUERY_TO_JOB_REVISE_RATE_END_TIMESTAMP_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
 import {
@@ -32,7 +30,7 @@ import {
 import { getModifiedMPondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
 import { fetchHttpData, showFetchHttpDataError } from '$lib/utils/helpers/httpHelper';
-import { BigNumber, type Bytes } from 'ethers';
+import { BigNumber } from 'ethers';
 
 let contractAddresses: ContractAddress;
 

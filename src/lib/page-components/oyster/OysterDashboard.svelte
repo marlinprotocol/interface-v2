@@ -3,7 +3,6 @@
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
 	import { dividerClasses, tableCellClasses } from '$lib/atoms/componentClasses';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
-	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';

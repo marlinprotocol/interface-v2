@@ -9,6 +9,7 @@
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/conversion';
+	import { convertRateToPerHourString } from '$lib/utils/helpers/oysterHelpers';
 	import PaymentHistoryTable from '../../sub-components/PaymentHistoryTable.svelte';
 
 	export let modalFor: string;
@@ -74,7 +75,7 @@
 				/>
 				<TextInputCard
 					title={'Hourly Rate'}
-					value={`$${bigNumberToCommaString(rate, oysterAmountPrecision)}`}
+					value={`$${convertRateToPerHourString(rate)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>

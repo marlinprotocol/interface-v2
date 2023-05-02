@@ -6,12 +6,11 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
-	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import {
 		kMarketplaceTableColumnsWidth,
 		kOysterRateMetaData
 	} from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToCommaString } from '$lib/utils/conversion';
+	import { convertRateToPerHourString } from '$lib/utils/helpers/oysterHelpers';
 	import CreateOrderModal from '../inventory/modals/CreateOrderModal.svelte';
 
 	export let rowData: OysterMarketplaceDataModel;
@@ -48,7 +47,7 @@
 		{region}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kMarketplaceTableColumnsWidth('rate')}`}>
-		{symbol}{bigNumberToCommaString(rate, oysterAmountPrecision)}
+		{symbol}{convertRateToPerHourString(rate)}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kMarketplaceTableColumnsWidth('vcpu')}`}>
 		{vcpu ? vcpu : 'N/A'}

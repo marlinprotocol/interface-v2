@@ -8,7 +8,7 @@
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { staticImages } from '../images/staticImages';
-	import LoadingAnimatedPing from '../loading/LoadingAnimatedPing.svelte';
+	import LoadingAnimationModal from '../loading/LoadingAnimationModal.svelte';
 
 	export let handleApproveClick: () => Promise<void>;
 	export let handleConfirmClick: () => Promise<void>;
@@ -77,9 +77,9 @@
 				{#if approved}
 					<img src={staticImages.Check} alt="Copy" width="20px" height="20px" />
 				{:else}
-					<LoadingAnimatedPing loading={approveLoading}>
+					<LoadingAnimationModal loading={approveLoading}>
 						<Text variant="small" styleClass="font-semibold" text={'1'} />
-					</LoadingAnimatedPing>
+					</LoadingAnimationModal>
 				{/if}
 				{#if approved}
 					<div class="h-full w-[0.1px] bg-grey-400" />
@@ -94,9 +94,9 @@
 			</div>
 		</div>
 		<div class={`flex gap-5`}>
-			<LoadingAnimatedPing loading={confirmLoading}>
+			<LoadingAnimationModal loading={confirmLoading}>
 				<Text variant="small" styleClass="font-semibold" text={'2'} />
-			</LoadingAnimatedPing>
+			</LoadingAnimationModal>
 			<div class={`${approved ? styles.text : 'text-grey-300'} ${styles.baseText}`}>
 				<span>{'Convert'}</span>
 				<span class={approved ? styles.textBold : styles.textDisabled}>

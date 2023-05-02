@@ -252,7 +252,7 @@
 				disabled={!validCPUrl || !enableRegisterButton}
 				onclick={handleOnRegister}
 			>
-				Register
+				REGISTER
 			</Button>
 		{/if}
 	{:else}

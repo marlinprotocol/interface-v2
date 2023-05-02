@@ -8,8 +8,9 @@ import type {
 } from '$lib/types/oysterComponentType';
 import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
+import { bigNumberToCommaString, hundredYears } from '../conversion';
+import { convertRateToPerHourString } from '../helpers/oysterHelpers';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
-import { hundredYears } from '../conversion';
 
 export const parseMetadata = (metadata: string) => {
 	//remove unwanted single quote and \
@@ -50,7 +51,6 @@ export async function getOysterJobsModified(jobs: any[]) {
 }
 
 const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
-	const { rateUnitInSeconds } = kOysterRateMetaData;
 	const {
 		metadata,
 		id,
@@ -90,8 +90,15 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	//convert to BigNumber
 	const _totalDeposit = BigNumber.from(totalDeposit);
 	const _balance = BigNumber.from(balance);
-	const _rate = BigNumber.from(rate);
+	const _rate = BigNumber.from(rate); // in seconds
 	const _refund = BigNumber.from(refund);
+
+	console.log(
+		'_rate :>> ',
+		id,
+		bigNumberToCommaString(_rate, 18),
+		convertRateToPerHourString(_rate)
+	);
 
 	//job with all basic conversions
 	const modifiedJob = {
@@ -154,7 +161,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		};
 	}
 
-	if (_rate.eq(BigNumberZero) || _balance.div(_rate).gt(hundredYears / rateUnitInSeconds)) {
+	if (_rate.eq(BigNumberZero) || _balance.div(_rate).gt(hundredYears)) {
 		//job is running and will never end
 		return {
 			...modifiedJob,
@@ -170,7 +177,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	}
 
 	//job is running or has completed
-	const _paidDuration = _balance.mul(rateUnitInSeconds).div(_rate).toNumber();
+	const _paidDuration = _balance.div(_rate).toNumber();
 	const endEpochTime = _lastSettled + _paidDuration;
 
 	if (endEpochTime < nowTime) {
@@ -190,8 +197,8 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 
 	let currentBalance = _balance;
 	//job is running
-	const timeInRateUnit = Math.floor((nowTime - _lastSettled) / rateUnitInSeconds);
-	currentBalance = _balance.sub(_rate.mul(timeInRateUnit));
+	const time = Math.floor(nowTime - _lastSettled);
+	currentBalance = _balance.sub(_rate.mul(time));
 
 	return {
 		...modifiedJob,
@@ -208,7 +215,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 
 export async function getOysterProvidersModified(providers: any[]) {
 	if (!providers?.length) return [];
-
+	const { rateUnitInSeconds } = kOysterRateMetaData;
 	//fetch all providers name and instances
 	const [allNames, allInstances] = await Promise.all([
 		getProvidersNameJSON(),
@@ -219,8 +226,11 @@ export async function getOysterProvidersModified(providers: any[]) {
 	providers.forEach((provider) => {
 		const instances = getModifiedInstances(allInstances[provider.id]);
 		instances?.forEach((instance: any, index: number) => {
+			//rate is hourly rate so convert it to per second rate
+			const hourlyRate = instance.rate ? BigNumber.from(instance.rate) : BigNumberZero;
 			ret.push({
 				...instance,
+				rate: hourlyRate.div(rateUnitInSeconds),
 				provider: {
 					name: allNames[provider.id] ?? '',
 					address: provider.id

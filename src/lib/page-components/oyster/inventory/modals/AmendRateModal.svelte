@@ -6,14 +6,14 @@
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BigNumberZero, oysterAmountPrecision } from '$lib/utils/constants/constants';
+	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
-	import {
-		bigNumberToCommaString,
-		epochToDurationString,
-		stringToBigNumber
-	} from '$lib/utils/conversion';
+	import { epochToDurationString, stringToBigNumber } from '$lib/utils/conversion';
 	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import {
+		convertHourlyRateToSecondlyRate,
+		convertRateToPerHourString
+	} from '$lib/utils/helpers/oysterHelpers';
 	import {
 		handleCancelRateRevise,
 		handleFinaliseRateRevise,
@@ -29,11 +29,11 @@
 	const { symbol } = kOysterRateMetaData;
 
 	//initial states
-	let inputAmount: BigNumber = BigNumberZero;
+	let inputRate: BigNumber = BigNumberZero;
 	let inputAmountString = '';
 
-	$: inputAmount = isInputAmountValid(inputAmountString)
-		? stringToBigNumber(inputAmountString)
+	$: inputRate = isInputAmountValid(inputAmountString)
+		? convertHourlyRateToSecondlyRate(stringToBigNumber(inputAmountString))
 		: BigNumberZero;
 
 	let submitLoading = false;
@@ -41,14 +41,14 @@
 
 	const handleInitiateClick = async () => {
 		submitLoading = true;
-		await handleInitiateRateRevise(jobData, inputAmount);
+		await handleInitiateRateRevise(jobData, inputRate);
 		submitLoading = false;
 		closeModal(modalFor);
 	};
 
 	const handleConfirmClick = async () => {
 		submitLoading = true;
-		await handleFinaliseRateRevise(jobData, inputAmount);
+		await handleFinaliseRateRevise(jobData, newRate);
 		submitLoading = false;
 		closeModal(modalFor);
 	};
@@ -70,8 +70,7 @@
 	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
 	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
 
-	$: submitEnable =
-		inputAmount && isInputAmountValid(inputAmountString) && rateStatus !== 'pending';
+	$: submitEnable = inputRate && isInputAmountValid(inputAmountString) && rateStatus !== 'pending';
 </script>
 
 <Modal {modalFor}>
@@ -86,7 +85,7 @@
 			<div class="flex gap-4">
 				<AmountInputWithTitle
 					title={`Current Hourly Rate`}
-					inputAmountString={bigNumberToCommaString(rate, oysterAmountPrecision)}
+					inputAmountString={convertRateToPerHourString(rate)}
 					disabled
 					prefix={symbol}
 				/>
@@ -95,7 +94,7 @@
 				{:else}
 					<AmountInputWithTitle
 						title="New Hourly Rate"
-						inputAmountString={bigNumberToCommaString(newRate, oysterAmountPrecision)}
+						inputAmountString={convertRateToPerHourString(newRate)}
 						prefix={symbol}
 						disabled
 					/>

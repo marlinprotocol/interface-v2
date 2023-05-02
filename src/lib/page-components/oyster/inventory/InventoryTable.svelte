@@ -9,7 +9,7 @@
 	export let tableHeading: TableModel['header'][];
 	export let handleSortData: (id: string) => void;
 	export let widthFunction: (id: string) => string;
-	export let walletConnectionRequired: boolean = true;
+	export let walletConnectionRequired = true;
 
 	let loading = false;
 	let noDataFound = false;

@@ -5,7 +5,7 @@
 	import CollapseButton from '../buttons/CollapseButton.svelte';
 
 	export let dataList: (string | number)[] = [];
-	export let title: string = '';
+	export let title = '';
 	export let value: string | number | undefined = '';
 	export let setValue: ((value: string | number) => any) | undefined = undefined;
 	export let showSuggestions = false;

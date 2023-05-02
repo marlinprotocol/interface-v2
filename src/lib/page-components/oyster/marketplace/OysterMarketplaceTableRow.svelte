@@ -1,7 +1,6 @@
 <script lang="ts">
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
-	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';

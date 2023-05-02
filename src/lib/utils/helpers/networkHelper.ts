@@ -20,8 +20,8 @@ export async function switchChain(provider: any, chainId: string) {
 		}),
 		connectWallet(provider)
 	]).catch(async (err) => {
-		if(err.code === 4902) {
-			if(!networkInfo[chainId]) {
+		if (err.code === 4902) {
+			if (!networkInfo[chainId]) {
 				addToast({
 					variant: 'error',
 					message: 'This chain is not supported by the app'
@@ -30,9 +30,7 @@ export async function switchChain(provider: any, chainId: string) {
 			}
 			await provider.provider.request({
 				method: 'wallet_addEthereumChain',
-				params: [
-					networkInfo[chainId]
-				]
+				params: [networkInfo[chainId]]
 			});
 		} else {
 			console.error(err);

@@ -17,9 +17,7 @@
 
 <ContainerCard>
 	<Text variant="h3" text="Unsupported Network" styleClass="text-center" />
-	<span class={styles.subtitle}
-		>Please switch to the Arbitrum network to continue.</span
-	>
+	<span class={styles.subtitle}>Please switch to the Arbitrum network to continue.</span>
 	<Button styleClass="mt-8 w-full" variant="filled" size="large" onclick={() => handleChainSwitch()}
 		>SWITCH NETWORK</Button
 	>

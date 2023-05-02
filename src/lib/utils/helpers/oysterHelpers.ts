@@ -345,7 +345,7 @@ export function getUpdatedFiltersList(
 	currentFilters: OysterFiltersModel,
 	filterIdOrders: (keyof OysterFiltersModel)[]
 ) {
-	let newFilter: any = { ...currentFilters };
+	const newFilter: any = { ...currentFilters };
 	for (const id of filterIdOrders) {
 		newFilter[id as keyof OysterFiltersModel] = previousFilters[id as keyof OysterFiltersModel];
 	}

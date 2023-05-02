@@ -15,7 +15,10 @@
 		kOysterRateMetaData
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString, epochToDurationString } from '$lib/utils/conversion';
-	import { getInventoryDurationVariant } from '$lib/utils/helpers/oysterHelpers';
+	import {
+		convertRateToPerHourString,
+		getInventoryDurationVariant
+	} from '$lib/utils/helpers/oysterHelpers';
 	import plus from 'svelte-awesome/icons/plus';
 	import { slide } from 'svelte/transition';
 	import AddFundsToJobModal from './modals/AddFundsToJobModal.svelte';
@@ -91,7 +94,7 @@
 			{region}
 		</TableGridDataCell>
 		<TableGridDataCell width={`${kInventoryTableColumnsWidth('rate')}`}>
-			{symbol}{bigNumberToCommaString(rate, oysterAmountPrecision)}
+			{symbol}{convertRateToPerHourString(rate)}
 		</TableGridDataCell>
 		<TableGridDataCell width={`${kInventoryTableColumnsWidth('vcpu')}`}>
 			{vcpu ? vcpu : 'N/A'}

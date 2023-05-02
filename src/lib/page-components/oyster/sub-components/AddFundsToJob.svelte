@@ -6,15 +6,15 @@
 	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import {
 		getDurationInSecondsForUnit,
-		kDurationUnitsList,
-		kOysterRateMetaData
+		kDurationUnitsList
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString, bigNumberToString } from '$lib/utils/conversion';
 	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		computeCost,
 		computeDuration,
-		computeDurationString
+		computeDurationString,
+		convertRateToPerHourString
 	} from '$lib/utils/helpers/oysterHelpers';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
@@ -29,7 +29,13 @@
 	let durationUnit = 'Days';
 	let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
 
-	const { rateUnitInSeconds } = kOysterRateMetaData;
+	$: console.log(
+		'check rate, cost :>> ',
+		bigNumberToCommaString(rate ?? BigNumberZero, 12),
+		bigNumberToCommaString(cost ?? BigNumberZero, 12)
+	);
+	$: console.log('check duration :>> ', duration);
+
 	const durationUnitList = kDurationUnitsList.map((unit) => unit.label);
 
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
@@ -71,7 +77,7 @@
 		}
 		if (_cost && rate) {
 			let _rate = rate.toNumber() / 10 ** 18;
-			duration = Math.floor((_cost * rateUnitInSeconds) / _rate);
+			duration = Math.floor(_cost / _rate);
 			costString = value;
 			return;
 		}
@@ -86,7 +92,7 @@
 <div class="flex gap-2">
 	<AmountInputWithTitle
 		title={'Hourly Rate'}
-		inputAmountString={rate ? bigNumberToCommaString(rate, 6) : ''}
+		inputAmountString={rate ? convertRateToPerHourString(rate) : ''}
 		disabled
 		prefix={'$'}
 	/>

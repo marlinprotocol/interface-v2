@@ -14,8 +14,8 @@ import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 import type { OysterStore } from '$lib/types/storeTypes';
 import type { BigNumber, Bytes } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
-import { parseMetadata } from '../data-modifiers/oysterModifiers';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
+import { parseMetadata } from '../data-modifiers/oysterModifiers';
 
 const nowTime = Date.now() / 1000;
 
@@ -203,7 +203,8 @@ export async function handleFinaliseRateRevise(
 ) {
 	const { id } = jobData;
 	try {
-		await finaliseRateReviseOysterJob(id);
+		// await finaliseRateReviseOysterJob(id);
+		console.log('object :>> ', newRate);
 		oysterStore.update((value) => {
 			return {
 				...value,

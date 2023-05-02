@@ -5,9 +5,28 @@ import type {
 	OysterMarketplaceFilterModel
 } from '$lib/types/oysterComponentType';
 import type { BigNumber } from 'ethers';
-import { BigNumberZero } from '../constants/constants';
+import { BigNumberZero, oysterAmountPrecision } from '../constants/constants';
 import { isInputAmountValid } from './commonHelper';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
+import { bigNumberToCommaString } from '../conversion';
+
+export const convertRateToPerHourString = (rate: BigNumber) => {
+	const { rateUnitInSeconds } = kOysterRateMetaData;
+	console.log('rate, rateUnitInSeconds :>> ', rate, rateUnitInSeconds);
+	const rateInHour = rate.mul(rateUnitInSeconds);
+	console.log(
+		'rateInHour :>> ',
+		rateInHour,
+		bigNumberToCommaString(rate, oysterAmountPrecision),
+		bigNumberToCommaString(rateInHour, oysterAmountPrecision)
+	);
+	return bigNumberToCommaString(rateInHour, oysterAmountPrecision);
+};
+
+export const convertHourlyRateToSecondlyRate = (rate: BigNumber) => {
+	const { rateUnitInSeconds } = kOysterRateMetaData;
+	return rate.div(rateUnitInSeconds);
+};
 
 export const getSearchedInventoryData = (
 	searchInput: string,
@@ -386,8 +405,7 @@ export const getCreateOrderInstanceRegionFilters = (
 };
 
 export const computeCost = (duration: number, rate?: BigNumber) => {
-	const { rateUnitInSeconds } = kOysterRateMetaData;
-	return rate ? rate.mul(duration).div(rateUnitInSeconds) : BigNumberZero;
+	return rate ? rate.mul(duration) : BigNumberZero;
 };
 
 export const computeDuration = (durationString: string, durationUnitInSec: number) => {

@@ -54,6 +54,7 @@
 								{#if currentCycle > i}
 									<img src={staticImages.Check} alt="Copy" width="20px" height="20px" />
 								{:else if currentCycle === i}
+									<!-- TODO: shivani, this does not have valid props  -->
 									<LoadingAnimatedPing loading={true} hasPadding={true}>
 										<img src={staticImages.CycleLoader} alt="Copy" width="19px" height="19px" />
 									</LoadingAnimatedPing>

@@ -63,6 +63,7 @@
 			cardVariant={'search'}
 			styleClass={'w-full'}
 			onSearchClick={onFilterClick}
+			selectId={'marketplace-provider-select'}
 		/>
 		<div class="flex gap-4 items-center mt-4">
 			<TableFilter
@@ -70,24 +71,28 @@
 				value={filterMap.instance ?? ''}
 				setValue={(value) => handleFilterData('instance', value)}
 				title={'Filter by Instance'}
+				selectId={'marketplace-instance-select'}
 			/>
 			<TableFilter
 				dataList={allFilters?.region}
 				value={filterMap.region ?? ''}
 				setValue={(value) => handleFilterData('region', value)}
 				title={'Filter by Region'}
+				selectId={'marketplace-region-select'}
 			/>
 			<TableFilter
 				dataList={allFilters?.memory}
 				value={filterMap.memory ?? ''}
 				setValue={(value) => handleFilterData('memory', value)}
 				title={'Filter by Memory'}
+				selectId={'marketplace-memory-select'}
 			/>
 			<TableFilter
 				dataList={allFilters?.vcpu}
 				value={filterMap.vcpu ?? ''}
 				setValue={(value) => handleFilterData('vcpu', value)}
 				title={'Filter by vCPU'}
+				selectId={'marketplace-vCPU-select'}
 			/>
 		</div>
 	</div>

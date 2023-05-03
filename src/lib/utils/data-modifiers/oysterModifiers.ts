@@ -8,8 +8,7 @@ import type {
 } from '$lib/types/oysterComponentType';
 import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
-import { bigNumberToCommaString, hundredYears } from '../conversion';
-import { convertRateToPerHourString } from '../helpers/oysterHelpers';
+import { hundredYears } from '../conversion';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
 
 export const parseMetadata = (metadata: string) => {

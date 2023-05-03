@@ -4,8 +4,8 @@ import inject from '@rollup/plugin-inject';
 import type { UserConfig } from 'vite';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 
-const MODE = 'prod'; // change mode to development if using npm run dev //prod
-const development = MODE === 'development';
+const MODE: 'prod' | 'development' = 'prod'; // change mode to development if using npm run dev //prod
+const development: boolean = (MODE as string) === 'development';
 
 /** @type {import('@sveltejs/kit').Config} */
 

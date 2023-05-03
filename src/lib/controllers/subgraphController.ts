@@ -434,15 +434,14 @@ export async function getAllProvidersDetailsFromSubgraph() {
 	}
 }
 
-export async function getApprovedOysterAllowances(address: Address, contractAddress: Address) {
+export async function getApprovedOysterAllowances(address: Address) {
+	const oysterContractAddress = ENVIRONMENT.public_oyster_contract_address;
 	const url = ENVIRONMENT.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
-	const _contractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
-	// TODO: change this address
 
 	const queryVariables = {
 		address: address.toLowerCase(),
-		contractAddress: _contractAddress.toLowerCase()
+		contractAddress: oysterContractAddress.toLowerCase()
 	};
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);

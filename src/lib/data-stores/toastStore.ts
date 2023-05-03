@@ -22,7 +22,6 @@ export const addToast = ({
 	// if it is dismissible/has a timeout.
 	const id = Math.floor(Math.random() * 10000);
 
-	//TODO Later: Setup some sensible defaults for a toast and clean up types.
 	const defaults: Toast = {
 		variant: 'info',
 		dismissible: true,

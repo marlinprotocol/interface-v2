@@ -3,6 +3,7 @@
 	import Table from '$lib/atoms/table/Table.svelte';
 	import CollapseButton from '$lib/components/buttons/CollapseButton.svelte';
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
+	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
 	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
@@ -15,9 +16,7 @@
 		tableCell: tableCellClasses.rowMini
 	};
 
-	export let tableData: CPUrlDataModel[] = [];
-	export let loading = false;
-	export let error = false;
+	export let tableData: Promise<CPUrlDataModel[]> = Promise.resolve([]);
 	export let validCPUrl = false;
 
 	let isOpen = false;
@@ -29,14 +28,14 @@
 			transition:slide={{ duration: 400 }}
 			class="w-full max-h-40 overflow-y-auto overflow-x-hidden"
 		>
-			{#if loading}
-				please wait while we fetch your instance details...
-			{:else if error}
-				There seems to be an error. Make sure that the entered URL is correct and check again.
-			{:else}
+			{#await tableData}
+				<div class={'text-center flex justify-center my-4'}>
+					<LoadingAnimatedPing />
+				</div>
+			{:then value}
 				<Table tableHeading={kInstancesTableHeader} headingStyleClass={'text-xs'} iconWidth={13}>
 					<tbody slot="tableBody">
-						{#each tableData as row}
+						{#each value as row}
 							<tr>
 								<td class={styles.tableCell}>{row.instance}</td>
 								<td class={styles.tableCell}>{row.region}</td>
@@ -47,7 +46,9 @@
 						{/each}
 					</tbody>
 				</Table>
-			{/if}
+			{:catch error}
+				There seems to be an error. Make sure that the entered URL is correct and check again.
+			{/await}
 		</div>
 	{/if}
 	<svelte:fragment slot="titleEndButton">

@@ -44,6 +44,8 @@
 	};
 	const getButtonSize = () => {
 		switch (size) {
+			case 'tiniest':
+				return '';
 			case 'tiny':
 				return 'h-8';
 			case 'smaller':

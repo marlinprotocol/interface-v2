@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import { getContractDetails } from '$lib/controllers/httpController';
+	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
 
 	onMount(async () => {
 		// removes console logs in production
@@ -29,6 +30,8 @@
 	<Header />
 	<slot />
 </main>
+<!-- This shows a prompt if the screen size is smaller than 1090px -->
+<SmallScreenPrompt />
 
 <style>
 	main {

@@ -15,7 +15,6 @@ let provider: WalletStore['provider'];
 let signer: WalletStore['signer'];
 let walletAddress: WalletStore['address'];
 
-// TODO: Souvik to check its implementation, throwing error rn
 walletStore.subscribe((value) => {
 	provider = value.provider;
 	signer = value.signer;

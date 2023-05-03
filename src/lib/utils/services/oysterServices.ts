@@ -3,7 +3,7 @@ import {
 	approveFundsForOysterJobAdd,
 	cancelRateReviseOysterJob,
 	createNewOysterJob,
-	finaliseRateReviseOysterJob,
+	// finaliseRateReviseOysterJob,
 	initiateRateReviseOysterJob,
 	settleOysterJob,
 	stopOysterJob,

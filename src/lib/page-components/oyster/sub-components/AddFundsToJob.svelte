@@ -8,7 +8,7 @@
 		getDurationInSecondsForUnit,
 		kDurationUnitsList
 	} from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToCommaString, bigNumberToString } from '$lib/utils/conversion';
+	import { bigNumberToString } from '$lib/utils/conversion';
 	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		computeCost,

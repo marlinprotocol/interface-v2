@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import {
 		approvePondTokenForReceiverStaking,

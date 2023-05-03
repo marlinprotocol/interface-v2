@@ -84,6 +84,7 @@
 	setSearchValue={handleMerchantChange}
 	title={'Operator'}
 	placeholder={'Enter operator name or address'}
+	selectId={'create-order-operator-select'}
 />
 <ErrorTextCard
 	showError={jobValues.merchant.isDirty && jobValues.merchant.error != ''}
@@ -106,6 +107,7 @@
 			title={'Instance'}
 			placeholder={'Select instance'}
 			disabled={!jobValues.merchant.value}
+			selectId={'create-order-instance-select'}
 		/>
 	</div>
 	<div class="w-full">
@@ -123,6 +125,7 @@
 			title={'Region'}
 			placeholder={'Select region'}
 			disabled={!jobValues.merchant.value}
+			selectId={'create-order-region-select'}
 		/>
 	</div>
 </div>

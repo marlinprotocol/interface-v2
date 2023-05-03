@@ -235,10 +235,10 @@ export async function getOysterProvidersModified(providers: any[]) {
 }
 
 export const getModifiedInstances = (instances?: CPInstances) => {
-	const { min_rates } = instances ?? {};
+	const { min_rates } = instances ?? { min_rates: [] };
 	// transforming response data so that each object in the array
 	// corresponds to a row in the table
-	const ret: CPUrlDataModel[] | undefined = min_rates?.flatMap((region) => {
+	const ret: CPUrlDataModel[] = min_rates?.flatMap((region) => {
 		return region.rate_cards.map((rate) => {
 			const { vcpu, memory } = getvCpuMemoryData(rate.instance);
 			return {

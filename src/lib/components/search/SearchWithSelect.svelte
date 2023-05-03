@@ -17,6 +17,7 @@
 	export let styleClass = '';
 	export let cardVariant: InputCardVariant | undefined = 'primary';
 	export let disabled = false;
+	export let selectId: string;
 
 	let suggestions: (string | number)[] = [];
 	let showSuggestions = false;
@@ -42,7 +43,7 @@
 </script>
 
 <InputCard {styleClass} variant={cardVariant}>
-	<div class="relative search-container">
+	<div class="search-container">
 		{#if showTitle}
 			<div class={styles.rowWrapper}>
 				<div class={styles.titleIcon}>
@@ -50,7 +51,7 @@
 				</div>
 			</div>
 		{/if}
-		<div class="input-group items-center">
+		<div class="flex items-center">
 			<input
 				class={styles.inputSearch}
 				{placeholder}
@@ -66,6 +67,7 @@
 				setValue={setSearchValue}
 				bind:showSuggestions
 				bind:suggestions
+				id={selectId}
 			/>
 		</div>
 	</div>

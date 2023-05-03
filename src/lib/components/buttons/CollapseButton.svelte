@@ -8,10 +8,11 @@
 	export let onclick: (() => void) | undefined = undefined;
 	export let isOpen = false;
 	export let styleClass = buttonClasses.iconLightBlue;
+	export let id = '';
 
 	$: chevronIcon = isOpen ? chevronUp : chevronDown;
 </script>
 
-<button on:click={onclick} {disabled} class={styleClass}>
+<button on:click={onclick} {disabled} class={styleClass} {id}>
 	<Icon data={chevronIcon} size={12} iconColorClass={disabled ? 'icon-disabled' : 'icon-primary'} />
 </button>

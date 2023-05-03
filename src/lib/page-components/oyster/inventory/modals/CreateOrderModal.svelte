@@ -203,7 +203,14 @@
 				{allMarketplaceData}
 				handleChange={handleMerchantChange}
 			/>
-			<AddFundsToJob bind:cost bind:duration bind:invalidCost {rate} bind:costString />
+			<AddFundsToJob
+				bind:cost
+				bind:duration
+				bind:invalidCost
+				{rate}
+				bind:costString
+				selectId="create-order-duration-unit-select"
+			/>
 			<TextInputWithEndButton
 				styleClass={styles.inputText}
 				title={'Enclave Image URL'}

@@ -22,6 +22,7 @@
 	export let rate: BigNumber | undefined;
 	export let duration: number | undefined;
 	export let cost: BigNumber;
+	export let selectId: string;
 	export let invalidCost = false;
 	export let costString = '';
 
@@ -102,6 +103,7 @@
 				dataList={durationUnitList}
 				bind:value={durationUnit}
 				setValue={handleDurationUnitChange}
+				id={selectId}
 			/>
 		</div>
 	</AmountInputWithTitle>

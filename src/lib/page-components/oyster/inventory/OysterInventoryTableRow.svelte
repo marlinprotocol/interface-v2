@@ -104,7 +104,7 @@
 		<td class={tableCellClasses.rowNormal}>
 			<Timer {endEpochTime}>
 				<div slot="active" let:timer class="mx-auto">
-					<Tooltip tooltipText={epochToDurationString(timer)}>
+					<Tooltip tooltipText={epochToDurationString(timer)} tooltipDirection="tooltip-left">
 						<div
 							class="py-1 w-24 text-white rounded mx-auto text-sm text-center"
 							style={`background-color:${getColorHexByVariant(getInventoryDurationVariant(timer))}`}

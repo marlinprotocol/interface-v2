@@ -78,7 +78,7 @@
 			onclick={handleClaimClick}
 			size="smaller"
 			disabled={submitLoading}
-			styleClass="w-fit px-8 rounded text-xs"
+			styleClass="w-fit px-8 rounded text-xs mr-4"
 		>
 			{'CLAIM'}
 		</Button>

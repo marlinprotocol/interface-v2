@@ -56,7 +56,7 @@
 			disabled={!$connected}
 			modalFor={`create-order-modal-${rowIndex}`}
 			text="DEPLOY"
-			styleClass="w-fit px-6"
+			styleClass="w-fit px-6 mr-4"
 		/>
 		<CreateOrderModal modalFor={`create-order-modal-${rowIndex}`} preFilledData={rowData} />
 	</td>

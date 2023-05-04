@@ -22,7 +22,7 @@
 	const bgColor = getColorHexForTableRow(rowIndex);
 </script>
 
-<div class="flex gap-2 items-center justify-center ml-2">
+<div class="flex gap-2 items-center justify-center ml-4">
 	<div>
 		{#if rowIndex > -1}
 			<div

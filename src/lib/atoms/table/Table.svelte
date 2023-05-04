@@ -27,7 +27,7 @@
 							{iconWidth}
 							heading={columnHeading}
 							{handleSortData}
-							tooltipDirection={i === tableHeading.length - 1
+							tooltipDirection={i > tableHeading.length - 3
 								? 'tooltip-left'
 								: i === 0
 								? 'tooltip-right'

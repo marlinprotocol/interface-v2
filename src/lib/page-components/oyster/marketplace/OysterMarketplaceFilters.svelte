@@ -8,7 +8,7 @@
 	} from '$lib/types/oysterComponentType';
 	import {
 		getAllFiltersListforMarketplaceData,
-		getFilteredMarketplaceData,
+		getSearchAndFilteredMarketplaceData,
 		getUpdatedFiltersList
 	} from '$lib/utils/helpers/oysterHelpers';
 	import TableFilter from './TableFilter.svelte';
@@ -34,7 +34,7 @@
 			...allFilters
 		};
 
-		filteredData = getFilteredMarketplaceData(allMarketplaceData, filterMap);
+		filteredData = getSearchAndFilteredMarketplaceData(allMarketplaceData, filterMap);
 		const currentFilters = getAllFiltersListforMarketplaceData(filteredData);
 		allFilters = getUpdatedFiltersList(
 			previousFilters,
@@ -66,33 +66,45 @@
 			selectId={'marketplace-provider-select'}
 		/>
 		<div class="flex gap-4 items-center mt-4 flex-col md:flex-row">
-			<TableFilter
+			<SearchWithSelect
 				dataList={allFilters?.instance}
-				value={filterMap.instance ?? ''}
-				setValue={(value) => handleFilterData('instance', value)}
-				title={'Filter by Instance'}
+				searchValue={filterMap.instance}
+				setSearchValue={(value) => handleFilterData('instance', value)}
+				showTitle={false}
+				cardVariant={'search'}
+				title={'Instance'}
+				placeholder={'Select Instance'}
 				selectId={'marketplace-instance-select'}
 			/>
-			<TableFilter
+			<SearchWithSelect
 				dataList={allFilters?.region}
-				value={filterMap.region ?? ''}
-				setValue={(value) => handleFilterData('region', value)}
-				title={'Filter by Region'}
+				searchValue={filterMap.region ?? ''}
+				setSearchValue={(value) => handleFilterData('region', value)}
+				title={'Region'}
+				placeholder={'Filter by Region'}
 				selectId={'marketplace-region-select'}
+				showTitle={false}
+				cardVariant={'search'}
 			/>
-			<TableFilter
+			<SearchWithSelect
 				dataList={allFilters?.memory}
-				value={filterMap.memory ?? ''}
-				setValue={(value) => handleFilterData('memory', value)}
-				title={'Filter by Memory'}
+				searchValue={filterMap.memory ?? ''}
+				setSearchValue={(value) => handleFilterData('memory', value)}
+				title={'Memory'}
+				placeholder={'Filter by Memory'}
 				selectId={'marketplace-memory-select'}
+				showTitle={false}
+				cardVariant={'search'}
 			/>
-			<TableFilter
+			<SearchWithSelect
 				dataList={allFilters?.vcpu}
-				value={filterMap.vcpu ?? ''}
-				setValue={(value) => handleFilterData('vcpu', value)}
-				title={'Filter by vCPU'}
+				searchValue={filterMap.vcpu ?? ''}
+				setSearchValue={(value) => handleFilterData('vcpu', value)}
+				title={'vCPU'}
+				placeholder={'Filter by vCPU'}
 				selectId={'marketplace-vCPU-select'}
+				showTitle={false}
+				cardVariant={'search'}
 			/>
 		</div>
 	</div>

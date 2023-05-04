@@ -39,8 +39,10 @@
 	<td class={tableCellClasses.row + ' w-60'}>
 		<NameWithAddress address={owner} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
-				<div class="copy-icon cursor-pointer">
-					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
+				<div class="w-4">
+					<div class="copy-icon cursor-pointer">
+						<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
+					</div>
 				</div>
 			</svelte:fragment>
 		</NameWithAddress>
@@ -76,7 +78,7 @@
 			onclick={handleClaimClick}
 			size="smaller"
 			disabled={submitLoading}
-			styleClass="w-fit px-8 rounded text-xs"
+			styleClass="w-fit px-8 rounded text-xs mr-4"
 		>
 			{'CLAIM'}
 		</Button>

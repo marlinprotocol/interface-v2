@@ -4,7 +4,7 @@
 	export let showSmallScreenPrompt = false;
 	let innerWidth: number;
 
-	$: if (innerWidth < 1090) {
+	$: if (innerWidth < 950) {
 		showSmallScreenPrompt = true;
 	} else {
 		showSmallScreenPrompt = false;

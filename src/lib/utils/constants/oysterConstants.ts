@@ -379,27 +379,6 @@ export const kOysterMarketplaceTableHeader: TableModel['header'][] = [
 	}
 ];
 
-export const kMarketplaceTableColumnsWidth = (id: string) => {
-	switch (id) {
-		case 'provider':
-			return '17.5%';
-		case 'instance':
-			return '15%';
-		case 'region':
-			return '15%';
-		case 'rate':
-			return '15%';
-		case 'vcpu':
-			return '10%';
-		case 'memory':
-			return '12.5%';
-		case 'action':
-			return '15%';
-		default:
-			return '5%';
-	}
-};
-
 export const kOysterDocLink = 'https://docs.marlin.org/docs/User%20Guides/Oyster/';
 export const kOysterSupportLink = 'https://docs.marlin.org/docs/category/tutorials';
 

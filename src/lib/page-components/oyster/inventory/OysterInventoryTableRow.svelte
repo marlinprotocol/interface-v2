@@ -72,11 +72,13 @@
 
 {#if live}
 	<tr class="main-row hover:bg-base-200">
-		<td class={tableCellClasses.row + ' w-60'}>
+		<td class={tableCellClasses.row}>
 			<NameWithAddress {name} {address} {rowIndex}>
 				<svelte:fragment slot="copyIcon">
-					<div class="copy-icon cursor-pointer">
-						<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
+					<div class="w-4">
+						<div class="copy-icon cursor-pointer">
+							<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
+						</div>
 					</div>
 				</svelte:fragment>
 			</NameWithAddress>
@@ -102,7 +104,7 @@
 		<td class={tableCellClasses.rowNormal}>
 			<Timer {endEpochTime}>
 				<div slot="active" let:timer class="mx-auto">
-					<Tooltip tooltipText={epochToDurationString(timer)}>
+					<Tooltip tooltipText={epochToDurationString(timer)} tooltipDirection="tooltip-left">
 						<div
 							class="py-1 w-24 text-white rounded mx-auto text-sm text-center"
 							style={`background-color:${getColorHexByVariant(getInventoryDurationVariant(timer))}`}

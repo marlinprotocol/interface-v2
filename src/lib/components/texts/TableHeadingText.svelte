@@ -17,7 +17,6 @@
 <div
 	class={`${styleClass} flex gap-1 text-primary justify-center items-start tracking-widest mt-0.5 text-center`}
 >
-	<!-- TODO: move this to span -->
 	{#if sorting}
 		<button on:click={handleSortData}>
 			<div class="flex items-start">

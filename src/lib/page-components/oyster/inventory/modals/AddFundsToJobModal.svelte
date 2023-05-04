@@ -74,7 +74,14 @@
 		{'Add funds by approving and depositing tokens for the job'}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<AddFundsToJob bind:duration bind:invalidCost bind:cost {rate} bind:costString />
+		<AddFundsToJob
+			bind:duration
+			bind:invalidCost
+			bind:cost
+			{rate}
+			bind:costString
+			selectId="add-funds-duration-unit-select"
+		/>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		{#if !approved}

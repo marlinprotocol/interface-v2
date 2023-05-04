@@ -11,7 +11,7 @@
 	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { kOysterOwnerInventory } from '$lib/utils/constants/oysterConstants';
 	import { getvCpuMemoryData } from '$lib/utils/data-modifiers/oysterModifiers';
-	import { closeModal } from '$lib/utils/helpers/commonHelper';
+	import { checkValidURL, closeModal } from '$lib/utils/helpers/commonHelper';
 	import { getRateForProviderAndFilters } from '$lib/utils/helpers/oysterHelpers';
 	import {
 		handleApproveFundForOysterJob,
@@ -24,6 +24,7 @@
 	import MetadetailsForNewOrder from '../../sub-components/MetadetailsForNewOrder.svelte';
 	import type { Address } from '$lib/types/storeTypes';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
+	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
@@ -172,6 +173,7 @@
 		cost?.gt(BigNumberZero) &&
 		rate &&
 		!invalidCost &&
+		validEnclaveUrl &&
 		!jobValues.merchant.error &&
 		jobValues.merchant.value != '' &&
 		!jobValues.region.error &&
@@ -179,7 +181,10 @@
 		!jobValues.instance.error &&
 		jobValues.instance.value != '' &&
 		jobValues.enclaveImageUrl.value != '';
-
+	$: validEnclaveUrl =
+		jobValues.enclaveImageUrl.value !== undefined && jobValues.enclaveImageUrl.value !== ''
+			? checkValidURL(jobValues.enclaveImageUrl.value)
+			: true;
 	const subtitle =
 		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';
 	const styles = {
@@ -203,12 +208,24 @@
 				{allMarketplaceData}
 				handleChange={handleMerchantChange}
 			/>
-			<AddFundsToJob bind:cost bind:duration bind:invalidCost {rate} bind:costString />
+			<AddFundsToJob
+				bind:cost
+				bind:duration
+				bind:invalidCost
+				{rate}
+				bind:costString
+				selectId="create-order-duration-unit-select"
+			/>
 			<TextInputWithEndButton
 				styleClass={styles.inputText}
 				title={'Enclave Image URL'}
 				placeholder={'Paste URL here'}
 				bind:input={jobValues.enclaveImageUrl.value}
+			/>
+			<ErrorTextCard
+				styleClass="mt-0"
+				showError={!validEnclaveUrl}
+				errorMessage={'Please check that the URL entered is valid'}
 			/>
 		</div>
 	</svelte:fragment>

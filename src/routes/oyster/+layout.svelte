@@ -5,7 +5,6 @@
 		getOysterJobs,
 		getProviderDetailsFromSubgraph
 	} from '$lib/controllers/subgraphController';
-	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 
@@ -23,7 +22,7 @@
 
 	async function loadConnectedData() {
 		const [allowance, oysterJobs, providerDetail] = await Promise.all([
-			getApprovedOysterAllowances($walletStore.address, $contractAddressStore.Bridge),
+			getApprovedOysterAllowances($walletStore.address),
 			getOysterJobs($walletStore.address),
 			getProviderDetailsFromSubgraph($walletStore.address),
 			getAllProvidersDetailsFromSubgraph()

@@ -10,7 +10,6 @@ import { get } from 'svelte/store';
 export async function getContractDetails() {
 	const url = ENVIRONMENT.public_contract_details_url;
 	const options = GET_OPTIONS;
-	// TODO: add type for contractDetails
 	const contractDetails = await fetchHttpData(url, options);
 	if (!contractDetails) {
 		throw new Error('Unable to fetch contract details');
@@ -85,7 +84,7 @@ export async function getBridgeContractDetails() {
 
 export async function getInstancesFromControlPlaneUsingCpUrl(controlPlaneUrl: string) {
 	const controlPlaneDetailsEndpoint =
-		'https://api.aragog.live/operators/spec/cp/' + encodeURIComponent(controlPlaneUrl.trim());
+		ENVIRONMENT.public_oyster_instances_using_cp_url + encodeURIComponent(controlPlaneUrl.trim());
 	const options = GET_OPTIONS;
 	const instances: CPInstances = await fetchHttpData(controlPlaneDetailsEndpoint, options);
 
@@ -98,7 +97,7 @@ export async function getInstancesFromControlPlaneUsingCpUrl(controlPlaneUrl: st
 
 export async function getInstancesFromControlPlaneUsingOperatorAddress(operatorAddress: Address) {
 	const controlPlaneDetailsEndpoint =
-		'https://api.aragog.live/operators/spec/' + operatorAddress.trim();
+		ENVIRONMENT.public_oyster_instances_using_operator_address + operatorAddress.trim();
 	const options = GET_OPTIONS;
 	const instances: CPInstances = await fetchHttpData(controlPlaneDetailsEndpoint, options);
 
@@ -109,14 +108,14 @@ export async function getInstancesFromControlPlaneUsingOperatorAddress(operatorA
 }
 
 export async function getProvidersNameJSON() {
-	const providerNameEndPoint = 'https://api.aragog.live/operators/names';
+	const providerNameEndPoint = ENVIRONMENT.public_oyster_provider_names_url;
 	const options = GET_OPTIONS;
 	const response = await fetchHttpData(providerNameEndPoint, options);
 	return response ?? {};
 }
 
 export async function getProvidersInstancesJSON() {
-	const providerNameEndPoint = 'https://api.aragog.live/operators/spec';
+	const providerNameEndPoint = ENVIRONMENT.public_oyster_provider_instances_url;
 	const options = GET_OPTIONS;
 	const response: Record<string, CPInstances> = await fetchHttpData(providerNameEndPoint, options);
 	if (!response) {

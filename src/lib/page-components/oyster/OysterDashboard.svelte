@@ -100,7 +100,7 @@
 		try {
 			if (useUpdatedCpURL) {
 				return await getInstancesFromControlPlaneUsingCpUrl(updatedCpURL);
-			} else if (registeredCpURL !== '') {
+			} else if (registeredCpURL !== '' && !useUpdatedCpURL) {
 				return await getInstancesFromControlPlaneUsingOperatorAddress($walletStore.address);
 			} else {
 				return [];
@@ -112,6 +112,7 @@
 	}
 
 	function debounce<F extends (...args: any[]) => Promise<any>>(func: F, delay: number): F {
+		enableRegisterButton = false;
 		let timeoutID: ReturnType<typeof setTimeout> | undefined;
 
 		return async function (this: any, ...args: Parameters<F>): Promise<ReturnType<F>> {
@@ -147,7 +148,11 @@
 		(registeredCpURL !== updatedCpURL && validCPUrl)
 			? debouncedGetInstances(true)
 			: debouncedGetInstances(false);
-	$: instances.then((data) => (enableRegisterButton = true));
+	$: instances
+		.then((data) => {
+			enableRegisterButton = true;
+		})
+		.catch((error) => (enableRegisterButton = false));
 </script>
 
 <ContainerCard>
@@ -210,13 +215,14 @@
 		showError={!validCPUrl && updatedCpURL !== ''}
 		errorMessage={'Invalid control plane URL. Make sure to use the full url along with http:// or https:// and remove any trailing slashes.'}
 	/>
-	{#await instances}
-		<InstancesTable {validCPUrl} tableData={[]} loading />
-	{:then value}
-		<InstancesTable {validCPUrl} tableData={value} />
-	{:catch error}
-		<InstancesTable {validCPUrl} tableData={[]} error />
+	{#await instances catch error}
+		<ErrorTextCard
+			showError={error}
+			errorMessage={'Uh-oh seems like the url you entered is incorrect.'}
+		/>
 	{/await}
+	<InstancesTable {validCPUrl} tableData={instances} />
+
 	<div class="mt-4" />
 	{#if $connected}
 		{#if registered}

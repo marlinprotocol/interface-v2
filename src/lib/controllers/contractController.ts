@@ -1,6 +1,7 @@
 import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 import { addToast } from '$lib/data-stores/toastStore';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
+import ENVIRONMENT from '$lib/environments/environment';
 import type { ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
 import { mPondPrecisions, oysterMarketAbi, pondPrecisions } from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
@@ -14,7 +15,6 @@ let provider: WalletStore['provider'];
 let signer: WalletStore['signer'];
 let walletAddress: WalletStore['address'];
 
-// TODO: Souvik to check its implementation, throwing error rn
 walletStore.subscribe((value) => {
 	provider = value.provider;
 	signer = value.signer;
@@ -523,12 +523,11 @@ export async function confirmMPondConversion(epoch: BigNumber, amount: BigNumber
 }
 
 // ----------------------------- Oyster contract methods -----------------------------
-// TODO: move oysterContractAddress to a config file
-export const kOysterContractAddress = '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec';
 
 export async function registerOysterInfrastructureProvider(controlPlaneUrl: string) {
+	const oysterContractAddress = ENVIRONMENT.public_oyster_contract_address;
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.REGISTER.REGISTERING,
@@ -569,8 +568,9 @@ export async function registerOysterInfrastructureProvider(controlPlaneUrl: stri
 }
 
 export async function updateOysterInfrastructureProvider(controlPlaneUrl: string) {
+	const oysterContractAddress = ENVIRONMENT.public_oyster_contract_address;
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.UPDATE.UPDATING,
@@ -610,8 +610,9 @@ export async function updateOysterInfrastructureProvider(controlPlaneUrl: string
 }
 
 export async function removeOysterInfrastructureProvider() {
+	const oysterContractAddress = ENVIRONMENT.public_oyster_contract_address;
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.REMOVE.REMOVING,
@@ -656,8 +657,9 @@ export async function createNewOysterJob(
 	rate: BigNumber,
 	balance: BigNumber
 ) {
+	const oysterContractAddress = ENVIRONMENT.public_oyster_contract_address;
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.CREATE_JOB.CREATING,
@@ -702,8 +704,9 @@ export async function createNewOysterJob(
 }
 
 export async function stopOysterJob(jobId: Bytes) {
+	const oysterContractAddress = ENVIRONMENT.public_oyster_contract_address;
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.STOP_JOB.STOPPING,
@@ -743,8 +746,9 @@ export async function stopOysterJob(jobId: Bytes) {
 }
 
 export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber) {
+	const oysterContractAddress = ENVIRONMENT.public_oyster_contract_address;
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.WITHDRAW_JOB.WITHDRAWING,
@@ -786,6 +790,7 @@ export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber
 
 export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 	// TODO: check token on mainnet, its POND on testnet
+	const oysterContractAddress = ENVIRONMENT.public_oyster_contract_address;
 	const token = 'POND';
 	const pondTokenContractAddress = contractAddresses.tokens[token].address;
 	const ERC20ContractAbi = contractAbi.ERC20;
@@ -798,7 +803,7 @@ export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 			),
 			variant: 'info'
 		});
-		const tx = await pondTokenContract.approve(kOysterContractAddress, amount);
+		const tx = await pondTokenContract.approve(oysterContractAddress, amount);
 
 		addToast({
 			message: MESSAGES.TOAST.TRANSACTION.CREATED,
@@ -837,8 +842,9 @@ export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 }
 
 export async function addFundsToOysterJob(jobId: Bytes, amount: BigNumber) {
+	const oysterContractAddress = ENVIRONMENT.public_oyster_contract_address;
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.ADD_FUNDS_JOB.ADDING_FUNDS,
@@ -879,8 +885,9 @@ export async function addFundsToOysterJob(jobId: Bytes, amount: BigNumber) {
 }
 
 export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber) {
+	const oysterContractAddress = ENVIRONMENT.public_oyster_contract_address;
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATING,
@@ -919,8 +926,9 @@ export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber)
 }
 
 export async function cancelRateReviseOysterJob(jobId: Bytes) {
+	const oysterContractAddress = ENVIRONMENT.public_oyster_contract_address;
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.CANCELLING,
@@ -961,8 +969,9 @@ export async function cancelRateReviseOysterJob(jobId: Bytes) {
 }
 
 export async function finaliseRateReviseOysterJob(jobId: Bytes) {
+	const oysterContractAddress = ENVIRONMENT.public_oyster_contract_address;
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.AMENDING,
@@ -1002,8 +1011,9 @@ export async function finaliseRateReviseOysterJob(jobId: Bytes) {
 }
 
 export async function settleOysterJob(jobId: Bytes) {
+	const oysterContractAddress = ENVIRONMENT.public_oyster_contract_address;
 	const oysterContractAbi = oysterMarketAbi;
-	const oysterContract = new ethers.Contract(kOysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.SETTLE_JOB.SETTLING,

@@ -23,7 +23,7 @@
 </script>
 
 <InputCardWithEndButton styleClass={'mt-4'} title={'Details'}>
-	{#if isOpen}
+	{#if isOpen && validCPUrl}
 		<div
 			transition:slide={{ duration: 400 }}
 			class="w-full max-h-40 overflow-y-auto overflow-x-hidden"

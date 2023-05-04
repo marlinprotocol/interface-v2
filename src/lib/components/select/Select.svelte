@@ -11,10 +11,10 @@
 	export let showSuggestions = false;
 	export let suggestions: (string | number)[] = [];
 	export let id: string;
+	let searchContainer: HTMLDivElement;
 
 	const handleClickOutside = (event: MouseEvent) => {
-		const target = event.target as HTMLElement;
-		if (!target.closest('.search-container')) {
+		if (searchContainer.contains(event.target as Node) == false) {
 			showSuggestions = false;
 		}
 	};
@@ -33,22 +33,6 @@
 		await setValue?.(suggestion);
 	};
 
-	onMount(() => {
-		document.addEventListener('click', handleClickOutside);
-	});
-
-	// checks if the component is updated and then positions the dropdown
-	afterUpdate(() => {
-		const dropdown = document.getElementById(id + '-dropdown');
-		if (dropdown) {
-			positionDropdown();
-		}
-	});
-
-	onDestroy(() => {
-		document.removeEventListener('click', handleClickOutside);
-	});
-
 	function positionDropdown() {
 		const button = document.getElementById(id);
 		const dropdown = document.getElementById(id + '-dropdown');
@@ -59,9 +43,19 @@
 			dropdown.style.left = `${rect.right - dropdownRect.width}px`;
 		}
 	}
+
+	// checks if the component is updated and then positions the dropdown
+	afterUpdate(() => {
+		const dropdown = document.getElementById(id + '-dropdown');
+		if (dropdown) {
+			positionDropdown();
+		}
+	});
 </script>
 
-<div class="w-fit search-container">
+<svelte:window on:click={handleClickOutside} />
+
+<div bind:this={searchContainer} class="w-fit search-container">
 	<CollapseButton
 		isOpen={showSuggestions}
 		onclick={handleToggleShowAllSuggestions}

@@ -24,7 +24,13 @@
 			<LoadingAnimatedPing />
 		</div>
 	{:else}
-		<Table {tableHeading} {handleSortData} {headingWidth} tablePadding={'py-6'}>
+		<Table
+			{tableHeading}
+			{handleSortData}
+			{headingWidth}
+			tablePadding={'py-6'}
+			headingStyleClass={'h-[32px]'}
+		>
 			<tbody slot="tableBody">
 				<slot />
 			</tbody>

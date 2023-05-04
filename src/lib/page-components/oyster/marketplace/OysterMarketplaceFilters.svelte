@@ -51,7 +51,7 @@
 	};
 </script>
 
-<div class="w-full flex gap-2 items-end">
+<div class="w-full flex flex-col md:flex-row gap-2 items-end mb-6">
 	<div class="w-full">
 		<SearchWithSelect
 			dataList={allFilters?.provider}
@@ -65,7 +65,7 @@
 			onSearchClick={onFilterClick}
 			selectId={'marketplace-provider-select'}
 		/>
-		<div class="flex gap-4 items-center mt-4">
+		<div class="flex gap-4 items-center mt-4 flex-col md:flex-row">
 			<TableFilter
 				dataList={allFilters?.instance}
 				value={filterMap.instance ?? ''}

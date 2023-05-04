@@ -17,13 +17,13 @@
 		<div class={`${styles.desktopWrapper}`}>
 			<HeaderLogo />
 			<div class={styles.rightItems}>
-				<div class="hidden sm:block">
+				<div class="hidden md:block">
 					<HeaderLinksGroup />
 				</div>
 				<HeaderConnectWallet />
 			</div>
 		</div>
-		<div class="flex sm:hidden text-center mx-auto w-full justify-center mt-6">
+		<div class="md:hidden text-center w-full mt-6">
 			<HeaderLinksGroup />
 		</div>
 	</header>

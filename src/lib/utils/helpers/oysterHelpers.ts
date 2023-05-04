@@ -271,6 +271,55 @@ export const sortOysterMarketplace = (
 	});
 	return sortedData;
 };
+export const getSearchAndFilteredMarketplaceData = (
+	allMarketplaceData: OysterMarketplaceDataModel[],
+	filterMap: Partial<OysterMarketplaceFilterModel>
+) => {
+	// for provider, we are checking substring match and need do check on both name and address
+	if (filterMap.provider) {
+		const value = filterMap.provider.toLowerCase();
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return item.provider.address.includes(value) || item.provider.name?.includes(value);
+		});
+	}
+
+	if (filterMap.region) {
+		const value = filterMap.region.toLowerCase();
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return value && item.region.includes(value);
+		});
+	}
+
+	if (filterMap.memory) {
+		const value = filterMap.memory;
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return value && item.memory?.toString()?.includes(value.toString());
+		});
+	}
+
+	if (filterMap.vcpu) {
+		const value = filterMap.vcpu;
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return value && item.vcpu?.toString()?.includes(value.toString());
+		});
+	}
+
+	if (filterMap.instance) {
+		const value = filterMap.instance;
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return value && item.instance?.includes(value);
+		});
+	}
+
+	if (filterMap.rate) {
+		const value = filterMap.rate;
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return value && item.rate?.toString()?.includes(value.toString());
+		});
+	}
+
+	return allMarketplaceData;
+};
 
 export const getFilteredMarketplaceData = (
 	allMarketplaceData: OysterMarketplaceDataModel[],

@@ -74,6 +74,7 @@
 				}
 				return value;
 			});
+			registeredCpURL = updatedCpURL;
 			registered = true;
 		} else {
 			addToast({
@@ -136,7 +137,7 @@
 	}
 
 	// Define the debounced version of getInstances
-	const debouncedGetInstances = debounce(getInstances, 2000);
+	const debouncedGetInstances = debounce(getInstances, 3000);
 
 	$: if (updatedCpURL !== registeredCpURL) {
 		enableRegisterButton = false;
@@ -190,7 +191,7 @@
 			{#if $connected}
 				<Button
 					onclick={() => (disableCpURL = !disableCpURL)}
-					disabled={!registered}
+					disabled={!$connected}
 					variant="text"
 					size="tiniest"
 				>

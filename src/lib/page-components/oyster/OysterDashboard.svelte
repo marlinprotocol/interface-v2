@@ -229,7 +229,7 @@
 						disabled={!validCPUrl || registeredCpURL === updatedCpURL || !enableRegisterButton}
 						onclick={handleOnRegister}
 					>
-						Update
+						UPDATE
 					</Button>
 				</div>
 				<div class="w-1/2">
@@ -240,7 +240,7 @@
 						disabled={!validCPUrl || registeredCpURL !== updatedCpURL}
 						onclick={handleOnUnregister}
 					>
-						Unregister
+						UNREGISTER
 					</Button>
 				</div>
 			</div>

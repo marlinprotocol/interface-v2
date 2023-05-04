@@ -58,9 +58,9 @@
 			text="DEPLOY"
 			styleClass="w-fit px-6 mr-4"
 		/>
-		<CreateOrderModal modalFor={`create-order-modal-${rowIndex}`} preFilledData={rowData} />
 	</td>
 </tr>
+<CreateOrderModal modalFor={`create-order-modal-${rowIndex}`} preFilledData={rowData} />
 
 <style>
 	.main-row {

@@ -19,16 +19,20 @@
 >
 	{#if sorting}
 		<button on:click={() => handleSortData?.(heading.id)}>
-			<div class="flex items-start">
+			<div class="flex items-start gap-1">
 				<img class="mt-[2px]" src={staticImages.Sort} alt="sort" width="16px" />
-				<div class="ml-[4px] overflow-hidden">{title}</div>
+				<div>{title}</div>
+				{#if !!tooltipText}
+					<TooltipIcon styleClass="mt-[1px]" {tooltipText} {tooltipDirection} {iconWidth} />
+				{/if}
 			</div>
 		</button>
 	{:else}
-		{title}
-	{/if}
-
-	{#if !!tooltipText}
-		<TooltipIcon styleClass="mt-[1px]" {tooltipText} {tooltipDirection} {iconWidth} />
+		<div class="flex items-start gap-1">
+			{title}
+			{#if !!tooltipText}
+				<TooltipIcon styleClass="mt-[1px]" {tooltipText} {tooltipDirection} {iconWidth} />
+			{/if}
+		</div>
 	{/if}
 </div>

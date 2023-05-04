@@ -25,11 +25,13 @@
 </script>
 
 <tr class="main-row hover:bg-base-200">
-	<td class={tableCellClasses.row + ' w-60'}>
+	<td class={tableCellClasses.row}>
 		<NameWithAddress {name} {address} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
-				<div class="copy-icon cursor-pointer">
-					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
+				<div class="w-4">
+					<div class="copy-icon cursor-pointer">
+						<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
+					</div>
 				</div>
 			</svelte:fragment>
 		</NameWithAddress>
@@ -61,6 +63,9 @@
 </tr>
 
 <style>
+	.main-row {
+		margin-left: 20px;
+	}
 	/* show icon only on hover on table-row */
 	.main-row:hover .copy-icon {
 		display: flex;

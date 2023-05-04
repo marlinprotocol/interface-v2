@@ -30,6 +30,7 @@
 	<Header />
 	<slot />
 </main>
+
 <!-- This shows a prompt if the screen size is smaller than 1090px -->
 <SmallScreenPrompt />
 

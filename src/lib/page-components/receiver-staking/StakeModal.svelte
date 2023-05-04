@@ -302,7 +302,6 @@
 			errorMessage={inValidMessage}
 		/>
 		{#if $receiverStakingStore.signer === DEFAULT_RECEIVER_STAKING_DATA.signer}
-			<!-- TODO: make this into a component -->
 			<InputCard styleClass="mt-4">
 				<div class={styles.titleIcon}>
 					<Text variant="small" text={'Signer Address'} />

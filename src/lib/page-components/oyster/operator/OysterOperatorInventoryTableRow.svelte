@@ -1,19 +1,16 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
+	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 
-	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
 	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
-	import {
-		kOysterMerchantJobTableColumnsWidth,
-		kOysterRateMetaData
-	} from '$lib/utils/constants/oysterConstants';
+	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToCommaString,
 		epochSecToString,
@@ -38,11 +35,8 @@
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
-<div class="main-row flex gap-1 hover:bg-base-200 px-8 items-center h-16">
-	<TableGridDataCell
-		width={`${kOysterMerchantJobTableColumnsWidth('provider')}`}
-		styleClass="flex gap-2 items-center"
-	>
+<tr class="main-row hover:bg-base-200">
+	<td class={tableCellClasses.row + ' w-60'}>
 		<NameWithAddress address={owner} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="copy-icon cursor-pointer">
@@ -50,42 +44,44 @@
 				</div>
 			</svelte:fragment>
 		</NameWithAddress>
-	</TableGridDataCell>
-	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('instance')}`}>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		{instance}
-	</TableGridDataCell>
-	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('region')}`}>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		{region}
-	</TableGridDataCell>
-	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('createdAt')}`}>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		{epochSecToString(createdAt)}
-	</TableGridDataCell>
-	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('durationRun')}`}>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		<Tooltip tooltipText={epochToDurationString(durationRun)}>
 			{epochToDurationString(durationRun, true)}
 		</Tooltip>
-	</TableGridDataCell>
-	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('amountToBeSettled')}`}>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		{symbol}{bigNumberToCommaString(amountToBeSettled, oysterAmountPrecision)}
-	</TableGridDataCell>
-	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('status')}`}>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		<div
 			class="py-1 w-24 text-white rounded mx-auto text-sm capitalize"
 			style={`background-color:${statusColor}`}
 		>
 			{status}
 		</div>
-	</TableGridDataCell>
-	<TableGridDataCell width={`${kOysterMerchantJobTableColumnsWidth('action')}`}>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		<Button
 			variant="tableConvertButton"
 			onclick={handleClaimClick}
 			size="smaller"
-			loading={submitLoading}
-			styleClass="w-24 px-6 rounded text-xs">CLAIM</Button
+			disabled={submitLoading}
+			styleClass="w-fit px-8 rounded text-xs"
 		>
-	</TableGridDataCell>
-</div>
+			{'CLAIM'}
+		</Button>
+	</td>
+</tr>
 
 <style>
 	/* show icon only on hover on table-row */

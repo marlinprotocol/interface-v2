@@ -1,20 +1,17 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
-	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import OysterInventoryTable from '$lib/page-components/oyster/inventory/InventoryTable.svelte';
 	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
 	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
 	import {
-		kMarketplaceTableColumnsWidth,
 		kOysterMarketplaceTableHeader,
 		oysterTableItemsPerPage
 	} from '$lib/utils/constants/oysterConstants';
 	import { sortOysterMarketplace } from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
+	import OysterTableCommon from '../inventory/OysterTableCommon.svelte';
 	import OysterMarketplaceFilters from './OysterMarketplaceFilters.svelte';
 	import OysterMarketplaceTableRow from './OysterMarketplaceTableRow.svelte';
 
@@ -64,34 +61,24 @@
 
 <div class="mx-auto">
 	<PageTitle title={'Infrastructure Providers'} />
-	<div class="flex gap-4 items-center mb-6">
-		<OysterMarketplaceFilters
-			bind:filteredData
-			bind:filterMap
-			{allMarketplaceData}
-			{onFilterClick}
-		/>
-	</div>
-	<OysterInventoryTable
+	<OysterMarketplaceFilters bind:filteredData bind:filterMap {allMarketplaceData} {onFilterClick} />
+	<OysterTableCommon
 		walletConnectionRequired={false}
 		{handleSortData}
 		tableHeading={kOysterMarketplaceTableHeader}
-		widthFunction={kMarketplaceTableColumnsWidth}
+		{loading}
+		noDataFound={paginatedData?.length ? false : true}
 	>
-		{#if loading}
-			<div class={'text-center flex justify-center my-4'}>
-				<LoadingAnimatedPing />
-			</div>
-		{:else if paginatedData?.length}
+		{#if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex (rowData.id)}
 				<OysterMarketplaceTableRow {rowData} {rowIndex} />
 			{/each}
-		{:else}
-			<div class={tableCellClasses.empty}>
-				{'No data found!'}
-			</div>
 		{/if}
-		<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
-	</OysterInventoryTable>
+		<tr>
+			<td colspan="12">
+				<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
+			</td>
+		</tr>
+	</OysterTableCommon>
 </div>
 <CreateOrderModal modalFor="create-new-order" />

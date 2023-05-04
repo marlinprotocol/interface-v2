@@ -17,7 +17,7 @@
 		title: string;
 	};
 	export let loading: boolean;
-	export let handleSortData: () => void;
+	export let handleSortData: ((id: string) => void) | undefined = undefined;
 	export let noDataFound: boolean;
 	export let tableHeading: TableModel['header'][];
 	export let fullWidth = true;

@@ -1,15 +1,11 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
-	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import SearchBar from '$lib/components/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import OysterInventoryTable from '$lib/page-components/oyster/inventory/InventoryTable.svelte';
 	import OysterOperatorInventoryTableRow from '$lib/page-components/oyster/operator/OysterOperatorInventoryTableRow.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import {
-		kOysterMerchantJobTableColumnsWidth,
 		kOysterMerchantJobTableHeader,
 		oysterTableItemsPerPage
 	} from '$lib/utils/constants/oysterConstants';
@@ -19,6 +15,7 @@
 	} from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
+	import OysterTableCommon from '../inventory/OysterTableCommon.svelte';
 
 	let searchInput = '';
 	let loading = true;
@@ -82,23 +79,20 @@
 		<div class={`h-12 ${buttonClasses.outlined}`}>HISTORY</div>
 	</a> -->
 </div>
-<OysterInventoryTable
+<OysterTableCommon
 	{handleSortData}
 	tableHeading={kOysterMerchantJobTableHeader}
-	widthFunction={kOysterMerchantJobTableColumnsWidth}
+	{loading}
+	noDataFound={paginatedData?.length ? false : true}
 >
-	{#if loading}
-		<div class={'text-center flex justify-center my-4'}>
-			<LoadingAnimatedPing />
-		</div>
-	{:else if paginatedData?.length}
+	{#if paginatedData?.length}
 		{#each paginatedData as rowData, rowIndex (rowData.id)}
 			<OysterOperatorInventoryTableRow {rowData} {rowIndex} />
 		{/each}
-	{:else}
-		<div class={tableCellClasses.empty}>
-			{'No data found!'}
-		</div>
 	{/if}
-	<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
-</OysterInventoryTable>
+	<tr>
+		<td colspan="12">
+			<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
+		</td>
+	</tr>
+</OysterTableCommon>

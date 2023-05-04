@@ -27,7 +27,7 @@
 	onDestroy(unsubscribeWalletStore);
 
 	// reverse the order of sortedData
-	const handleSortData = () => {
+	const handleSortData = (id: string) => {
 		historyData = historyData?.reverse();
 	};
 </script>

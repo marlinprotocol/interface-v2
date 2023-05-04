@@ -26,7 +26,7 @@
 	<div>
 		{#if rowIndex > -1}
 			<div
-				class="w-[32px] h-[32px] bg-primary rounded text-sm font-medium text-white flex flex-col justify-center"
+				class="ml-4 w-[32px] h-[32px] bg-primary rounded text-sm font-medium text-white flex flex-col justify-center"
 				style="background-color:{bgColor};"
 			>
 				{startLetters}

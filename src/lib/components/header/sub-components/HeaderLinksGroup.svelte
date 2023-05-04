@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { NavLinkModel } from '$lib/types/headerTypes';
 	import HeaderNavLinkItem from './HeaderNavLinkItem.svelte';
-	export let isMobile = false;
 	//nav-links list
 	const navLinks: NavLinkModel[] = [
 		{
@@ -32,7 +31,7 @@
 	];
 </script>
 
-<div class={`flex gap-10 nav-links ${isMobile ? 'flex-col' : 'flex-row'}`}>
+<div class={`flex gap-5 md:gap-10 nav-links flex-wrap flex-row`}>
 	{#each navLinks as navItem (navItem.title)}
 		<HeaderNavLinkItem {navItem} />
 	{/each}

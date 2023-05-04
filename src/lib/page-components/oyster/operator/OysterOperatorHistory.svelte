@@ -1,24 +1,22 @@
 <script lang="ts">
 	import SearchBar from '$lib/components/search/SearchBar.svelte';
 
-	import OysterInventoryTable from '$lib/page-components/oyster/inventory/InventoryTable.svelte';
-	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
+	import PageTitle from '$lib/components/texts/PageTitle.svelte';
+	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import {
-		kOperatorHistoryTableColumnsWidth,
 		kOperatorJobs,
 		kOysterOperatorHistoryTableHeader,
 		oysterTableItemsPerPage
 	} from '$lib/utils/constants/oysterConstants';
-	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import type { Unsubscriber } from 'svelte/store';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import { onDestroy } from 'svelte';
 	import {
 		getSearchedInventoryData,
 		sortOysterOperatorHistory
 	} from '$lib/utils/helpers/oysterHelpers';
+	import { onDestroy } from 'svelte';
+	import type { Unsubscriber } from 'svelte/store';
+	import OysterTableCommon from '../inventory/OysterTableCommon.svelte';
 	import OysterOperatorHistoryTableRow from './OysterOperatorHistoryTableRow.svelte';
 
 	let searchInput = '';
@@ -78,20 +76,21 @@
 			styleClass={'w-full'}
 		/>
 	</div>
-	<OysterInventoryTable
+	<OysterTableCommon
 		{handleSortData}
 		tableHeading={kOysterOperatorHistoryTableHeader}
-		widthFunction={kOperatorHistoryTableColumnsWidth}
+		noDataFound={paginatedData?.length ? false : true}
 	>
 		{#if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex}
 				<OysterOperatorHistoryTableRow {rowData} {rowIndex} />
 			{/each}
-		{:else}
-			<div class={tableCellClasses.empty}>
-				{'No data found!'}
-			</div>
 		{/if}
-		<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
-	</OysterInventoryTable>
+
+		<tr>
+			<td colspan="12">
+				<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
+			</td>
+		</tr>
+	</OysterTableCommon>
 </div>

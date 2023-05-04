@@ -1,20 +1,18 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import SearchBar from '$lib/components/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
-	import OysterInventoryTable from '$lib/page-components/oyster/inventory/InventoryTable.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import {
-		kHistoryTableColumnsWidth,
 		kOysterHistoryTableHeader,
 		oysterTableItemsPerPage
 	} from '$lib/utils/constants/oysterConstants';
 	import { getSearchedInventoryData, sortOysterInventory } from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
+	import OysterTableCommon from '../inventory/OysterTableCommon.svelte';
 	import OysterHistoryTableRow from './OysterHistoryTableRow.svelte';
 
 	let searchInput = '';
@@ -76,20 +74,20 @@
 			styleClass={'w-full'}
 		/>
 	</div>
-	<OysterInventoryTable
+	<OysterTableCommon
 		{handleSortData}
 		tableHeading={kOysterHistoryTableHeader}
-		widthFunction={kHistoryTableColumnsWidth}
+		noDataFound={paginatedData?.length ? false : true}
 	>
 		{#if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex}
 				<OysterHistoryTableRow {rowData} {rowIndex} />
 			{/each}
-		{:else}
-			<div class={tableCellClasses.empty}>
-				{'No data found!'}
-			</div>
 		{/if}
-		<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
-	</OysterInventoryTable>
+		<tr>
+			<td colspan="12">
+				<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
+			</td>
+		</tr>
+	</OysterTableCommon>
 </div>

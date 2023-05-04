@@ -9,19 +9,19 @@
 	// export let title = '';
 	export let styleClass = '';
 	export let iconWidth = 16;
-	export let handleSortData: (() => void) | undefined = undefined;
+	export let handleSortData: ((id: string) => void) | undefined = undefined;
 
 	const { title = '', tooltipText = '', sorting = false } = heading;
 </script>
 
 <div
-	class={`${styleClass} flex gap-1 text-primary justify-center items-start tracking-widest mt-0.5 text-center`}
+	class={`${styleClass} flex gap-1 text-primary text-xs xl:text-sm justify-center items-start tracking-widest mt-0.5 text-center`}
 >
 	{#if sorting}
-		<button on:click={handleSortData}>
+		<button on:click={() => handleSortData?.(heading.id)}>
 			<div class="flex items-start">
 				<img class="mt-[2px]" src={staticImages.Sort} alt="sort" width="16px" />
-				<div class="ml-[4px]">{title}</div>
+				<div class="ml-[4px] overflow-hidden">{title}</div>
 			</div>
 		</button>
 	{:else}

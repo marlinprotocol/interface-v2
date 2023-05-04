@@ -1,19 +1,16 @@
 <script lang="ts">
+	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import CollapseButton from '$lib/components/buttons/CollapseButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
 	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
-	import {
-		kInventoryTableColumnsWidth,
-		kOysterRateMetaData
-	} from '$lib/utils/constants/oysterConstants';
+	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString, epochToDurationString } from '$lib/utils/conversion';
 	import {
 		convertRateToPerHourString,
@@ -74,11 +71,8 @@
 </script>
 
 {#if live}
-	<div class="main-row flex gap-1 hover:bg-base-200 px-8 items-center h-16">
-		<TableGridDataCell
-			width={`${kInventoryTableColumnsWidth('provider')}`}
-			styleClass="flex gap-2 items-center"
-		>
+	<tr class="main-row hover:bg-base-200">
+		<td class={tableCellClasses.row + ' w-60'}>
 			<NameWithAddress {name} {address} {rowIndex}>
 				<svelte:fragment slot="copyIcon">
 					<div class="copy-icon cursor-pointer">
@@ -86,26 +80,26 @@
 					</div>
 				</svelte:fragment>
 			</NameWithAddress>
-		</TableGridDataCell>
-		<TableGridDataCell width={`${kInventoryTableColumnsWidth('instance')}`}>
+		</td>
+		<td class={tableCellClasses.rowNormal}>
 			{instance}
-		</TableGridDataCell>
-		<TableGridDataCell width={`${kInventoryTableColumnsWidth('region')}`}>
+		</td>
+		<td class={tableCellClasses.rowNormal}>
 			{region}
-		</TableGridDataCell>
-		<TableGridDataCell width={`${kInventoryTableColumnsWidth('rate')}`}>
+		</td>
+		<td class={tableCellClasses.rowNormal}>
 			{symbol}{convertRateToPerHourString(rate)}
-		</TableGridDataCell>
-		<TableGridDataCell width={`${kInventoryTableColumnsWidth('vcpu')}`}>
+		</td>
+		<td class={tableCellClasses.rowNormal}>
 			{vcpu ? vcpu : 'N/A'}
-		</TableGridDataCell>
-		<TableGridDataCell width={`${kInventoryTableColumnsWidth('memory')}`}>
+		</td>
+		<td class={tableCellClasses.rowNormal}>
 			{memory ? memory : 'N/A'}
-		</TableGridDataCell>
-		<TableGridDataCell width={`${kInventoryTableColumnsWidth('balance')}`}>
+		</td>
+		<td class={tableCellClasses.rowNormal}>
 			{symbol}{bigNumberToCommaString(balance, oysterAmountPrecision)}
-		</TableGridDataCell>
-		<TableGridDataCell width={`${kInventoryTableColumnsWidth('durationLeft')}`}>
+		</td>
+		<td class={tableCellClasses.rowNormal}>
 			<Timer {endEpochTime}>
 				<div slot="active" let:timer class="mx-auto">
 					<Tooltip tooltipText={epochToDurationString(timer)}>
@@ -119,46 +113,52 @@
 				</div>
 				<div slot="inactive" class="mx-auto">Ended</div>
 			</Timer>
-		</TableGridDataCell>
-		<TableGridDataCell width={`${kInventoryTableColumnsWidth('action')}`}>
+		</td>
+		<td class={tableCellClasses.rowNormal}>
 			<CollapseButton
 				{isOpen}
 				onclick={() => {
 					toggleRowExpansion(id.toString());
 				}}
 			/>
-		</TableGridDataCell>
-	</div>
-	<div class="expanded-row">
+		</td>
+	</tr>
+	<tr class="expanded-row">
 		{#if isOpen}
-			<div transition:slide={{ duration: 400 }} class="flex gap-4 mt-4 mb-8 px-8">
-				<ModalButton
-					variant="filled"
-					size="small"
-					icon={plus}
-					modalFor={`job-add-funds-modal-${rowIndex}`}
-				>
-					ADD FUNDS
-				</ModalButton>
-				<ModalButton variant="outlined" size="small" modalFor={`job-stop-modal-${rowIndex}`}>
-					{closeButtonText}
-				</ModalButton>
-				<ModalButton
-					variant="outlined"
-					size="small"
-					modalFor={`job-withdraw-fund-modal-${rowIndex}`}
-				>
-					WITHDRAW
-				</ModalButton>
-				<ModalButton variant="outlined" size="small" modalFor={`job-amend-rate-modal-${rowIndex}`}>
-					{amendRateButtonText}
-				</ModalButton>
-				<ModalButton variant="outlined" size="small" modalFor={`job-details-modal-${rowIndex}`}>
-					DETAILS
-				</ModalButton>
-			</div>
+			<td colspan="12">
+				<div transition:slide={{ duration: 400 }} class="flex gap-4 mt-4 mb-8 px-8">
+					<ModalButton
+						variant="filled"
+						size="small"
+						icon={plus}
+						modalFor={`job-add-funds-modal-${rowIndex}`}
+					>
+						ADD FUNDS
+					</ModalButton>
+					<ModalButton variant="outlined" size="small" modalFor={`job-stop-modal-${rowIndex}`}>
+						{closeButtonText}
+					</ModalButton>
+					<ModalButton
+						variant="outlined"
+						size="small"
+						modalFor={`job-withdraw-fund-modal-${rowIndex}`}
+					>
+						WITHDRAW
+					</ModalButton>
+					<ModalButton
+						variant="outlined"
+						size="small"
+						modalFor={`job-amend-rate-modal-${rowIndex}`}
+					>
+						{amendRateButtonText}
+					</ModalButton>
+					<ModalButton variant="outlined" size="small" modalFor={`job-details-modal-${rowIndex}`}>
+						DETAILS
+					</ModalButton>
+				</div>
+			</td>
 		{/if}
-	</div>
+	</tr>
 {/if}
 <InventoryJobDetailsModal bind:jobData={rowData} modalFor={`job-details-modal-${rowIndex}`} />
 <AddFundsToJobModal bind:jobData={rowData} modalFor={`job-add-funds-modal-${rowIndex}`} />

@@ -32,7 +32,7 @@
 	const nowTime = new Date().getTime() / 1000;
 	const styles = {
 		modalWidth: 'w-11/12 sm:max-w-[700px]',
-		textPrimary: 'text-primary'
+		textPrimary: 'text-primary truncate'
 	};
 </script>
 
@@ -45,7 +45,7 @@
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4 px-4">
-			<div class="flex gap-4">
+			<div class="flex gap-4 flex-col sm:flex-row">
 				<TextInputCard
 					title={'Operator'}
 					value={name !== '' ? name : address}
@@ -54,7 +54,7 @@
 				/>
 				<TextInputCard title={'Region'} value={region} centered textStyle={styles.textPrimary} />
 			</div>
-			<div class="flex gap-4">
+			<div class="flex gap-4 flex-col sm:flex-row">
 				<TextInputCard
 					title={'Instance'}
 					value={instance}
@@ -80,7 +80,7 @@
 					textStyle={styles.textPrimary}
 				/>
 			</div>
-			<div class="flex gap-4">
+			<div class="flex gap-4 flex-col sm:flex-row">
 				<TextInputCard
 					title={'Start Date'}
 					value={epochSecToString(createdAt)}

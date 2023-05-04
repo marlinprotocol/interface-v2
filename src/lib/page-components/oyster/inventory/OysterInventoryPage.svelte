@@ -1,18 +1,14 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import SearchBar from '$lib/components/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
-	import OysterInventoryTable from '$lib/page-components/oyster/inventory/InventoryTable.svelte';
 	import OysterInventoryTableRow from '$lib/page-components/oyster/inventory/OysterInventoryTableRow.svelte';
 	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import {
-		kInventoryTableColumnsWidth,
 		kOysterInventoryTableHeader,
 		oysterTableItemsPerPage
 	} from '$lib/utils/constants/oysterConstants';
@@ -20,6 +16,7 @@
 	import { onDestroy } from 'svelte';
 	import plus from 'svelte-awesome/icons/plus';
 	import type { Unsubscriber } from 'svelte/store';
+	import OysterTableCommon from './OysterTableCommon.svelte';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -91,25 +88,23 @@
 			ADD ORDER
 		</ModalButton>
 	</div>
-	<OysterInventoryTable
+	<OysterTableCommon
 		{handleSortData}
 		tableHeading={kOysterInventoryTableHeader}
-		widthFunction={kInventoryTableColumnsWidth}
+		{loading}
+		noDataFound={paginatedData?.length ? false : true}
+		headingWidth={'w-36'}
 	>
-		{#if loading}
-			<div class={'text-center flex justify-center my-4'}>
-				<LoadingAnimatedPing />
-			</div>
-		{:else if paginatedData?.length}
+		{#if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex (rowData.id)}
 				<OysterInventoryTableRow {rowData} {rowIndex} {expandedRows} />
 			{/each}
-		{:else}
-			<div class={tableCellClasses.empty}>
-				{'No data found!'}
-			</div>
 		{/if}
-		<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
-	</OysterInventoryTable>
+		<tr>
+			<td colspan="12">
+				<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
+			</td>
+		</tr>
+	</OysterTableCommon>
 </div>
 <CreateOrderModal modalFor="create-new-order" />

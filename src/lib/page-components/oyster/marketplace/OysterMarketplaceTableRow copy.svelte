@@ -1,12 +1,15 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
+	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import {
+		kMarketplaceTableColumnsWidth,
+		kOysterRateMetaData
+	} from '$lib/utils/constants/oysterConstants';
 	import { convertRateToPerHourString } from '$lib/utils/helpers/oysterHelpers';
 	import CreateOrderModal from '../inventory/modals/CreateOrderModal.svelte';
 
@@ -24,8 +27,11 @@
 	} = rowData);
 </script>
 
-<tr class="main-row hover:bg-base-200">
-	<td class={tableCellClasses.row + ' w-60'}>
+<div class="main-row flex gap-1 hover:bg-base-200 px-8 items-center h-16">
+	<TableGridDataCell
+		width={`${kMarketplaceTableColumnsWidth('provider')}`}
+		styleClass="flex gap-2 items-center"
+	>
 		<NameWithAddress {name} {address} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="copy-icon cursor-pointer">
@@ -33,32 +39,32 @@
 				</div>
 			</svelte:fragment>
 		</NameWithAddress>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kMarketplaceTableColumnsWidth('instance')}`}>
 		{instance}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kMarketplaceTableColumnsWidth('region')}`}>
 		{region}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kMarketplaceTableColumnsWidth('rate')}`}>
 		{symbol}{convertRateToPerHourString(rate)}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kMarketplaceTableColumnsWidth('vcpu')}`}>
 		{vcpu ? vcpu : 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kMarketplaceTableColumnsWidth('memory')}`}>
 		{memory ? memory : 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
+	</TableGridDataCell>
+	<TableGridDataCell width={`${kMarketplaceTableColumnsWidth('action')}`}>
 		<TableConvertButton
 			disabled={!$connected}
 			modalFor={`create-order-modal-${rowIndex}`}
 			text="DEPLOY"
 			styleClass="w-fit px-6"
 		/>
-		<CreateOrderModal modalFor={`create-order-modal-${rowIndex}`} preFilledData={rowData} />
-	</td>
-</tr>
+	</TableGridDataCell>
+</div>
+<CreateOrderModal modalFor={`create-order-modal-${rowIndex}`} preFilledData={rowData} />
 
 <style>
 	/* show icon only on hover on table-row */

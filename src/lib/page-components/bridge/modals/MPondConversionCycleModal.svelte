@@ -1,6 +1,8 @@
 <script lang="ts">
+	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
-	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
+	import LoadingAnimationModal from '$lib/components/loading/LoadingAnimationModal.svelte';
 	import type { MPondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
 	import { kMPondConversionCycleTableHeader } from '$lib/utils/constants/bridgeConstants';
 	import { pondPrecisions } from '$lib/utils/constants/constants';
@@ -10,8 +12,6 @@
 		epochToDurationString
 	} from '$lib/utils/conversion';
 	import TableHeadingText from '../../../components/texts/TableHeadingText.svelte';
-	import Modal from '$lib/atoms/modals/Modal.svelte';
-	import { staticImages } from '$lib/components/images/staticImages';
 
 	export let cycles: MPondEligibleCyclesModel[];
 	export let endEpochTime: number;
@@ -54,10 +54,9 @@
 								{#if currentCycle > i}
 									<img src={staticImages.Check} alt="Copy" width="20px" height="20px" />
 								{:else if currentCycle === i}
-									<!-- TODO: shivani, this does not have valid props  -->
-									<LoadingAnimatedPing loading={true} hasPadding={true}>
+									<LoadingAnimationModal loading={true} hasPadding={true}>
 										<img src={staticImages.CycleLoader} alt="Copy" width="19px" height="19px" />
-									</LoadingAnimatedPing>
+									</LoadingAnimationModal>
 								{:else}
 									<img src={staticImages.UnActiveTick} alt="Copy" width="20px" height="20px" />
 								{/if}

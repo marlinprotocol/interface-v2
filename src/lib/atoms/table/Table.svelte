@@ -6,9 +6,10 @@
 	export let tableHeading: TableModel['header'][];
 	export let styleClass = '';
 	export let headingStyleClass = '';
-	export let handleSortData: (() => void) | undefined = undefined;
+	export let handleSortData: ((id: string) => void) | undefined = undefined;
 	export let iconWidth = 16;
 	export let tablePadding = 'px-8 py-6';
+	export let headingWidth: string | undefined = undefined;
 </script>
 
 <div class={`${styleClass} overflow-x-auto overflow-y-hidden ${tablePadding}`}>
@@ -16,7 +17,11 @@
 		<thead>
 			<tr>
 				{#each tableHeading as columnHeading, i}
-					<th class={`w-[${100 / tableHeading.length}%] ${tableCellClasses.heading}`}>
+					<th
+						class={`${headingWidth ? headingWidth : `w-[${100 / tableHeading.length}%]`} ${
+							tableCellClasses.heading
+						}`}
+					>
 						<TableHeadingText
 							styleClass={headingStyleClass}
 							{iconWidth}

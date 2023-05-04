@@ -1,20 +1,21 @@
 <script lang="ts">
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
-	import GridTable from '$lib/atoms/table/GridTable.svelte';
+	import Table from '$lib/atoms/table/Table.svelte';
 	import HeaderConnectWallet from '$lib/components/header/sub-components/HeaderConnectWallet.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { TableModel } from '$lib/types/componentTypes';
-	import { kHistoryTableColumnsWidth } from '$lib/utils/constants/oysterConstants';
 
+	export let loading: boolean = false;
+	export let handleSortData: (id: string) => void;
+	export let noDataFound: boolean;
 	export let tableHeading: TableModel['header'][];
-	export let handleSortData: () => void;
-	let loading = false;
-	let noDataFound = false;
+	export let headingWidth: string | undefined = undefined;
+	export let walletConnectionRequired = true;
 </script>
 
-<div class={`card max-w-full bg-base-100 rounded-lg overflow-x-auto`}>
-	{#if !$connected}
+<div class={`card max-w-full bg-base-100 rounded-lg`}>
+	{#if !$connected && walletConnectionRequired}
 		<div class={`text-center flex justify-center my-4`}>
 			<HeaderConnectWallet />
 		</div>
@@ -23,9 +24,11 @@
 			<LoadingAnimatedPing />
 		</div>
 	{:else}
-		<GridTable {tableHeading} {handleSortData} widthFunction={kHistoryTableColumnsWidth}>
-			<slot />
-		</GridTable>
+		<Table {tableHeading} {handleSortData} {headingWidth} tablePadding={'py-6'}>
+			<tbody slot="tableBody">
+				<slot />
+			</tbody>
+		</Table>
 		{#if noDataFound}
 			<div class={tableCellClasses.empty}>
 				{'No data found!'}

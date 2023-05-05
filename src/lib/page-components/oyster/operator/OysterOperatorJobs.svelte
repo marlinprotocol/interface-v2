@@ -89,10 +89,10 @@
 		{#each paginatedData as rowData, rowIndex (rowData.id)}
 			<OysterOperatorInventoryTableRow {rowData} {rowIndex} />
 		{/each}
+		<tr>
+			<td colspan="12">
+				<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
+			</td>
+		</tr>
 	{/if}
-	<tr>
-		<td colspan="12">
-			<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
-		</td>
-	</tr>
 </OysterTableCommon>

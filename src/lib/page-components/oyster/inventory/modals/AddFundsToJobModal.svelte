@@ -81,6 +81,7 @@
 			{rate}
 			bind:costString
 			selectId="add-funds-duration-unit-select"
+			rateEditable={false}
 		/>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">

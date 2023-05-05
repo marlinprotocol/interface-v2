@@ -8,12 +8,13 @@
 		getDurationInSecondsForUnit,
 		kDurationUnitsList
 	} from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToString } from '$lib/utils/conversion';
+	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
 	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		computeCost,
 		computeDuration,
 		computeDurationString,
+		convertHourlyRateToSecondlyRate,
 		convertRateToPerHourString
 	} from '$lib/utils/helpers/oysterHelpers';
 	import type { BigNumber } from 'ethers';
@@ -25,6 +26,22 @@
 	export let selectId: string;
 	export let invalidCost = false;
 	export let costString = '';
+	export let rateEditable = true;
+
+	let rateString = '';
+
+	const updateRateString = (_rate: BigNumber | undefined) => {
+		if (_rate && rateString === '') {
+			rateString = _rate ? convertRateToPerHourString(_rate) : '';
+			return;
+		}
+		if (!_rate && rateString !== '') {
+			rateString = '';
+			return;
+		}
+	};
+
+	$: updateRateString(rate);
 
 	let maxBalance = BigNumberZero;
 	let durationUnit = 'Days';
@@ -36,6 +53,28 @@
 		maxBalance = value.pond;
 	});
 	onDestroy(unsubscribeWalletBalanceStore);
+
+	const handleRateChange = (e: any) => {
+		const value = e.target.value;
+		rateString = value;
+		if (!value) {
+			rate = undefined;
+			costString = '';
+			return;
+		}
+		try {
+			if (isInputAmountValid(value)) {
+				const hourlyRate = stringToBigNumber(value);
+				rate = convertHourlyRateToSecondlyRate(hourlyRate);
+				const _cost = computeCost(duration || 0, rate);
+				costString = bigNumberToString(_cost);
+			}
+		} catch (error) {
+			rate = undefined;
+			costString = '';
+			console.log(error);
+		}
+	};
 
 	const handleDurationChange = (e: any) => {
 		const value = e.target.value;
@@ -70,10 +109,15 @@
 			return;
 		}
 		if (_cost && rate) {
-			let _rate = rate.toNumber() / 10 ** 18;
-			duration = Math.floor(_cost / _rate);
-			costString = value;
-			return;
+			try {
+				let _rate = rate.toNumber() / 10 ** 18;
+				duration = Math.floor(_cost / _rate);
+				costString = value;
+			} catch (error) {
+				duration = 0;
+				costString = '';
+				console.log(error);
+			}
 		}
 	};
 
@@ -86,9 +130,10 @@
 <div class="flex gap-2">
 	<AmountInputWithTitle
 		title={'Hourly Rate'}
-		inputAmountString={rate ? convertRateToPerHourString(rate) : ''}
-		disabled
+		bind:inputAmountString={rateString}
 		prefix={'$'}
+		handleUpdatedAmount={handleRateChange}
+		disabled={!rateEditable}
 	/>
 	<AmountInputWithTitle
 		title={'Duration'}

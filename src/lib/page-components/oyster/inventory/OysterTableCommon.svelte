@@ -30,7 +30,7 @@
 			</tbody>
 		</Table>
 		{#if noDataFound}
-			<div class={tableCellClasses.empty}>
+			<div class={tableCellClasses.empty + ' mb-8'}>
 				{'No data found!'}
 			</div>
 		{/if}

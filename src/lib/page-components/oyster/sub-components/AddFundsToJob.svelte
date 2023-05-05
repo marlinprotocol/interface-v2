@@ -109,10 +109,15 @@
 			return;
 		}
 		if (_cost && rate) {
-			let _rate = rate.toNumber() / 10 ** 18;
-			duration = Math.floor(_cost / _rate);
-			costString = value;
-			return;
+			try {
+				let _rate = rate.toNumber() / 10 ** 18;
+				duration = Math.floor(_cost / _rate);
+				costString = value;
+			} catch (error) {
+				duration = 0;
+				costString = '';
+				console.log(error);
+			}
 		}
 	};
 

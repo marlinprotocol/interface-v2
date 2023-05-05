@@ -415,18 +415,18 @@ export function getUpdatedFiltersList(
 
 export const getRateForProviderAndFilters = (
 	providerAddress: string | undefined,
-	values: any,
+	instance: string | undefined,
+	region: string | undefined,
 	allMarketplaceData: OysterMarketplaceDataModel[]
 ) => {
 	if (!providerAddress) return undefined;
-	const { instance, region } = values;
-	if (!instance.value || !region.value) return undefined;
+	if (!instance || !region) return undefined;
 
 	const instanceSelected = allMarketplaceData?.find(
 		(_item) =>
 			_item.provider.address === providerAddress &&
-			_item.instance === instance.value &&
-			_item.region === region.value
+			_item.instance === instance &&
+			_item.region === region
 	);
 	return instanceSelected?.rate ?? undefined;
 };

@@ -7,10 +7,15 @@
 		OysterMarketplaceDataModel
 	} from '$lib/types/oysterComponentType';
 	import { getvCpuMemoryData } from '$lib/utils/data-modifiers/oysterModifiers';
-	import { getCreateOrderInstanceRegionFilters } from '$lib/utils/helpers/oysterHelpers';
+	import {
+		getCreateOrderInstanceRegionFilters,
+		getRateForProviderAndFilters
+	} from '$lib/utils/helpers/oysterHelpers';
+	import type { BigNumber } from 'ethers';
 
 	export let allMarketplaceData: OysterMarketplaceDataModel[];
 	export let jobValues: any;
+	export let rate: BigNumber | undefined;
 	export let providerAddress: string | undefined;
 	export let handleChange = () => {};
 
@@ -27,32 +32,59 @@
 		)
 	];
 
-	const handleFieldChange = (
-		valueMap: { value: string; error: string; isDirty: boolean; title: string },
-		value: string | number,
-		dataList: string[],
-		fieldTitle: string
-	) => {
-		valueMap.value = value as string;
-		valueMap.isDirty = true;
+	const handleInstanceChange = async (value: string | number) => {
+		jobValues.instance.value = value as string;
+		jobValues.instance.isDirty = true;
 		if (value == '') {
-			valueMap.error = `${fieldTitle} is required`;
-		} else if (dataList.indexOf(value.toString()) == -1) {
-			valueMap.error = `${value} is not a valid ${fieldTitle}`;
+			jobValues.instance.error = 'Instance is required';
+		} else if (filters.instance?.indexOf(value.toString()) == -1) {
+			jobValues.instance.error = `${value} is not a valid Instance`;
 		} else {
-			valueMap.error = '';
+			jobValues.instance.error = '';
 		}
-		return valueMap;
+		rate = getRateForProviderAndFilters(
+			providerAddress,
+			jobValues.instance.value,
+			jobValues.region.value,
+			allMarketplaceData
+		);
+	};
+
+	const handleRegionChange = async (value: string | number) => {
+		jobValues.region.value = value as string;
+		jobValues.region.isDirty = true;
+		if (value == '') {
+			jobValues.region.error = 'Region is required';
+		} else if (filters.region?.indexOf(value.toString()) == -1) {
+			jobValues.region.error = `${value} is not a valid Region`;
+		} else {
+			jobValues.region.error = '';
+		}
+		rate = getRateForProviderAndFilters(
+			providerAddress,
+			jobValues.instance.value,
+			jobValues.region.value,
+			allMarketplaceData
+		);
 	};
 
 	const handleMerchantChange = async (value: string | number) => {
-		const merchant = handleFieldChange(jobValues.merchant, value, merchantList, 'Operator');
+		jobValues.merchant.value = value as string;
+		jobValues.merchant.isDirty = true;
+		if (value == '') {
+			jobValues.merchant.error = 'Operator is required';
+		} else if (merchantList.indexOf(value.toString()) == -1) {
+			jobValues.merchant.error = `${value} is not a valid Operator`;
+		} else {
+			jobValues.merchant.error = '';
+		}
 		providerAddress =
 			value != ''
 				? allMarketplaceData.find(
 						(data) => data.provider.name === value || data.provider.address === value
 				  )?.provider.address
 				: undefined;
+		rate = undefined;
 		jobValues = {
 			...jobValues,
 			instance: {
@@ -66,8 +98,7 @@
 				error: '',
 				isDirty: false,
 				value: ''
-			},
-			merchant
+			}
 		};
 		filters = getCreateOrderInstanceRegionFilters(providerAddress, allMarketplaceData);
 		handleChange();
@@ -96,14 +127,7 @@
 		<SearchWithSelect
 			dataList={filters?.instance ?? []}
 			searchValue={jobValues.instance.value}
-			setSearchValue={(value) => {
-				jobValues.instance = handleFieldChange(
-					jobValues.instance,
-					value,
-					filters?.instance ?? [],
-					jobValues.instance.title
-				);
-			}}
+			setSearchValue={handleInstanceChange}
 			title={'Instance'}
 			placeholder={'Select instance'}
 			disabled={!jobValues.merchant.value}
@@ -114,14 +138,7 @@
 		<SearchWithSelect
 			dataList={filters?.region ?? []}
 			searchValue={jobValues.region.value}
-			setSearchValue={(value) => {
-				jobValues.region = handleFieldChange(
-					jobValues.region,
-					value,
-					filters?.region ?? [],
-					jobValues.region.title
-				);
-			}}
+			setSearchValue={handleRegionChange}
 			title={'Region'}
 			placeholder={'Select region'}
 			disabled={!jobValues.merchant.value}

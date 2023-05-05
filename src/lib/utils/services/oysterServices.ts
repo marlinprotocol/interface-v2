@@ -3,6 +3,7 @@ import {
 	approveFundsForOysterJobAdd,
 	cancelRateReviseOysterJob,
 	createNewOysterJob,
+	finaliseRateReviseOysterJob,
 	// finaliseRateReviseOysterJob,
 	initiateRateReviseOysterJob,
 	settleOysterJob,
@@ -203,8 +204,7 @@ export async function handleFinaliseRateRevise(
 ) {
 	const { id } = jobData;
 	try {
-		// await finaliseRateReviseOysterJob(id);
-		console.log('object :>> ', newRate);
+		await finaliseRateReviseOysterJob(id);
 		oysterStore.update((value) => {
 			return {
 				...value,

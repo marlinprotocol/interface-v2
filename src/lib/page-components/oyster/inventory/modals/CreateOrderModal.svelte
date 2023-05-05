@@ -2,12 +2,15 @@
 	import { goto } from '$app/navigation';
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type {
 		CreateOrderPreFilledModel,
 		OysterMarketplaceDataModel
 	} from '$lib/types/oysterComponentType';
+	import type { Address } from '$lib/types/storeTypes';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { kOysterOwnerInventory } from '$lib/utils/constants/oysterConstants';
 	import { getvCpuMemoryData } from '$lib/utils/data-modifiers/oysterModifiers';
@@ -22,9 +25,6 @@
 	import type { Unsubscriber } from 'svelte/store';
 	import AddFundsToJob from '../../sub-components/AddFundsToJob.svelte';
 	import MetadetailsForNewOrder from '../../sub-components/MetadetailsForNewOrder.svelte';
-	import type { Address } from '$lib/types/storeTypes';
-	import { walletStore } from '$lib/data-stores/walletProviderStore';
-	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
@@ -35,7 +35,7 @@
 
 	let duration = 0; //durationInSecs
 	let cost = BigNumberZero;
-	let rate: BigNumber | undefined = undefined;
+	// let rate: BigNumber | undefined = undefined;
 	let invalidCost = false;
 	let costString = '';
 
@@ -101,6 +101,7 @@
 		if (!rate || !cost || !jobValues.instance.value || !jobValues.region.value) {
 			return;
 		}
+
 		const { vcpu, memory } = getvCpuMemoryData(jobValues.instance.value);
 		const metadata = JSON.stringify({
 			instanceType: jobValues.instance.value,
@@ -159,13 +160,16 @@
 	const handleMerchantChange = () => {
 		duration = 0;
 		cost = BigNumberZero;
-		rate = undefined;
 		invalidCost = false;
 		costString = '';
 	};
 
-	$: rate = getRateForProviderAndFilters(providerAddress, jobValues, allMarketplaceData);
-
+	let rate = getRateForProviderAndFilters(
+		providerAddress,
+		jobValues.instance.value,
+		jobValues.region.value,
+		allMarketplaceData
+	);
 	$: approved = cost && approvedAmount?.gte(cost) && cost.gt(BigNumberZero);
 
 	$: submitEnable =
@@ -205,6 +209,7 @@
 			<MetadetailsForNewOrder
 				bind:jobValues
 				bind:providerAddress
+				bind:rate
 				{allMarketplaceData}
 				handleChange={handleMerchantChange}
 			/>
@@ -212,7 +217,7 @@
 				bind:cost
 				bind:duration
 				bind:invalidCost
-				{rate}
+				bind:rate
 				bind:costString
 				selectId="create-order-duration-unit-select"
 			/>

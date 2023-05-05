@@ -80,7 +80,11 @@
 	$: durationString = computeDurationString(duration, durationUnitInSec);
 	$: cost = computeCost(duration || 0, rate);
 	$: invalidCost = !cost || !maxBalance.gte(cost);
-	$: inValidMessage = !cost ? '' : invalidCost ? 'Insufficient balance' : '';
+	$: inValidMessage = !cost
+		? ''
+		: invalidCost
+		? `Insufficient balance. Your current wallet has ${maxBalance} POND.`
+		: '';
 </script>
 
 <div class="flex gap-2">

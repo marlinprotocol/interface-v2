@@ -100,6 +100,7 @@
 	>
 		<div slot="endButton">
 			<Select
+				title={'Duration'}
 				dataList={durationUnitList}
 				bind:value={durationUnit}
 				setValue={handleDurationUnitChange}

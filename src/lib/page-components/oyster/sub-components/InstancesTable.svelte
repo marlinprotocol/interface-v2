@@ -22,18 +22,23 @@
 	let isOpen = false;
 </script>
 
-<InputCardWithEndButton styleClass={'mt-4'} title={'Details'}>
+<InputCardWithEndButton styleClass={'mt-4 p'} title={'Details'}>
 	{#if isOpen && validCPUrl}
 		<div
 			transition:slide={{ duration: 400 }}
-			class="w-full max-h-40 overflow-y-auto overflow-x-hidden"
+			class="bg-white rounded mt-4 w-full max-h-40 overflow-y-auto overflow-x-hidden"
 		>
 			{#await tableData}
 				<div class={'text-center flex justify-center my-4'}>
 					<LoadingAnimatedPing />
 				</div>
 			{:then value}
-				<Table tableHeading={kInstancesTableHeader} headingStyleClass={'text-xs'} iconWidth={13}>
+				<Table
+					tableHeading={kInstancesTableHeader}
+					headingStyleClass={'text-sm'}
+					tablePadding={'py-4'}
+					iconWidth={13}
+				>
 					<tbody slot="tableBody">
 						{#each value as row}
 							<tr>

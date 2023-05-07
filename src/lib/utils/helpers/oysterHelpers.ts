@@ -9,6 +9,7 @@ import { BigNumberZero, oysterAmountPrecision } from '../constants/constants';
 import { isInputAmountValid } from './commonHelper';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
 import { bigNumberToCommaString } from '../conversion';
+import { addToast } from '$lib/data-stores/toastStore';
 
 export const convertRateToPerHourString = (rate: BigNumber) => {
 	const { rateUnitInSeconds } = kOysterRateMetaData;
@@ -415,18 +416,18 @@ export function getUpdatedFiltersList(
 
 export const getRateForProviderAndFilters = (
 	providerAddress: string | undefined,
-	values: any,
+	instance: string | undefined,
+	region: string | undefined,
 	allMarketplaceData: OysterMarketplaceDataModel[]
 ) => {
 	if (!providerAddress) return undefined;
-	const { instance, region } = values;
-	if (!instance.value || !region.value) return undefined;
+	if (!instance || !region) return undefined;
 
 	const instanceSelected = allMarketplaceData?.find(
 		(_item) =>
 			_item.provider.address === providerAddress &&
-			_item.instance === instance.value &&
-			_item.region === region.value
+			_item.instance === instance &&
+			_item.region === region
 	);
 	return instanceSelected?.rate ?? undefined;
 };
@@ -447,7 +448,15 @@ export const getCreateOrderInstanceRegionFilters = (
 };
 
 export const computeCost = (duration: number, rate?: BigNumber) => {
-	return rate ? rate.mul(duration) : BigNumberZero;
+	try {
+		return rate ? rate.mul(duration) : BigNumberZero;
+	} catch (e) {
+		addToast({
+			variant: 'error',
+			message: `Error computing cost, please try again.`
+		});
+		return BigNumberZero;
+	}
 };
 
 export const computeDuration = (durationString: string, durationUnitInSec: number) => {

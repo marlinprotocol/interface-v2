@@ -52,7 +52,9 @@
 					</tbody>
 				</Table>
 			{:catch error}
-				There seems to be an error. Make sure that the entered URL is correct and check again.
+				<div class={'text-center flex justify-center m-4 text-sm'}>
+					There seems to be an error. Make sure that the entered URL is correct and check again.
+				</div>
 			{/await}
 		</div>
 	{/if}

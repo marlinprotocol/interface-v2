@@ -274,50 +274,61 @@ export const sortOysterMarketplace = (
 };
 export const getSearchAndFilteredMarketplaceData = (
 	allMarketplaceData: OysterMarketplaceDataModel[],
-	filterMap: Partial<OysterMarketplaceFilterModel>
+	filterMap: Partial<OysterMarketplaceFilterModel>,
+	exactMatch: boolean = false
 ) => {
 	// for provider, we are checking substring match and need do check on both name and address
 	if (filterMap.provider) {
 		const value = filterMap.provider.toLowerCase();
 		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return item.provider.address.includes(value) || item.provider.name?.includes(value);
+			return exactMatch
+				? item.provider.address.toLowerCase() === value ||
+						item.provider.name?.toLowerCase() === value
+				: item.provider.address.toLowerCase().includes(value) ||
+						item.provider.name?.toLowerCase()?.includes(value);
 		});
 	}
 
 	if (filterMap.region) {
 		const value = filterMap.region.toLowerCase();
 		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return value && item.region.includes(value);
+			return exactMatch
+				? item.region.toLowerCase() === value
+				: item.region.toLowerCase().includes(value);
 		});
 	}
 
 	if (filterMap.memory) {
-		const value = filterMap.memory;
+		const value = filterMap.memory?.toString();
 		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return value && item.memory?.toString()?.includes(value.toString());
+			return exactMatch
+				? item.memory?.toString() === value
+				: item.memory?.toString()?.includes(value);
 		});
 	}
 
 	if (filterMap.vcpu) {
-		const value = filterMap.vcpu;
+		const value = filterMap.vcpu.toString();
 		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return value && item.vcpu?.toString()?.includes(value.toString());
+			return exactMatch ? item.vcpu?.toString() === value : item.vcpu?.toString()?.includes(value);
 		});
 	}
 
 	if (filterMap.instance) {
-		const value = filterMap.instance;
+		const value = filterMap.instance?.toLowerCase();
 		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return value && item.instance?.includes(value);
+			return exactMatch
+				? item.instance?.toLowerCase() === value
+				: item.instance.toLowerCase()?.includes(value);
 		});
 	}
 
-	if (filterMap.rate) {
-		const value = filterMap.rate;
-		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return value && item.rate?.toString()?.includes(value.toString());
-		});
-	}
+	// if (filterMap.rate) {
+	// 	const value = filterMap.rate;
+	// 	allMarketplaceData = allMarketplaceData.filter((item) => {
+	// 		return value && item.rate?.toString()?.includes(value.toString());
+	// 	});
+	// }
 
 	return allMarketplaceData;
 };

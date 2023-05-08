@@ -8,8 +8,8 @@ import type {
 } from '$lib/types/oysterComponentType';
 import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
-import { hundredYears } from '../conversion';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
+import { hundredYears } from '../conversion';
 
 export const parseMetadata = (metadata: string) => {
 	//remove unwanted single quote and \
@@ -134,8 +134,8 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		})
 	};
 
-	const _totalSettledAmount = settlementHistory.reduce((acc: any, settlement: any) => {
-		return acc.add(settlement.amount);
+	const _totalSettledAmount = settlementHistory.reduce((acc: BigNumber, settlement: any) => {
+		return acc.add(BigNumber.from(settlement.amount));
 	}, BigNumberZero);
 
 	if (_refund.gt(BigNumberZero)) {
@@ -154,17 +154,19 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	}
 
 	if (_rate.eq(BigNumberZero) || _balance.div(_rate).gt(hundredYears)) {
+		const time = Math.floor(nowTime - _lastSettled);
+		const _balanceUpdated = _balance.sub(_rate.mul(time));
 		//job is running and will never end
 		return {
 			...modifiedJob,
-			amountUsed: _totalDeposit.sub(_balance),
-			balance: _balance,
+			amountUsed: _totalDeposit.sub(_balanceUpdated),
+			balance: _balanceUpdated,
 			durationLeft: hundredYears * 2,
 			durationRun: nowTime - _createdAt,
 			endEpochTime: _lastSettled + hundredYears * 2,
 			live: true,
 			status: 'running',
-			amountToBeSettled: _totalDeposit.sub(_refund).sub(_totalSettledAmount)
+			amountToBeSettled: _totalDeposit.sub(_balanceUpdated).sub(_totalSettledAmount)
 		};
 	}
 

@@ -3,12 +3,16 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { BigNumberZero, pondPrecisions } from '$lib/utils/constants/constants';
 	import {
 		getDurationInSecondsForUnit,
 		kDurationUnitsList
 	} from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
+	import {
+		bigNumberToString,
+		stringToBigNumber,
+		bigNumberToCommaString
+	} from '$lib/utils/conversion';
 	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		computeCost,
@@ -127,7 +131,10 @@
 	$: inValidMessage = !cost
 		? ''
 		: invalidCost
-		? `Insufficient balance. Your current wallet has ${maxBalance} POND.`
+		? `Insufficient balance. Your current wallet has ${bigNumberToCommaString(
+				maxBalance,
+				pondPrecisions
+		  )} POND.`
 		: '';
 </script>
 

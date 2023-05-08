@@ -7,7 +7,7 @@
 
 	export let dataList: (string | number)[] = [];
 	export let searchValue: string | number | undefined = '';
-	export let setSearchValue: (value: string | number) => any;
+	export let setSearchValue: (value: string | number, exactMatch?: boolean) => any;
 	export let onSearchClick: (() => void) | undefined = undefined;
 
 	export let title: string;
@@ -32,7 +32,7 @@
 				.includes((searchValue ?? '').toString().toLowerCase())
 		);
 		showSuggestions = suggestions.length > 0;
-		await setSearchValue(searchValue);
+		await setSearchValue(searchValue, false);
 	};
 
 	const styles = {
@@ -64,7 +64,7 @@
 				{title}
 				{dataList}
 				bind:value={searchValue}
-				setValue={setSearchValue}
+				setValue={(value) => setSearchValue(value, true)}
 				bind:showSuggestions
 				bind:suggestions
 				id={selectId}

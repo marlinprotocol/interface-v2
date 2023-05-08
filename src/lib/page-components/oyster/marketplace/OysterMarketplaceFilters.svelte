@@ -20,7 +20,11 @@
 	let filterIdOrders: string[] = [];
 	$: allFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
 
-	const handleFilterData = (id: keyof OysterMarketplaceFilterModel, value: string | number) => {
+	const handleFilterData = (
+		id: keyof OysterMarketplaceFilterModel,
+		value: string | number,
+		exactMatch: boolean = false
+	) => {
 		onFilterClick();
 		if (value === 'All') {
 			delete filterMap[id];
@@ -33,7 +37,7 @@
 			...allFilters
 		};
 
-		filteredData = getSearchAndFilteredMarketplaceData(allMarketplaceData, filterMap);
+		filteredData = getSearchAndFilteredMarketplaceData(allMarketplaceData, filterMap, exactMatch);
 		const currentFilters = getAllFiltersListforMarketplaceData(filteredData);
 		allFilters = getUpdatedFiltersList(
 			previousFilters,
@@ -55,7 +59,7 @@
 		<SearchWithSelect
 			dataList={allFilters?.provider}
 			searchValue={filterMap.provider}
-			setSearchValue={(value) => handleFilterData('provider', value)}
+			setSearchValue={(value, exactMatch) => handleFilterData('provider', value, exactMatch)}
 			title={'Operator'}
 			showTitle={false}
 			placeholder={'Enter operator name or address'}
@@ -68,7 +72,7 @@
 			<SearchWithSelect
 				dataList={allFilters?.instance}
 				searchValue={filterMap.instance}
-				setSearchValue={(value) => handleFilterData('instance', value)}
+				setSearchValue={(value, exactMatch) => handleFilterData('instance', value, exactMatch)}
 				showTitle={false}
 				cardVariant={'search'}
 				title={'Instance'}
@@ -78,7 +82,7 @@
 			<SearchWithSelect
 				dataList={allFilters?.region}
 				searchValue={filterMap.region ?? ''}
-				setSearchValue={(value) => handleFilterData('region', value)}
+				setSearchValue={(value, exactMatch) => handleFilterData('region', value, exactMatch)}
 				title={'Region'}
 				placeholder={'Filter by Region'}
 				selectId={'marketplace-region-select'}
@@ -88,7 +92,7 @@
 			<SearchWithSelect
 				dataList={allFilters?.memory}
 				searchValue={filterMap.memory ?? ''}
-				setSearchValue={(value) => handleFilterData('memory', value)}
+				setSearchValue={(value, exactMatch) => handleFilterData('memory', value, exactMatch)}
 				title={'Memory'}
 				placeholder={'Filter by Memory'}
 				selectId={'marketplace-memory-select'}
@@ -98,7 +102,7 @@
 			<SearchWithSelect
 				dataList={allFilters?.vcpu}
 				searchValue={filterMap.vcpu ?? ''}
-				setSearchValue={(value) => handleFilterData('vcpu', value)}
+				setSearchValue={(value, exactMatch) => handleFilterData('vcpu', value, exactMatch)}
 				title={'vCPU'}
 				placeholder={'Filter by vCPU'}
 				selectId={'marketplace-vCPU-select'}

@@ -11,6 +11,7 @@
 	export let showSuggestions = false;
 	export let suggestions: (string | number)[] = [];
 	export let id: string;
+	let windowWidth: number;
 	let searchContainer: HTMLDivElement;
 
 	const handleClickOutside = (event: MouseEvent) => {
@@ -22,9 +23,6 @@
 	const handleToggleShowAllSuggestions = () => {
 		suggestions = dataList;
 		showSuggestions = !showSuggestions;
-		if (showSuggestions === true) {
-			positionDropdown();
-		}
 	};
 
 	const handleSuggestionClick = async (suggestion: string | number) => {
@@ -37,10 +35,9 @@
 		const button = document.getElementById(id);
 		const dropdown = document.getElementById(id + '-dropdown');
 		if (button && dropdown) {
-			const rect = button.getBoundingClientRect();
+			const buttonRect = button.getBoundingClientRect();
 			const dropdownRect = dropdown.getBoundingClientRect();
-			dropdown.style.top = `${rect.bottom}px`;
-			dropdown.style.left = `${rect.right - dropdownRect.width}px`;
+			dropdown.style.left = `${buttonRect.right - dropdownRect.width}px`;
 		}
 	}
 
@@ -53,7 +50,7 @@
 	});
 </script>
 
-<svelte:window on:click={handleClickOutside} />
+<svelte:window on:click={handleClickOutside} bind:innerWidth={windowWidth} />
 
 <div bind:this={searchContainer} class="w-fit search-container">
 	<CollapseButton

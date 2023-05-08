@@ -11,7 +11,6 @@
 		getSearchAndFilteredMarketplaceData,
 		getUpdatedFiltersList
 	} from '$lib/utils/helpers/oysterHelpers';
-	import TableFilter from './TableFilter.svelte';
 
 	export let filterMap: Record<string, string | number> = {};
 	export let allMarketplaceData: OysterMarketplaceDataModel[];

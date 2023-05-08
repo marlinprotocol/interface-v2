@@ -4,7 +4,6 @@ import {
 	cancelRateReviseOysterJob,
 	createNewOysterJob,
 	finaliseRateReviseOysterJob,
-	// finaliseRateReviseOysterJob,
 	initiateRateReviseOysterJob,
 	settleOysterJob,
 	stopOysterJob,
@@ -23,20 +22,21 @@ const nowTime = Date.now() / 1000;
 export async function handleClaimAmountFromOysterJob(jobId: Bytes) {
 	try {
 		await settleOysterJob(jobId);
-		// oysterStore.update((value: OysterStore) => {
-		// 	return {
-		// 		...value,
-		// 		jobsData: value.jobsData.map((job) => {
-		// 			if (job.id === jobId) {
-		// 				return {
-		// 					...job,
-		// 					amountToBeSettled: BigNumberZero
-		// 				};
-		// 			}
-		// 			return job;
-		// 		})
-		// 	};
-		// });
+		oysterStore.update((value: OysterStore) => {
+			return {
+				...value,
+				merchantJobsData: value.merchantJobsData.map((job) => {
+					if (job.id === jobId) {
+						console.log('job :>> ', job);
+						return {
+							...job,
+							amountToBeSettled: BigNumberZero
+						};
+					}
+					return job;
+				})
+			};
+		});
 	} catch (e) {
 		console.log('e :>> ', e);
 	}

@@ -9,7 +9,7 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
-	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
+	import { maxDecimals, oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToCommaString, epochToDurationString } from '$lib/utils/conversion';
 	import {
@@ -90,7 +90,9 @@
 			{region}
 		</td>
 		<td class={tableCellClasses.rowNormal}>
-			{symbol}{convertRateToPerHourString(rate)}
+			<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate, maxDecimals)}`}>
+				{symbol}{convertRateToPerHourString(rate)}
+			</Tooltip>
 		</td>
 		<td class={tableCellClasses.rowNormal}>
 			{vcpu ? vcpu : 'N/A'}
@@ -99,7 +101,9 @@
 			{memory ? memory : 'N/A'}
 		</td>
 		<td class={tableCellClasses.rowNormal}>
-			{symbol}{bigNumberToCommaString(balance, oysterAmountPrecision)}
+			<Tooltip tooltipText={`${symbol}${bigNumberToCommaString(balance, maxDecimals)}`}>
+				{symbol}{bigNumberToCommaString(balance, oysterAmountPrecision)}
+			</Tooltip>
 		</td>
 		<td class={tableCellClasses.rowNormal}>
 			<Timer {endEpochTime}>

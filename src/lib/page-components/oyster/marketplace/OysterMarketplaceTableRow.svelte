@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
+	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
+	import { maxDecimals } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { convertRateToPerHourString } from '$lib/utils/helpers/oysterHelpers';
 	import CreateOrderModal from '../inventory/modals/CreateOrderModal.svelte';
@@ -43,7 +45,9 @@
 		{region}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		{symbol}{convertRateToPerHourString(rate)}
+		<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate, maxDecimals)}`}>
+			{symbol}{convertRateToPerHourString(rate)}
+		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		{vcpu ? vcpu : 'N/A'}

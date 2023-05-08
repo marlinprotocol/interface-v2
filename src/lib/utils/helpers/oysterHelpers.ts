@@ -11,10 +11,10 @@ import { kOysterRateMetaData } from '../constants/oysterConstants';
 import { bigNumberToCommaString } from '../conversion';
 import { addToast } from '$lib/data-stores/toastStore';
 
-export const convertRateToPerHourString = (rate: BigNumber) => {
+export const convertRateToPerHourString = (rate: BigNumber, decimal = oysterAmountPrecision) => {
 	const { rateUnitInSeconds } = kOysterRateMetaData;
 	const rateInHour = rate.mul(rateUnitInSeconds);
-	return bigNumberToCommaString(rateInHour, oysterAmountPrecision);
+	return bigNumberToCommaString(rateInHour, decimal);
 };
 
 export const convertHourlyRateToSecondlyRate = (rate: BigNumber) => {

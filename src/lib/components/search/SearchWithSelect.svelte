@@ -38,7 +38,7 @@
 	const styles = {
 		rowWrapper: 'flex items-center justify-between',
 		titleIcon: 'flex items-center gap-1',
-		inputSearch: inputClasses.inputText
+		inputSearch: inputClasses.searchInputText
 	};
 </script>
 

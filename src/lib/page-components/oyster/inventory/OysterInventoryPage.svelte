@@ -94,6 +94,7 @@
 		{loading}
 		noDataFound={paginatedData?.length ? false : true}
 		headingWidth={'w-36'}
+		emptyTableMessage={'You do not have any active orders.'}
 	>
 		{#if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex (rowData.id)}

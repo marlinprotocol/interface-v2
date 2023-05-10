@@ -76,6 +76,7 @@
 			});
 			registeredCpURL = updatedCpURL;
 			registered = true;
+			disableCpURL = true;
 		} else {
 			addToast({
 				variant: 'error',
@@ -137,7 +138,7 @@
 	}
 
 	// Define the debounced version of getInstances
-	const debouncedGetInstances = debounce(getInstances, 3000);
+	const debouncedGetInstances = debounce(getInstances, 4000);
 
 	$: if (updatedCpURL !== registeredCpURL) {
 		enableRegisterButton = false;
@@ -154,6 +155,12 @@
 			enableRegisterButton = true;
 		})
 		.catch((error) => (enableRegisterButton = false));
+
+	$: if (registeredCpURL === '') {
+		disableCpURL = false;
+	} else {
+		disableCpURL = true;
+	}
 </script>
 
 <ContainerCard>
@@ -162,7 +169,7 @@
 		<div class="text-left text-grey-700 flex flex-col gap-1 mt-2 mb-4">
 			<div class="flex gap-2 items-center">
 				<Text variant="body" text="Quick access:" />
-				<a href={kOysterDocLink}>
+				<a href={kOysterDocLink} target="_blank">
 					<Text styleClass={styles.docButton} fontWeight="font-medium" text="Documentation" />
 				</a>
 				<div class={dividerClasses.vertical} />
@@ -222,7 +229,7 @@
 			errorMessage={'Uh-oh seems like the url you entered is incorrect.'}
 		/>
 	{/await}
-	<InstancesTable {validCPUrl} tableData={instances} />
+	<InstancesTable {validCPUrl} bind:tableData={instances} />
 
 	<div class="mt-4" />
 	{#if $connected}

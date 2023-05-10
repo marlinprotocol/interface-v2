@@ -12,6 +12,7 @@
 	export let tableHeading: TableModel['header'][];
 	export let headingWidth: string | undefined = undefined;
 	export let walletConnectionRequired = true;
+	export let emptyTableMessage = 'No data found!';
 </script>
 
 <div class={`card max-w-full bg-base-100 rounded-lg`}>
@@ -37,7 +38,7 @@
 		</Table>
 		{#if noDataFound}
 			<div class={tableCellClasses.empty + ' mb-8'}>
-				{'No data found!'}
+				{emptyTableMessage}
 			</div>
 		{/if}
 	{/if}

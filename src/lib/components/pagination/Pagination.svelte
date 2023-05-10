@@ -30,7 +30,7 @@
 		/>
 	</button>
 	{#each pageArray as page}
-		{#if page > activePage - 3 && page < activePage + 3}
+		{#if page > activePage - 4 && page < activePage + 4}
 			<button
 				disabled={page === activePage}
 				class={`${buttonClasses.paginationButton} ${page === activePage ? 'text-primary' : ''}`}

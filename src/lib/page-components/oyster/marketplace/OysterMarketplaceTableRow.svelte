@@ -53,7 +53,7 @@
 		{vcpu ? vcpu : 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		{memory ? memory : 'N/A'}
+		{memory ? `${memory} GiB` : 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		<TableConvertButton

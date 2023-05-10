@@ -84,6 +84,7 @@
 	tableHeading={kOysterMerchantJobTableHeader}
 	{loading}
 	noDataFound={paginatedData?.length ? false : true}
+	emptyTableMessage={'No jobs found.'}
 >
 	{#if paginatedData?.length}
 		{#each paginatedData as rowData, rowIndex (rowData.id)}

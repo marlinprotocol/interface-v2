@@ -17,13 +17,12 @@
 	};
 
 	export let tableData: Promise<CPUrlDataModel[]> = Promise.resolve([]);
+	export let isOpen = false;
 	export let validCPUrl = false;
-
-	let isOpen = false;
 </script>
 
 <InputCardWithEndButton styleClass={'mt-4 p'} title={'Details'}>
-	{#if isOpen || validCPUrl}
+	{#if isOpen}
 		<div
 			transition:slide={{ duration: 400 }}
 			class="bg-white rounded mt-4 w-full max-h-40 overflow-y-auto overflow-x-hidden"

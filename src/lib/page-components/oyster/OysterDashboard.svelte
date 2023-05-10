@@ -43,6 +43,8 @@
 	let registered = false;
 	let disableCpURL = true;
 
+	let openInstanceTable = false;
+
 	const unsubscribeWalletStore = walletStore.subscribe((value) => {
 		displayAddress = value.address;
 	});
@@ -153,8 +155,12 @@
 	$: instances
 		.then((data) => {
 			enableRegisterButton = true;
+			openInstanceTable = true;
 		})
-		.catch((error) => (enableRegisterButton = false));
+		.catch((error) => {
+			enableRegisterButton = false;
+			openInstanceTable = true;
+		});
 
 	$: if (registeredCpURL === '') {
 		disableCpURL = false;
@@ -229,7 +235,7 @@
 			errorMessage={'Uh-oh seems like the url you entered is incorrect.'}
 		/>
 	{/await}
-	<InstancesTable {validCPUrl} bind:tableData={instances} />
+	<InstancesTable isOpen={openInstanceTable} {validCPUrl} bind:tableData={instances} />
 
 	<div class="mt-4" />
 	{#if $connected}

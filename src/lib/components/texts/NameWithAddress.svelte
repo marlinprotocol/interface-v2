@@ -22,11 +22,11 @@
 	const bgColor = getColorHexForTableRow(rowIndex);
 </script>
 
-<div class="flex gap-2 items-center justify-center ml-4">
+<div class="flex items-center justify-center ml-4">
 	<div>
 		{#if rowIndex > -1}
 			<div
-				class="w-[32px] h-[32px] bg-primary rounded text-sm font-medium text-white flex flex-col justify-center"
+				class="w-[32px] h-[32px] mr-4 bg-primary rounded-md text-sm font-medium text-white flex flex-col justify-center"
 				style="background-color:{bgColor};"
 			>
 				{startLetters}
@@ -36,7 +36,7 @@
 	<div class="overflow-hidden">
 		<Text variant="body" fontWeight="font-medium" text={name} styleClass="truncate" />
 
-		<div class="flex gap-1 items-center justify-center w-40">
+		<div class="flex gap-1 items-center w-40">
 			<Text
 				variant={name ? 'tiny' : 'body'}
 				styleClass={name ? 'text-grey' : ''}

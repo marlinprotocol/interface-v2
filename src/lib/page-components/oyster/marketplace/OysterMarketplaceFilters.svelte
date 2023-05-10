@@ -67,6 +67,7 @@
 			styleClass={'w-full'}
 			onSearchClick={onFilterClick}
 			selectId={'marketplace-provider-select'}
+			isTableFilter={true}
 		/>
 		<div class="flex gap-4 items-center mt-4 flex-col md:flex-row">
 			<SearchWithSelect
@@ -78,6 +79,7 @@
 				title={'Instance'}
 				placeholder={'Select Instance'}
 				selectId={'marketplace-instance-select'}
+				isTableFilter={true}
 			/>
 			<SearchWithSelect
 				dataList={allFilters?.region}
@@ -88,6 +90,7 @@
 				selectId={'marketplace-region-select'}
 				showTitle={false}
 				cardVariant={'search'}
+				isTableFilter={true}
 			/>
 			<SearchWithSelect
 				dataList={allFilters?.memory}
@@ -98,6 +101,7 @@
 				selectId={'marketplace-memory-select'}
 				showTitle={false}
 				cardVariant={'search'}
+				isTableFilter={true}
 			/>
 			<SearchWithSelect
 				dataList={allFilters?.vcpu}
@@ -108,6 +112,7 @@
 				selectId={'marketplace-vCPU-select'}
 				showTitle={false}
 				cardVariant={'search'}
+				isTableFilter={true}
 			/>
 		</div>
 	</div>

@@ -18,6 +18,7 @@
 	export let cardVariant: InputCardVariant | undefined = 'primary';
 	export let disabled = false;
 	export let selectId: string;
+	export let isTableFilter = false;
 
 	let suggestions: (string | number)[] = [];
 	let showSuggestions = false;
@@ -38,6 +39,7 @@
 	const styles = {
 		rowWrapper: 'flex items-center justify-between',
 		titleIcon: 'flex items-center gap-1',
+		inputSearchBold: inputClasses.inputText,
 		inputSearch: inputClasses.searchInputText
 	};
 </script>
@@ -53,7 +55,7 @@
 		{/if}
 		<div class="flex items-center">
 			<input
-				class={styles.inputSearch}
+				class={isTableFilter ? styles.inputSearch : styles.inputSearchBold}
 				{placeholder}
 				value={searchValue ?? ''}
 				on:input={handleSearch}

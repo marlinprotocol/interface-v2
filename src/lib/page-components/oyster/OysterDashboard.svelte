@@ -162,7 +162,7 @@
 		<div class="text-left text-grey-700 flex flex-col gap-1 mt-2 mb-4">
 			<div class="flex gap-2 items-center">
 				<Text variant="body" text="Quick access:" />
-				<a href={kOysterDocLink}>
+				<a href={kOysterDocLink} target="_blank">
 					<Text styleClass={styles.docButton} fontWeight="font-medium" text="Documentation" />
 				</a>
 				<div class={dividerClasses.vertical} />

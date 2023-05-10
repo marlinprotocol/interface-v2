@@ -37,7 +37,7 @@
 		if (button && dropdown) {
 			const buttonRect = button.getBoundingClientRect();
 			const dropdownRect = dropdown.getBoundingClientRect();
-			dropdown.style.left = `${buttonRect.right - dropdownRect.width}px`;
+			dropdown.style.left = `${buttonRect.right + 24 - dropdownRect.width}px`;
 		}
 	}
 
@@ -63,7 +63,7 @@
 	{#if showSuggestions && suggestions.length > 0}
 		<ul
 			id={id + '-dropdown'}
-			class={`absolute z-10 min-w-[150px] w-fit right-0 text-base bg-white rounded-md border border-gray-300 shadow-lg max-h-72 overflow-y-auto focus:outline-none sm:text-sm `}
+			class={`absolute z-10 min-w-[150px] w-fit mt-3.5 text-base bg-white rounded-md border border-gray-300 shadow-lg max-h-72 overflow-y-auto focus:outline-none sm:text-sm `}
 		>
 			<div class="flex justify-between px-8 py-4 items-center">
 				<Text variant="small" styleClass="" fontWeight="font-semibold" text={title ?? 'Select'} />

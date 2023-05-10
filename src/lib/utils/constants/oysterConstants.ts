@@ -380,7 +380,7 @@ export const kOysterMarketplaceTableHeader: TableModel['header'][] = [
 ];
 
 export const kOysterDocLink = 'https://docs.marlin.org/docs/User%20Guides/Oyster/';
-export const kOysterSupportLink = 'https://docs.marlin.org/docs/category/tutorials';
+export const kOysterSupportLink = 'https://discord.gg/xqJfSGY6gR';
 
 export const kDurationUnitsList = [
 	{

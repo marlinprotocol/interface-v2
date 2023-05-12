@@ -46,7 +46,7 @@ contractAddressStore.subscribe((value) => {
  */
 // disabling eslint for this as variables can be query specific
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function subgraphQueryWrapper(query: string, variables: Record<string, any>): RequestInit {
+export function subgraphQueryWrapper(query: string, variables: Record<string, any>): RequestInit {
 	const options = {
 		method: 'POST',
 		body: JSON.stringify({

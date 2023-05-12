@@ -4,15 +4,12 @@
 	import ENVIRONMENT from '$lib/environments/environment';
 	import { onMount } from 'svelte';
 	import '../app.css';
-	import { getContractDetails } from '$lib/controllers/httpController';
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
-
 	onMount(async () => {
 		// removes console logs in production
 		if (ENVIRONMENT.production) {
 			window.console.log = function () {};
 		}
-		await getContractDetails();
 	});
 </script>
 

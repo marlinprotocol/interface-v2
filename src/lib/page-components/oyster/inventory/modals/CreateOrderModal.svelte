@@ -104,7 +104,7 @@
 
 		const { vcpu, memory } = getvCpuMemoryData(jobValues.instance.value);
 		const metadata = JSON.stringify({
-			instanceType: jobValues.instance.value,
+			instance: jobValues.instance.value,
 			region: jobValues.region.value,
 			memory: memory ?? '',
 			vcpu: vcpu ?? '',

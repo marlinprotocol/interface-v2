@@ -1,6 +1,5 @@
 <script>
 	import {
-		getAllProvidersDetailsFromSubgraph,
 		getApprovedOysterAllowances,
 		getOysterJobs,
 		getProviderDetailsFromSubgraph
@@ -8,24 +7,11 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 
-	async function loadMarketplaceData() {
-		const allMarketplaceData = await getAllProvidersDetailsFromSubgraph();
-		// console.log('Oyster Data Fetch - allMarketplaceData:>> ', allMarketplaceData);
-		oysterStore.update((store) => {
-			return {
-				...store,
-				allMarketplaceData,
-				marketplaceLoaded: true
-			};
-		});
-	}
-
 	async function loadConnectedData() {
 		const [allowance, oysterJobs, providerDetail] = await Promise.all([
 			getApprovedOysterAllowances($walletStore.address),
 			getOysterJobs($walletStore.address),
-			getProviderDetailsFromSubgraph($walletStore.address),
-			getAllProvidersDetailsFromSubgraph()
+			getProviderDetailsFromSubgraph($walletStore.address)
 		]);
 
 		// console.log('Existing Oyster Data - ', $oysterStore);
@@ -46,7 +32,6 @@
 		});
 	}
 
-	loadMarketplaceData();
 	$: if ($connected) {
 		loadConnectedData();
 	}

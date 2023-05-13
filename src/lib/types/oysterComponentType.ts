@@ -32,6 +32,7 @@ export interface OysterMarketplaceDataModel extends CPUrlDataModel {
 		address: string;
 	};
 	id: string;
+	regionName: string;
 }
 
 export interface OysterMarketplaceFilterModel extends CPUrlDataModel {

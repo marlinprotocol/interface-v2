@@ -28,12 +28,13 @@ export const load = (async ({ fetch }) => {
 		}
 
 		const allMarketplaceData = await getOysterProvidersModified(providers);
-		console.log('allMarketplaceData', allMarketplaceData);
+
+		// mapping region names to region ids, may be we can do this in subgraph itself
 		const allMarketplaceDataWithRegionName = addRegionNameToObjectArray(
 			allMarketplaceData,
 			regionNameConstants
 		);
-		console.log(allMarketplaceDataWithRegionName);
+
 		// updating stores instead of returning data as we don't need to show this data explicitly
 		oysterStore.update((store) => {
 			return {

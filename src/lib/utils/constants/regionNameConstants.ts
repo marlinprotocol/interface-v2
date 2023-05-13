@@ -27,5 +27,12 @@ export const regionNameConstants = {
 	'eu-central-2': 'Europe (Zurich)',
 	'me-south-1': 'Middle East (Bahrain)',
 	'me-central-1': 'Middle East (UAE)',
-	'sa-east-1': 'South America (Sao Paulo)'
+	'sa-east-1': 'South America (Sao Paulo)',
+	'us-east-1-phl-1': 'Idk 1',
+	'us-east-1-dfw-1': 'Idk 2',
+	'us-east-1-nyc-1': 'Idk 3',
+	'us-west-2-sea-1': 'Idk 4',
+	'us-east-1-atl-1': 'Idk 5',
+	'us-west-2-lax-1': 'Idk 6',
+	'us-west-2-den-1': 'Idk 7'
 };

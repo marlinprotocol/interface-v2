@@ -275,7 +275,7 @@ export const sortOysterMarketplace = (
 export const getSearchAndFilteredMarketplaceData = (
 	allMarketplaceData: OysterMarketplaceDataModel[],
 	filterMap: Partial<OysterMarketplaceFilterModel>,
-	exactMatch: boolean = false
+	exactMatch = false
 ) => {
 	// for provider, we are checking substring match and need do check on both name and address
 	if (filterMap.provider) {
@@ -293,8 +293,9 @@ export const getSearchAndFilteredMarketplaceData = (
 		const value = filterMap.region.toLowerCase();
 		allMarketplaceData = allMarketplaceData.filter((item) => {
 			return exactMatch
-				? item.region.toLowerCase() === value
-				: item.region.toLowerCase().includes(value);
+				? item.region.toLowerCase() === value || item.regionName.toLowerCase() === value
+				: item.region.toLowerCase().includes(value) ||
+						item.regionName.toLowerCase().includes(value);
 		});
 	}
 
@@ -385,7 +386,12 @@ export function getAllFiltersListforMarketplaceData(
 	const providers = filteredData.map((item) =>
 		item.provider.name && item.provider.name != '' ? item.provider.name : item.provider.address
 	);
-	const regions = filteredData.map((item) => item.region);
+	// array of arrays where the first element is the region name and the second element is the region code
+	const regions = filteredData.map((item) => [item.regionName, item.region]);
+	// remove duplicate regions
+	const filteredRegions = regions.filter(
+		(region, index, self) => index === self.findIndex((t) => t[1] === region[1])
+	);
 	const instances = filteredData.map((item) => item.instance);
 	const vcpus = filteredData
 		.map((item) => item.vcpu ?? 0)
@@ -401,14 +407,14 @@ export function getAllFiltersListforMarketplaceData(
 		allMarketplaceData: filteredData,
 		provider: addAllToList(providers, addAllOption),
 		instance: addAllToList(instances, addAllOption),
-		region: addAllToList(regions, addAllOption),
+		region: addAllToList(filteredRegions, addAllOption),
 		vcpu: addAllToList(vcpus, addAllOption),
 		memory: addAllToList(memories, addAllOption)
 		// rate: addAllToList(rates, addAllOption)
 	} as OysterFiltersModel;
 }
 
-const addAllToList = (data: (string | number)[], addAllOption: boolean) => {
+const addAllToList = (data: (string | number | string[])[], addAllOption: boolean) => {
 	const setData = [...new Set(data)];
 	if (!addAllOption || setData.length === 0) return setData;
 	return ['All', ...setData];
@@ -479,4 +485,17 @@ export const computeDuration = (durationString: string, durationUnitInSec: numbe
 export const computeDurationString = (duration: number | undefined, durationUnitInSec: number) => {
 	if (!duration || duration === 0 || durationUnitInSec === 0) return '';
 	return Math.floor(duration / durationUnitInSec).toString();
+};
+
+export const addRegionNameToObjectArray = (objArray: any[], mapping: Record<string, string>) => {
+	const newArray = objArray.map((obj) => {
+		const region = obj.region;
+		const regionName = mapping[region];
+		if (regionName) {
+			return { ...obj, regionName };
+		} else {
+			return obj;
+		}
+	});
+	return newArray;
 };

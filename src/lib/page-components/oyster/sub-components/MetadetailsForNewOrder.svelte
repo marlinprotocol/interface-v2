@@ -55,7 +55,7 @@
 		jobValues.region.isDirty = true;
 		if (value == '') {
 			jobValues.region.error = 'Region is required';
-		} else if (filters.region?.indexOf(value.toString()) == -1) {
+		} else if (!filters.region?.some(([_, region]) => region === value)) {
 			jobValues.region.error = `${value} is not a valid Region`;
 		} else {
 			jobValues.region.error = '';

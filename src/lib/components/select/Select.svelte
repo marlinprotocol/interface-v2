@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import { afterUpdate, onDestroy, onMount } from 'svelte';
+	import { afterUpdate } from 'svelte';
 	import CollapseButton from '../buttons/CollapseButton.svelte';
 
 	export let dataList: (string | number)[] = [];
@@ -9,7 +9,7 @@
 	export let value: string | number | undefined = '';
 	export let setValue: ((value: string | number) => any) | undefined = undefined;
 	export let showSuggestions = false;
-	export let suggestions: (string | number)[] = [];
+	export let suggestions: (string | number)[] | string[][] = [];
 	export let id: string;
 	let windowWidth: number;
 	let searchContainer: HTMLDivElement;
@@ -22,13 +22,15 @@
 
 	const handleToggleShowAllSuggestions = () => {
 		suggestions = dataList;
+		console.log('suggestions', suggestions, typeof suggestions);
 		showSuggestions = !showSuggestions;
 	};
 
-	const handleSuggestionClick = async (suggestion: string | number) => {
+	const handleSuggestionClick = async (suggestion: string | number | Array<string>) => {
 		showSuggestions = false;
-		value = suggestion;
-		await setValue?.(suggestion);
+		value =
+			typeof suggestion === 'string' || typeof suggestion === 'number' ? suggestion : suggestion[1];
+		await setValue?.(value);
 	};
 
 	function positionDropdown() {
@@ -71,7 +73,13 @@
 			{#each suggestions as suggestion}
 				<li
 					class={`px-8 py-3 cursor-pointer hover:bg-gray-100 text-left  ${
-						suggestion === value ? 'bg-blue-50' : 'bg-white'
+						Array.isArray(suggestion)
+							? suggestion[1] === value
+								? 'bg-blue-50'
+								: 'bg-white'
+							: suggestion === value
+							? 'bg-blue-50'
+							: 'bg-white'
 					}`}
 					on:click={() => handleSuggestionClick(suggestion)}
 					on:keydown={(event) => {
@@ -80,9 +88,20 @@
 						}
 					}}
 				>
-					<label for="checkbox-item-12" class={`w-full text-sm font-medium`}>
-						{suggestion}
-					</label>
+					<!-- if the suggestion list has an array/object for displaying suggestions. Eg. region select-->
+					{#if Array.isArray(suggestion)}
+						<label
+							for="checkbox-item-12"
+							class={`w-full flex justify-between items-baseline text-sm font-medium min-w-[320px]`}
+						>
+							<span>{suggestion[0]}</span>
+							<span class="text-xs font-normal">{suggestion[1]}</span>
+						</label>
+					{:else}
+						<label for="checkbox-item-12" class={`w-full text-sm font-medium`}>
+							{suggestion}
+						</label>
+					{/if}
 				</li>
 			{/each}
 		</ul>

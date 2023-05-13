@@ -6,6 +6,8 @@ import { getOysterProvidersModified } from '$lib/utils/data-modifiers/oysterModi
 import { get } from 'svelte/store';
 import type { LayoutLoad } from '../$types';
 import { subgraphQueryWrapper } from '$lib/controllers/subgraphController';
+import { addRegionNameToObjectArray } from '$lib/utils/helpers/oysterHelpers';
+import { regionNameConstants } from '$lib/utils/constants/regionNameConstants';
 
 export const load = (async ({ fetch }) => {
 	try {
@@ -26,11 +28,18 @@ export const load = (async ({ fetch }) => {
 		}
 
 		const allMarketplaceData = await getOysterProvidersModified(providers);
+
+		// mapping region names to region ids, may be we can do this in subgraph itself
+		const allMarketplaceDataWithRegionName = addRegionNameToObjectArray(
+			allMarketplaceData,
+			regionNameConstants
+		);
+
 		// updating stores instead of returning data as we don't need to show this data explicitly
 		oysterStore.update((store) => {
 			return {
 				...store,
-				allMarketplaceData,
+				allMarketplaceData: allMarketplaceDataWithRegionName,
 				marketplaceLoaded: true
 			};
 		});

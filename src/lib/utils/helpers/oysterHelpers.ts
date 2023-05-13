@@ -480,3 +480,16 @@ export const computeDurationString = (duration: number | undefined, durationUnit
 	if (!duration || duration === 0 || durationUnitInSec === 0) return '';
 	return Math.floor(duration / durationUnitInSec).toString();
 };
+
+export const addRegionNameToObjectArray = (objArray: any[], mapping: Record<string, string>) => {
+	const newArray = objArray.map((obj) => {
+		const region = obj.region;
+		const regionName = mapping[region];
+		if (regionName) {
+			return { ...obj, regionName };
+		} else {
+			return obj;
+		}
+	});
+	return newArray;
+};

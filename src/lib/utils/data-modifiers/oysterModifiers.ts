@@ -17,12 +17,12 @@ export const parseMetadata = (metadata: string) => {
 	metadata = metadata.replaceAll('\\', '');
 
 	const metadataParsed = metadata ? JSON.parse(metadata) : {};
-	const { url, instanceType, region } = metadataParsed ?? {};
-	const { vcpu, memory } = getvCpuMemoryData(instanceType);
+	const { url, instance, region } = metadataParsed ?? {};
+	const { vcpu, memory } = getvCpuMemoryData(instance);
 
 	return {
 		enclaveUrl: url,
-		instance: instanceType,
+		instance,
 		region,
 		vcpu,
 		memory

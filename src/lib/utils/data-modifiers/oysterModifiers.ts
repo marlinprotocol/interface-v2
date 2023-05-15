@@ -209,7 +209,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 
 export async function getOysterProvidersModified(providers: any[]) {
 	if (!providers?.length) return [];
-	const { rateUnitInSeconds } = kOysterRateMetaData;
+	const { rateCPUrlUnitInSeconds } = kOysterRateMetaData;
 	//fetch all providers name and instances
 	const [allNames, allInstances] = await Promise.all([
 		getProvidersNameJSON(),
@@ -221,10 +221,10 @@ export async function getOysterProvidersModified(providers: any[]) {
 		const instances = getModifiedInstances(allInstances[provider.id]);
 		instances?.forEach((instance: any, index: number) => {
 			//rate is hourly rate so convert it to per second rate
-			const hourlyRate = instance.rate ? BigNumber.from(instance.rate) : BigNumberZero;
+			const rateFromCPUrl = instance.rate ? BigNumber.from(instance.rate) : BigNumberZero;
 			ret.push({
 				...instance,
-				rate: hourlyRate.div(rateUnitInSeconds),
+				rate: rateFromCPUrl.div(rateCPUrlUnitInSeconds),
 				provider: {
 					name: allNames[provider.id] ?? '',
 					address: provider.id

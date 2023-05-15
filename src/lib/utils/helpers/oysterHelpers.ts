@@ -1,3 +1,4 @@
+import { addToast } from '$lib/data-stores/toastStore';
 import type {
 	OysterFiltersModel,
 	OysterInventoryDataModel,
@@ -6,20 +7,18 @@ import type {
 } from '$lib/types/oysterComponentType';
 import type { BigNumber } from 'ethers';
 import { BigNumberZero, oysterAmountPrecision } from '../constants/constants';
-import { isInputAmountValid } from './commonHelper';
-import { kOysterRateMetaData } from '../constants/oysterConstants';
 import { bigNumberToCommaString } from '../conversion';
-import { addToast } from '$lib/data-stores/toastStore';
+import { isInputAmountValid } from './commonHelper';
+
+const secondsInHour = 3600;
 
 export const convertRateToPerHourString = (rate: BigNumber, decimal = oysterAmountPrecision) => {
-	const { rateUnitInSeconds } = kOysterRateMetaData;
-	const rateInHour = rate.mul(rateUnitInSeconds);
+	const rateInHour = rate.mul(secondsInHour);
 	return bigNumberToCommaString(rateInHour, decimal);
 };
 
 export const convertHourlyRateToSecondlyRate = (rate: BigNumber) => {
-	const { rateUnitInSeconds } = kOysterRateMetaData;
-	return rate.div(rateUnitInSeconds);
+	return rate.div(secondsInHour);
 };
 
 export const getSearchedInventoryData = (

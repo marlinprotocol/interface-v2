@@ -13,7 +13,7 @@ export const kOysterRateMetaData = {
 	symbol: '$',
 	decimal: 18,
 	rateUnit: 'hour',
-	rateUnitInSeconds: 3600, // 1 hour
+	rateCPUrlUnitInSeconds: 1, // 1 hour
 	rateReviseWaitingTime: 5 * 60 // 5 minutes
 };
 

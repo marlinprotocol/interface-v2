@@ -141,6 +141,7 @@
 	const resetInputs = () => {
 		handleMerchantChange();
 		submitLoading = false;
+		rate = undefined;
 		jobValues = {
 			merchant: {
 				...initialStates.merchant
@@ -172,23 +173,26 @@
 	);
 	$: approved = cost && approvedAmount?.gte(cost) && cost.gt(BigNumberZero);
 
+	$: rateDisabled =
+		jobValues.merchant.error ||
+		jobValues.merchant.value == '' ||
+		jobValues.region.error ||
+		jobValues.region.value == '' ||
+		jobValues.instance.error ||
+		jobValues.instance.value == '';
 	$: submitEnable =
 		duration &&
 		cost?.gt(BigNumberZero) &&
 		rate &&
 		!invalidCost &&
 		validEnclaveUrl &&
-		!jobValues.merchant.error &&
-		jobValues.merchant.value != '' &&
-		!jobValues.region.error &&
-		jobValues.region.value != '' &&
-		!jobValues.instance.error &&
-		jobValues.instance.value != '' &&
+		rateDisabled &&
 		jobValues.enclaveImageUrl.value != '';
 	$: validEnclaveUrl =
 		jobValues.enclaveImageUrl.value !== undefined && jobValues.enclaveImageUrl.value !== ''
 			? checkValidURL(jobValues.enclaveImageUrl.value)
 			: true;
+
 	const subtitle =
 		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';
 	const styles = {
@@ -220,6 +224,7 @@
 				bind:rate
 				bind:costString
 				selectId="create-order-duration-unit-select"
+				rateEditable={!rateDisabled}
 			/>
 			<TextInputWithEndButton
 				styleClass={styles.inputText}

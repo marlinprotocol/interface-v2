@@ -22,7 +22,7 @@
 </script>
 
 <InputCardWithEndButton styleClass={'mt-4 p'} title={'Details'}>
-	{#if isOpen}
+	{#if isOpen && $connected}
 		<div
 			transition:slide={{ duration: 400 }}
 			class="bg-white rounded mt-4 w-full max-h-40 overflow-y-auto overflow-x-hidden"

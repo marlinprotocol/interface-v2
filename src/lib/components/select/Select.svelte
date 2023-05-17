@@ -22,7 +22,6 @@
 
 	const handleToggleShowAllSuggestions = () => {
 		suggestions = dataList;
-		console.log('suggestions', suggestions, typeof suggestions);
 		showSuggestions = !showSuggestions;
 	};
 

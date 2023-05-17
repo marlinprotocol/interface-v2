@@ -154,8 +154,13 @@
 			: debouncedGetInstances(false);
 	$: instances
 		.then((data) => {
-			enableRegisterButton = true;
-			openInstanceTable = true;
+			if (data.length > 0) {
+				enableRegisterButton = true;
+				openInstanceTable = true;
+			} else {
+				enableRegisterButton = false;
+				openInstanceTable = false;
+			}
 		})
 		.catch((error) => {
 			enableRegisterButton = false;
@@ -166,6 +171,9 @@
 		disableCpURL = false;
 	} else {
 		disableCpURL = true;
+	}
+	$: if (!$connected) {
+		updatedCpURL = '';
 	}
 </script>
 

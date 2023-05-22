@@ -23,7 +23,7 @@
 	const handleFilterData = (
 		id: keyof OysterMarketplaceFilterModel,
 		value: string | number,
-		exactMatch: boolean = false
+		exactMatch = false
 	) => {
 		onFilterClick();
 		if (value === 'All') {

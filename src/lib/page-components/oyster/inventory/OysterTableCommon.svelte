@@ -6,7 +6,7 @@
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { TableModel } from '$lib/types/componentTypes';
 
-	export let loading: boolean = false;
+	export let loading = false;
 	export let handleSortData: (id: string) => void;
 	export let noDataFound: boolean;
 	export let tableHeading: TableModel['header'][];

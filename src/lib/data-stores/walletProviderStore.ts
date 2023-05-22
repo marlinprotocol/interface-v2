@@ -3,11 +3,9 @@ import type {
 	Address,
 	ReceiverStakingData,
 	WalletBalance,
-	WalletOptions,
 	WalletStore
 } from '$lib/types/storeTypes';
 import { DEFAULT_WALLET_BALANCE, DEFAULT_WALLET_STORE } from '$lib/utils/constants/storeDefaults';
-import { WALLET_TYPE } from '$lib/utils/constants/constants';
 import {
 	getMPondBalance,
 	getPondBalance,
@@ -15,11 +13,6 @@ import {
 } from '$lib/controllers/subgraphController';
 import { receiverStakingStore } from './receiverStakingStore';
 import { addToast } from './toastStore';
-
-export const walletOptions: WalletOptions = [
-	{ id: 1, provider: WALLET_TYPE.metamask },
-	{ id: 2, provider: WALLET_TYPE.walletconnect }
-];
 
 let walletAddress: Address = DEFAULT_WALLET_STORE.address;
 

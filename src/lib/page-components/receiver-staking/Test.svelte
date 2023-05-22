@@ -5,7 +5,6 @@
 		depositStakingToken,
 		withdrawStakingToken
 	} from '$lib/controllers/contractController';
-	import { getContractDetails } from '$lib/controllers/httpController';
 	import { getReceiverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
@@ -46,10 +45,6 @@
 	const unsubscribeContractAddressStore: Unsubscriber = contractAddressStore.subscribe((value) => {
 		contractAddressDetails = value;
 	});
-
-	function fetchContractDetails() {
-		getContractDetails();
-	}
 
 	function onClickHandlerForToastError() {
 		addToast({
@@ -92,9 +87,6 @@
 	{/if}
 	<br />
 	<br />
-	<button class="btn btn-secondary" on:click={() => fetchContractDetails()}
-		>Fetch contract details</button
-	>
 	<div>Contract ABI Details</div>
 	<pre>{JSON.stringify(contractAbiDetails)}</pre>
 	<div>Contract Address Details</div>

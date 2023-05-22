@@ -2,7 +2,6 @@ import { ethers } from 'ethers';
 import { resetWalletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
 import { getChainDisplayName, isValidChain } from '$lib/utils/helpers/networkHelper';
 import { chainStore } from '$lib/data-stores/chainProviderStore';
-import { WALLET_TYPE } from '$lib/utils/constants/constants';
 import { resetWalletProviderStore } from '$lib/data-stores/walletProviderStore';
 import onboard from './web3OnboardController';
 import type { EIP1193Provider, WalletState } from '@web3-onboard/core';
@@ -28,7 +27,6 @@ export async function connectWallet(provider: EIP1193Provider) {
 		const walletHexAddress = walletChecksumAddress.toLowerCase() as Lowercase<string>;
 		// instead of update we set the wallet store since each provider will overwrite the previous one
 		walletStore.set({
-			walletType: WALLET_TYPE.metamask,
 			provider: ethersProvider,
 			signer: walletSigner,
 			address: walletHexAddress

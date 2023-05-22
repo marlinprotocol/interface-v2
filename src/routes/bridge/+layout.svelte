@@ -4,6 +4,7 @@
 		getRequestedMPondForConversion
 	} from '$lib/controllers/subgraphController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
+	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 
@@ -21,7 +22,7 @@
 		});
 	}
 
-	$: if ($connected) {
+	$: if ($connected && $chainStore.chainId) {
 		init();
 	}
 </script>

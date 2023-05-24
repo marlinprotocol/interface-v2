@@ -175,19 +175,19 @@
 
 	$: rateDisabled =
 		jobValues.merchant.error ||
-		jobValues.merchant.value == '' ||
+		jobValues.merchant.value === '' ||
 		jobValues.region.error ||
-		jobValues.region.value == '' ||
+		jobValues.region.value === '' ||
 		jobValues.instance.error ||
-		jobValues.instance.value == '';
+		jobValues.instance.value === '';
 	$: submitEnable =
 		duration &&
 		cost?.gt(BigNumberZero) &&
 		rate &&
 		!invalidCost &&
 		validEnclaveUrl &&
-		rateDisabled &&
-		jobValues.enclaveImageUrl.value != '';
+		!rateDisabled &&
+		jobValues.enclaveImageUrl.value !== '';
 	$: validEnclaveUrl =
 		jobValues.enclaveImageUrl.value !== undefined && jobValues.enclaveImageUrl.value !== ''
 			? checkValidURL(jobValues.enclaveImageUrl.value)

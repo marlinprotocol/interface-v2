@@ -2,12 +2,12 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import ENVIRONMENT from '$lib/environments/environment';
+	import { environmentStore } from '$lib/data-stores/environment';
 	import { switchChain } from '$lib/utils/helpers/networkHelper';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 
 	async function handleChainSwitch() {
-		await switchChain($walletStore.provider, ENVIRONMENT.public_chain_id);
+		await switchChain($walletStore.provider, $environmentStore.public_chain_id);
 	}
 
 	const styles = {

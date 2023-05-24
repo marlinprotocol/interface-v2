@@ -4,6 +4,7 @@
 		getOysterJobs,
 		getProviderDetailsFromSubgraph
 	} from '$lib/controllers/subgraphController';
+	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 
@@ -32,7 +33,7 @@
 		});
 	}
 
-	$: if ($connected) {
+	$: if ($connected && $chainStore.chainId) {
 		loadConnectedData();
 	}
 </script>

@@ -141,8 +141,8 @@ export const MESSAGES = {
 				MPOND_TO_POND_CANCELLED: 'Cancelled request for conversion of MPOND to POND.'
 			},
 			REGISTER: {
-				REGISTERING: 'Registering you as an operator.',
-				REGISTERED: 'Registered you as an operator.'
+				REGISTERING: 'Registering as an operator on Oyster.',
+				REGISTERED: 'Registered as an operator.'
 			},
 			UPDATE: {
 				UPDATING: 'Updating your control plane url.',

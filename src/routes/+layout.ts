@@ -1,9 +1,14 @@
 import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 import { addToast } from '$lib/data-stores/toastStore';
-import ENVIRONMENT from '$lib/environments/environment';
 import { GET_OPTIONS } from '$lib/utils/constants/constants.js';
 import { get } from 'svelte/store';
 import type { LayoutLoad } from './$types';
+import { environmentStore } from '$lib/data-stores/environment';
+
+let contractDetailsUrl = '';
+environmentStore.subscribe((value) => {
+	contractDetailsUrl = value.public_contract_details_url;
+});
 
 export const trailingSlash = 'always';
 export const prerender = true;
@@ -11,7 +16,7 @@ export const ssr = false;
 
 export const load = (async ({ fetch }) => {
 	try {
-		const response = await fetch(ENVIRONMENT.public_contract_details_url, GET_OPTIONS);
+		const response = await fetch(contractDetailsUrl, GET_OPTIONS);
 
 		if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
 

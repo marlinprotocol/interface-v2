@@ -1,7 +1,13 @@
 import { connectWallet } from '$lib/controllers/walletController';
-import ENVIRONMENT from '$lib/environments/environment';
+import { environmentStore } from '$lib/data-stores/environment';
 import { networkInfo } from '../constants/network';
 import { addToast } from '$lib/data-stores/toastStore';
+import type { Environment } from '$lib/types/environmentTypes';
+
+let environment: Environment;
+environmentStore.subscribe((value) => {
+	environment = value;
+});
 
 /**
  * Checks if current chain is supported by the app or not
@@ -9,7 +15,7 @@ import { addToast } from '$lib/data-stores/toastStore';
  * @returns if chain is supported or not
  */
 export function isValidChain(chainId: number): boolean {
-	return ENVIRONMENT.valid_chain_ids.includes(chainId);
+	return environment.valid_chain_ids.includes(chainId);
 }
 
 export async function switchChain(provider: any, chainId: string) {

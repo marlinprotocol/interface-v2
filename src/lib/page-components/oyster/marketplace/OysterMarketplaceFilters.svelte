@@ -23,7 +23,7 @@
 	const handleFilterData = (
 		id: keyof OysterMarketplaceFilterModel,
 		value: string | number,
-		exactMatch: boolean = false
+		exactMatch = false
 	) => {
 		onFilterClick();
 		if (value === 'All') {
@@ -93,23 +93,23 @@
 				isTableFilter={true}
 			/>
 			<SearchWithSelect
-				dataList={allFilters?.memory}
-				searchValue={filterMap.memory ?? ''}
-				setSearchValue={(value, exactMatch) => handleFilterData('memory', value, exactMatch)}
-				title={'Memory'}
-				placeholder={'Filter by Memory'}
-				selectId={'marketplace-memory-select'}
-				showTitle={false}
-				cardVariant={'search'}
-				isTableFilter={true}
-			/>
-			<SearchWithSelect
 				dataList={allFilters?.vcpu}
 				searchValue={filterMap.vcpu ?? ''}
 				setSearchValue={(value, exactMatch) => handleFilterData('vcpu', value, exactMatch)}
 				title={'vCPU'}
 				placeholder={'Filter by vCPU'}
 				selectId={'marketplace-vCPU-select'}
+				showTitle={false}
+				cardVariant={'search'}
+				isTableFilter={true}
+			/>
+			<SearchWithSelect
+				dataList={allFilters?.memory}
+				searchValue={filterMap.memory ?? ''}
+				setSearchValue={(value, exactMatch) => handleFilterData('memory', value, exactMatch)}
+				title={'Memory'}
+				placeholder={'Filter by Memory'}
+				selectId={'marketplace-memory-select'}
 				showTitle={false}
 				cardVariant={'search'}
 				isTableFilter={true}

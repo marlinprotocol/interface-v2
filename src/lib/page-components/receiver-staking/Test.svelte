@@ -5,13 +5,12 @@
 		depositStakingToken,
 		withdrawStakingToken
 	} from '$lib/controllers/contractController';
-	import { getContractDetails } from '$lib/controllers/httpController';
 	import { getReceiverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletBalance, walletStore } from '$lib/data-stores/walletProviderStore';
-	import ENVIRONMENT from '$lib/environments/environment';
+	import { environmentStore } from '$lib/data-stores/environment';
 	import type { ChainStore, WalletBalance, WalletStore } from '$lib/types/storeTypes';
 	import { MESSAGES } from '$lib/utils/constants/messages';
 	import { BigNumber } from 'ethers';
@@ -47,10 +46,6 @@
 		contractAddressDetails = value;
 	});
 
-	function fetchContractDetails() {
-		getContractDetails();
-	}
-
 	function onClickHandlerForToastError() {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.APPROVE.POND(11),
@@ -80,7 +75,7 @@
 
 <div>
 	<h2 class="text-primary text-2xl font-bold my-5">{pageTitle}</h2>
-	<div>Environment: {ENVIRONMENT.environment_name}</div>
+	<div>Environment: {$environmentStore.environment_name}</div>
 	{#if $connected}
 		<div>Address: {wallet.address}</div>
 		<div>POND Balance: {balance.pond}</div>
@@ -92,9 +87,6 @@
 	{/if}
 	<br />
 	<br />
-	<button class="btn btn-secondary" on:click={() => fetchContractDetails()}
-		>Fetch contract details</button
-	>
 	<div>Contract ABI Details</div>
 	<pre>{JSON.stringify(contractAbiDetails)}</pre>
 	<div>Contract Address Details</div>

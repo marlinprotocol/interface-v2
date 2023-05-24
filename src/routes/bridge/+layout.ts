@@ -1,13 +1,18 @@
 import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 import { addToast } from '$lib/data-stores/toastStore';
-import ENVIRONMENT from '$lib/environments/environment';
+import { environmentStore } from '$lib/data-stores/environment';
 import { GET_OPTIONS } from '$lib/utils/constants/constants';
 import { get } from 'svelte/store';
 import type { LayoutLoad } from '../$types';
 
+let bridgeContractDetailsUrl = '';
+environmentStore.subscribe((value) => {
+	bridgeContractDetailsUrl = value.public_bridge_contract_details_url;
+});
+
 export const load = (async ({ fetch }) => {
 	try {
-		const response = await fetch(ENVIRONMENT.public_bridge_contract_details_url, GET_OPTIONS);
+		const response = await fetch(bridgeContractDetailsUrl, GET_OPTIONS);
 
 		if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
 
@@ -35,8 +40,8 @@ export const load = (async ({ fetch }) => {
 				tokens: bridgeContractDetails.addresses.tokens
 			};
 		});
-		console.log('contractAbiStore', get(contractAbiStore));
-		console.log('contractAddressStore', get(contractAddressStore));
+		console.log('contractAbiStore from bridge', get(contractAbiStore));
+		console.log('contractAddressStore from bridge', get(contractAddressStore));
 	} catch (error) {
 		console.error(error);
 		addToast({

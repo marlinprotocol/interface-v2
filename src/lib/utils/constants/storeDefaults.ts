@@ -8,11 +8,10 @@ import type {
 	WalletBalance,
 	WalletStore
 } from '$lib/types/storeTypes';
-import { BigNumberZero, WALLET_TYPE } from './constants';
+import { BigNumberZero } from './constants';
 
 // walletProviderStore
 export const DEFAULT_WALLET_STORE: WalletStore = {
-	walletType: WALLET_TYPE.metamask,
 	provider: undefined,
 	signer: undefined,
 	address: ''

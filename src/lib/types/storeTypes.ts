@@ -1,4 +1,3 @@
-import type { WALLET_TYPE } from '$lib/utils/constants/constants';
 import type { BigNumber, providers, Signer } from 'ethers';
 import type { OysterInventoryDataModel, OysterMarketplaceDataModel } from './oysterComponentType';
 
@@ -7,16 +6,10 @@ export type Address = string;
 
 // wallet provider store
 export type WalletStore = {
-	walletType: WALLET_TYPE;
 	provider: providers.Provider | undefined;
 	signer: Signer | undefined;
 	address: Address;
 };
-
-export type WalletOptions = {
-	id: number;
-	provider: WALLET_TYPE;
-}[];
 
 // wallet balance store
 export type WalletBalance = {

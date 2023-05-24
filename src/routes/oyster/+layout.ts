@@ -1,6 +1,6 @@
 import { oysterStore } from '$lib/data-stores/oysterStore';
 import { addToast } from '$lib/data-stores/toastStore';
-import ENVIRONMENT from '$lib/environments/environment';
+import { environmentStore } from '$lib/data-stores/environment';
 import { QUERY_TO_GET_ALL_PROVIDERS_DATA } from '$lib/utils/constants/subgraphQueries';
 import { getOysterProvidersModified } from '$lib/utils/data-modifiers/oysterModifiers';
 import { get } from 'svelte/store';
@@ -9,12 +9,17 @@ import { subgraphQueryWrapper } from '$lib/controllers/subgraphController';
 import { addRegionNameToObjectArray } from '$lib/utils/helpers/oysterHelpers';
 import { regionNameConstants } from '$lib/utils/constants/regionNameConstants';
 
+let enclavesContractSubgraphUrl = '';
+environmentStore.subscribe((value) => {
+	enclavesContractSubgraphUrl = value.public_enclaves_contract_subgraph_url;
+});
+
 export const load = (async ({ fetch }) => {
 	try {
 		const query = QUERY_TO_GET_ALL_PROVIDERS_DATA;
 		const options: RequestInit = subgraphQueryWrapper(query, {});
 
-		const response = await fetch(ENVIRONMENT.public_enclaves_contract_subgraph_url, options);
+		const response = await fetch(enclavesContractSubgraphUrl, options);
 
 		if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
 

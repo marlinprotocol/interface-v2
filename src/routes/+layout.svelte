@@ -1,16 +1,23 @@
 <script lang="ts">
 	import Toast from '$lib/atoms/toast/Toast.svelte';
 	import Header from '$lib/components/header/Header.svelte';
-	import ENVIRONMENT from '$lib/environments/environment';
+	import { environmentStore } from '$lib/data-stores/environment';
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
+	import { chainStore } from '$lib/data-stores/chainProviderStore';
+	import { invalidateAll } from '$app/navigation';
 	onMount(async () => {
 		// removes console logs in production
-		if (ENVIRONMENT.production) {
+		if ($environmentStore.production) {
 			window.console.log = function () {};
 		}
 	});
+
+	$: if ($chainStore.chainId) {
+		invalidateAll();
+		console.log('invalidate is called with config of:', $environmentStore.environment_name);
+	}
 </script>
 
 <svelte:head>

@@ -1,5 +1,5 @@
 export const ENVIRONMENT_DEV = {
-	environment_name: 'dev',
+	environment_name: 'arbitrum_goerli',
 	production: false,
 	public_chain_id: '0x66eed',
 	public_pond_token_address: '0xa9472a9C135Cb33221de441a4DEd393FD515a69C',

@@ -187,7 +187,7 @@
 					<Text styleClass={styles.docButton} fontWeight="font-medium" text="Documentation" />
 				</a>
 				<div class={dividerClasses.vertical} />
-				<a href={kOysterSupportLink}>
+				<a href={kOysterSupportLink} target="_blank">
 					<Text styleClass={styles.docButton} fontWeight="font-medium" text="Support" />
 				</a>
 			</div>

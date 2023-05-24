@@ -7,8 +7,14 @@ import onboard from './web3OnboardController';
 import type { EIP1193Provider, WalletState } from '@web3-onboard/core';
 import { resetReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 import { resetOysterStore } from '$lib/data-stores/oysterStore';
+import { writable } from 'svelte/store';
 
-export const web3WalletStore = onboard.state.select('wallets');
+const wallets$ = onboard.state.select('wallets');
+export const web3WalletStore = writable<WalletState[]>([]);
+// wallets$ is an observable so we turn it into a store for easier access throughout the app
+wallets$.subscribe((wallets) => {
+	web3WalletStore.set(wallets);
+});
 let ethersProvider: ethers.providers.Web3Provider;
 
 export async function connectWallet(provider: EIP1193Provider) {

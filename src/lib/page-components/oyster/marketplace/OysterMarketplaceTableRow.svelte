@@ -1,10 +1,12 @@
 <script lang="ts">
+	import Button from '$lib/atoms/buttons/Button.svelte';
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
+	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
 	import { maxDecimals } from '$lib/utils/constants/constants';
@@ -56,12 +58,24 @@
 		{memory ? `${memory} GiB` : 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<TableConvertButton
-			disabled={!$connected}
-			modalFor={`create-order-modal-${rowIndex}`}
-			text="DEPLOY"
-			styleClass="w-fit px-6 mr-4"
-		/>
+		{#if $connected}
+			<!-- content here -->
+			<TableConvertButton
+				modalFor={`create-order-modal-${rowIndex}`}
+				text="DEPLOY"
+				styleClass="w-fit px-6 mr-4"
+			/>
+		{:else}
+			<Button
+				styleClass="w-fit px-6 mr-4"
+				variant="tableConvertButton"
+				onclick={() =>
+					addToast({
+						message: `Please connect your wallet to deploy.`,
+						variant: 'info'
+					})}>DEPLOY</Button
+			>
+		{/if}
 	</td>
 </tr>
 <CreateOrderModal modalFor={`create-order-modal-${rowIndex}`} preFilledData={rowData} />

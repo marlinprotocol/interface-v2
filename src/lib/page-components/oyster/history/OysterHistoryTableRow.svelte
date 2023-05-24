@@ -51,10 +51,10 @@
 		</NameWithAddress>
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('instance')}`}>
-		{instance}
+		{instance ?? 'N/A'}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('region')}`}>
-		{region}
+		{region ?? 'N/A'}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('totalDeposit')}`}>
 		{symbol}{bigNumberToCommaString(totalDeposit, oysterAmountPrecision)}

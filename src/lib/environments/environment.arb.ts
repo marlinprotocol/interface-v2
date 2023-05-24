@@ -22,5 +22,5 @@ export const ENVIRONMENT_ARB = {
 	public_oyster_instances_using_operator_address: 'https://api.aragog.live/operators/spec/',
 	public_oyster_provider_names_url: 'https://api.aragog.live/operators/names',
 	public_oyster_provider_instances_url: 'https://api.aragog.live/operators/spec',
-	valid_chain_ids: [42161, 421613]
+	valid_chain_ids: [421613]
 };

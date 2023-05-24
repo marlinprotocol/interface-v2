@@ -48,10 +48,10 @@
 		</NameWithAddress>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		{instance}
+		{instance ?? 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		{region}
+		{region ?? 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		{epochSecToString(createdAt)}

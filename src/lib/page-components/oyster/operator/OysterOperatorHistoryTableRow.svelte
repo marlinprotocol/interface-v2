@@ -47,10 +47,10 @@
 		</NameWithAddress>
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kOperatorHistoryTableColumnsWidth('instance')}`}>
-		{instance}
+		{instance ?? 'N/A'}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kOperatorHistoryTableColumnsWidth('region')}`}>
-		{region}
+		{region ?? 'N/A'}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kOperatorHistoryTableColumnsWidth('createdAt')}`}>
 		{epochSecToString(createdAt)}

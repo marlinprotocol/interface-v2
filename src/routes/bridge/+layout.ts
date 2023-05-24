@@ -7,7 +7,7 @@ import type { LayoutLoad } from '../$types';
 
 let bridgeContractDetailsUrl = '';
 environmentStore.subscribe((value) => {
-	bridgeContractDetailsUrl = value.public_contract_details_url;
+	bridgeContractDetailsUrl = value.public_bridge_contract_details_url;
 });
 
 export const load = (async ({ fetch }) => {
@@ -40,8 +40,8 @@ export const load = (async ({ fetch }) => {
 				tokens: bridgeContractDetails.addresses.tokens
 			};
 		});
-		console.log('contractAbiStore', get(contractAbiStore));
-		console.log('contractAddressStore', get(contractAddressStore));
+		console.log('contractAbiStore from bridge', get(contractAbiStore));
+		console.log('contractAddressStore from bridge', get(contractAddressStore));
 	} catch (error) {
 		console.error(error);
 		addToast({

@@ -55,8 +55,7 @@ async function setWalletBalance(walletAddress: Address): Promise<void> {
 }
 
 /**
- *  Resets the walletStore to its default value,
- *  changes the session storage value of connected to false when called
+ *  Resets the walletStore to its default value
  */
 export function resetWalletProviderStore(): void {
 	walletStore.set(DEFAULT_WALLET_STORE);

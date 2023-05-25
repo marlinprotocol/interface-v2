@@ -486,7 +486,10 @@ export const computeDurationString = (duration: number | undefined, durationUnit
 	return Math.floor(duration / durationUnitInSec).toString();
 };
 
-export const addRegionNameToObjectArray = (objArray: any[], mapping: Record<string, string>) => {
+export const addRegionNameToMarketplaceData = (
+	objArray: OysterMarketplaceDataModel[],
+	mapping: Record<string, string>
+) => {
 	const newArray = objArray.map((obj) => {
 		const region = obj.region;
 		const regionName = mapping[region];

@@ -137,28 +137,20 @@
 						variant="filled"
 						size="small"
 						icon={plus}
-						modalFor={`job-add-funds-modal-${rowIndex}`}
+						modalFor={`job-add-funds-modal-${id}`}
 					>
 						ADD FUNDS
 					</ModalButton>
-					<ModalButton variant="outlined" size="small" modalFor={`job-stop-modal-${rowIndex}`}>
+					<ModalButton variant="outlined" size="small" modalFor={`job-stop-modal-${id}`}>
 						{closeButtonText}
 					</ModalButton>
-					<ModalButton
-						variant="outlined"
-						size="small"
-						modalFor={`job-withdraw-fund-modal-${rowIndex}`}
-					>
+					<ModalButton variant="outlined" size="small" modalFor={`job-withdraw-fund-modal-${id}`}>
 						WITHDRAW
 					</ModalButton>
-					<ModalButton
-						variant="outlined"
-						size="small"
-						modalFor={`job-amend-rate-modal-${rowIndex}`}
-					>
+					<ModalButton variant="outlined" size="small" modalFor={`job-amend-rate-modal-${id}`}>
 						{amendRateButtonText}
 					</ModalButton>
-					<ModalButton variant="outlined" size="small" modalFor={`job-details-modal-${rowIndex}`}>
+					<ModalButton variant="outlined" size="small" modalFor={`job-details-modal-${id}`}>
 						DETAILS
 					</ModalButton>
 				</div>
@@ -166,14 +158,11 @@
 		{/if}
 	</tr>
 {/if}
-<InventoryJobDetailsModal bind:jobData={rowData} modalFor={`job-details-modal-${rowIndex}`} />
-<AddFundsToJobModal bind:jobData={rowData} modalFor={`job-add-funds-modal-${rowIndex}`} />
-<WithdrawFundsFromJobModal
-	bind:jobData={rowData}
-	modalFor={`job-withdraw-fund-modal-${rowIndex}`}
-/>
-<StopJobModal bind:jobData={rowData} modalFor={`job-stop-modal-${rowIndex}`} />
-<AmendRateModal bind:jobData={rowData} modalFor={`job-amend-rate-modal-${rowIndex}`} />
+<InventoryJobDetailsModal bind:jobData={rowData} modalFor={`job-details-modal-${id}`} />
+<AddFundsToJobModal bind:jobData={rowData} modalFor={`job-add-funds-modal-${id}`} />
+<WithdrawFundsFromJobModal bind:jobData={rowData} modalFor={`job-withdraw-fund-modal-${id}`} />
+<StopJobModal bind:jobData={rowData} modalFor={`job-stop-modal-${id}`} />
+<AmendRateModal bind:jobData={rowData} modalFor={`job-amend-rate-modal-${id}`} />
 
 <style>
 	.expanded-row {

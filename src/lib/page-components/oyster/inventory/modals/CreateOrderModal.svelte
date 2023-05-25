@@ -235,7 +235,7 @@
 			<ErrorTextCard
 				styleClass="mt-0"
 				showError={!validEnclaveUrl}
-				errorMessage={'Please check that the URL entered is valid'}
+				errorMessage={'Invalid control plane URL. Make sure to use the full URL along with http:// or https:// and remove any trailing slashes.'}
 			/>
 		</div>
 	</svelte:fragment>

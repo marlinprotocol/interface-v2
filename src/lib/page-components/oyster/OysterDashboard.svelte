@@ -235,7 +235,7 @@
 	</TextInputWithEndButton>
 	<ErrorTextCard
 		showError={!validCPUrl && updatedCpURL !== ''}
-		errorMessage={'Invalid control plane URL. Make sure to use the full url along with http:// or https:// and remove any trailing slashes.'}
+		errorMessage={'Invalid control plane URL. Make sure to use the full URL along with http:// or https:// and remove any trailing slashes.'}
 	/>
 	{#await instances catch error}
 		<ErrorTextCard

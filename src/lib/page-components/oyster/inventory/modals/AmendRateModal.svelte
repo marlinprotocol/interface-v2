@@ -4,6 +4,7 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
+	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
@@ -70,7 +71,12 @@
 	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
 	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
 
-	$: submitEnable = inputRate && isInputAmountValid(inputAmountString) && rateStatus !== 'pending';
+	$: submitEnable =
+		inputRate &&
+		isInputAmountValid(inputAmountString) &&
+		!inputRate.eq(rate) &&
+		inputAmountString !== '' &&
+		rateStatus !== 'pending';
 </script>
 
 <Modal {modalFor}>
@@ -116,6 +122,11 @@
 				</div>
 			{/if}
 		</div>
+		<ErrorTextCard
+			styleClass={'mt-4 mb-[-1rem]'}
+			showError={inputRate.eq(rate)}
+			errorMessage={'New rate cannot be same as current rate.'}
+		/>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		<div class="flex gap-4">

@@ -66,7 +66,7 @@
 		<StopModalContent {jobData} />
 		{#if stopStatus === 'pending'}
 			<div class="w-full">
-				<Timer endEpochTime={updatesAt}>
+				<Timer timerId={`timer-for-${modalFor}`} endEpochTime={updatesAt}>
 					<div slot="active" let:timer class="w-full">
 						<InputCard variant="warning" styleClass="mt-4">
 							<Text

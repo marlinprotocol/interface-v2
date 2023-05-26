@@ -80,7 +80,7 @@
 								<img src={staticImages.Timer} alt="Clock" width="15px" height="15px" class="mt-1" />
 							{/if}
 							{#if currentCycle === i}
-								<Timer {endEpochTime}>
+								<Timer timerId={`timer-for-mpond-conversion-${i}`} {endEpochTime}>
 									<div slot="active" let:timer class="mx-auto">
 										{epochToDurationString(timer, true)}
 									</div>

@@ -106,7 +106,7 @@
 			</Tooltip>
 		</td>
 		<td class={tableCellClasses.rowNormal}>
-			<Timer {endEpochTime}>
+			<Timer timerId={`timer-for-inventory-table-row-${id}`} {endEpochTime}>
 				<div slot="active" let:timer class="mx-auto">
 					<Tooltip tooltipText={epochToDurationString(timer)} tooltipDirection="tooltip-left">
 						<div

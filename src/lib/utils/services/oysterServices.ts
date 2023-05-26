@@ -17,8 +17,6 @@ import { BigNumberZero } from '../constants/constants';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
 import { parseMetadata } from '../data-modifiers/oysterModifiers';
 
-const nowTime = Date.now() / 1000;
-
 export async function handleClaimAmountFromOysterJob(jobId: Bytes) {
 	try {
 		await settleOysterJob(jobId);
@@ -64,6 +62,7 @@ export async function handleFundsAddToJob(
 	const { id } = jobData;
 	try {
 		const txn = await addFundsToOysterJob(id, amount);
+		const nowTime = Date.now() / 1000;
 		const modifiedJobData = {
 			...jobData,
 			totalDeposit: jobData.totalDeposit.add(amount),
@@ -108,6 +107,7 @@ export async function handleFundsWithdrawFromJob(
 	const { id } = jobData;
 	try {
 		const txn = await withdrawFundsFromOysterJob(id, amount);
+		const nowTime = Date.now() / 1000;
 		const modifiedJobData = {
 			...jobData,
 			totalDeposit: jobData.totalDeposit.sub(amount),
@@ -149,6 +149,7 @@ export async function handleInitiateRateRevise(
 	const { id } = jobData;
 	try {
 		await initiateRateReviseOysterJob(id, newRate);
+		const nowTime = Date.now() / 1000;
 		const modifiedJobData = {
 			...jobData,
 			reviseRate: {
@@ -229,6 +230,7 @@ export async function handleConfirmJobStop(jobData: OysterInventoryDataModel) {
 	const { id } = jobData;
 	try {
 		const tx = await stopOysterJob(id);
+		const nowTime = Date.now() / 1000;
 		const modifiedJobData = {
 			...jobData,
 			live: false,
@@ -276,6 +278,7 @@ export async function handleCreateJob(
 ) {
 	try {
 		const { jobId, txHash } = await createNewOysterJob(metadata, provider, rate, balance);
+		const nowTime = Date.now() / 1000;
 
 		const { enclaveUrl, instance, region, vcpu, memory } = parseMetadata(metadata);
 		const newJob: OysterInventoryDataModel = {

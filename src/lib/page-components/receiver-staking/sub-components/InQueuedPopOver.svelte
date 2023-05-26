@@ -65,7 +65,7 @@
 	<svelte:fragment slot="content">
 		<div class={styles.subtitle}>
 			{#if inQueue && localEpochCycle > 0}
-				<Timer {onTimerEnd} {endEpochTime}>
+				<Timer timerId={`timer-for-staking-in-queue`} {onTimerEnd} {endEpochTime}>
 					<div slot="active" let:timer>
 						<Text
 							variant={'small'}

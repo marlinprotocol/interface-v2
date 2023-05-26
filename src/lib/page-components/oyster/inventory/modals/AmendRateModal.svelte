@@ -108,7 +108,7 @@
 			</div>
 			{#if rateStatus === 'pending'}
 				<div class="w-full">
-					<Timer endEpochTime={updatesAt}>
+					<Timer timerId={`timer-for-${modalFor}`} endEpochTime={updatesAt}>
 						<div slot="active" let:timer class="w-full">
 							<InputCard variant="warning">
 								<Text
@@ -123,7 +123,7 @@
 			{/if}
 		</div>
 		<ErrorTextCard
-			styleClass={'mt-4 mb-[-1rem]'}
+			styleClass={'mt-4'}
 			showError={inputRate.eq(rate)}
 			errorMessage={'New rate cannot be same as current rate.'}
 		/>

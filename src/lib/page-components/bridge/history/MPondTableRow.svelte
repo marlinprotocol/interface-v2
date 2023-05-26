@@ -135,7 +135,12 @@
 			{bigNumberToCommaString(pondInProcess, pondPrecisions)}
 			<!-- <button on:click={handleOnTimerEnd}>HI</button> -->
 		</svelte:fragment>
-		<Timer slot="line2" {endEpochTime} onTimerEnd={handleOnTimerEnd}>
+		<Timer
+			timerId={`timer-for-mpond-table-${rowIndex}`}
+			slot="line2"
+			{endEpochTime}
+			onTimerEnd={handleOnTimerEnd}
+		>
 			<div slot="active" let:timer class="mx-auto">
 				<HistoryDataIconButton
 					disabled={true}

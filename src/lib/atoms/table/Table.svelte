@@ -17,11 +17,7 @@
 		<thead>
 			<tr>
 				{#each tableHeading as columnHeading, i}
-					<th
-						class={`${headingWidth ? headingWidth : `w-[${100 / tableHeading.length}%]`} ${
-							tableCellClasses.heading
-						}`}
-					>
+					<th>
 						<TableHeadingText
 							styleClass={headingStyleClass}
 							{iconWidth}

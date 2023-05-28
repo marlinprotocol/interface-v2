@@ -7,7 +7,7 @@
 	export let styleClass = '';
 	export let headingStyleClass = '';
 	export let handleSortData: ((id: string) => void) | undefined = undefined;
-	export let iconWidth = 16;
+	export let iconWidth = '16px';
 	export let tablePadding = 'px-8 py-6';
 	export let headingWidth: string | undefined = undefined;
 </script>

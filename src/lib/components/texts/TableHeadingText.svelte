@@ -6,7 +6,7 @@
 	export let heading: TableModel['header'];
 	export let tooltipDirection: TooltipDirection = 'tooltip-right';
 	export let styleClass = '';
-	export let iconWidth = 16;
+	export let iconWidth = '16px';
 	export let handleSortData: ((id: string) => void) | undefined = undefined;
 
 	const { title = '', tooltipText = '', sorting = false } = heading;

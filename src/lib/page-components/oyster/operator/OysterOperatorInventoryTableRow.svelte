@@ -36,7 +36,7 @@
 </script>
 
 <tr class="main-row hover:bg-base-200">
-	<td class={tableCellClasses.row + ' w-60'}>
+	<td class={tableCellClasses.row}>
 		<NameWithAddress address={owner} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="w-4">
@@ -80,7 +80,7 @@
 			onclick={handleClaimClick}
 			size="smaller"
 			disabled={submitLoading}
-			styleClass="w-fit px-8 rounded text-xs mr-4"
+			styleClass="w-fit px-8 rounded text-xs mr-6"
 		>
 			{'CLAIM'}
 		</Button>

@@ -7,7 +7,7 @@
 	export let styleClass = '';
 	export let headingStyleClass = '';
 	export let handleSortData: ((id: string) => void) | undefined = undefined;
-	export let iconWidth = 16;
+	export let iconWidth = '16px';
 	export let tablePadding = 'px-8 py-6';
 	export let headingWidth: string | undefined = undefined;
 </script>
@@ -17,11 +17,7 @@
 		<thead>
 			<tr>
 				{#each tableHeading as columnHeading, i}
-					<th
-						class={`${headingWidth ? headingWidth : `w-[${100 / tableHeading.length}%]`} ${
-							tableCellClasses.heading
-						}`}
-					>
+					<th>
 						<TableHeadingText
 							styleClass={headingStyleClass}
 							{iconWidth}

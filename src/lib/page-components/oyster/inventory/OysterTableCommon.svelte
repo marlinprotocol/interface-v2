@@ -24,6 +24,10 @@
 		<div class={'text-center flex justify-center my-4'}>
 			<LoadingAnimatedPing />
 		</div>
+	{:else if noDataFound}
+		<div class={tableCellClasses.empty + ' mb-8'}>
+			{emptyTableMessage}
+		</div>
 	{:else}
 		<Table
 			{tableHeading}
@@ -36,9 +40,9 @@
 				<slot />
 			</tbody>
 		</Table>
-		{#if noDataFound}
-			<div class={tableCellClasses.empty + ' mb-8'}>
-				{emptyTableMessage}
+		{#if $$slots.pagination}
+			<div class="flex justify-center items-center mb-4">
+				<slot name="pagination" />
 			</div>
 		{/if}
 	{/if}

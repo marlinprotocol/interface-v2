@@ -122,6 +122,7 @@
 		</td>
 		<td class={tableCellClasses.rowNormal}>
 			<CollapseButton
+				styleClass="mr-6"
 				{isOpen}
 				onclick={() => {
 					toggleRowExpansion(id.toString());

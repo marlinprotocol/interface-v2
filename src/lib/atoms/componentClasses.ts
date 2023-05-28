@@ -32,7 +32,7 @@ export const dividerClasses = {
 
 export const tableCellClasses = {
 	heading: 'text-primary text-sm font-semibold px-2 pb-4',
-	row: 'font-semibold text-base py-3 whitespace-nowrap max-w-[190px]',
+	row: 'font-semibold text-base py-6 whitespace-nowrap',
 	rowNormal: 'font-normal text-sm py-3 whitespace-nowrap',
 	rowMini: 'font-normal text-xs py-1 whitespace-nowrap',
 	rowWithIcon: 'flex flex-col items-center justify-start',

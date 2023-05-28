@@ -7,12 +7,12 @@
 	export let disabled = false;
 	export let onclick: (() => void) | undefined = undefined;
 	export let isOpen = false;
-	export let styleClass = buttonClasses.iconLightBlue;
+	export let styleClass = '';
 	export let id = '';
 
 	$: chevronIcon = isOpen ? chevronUp : chevronDown;
 </script>
 
-<button on:click={onclick} {disabled} class={styleClass} {id}>
+<button on:click={onclick} {disabled} class={`${styleClass} ${buttonClasses.iconLightBlue}`} {id}>
 	<Icon data={chevronIcon} size={12} iconColorClass={disabled ? 'icon-disabled' : 'icon-primary'} />
 </button>

@@ -100,12 +100,8 @@
 			{#each paginatedData as rowData, rowIndex}
 				<OysterInventoryTableRow {rowData} {rowIndex} {expandedRows} />
 			{/each}
-			<tr>
-				<td colspan="12">
-					<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
-				</td>
-			</tr>
 		{/if}
+		<Pagination slot="pagination" {pageCount} {activePage} {handlePageChange} />
 	</OysterTableCommon>
 </div>
 <CreateOrderModal modalFor="create-new-order" />

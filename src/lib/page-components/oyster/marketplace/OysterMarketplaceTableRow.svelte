@@ -83,6 +83,7 @@
 <style>
 	.main-row {
 		margin-left: 20px;
+		border-bottom: 1px solid #e5e5e5;
 	}
 	/* show icon only on hover on table-row */
 	.main-row:hover .copy-icon {

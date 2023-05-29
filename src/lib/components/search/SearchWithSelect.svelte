@@ -19,6 +19,7 @@
 	export let disabled = false;
 	export let selectId: string;
 	export let isTableFilter = false;
+	export let textSuffix: string = '';
 
 	let suggestions: (string | number)[] = [];
 	let showSuggestions = false;
@@ -75,6 +76,7 @@
 				bind:showSuggestions
 				bind:suggestions
 				id={selectId}
+				{textSuffix}
 			/>
 		</div>
 	</div>

@@ -23,7 +23,6 @@
 
 	$: ({
 		provider: { name, address },
-		id,
 		instance,
 		region,
 		createdAt,

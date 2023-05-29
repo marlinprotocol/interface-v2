@@ -161,6 +161,11 @@
 		<TextInputWithEndButton title={'vCPU'} input={vcpu} placeholder={'Select'} disabled />
 	</div>
 	<div class="w-full">
-		<TextInputWithEndButton title={'Memory'} input={memory} placeholder={'Select'} disabled />
+		<TextInputWithEndButton
+			title={'Memory'}
+			input={memory + (memory ? ' GiB' : '')}
+			placeholder={'Select'}
+			disabled
+		/>
 	</div>
 </div>

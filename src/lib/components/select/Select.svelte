@@ -11,6 +11,8 @@
 	export let showSuggestions = false;
 	export let suggestions: (string | number)[] | string[][] = [];
 	export let id: string;
+	export let textSuffix: string = '';
+
 	let windowWidth: number;
 	let searchContainer: HTMLDivElement;
 
@@ -98,7 +100,7 @@
 						</label>
 					{:else}
 						<label for="checkbox-item-12" class={`w-full text-sm font-medium`}>
-							{suggestion}
+							{suggestion + (suggestion !== 'All' ? textSuffix : '')}
 						</label>
 					{/if}
 				</li>

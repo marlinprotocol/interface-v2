@@ -26,6 +26,11 @@
 	const handleSearch = async (event: any) => {
 		const input = event.target as HTMLInputElement;
 		searchValue = input.value;
+		// close suggestions if search is empty
+		if (searchValue === '') {
+			showSuggestions = false;
+			return;
+		}
 		suggestions = dataList.filter((item) =>
 			item
 				.toString()

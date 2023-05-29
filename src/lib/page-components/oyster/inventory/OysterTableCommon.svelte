@@ -10,7 +10,6 @@
 	export let handleSortData: (id: string) => void;
 	export let noDataFound: boolean;
 	export let tableHeading: TableModel['header'][];
-	export let headingWidth: string | undefined = undefined;
 	export let walletConnectionRequired = true;
 	export let emptyTableMessage = 'No data found!';
 </script>
@@ -29,13 +28,7 @@
 			{emptyTableMessage}
 		</div>
 	{:else}
-		<Table
-			{tableHeading}
-			{handleSortData}
-			{headingWidth}
-			tablePadding={'py-6'}
-			headingStyleClass={'h-[32px]'}
-		>
+		<Table {tableHeading} {handleSortData} tablePadding={'py-6'} headingStyleClass={'h-[32px]'}>
 			<tbody slot="tableBody">
 				<slot />
 			</tbody>

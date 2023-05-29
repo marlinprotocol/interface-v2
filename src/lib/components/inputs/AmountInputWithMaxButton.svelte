@@ -60,7 +60,7 @@
 					/>
 					{#if maxAmountTooltipText}
 						<TooltipIcon
-							iconWidth={16}
+							iconWidth={'16px'}
 							tooltipText={maxAmountTooltipText}
 							tooltipVariant="tooltip-secondary"
 							tooltipDirection="tooltip-bottom"

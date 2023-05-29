@@ -6,7 +6,7 @@
 	export let tableHeading: TableModel['header'][];
 	export let headingStyleClass = '';
 	export let handleSortData: ((id: string) => void) | undefined = undefined;
-	export let iconWidth = 16;
+	export let iconWidth = '16px';
 	export let widthFunction: (id: string) => string;
 </script>
 

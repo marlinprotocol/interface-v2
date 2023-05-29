@@ -29,6 +29,8 @@
 	import { onDestroy } from 'svelte';
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from './sub-components/InstancesTable.svelte';
+	import { invalidate } from '$app/navigation';
+	import { environmentStore } from '$lib/data-stores/environment';
 
 	const styles = {
 		docButton: 'text-primary',
@@ -79,6 +81,8 @@
 			registeredCpURL = updatedCpURL;
 			registered = true;
 			disableCpURL = true;
+			// rerun load function for marketplace which resides in oyster/+layout.ts
+			invalidate($environmentStore.public_enclaves_contract_subgraph_url);
 		} else {
 			addToast({
 				variant: 'error',
@@ -98,6 +102,8 @@
 			}
 			return value;
 		});
+		// rerun load function for marketplace which resides in oyster/+layout.ts
+		invalidate($environmentStore.public_enclaves_contract_subgraph_url);
 	};
 
 	async function getInstances(useUpdatedCpURL: boolean) {

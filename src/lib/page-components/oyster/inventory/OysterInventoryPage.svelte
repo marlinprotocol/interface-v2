@@ -93,7 +93,6 @@
 		tableHeading={kOysterInventoryTableHeader}
 		{loading}
 		noDataFound={paginatedData?.length ? false : true}
-		headingWidth={'w-36'}
 		emptyTableMessage={'You do not have any active orders.'}
 	>
 		{#if paginatedData?.length}

@@ -9,7 +9,6 @@
 	export let handleSortData: ((id: string) => void) | undefined = undefined;
 	export let iconWidth = '16px';
 	export let tablePadding = 'px-8 py-6';
-	export let headingWidth: string | undefined = undefined;
 </script>
 
 <div class={`${styleClass} overflow-x-auto overflow-y-hidden ${tablePadding}`}>

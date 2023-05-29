@@ -36,7 +36,7 @@
 					tableHeading={kInstancesTableHeader}
 					headingStyleClass={'text-sm'}
 					tablePadding={'py-4'}
-					iconWidth={13}
+					iconWidth={'13px'}
 				>
 					<tbody slot="tableBody">
 						{#each value as row}

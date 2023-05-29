@@ -21,7 +21,7 @@
 		<Table
 			tableHeading={kOysterPaymentHistoryTableHeader}
 			headingStyleClass={'text-xs'}
-			iconWidth={13}
+			iconWidth={'13px'}
 			tablePadding={'pt-2 px-0'}
 		>
 			<tbody slot="tableBody">

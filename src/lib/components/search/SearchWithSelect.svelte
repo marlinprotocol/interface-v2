@@ -29,7 +29,7 @@
 		// close suggestions if search is empty
 		if (searchValue === '') {
 			showSuggestions = false;
-			return;
+			await setSearchValue(searchValue, false);
 		}
 		suggestions = dataList.filter((item) =>
 			item

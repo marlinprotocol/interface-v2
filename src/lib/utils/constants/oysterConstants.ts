@@ -195,18 +195,6 @@ export const kOysterInventoryTableHeader: TableModel['header'][] = [
 		tooltipText: 'Rate that the operator charges for each hour of usage.'
 	},
 	{
-		title: 'vCPU',
-		id: 'vcpu',
-		sorting: true,
-		tooltipText: 'Number of vCPUs in the instance'
-	},
-	{
-		title: 'MEMORY',
-		id: 'memory',
-		sorting: true,
-		tooltipText: 'Memory allocated to the instance'
-	},
-	{
 		title: 'BALANCE',
 		id: 'balance',
 		sorting: true,

@@ -33,8 +33,6 @@
 		provider: { name, address },
 		instance,
 		region,
-		vcpu,
-		memory,
 		rate,
 		id,
 		live,
@@ -93,12 +91,6 @@
 			<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate, maxDecimals)}`}>
 				{symbol}{convertRateToPerHourString(rate)}
 			</Tooltip>
-		</td>
-		<td class={tableCellClasses.rowNormal}>
-			{vcpu ? vcpu : 'N/A'}
-		</td>
-		<td class={tableCellClasses.rowNormal}>
-			{memory ? `${memory} GiB` : 'N/A'}
 		</td>
 		<td class={tableCellClasses.rowNormal}>
 			<Tooltip tooltipText={`${symbol}${bigNumberToCommaString(balance, maxDecimals)}`}>

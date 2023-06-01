@@ -35,6 +35,7 @@
 		region,
 		rate,
 		id,
+		ip,
 		live,
 		balance,
 		endEpochTime, // epoch time in seconds based on duration left,
@@ -80,6 +81,9 @@
 					</div>
 				</svelte:fragment>
 			</NameWithAddress>
+		</td>
+		<td class={tableCellClasses.rowNormal}>
+			{ip ?? 'N/A'}
 		</td>
 		<td class={tableCellClasses.rowNormal}>
 			{instance ?? 'N/A'}

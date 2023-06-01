@@ -67,6 +67,7 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 		rateStatus: string; //'' | 'pending' | 'completed'
 		stopStatus: string; //'' | 'disabled' | 'pending' | 'completed'
 	};
+	ip?: string;
 }
 
 export interface CreateOrderPreFilledModel extends CPUrlDataModel {

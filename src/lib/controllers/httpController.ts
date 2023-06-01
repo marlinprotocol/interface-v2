@@ -52,3 +52,14 @@ export async function getProvidersInstancesJSON() {
 	}
 	return response;
 }
+
+export async function getJobStatuses(userAddress: Address) {
+	const jobStatusEndpoint = environment.public_oyster_job_status_url + userAddress;
+	const options = GET_OPTIONS;
+	const response = await fetchHttpData(jobStatusEndpoint, options);
+	if (!response) {
+		console.log('no job statuses found for user');
+		return [];
+	}
+	return response;
+}

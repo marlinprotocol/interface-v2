@@ -22,6 +22,7 @@
 		memory,
 		enclaveUrl,
 		rate,
+		ip,
 		totalDeposit,
 		amountUsed,
 		createdAt,
@@ -108,11 +109,14 @@
 					textStyle={styles.textPrimary}
 				/>
 			</div>
-			<TextInputCard
-				title={'Enclave Image URL'}
-				value={enclaveUrl}
-				textStyle={styles.textPrimary}
-			/>
+			<div class="flex gap-4 flex-col sm:flex-row">
+				<TextInputCard
+					title={'Enclave Image URL'}
+					value={enclaveUrl}
+					textStyle={styles.textPrimary}
+				/>
+				<TextInputCard title={'Ip Address'} value={ip} textStyle={styles.textPrimary} />
+			</div>
 			<PaymentHistoryTable tableData={depositHistory} />
 		</div>
 	</svelte:fragment>

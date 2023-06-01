@@ -177,6 +177,12 @@ export const kOysterInventoryTableHeader: TableModel['header'][] = [
 		tooltipText: 'Address of oyster operator'
 	},
 	{
+		title: 'IP ADDRESS',
+		id: 'ip',
+		sorting: true,
+		tooltipText: 'Ip address of the deployed instance'
+	},
+	{
 		title: 'INSTANCE',
 		id: 'instance',
 		sorting: true,

@@ -78,21 +78,3 @@ walletStore.subscribe((value) => {
 		setWalletBalance(walletAddress);
 	}
 });
-
-// subcription to walletStore allows us to fetch
-// receiver staked balance, queued data when the user has a valid wallet address
-walletStore.subscribe(async (value) => {
-	const walletAddress = value.address;
-	if (walletAddress !== DEFAULT_WALLET_STORE.address) {
-		try {
-			const data: ReceiverStakingData = await getReceiverStakingDataFromSubgraph(walletAddress);
-			receiverStakingStore.set(data);
-		} catch (e) {
-			addToast({
-				message: 'Error fetching receiver staking data',
-				variant: 'error'
-			});
-			console.error(e);
-		}
-	}
-});

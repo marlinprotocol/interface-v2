@@ -32,6 +32,7 @@ import { getModifiedMPondToPondHistory } from '$lib/utils/helpers/bridgeHelpers'
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
 import { fetchHttpData, showFetchHttpDataError } from '$lib/utils/helpers/httpHelper';
 import { BigNumber } from 'ethers';
+import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 
 let contractAddresses: ContractAddress;
 let environment: Environment;
@@ -202,7 +203,8 @@ export async function getReceiverStakingDataFromSubgraph(
 					BigNumber.from(approvalData.value) ?? DEFAULT_RECEIVER_STAKING_DATA.approvedBalance
 			};
 		}
-
+		// setting value to receiverStakingStore for easy access in other components
+		receiverStakingStore.set(stakingData);
 		return stakingData;
 	} catch (error) {
 		console.log('Error fetching receiver staked, in queue data from subgraph', error);

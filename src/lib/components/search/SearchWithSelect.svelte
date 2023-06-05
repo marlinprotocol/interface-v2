@@ -19,7 +19,7 @@
 	export let disabled = false;
 	export let selectId: string;
 	export let isTableFilter = false;
-	export let textSuffix: string = '';
+	export let textSuffix = '';
 
 	let suggestions: (string | number)[] = [];
 	let showSuggestions = false;

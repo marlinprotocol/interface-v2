@@ -24,7 +24,7 @@
 
 		// Assign IP addresses from jobStatus to jobData
 		oysterJobs.forEach((data) => {
-			if (jobStatusLookup.hasOwnProperty(data.id.toString())) {
+			if (Object.prototype.hasOwnProperty.call(jobStatusLookup, data.id.toString())) {
 				data.ip = jobStatusLookup[data.id.toString()];
 			}
 		});

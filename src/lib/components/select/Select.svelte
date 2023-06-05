@@ -11,7 +11,7 @@
 	export let showSuggestions = false;
 	export let suggestions: (string | number)[] | string[][] = [];
 	export let id: string;
-	export let textSuffix: string = '';
+	export let textSuffix = '';
 
 	let windowWidth: number;
 	let searchContainer: HTMLDivElement;

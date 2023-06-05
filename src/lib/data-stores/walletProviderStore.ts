@@ -1,18 +1,7 @@
 import { derived, writable, type Readable, type Writable } from 'svelte/store';
-import type {
-	Address,
-	ReceiverStakingData,
-	WalletBalance,
-	WalletStore
-} from '$lib/types/storeTypes';
+import type { Address, WalletBalance, WalletStore } from '$lib/types/storeTypes';
 import { DEFAULT_WALLET_BALANCE, DEFAULT_WALLET_STORE } from '$lib/utils/constants/storeDefaults';
-import {
-	getMPondBalance,
-	getPondBalance,
-	getReceiverStakingDataFromSubgraph
-} from '$lib/controllers/subgraphController';
-import { receiverStakingStore } from './receiverStakingStore';
-import { addToast } from './toastStore';
+import { getMPondBalance, getPondBalance } from '$lib/controllers/subgraphController';
 
 let walletAddress: Address = DEFAULT_WALLET_STORE.address;
 
@@ -76,23 +65,5 @@ walletStore.subscribe((value) => {
 	walletAddress = value.address;
 	if (walletAddress !== DEFAULT_WALLET_STORE.address) {
 		setWalletBalance(walletAddress);
-	}
-});
-
-// subcription to walletStore allows us to fetch
-// receiver staked balance, queued data when the user has a valid wallet address
-walletStore.subscribe(async (value) => {
-	const walletAddress = value.address;
-	if (walletAddress !== DEFAULT_WALLET_STORE.address) {
-		try {
-			const data: ReceiverStakingData = await getReceiverStakingDataFromSubgraph(walletAddress);
-			receiverStakingStore.set(data);
-		} catch (e) {
-			addToast({
-				message: 'Error fetching receiver staking data',
-				variant: 'error'
-			});
-			console.error(e);
-		}
 	}
 });

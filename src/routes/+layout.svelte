@@ -7,6 +7,9 @@
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { invalidateAll } from '$app/navigation';
+
+	let prevChainId: null | number = null;
+
 	onMount(async () => {
 		// removes console logs in production
 		if ($environmentStore.production) {
@@ -14,7 +17,8 @@
 		}
 	});
 
-	$: if ($chainStore.chainId) {
+	$: if (prevChainId !== $chainStore.chainId || prevChainId === null) {
+		prevChainId = $chainStore.chainId;
 		invalidateAll();
 		console.log('invalidate is called with config of:', $environmentStore.environment_name);
 	}

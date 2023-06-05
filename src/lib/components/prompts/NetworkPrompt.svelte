@@ -7,7 +7,7 @@
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 
 	async function handleChainSwitch() {
-		await switchChain($walletStore.provider, $environmentStore.public_chain_id);
+		await switchChain($walletStore.provider, $environmentStore.valid_chain_ids_with_0x[0]);
 	}
 
 	const styles = {

@@ -23,12 +23,18 @@
 	import InventoryJobDetailsModal from './modals/JobDetailsModal.svelte';
 	import StopJobModal from './modals/StopJobModal.svelte';
 	import WithdrawFundsFromJobModal from './modals/WithdrawFundsFromJobModal.svelte';
+	import Button from '$lib/atoms/buttons/Button.svelte';
+	import type { Bytes } from 'ethers';
+	import { refreshJobStatusForJobId } from '$lib/controllers/httpController';
+	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import AddFundsToJob from '../sub-components/AddFundsToJob.svelte';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
 	export let expandedRows: Set<string>;
 
 	const { symbol } = kOysterRateMetaData;
+	let refreshLoading = false;
 	$: ({
 		provider: { name, address },
 		instance,
@@ -50,6 +56,26 @@
 		}
 		// assignment to self for reactivity purposes check out svelte docs updating arrays and object for more info
 		expandedRows = expandedRows;
+	}
+
+	async function refreshJobStatus(jobId: Bytes) {
+		refreshLoading = true;
+
+		const updatedStatus = await refreshJobStatusForJobId(jobId);
+
+		oysterStore.update((state) => {
+			const jobData = state.jobsData;
+			let jobWithMatchingJobId = jobData.find((job) => updatedStatus.jobId === job.id);
+
+			if (jobWithMatchingJobId) {
+				jobWithMatchingJobId.ip = updatedStatus.ip;
+			}
+			return {
+				...state,
+				jobsData: jobData
+			};
+		});
+		refreshLoading = false;
 	}
 
 	$: isJobFinished = !Boolean(Math.floor(endEpochTime - Date.now() / 1000) > 0);
@@ -163,6 +189,12 @@
 					>
 						{amendRateButtonText}
 					</ModalButton>
+					<Button
+						variant="outlined"
+						loading={refreshLoading}
+						size="small"
+						onclick={() => refreshJobStatus(id)}>REFRESH</Button
+					>
 				{/if}
 				<ModalButton variant="outlined" size="small" modalFor={`job-details-modal-${id}`}>
 					DETAILS

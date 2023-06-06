@@ -21,6 +21,7 @@ export const ENVIRONMENT_DEV = {
 	public_oyster_provider_names_url: 'https://api.aragog.live/operators/names',
 	public_oyster_provider_instances_url: 'https://api.aragog.live/operators/spec',
 	public_oyster_job_status_url: 'https://api.aragog.live/operators/jobs/',
+	public_oyster_job_refresh_url: 'https://api.aragog.live/operators/jobs/refresh/',
 	valid_chain_ids: [421613],
 	valid_chain_ids_with_0x: ['0x66eed']
 };

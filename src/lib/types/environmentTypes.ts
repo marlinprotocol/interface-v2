@@ -17,6 +17,7 @@ export type Environment = {
 	public_oyster_provider_names_url: string;
 	public_oyster_provider_instances_url: string;
 	public_oyster_job_status_url: string;
+	public_oyster_job_refresh_url: string;
 	valid_chain_ids: number[];
 	valid_chain_ids_with_0x: string[];
 };

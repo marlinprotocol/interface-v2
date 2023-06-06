@@ -9,7 +9,7 @@ export const ENVIRONMENT_ARB = {
 	public_mPond_subgraph_url:
 		'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-dev',
 	public_contract_subgraph_url:
-		'https://api.thegraph.com/subgraphs/name/marlin-staging/staking-arb1-goerli',
+		'https://api.thegraph.com/subgraphs/name/marlin-staging/oyster-arb1',
 	public_bridge_contract_subgraph_url:
 		'https://api.thegraph.com/subgraphs/name/marlinprotocol/bridge-kovan',
 	public_enclaves_contract_subgraph_url:
@@ -22,6 +22,6 @@ export const ENVIRONMENT_ARB = {
 	public_oyster_provider_instances_url: 'https://api.aragog.live/operators/spec',
 	public_oyster_job_status_url: 'https://api.aragog.live/operators/jobs/',
 	public_oyster_job_refresh_url: 'https://api.aragog.live/operators/jobs/refresh/',
-	valid_chain_ids: [421613],
-	valid_chain_ids_with_0x: ['0x66eed']
+	valid_chain_ids: [42161],
+	valid_chain_ids_with_0x: ['0xa4b1']
 };

@@ -3,16 +3,16 @@
 	import HeaderNavLinkItem from './HeaderNavLinkItem.svelte';
 	//nav-links list
 	const navLinks: NavLinkModel[] = [
-		{
-			title: 'Relay',
-			href: 'https://arb1.marlin.org/relay/operator',
-			openInNewTab: true
-		},
-		{
-			title: 'Bridge',
-			href: '/bridge',
-			openInNewTab: false
-		},
+		// {
+		// 	title: 'Relay',
+		// 	href: 'https://arb1.marlin.org/relay/operator',
+		// 	openInNewTab: true
+		// },
+		// {
+		// 	title: 'Bridge',
+		// 	href: '/bridge',
+		// 	openInNewTab: false
+		// },
 		{
 			title: 'Marketplace',
 			href: '/oyster/marketplace',

@@ -1,12 +1,20 @@
 <script lang="ts">
+	import { invalidateAll } from '$app/navigation';
 	import Toast from '$lib/atoms/toast/Toast.svelte';
 	import Header from '$lib/components/header/Header.svelte';
+	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
+	import { getJobStatuses } from '$lib/controllers/httpController';
+	import {
+		getApprovedOysterAllowances,
+		getOysterJobs,
+		getProviderDetailsFromSubgraph
+	} from '$lib/controllers/subgraphController';
+	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { environmentStore } from '$lib/data-stores/environment';
+	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { onMount } from 'svelte';
 	import '../app.css';
-	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
-	import { invalidateAll } from '$app/navigation';
 
 	let prevChainId: null | number = null;
 
@@ -16,6 +24,49 @@
 			window.console.log = function () {};
 		}
 	});
+
+	async function loadConnectedData() {
+		const [allowance, oysterJobs, providerDetail, jobStatuses] = await Promise.all([
+			getApprovedOysterAllowances($walletStore.address),
+			getOysterJobs($walletStore.address),
+			getProviderDetailsFromSubgraph($walletStore.address),
+			getJobStatuses($walletStore.address)
+		]);
+		// Create a lookup object based on jobStatuses
+		let jobStatusLookup: Record<string, string> = {};
+		jobStatuses.forEach((status: any) => {
+			jobStatusLookup[status.jobId] = status.ip;
+		});
+
+		// Assign IP addresses from jobStatus to jobData
+		oysterJobs.forEach((data) => {
+			if (Object.prototype.hasOwnProperty.call(jobStatusLookup, data.id.toString())) {
+				data.ip = jobStatusLookup[data.id.toString()];
+			}
+		});
+		// console.log('Existing Oyster Data - ', $oysterStore);
+		// console.log('Oyster Data Fetch - allowance', allowance);
+		// console.log('Oyster Data Fetch - oysterJobs', oysterJobs);
+		// console.log('Oyster Data Fetch - providerDetail', providerDetail);
+		// console.log('Oyster Data Fetch - jobStatuses', jobStatuses);
+
+		oysterStore.update((value) => {
+			return {
+				...value,
+				providerData: {
+					data: providerDetail,
+					registered: providerDetail != null
+				},
+				allowance: allowance,
+				jobsData: oysterJobs,
+				oysterStoreLoaded: true
+			};
+		});
+	}
+
+	$: if ($connected && $chainStore.chainId) {
+		loadConnectedData();
+	}
 
 	$: if (prevChainId !== $chainStore.chainId || prevChainId === null) {
 		prevChainId = $chainStore.chainId;

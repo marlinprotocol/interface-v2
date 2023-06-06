@@ -171,9 +171,12 @@
 		jobValues.region.value,
 		allMarketplaceData
 	);
+	let notServiceable = false;
+
 	$: approved = cost && approvedAmount?.gte(cost) && cost.gt(BigNumberZero);
 
 	$: rateDisabled =
+		notServiceable ||
 		jobValues.merchant.error ||
 		jobValues.merchant.value === '' ||
 		jobValues.region.error ||
@@ -214,6 +217,7 @@
 				bind:jobValues
 				bind:providerAddress
 				bind:rate
+				bind:notServiceable
 				{allMarketplaceData}
 				handleChange={handleMerchantChange}
 			/>

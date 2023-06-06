@@ -5,6 +5,7 @@ import type { Address } from '$lib/types/storeTypes';
 import { GET_OPTIONS } from '$lib/utils/constants/constants';
 import { getModifiedInstances } from '$lib/utils/data-modifiers/oysterModifiers';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
+import type { Bytes } from 'ethers';
 
 let environment: Environment;
 environmentStore.subscribe((value) => {
@@ -59,6 +60,17 @@ export async function getJobStatuses(userAddress: Address) {
 	const response = await fetchHttpData(jobStatusEndpoint, options);
 	if (!response) {
 		console.log('no job statuses found for user');
+		return [];
+	}
+	return response;
+}
+
+export async function refreshJobStatusForJobId(jobId: Bytes) {
+	const refreshJobStatusEndpoint = environment.public_oyster_job_refresh_url + jobId;
+	const options = GET_OPTIONS;
+	const response = await fetchHttpData(refreshJobStatusEndpoint, options);
+	if (!response) {
+		console.log('the status for job id does not exist');
 		return [];
 	}
 	return response;

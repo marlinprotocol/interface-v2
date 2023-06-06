@@ -23,12 +23,18 @@
 	import InventoryJobDetailsModal from './modals/JobDetailsModal.svelte';
 	import StopJobModal from './modals/StopJobModal.svelte';
 	import WithdrawFundsFromJobModal from './modals/WithdrawFundsFromJobModal.svelte';
+	import Button from '$lib/atoms/buttons/Button.svelte';
+	import type { Bytes } from 'ethers';
+	import { refreshJobStatusForJobId } from '$lib/controllers/httpController';
+	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import AddFundsToJob from '../sub-components/AddFundsToJob.svelte';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
 	export let expandedRows: Set<string>;
 
 	const { symbol } = kOysterRateMetaData;
+	let refreshLoading = false;
 	$: ({
 		provider: { name, address },
 		instance,
@@ -36,7 +42,6 @@
 		rate,
 		id,
 		ip,
-		live,
 		balance,
 		endEpochTime, // epoch time in seconds based on duration left,
 		reviseRate: { newRate = null, rateStatus = '', stopStatus = '' } = {}
@@ -53,6 +58,27 @@
 		expandedRows = expandedRows;
 	}
 
+	async function refreshJobStatus(jobId: Bytes) {
+		refreshLoading = true;
+
+		const updatedStatus = await refreshJobStatusForJobId(jobId);
+
+		oysterStore.update((state) => {
+			const jobData = state.jobsData;
+			let jobWithMatchingJobId = jobData.find((job) => updatedStatus.jobId === job.id);
+
+			if (jobWithMatchingJobId) {
+				jobWithMatchingJobId.ip = updatedStatus.ip;
+			}
+			return {
+				...state,
+				jobsData: jobData
+			};
+		});
+		refreshLoading = false;
+	}
+
+	$: isJobFinished = !Boolean(Math.floor(endEpochTime - Date.now() / 1000) > 0);
 	$: isOpen = expandedRows.has(id.toString());
 	$: closeButtonText =
 		stopStatus === '' || stopStatus === 'disabled'
@@ -69,92 +95,115 @@
 			: 'CONFIRM RATE AMEND';
 </script>
 
-{#if live}
-	<tr class="main-row hover:bg-base-200">
-		<td class={tableCellClasses.row}>
-			<NameWithAddress {name} {address} {rowIndex}>
-				<svelte:fragment slot="copyIcon">
-					<div class="w-4">
-						<div class="copy-icon cursor-pointer">
-							<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
-						</div>
+<tr class="main-row hover:bg-base-200">
+	<td class={tableCellClasses.row}>
+		<NameWithAddress {name} {address} {rowIndex}>
+			<svelte:fragment slot="copyIcon">
+				<div class="w-4">
+					<div class="copy-icon cursor-pointer">
+						<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
 					</div>
-				</svelte:fragment>
-			</NameWithAddress>
-		</td>
-		<td class={tableCellClasses.rowNormal}>
-			{ip ?? 'N/A'}
-		</td>
-		<td class={tableCellClasses.rowNormal}>
-			{instance ?? 'N/A'}
-		</td>
-		<td class={tableCellClasses.rowNormal}>
-			{region ?? 'N/A'}
-		</td>
-		<td class={tableCellClasses.rowNormal}>
-			<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate, maxDecimals)}`}>
-				{symbol}{convertRateToPerHourString(rate)}
-			</Tooltip>
-		</td>
-		<td class={tableCellClasses.rowNormal}>
-			<Tooltip tooltipText={`${symbol}${bigNumberToCommaString(balance, maxDecimals)}`}>
-				{symbol}{bigNumberToCommaString(balance, oysterAmountPrecision)}
-			</Tooltip>
-		</td>
-		<td class={tableCellClasses.rowNormal}>
-			<Timer timerId={`timer-for-inventory-table-row-${id}`} {endEpochTime}>
-				<div slot="active" let:timer class="mx-auto">
-					<Tooltip tooltipText={epochToDurationString(timer)} tooltipDirection="tooltip-left">
-						<div
-							class="py-1 w-24 text-white rounded mx-auto text-sm text-center"
-							style={`background-color:${getColorHexByVariant(getInventoryDurationVariant(timer))}`}
-						>
-							{epochToDurationString(timer, true)}
-						</div>
-					</Tooltip>
 				</div>
-				<div slot="inactive" class="mx-auto">Ended</div>
-			</Timer>
-		</td>
-		<td class={tableCellClasses.rowNormal}>
-			<CollapseButton
-				styleClass="mr-6"
-				{isOpen}
-				onclick={() => {
-					toggleRowExpansion(id.toString());
-				}}
-			/>
-		</td>
-	</tr>
-	<tr class="expanded-row">
-		{#if isOpen}
-			<td colspan="12">
-				<div transition:slide={{ duration: 400 }} class="flex gap-4 mt-4 mb-8 px-8">
+			</svelte:fragment>
+		</NameWithAddress>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
+		{ip ?? 'N/A'}
+	</td>
+	<td class={tableCellClasses.rowNormal}>
+		{instance ?? 'N/A'}
+	</td>
+	<td class={tableCellClasses.rowNormal}>
+		{region ?? 'N/A'}
+	</td>
+	<td class={tableCellClasses.rowNormal}>
+		<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate, maxDecimals)}`}>
+			{symbol}{convertRateToPerHourString(rate)}
+		</Tooltip>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
+		<Tooltip tooltipText={`${symbol}${bigNumberToCommaString(balance, maxDecimals)}`}>
+			{symbol}{bigNumberToCommaString(balance, oysterAmountPrecision)}
+		</Tooltip>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
+		<Timer timerId={`timer-for-inventory-table-row-${id}`} {endEpochTime}>
+			<div slot="active" let:timer class="mx-auto">
+				<Tooltip tooltipText={epochToDurationString(timer)} tooltipDirection="tooltip-left">
+					<div
+						class="py-1 w-24 text-white rounded mx-auto text-sm text-center"
+						style={`background-color:${getColorHexByVariant(getInventoryDurationVariant(timer))}`}
+					>
+						{epochToDurationString(timer, true)}
+					</div>
+				</Tooltip>
+			</div>
+			<div slot="inactive" class="mx-auto">Ended</div>
+		</Timer>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
+		<CollapseButton
+			styleClass="mr-6"
+			{isOpen}
+			onclick={() => {
+				toggleRowExpansion(id.toString());
+			}}
+		/>
+	</td>
+</tr>
+<tr class="expanded-row">
+	{#if isOpen}
+		<td colspan="12">
+			<div transition:slide={{ duration: 400 }} class="flex gap-4 mt-4 mb-8 px-8">
+				{#if !isJobFinished}
 					<ModalButton
 						variant="filled"
 						size="small"
 						icon={plus}
 						modalFor={`job-add-funds-modal-${id}`}
+						disabled={isJobFinished}
 					>
 						ADD FUNDS
 					</ModalButton>
-					<ModalButton variant="outlined" size="small" modalFor={`job-stop-modal-${id}`}>
+					<ModalButton
+						variant="outlined"
+						size="small"
+						modalFor={`job-stop-modal-${id}`}
+						disabled={isJobFinished}
+					>
 						{closeButtonText}
 					</ModalButton>
-					<ModalButton variant="outlined" size="small" modalFor={`job-withdraw-fund-modal-${id}`}>
+					<ModalButton
+						variant="outlined"
+						size="small"
+						modalFor={`job-withdraw-fund-modal-${id}`}
+						disabled={isJobFinished}
+					>
 						WITHDRAW
 					</ModalButton>
-					<ModalButton variant="outlined" size="small" modalFor={`job-amend-rate-modal-${id}`}>
+					<ModalButton
+						variant="outlined"
+						size="small"
+						modalFor={`job-amend-rate-modal-${id}`}
+						disabled={isJobFinished}
+					>
 						{amendRateButtonText}
 					</ModalButton>
-					<ModalButton variant="outlined" size="small" modalFor={`job-details-modal-${id}`}>
-						DETAILS
-					</ModalButton>
-				</div>
-			</td>
-		{/if}
-	</tr>
-{/if}
+					<Button
+						variant="outlined"
+						loading={refreshLoading}
+						size="small"
+						onclick={() => refreshJobStatus(id)}>REFRESH</Button
+					>
+				{/if}
+				<ModalButton variant="outlined" size="small" modalFor={`job-details-modal-${id}`}>
+					DETAILS
+				</ModalButton>
+			</div>
+		</td>
+	{/if}
+</tr>
+
 <InventoryJobDetailsModal bind:jobData={rowData} modalFor={`job-details-modal-${id}`} />
 <AddFundsToJobModal bind:jobData={rowData} modalFor={`job-add-funds-modal-${id}`} />
 <WithdrawFundsFromJobModal bind:jobData={rowData} modalFor={`job-withdraw-fund-modal-${id}`} />

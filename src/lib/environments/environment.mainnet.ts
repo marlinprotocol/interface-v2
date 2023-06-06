@@ -22,6 +22,6 @@ export const ENVIRONMENT_MAINNET = {
 	public_oyster_provider_instances_url: 'https://api.aragog.live/operators/spec',
 	public_oyster_job_status_url: 'https://api.aragog.live/operators/jobs/',
 	public_oyster_job_refresh_url: 'https://api.aragog.live/operators/jobs/refresh/',
-	valid_chain_ids: [421613],
-	valid_chain_ids_with_0x: ['0x66eed']
+	valid_chain_ids: [42161],
+	valid_chain_ids_with_0x: ['0xa4b1']
 };

@@ -2,6 +2,7 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
+	import { addToast } from '$lib/data-stores/toastStore';
 	import type {
 		OysterFiltersModel,
 		OysterMarketplaceDataModel
@@ -18,6 +19,7 @@
 	export let rate: BigNumber | undefined;
 	export let providerAddress: string | undefined;
 	export let handleChange = () => {};
+	export let notServiceable: boolean = false;
 
 	let filters: Partial<OysterFiltersModel> = getCreateOrderInstanceRegionFilters(
 		providerAddress,
@@ -48,6 +50,15 @@
 			jobValues.region.value,
 			allMarketplaceData
 		);
+		if (rate == undefined && jobValues.region.value != '') {
+			notServiceable = true;
+			addToast({
+				message: `${value} is not serviceable for the selected region, please select another instance`,
+				variant: 'error'
+			});
+		} else {
+			notServiceable = false;
+		}
 	};
 
 	const handleRegionChange = async (value: string | number) => {
@@ -66,6 +77,15 @@
 			jobValues.region.value,
 			allMarketplaceData
 		);
+		if (rate == undefined && jobValues.instance.value != '') {
+			notServiceable = true;
+			addToast({
+				message: `${value} is not serviceable for the selected instance, please select another region`,
+				variant: 'error'
+			});
+		} else {
+			notServiceable = false;
+		}
 	};
 
 	const handleMerchantChange = async (value: string | number) => {

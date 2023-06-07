@@ -134,7 +134,7 @@
 		? `Insufficient balance. Your current wallet has ${bigNumberToCommaString(
 				maxBalance,
 				pondPrecisions
-		  )} POND.`
+		  )} USDC.`
 		: '';
 </script>
 

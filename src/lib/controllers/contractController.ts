@@ -795,7 +795,7 @@ export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber
 export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 	// TODO: check token on mainnet, its POND on testnet
 	const oysterContractAddress = environment.public_oyster_contract_address;
-	const token = 'POND';
+	const token = 'USDC';
 	const pondTokenContractAddress = contractAddresses.tokens[token].address;
 	const ERC20ContractAbi = contractAbi.ERC20;
 	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);

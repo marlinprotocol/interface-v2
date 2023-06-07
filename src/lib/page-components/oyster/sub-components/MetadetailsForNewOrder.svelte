@@ -183,7 +183,7 @@
 	<div class="w-full">
 		<TextInputWithEndButton
 			title={'Memory'}
-			input={memory + (memory ? ' MB' : '')}
+			input={memory + (memory ? ' MiB' : '')}
 			placeholder={'Select'}
 			disabled
 		/>

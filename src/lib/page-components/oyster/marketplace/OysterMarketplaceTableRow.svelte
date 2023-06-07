@@ -47,7 +47,7 @@
 		{region ?? 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate, maxDecimals)}`}>
+		<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate)}`}>
 			{symbol}{convertRateToPerHourString(rate)}
 		</Tooltip>
 	</td>
@@ -55,7 +55,7 @@
 		{vcpu ? vcpu : 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		{memory ? `${memory} GiB` : 'N/A'}
+		{memory ? `${memory} MB` : 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		{#if $connected}

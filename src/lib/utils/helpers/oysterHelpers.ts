@@ -7,14 +7,14 @@ import type {
 } from '$lib/types/oysterComponentType';
 import type { BigNumber } from 'ethers';
 import { BigNumberZero, oysterAmountPrecision } from '../constants/constants';
-import { bigNumberToCommaString } from '../conversion';
+import { bigNumberToString } from '../conversion';
 import { isInputAmountValid } from './commonHelper';
 
 const secondsInHour = 3600;
 
 export const convertRateToPerHourString = (rate: BigNumber, decimal = oysterAmountPrecision) => {
 	const rateInHour = rate.mul(secondsInHour);
-	return bigNumberToCommaString(rateInHour, decimal);
+	return bigNumberToString(rateInHour, decimal);
 };
 
 export const convertHourlyRateToSecondlyRate = (rate: BigNumber) => {

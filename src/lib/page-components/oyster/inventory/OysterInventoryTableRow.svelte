@@ -117,7 +117,7 @@
 		{region ?? 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate, maxDecimals)}`}>
+		<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate)}`}>
 			{symbol}{convertRateToPerHourString(rate)}
 		</Tooltip>
 	</td>

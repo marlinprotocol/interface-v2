@@ -11,7 +11,7 @@ export const kOperatorHistory = '/oyster/operator/history';
 export const kOysterRateMetaData = {
 	currency: 'USDC',
 	symbol: '$',
-	decimal: 18,
+	decimal: 6,
 	rateUnit: 'hour',
 	rateCPUrlUnitInSeconds: 1, // 1 hour
 	rateReviseWaitingTime: 5 * 60 // 5 minutes

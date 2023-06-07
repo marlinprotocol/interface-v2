@@ -76,7 +76,7 @@
 				/>
 				<TextInputCard
 					title={'Memory'}
-					value={(memory?.toString() ?? '') + (memory ? ' MB' : '')}
+					value={(memory?.toString() ?? '') + (memory ? ' MiB' : '')}
 					centered
 					textStyle={styles.textPrimary}
 				/>

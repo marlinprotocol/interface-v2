@@ -178,14 +178,13 @@
 />
 <div class="flex gap-2">
 	<div class="w-full">
-		<TextInputWithEndButton title={'vCPU'} input={vcpu} placeholder={'Select'} disabled />
+		<TextInputWithEndButton title={'vCPU'} input={vcpu} placeholder={'Select'} />
 	</div>
 	<div class="w-full">
 		<TextInputWithEndButton
 			title={'Memory'}
-			input={memory + (memory ? ' MB' : '')}
+			input={memory + (memory ? ' MiB' : '')}
 			placeholder={'Select'}
-			disabled
 		/>
 	</div>
 </div>

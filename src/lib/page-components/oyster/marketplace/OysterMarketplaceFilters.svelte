@@ -113,7 +113,7 @@
 				showTitle={false}
 				cardVariant={'search'}
 				isTableFilter={true}
-				textSuffix={' MB'}
+				textSuffix={' MiB'}
 			/>
 		</div>
 	</div>

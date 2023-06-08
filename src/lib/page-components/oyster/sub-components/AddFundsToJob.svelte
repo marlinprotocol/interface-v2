@@ -33,7 +33,7 @@
 	export let costString = '';
 	export let rateEditable = true;
 
-	const { symbol, decimal } = kOysterRateMetaData;
+	const { symbol, decimal, currency } = kOysterRateMetaData;
 
 	let rateString = '';
 
@@ -134,10 +134,10 @@
 	$: inValidMessage = !cost
 		? ''
 		: invalidCost
-		? `Insufficient balance. Your current wallet has ${bigNumberToCommaString(
+		? `Insufficient balance. Your current wallet has ${bigNumberToString(
 				maxBalance,
-				pondPrecisions
-		  )} POND.`
+				decimal
+		  )} ${currency}.`
 		: '';
 </script>
 

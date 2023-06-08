@@ -6,15 +6,19 @@ import type {
 	OysterMarketplaceFilterModel
 } from '$lib/types/oysterComponentType';
 import type { BigNumber } from 'ethers';
-import { BigNumberZero, oysterAmountPrecision } from '../constants/constants';
-import { bigNumberToCommaString } from '../conversion';
+import { BigNumberZero } from '../constants/constants';
+import { bigNumberToString } from '../conversion';
 import { isInputAmountValid } from './commonHelper';
+import { kOysterRateMetaData } from '../constants/oysterConstants';
 
 const secondsInHour = 3600;
 
-export const convertRateToPerHourString = (rate: BigNumber, decimal = oysterAmountPrecision) => {
+export const convertRateToPerHourString = (
+	rate: BigNumber,
+	decimal = kOysterRateMetaData.decimal
+) => {
 	const rateInHour = rate.mul(secondsInHour);
-	return bigNumberToCommaString(rateInHour, decimal);
+	return bigNumberToString(rateInHour, decimal);
 };
 
 export const convertHourlyRateToSecondlyRate = (rate: BigNumber) => {

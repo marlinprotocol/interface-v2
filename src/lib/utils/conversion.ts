@@ -101,6 +101,9 @@ export const bigNumberToString = (value: BigNumber, bigNumberDecimal = 18) => {
 	if (ret.split('.')[1].length < 2) {
 		ret = ret.split('.')[0] + '.' + ret.split('.')[1].padEnd(2, '0');
 	}
+	// add commas to the string, if ret is 1234.45 then ret will be 1,234.45
+	ret = ethers.utils.commify(ret);
+
 	return ret;
 };
 

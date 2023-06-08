@@ -8,12 +8,11 @@
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
-	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import {
 		kHistoryTableColumnsWidth,
 		kOysterRateMetaData
 	} from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToCommaString, epochToDurationString } from '$lib/utils/conversion';
+	import { bigNumberToString, epochToDurationString } from '$lib/utils/conversion';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
 	import CreateOrderModal from '../inventory/modals/CreateOrderModal.svelte';
 	import PastJobDetailsModal from '../inventory/modals/PastJobDetailsModal.svelte';
@@ -21,7 +20,7 @@
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
 
-	const { symbol } = kOysterRateMetaData;
+	const { symbol, decimal } = kOysterRateMetaData;
 	$: ({
 		provider: { name, address },
 		instance,
@@ -57,13 +56,13 @@
 		{region ?? 'N/A'}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('totalDeposit')}`}>
-		{symbol}{bigNumberToCommaString(totalDeposit, oysterAmountPrecision)}
+		{symbol}{bigNumberToString(totalDeposit, decimal)}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('amountUsed')}`}>
-		{symbol}{bigNumberToCommaString(amountUsed, oysterAmountPrecision)}
+		{symbol}{bigNumberToString(amountUsed, decimal)}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('refund')}`}>
-		{symbol}{bigNumberToCommaString(refund, oysterAmountPrecision)}
+		{symbol}{bigNumberToString(refund, decimal)}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kHistoryTableColumnsWidth('durationRun')}`}>
 		<Tooltip tooltipText={epochToDurationString(endEpochTime - createdAt)}>

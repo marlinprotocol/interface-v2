@@ -9,9 +9,8 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
-	import { maxDecimals, oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToCommaString, epochToDurationString } from '$lib/utils/conversion';
+	import { bigNumberToString, epochToDurationString } from '$lib/utils/conversion';
 	import {
 		convertRateToPerHourString,
 		getInventoryDurationVariant
@@ -27,13 +26,12 @@
 	import type { Bytes } from 'ethers';
 	import { refreshJobStatusForJobId } from '$lib/controllers/httpController';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import AddFundsToJob from '../sub-components/AddFundsToJob.svelte';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
 	export let expandedRows: Set<string>;
 
-	const { symbol } = kOysterRateMetaData;
+	const { symbol, decimal } = kOysterRateMetaData;
 	let refreshLoading = false;
 	$: ({
 		provider: { name, address },
@@ -117,13 +115,13 @@
 		{region ?? 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate, maxDecimals)}`}>
+		<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate)}`}>
 			{symbol}{convertRateToPerHourString(rate)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={`${symbol}${bigNumberToCommaString(balance, maxDecimals)}`}>
-			{symbol}{bigNumberToCommaString(balance, oysterAmountPrecision)}
+		<Tooltip tooltipText={`${symbol}${bigNumberToString(balance, decimal)}`}>
+			{symbol}{bigNumberToString(balance, decimal)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>

@@ -6,7 +6,8 @@
 	import { BigNumberZero, pondPrecisions } from '$lib/utils/constants/constants';
 	import {
 		getDurationInSecondsForUnit,
-		kDurationUnitsList
+		kDurationUnitsList,
+		kOysterRateMetaData
 	} from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
@@ -31,6 +32,8 @@
 	export let invalidCost = false;
 	export let costString = '';
 	export let rateEditable = true;
+
+	const { symbol, decimal } = kOysterRateMetaData;
 
 	let rateString = '';
 
@@ -71,7 +74,7 @@
 				const hourlyRate = stringToBigNumber(value);
 				rate = convertHourlyRateToSecondlyRate(hourlyRate);
 				const _cost = computeCost(duration || 0, rate);
-				costString = bigNumberToString(_cost);
+				costString = bigNumberToString(_cost, decimal);
 			}
 		} catch (error) {
 			rate = undefined;
@@ -85,7 +88,7 @@
 		try {
 			duration = computeDuration(value, durationUnitInSec);
 			const _cost = computeCost(duration || 0, rate);
-			costString = bigNumberToString(_cost);
+			costString = bigNumberToString(_cost, decimal);
 		} catch (error) {
 			duration = 0;
 			console.log(error);
@@ -96,7 +99,7 @@
 		durationUnitInSec = getDurationInSecondsForUnit(unit);
 		duration = computeDuration(durationString, durationUnitInSec);
 		const _cost = computeCost(duration || 0, rate);
-		costString = bigNumberToString(_cost);
+		costString = bigNumberToString(_cost, decimal);
 	};
 
 	const handleCostChange = (e: any) => {
@@ -114,7 +117,7 @@
 		}
 		if (_cost && rate) {
 			try {
-				let _rate = rate.toNumber() / 10 ** 18;
+				let _rate = rate.toNumber() / 10 ** decimal;
 				duration = Math.floor(_cost / _rate);
 				costString = value;
 			} catch (error) {
@@ -142,7 +145,7 @@
 	<AmountInputWithTitle
 		title={'Hourly Rate'}
 		bind:inputAmountString={rateString}
-		prefix={'$'}
+		prefix={symbol}
 		handleUpdatedAmount={handleRateChange}
 		disabled={!rateEditable}
 	/>

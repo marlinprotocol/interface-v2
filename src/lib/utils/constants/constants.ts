@@ -8,7 +8,6 @@ export const GET_OPTIONS = {
 };
 
 export const maxDecimals = 18;
-export const oysterAmountPrecision = 6;
 export const pondPrecisions = 2;
 export const mPondPrecisions = 6;
 

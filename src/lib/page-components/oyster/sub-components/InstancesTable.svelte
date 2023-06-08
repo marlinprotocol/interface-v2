@@ -7,10 +7,10 @@
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
 	import { kInstancesTableHeader, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToString } from '$lib/utils/conversion';
+	import { convertRateToPerHourString } from '$lib/utils/helpers/oysterHelpers';
 	import { slide } from 'svelte/transition';
 
-	const { decimal } = kOysterRateMetaData;
+	const { symbol, decimal } = kOysterRateMetaData;
 
 	const styles = {
 		docButton: 'text-primary font-medium',
@@ -45,7 +45,7 @@
 								<td class={styles.tableCell}>{row.instance}</td>
 								<td class={styles.tableCell}>{row.region}</td>
 								<td class={styles.tableCell}>
-									{bigNumberToString(row.rate.mul(3600), decimal)}
+									{symbol}{convertRateToPerHourString(row.rate, decimal)}
 								</td>
 							</tr>
 						{/each}

@@ -9,10 +9,9 @@
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
-	import { maxDecimals, oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import {
-		bigNumberToCommaString,
+		bigNumberToString,
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/conversion';
@@ -62,8 +61,10 @@
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={`${symbol}${bigNumberToCommaString(amountToBeSettled, maxDecimals)}`}>
-			{symbol}{bigNumberToCommaString(amountToBeSettled, oysterAmountPrecision)}
+		<Tooltip
+			tooltipText={`${symbol}${bigNumberToString(amountToBeSettled, kOysterRateMetaData.decimal)}`}
+		>
+			{symbol}{bigNumberToString(amountToBeSettled, kOysterRateMetaData.decimal)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>

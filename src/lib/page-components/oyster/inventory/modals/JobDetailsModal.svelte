@@ -3,9 +3,9 @@
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
+	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import {
-		bigNumberToCommaString,
+		bigNumberToString,
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/conversion';
@@ -29,7 +29,7 @@
 		endEpochTime,
 		depositHistory
 	} = jobData);
-
+	const { symbol, decimal } = kOysterRateMetaData;
 	const nowTime = new Date().getTime() / 1000;
 	const styles = {
 		modalWidth: 'w-11/12 sm:max-w-[700px]',
@@ -70,13 +70,13 @@
 				/>
 				<TextInputCard
 					title={'Memory'}
-					value={(memory?.toString() ?? '') + (memory ? ' GiB' : '')}
+					value={(memory?.toString() ?? '') + (memory ? ' MB' : '')}
 					centered
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
 					title={'Hourly Rate'}
-					value={`$${convertRateToPerHourString(rate)}`}
+					value={`${symbol}${convertRateToPerHourString(rate)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
@@ -90,13 +90,13 @@
 				/>
 				<TextInputCard
 					title={'Total Paid'}
-					value={bigNumberToCommaString(totalDeposit, oysterAmountPrecision)}
+					value={`${symbol}${bigNumberToString(totalDeposit, decimal)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
 					title={'Amount Used'}
-					value={bigNumberToCommaString(amountUsed, oysterAmountPrecision)}
+					value={`${symbol}${bigNumberToString(amountUsed, decimal)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>

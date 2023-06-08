@@ -175,4 +175,4 @@
 		disabled={!rate}
 	/>
 </div>
-<ErrorTextCard showError={inValidMessage != ''} errorMessage={inValidMessage} styleClass="mt-0" />
+<ErrorTextCard showError={inValidMessage != ''} errorMessage={inValidMessage} />

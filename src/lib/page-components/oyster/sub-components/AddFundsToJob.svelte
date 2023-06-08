@@ -71,7 +71,7 @@
 				const hourlyRate = stringToBigNumber(value);
 				rate = convertHourlyRateToSecondlyRate(hourlyRate);
 				const _cost = computeCost(duration || 0, rate);
-				costString = bigNumberToString(_cost);
+				costString = bigNumberToString(_cost, 6);
 			}
 		} catch (error) {
 			rate = undefined;
@@ -85,7 +85,7 @@
 		try {
 			duration = computeDuration(value, durationUnitInSec);
 			const _cost = computeCost(duration || 0, rate);
-			costString = bigNumberToString(_cost);
+			costString = bigNumberToString(_cost, 6);
 		} catch (error) {
 			duration = 0;
 			console.log(error);
@@ -96,7 +96,7 @@
 		durationUnitInSec = getDurationInSecondsForUnit(unit);
 		duration = computeDuration(durationString, durationUnitInSec);
 		const _cost = computeCost(duration || 0, rate);
-		costString = bigNumberToString(_cost);
+		costString = bigNumberToString(_cost, 6);
 	};
 
 	const handleCostChange = (e: any) => {
@@ -114,7 +114,7 @@
 		}
 		if (_cost && rate) {
 			try {
-				let _rate = rate.toNumber() / 10 ** 18;
+				let _rate = rate.toNumber() / 10 ** 6;
 				duration = Math.floor(_cost / _rate);
 				costString = value;
 			} catch (error) {
@@ -127,7 +127,7 @@
 
 	$: durationString = computeDurationString(duration, durationUnitInSec);
 	$: cost = computeCost(duration || 0, rate);
-	$: invalidCost = !cost || !maxBalance.gte(cost);
+	$: invalidCost = !cost;
 	$: inValidMessage = !cost
 		? ''
 		: invalidCost

@@ -4,8 +4,8 @@
 	import Header from '$lib/components/header/Header.svelte';
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
 	import { getJobStatuses } from '$lib/controllers/httpController';
+	import { getApprovedOysterAllowances } from '$lib/controllers/contractController';
 	import {
-		getApprovedOysterAllowances,
 		getOysterJobs,
 		getProviderDetailsFromSubgraph
 	} from '$lib/controllers/subgraphController';

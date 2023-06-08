@@ -441,35 +441,35 @@ export async function getAllProvidersDetailsFromSubgraph() {
 	}
 }
 
-export async function getApprovedOysterAllowances(address: Address) {
-	const oysterContractAddress = environment.public_oyster_contract_address;
-	const url = environment.public_contract_subgraph_url;
-	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
-
-	const queryVariables = {
-		address: address.toLowerCase(),
-		contractAddress: oysterContractAddress.toLowerCase()
-	};
-
-	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-	let pond = BigNumberZero;
-	try {
-		const result = await fetchHttpData(url, options);
-		const pondApprovals = result['data']?.pondApprovals;
-
-		if (pondApprovals && pondApprovals.length > 0) {
-			pond = BigNumber.from(pondApprovals[0]?.value ?? 0);
-		} else {
-			if (result['errors']) {
-				showFetchHttpDataError(result['errors']);
-			}
-		}
-		return pond;
-	} catch (error) {
-		console.log('Error fetching oyster allowances from subgraph', error);
-		return pond;
-	}
-}
+// export async function getApprovedOysterAllowances(address: Address) {
+// 	const oysterContractAddress = environment.public_oyster_contract_address;
+// 	const url = environment.public_contract_subgraph_url;
+// 	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
+//
+// 	const queryVariables = {
+// 		address: address.toLowerCase(),
+// 		contractAddress: oysterContractAddress.toLowerCase()
+// 	};
+//
+// 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+// 	let pond = BigNumberZero;
+// 	try {
+// 		const result = await fetchHttpData(url, options);
+// 		const pondApprovals = result['data']?.pondApprovals;
+//
+// 		if (pondApprovals && pondApprovals.length > 0) {
+// 			pond = BigNumber.from(pondApprovals[0]?.value ?? 0);
+// 		} else {
+// 			if (result['errors']) {
+// 				showFetchHttpDataError(result['errors']);
+// 			}
+// 		}
+// 		return pond;
+// 	} catch (error) {
+// 		console.log('Error fetching oyster allowances from subgraph', error);
+// 		return pond;
+// 	}
+// }
 
 export async function getOysterMerchantJobs(address: Address) {
 	const url = environment.public_enclaves_contract_subgraph_url;

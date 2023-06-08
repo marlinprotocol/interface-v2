@@ -3,11 +3,12 @@ import { addToast } from '$lib/data-stores/toastStore';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
 import { environmentStore } from '$lib/data-stores/environment';
 import type { Environment } from '$lib/types/environmentTypes';
-import type { ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
+import type { Address, ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
 import { mPondPrecisions, oysterMarketAbi, pondPrecisions } from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToCommaString } from '$lib/utils/conversion';
 import { capitalizeFirstLetter, minifyAddress } from '$lib/utils/helpers/commonHelper';
+import { BigNumberZero } from '$lib/utils/constants/constants';
 import { BigNumber, ethers, type Bytes } from 'ethers';
 
 let contractAbi: ContractAbi;
@@ -796,7 +797,7 @@ export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 	// TODO: check token on mainnet, its POND on testnet
 	const oysterContractAddress = environment.public_oyster_contract_address;
 	const token = 'USDC';
-	const pondTokenContractAddress = contractAddresses.tokens[token].address;
+	const pondTokenContractAddress = "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8";
 	const ERC20ContractAbi = contractAbi.ERC20;
 	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);
 	try {
@@ -1054,3 +1055,26 @@ export async function settleOysterJob(jobId: Bytes) {
 		throw new Error('Transaction Error while settling Oyster Job');
 	}
 }
+
+export async function getApprovedOysterAllowances(address: Address) {
+	const usdcTokenContractAddress = "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8";
+	const ERC20ContractAbi = contractAbi.ERC20;
+	const usdcTokenContract = new ethers.Contract(usdcTokenContractAddress, ERC20ContractAbi, signer);
+
+	try {
+		const oysterContractAddress = environment.public_oyster_contract_address;
+		let allowance = await usdcTokenContract.allowance(address, oysterContractAddress.toLowerCase());
+
+		return BigNumber.from(allowance);
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		return BigNumberZero;
+	}
+}
+

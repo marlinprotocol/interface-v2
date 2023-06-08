@@ -76,7 +76,7 @@
 		refreshLoading = false;
 	}
 
-	$: isJobFinished = !Boolean(Math.floor(endEpochTime - Date.now() / 1000) > 0);
+	$: isJobFinished = !(Math.floor(endEpochTime - Date.now() / 1000) > 0);
 	$: isOpen = expandedRows.has(id.toString());
 	$: closeButtonText =
 		stopStatus === '' || stopStatus === 'disabled'

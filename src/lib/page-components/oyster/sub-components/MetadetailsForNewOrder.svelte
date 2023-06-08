@@ -19,7 +19,7 @@
 	export let rate: BigNumber | undefined;
 	export let providerAddress: string | undefined;
 	export let handleChange = () => {};
-	export let notServiceable: boolean = false;
+	export let notServiceable = false;
 
 	let filters: Partial<OysterFiltersModel> = getCreateOrderInstanceRegionFilters(
 		providerAddress,

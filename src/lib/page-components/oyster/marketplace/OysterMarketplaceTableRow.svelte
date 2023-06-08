@@ -55,7 +55,7 @@
 		{vcpu ? vcpu : 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		{memory ? `${memory} GiB` : 'N/A'}
+		{memory ? `${memory} MB` : 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		{#if $connected}

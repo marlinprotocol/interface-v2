@@ -6,10 +6,11 @@
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
-	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
-	import { kInstancesTableHeader } from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToCommaString } from '$lib/utils/conversion';
+	import { kInstancesTableHeader, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { bigNumberToString } from '$lib/utils/conversion';
 	import { slide } from 'svelte/transition';
+
+	const { decimal } = kOysterRateMetaData;
 
 	const styles = {
 		docButton: 'text-primary font-medium',
@@ -44,7 +45,7 @@
 								<td class={styles.tableCell}>{row.instance}</td>
 								<td class={styles.tableCell}>{row.region}</td>
 								<td class={styles.tableCell}>
-									{bigNumberToCommaString(row.rate, oysterAmountPrecision)}
+									{bigNumberToString(row.rate.mul(3600), decimal)}
 								</td>
 							</tr>
 						{/each}

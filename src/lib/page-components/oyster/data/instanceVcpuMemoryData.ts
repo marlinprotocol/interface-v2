@@ -183,6 +183,7 @@ export const instanceVcpuMemoryData: [string, ...Array<number>][] = [
 	['r5d.2xlarge', 65536, 8],
 	['m5d.12xlarge', 196608, 48],
 	['u-6tb1.112xlarge', 6291456, 448],
+	['u-12tb1.112xlarge', 12582912, 448],
 	['t3a.large', 8192, 2],
 	['r6i.16xlarge', 524288, 64],
 	['r6i.12xlarge', 393216, 48],

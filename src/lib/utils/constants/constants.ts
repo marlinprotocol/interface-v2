@@ -7,6 +7,8 @@ export const GET_OPTIONS = {
 	}
 };
 
+export const MEMORY_SUFFIX = ' MiB';
+
 export const maxDecimals = 18;
 export const pondPrecisions = 2;
 export const mPondPrecisions = 6;

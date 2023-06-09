@@ -6,6 +6,7 @@
 		OysterMarketplaceDataModel,
 		OysterMarketplaceFilterModel
 	} from '$lib/types/oysterComponentType';
+	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import {
 		getAllFiltersListforMarketplaceData,
 		getSearchAndFilteredMarketplaceData,
@@ -113,7 +114,7 @@
 				showTitle={false}
 				cardVariant={'search'}
 				isTableFilter={true}
-				textSuffix={' MiB'}
+				textSuffix={MEMORY_SUFFIX}
 			/>
 		</div>
 	</div>

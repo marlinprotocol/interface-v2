@@ -9,6 +9,7 @@ import { MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToCommaString } from '$lib/utils/conversion';
 import { capitalizeFirstLetter, minifyAddress } from '$lib/utils/helpers/commonHelper';
 import { BigNumber, ethers, type Bytes } from 'ethers';
+import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 
 let contractAbi: ContractAbi;
 let contractAddresses: ContractAddress;
@@ -795,7 +796,7 @@ export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber
 export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 	// TODO: check token on mainnet, its POND on testnet
 	const oysterContractAddress = environment.public_oyster_contract_address;
-	const token = 'USDC';
+	const token = kOysterRateMetaData.currency;
 	const pondTokenContractAddress = contractAddresses.tokens[token].address;
 	const ERC20ContractAbi = contractAbi.ERC20;
 	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);

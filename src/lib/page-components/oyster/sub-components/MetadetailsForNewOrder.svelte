@@ -7,6 +7,7 @@
 		OysterFiltersModel,
 		OysterMarketplaceDataModel
 	} from '$lib/types/oysterComponentType';
+	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import { getvCpuMemoryData } from '$lib/utils/data-modifiers/oysterModifiers';
 	import {
 		getCreateOrderInstanceRegionFilters,
@@ -183,7 +184,7 @@
 	<div class="w-full">
 		<TextInputWithEndButton
 			title={'Memory'}
-			input={memory + (memory ? ' MiB' : '')}
+			input={memory + (memory ? MEMORY_SUFFIX : '')}
 			placeholder={'Select'}
 			disabled
 		/>

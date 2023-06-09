@@ -4,6 +4,7 @@
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToCommaString,
@@ -78,7 +79,7 @@
 				/>
 				<TextInputCard
 					title={'Memory'}
-					value={(memory?.toString() ?? '') + (memory ? ' MiB' : '')}
+					value={(memory?.toString() ?? '') + (memory ? MEMORY_SUFFIX : '')}
 					centered
 					textStyle={styles.textPrimary}
 				/>

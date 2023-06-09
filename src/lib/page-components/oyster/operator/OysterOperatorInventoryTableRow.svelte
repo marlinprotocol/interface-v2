@@ -22,7 +22,7 @@
 	export let rowIndex: number;
 	let submitLoading = false;
 
-	const { symbol } = kOysterRateMetaData;
+	const { symbol, decimal, precision } = kOysterRateMetaData;
 
 	const handleClaimClick = async () => {
 		submitLoading = true;
@@ -61,10 +61,8 @@
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Tooltip
-			tooltipText={`${symbol}${bigNumberToString(amountToBeSettled, kOysterRateMetaData.decimal)}`}
-		>
-			{symbol}{bigNumberToString(amountToBeSettled, kOysterRateMetaData.decimal)}
+		<Tooltip tooltipText={`${symbol}${bigNumberToString(amountToBeSettled, decimal, precision)}`}>
+			{symbol}{bigNumberToString(amountToBeSettled, decimal)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>

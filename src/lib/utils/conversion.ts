@@ -92,19 +92,26 @@ export const bigNumberToCommaString = (value: BigNumber, decimals = 2) => {
  * Returns string for a big number
  * @param value: big number
  * @param bigNumberDecimal: decimal of the big number, default set to 18
+ * @param precision: number of digits after the decimal point, default set to 2
  * @returns string
  */
-export const bigNumberToString = (value: BigNumber, bigNumberDecimal = 18) => {
-	if (!value) return '0.00';
-	let ret = ethers.utils.formatUnits(value, bigNumberDecimal);
-	//if decimal count is less than 2, pad end it with 0
-	if (ret.split('.')[1].length < 2) {
-		ret = ret.split('.')[0] + '.' + ret.split('.')[1].padEnd(2, '0');
+export const bigNumberToString = (value: BigNumber, bigNumberDecimal = 18, precision = 2) => {
+	if (value === undefined || value === null) {
+		throw new Error('Invalid value');
 	}
-	// add commas to the string, if ret is 1234.45 then ret will be 1,234.45
-	ret = ethers.utils.commify(ret);
 
-	return ret;
+	const formattedValue = ethers.utils.formatUnits(value, bigNumberDecimal);
+
+	if (!formattedValue.includes('.')) {
+		// Integer value, no decimal part
+		return ethers.utils.commify(formattedValue) + '.' + '0'.repeat(precision);
+	}
+
+	const [integerPart, decimalPart] = formattedValue.split('.');
+	const commifiedIntegerPart = ethers.utils.commify(integerPart);
+	const truncatedDecimalPart = decimalPart.slice(0, precision).padEnd(precision, '0');
+
+	return `${commifiedIntegerPart}.${truncatedDecimalPart}`;
 };
 
 //return bignumber from string with decimal

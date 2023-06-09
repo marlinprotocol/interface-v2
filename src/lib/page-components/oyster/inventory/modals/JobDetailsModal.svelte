@@ -77,7 +77,7 @@
 				/>
 				<TextInputCard
 					title={'Hourly Rate'}
-					value={`${symbol}${convertRateToPerHourString(rate)}`}
+					value={`${symbol}${convertRateToPerHourString(rate, decimal)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>

@@ -17,7 +17,7 @@
 	export let rowData: OysterMarketplaceDataModel;
 	export let rowIndex: number;
 
-	const { symbol } = kOysterRateMetaData;
+	const { symbol, decimal, precision } = kOysterRateMetaData;
 	$: ({
 		provider: { name, address },
 		instance,
@@ -47,8 +47,8 @@
 		{region ?? 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate, maxDecimals)}`}>
-			{symbol}{convertRateToPerHourString(rate)}
+		<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate, decimal, precision)}`}>
+			{symbol}{convertRateToPerHourString(rate, decimal)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>

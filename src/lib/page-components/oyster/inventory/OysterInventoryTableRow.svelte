@@ -31,7 +31,7 @@
 	export let rowIndex: number;
 	export let expandedRows: Set<string>;
 
-	const { symbol, decimal } = kOysterRateMetaData;
+	const { symbol, decimal, precision } = kOysterRateMetaData;
 	let refreshLoading = false;
 	$: ({
 		provider: { name, address },
@@ -115,12 +115,12 @@
 		{region ?? 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate)}`}>
-			{symbol}{convertRateToPerHourString(rate)}
+		<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate, decimal, precision)}`}>
+			{symbol}{convertRateToPerHourString(rate, decimal)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={`${symbol}${bigNumberToString(balance, decimal)}`}>
+		<Tooltip tooltipText={`${symbol}${bigNumberToString(balance, decimal, precision)}`}>
 			{symbol}{bigNumberToString(balance, decimal)}
 		</Tooltip>
 	</td>

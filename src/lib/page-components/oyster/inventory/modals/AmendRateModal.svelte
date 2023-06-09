@@ -27,7 +27,7 @@
 
 	$: ({ rate, reviseRate: { newRate = BigNumberZero, updatesAt = 0, rateStatus = '' } = {} } =
 		jobData);
-	const { symbol } = kOysterRateMetaData;
+	const { symbol, decimal } = kOysterRateMetaData;
 
 	//initial states
 	let inputRate: BigNumber = BigNumberZero;
@@ -91,7 +91,7 @@
 			<div class="flex gap-4">
 				<AmountInputWithTitle
 					title={`Current Hourly Rate`}
-					inputAmountString={convertRateToPerHourString(rate)}
+					inputAmountString={convertRateToPerHourString(rate, decimal)}
 					disabled
 					prefix={symbol}
 				/>
@@ -100,7 +100,7 @@
 				{:else}
 					<AmountInputWithTitle
 						title="New Hourly Rate"
-						inputAmountString={convertRateToPerHourString(newRate)}
+						inputAmountString={convertRateToPerHourString(newRate, decimal)}
 						prefix={symbol}
 						disabled
 					/>

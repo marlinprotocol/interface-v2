@@ -9,16 +9,12 @@ import type { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
 import { bigNumberToString } from '../conversion';
 import { isInputAmountValid } from './commonHelper';
-import { kOysterRateMetaData } from '../constants/oysterConstants';
 
 const secondsInHour = 3600;
 
-export const convertRateToPerHourString = (
-	rate: BigNumber,
-	decimal = kOysterRateMetaData.decimal
-) => {
+export const convertRateToPerHourString = (rate: BigNumber, decimal = 18, precision = 2) => {
 	const rateInHour = rate.mul(secondsInHour);
-	return bigNumberToString(rateInHour, decimal);
+	return bigNumberToString(rateInHour, decimal, precision);
 };
 
 export const convertHourlyRateToSecondlyRate = (rate: BigNumber) => {

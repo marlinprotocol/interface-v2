@@ -39,7 +39,7 @@
 
 	const updateRateString = (_rate: BigNumber | undefined) => {
 		if (_rate && rateString === '') {
-			rateString = _rate ? convertRateToPerHourString(_rate) : '';
+			rateString = _rate ? convertRateToPerHourString(_rate, decimal) : '';
 			return;
 		}
 		if (!_rate && rateString !== '') {

@@ -12,6 +12,7 @@ export const kOysterRateMetaData = {
 	currency: 'USDC',
 	symbol: '$',
 	decimal: 6,
+	precision: 6,
 	rateUnit: 'hour',
 	rateCPUrlUnitInSeconds: 1, // 1 hour
 	rateReviseWaitingTime: 5 * 60 // 5 minutes

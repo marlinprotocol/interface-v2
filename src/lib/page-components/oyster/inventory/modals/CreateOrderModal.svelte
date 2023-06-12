@@ -82,44 +82,35 @@
 	};
 
 	// deep copy of initial states
-	let jobValues = {
-		merchant: {
-			...initialStates.merchant
-		},
-		instance: {
-			...initialStates.instance
-		},
-		region: {
-			...initialStates.region
-		},
-		enclaveImageUrl: {
-			...initialStates.enclaveImageUrl
-		}
+	let merchant = {
+		...initialStates.merchant
+	};
+	let instance = {
+		...initialStates.instance
+	};
+	let region = {
+		...initialStates.region
+	};
+	let enclaveImageUrl = {
+		...initialStates.enclaveImageUrl
 	};
 
 	const handleSubmitClick = async () => {
-		if (!rate || !cost || !jobValues.instance.value || !jobValues.region.value) {
+		if (!rate || !cost || !instance.value || !region.value) {
 			return;
 		}
 
-		const { vcpu, memory } = getvCpuMemoryData(jobValues.instance.value);
+		// const { vcpu, memory } = getvCpuMemoryData(instance.value);
 		const metadata = JSON.stringify({
-			instance: jobValues.instance.value,
-			region: jobValues.region.value,
-			memory: memory ?? '',
-			vcpu: vcpu ?? '',
-			url: jobValues.enclaveImageUrl.value
+			instance: instance.value,
+			region: region.value,
+			memory: Number(memory.split(' ')[0]),
+			vcpu: Number(vcpu),
+			url: enclaveImageUrl.value
 		});
 
 		submitLoading = true;
-		const success = await handleCreateJob(
-			owner,
-			metadata,
-			jobValues.merchant.value,
-			rate,
-			cost,
-			duration
-		);
+		const success = await handleCreateJob(owner, metadata, merchant.value, rate, cost, duration);
 		submitLoading = false;
 		if (!success) {
 			return;
@@ -142,19 +133,17 @@
 		handleMerchantChange();
 		submitLoading = false;
 		rate = undefined;
-		jobValues = {
-			merchant: {
-				...initialStates.merchant
-			},
-			instance: {
-				...initialStates.instance
-			},
-			region: {
-				...initialStates.region
-			},
-			enclaveImageUrl: {
-				...initialStates.enclaveImageUrl
-			}
+		merchant = {
+			...initialStates.merchant
+		};
+		instance = {
+			...initialStates.instance
+		};
+		region = {
+			...initialStates.region
+		};
+		enclaveImageUrl = {
+			...initialStates.enclaveImageUrl
 		};
 	};
 
@@ -167,22 +156,24 @@
 
 	let rate = getRateForProviderAndFilters(
 		providerAddress,
-		jobValues.instance.value,
-		jobValues.region.value,
+		instance.value,
+		region.value,
 		allMarketplaceData
 	);
+	let vcpu: string = '';
+	let memory: string = '';
 	let notServiceable = false;
 
 	$: approved = cost && approvedAmount?.gte(cost) && cost.gt(BigNumberZero);
 
 	$: rateDisabled =
 		notServiceable ||
-		jobValues.merchant.error ||
-		jobValues.merchant.value === '' ||
-		jobValues.region.error ||
-		jobValues.region.value === '' ||
-		jobValues.instance.error ||
-		jobValues.instance.value === '';
+		merchant.error ||
+		merchant.value === '' ||
+		region.error ||
+		region.value === '' ||
+		instance.error ||
+		instance.value === '';
 	$: submitEnable =
 		duration &&
 		cost?.gt(BigNumberZero) &&
@@ -190,11 +181,13 @@
 		!invalidCost &&
 		validEnclaveUrl &&
 		!rateDisabled &&
-		jobValues.enclaveImageUrl.value !== '';
+		enclaveImageUrl.value !== '';
 	$: validEnclaveUrl =
-		jobValues.enclaveImageUrl.value !== undefined && jobValues.enclaveImageUrl.value !== ''
-			? checkValidURL(jobValues.enclaveImageUrl.value)
+		enclaveImageUrl.value !== undefined && enclaveImageUrl.value !== ''
+			? checkValidURL(enclaveImageUrl.value)
 			: true;
+
+	$: console.log(vcpu, memory);
 
 	const subtitle =
 		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';
@@ -214,9 +207,13 @@
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-2 px-4">
 			<MetadetailsForNewOrder
-				bind:jobValues
+				bind:merchant
+				bind:instance
+				bind:region
 				bind:providerAddress
 				bind:rate
+				bind:vcpu
+				bind:memory
 				bind:notServiceable
 				{allMarketplaceData}
 				handleChange={handleMerchantChange}
@@ -234,7 +231,7 @@
 				styleClass={styles.inputText}
 				title={'Enclave Image URL'}
 				placeholder={'Paste URL here'}
-				bind:input={jobValues.enclaveImageUrl.value}
+				bind:input={enclaveImageUrl.value}
 			/>
 			<ErrorTextCard
 				styleClass="mt-0"

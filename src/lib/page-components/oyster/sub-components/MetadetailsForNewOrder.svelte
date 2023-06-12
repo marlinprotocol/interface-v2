@@ -15,8 +15,12 @@
 	import type { BigNumber } from 'ethers';
 
 	export let allMarketplaceData: OysterMarketplaceDataModel[];
-	export let jobValues: any;
+	export let merchant: any;
+	export let instance: any;
+	export let region: any;
 	export let rate: BigNumber | undefined;
+	export let vcpu: string;
+	export let memory: string;
 	export let providerAddress: string | undefined;
 	export let handleChange = () => {};
 	export let notServiceable: boolean = false;
@@ -35,22 +39,22 @@
 	];
 
 	const handleInstanceChange = async (value: string | number) => {
-		jobValues.instance.value = value as string;
-		jobValues.instance.isDirty = true;
+		instance.value = value as string;
+		instance.isDirty = true;
 		if (value == '') {
-			jobValues.instance.error = 'Instance is required';
+			instance.error = 'Instance is required';
 		} else if (filters.instance?.indexOf(value.toString()) == -1) {
-			jobValues.instance.error = `${value} is not a valid Instance`;
+			instance.error = `${value} is not a valid Instance`;
 		} else {
-			jobValues.instance.error = '';
+			instance.error = '';
 		}
 		rate = getRateForProviderAndFilters(
 			providerAddress,
-			jobValues.instance.value,
-			jobValues.region.value,
+			instance.value,
+			region.value,
 			allMarketplaceData
 		);
-		if (rate == undefined && jobValues.region.value != '') {
+		if (rate == undefined && region.value != '') {
 			notServiceable = true;
 			addToast({
 				message: `${value} is not serviceable for the selected region, please select another instance`,
@@ -62,22 +66,22 @@
 	};
 
 	const handleRegionChange = async (value: string | number) => {
-		jobValues.region.value = value as string;
-		jobValues.region.isDirty = true;
+		region.value = value as string;
+		region.isDirty = true;
 		if (value == '') {
-			jobValues.region.error = 'Region is required';
+			region.error = 'Region is required';
 		} else if (!filters.region?.some(([_, region]) => region === value)) {
-			jobValues.region.error = `${value} is not a valid Region`;
+			region.error = `${value} is not a valid Region`;
 		} else {
-			jobValues.region.error = '';
+			region.error = '';
 		}
 		rate = getRateForProviderAndFilters(
 			providerAddress,
-			jobValues.instance.value,
-			jobValues.region.value,
+			instance.value,
+			region.value,
 			allMarketplaceData
 		);
-		if (rate == undefined && jobValues.instance.value != '') {
+		if (rate == undefined && instance.value != '') {
 			notServiceable = true;
 			addToast({
 				message: `${value} is not serviceable for the selected instance, please select another region`,
@@ -89,14 +93,14 @@
 	};
 
 	const handleMerchantChange = async (value: string | number) => {
-		jobValues.merchant.value = value as string;
-		jobValues.merchant.isDirty = true;
+		merchant.value = value as string;
+		merchant.isDirty = true;
 		if (value == '') {
-			jobValues.merchant.error = 'Operator is required';
+			merchant.error = 'Operator is required';
 		} else if (merchantList.indexOf(value.toString()) == -1) {
-			jobValues.merchant.error = `${value} is not a valid Operator`;
+			merchant.error = `${value} is not a valid Operator`;
 		} else {
-			jobValues.merchant.error = '';
+			merchant.error = '';
 		}
 		providerAddress =
 			value != ''
@@ -105,86 +109,87 @@
 				  )?.provider.address
 				: undefined;
 		rate = undefined;
-		jobValues = {
-			...jobValues,
-			instance: {
-				...jobValues.instance,
-				error: '',
-				isDirty: false,
-				value: ''
-			},
-			region: {
-				...jobValues.region,
-				error: '',
-				isDirty: false,
-				value: ''
-			}
+		instance = {
+			...instance,
+			error: '',
+			isDirty: false,
+			value: ''
+		};
+		region = {
+			...region,
+			error: '',
+			isDirty: false,
+			value: ''
 		};
 		filters = getCreateOrderInstanceRegionFilters(providerAddress, allMarketplaceData);
 		handleChange();
 	};
 
-	$: instanceData = getvCpuMemoryData(jobValues.instance.value);
-	$: vcpu = !jobValues.instance.value ? '' : instanceData.vcpu?.toString() ?? 'N/A';
-	$: memory = !jobValues.instance.value ? '' : instanceData.memory?.toString() ?? 'N/A';
+	function set_vcpu(val: string) {
+		vcpu = val;
+	}
+
+	function set_memory(val: string) {
+		memory = val;
+	}
+
+	$: instanceData = getvCpuMemoryData(instance.value);
+	$: set_vcpu(!instance.value ? '' : instanceData.vcpu?.toString() ?? 'N/A');
+	$: set_memory(!instance.value ? '' : instanceData.memory?.toString() ?? 'N/A');
 </script>
 
 <SearchWithSelect
 	dataList={merchantList}
-	searchValue={jobValues.merchant.value}
+	searchValue={merchant.value}
 	setSearchValue={handleMerchantChange}
 	title={'Operator'}
 	placeholder={'Enter operator name or address'}
 	selectId={'create-order-operator-select'}
 />
 <ErrorTextCard
-	showError={jobValues.merchant.isDirty && jobValues.merchant.error != ''}
-	errorMessage={jobValues.merchant.error}
+	showError={merchant.isDirty && merchant.error != ''}
+	errorMessage={merchant.error}
 	styleClass={'mt-0'}
 />
 <div class="flex gap-2">
 	<div class="w-full">
 		<SearchWithSelect
 			dataList={filters?.instance ?? []}
-			searchValue={jobValues.instance.value}
+			searchValue={instance.value}
 			setSearchValue={handleInstanceChange}
 			title={'Instance'}
 			placeholder={'Select instance'}
-			disabled={!jobValues.merchant.value}
+			disabled={!merchant.value}
 			selectId={'create-order-instance-select'}
 		/>
 	</div>
 	<div class="w-full">
 		<SearchWithSelect
 			dataList={filters?.region ?? []}
-			searchValue={jobValues.region.value}
+			searchValue={region.value}
 			setSearchValue={handleRegionChange}
 			title={'Region'}
 			placeholder={'Select region'}
-			disabled={!jobValues.merchant.value}
+			disabled={!merchant.value}
 			selectId={'create-order-region-select'}
 		/>
 	</div>
 </div>
 <ErrorTextCard
-	showError={jobValues.instance.isDirty && jobValues.instance.error != ''}
-	errorMessage={jobValues.instance.error}
+	showError={instance.isDirty && instance.error != ''}
+	errorMessage={instance.error}
 	styleClass={'mt-0'}
 />
 <ErrorTextCard
-	showError={jobValues.region.isDirty && jobValues.region.error != ''}
-	errorMessage={jobValues.region.error}
+	showError={region.isDirty && region.error != ''}
+	errorMessage={region.error}
 	styleClass={'mt-0'}
 />
 <div class="flex gap-2">
 	<div class="w-full">
-		<TextInputWithEndButton title={'vCPU'} input={vcpu} placeholder={'Select'} />
+		<TextInputWithEndButton title={'vCPU'} bind:input={vcpu} placeholder={'Select'} />
 	</div>
 	<div class="w-full">
-		<TextInputWithEndButton
-			title={'Memory'}
-			input={memory + (memory ? ' MiB' : '')}
-			placeholder={'Select'}
-		/>
+		<TextInputWithEndButton title={'Memory (MiB)'} bind:input={memory} placeholder={'Select'} />
 	</div>
 </div>

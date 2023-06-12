@@ -100,7 +100,6 @@
 			return;
 		}
 
-		// const { vcpu, memory } = getvCpuMemoryData(instance.value);
 		const metadata = JSON.stringify({
 			instance: instance.value,
 			region: region.value,
@@ -186,8 +185,6 @@
 		enclaveImageUrl.value !== undefined && enclaveImageUrl.value !== ''
 			? checkValidURL(enclaveImageUrl.value)
 			: true;
-
-	$: console.log(vcpu, memory);
 
 	const subtitle =
 		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';

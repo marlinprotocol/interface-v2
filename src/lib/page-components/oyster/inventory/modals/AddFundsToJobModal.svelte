@@ -21,7 +21,7 @@
 	$: ({ rate } = jobData);
 
 	let duration: number | undefined = undefined; //durationInSecs
-	let cost: BigNumber = BigNumberZero;
+	let instanceCost: BigNumber = BigNumberZero;
 	let invalidCost = false;
 
 	//loading states
@@ -36,33 +36,34 @@
 	});
 	onDestroy(unsubscribeOysterStore);
 
-	let costString = '';
+	let instanceCostString = '';
 
 	//reset amount
 	const resetInputs = () => {
 		duration = undefined;
 		invalidCost = false;
-		costString = '';
+		instanceCostString = '';
 		approvedLoading = false;
 		submitLoading = false;
 	};
 
 	const handleApproveClick = async () => {
 		approvedLoading = true;
-		await handleApproveFundForOysterJob(cost);
+		await handleApproveFundForOysterJob(instanceCost);
 		approvedLoading = false;
 	};
 
 	const handleSubmitClick = async () => {
 		submitLoading = true;
-		await handleFundsAddToJob(jobData, cost, duration ?? 0);
+		await handleFundsAddToJob(jobData, instanceCost, duration ?? 0);
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
 	};
 
-	$: approved = connected && cost && approvedAmount.gte(cost) && cost.gt(BigNumberZero);
-	$: approveEnable = connected && !submitLoading && cost.gt(BigNumberZero) && !invalidCost;
+	$: approved =
+		connected && instanceCost && approvedAmount.gte(instanceCost) && instanceCost.gt(BigNumberZero);
+	$: approveEnable = connected && !submitLoading && instanceCost.gt(BigNumberZero) && !invalidCost;
 	$: confirmEnable = approved && approveEnable;
 </script>
 
@@ -77,11 +78,11 @@
 		<AddFundsToJob
 			bind:duration
 			bind:invalidCost
-			bind:cost
-			{rate}
-			bind:costString
+			bind:instanceCost
+			bind:instanceCostString
 			selectId="add-funds-duration-unit-select"
-			rateEditable={false}
+			instanceRate={rate}
+			instanceRateEditable={false}
 		/>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">

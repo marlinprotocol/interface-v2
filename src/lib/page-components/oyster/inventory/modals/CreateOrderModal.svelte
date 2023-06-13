@@ -13,7 +13,6 @@
 	import type { Address } from '$lib/types/storeTypes';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { kOysterOwnerInventory } from '$lib/utils/constants/oysterConstants';
-	import { getvCpuMemoryData } from '$lib/utils/data-modifiers/oysterModifiers';
 	import { checkValidURL, closeModal } from '$lib/utils/helpers/commonHelper';
 	import { getRateForProviderAndFilters } from '$lib/utils/helpers/oysterHelpers';
 	import {
@@ -23,8 +22,9 @@
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import AddFundsToJob from '../../sub-components/AddFundsToJob.svelte';
-	import MetadetailsForNewOrder from '../../sub-components/MetadetailsForNewOrder.svelte';
+	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
+	import MetadetailsForNewOrder from '$lib/page-components/oyster/sub-components/MetadetailsForNewOrder.svelte';
+	import BandwidthSelector from '$lib/page-components/oyster/sub-components/BandwidthSelector.svelte';
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
@@ -34,10 +34,11 @@
 	let owner: Address;
 
 	let duration = 0; //durationInSecs
-	let cost = BigNumberZero;
-	// let rate: BigNumber | undefined = undefined;
+	let instanceCost = BigNumberZero;
 	let invalidCost = false;
-	let costString = '';
+	let instanceCostString = '';
+	let bandwidthCost = BigNumberZero;
+	let finalBandwidthRate = BigNumberZero;
 
 	//loading states
 	let submitLoading = false;
@@ -96,7 +97,7 @@
 	};
 
 	const handleSubmitClick = async () => {
-		if (!rate || !cost || !instance.value || !region.value) {
+		if (!instanceRate || !instanceCost || !instance.value || !region.value) {
 			return;
 		}
 
@@ -109,7 +110,14 @@
 		});
 
 		submitLoading = true;
-		const success = await handleCreateJob(owner, metadata, merchant.value, rate, cost, duration);
+		const success = await handleCreateJob(
+			owner,
+			metadata,
+			merchant.value,
+			instanceRate,
+			instanceCost,
+			duration
+		);
 		submitLoading = false;
 		if (!success) {
 			return;
@@ -120,18 +128,18 @@
 	};
 
 	const handleApproveClick = async () => {
-		if (!cost) {
+		if (!instanceCost || !bandwidthCost) {
 			return;
 		}
 		submitLoading = true;
-		await handleApproveFundForOysterJob(cost);
+		await handleApproveFundForOysterJob(totalCost);
 		submitLoading = false;
 	};
 
 	const resetInputs = () => {
 		handleMerchantChange();
 		submitLoading = false;
-		rate = undefined;
+		instanceRate = undefined;
 		merchant = {
 			...initialStates.merchant
 		};
@@ -148,12 +156,12 @@
 
 	const handleMerchantChange = () => {
 		duration = 0;
-		cost = BigNumberZero;
+		instanceCost = BigNumberZero;
 		invalidCost = false;
-		costString = '';
+		instanceCostString = '';
 	};
 
-	let rate = getRateForProviderAndFilters(
+	let instanceRate = getRateForProviderAndFilters(
 		providerAddress,
 		instance.value,
 		region.value,
@@ -163,9 +171,13 @@
 	let memory: string = '';
 	let notServiceable = false;
 
-	$: approved = cost && approvedAmount?.gte(cost) && cost.gt(BigNumberZero);
+	$: approved =
+		instanceCost.gt(BigNumberZero) &&
+		approvedAmount?.gte(totalCost) &&
+		bandwidthCost.gt(BigNumberZero) &&
+		totalCost.gt(BigNumberZero);
 
-	$: rateDisabled =
+	$: instanceRateDisabled =
 		notServiceable ||
 		merchant.error ||
 		merchant.value === '' ||
@@ -173,18 +185,25 @@
 		region.value === '' ||
 		instance.error ||
 		instance.value === '';
+
 	$: submitEnable =
 		duration &&
-		cost?.gt(BigNumberZero) &&
-		rate &&
+		instanceCost?.gt(BigNumberZero) &&
+		bandwidthCost?.gt(BigNumberZero) &&
+		instanceRate &&
+		totalRate &&
 		!invalidCost &&
 		validEnclaveUrl &&
-		!rateDisabled &&
+		!instanceRateDisabled &&
 		enclaveImageUrl.value !== '';
+
 	$: validEnclaveUrl =
 		enclaveImageUrl.value !== undefined && enclaveImageUrl.value !== ''
 			? checkValidURL(enclaveImageUrl.value)
 			: true;
+
+	$: totalRate = finalBandwidthRate.add(instanceRate || BigNumberZero);
+	$: totalCost = instanceCost.add(bandwidthCost);
 
 	const subtitle =
 		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';
@@ -208,7 +227,7 @@
 				bind:instance
 				bind:region
 				bind:providerAddress
-				bind:rate
+				bind:instanceRate
 				bind:vcpu
 				bind:memory
 				bind:notServiceable
@@ -216,13 +235,20 @@
 				handleChange={handleMerchantChange}
 			/>
 			<AddFundsToJob
-				bind:cost
+				bind:instanceCost
 				bind:duration
 				bind:invalidCost
-				bind:rate
-				bind:costString
+				bind:instanceRate
+				bind:instanceCostString
 				selectId="create-order-duration-unit-select"
-				rateEditable={!rateDisabled}
+				instanceRateEditable={!instanceRateDisabled}
+			/>
+			<BandwidthSelector
+				bind:region
+				bind:bandwidthCost
+				bind:duration
+				bind:instanceCost
+				bind:finalBandwidthRate
 			/>
 			<TextInputWithEndButton
 				styleClass={styles.inputText}

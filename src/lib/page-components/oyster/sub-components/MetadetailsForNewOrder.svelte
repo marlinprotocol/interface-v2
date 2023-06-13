@@ -19,7 +19,7 @@
 	export let merchant: any;
 	export let instance: any;
 	export let region: any;
-	export let rate: BigNumber | undefined;
+	export let instanceRate: BigNumber | undefined;
 	export let vcpu: string;
 	export let memory: string;
 	export let providerAddress: string | undefined;
@@ -49,13 +49,13 @@
 		} else {
 			instance.error = '';
 		}
-		rate = getRateForProviderAndFilters(
+		instanceRate = getRateForProviderAndFilters(
 			providerAddress,
 			instance.value,
 			region.value,
 			allMarketplaceData
 		);
-		if (rate == undefined && region.value != '') {
+		if (instanceRate == undefined && region.value != '') {
 			notServiceable = true;
 			addToast({
 				message: `${value} is not serviceable for the selected region, please select another instance`,
@@ -76,13 +76,13 @@
 		} else {
 			region.error = '';
 		}
-		rate = getRateForProviderAndFilters(
+		instanceRate = getRateForProviderAndFilters(
 			providerAddress,
 			instance.value,
 			region.value,
 			allMarketplaceData
 		);
-		if (rate == undefined && instance.value != '') {
+		if (instanceRate == undefined && instance.value != '') {
 			notServiceable = true;
 			addToast({
 				message: `${value} is not serviceable for the selected instance, please select another region`,
@@ -109,7 +109,7 @@
 						(data) => data.provider.name === value || data.provider.address === value
 				  )?.provider.address
 				: undefined;
-		rate = undefined;
+		instanceRate = undefined;
 		instance = {
 			...instance,
 			error: '',

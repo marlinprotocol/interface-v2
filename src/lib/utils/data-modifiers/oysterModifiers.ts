@@ -10,6 +10,7 @@ import { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
 import { kOysterRateMetaData } from '../constants/oysterConstants';
 import { hundredYears } from '../conversion';
+import { BANDWIDTH_RATES } from '$lib/page-components/oyster/data/bandwidthRates';
 
 export const parseMetadata = (metadata: string) => {
 	//remove unwanted single quote and \
@@ -37,6 +38,11 @@ export const getvCpuMemoryData = (instance: string) => {
 		vcpu,
 		memory
 	};
+};
+
+export const getBandwidthRateForRegion = (region: string) => {
+	const bandwidthRate = BANDWIDTH_RATES.find((item) => item.region_code === region)?.rate ?? 0;
+	return BigNumber.from(bandwidthRate);
 };
 
 export async function getOysterJobsModified(jobs: any[]) {

@@ -8,8 +8,9 @@ export const kOysterOwnerHistory = '/oyster/history';
 export const kOperatorJobs = '/oyster/operator/jobs';
 export const kOperatorHistory = '/oyster/operator/history';
 
+// while developing locally change currency to POND
 export const kOysterRateMetaData = {
-	currency: 'USDC',
+	currency: 'POND',
 	symbol: '$',
 	decimal: 6,
 	precision: 6,
@@ -405,6 +406,23 @@ export const kDurationUnitsList = [
 	// }
 ];
 
+export const kBandwidthUnitsList = [
+	{
+		label: 'KB/s',
+		id: 'kbps',
+		value: 1024 * 1024
+	},
+	{
+		label: 'MB/s',
+		id: 'mbps',
+		value: 1024
+	},
+	{
+		label: 'GB/s',
+		id: 'gbps',
+		value: 1
+	}
+];
 export const getDurationInSecondsForUnit = (durationUnit: string) => {
 	return kDurationUnitsList.find((unit) => unit.label === durationUnit)?.value ?? 1;
 };

@@ -97,7 +97,14 @@
 	};
 
 	const handleSubmitClick = async () => {
-		if (!instanceRate || !instanceCost || !instance.value || !region.value) {
+		if (
+			!instanceRate ||
+			!instanceCost ||
+			!finalBandwidthRate ||
+			!bandwidthCost ||
+			!instance.value ||
+			!region.value
+		) {
 			return;
 		}
 
@@ -114,8 +121,8 @@
 			owner,
 			metadata,
 			merchant.value,
-			instanceRate,
-			instanceCost,
+			totalRate,
+			totalCost,
 			duration
 		);
 		submitLoading = false;

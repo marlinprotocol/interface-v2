@@ -2,16 +2,22 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
+	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
+	import { BigNumberZero, MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/conversion';
-	import { convertRateToPerHourString } from '$lib/utils/helpers/oysterHelpers';
+	import {
+		convertRateToPerHourString,
+		getRateForProviderAndFilters
+	} from '$lib/utils/helpers/oysterHelpers';
+	import { BigNumber } from 'ethers';
 	import PaymentHistoryTable from '../../sub-components/PaymentHistoryTable.svelte';
+	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -30,12 +36,34 @@
 		endEpochTime,
 		depositHistory
 	} = jobData);
+
 	const { symbol, decimal } = kOysterRateMetaData;
 	const nowTime = new Date().getTime() / 1000;
 	const styles = {
 		modalWidth: 'w-11/12 sm:max-w-[700px]',
 		textPrimary: 'text-primary truncate'
 	};
+
+	function getBandwidthFromRateAndRegion(bandwidthRate: BigNumber, region: string) {
+		const rateForRegion = getBandwidthRateForRegion(region);
+		if (rateForRegion === undefined) return BigNumberZero;
+
+		return Math.ceil(
+			bandwidthRate
+				.mul(BigNumber.from(1024 * 1024))
+				.div(rateForRegion)
+				.toNumber()
+		);
+	}
+	// TODO: ask prateek if this should be moved somewhere else, seems kinda weird to put it here XD
+	$: instanceRate = getRateForProviderAndFilters(
+		address,
+		instance,
+		region,
+		$oysterStore.allMarketplaceData
+	);
+	$: bandwidthRate = instanceRate !== undefined ? rate.sub(instanceRate) : BigNumberZero;
+	$: bandwidth = getBandwidthFromRateAndRegion(bandwidthRate, region).toString() + 'KB/s';
 </script>
 
 <Modal {modalFor} modalWidth={styles.modalWidth} padding={false}>
@@ -116,7 +144,13 @@
 					value={enclaveUrl}
 					textStyle={styles.textPrimary}
 				/>
-				<TextInputCard title={'Ip Address'} value={ip} textStyle={styles.textPrimary} />
+				<TextInputCard title={'Ip Address'} value={ip ?? 'N/A'} textStyle={styles.textPrimary} />
+				<TextInputCard title={'Bandwidth'} value={bandwidth} textStyle={styles.textPrimary} />
+				<TextInputCard
+					title={'Bandwidth Rate'}
+					value={bandwidthRate?.toString() || 'N/A'}
+					textStyle={styles.textPrimary}
+				/>
 			</div>
 			<PaymentHistoryTable tableData={depositHistory} />
 		</div>

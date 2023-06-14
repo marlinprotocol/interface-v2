@@ -22,10 +22,11 @@
 	import InventoryJobDetailsModal from './modals/JobDetailsModal.svelte';
 	import StopJobModal from './modals/StopJobModal.svelte';
 	import WithdrawFundsFromJobModal from './modals/WithdrawFundsFromJobModal.svelte';
-	import Button from '$lib/atoms/buttons/Button.svelte';
 	import type { Bytes } from 'ethers';
 	import { refreshJobStatusForJobId } from '$lib/controllers/httpController';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import refresh from 'svelte-awesome/icons/refresh';
+	import Icon from '$lib/atoms/icons/Icon.svelte';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -57,6 +58,7 @@
 	}
 
 	async function refreshJobStatus(jobId: Bytes) {
+		console.log('refresh job status is called for job id: ', jobId);
 		refreshLoading = true;
 
 		const updatedStatus = await refreshJobStatusForJobId(jobId);
@@ -106,7 +108,15 @@
 		</NameWithAddress>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		{ip ?? 'N/A'}
+		<div class="flex items-center gap-2 justify-center">
+			<button
+				class={`${refreshLoading ? 'animate-spin' : ''} flex items-center`}
+				on:click={() => refreshJobStatus(id)}
+			>
+				<Icon data={refresh} size={12} />
+			</button>
+			{ip ?? 'N/A'}
+		</div>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		{instance ?? 'N/A'}
@@ -187,12 +197,6 @@
 					>
 						{amendRateButtonText}
 					</ModalButton>
-					<Button
-						variant="outlined"
-						loading={refreshLoading}
-						size="small"
-						onclick={() => refreshJobStatus(id)}>REFRESH</Button
-					>
 				{/if}
 				<ModalButton variant="outlined" size="small" modalFor={`job-details-modal-${id}`}>
 					DETAILS

@@ -1,16 +1,17 @@
-import { getProvidersInstancesJSON, getProvidersNameJSON } from '$lib/controllers/httpController';
-import { instanceVcpuMemoryData } from '$lib/page-components/oyster/data/instanceVcpuMemoryData';
 import type {
 	CPInstances,
 	CPUrlDataModel,
 	OysterInventoryDataModel,
 	OysterMarketplaceDataModel
 } from '$lib/types/oysterComponentType';
-import { BigNumber } from 'ethers';
-import { BigNumberZero } from '../constants/constants';
-import { kOysterRateMetaData } from '../constants/oysterConstants';
-import { hundredYears } from '../conversion';
+import { getProvidersInstancesJSON, getProvidersNameJSON } from '$lib/controllers/httpController';
+
 import { BANDWIDTH_RATES } from '$lib/page-components/oyster/data/bandwidthRates';
+import { BigNumber } from 'ethers';
+import { BigNumberZero } from '$lib/utils/constants/constants';
+import { hundredYears } from '$lib/utils/conversion';
+import { instanceVcpuMemoryData } from '$lib/page-components/oyster/data/instanceVcpuMemoryData';
+import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 
 export const parseMetadata = (metadata: string) => {
 	//remove unwanted single quote and \
@@ -41,7 +42,7 @@ export const getvCpuMemoryData = (instance: string) => {
 };
 
 export const getBandwidthRateForRegion = (region: string) => {
-	const bandwidthRate = BANDWIDTH_RATES.find((item) => item.region_code === region)?.rate ?? 0;
+	const bandwidthRate = BANDWIDTH_RATES.find((item) => item.region_code === region)?.rate ?? 1;
 	return BigNumber.from(bandwidthRate);
 };
 

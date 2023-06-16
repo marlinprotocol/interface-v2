@@ -144,11 +144,22 @@
 					value={enclaveUrl}
 					textStyle={styles.textPrimary}
 				/>
-				<TextInputCard title={'Ip Address'} value={ip ?? 'N/A'} textStyle={styles.textPrimary} />
-				<TextInputCard title={'Bandwidth'} value={bandwidth} textStyle={styles.textPrimary} />
+				<TextInputCard
+					title={'Ip Address'}
+					value={ip ?? 'N/A'}
+					centered
+					textStyle={styles.textPrimary}
+				/>
+				<TextInputCard
+					title={'Bandwidth'}
+					value={bandwidth}
+					centered
+					textStyle={styles.textPrimary}
+				/>
 				<TextInputCard
 					title={'Bandwidth Rate'}
 					value={bandwidthRate?.toString() || 'N/A'}
+					centered
 					textStyle={styles.textPrimary}
 				/>
 			</div>

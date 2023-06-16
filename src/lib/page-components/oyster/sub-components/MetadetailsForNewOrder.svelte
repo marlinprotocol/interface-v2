@@ -55,14 +55,17 @@
 			region.value,
 			allMarketplaceData
 		);
-		if (instanceRate == undefined && region.value != '') {
+		if (
+			instance.error === '' &&
+			instanceRate == undefined &&
+			instance.value !== '' &&
+			region.value !== ''
+		) {
 			notServiceable = true;
-			addToast({
-				message: `${value} is not serviceable for the selected region, please select another instance`,
-				variant: 'error'
-			});
-		} else {
+			instance.error = `${value} is not serviceable for the selected region, please select another instance`;
+		} else if (instanceRate !== undefined && instance.value !== '' && region.value !== '') {
 			notServiceable = false;
+			instance.error = '';
 		}
 	};
 
@@ -76,20 +79,25 @@
 		} else {
 			region.error = '';
 		}
+
 		instanceRate = getRateForProviderAndFilters(
 			providerAddress,
 			instance.value,
 			region.value,
 			allMarketplaceData
 		);
-		if (instanceRate == undefined && instance.value != '') {
+
+		if (
+			region.error === '' &&
+			instanceRate == undefined &&
+			instance.value !== '' &&
+			region.value !== ''
+		) {
 			notServiceable = true;
-			addToast({
-				message: `${value} is not serviceable for the selected instance, please select another region`,
-				variant: 'error'
-			});
-		} else {
+			region.error = `${value} is not serviceable for the selected instance, please select another region`;
+		} else if (instanceRate !== undefined && instance.value !== '' && region.value !== '') {
 			notServiceable = false;
+			region.error = '';
 		}
 	};
 

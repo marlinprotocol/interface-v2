@@ -48,8 +48,11 @@
 
 	// Handler function for toggling the expansion of a row
 	function toggleRowExpansion(rowId: string) {
-		if (expandedRows.has(rowId)) {
-			expandedRows.delete(rowId);
+		if (expandedRows.size > 0 && expandedRows.has(rowId)) {
+			expandedRows.clear();
+		} else if (expandedRows.size > 0) {
+			expandedRows.clear();
+			expandedRows.add(rowId);
 		} else {
 			expandedRows.add(rowId);
 		}
@@ -58,7 +61,6 @@
 	}
 
 	async function refreshJobStatus(jobId: Bytes) {
-		console.log('refresh job status is called for job id: ', jobId);
 		refreshLoading = true;
 
 		const updatedStatus = await refreshJobStatusForJobId(jobId);

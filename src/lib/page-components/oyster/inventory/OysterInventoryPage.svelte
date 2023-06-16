@@ -96,7 +96,7 @@
 	>
 		{#if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex}
-				<OysterInventoryTableRow {rowData} {rowIndex} {expandedRows} />
+				<OysterInventoryTableRow {rowData} {rowIndex} bind:expandedRows />
 			{/each}
 		{/if}
 		<Pagination slot="pagination" {pageCount} {activePage} {handlePageChange} />

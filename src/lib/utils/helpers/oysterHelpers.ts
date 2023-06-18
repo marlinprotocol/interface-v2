@@ -1,12 +1,13 @@
-import { addToast } from '$lib/data-stores/toastStore';
 import type {
 	OysterFiltersModel,
 	OysterInventoryDataModel,
 	OysterMarketplaceDataModel,
 	OysterMarketplaceFilterModel
 } from '$lib/types/oysterComponentType';
+
 import type { BigNumber } from 'ethers';
 import { BigNumberZero } from '../constants/constants';
+import { addToast } from '$lib/data-stores/toastStore';
 import { bigNumberToString } from '../conversion';
 import { isInputAmountValid } from './commonHelper';
 
@@ -383,7 +384,7 @@ export function getAllFiltersListforMarketplaceData(
 	addAllOption = true
 ) {
 	const providers = filteredData.map((item) =>
-		item.provider.name && item.provider.name != '' ? item.provider.name : item.provider.address
+		item.provider.name && item.provider.name !== '' ? item.provider.name : item.provider.address
 	);
 	// array of arrays where the first element is the region name and the second element is the region code
 	const regions = filteredData.map((item) => [item.regionName, item.region]);

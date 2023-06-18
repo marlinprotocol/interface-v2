@@ -169,6 +169,7 @@
 			}
 		})
 		.catch((error) => {
+			console.error(error);
 			enableRegisterButton = false;
 			openInstanceTable = true;
 		});
@@ -295,12 +296,7 @@
 </ContainerCard>
 {#if $connected}
 	<a href={kOperatorJobs}>
-		<Button
-			variant="whiteFilled"
-			onclick={() => {}}
-			size={'large'}
-			styleClass="w-full sm:w-130 mt-4 mx-auto"
-		>
+		<Button variant="whiteFilled" size={'large'} styleClass="w-full sm:w-130 mt-4 mx-auto">
 			<div class="flex justify-between w-full">
 				<div class="w-full flex justify-center">TRACK USAGE</div>
 				<img src={staticImages.RightArrow} alt="Right Arrow" />

@@ -174,8 +174,8 @@
 		region.value,
 		allMarketplaceData
 	);
-	let vcpu: string = '';
-	let memory: string = '';
+	let vcpu = '';
+	let memory = '';
 	let notServiceable = false;
 
 	$: approved =

@@ -2,13 +2,13 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
-	import { addToast } from '$lib/data-stores/toastStore';
 	import type {
 		OysterFiltersModel,
 		OysterMarketplaceDataModel
 	} from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import { getvCpuMemoryData } from '$lib/utils/data-modifiers/oysterModifiers';
+	import { doNothing } from '$lib/utils/helpers/commonHelper';
 	import {
 		getCreateOrderInstanceRegionFilters,
 		getRateForProviderAndFilters
@@ -23,7 +23,9 @@
 	export let vcpu: string;
 	export let memory: string;
 	export let providerAddress: string | undefined;
-	export let handleChange = () => {};
+	export let handleChange = () => {
+		doNothing();
+	};
 	export let notServiceable = false;
 
 	let filters: Partial<OysterFiltersModel> = getCreateOrderInstanceRegionFilters(
@@ -42,9 +44,9 @@
 	const handleInstanceChange = async (value: string | number) => {
 		instance.value = value as string;
 		instance.isDirty = true;
-		if (value == '') {
+		if (value === '') {
 			instance.error = 'Instance is required';
-		} else if (filters.instance?.indexOf(value.toString()) == -1) {
+		} else if (filters.instance?.indexOf(value.toString()) === -1) {
 			instance.error = `${value} is not a valid Instance`;
 		} else {
 			instance.error = '';
@@ -57,7 +59,7 @@
 		);
 		if (
 			instance.error === '' &&
-			instanceRate == undefined &&
+			instanceRate === undefined &&
 			instance.value !== '' &&
 			region.value !== ''
 		) {
@@ -72,7 +74,7 @@
 	const handleRegionChange = async (value: string | number) => {
 		region.value = value as string;
 		region.isDirty = true;
-		if (value == '') {
+		if (value === '') {
 			region.error = 'Region is required';
 		} else if (!filters.region?.some(([_, region]) => region === value)) {
 			region.error = `${value} is not a valid Region`;
@@ -89,7 +91,7 @@
 
 		if (
 			region.error === '' &&
-			instanceRate == undefined &&
+			instanceRate === undefined &&
 			instance.value !== '' &&
 			region.value !== ''
 		) {
@@ -104,15 +106,15 @@
 	const handleMerchantChange = async (value: string | number) => {
 		merchant.value = value as string;
 		merchant.isDirty = true;
-		if (value == '') {
+		if (value === '') {
 			merchant.error = 'Operator is required';
-		} else if (merchantList.indexOf(value.toString()) == -1) {
+		} else if (merchantList.indexOf(value.toString()) === -1) {
 			merchant.error = `${value} is not a valid Operator`;
 		} else {
 			merchant.error = '';
 		}
 		providerAddress =
-			value != ''
+			value !== ''
 				? allMarketplaceData.find(
 						(data) => data.provider.name === value || data.provider.address === value
 				  )?.provider.address
@@ -156,7 +158,7 @@
 	selectId={'create-order-operator-select'}
 />
 <ErrorTextCard
-	showError={merchant.isDirty && merchant.error != ''}
+	showError={merchant.isDirty && merchant.error !== ''}
 	errorMessage={merchant.error}
 	styleClass={'mt-0'}
 />
@@ -185,12 +187,12 @@
 	</div>
 </div>
 <ErrorTextCard
-	showError={instance.isDirty && instance.error != ''}
+	showError={instance.isDirty && instance.error !== ''}
 	errorMessage={instance.error}
 	styleClass={'mt-0'}
 />
 <ErrorTextCard
-	showError={region.isDirty && region.error != ''}
+	showError={region.isDirty && region.error !== ''}
 	errorMessage={region.error}
 	styleClass={'mt-0'}
 />

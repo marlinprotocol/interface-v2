@@ -7,6 +7,7 @@
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import { pondToMPond } from '$lib/utils/conversion';
+	import { doNothing } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
@@ -63,7 +64,9 @@
 	rowIndex={0}
 	{handleApproveClick}
 	{handleConfirmClick}
-	handleSuccessFinishClick={() => {}}
+	handleSuccessFinishClick={() => {
+		doNothing();
+	}}
 	{approved}
 	conversionFrom={'pond'}
 	amountConverted={pond}

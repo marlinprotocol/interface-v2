@@ -1,5 +1,9 @@
 <script lang="ts">
-	export let onclick = () => {};
+	import { doNothing } from '$lib/utils/helpers/commonHelper';
+
+	export let onclick = () => {
+		doNothing();
+	};
 	export let styleClass = '';
 	export let isActive = false;
 

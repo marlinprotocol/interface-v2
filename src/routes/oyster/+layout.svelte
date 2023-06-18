@@ -39,7 +39,7 @@
 				...value,
 				providerData: {
 					data: providerDetail,
-					registered: providerDetail != null
+					registered: providerDetail !== null
 				},
 				allowance: allowance,
 				jobsData: oysterJobs,

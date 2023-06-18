@@ -1,10 +1,4 @@
-import { contractAddressStore } from '$lib/data-stores/contractStore';
-import { addToast } from '$lib/data-stores/toastStore';
-import { environmentStore } from '$lib/data-stores/environment';
-import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
-import type { Environment } from '$lib/types/environmentTypes';
 import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/storeTypes';
-import { BigNumberZero } from '$lib/utils/constants/constants';
 import {
 	DEFAULT_RECEIVER_STAKING_DATA,
 	DEFAULT_WALLET_BALANCE
@@ -24,14 +18,21 @@ import {
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
+import { fetchHttpData, showFetchHttpDataError } from '$lib/utils/helpers/httpHelper';
 import {
 	getOysterJobsModified,
 	getOysterProvidersModified
 } from '$lib/utils/data-modifiers/oysterModifiers';
-import { getModifiedMPondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
-import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
-import { fetchHttpData, showFetchHttpDataError } from '$lib/utils/helpers/httpHelper';
+
 import { BigNumber } from 'ethers';
+import { BigNumberZero } from '$lib/utils/constants/constants';
+import type { Environment } from '$lib/types/environmentTypes';
+import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
+import { addToast } from '$lib/data-stores/toastStore';
+import { contractAddressStore } from '$lib/data-stores/contractStore';
+import { environmentStore } from '$lib/data-stores/environment';
+import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
+import { getModifiedMPondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
 import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 
 let contractAddresses: ContractAddress;
@@ -80,7 +81,7 @@ export async function getPondBalance(address: Address): Promise<BigNumber> {
 
 	try {
 		const result = await fetchHttpData(url, options);
-		if (result['data'] && result['data']?.users?.length != 0)
+		if (result['data'] && result['data']?.users?.length !== 0)
 			return BigNumber.from(result['data']?.users[0]?.balance);
 		else return DEFAULT_WALLET_BALANCE.pond;
 	} catch (error) {
@@ -101,7 +102,7 @@ export async function getMPondBalance(address: Address): Promise<BigNumber> {
 
 	try {
 		const result = await fetchHttpData(url, options);
-		if (result['data'] && result['data']?.balances?.length != 0)
+		if (result['data'] && result['data']?.balances?.length !== 0)
 			return BigNumber.from(result['data']?.balances[0]?.amount);
 		else return DEFAULT_WALLET_BALANCE.mPond;
 	} catch (error) {
@@ -118,7 +119,7 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
 	try {
 		const result = await fetchHttpData(url, options);
-		if (result['data'] && result['data']?.receiverBalances?.length != 0)
+		if (result['data'] && result['data']?.receiverBalances?.length !== 0)
 			return result['data']?.receiverBalances[0]?.balance;
 		else return DEFAULT_WALLET_BALANCE.mPond;
 	} catch (error) {
@@ -175,7 +176,7 @@ export async function getReceiverStakingDataFromSubgraph(
 
 			let balanceSnapshot = BigNumberZero;
 
-			if (balanceSnapshots?.length === 1 && balanceSnapshots[0].epoch == epochData.epochCycle) {
+			if (balanceSnapshots?.length === 1 && balanceSnapshots[0].epoch === epochData.epochCycle) {
 				//if balance snapshot for current epoch cycle is present, then update staked and queued balance
 				balanceSnapshot = BigNumber.from(balanceSnapshots[0].balance ?? 0);
 				//queued amount is the difference of balance and balance snapshot at current epoch cycle
@@ -222,7 +223,7 @@ export async function checkIfSignerExistsInSubgraph(address: Address): Promise<b
 	try {
 		const result = await fetchHttpData(url, options);
 
-		if (result['data'] && result['data']?.receiverBalances?.length == 0) return true;
+		if (result['data'] && result['data']?.receiverBalances?.length === 0) return true;
 		else return false;
 	} catch (error) {
 		console.log('Error checking if signer exists in subgraph', error);

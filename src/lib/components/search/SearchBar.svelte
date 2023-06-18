@@ -9,10 +9,6 @@
 	export let disabled = false;
 	export let styleClass = '';
 	export let onSearchClick: (() => void) | undefined = undefined;
-
-	const styles = {
-		inputNumber: `input input-ghost h-[30px] w-full p-0 text-base font-normal disabled:text-primary disabled:placeholder:text-primary/[.3] focus-within:text-primary placeholder:text-primary/[.2] placeholder:text-base`
-	};
 </script>
 
 <InputCard variant="search" styleClass={`${styleClass} flex gap-4 items-center`}>

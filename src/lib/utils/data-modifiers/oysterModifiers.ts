@@ -132,7 +132,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 				amount: BigNumber.from(deposit.amount),
 				timestamp: Number(deposit.timestamp),
 				transactionStatus:
-					_refund.gt(BigNumberZero) && i == 0
+					_refund.gt(BigNumberZero) && i === 0
 						? 'refunded'
 						: deposit.isWithdrawal
 						? 'withdrawal'

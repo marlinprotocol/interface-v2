@@ -172,4 +172,4 @@
 		disabled={!instanceRate}
 	/>
 </div>
-<ErrorTextCard showError={inValidMessage != ''} errorMessage={inValidMessage} />
+<ErrorTextCard showError={inValidMessage !== ''} errorMessage={inValidMessage} />

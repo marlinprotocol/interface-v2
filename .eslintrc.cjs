@@ -1,23 +1,37 @@
 module.exports = {
 	root: true,
+	extends: [
+		'prettier',
+		'eslint:recommended',
+		'plugin:svelte/recommended',
+		'plugin:@typescript-eslint/recommended'
+	],
 	parser: '@typescript-eslint/parser',
-	extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
-	plugins: ['svelte3', '@typescript-eslint'],
-	ignorePatterns: ['*.cjs'],
-	overrides: [{ files: ['*.svelte'], processor: 'svelte3/svelte3' }],
-	settings: {
-		'svelte3/typescript': () => require('typescript')
-	},
 	parserOptions: {
+		project: './tsconfig.json',
+		extraFileExtensions: ['.svelte'],
 		sourceType: 'module',
 		ecmaVersion: 2020
 	},
+	plugins: ['@typescript-eslint'],
+	ignorePatterns: ['*.cjs'],
+	overrides: [
+		{
+			files: ['*.svelte'],
+			parser: 'svelte-eslint-parser',
+			// Parse the `<script>` in `.svelte` as TypeScript by adding the following configuration.
+			parserOptions: {
+				parser: '@typescript-eslint/parser'
+			}
+		}
+	],
 	env: {
 		browser: true,
 		es2017: true,
 		node: true
 	},
 	rules: {
-		eqeqeq: ['error', 'always']
+		eqeqeq: ['error', 'always'],
+		'no-mixed-spaces-and-tabs': ['warn']
 	}
 };

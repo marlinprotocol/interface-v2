@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Text from '$lib/atoms/texts/Text.svelte';
+	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { getColorHexForTableRow } from '$lib/utils/constants/componentConstants';
 	import { shortenText } from '$lib/utils/conversion';
@@ -26,15 +27,24 @@
 	<div>
 		{#if rowIndex > -1}
 			<div
-				class="w-[32px] h-[32px] mr-3 bg-primary rounded-md text-sm font-medium text-white flex flex-col justify-center"
+				class="w-[32px] h-[32px] mr-3 bg-primary rounded-md text-sm font-medium text-white flex flex-col justify-center items-center"
 				style="background-color:{bgColor};"
 			>
 				{startLetters}
 			</div>
 		{/if}
 	</div>
-	<div class="overflow-hidden">
-		<Text variant="body" fontWeight="font-medium" text={name} styleClass="truncate" />
+	<div>
+		{#if name}
+			<Tooltip tooltipText={name}>
+				<Text
+					variant="body"
+					fontWeight="font-medium"
+					text={name.length > 15 ? name.slice(0, 15).trim() + '...' : name}
+					styleClass="truncate"
+				/>
+			</Tooltip>
+		{/if}
 
 		<div class="flex gap-1 items-center w-fit">
 			<Text

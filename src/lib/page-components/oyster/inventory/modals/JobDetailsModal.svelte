@@ -5,7 +5,7 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero, MEMORY_SUFFIX } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { RATE_SCALING_FACTOR, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
 		epochSecToString,
@@ -34,7 +34,8 @@
 		amountUsed,
 		createdAt,
 		endEpochTime,
-		depositHistory
+		depositHistory,
+		downScaledRate
 	} = jobData);
 
 	const { symbol, decimal } = kOysterRateMetaData;
@@ -47,13 +48,13 @@
 	function getBandwidthFromRateAndRegion(bandwidthRate: BigNumber, region: string) {
 		const rateForRegion = getBandwidthRateForRegion(region);
 		if (rateForRegion === undefined) return BigNumberZero;
-
-		return Math.ceil(
-			bandwidthRate
-				.mul(BigNumber.from(1024 * 1024))
-				.div(rateForRegion)
-				.toNumber()
-		);
+		const bigNumberBandwidthWithOneExtraDecimal = bandwidthRate
+			.mul(BigNumber.from(1024 * 1024))
+			.div(rateForRegion)
+			.mul(BigNumber.from(10))
+			.div(RATE_SCALING_FACTOR)
+			.toNumber();
+		return Math.ceil(bigNumberBandwidthWithOneExtraDecimal / 10);
 	}
 	// TODO: ask prateek if this should be moved somewhere else, seems kinda weird to put it here XD
 	$: instanceRate = getRateForProviderAndFilters(
@@ -62,7 +63,8 @@
 		region,
 		$oysterStore.allMarketplaceData
 	);
-	$: bandwidthRate = instanceRate !== undefined ? rate.sub(instanceRate) : BigNumberZero;
+	$: bandwidthRate =
+		instanceRate !== undefined ? rate.sub(instanceRate.mul(RATE_SCALING_FACTOR)) : BigNumberZero;
 	$: bandwidth = getBandwidthFromRateAndRegion(bandwidthRate, region).toString() + 'KB/s';
 </script>
 
@@ -83,6 +85,12 @@
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard title={'Region'} value={region} centered textStyle={styles.textPrimary} />
+				<!-- <TextInputCard
+					title={'Rate Not converted'}
+					value={downScaledTotalRate}
+					centered
+					textStyle={styles.textPrimary}
+				/> -->
 			</div>
 			<div class="flex gap-4 flex-col sm:flex-row">
 				<TextInputCard
@@ -105,7 +113,7 @@
 				/>
 				<TextInputCard
 					title={'Hourly Rate'}
-					value={`${symbol}${convertRateToPerHourString(rate, decimal)}`}
+					value={`${symbol}${convertRateToPerHourString(downScaledRate, decimal)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
@@ -156,12 +164,12 @@
 					centered
 					textStyle={styles.textPrimary}
 				/>
-				<TextInputCard
+				<!-- <TextInputCard
 					title={'Bandwidth Rate'}
 					value={bandwidthRate?.toString() || 'N/A'}
 					centered
 					textStyle={styles.textPrimary}
-				/>
+				/> -->
 			</div>
 			<PaymentHistoryTable tableData={depositHistory} />
 		</div>

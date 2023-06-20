@@ -2,7 +2,11 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import { kBandwidthUnitsList, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import {
+		RATE_SCALING_FACTOR,
+		kBandwidthUnitsList,
+		kOysterRateMetaData
+	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString } from '$lib/utils/conversion';
 	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 	import { BigNumber } from 'ethers';
@@ -32,8 +36,9 @@
 		);
 		finalBandwidthRate = BigNumber.from(bandwidth)
 			.mul(rate)
+			.mul(RATE_SCALING_FACTOR)
 			.div(unitConversionDivisor || BigNumber.from(1));
-		return finalBandwidthRate.mul(duration);
+		return finalBandwidthRate.mul(duration).div(RATE_SCALING_FACTOR);
 	}
 
 	$: bandwidthRateForRegion = getBandwidthRateForRegion(region.value);
@@ -45,7 +50,7 @@
 
 	$: totalAmount = bandwidthCost.add(instanceCost);
 	$: totalAmountString = !totalAmount.eq(BigNumberZero)
-		? bigNumberToString(totalAmount, decimal, 2)
+		? bigNumberToString(totalAmount, decimal, 4)
 		: '';
 </script>
 

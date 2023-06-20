@@ -12,7 +12,7 @@
 	} from '$lib/types/oysterComponentType';
 	import type { Address } from '$lib/types/storeTypes';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import { kOysterOwnerInventory } from '$lib/utils/constants/oysterConstants';
+	import { RATE_SCALING_FACTOR, kOysterOwnerInventory } from '$lib/utils/constants/oysterConstants';
 	import { checkValidURL, closeModal } from '$lib/utils/helpers/commonHelper';
 	import { getRateForProviderAndFilters } from '$lib/utils/helpers/oysterHelpers';
 	import {
@@ -209,7 +209,7 @@
 			? checkValidURL(enclaveImageUrl.value)
 			: true;
 
-	$: totalRate = finalBandwidthRate.add(instanceRate || BigNumberZero);
+	$: totalRate = finalBandwidthRate.add(instanceRate?.mul(RATE_SCALING_FACTOR) || BigNumberZero);
 	$: totalCost = instanceCost.add(bandwidthCost);
 
 	const subtitle =

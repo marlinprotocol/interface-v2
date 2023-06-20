@@ -9,7 +9,7 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { RATE_SCALING_FACTOR, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, epochToDurationString } from '$lib/utils/conversion';
 	import {
 		convertRateToPerHourString,
@@ -38,7 +38,7 @@
 		provider: { name, address },
 		instance,
 		region,
-		rate,
+		downScaledRate,
 		id,
 		ip,
 		balance,
@@ -127,8 +127,10 @@
 		{region ?? 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate, decimal, precision)}`}>
-			{symbol}{convertRateToPerHourString(rate, decimal)}
+		<Tooltip
+			tooltipText={`${symbol}${convertRateToPerHourString(downScaledRate, decimal, precision)}`}
+		>
+			{symbol}{convertRateToPerHourString(downScaledRate, decimal)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>

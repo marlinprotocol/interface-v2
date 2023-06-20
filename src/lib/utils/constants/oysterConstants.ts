@@ -1,3 +1,4 @@
+import { BigNumber } from 'ethers';
 import type { TableModel } from '$lib/types/componentTypes';
 
 //
@@ -20,6 +21,8 @@ export const kOysterRateMetaData = {
 };
 
 export const oysterTableItemsPerPage = 10;
+
+export const RATE_SCALING_FACTOR = BigNumber.from(10).pow(12);
 
 // make sure the id matches the id in Data Model
 export const kInstancesTableHeader: TableModel['header'][] = [

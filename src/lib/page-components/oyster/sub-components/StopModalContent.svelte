@@ -27,7 +27,7 @@
 		<div class="w-full">
 			<TextInputCard
 				title={'Duration Left'}
-				value={durationLeft === 0 ? 'Ended' : epochToDurationString(durationLeft, false, true)}
+				value={durationLeft === 0 ? 'Ended' : epochToDurationString(durationLeft, false, false)}
 				centered
 				textStyle={styles.textPrimary}
 			/>

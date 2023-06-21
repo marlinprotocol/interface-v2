@@ -40,7 +40,7 @@
 				<Text
 					variant="body"
 					fontWeight="font-medium"
-					text={name.length > 15 ? name.slice(0, 15).trim() + '...' : name}
+					text={name.length > 13 ? name.slice(0, 13).trim() + '...' : name}
 					styleClass="truncate"
 				/>
 			</Tooltip>

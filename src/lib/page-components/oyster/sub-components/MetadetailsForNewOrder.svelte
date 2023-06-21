@@ -33,12 +33,8 @@
 		allMarketplaceData
 	);
 
-	$: merchantList = [
-		...new Set(
-			allMarketplaceData.map((data) =>
-				data.provider.name && data.provider.name !== '' ? data.provider.name : data.provider.address
-			) ?? []
-		)
+	$: merchantAddressList = [
+		...new Set(allMarketplaceData.map((data) => data.provider.address) ?? [])
 	];
 
 	const handleInstanceChange = async (value: string | number) => {
@@ -108,7 +104,7 @@
 		merchant.isDirty = true;
 		if (value === '') {
 			merchant.error = 'Operator is required';
-		} else if (merchantList.indexOf(value.toString()) === -1) {
+		} else if (merchantAddressList.indexOf(value.toString()) === -1) {
 			merchant.error = `${value} is not a valid Operator`;
 		} else {
 			merchant.error = '';
@@ -150,7 +146,7 @@
 </script>
 
 <SearchWithSelect
-	dataList={merchantList}
+	dataList={merchantAddressList}
 	searchValue={merchant.value}
 	setSearchValue={handleMerchantChange}
 	title={'Operator'}

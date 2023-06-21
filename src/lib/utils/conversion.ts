@@ -1,7 +1,5 @@
 import { BigNumber, ethers } from 'ethers';
-import { BigNumberZero } from './constants/constants';
-
-export const hundredYears = 60 * 60 * 24 * 365 * 100; //not accounting for leap years
+import { BigNumberZero, hundredYears } from './constants/constants';
 
 /**
  * Returns duration string for a epoch

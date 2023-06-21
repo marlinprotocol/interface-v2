@@ -1,3 +1,4 @@
+import { BigNumberZero, hundredYears } from '$lib/utils/constants/constants';
 import type {
 	CPInstances,
 	CPUrlDataModel,
@@ -9,8 +10,6 @@ import { getProvidersInstancesJSON, getProvidersNameJSON } from '$lib/controller
 
 import { BANDWIDTH_RATES } from '$lib/page-components/oyster/data/bandwidthRates';
 import { BigNumber } from 'ethers';
-import { BigNumberZero } from '$lib/utils/constants/constants';
-import { hundredYears } from '$lib/utils/conversion';
 import { instanceVcpuMemoryData } from '$lib/page-components/oyster/data/instanceVcpuMemoryData';
 
 export const parseMetadata = (metadata: string) => {

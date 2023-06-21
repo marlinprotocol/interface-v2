@@ -9,6 +9,8 @@ export const GET_OPTIONS = {
 
 export const MEMORY_SUFFIX = ' MiB';
 
+export const hundredYears = 60 * 60 * 24 * 365 * 100; //not accounting for leap years
+
 export const maxDecimals = 18;
 export const pondPrecisions = 2;
 export const mPondPrecisions = 6;

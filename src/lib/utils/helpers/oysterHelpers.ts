@@ -1,3 +1,10 @@
+import {
+	BigNumberZero,
+	DEFAULT_CURRENCY_DECIMALS,
+	DEFAULT_PRECISION,
+	SECONDS_IN_DAY,
+	secondsInHour
+} from '$lib/utils/constants/constants';
 import type {
 	OysterFiltersModel,
 	OysterInventoryDataModel,
@@ -6,14 +13,15 @@ import type {
 } from '$lib/types/oysterComponentType';
 
 import type { BigNumber } from 'ethers';
-import { BigNumberZero } from '../constants/constants';
 import { addToast } from '$lib/data-stores/toastStore';
-import { bigNumberToString } from '../conversion';
-import { isInputAmountValid } from './commonHelper';
+import { bigNumberToString } from '$lib/utils/conversion';
+import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 
-const secondsInHour = 3600;
-
-export const convertRateToPerHourString = (rate: BigNumber, decimal = 18, precision = 2) => {
+export const convertRateToPerHourString = (
+	rate: BigNumber,
+	decimal = DEFAULT_CURRENCY_DECIMALS,
+	precision = DEFAULT_PRECISION
+) => {
 	const rateInHour = rate.mul(secondsInHour);
 	return bigNumberToString(rateInHour, decimal, precision);
 };
@@ -98,9 +106,9 @@ export const getInventoryStatusVariant = (status: string) => {
 };
 
 export const getInventoryDurationVariant = (duration: number) => {
-	if (duration < 86400) {
+	if (duration < SECONDS_IN_DAY) {
 		return 'error';
-	} else if (duration < 86400 * 3) {
+	} else if (duration < SECONDS_IN_DAY * 3) {
 		return 'warning';
 	} else {
 		return 'success';

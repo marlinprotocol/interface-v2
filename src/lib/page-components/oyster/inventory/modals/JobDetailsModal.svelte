@@ -13,11 +13,10 @@
 	} from '$lib/utils/conversion';
 	import {
 		convertRateToPerHourString,
+		getBandwidthFromRateAndRegion,
 		getRateForProviderAndFilters
 	} from '$lib/utils/helpers/oysterHelpers';
-	import { BigNumber } from 'ethers';
-	import PaymentHistoryTable from '../../sub-components/PaymentHistoryTable.svelte';
-	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
+	import PaymentHistoryTable from '$lib/page-components/oyster/sub-components/PaymentHistoryTable.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -45,18 +44,6 @@
 		textPrimary: 'text-primary truncate'
 	};
 
-	function getBandwidthFromRateAndRegion(bandwidthRate: BigNumber, region: string) {
-		const rateForRegion = getBandwidthRateForRegion(region);
-		if (rateForRegion === undefined) return BigNumberZero;
-		const bigNumberBandwidthWithOneExtraDecimal = bandwidthRate
-			.mul(BigNumber.from(1024 * 1024))
-			.div(rateForRegion)
-			.mul(BigNumber.from(10))
-			.div(RATE_SCALING_FACTOR)
-			.toNumber();
-		return Math.ceil(bigNumberBandwidthWithOneExtraDecimal / 10);
-	}
-	// TODO: ask prateek if this should be moved somewhere else, seems kinda weird to put it here XD
 	$: instanceRate = getRateForProviderAndFilters(
 		address,
 		instance,
@@ -85,12 +72,6 @@
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard title={'Region'} value={region} centered textStyle={styles.textPrimary} />
-				<!-- <TextInputCard
-					title={'Rate Not converted'}
-					value={downScaledTotalRate}
-					centered
-					textStyle={styles.textPrimary}
-				/> -->
 			</div>
 			<div class="flex gap-4 flex-col sm:flex-row">
 				<TextInputCard
@@ -164,12 +145,6 @@
 					centered
 					textStyle={styles.textPrimary}
 				/>
-				<!-- <TextInputCard
-					title={'Bandwidth Rate'}
-					value={bandwidthRate?.toString() || 'N/A'}
-					centered
-					textStyle={styles.textPrimary}
-				/> -->
 			</div>
 			<PaymentHistoryTable tableData={depositHistory} />
 		</div>

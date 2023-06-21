@@ -12,9 +12,11 @@ import type {
 	OysterMarketplaceFilterModel
 } from '$lib/types/oysterComponentType';
 
-import type { BigNumber } from 'ethers';
+import { BigNumber } from 'ethers';
+import { RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 import { addToast } from '$lib/data-stores/toastStore';
 import { bigNumberToString } from '$lib/utils/conversion';
+import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 
 export const convertRateToPerHourString = (
@@ -510,3 +512,15 @@ export const addRegionNameToMarketplaceData = (
 	});
 	return newArray;
 };
+
+export function getBandwidthFromRateAndRegion(bandwidthRate: BigNumber, region: string) {
+	const rateForRegion = getBandwidthRateForRegion(region);
+	if (rateForRegion === undefined) return BigNumberZero;
+	const bandwidthWithAllPrecision = bandwidthRate
+		.mul(BigNumber.from(1024 * 1024))
+		.div(rateForRegion);
+
+	return bandwidthWithAllPrecision
+		.add(RATE_SCALING_FACTOR.sub(BigNumber.from(1)))
+		.div(RATE_SCALING_FACTOR);
+}

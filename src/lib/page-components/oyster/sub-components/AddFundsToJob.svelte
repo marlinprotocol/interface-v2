@@ -5,6 +5,7 @@
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import {
+		RATE_SCALING_FACTOR,
 		getDurationInSecondsForUnit,
 		kDurationUnitsList,
 		kOysterRateMetaData
@@ -27,6 +28,7 @@
 	export let selectId: string;
 	export let invalidCost = false;
 	export let instanceCostString = '';
+	export let isTotalRate = false;
 	// this is not being used currently as we are not allowing the user to edit the instance rate
 	export let instanceRateEditable = true;
 
@@ -45,7 +47,14 @@
 		}
 	};
 
-	$: updateRateString(instanceRate);
+	$: rateToUseForStrings = isTotalRate ? instanceRate?.div(RATE_SCALING_FACTOR) : instanceRate;
+	$: updateRateString(rateToUseForStrings);
+
+	function getInstanceCostString(cost: BigNumber) {
+		return isTotalRate
+			? bigNumberToString(cost.div(RATE_SCALING_FACTOR), decimal)
+			: bigNumberToString(cost, decimal);
+	}
 
 	let maxBalance = BigNumberZero;
 	let durationUnit = 'Days';
@@ -71,7 +80,7 @@
 				const hourlyRate = stringToBigNumber(value);
 				instanceRate = convertHourlyRateToSecondlyRate(hourlyRate);
 				const _instanceCost = computeCost(duration || 0, instanceRate);
-				instanceCostString = bigNumberToString(_instanceCost, decimal);
+				instanceCostString = getInstanceCostString(_instanceCost);
 			}
 		} catch (error) {
 			instanceRate = undefined;
@@ -85,7 +94,7 @@
 		try {
 			duration = computeDuration(value, durationUnitInSec);
 			const _instanceCost = computeCost(duration || 0, instanceRate);
-			instanceCostString = bigNumberToString(_instanceCost, decimal);
+			instanceCostString = getInstanceCostString(_instanceCost);
 		} catch (error) {
 			duration = 0;
 			console.log(error);
@@ -96,7 +105,7 @@
 		durationUnitInSec = getDurationInSecondsForUnit(unit);
 		duration = computeDuration(durationString, durationUnitInSec);
 		const _instanceCost = computeCost(duration || 0, instanceRate);
-		instanceCostString = bigNumberToString(_instanceCost, decimal);
+		instanceCostString = getInstanceCostString(_instanceCost);
 	};
 
 	const handleCostChange = (e: any) => {
@@ -165,7 +174,7 @@
 		</div>
 	</AmountInputWithTitle>
 	<AmountInputWithTitle
-		title={'Instance Cost'}
+		title={isTotalRate ? 'Total Cost' : 'Instance Cost'}
 		bind:inputAmountString={instanceCostString}
 		handleUpdatedAmount={handleCostChange}
 		suffix={currency}

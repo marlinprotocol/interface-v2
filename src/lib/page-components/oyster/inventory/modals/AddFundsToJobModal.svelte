@@ -83,6 +83,7 @@
 			selectId="add-funds-duration-unit-select"
 			instanceRate={rate}
 			instanceRateEditable={false}
+			isTotalRate={true}
 		/>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">

@@ -8,7 +8,7 @@ import type {
 import { RATE_SCALING_FACTOR, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 import { getProvidersInstancesJSON, getProvidersNameJSON } from '$lib/controllers/httpController';
 
-import { BANDWIDTH_RATES } from '$lib/page-components/oyster/data/bandwidthRates';
+import { BANDWIDTH_RATES_LOOKUP } from '$lib/page-components/oyster/data/bandwidthRates';
 import { BigNumber } from 'ethers';
 import { instanceVcpuMemoryData } from '$lib/page-components/oyster/data/instanceVcpuMemoryData';
 
@@ -41,7 +41,7 @@ export const getvCpuMemoryData = (instance: string) => {
 };
 
 export const getBandwidthRateForRegion = (region: string) => {
-	const bandwidthRate = BANDWIDTH_RATES.find((item) => item.region_code === region)?.rate ?? 1;
+	const bandwidthRate = BANDWIDTH_RATES_LOOKUP[region] ?? 0;
 	return BigNumber.from(bandwidthRate);
 };
 
@@ -49,7 +49,6 @@ export async function getOysterJobsModified(jobs: any[]) {
 	if (!jobs?.length) return [];
 
 	const names = await getProvidersNameJSON();
-	// const names = {};
 
 	return jobs.map((job: any) => {
 		return modifyJobData(job, names);
@@ -236,7 +235,6 @@ export async function getOysterProvidersModified(providers: any[]) {
 				rate: rateFromCPUrl.div(rateCPUrlUnitInSeconds),
 				provider: {
 					name: allNames[provider.id] ?? '',
-					// name: '',
 					address: provider.id
 				},
 				id: `${provider.id}-${index}`

@@ -126,3 +126,9 @@ export const BANDWIDTH_RATES: BandwidthRate[] = [
 		rate: 155000
 	}
 ];
+
+// lookup table for bandwidth rates with region code as key and rate as value
+export const BANDWIDTH_RATES_LOOKUP: { [key: string]: number } = BANDWIDTH_RATES.reduce(
+	(acc, { region_code, rate }) => ({ ...acc, [region_code]: rate }),
+	{}
+);

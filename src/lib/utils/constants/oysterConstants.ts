@@ -94,27 +94,6 @@ export const kOysterMerchantJobTableHeader: TableModel['header'][] = [
 	}
 ];
 
-export const kOysterMerchantJobTableColumnsWidth = (id: string) => {
-	switch (id) {
-		case 'provider':
-			return '17.5%';
-		case 'instance':
-			return '10%';
-		case 'region':
-			return '10%';
-		case 'createdAt':
-			return '12.5%';
-		case 'durationRun':
-			return '12.5%';
-		case 'amountToBeSettled':
-			return '12.5%';
-		case 'status':
-			return '12.5%';
-		default:
-			return '12.5%';
-	}
-};
-
 // make sure the id matches the id in Data Model
 export const kOysterOperatorHistoryTableHeader: TableModel['header'][] = [
 	{
@@ -157,25 +136,6 @@ export const kOysterOperatorHistoryTableHeader: TableModel['header'][] = [
 		id: 'action'
 	}
 ];
-
-export const kOperatorHistoryTableColumnsWidth = (id: string) => {
-	switch (id) {
-		case 'provider':
-			return '17.5%';
-		case 'instance':
-			return '10%';
-		case 'region':
-			return '10%';
-		case 'createdAt':
-			return '12.5%';
-		case 'durationRun':
-			return '12.5%';
-		case 'amountToBeSettled':
-			return '12.5%';
-		default:
-			return '12.5%';
-	}
-};
 
 // make sure the id matches the id in Data Model
 export const kOysterInventoryTableHeader: TableModel['header'][] = [
@@ -225,31 +185,6 @@ export const kOysterInventoryTableHeader: TableModel['header'][] = [
 		id: 'action'
 	}
 ];
-
-export const kInventoryTableColumnsWidth = (id: string) => {
-	switch (id) {
-		case 'provider':
-			return '17.5%';
-		case 'instance':
-			return '10%';
-		case 'region':
-			return '10%';
-		case 'rate':
-			return '10%';
-		case 'vcpu':
-			return '10%';
-		case 'memory':
-			return '12.5%';
-		case 'balance':
-			return '10%';
-		case 'durationLeft':
-			return '15%';
-		case 'action':
-			return '5%';
-		default:
-			return '5%';
-	}
-};
 
 export const kOysterPaymentHistoryTableHeader: TableModel['header'][] = [
 	{
@@ -400,16 +335,6 @@ export const kDurationUnitsList = [
 		id: 'day',
 		value: 86400
 	}
-	// {
-	// 	label: 'Weeks',
-	// 	id: 'week',
-	// 	value: 86400 * 7
-	// },
-	// {
-	// 	label: 'Months',
-	// 	id: 'month',
-	// 	value: 86400 * 30
-	// }
 ];
 
 export const kBandwidthUnitsList = [

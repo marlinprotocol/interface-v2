@@ -1,6 +1,6 @@
 import type { NetworkInfo } from '$lib/types/networkTypes';
 
-export const networkInfo: Record<string, NetworkInfo> = {
+export const NETWORK_INFO: Record<string, NetworkInfo> = {
 	'0x66eed': {
 		chainId: '0x66eed',
 		chainName: 'Arbitrum Goerli',

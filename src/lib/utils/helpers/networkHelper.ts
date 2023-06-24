@@ -1,8 +1,8 @@
+import type { Environment } from '$lib/types/environmentTypes';
+import { NETWORK_INFO } from '../constants/network';
+import { addToast } from '$lib/data-stores/toastStore';
 import { connectWallet } from '$lib/controllers/walletController';
 import { environmentStore } from '$lib/data-stores/environment';
-import { networkInfo } from '../constants/network';
-import { addToast } from '$lib/data-stores/toastStore';
-import type { Environment } from '$lib/types/environmentTypes';
 
 let environment: Environment;
 environmentStore.subscribe((value) => {
@@ -27,7 +27,7 @@ export async function switchChain(provider: any, chainId: string) {
 		connectWallet(provider)
 	]).catch(async (err) => {
 		if (err.code === 4902) {
-			if (!networkInfo[chainId]) {
+			if (!NETWORK_INFO[chainId]) {
 				addToast({
 					variant: 'error',
 					message: 'This chain is not supported by the app'
@@ -36,7 +36,7 @@ export async function switchChain(provider: any, chainId: string) {
 			}
 			await provider.provider.request({
 				method: 'wallet_addEthereumChain',
-				params: [networkInfo[chainId]]
+				params: [NETWORK_INFO[chainId]]
 			});
 		} else {
 			console.error(err);

@@ -7,7 +7,7 @@ import { get } from 'svelte/store';
 import type { LayoutLoad } from '../$types';
 import { subgraphQueryWrapper } from '$lib/controllers/subgraphController';
 import { addRegionNameToMarketplaceData } from '$lib/utils/helpers/oysterHelpers';
-import { regionNameConstants } from '$lib/utils/constants/regionNameConstants';
+import { REGION_NAME_CONSTANTS } from '$lib/utils/constants/regionNameConstants';
 
 let enclavesContractSubgraphUrl = '';
 environmentStore.subscribe((value) => {
@@ -37,7 +37,7 @@ export const load = (async ({ fetch }) => {
 		// mapping region names to region ids, may be we can do this in subgraph itself
 		const allMarketplaceDataWithRegionName = addRegionNameToMarketplaceData(
 			allMarketplaceData,
-			regionNameConstants
+			REGION_NAME_CONSTANTS
 		);
 
 		// updating stores instead of returning data as we don't need to show this data explicitly

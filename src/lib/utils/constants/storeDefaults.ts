@@ -69,6 +69,7 @@ export const DEFAULT_RECEIVER_STAKING_DATA: ReceiverStakingData = {
 	}
 };
 
+// bridgeStore
 export const DEFAULT_BRIDGE_STORE: BridgeStore = {
 	allowances: {
 		pond: BIG_NUMBER_ZERO,
@@ -77,6 +78,7 @@ export const DEFAULT_BRIDGE_STORE: BridgeStore = {
 	requestedMPond: BIG_NUMBER_ZERO
 };
 
+// oysterStore
 export const DEFAULT_OYSTER_STORE: OysterStore = {
 	providerData: {
 		registered: false

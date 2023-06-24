@@ -32,6 +32,6 @@ module.exports = {
 	},
 	rules: {
 		eqeqeq: ['error', 'always'],
-		'no-mixed-spaces-and-tabs': ['warn']
+		'no-mixed-spaces-and-tabs': ['off']
 	}
 };

@@ -7,35 +7,31 @@ export const GET_OPTIONS = {
 	}
 };
 
+export const BIG_NUMBER_ZERO = BigNumber.from(0);
+
 export const MEMORY_SUFFIX = ' MiB';
 
+export const DEFAULT_CURRENCY_DECIMALS = 18; // we use POND as a default currency which has its lowest unit in 18 decimals
 export const DEFAULT_PRECISION = 2;
 
-export const DEFAULT_CURRENCY_DECIMALS = 18; // we use POND as a default currency which has its lowest unit in 18 decimals
-
-export const secondsInHour = 3600;
-
+export const SECONDS_IN_HOUR = 3600;
 export const SECONDS_IN_DAY = 86400;
+export const SECONDS_IN_HUNDRED_YEARS = 60 * 60 * 24 * 365 * 100; //not accounting for leap years
 
-export const hundredYears = 60 * 60 * 24 * 365 * 100; //not accounting for leap years
-
-export const pondPrecisions = 2;
-export const mPondPrecisions = 6;
-
-export const amountPrecision = (token: 'pond' | 'mPond') => {
+export const POND_PRECISIONS = 2;
+export const MPOND_PRECISIONS = 6;
+export const AMOUNT_PRECISION = (token: 'pond' | 'mPond') => {
 	switch (token) {
 		case 'pond':
-			return pondPrecisions;
+			return POND_PRECISIONS;
 		case 'mPond':
-			return mPondPrecisions;
+			return MPOND_PRECISIONS;
 		default:
 			return DEFAULT_PRECISION;
 	}
 };
 
-export const BigNumberZero = BigNumber.from(0);
-
-export const oysterMarketAbi = [
+export const OYSTER_MARKET_ABI = [
 	{ inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
 	{
 		anonymous: false,

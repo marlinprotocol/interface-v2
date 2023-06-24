@@ -1,9 +1,9 @@
 import {
-	BigNumberZero,
+	BIG_NUMBER_ZERO,
 	DEFAULT_CURRENCY_DECIMALS,
 	DEFAULT_PRECISION,
 	SECONDS_IN_DAY,
-	secondsInHour
+	SECONDS_IN_HOUR
 } from '$lib/utils/constants/constants';
 import type {
 	OysterFiltersModel,
@@ -24,12 +24,12 @@ export const convertRateToPerHourString = (
 	decimal = DEFAULT_CURRENCY_DECIMALS,
 	precision = DEFAULT_PRECISION
 ) => {
-	const rateInHour = rate.mul(secondsInHour);
+	const rateInHour = rate.mul(SECONDS_IN_HOUR);
 	return bigNumberToString(rateInHour, decimal, precision);
 };
 
 export const convertHourlyRateToSecondlyRate = (rate: BigNumber) => {
-	return rate.div(secondsInHour);
+	return rate.div(SECONDS_IN_HOUR);
 };
 
 export const getSearchedInventoryData = (
@@ -476,13 +476,13 @@ export const getCreateOrderInstanceRegionFilters = (
 
 export const computeCost = (duration: number, rate?: BigNumber) => {
 	try {
-		return rate ? rate.mul(duration) : BigNumberZero;
+		return rate ? rate.mul(duration) : BIG_NUMBER_ZERO;
 	} catch (e) {
 		addToast({
 			variant: 'error',
 			message: `Error computing cost, please try again.`
 		});
-		return BigNumberZero;
+		return BIG_NUMBER_ZERO;
 	}
 };
 
@@ -515,7 +515,7 @@ export const addRegionNameToMarketplaceData = (
 
 export function getBandwidthFromRateAndRegion(bandwidthRate: BigNumber, region: string) {
 	const rateForRegion = getBandwidthRateForRegion(region);
-	if (rateForRegion === undefined) return BigNumberZero;
+	if (rateForRegion === undefined) return BIG_NUMBER_ZERO;
 	const bandwidthWithAllPrecision = bandwidthRate
 		.mul(BigNumber.from(1024 * 1024))
 		.div(rateForRegion);

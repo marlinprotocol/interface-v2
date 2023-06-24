@@ -12,7 +12,7 @@ import {
 	withdrawFundsFromOysterJob
 } from '$lib/controllers/contractController';
 
-import { BigNumberZero } from '$lib/utils/constants/constants';
+import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 import type { OysterStore } from '$lib/types/storeTypes';
 import { oysterStore } from '$lib/data-stores/oysterStore';
@@ -29,7 +29,7 @@ export async function handleClaimAmountFromOysterJob(jobId: Bytes) {
 						console.log('job :>> ', job);
 						return {
 							...job,
-							amountToBeSettled: BigNumberZero
+							amountToBeSettled: BIG_NUMBER_ZERO
 						};
 					}
 					return job;
@@ -156,7 +156,7 @@ export async function handleInitiateRateRevise(
 			reviseRate: {
 				newRate: newRate,
 				rateStatus: 'pending',
-				stopStatus: newRate.gt(BigNumberZero) ? 'disabled' : 'pending',
+				stopStatus: newRate.gt(BIG_NUMBER_ZERO) ? 'disabled' : 'pending',
 				updatesAt: nowTime + rateReviseWaitingTime
 			}
 		};
@@ -236,9 +236,9 @@ export async function handleConfirmJobStop(jobData: OysterInventoryDataModel) {
 			...jobData,
 			live: false,
 			refund: jobData.balance,
-			balance: BigNumberZero,
+			balance: BIG_NUMBER_ZERO,
 			status: 'stopped',
-			rate: BigNumberZero,
+			rate: BIG_NUMBER_ZERO,
 			reviseRate: undefined,
 			depositHistory: [
 				{
@@ -295,8 +295,8 @@ export async function handleCreateJob(
 			region,
 			vcpu,
 			memory,
-			amountUsed: BigNumberZero,
-			refund: BigNumberZero,
+			amountUsed: BIG_NUMBER_ZERO,
+			refund: BIG_NUMBER_ZERO,
 			rate,
 			downScaledRate: rate.div(RATE_SCALING_FACTOR),
 			balance,
@@ -318,7 +318,7 @@ export async function handleCreateJob(
 					transactionStatus: 'deposit'
 				}
 			],
-			amountToBeSettled: BigNumberZero,
+			amountToBeSettled: BIG_NUMBER_ZERO,
 			settlementHistory: []
 		};
 		oysterStore.update((value) => {

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import {
 		RATE_SCALING_FACTOR,
 		kBandwidthUnitsList,
@@ -12,11 +12,11 @@
 	import { BigNumber } from 'ethers';
 
 	export let region: any;
-	export let bandwidthRateForRegion = BigNumberZero;
-	export let bandwidthCost = BigNumberZero;
+	export let bandwidthRateForRegion = BIG_NUMBER_ZERO;
+	export let bandwidthCost = BIG_NUMBER_ZERO;
 	export let duration = 0;
-	export let instanceCost = BigNumberZero;
-	export let finalBandwidthRate = BigNumberZero;
+	export let instanceCost = BIG_NUMBER_ZERO;
+	export let finalBandwidthRate = BIG_NUMBER_ZERO;
 
 	let bandwidth = '';
 	let bandwidthUnit = 'KB/s';
@@ -45,11 +45,11 @@
 	$: bandwidthCost =
 		bandwidth !== ''
 			? calculateBandwidthCost(bandwidth, bandwidthUnit, bandwidthRateForRegion, duration)
-			: BigNumberZero;
+			: BIG_NUMBER_ZERO;
 	$: bandwidthCostString = bandwidth !== '' ? bigNumberToString(bandwidthCost, decimal, 4) : '';
 
 	$: totalAmount = bandwidthCost.add(instanceCost);
-	$: totalAmountString = !totalAmount.eq(BigNumberZero)
+	$: totalAmountString = !totalAmount.eq(BIG_NUMBER_ZERO)
 		? bigNumberToString(totalAmount, decimal, 4)
 		: '';
 </script>

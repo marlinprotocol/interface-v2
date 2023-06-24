@@ -10,7 +10,7 @@
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
 	import { kMPondHistoryPage } from '$lib/utils/constants/bridgeConstants';
-	import { BigNumberZero, mPondPrecisions } from '$lib/utils/constants/constants';
+	import { BIG_NUMBER_ZERO, MPOND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,
@@ -39,12 +39,12 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BigNumberZero;
+		: BIG_NUMBER_ZERO;
 
 	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(mPondToPond(inputAmount)) : '';
 
 	let walletMPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.mPond;
-	let requestedMPond: BigNumber = BigNumberZero;
+	let requestedMPond: BigNumber = BIG_NUMBER_ZERO;
 
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		walletMPondBalance = value.mPond;
@@ -57,8 +57,8 @@
 	$: balanceText = $connected
 		? `Unrequested: ${bigNumberToCommaString(
 				unrequestedMPondBalance,
-				mPondPrecisions
-		  )} | Requested: ${bigNumberToCommaString(requestedMPond, mPondPrecisions)}`
+				MPOND_PRECISIONS
+		  )} | Requested: ${bigNumberToCommaString(requestedMPond, MPOND_PRECISIONS)}`
 		: 'Unrequested: 0 | Requested: 0';
 
 	onDestroy(unsubscribeWalletBalanceStore);

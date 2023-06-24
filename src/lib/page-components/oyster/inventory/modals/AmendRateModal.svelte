@@ -7,7 +7,7 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { RATE_SCALING_FACTOR, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { epochToDurationString, stringToBigNumber } from '$lib/utils/conversion';
 	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
@@ -27,17 +27,17 @@
 
 	$: ({
 		downScaledRate,
-		reviseRate: { newRate = BigNumberZero, updatesAt = 0, rateStatus = '' } = {}
+		reviseRate: { newRate = BIG_NUMBER_ZERO, updatesAt = 0, rateStatus = '' } = {}
 	} = jobData);
 	const { symbol, decimal } = kOysterRateMetaData;
 
 	//initial states
-	let inputRate: BigNumber = BigNumberZero;
+	let inputRate: BigNumber = BIG_NUMBER_ZERO;
 	let inputAmountString = '';
 
 	$: inputRate = isInputAmountValid(inputAmountString)
 		? convertHourlyRateToSecondlyRate(stringToBigNumber(inputAmountString)).mul(RATE_SCALING_FACTOR)
-		: BigNumberZero;
+		: BIG_NUMBER_ZERO;
 
 	let submitLoading = false;
 	let cancelLoading = false;

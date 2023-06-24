@@ -6,7 +6,7 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
 	import {
@@ -33,7 +33,7 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BigNumberZero;
+		: BIG_NUMBER_ZERO;
 
 	//loading states
 	let submitLoading = false;

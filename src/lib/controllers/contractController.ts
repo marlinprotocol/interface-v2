@@ -4,7 +4,11 @@ import { walletStore } from '$lib/data-stores/walletProviderStore';
 import { environmentStore } from '$lib/data-stores/environment';
 import type { Environment } from '$lib/types/environmentTypes';
 import type { ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
-import { mPondPrecisions, oysterMarketAbi, pondPrecisions } from '$lib/utils/constants/constants';
+import {
+	MPOND_PRECISIONS,
+	OYSTER_MARKET_ABI,
+	POND_PRECISIONS
+} from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToCommaString } from '$lib/utils/conversion';
 import { capitalizeFirstLetter, minifyAddress } from '$lib/utils/helpers/commonHelper';
@@ -92,7 +96,7 @@ export async function depositStakingToken(amount: BigNumber, signerAddress = '')
 	);
 	try {
 		addToast({
-			message: MESSAGES.TOAST.ACTIONS.DEPOSIT.POND(bigNumberToCommaString(amount, pondPrecisions)),
+			message: MESSAGES.TOAST.ACTIONS.DEPOSIT.POND(bigNumberToCommaString(amount, POND_PRECISIONS)),
 			variant: 'info'
 		});
 
@@ -119,7 +123,7 @@ export async function depositStakingToken(amount: BigNumber, signerAddress = '')
 				MESSAGES.TOAST.TRANSACTION.SUCCESS +
 				' ' +
 				MESSAGES.TOAST.ACTIONS.DEPOSIT.POND_DEPOSITED(
-					bigNumberToCommaString(amount, pondPrecisions)
+					bigNumberToCommaString(amount, POND_PRECISIONS)
 				),
 			variant: 'success'
 		});
@@ -145,7 +149,9 @@ export async function withdrawStakingToken(amount: BigNumber) {
 	);
 	try {
 		addToast({
-			message: MESSAGES.TOAST.ACTIONS.WITHDRAW.POND(bigNumberToCommaString(amount, pondPrecisions)),
+			message: MESSAGES.TOAST.ACTIONS.WITHDRAW.POND(
+				bigNumberToCommaString(amount, POND_PRECISIONS)
+			),
 			variant: 'info'
 		});
 		const tx = await receiverStakingContract.withdraw(amount);
@@ -168,7 +174,7 @@ export async function withdrawStakingToken(amount: BigNumber) {
 				MESSAGES.TOAST.TRANSACTION.SUCCESS +
 				' ' +
 				MESSAGES.TOAST.ACTIONS.WITHDRAW.POND_WITHDREW(
-					bigNumberToCommaString(amount, pondPrecisions)
+					bigNumberToCommaString(amount, POND_PRECISIONS)
 				),
 			variant: 'success'
 		});
@@ -194,7 +200,7 @@ export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
 	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);
 	try {
 		addToast({
-			message: MESSAGES.TOAST.ACTIONS.APPROVE.POND(bigNumberToCommaString(amount, pondPrecisions)),
+			message: MESSAGES.TOAST.ACTIONS.APPROVE.POND(bigNumberToCommaString(amount, POND_PRECISIONS)),
 			variant: 'info'
 		});
 		const tx = await pondTokenContract.approve(receiverStakingContractAddress, amount);
@@ -217,7 +223,7 @@ export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
 				MESSAGES.TOAST.TRANSACTION.SUCCESS +
 				' ' +
 				MESSAGES.TOAST.ACTIONS.APPROVE.POND_APPROVED(
-					bigNumberToCommaString(amount, pondPrecisions)
+					bigNumberToCommaString(amount, POND_PRECISIONS)
 				),
 			variant: 'success'
 		});
@@ -241,7 +247,7 @@ export async function approvePondTokenForConversion(amount: BigNumber) {
 	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);
 	try {
 		addToast({
-			message: MESSAGES.TOAST.ACTIONS.APPROVE.POND(bigNumberToCommaString(amount, pondPrecisions)),
+			message: MESSAGES.TOAST.ACTIONS.APPROVE.POND(bigNumberToCommaString(amount, POND_PRECISIONS)),
 			variant: 'info'
 		});
 		const tx = await pondTokenContract.approve(bridgeContractAddress, amount);
@@ -264,7 +270,7 @@ export async function approvePondTokenForConversion(amount: BigNumber) {
 				MESSAGES.TOAST.TRANSACTION.SUCCESS +
 				' ' +
 				MESSAGES.TOAST.ACTIONS.APPROVE.POND_APPROVED(
-					bigNumberToCommaString(amount, pondPrecisions)
+					bigNumberToCommaString(amount, POND_PRECISIONS)
 				),
 			variant: 'success'
 		});
@@ -293,7 +299,7 @@ export async function approveMPondTokenForConversion(amount: BigNumber) {
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.APPROVE.MPOND(
-				bigNumberToCommaString(amount, mPondPrecisions)
+				bigNumberToCommaString(amount, MPOND_PRECISIONS)
 			),
 			variant: 'info'
 		});
@@ -317,7 +323,7 @@ export async function approveMPondTokenForConversion(amount: BigNumber) {
 				MESSAGES.TOAST.TRANSACTION.SUCCESS +
 				' ' +
 				MESSAGES.TOAST.ACTIONS.APPROVE.MPOND_APPROVED(
-					bigNumberToCommaString(amount, mPondPrecisions)
+					bigNumberToCommaString(amount, MPOND_PRECISIONS)
 				),
 			variant: 'success'
 		});
@@ -341,7 +347,7 @@ export async function convertPondToMPond(expectedMPond: BigNumber) {
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.CONVERT.POND_TO_MPOND_CONVERTING(
-				bigNumberToCommaString(expectedMPond, mPondPrecisions)
+				bigNumberToCommaString(expectedMPond, MPOND_PRECISIONS)
 			),
 			variant: 'info'
 		});
@@ -365,7 +371,7 @@ export async function convertPondToMPond(expectedMPond: BigNumber) {
 				MESSAGES.TOAST.TRANSACTION.SUCCESS +
 				' ' +
 				MESSAGES.TOAST.ACTIONS.CONVERT.POND_TO_MPOND_CONVERTED(
-					bigNumberToCommaString(expectedMPond, mPondPrecisions)
+					bigNumberToCommaString(expectedMPond, MPOND_PRECISIONS)
 				),
 			variant: 'success'
 		});
@@ -389,7 +395,7 @@ export async function requestMPondConversion(amount: BigNumber) {
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_REQUESTING(
-				bigNumberToCommaString(amount, mPondPrecisions)
+				bigNumberToCommaString(amount, MPOND_PRECISIONS)
 			),
 			variant: 'info'
 		});
@@ -415,7 +421,7 @@ export async function requestMPondConversion(amount: BigNumber) {
 				MESSAGES.TOAST.TRANSACTION.SUCCESS +
 				' ' +
 				MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_REQUESTED(
-					bigNumberToCommaString(amount, mPondPrecisions)
+					bigNumberToCommaString(amount, MPOND_PRECISIONS)
 				),
 			variant: 'success'
 		});
@@ -485,7 +491,7 @@ export async function confirmMPondConversion(epoch: BigNumber, amount: BigNumber
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.CONVERT.MPOND_TO_POND_CONVERTING(
-				bigNumberToCommaString(amount, mPondPrecisions)
+				bigNumberToCommaString(amount, MPOND_PRECISIONS)
 			),
 			variant: 'info'
 		});
@@ -510,7 +516,7 @@ export async function confirmMPondConversion(epoch: BigNumber, amount: BigNumber
 				MESSAGES.TOAST.TRANSACTION.SUCCESS +
 				' ' +
 				MESSAGES.TOAST.ACTIONS.CONVERT.MPOND_TO_POND_CONVERTED(
-					bigNumberToCommaString(amount, mPondPrecisions)
+					bigNumberToCommaString(amount, MPOND_PRECISIONS)
 				),
 			variant: 'success'
 		});
@@ -531,7 +537,7 @@ export async function confirmMPondConversion(epoch: BigNumber, amount: BigNumber
 
 export async function registerOysterInfrastructureProvider(controlPlaneUrl: string) {
 	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = oysterMarketAbi;
+	const oysterContractAbi = OYSTER_MARKET_ABI;
 	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
@@ -574,7 +580,7 @@ export async function registerOysterInfrastructureProvider(controlPlaneUrl: stri
 
 export async function updateOysterInfrastructureProvider(controlPlaneUrl: string) {
 	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = oysterMarketAbi;
+	const oysterContractAbi = OYSTER_MARKET_ABI;
 	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
@@ -616,7 +622,7 @@ export async function updateOysterInfrastructureProvider(controlPlaneUrl: string
 
 export async function removeOysterInfrastructureProvider() {
 	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = oysterMarketAbi;
+	const oysterContractAbi = OYSTER_MARKET_ABI;
 	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
@@ -663,7 +669,7 @@ export async function createNewOysterJob(
 	balance: BigNumber
 ) {
 	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = oysterMarketAbi;
+	const oysterContractAbi = OYSTER_MARKET_ABI;
 	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
@@ -710,7 +716,7 @@ export async function createNewOysterJob(
 
 export async function stopOysterJob(jobId: Bytes) {
 	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = oysterMarketAbi;
+	const oysterContractAbi = OYSTER_MARKET_ABI;
 	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
@@ -752,7 +758,7 @@ export async function stopOysterJob(jobId: Bytes) {
 
 export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber) {
 	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = oysterMarketAbi;
+	const oysterContractAbi = OYSTER_MARKET_ABI;
 	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
@@ -803,7 +809,7 @@ export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.APPROVE.APPROVING(
-				bigNumberToCommaString(amount, pondPrecisions),
+				bigNumberToCommaString(amount, POND_PRECISIONS),
 				token
 			),
 			variant: 'info'
@@ -828,7 +834,7 @@ export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 				MESSAGES.TOAST.TRANSACTION.SUCCESS +
 				' ' +
 				MESSAGES.TOAST.ACTIONS.APPROVE.APPROVED(
-					bigNumberToCommaString(amount, pondPrecisions),
+					bigNumberToCommaString(amount, POND_PRECISIONS),
 					token
 				),
 			variant: 'success'
@@ -848,7 +854,7 @@ export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 
 export async function addFundsToOysterJob(jobId: Bytes, amount: BigNumber) {
 	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = oysterMarketAbi;
+	const oysterContractAbi = OYSTER_MARKET_ABI;
 	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
@@ -891,7 +897,7 @@ export async function addFundsToOysterJob(jobId: Bytes, amount: BigNumber) {
 
 export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber) {
 	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = oysterMarketAbi;
+	const oysterContractAbi = OYSTER_MARKET_ABI;
 	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
@@ -932,7 +938,7 @@ export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber)
 
 export async function cancelRateReviseOysterJob(jobId: Bytes) {
 	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = oysterMarketAbi;
+	const oysterContractAbi = OYSTER_MARKET_ABI;
 	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
@@ -975,7 +981,7 @@ export async function cancelRateReviseOysterJob(jobId: Bytes) {
 
 export async function finaliseRateReviseOysterJob(jobId: Bytes) {
 	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = oysterMarketAbi;
+	const oysterContractAbi = OYSTER_MARKET_ABI;
 	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({
@@ -1017,7 +1023,7 @@ export async function finaliseRateReviseOysterJob(jobId: Bytes) {
 
 export async function settleOysterJob(jobId: Bytes) {
 	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = oysterMarketAbi;
+	const oysterContractAbi = OYSTER_MARKET_ABI;
 	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
 	try {
 		addToast({

@@ -4,7 +4,7 @@
 	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import { kMPondConversionHistoryTableHeader } from '$lib/utils/constants/bridgeConstants';
-	import { pondPrecisions } from '$lib/utils/constants/constants';
+	import { POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, epochSecToString, mPondToPond } from '$lib/utils/conversion';
 	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 
@@ -38,7 +38,7 @@
 					{epochSecToString(rowData?.timestamp)}
 				</div>
 				<div class="flex-1">
-					{bigNumberToCommaString(mPondToPond(rowData?.mpondToConvert), pondPrecisions)}
+					{bigNumberToCommaString(mPondToPond(rowData?.mpondToConvert), POND_PRECISIONS)}
 				</div>
 				<div class="flex-1">
 					<TxnHashText

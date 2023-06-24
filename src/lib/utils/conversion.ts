@@ -1,10 +1,10 @@
-import { BigNumber, ethers } from 'ethers';
 import {
-	BigNumberZero,
+	BIG_NUMBER_ZERO,
 	DEFAULT_CURRENCY_DECIMALS,
 	DEFAULT_PRECISION,
-	hundredYears
+	SECONDS_IN_HUNDRED_YEARS
 } from '$lib/utils/constants/constants';
+import { BigNumber, ethers } from 'ethers';
 
 /**
  * Returns duration string for a epoch
@@ -14,7 +14,7 @@ import {
  * @example 12334422 => 4 months 22 days 18 hours 13 mins 42 secs
  */
 export const epochToDurationString = (epoch: number, mini = false, uptoHoursOnly = false) => {
-	if (epoch >= hundredYears) return '100+ years';
+	if (epoch >= SECONDS_IN_HUNDRED_YEARS) return '100+ years';
 	const seconds = epoch % 60;
 	const minutes = Math.floor(epoch / 60) % 60;
 	const hours = Math.floor(epoch / (60 * 60)) % 24;
@@ -71,7 +71,7 @@ export const bigNumberToCommaString = (value: BigNumber, decimals = DEFAULT_PREC
 	// Replace 0.0 by an empty value
 	if (result === '0.0') return '0';
 
-	let compareNum = BigNumberZero;
+	let compareNum = BIG_NUMBER_ZERO;
 
 	try {
 		compareNum = BigNumber.from(10).pow(DEFAULT_CURRENCY_DECIMALS - decimals);
@@ -123,7 +123,7 @@ export const bigNumberToString = (
 
 //return bignumber from string with decimal
 export const stringToBigNumber = (value: string, bigNumberDecimal = DEFAULT_CURRENCY_DECIMALS) => {
-	if (!value) return BigNumberZero;
+	if (!value) return BIG_NUMBER_ZERO;
 	let newValue = value;
 	// eslint-disable-next-line prefer-const
 	let [integer, fraction] = value.split('.');

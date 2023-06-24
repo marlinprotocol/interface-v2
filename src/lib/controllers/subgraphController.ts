@@ -24,8 +24,8 @@ import {
 	getOysterProvidersModified
 } from '$lib/utils/data-modifiers/oysterModifiers';
 
+import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import { BigNumber } from 'ethers';
-import { BigNumberZero } from '$lib/utils/constants/constants';
 import type { Environment } from '$lib/types/environmentTypes';
 import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 import { addToast } from '$lib/data-stores/toastStore';
@@ -174,7 +174,7 @@ export async function getReceiverStakingDataFromSubgraph(
 			let queuedBalance = DEFAULT_RECEIVER_STAKING_DATA.queuedBalance;
 			let stakedBalance = DEFAULT_RECEIVER_STAKING_DATA.stakedBalance;
 
-			let balanceSnapshot = BigNumberZero;
+			let balanceSnapshot = BIG_NUMBER_ZERO;
 
 			if (balanceSnapshots?.length === 1 && balanceSnapshots[0].epoch === epochData.epochCycle) {
 				//if balance snapshot for current epoch cycle is present, then update staked and queued balance
@@ -241,8 +241,8 @@ export async function getPondAndMPondBridgeAllowances(address: Address, contract
 	};
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-	let mPond = BigNumberZero;
-	let pond = BigNumberZero;
+	let mPond = BIG_NUMBER_ZERO;
+	let pond = BIG_NUMBER_ZERO;
 	try {
 		const result = await fetchHttpData(url, options);
 		console.log('pond mPond allowances', result);
@@ -278,7 +278,7 @@ export async function getRequestedMPondForConversion(address: Address) {
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
 
-	let requestedMPond = BigNumberZero;
+	let requestedMPond = BIG_NUMBER_ZERO;
 
 	try {
 		const result: any | undefined = await fetchHttpData(url, options);
@@ -453,7 +453,7 @@ export async function getApprovedOysterAllowances(address: Address) {
 	};
 
 	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-	let pond = BigNumberZero;
+	let pond = BIG_NUMBER_ZERO;
 	try {
 		const result = await fetchHttpData(url, options);
 		const pondApprovals = result['data']?.pondApprovals;

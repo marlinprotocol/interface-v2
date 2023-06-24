@@ -4,7 +4,7 @@
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BigNumberZero, MEMORY_SUFFIX } from '$lib/utils/constants/constants';
+	import { BIG_NUMBER_ZERO, MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import { RATE_SCALING_FACTOR, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
@@ -51,7 +51,7 @@
 		$oysterStore.allMarketplaceData
 	);
 	$: bandwidthRate =
-		instanceRate !== undefined ? rate.sub(instanceRate.mul(RATE_SCALING_FACTOR)) : BigNumberZero;
+		instanceRate !== undefined ? rate.sub(instanceRate.mul(RATE_SCALING_FACTOR)) : BIG_NUMBER_ZERO;
 	$: bandwidth = getBandwidthFromRateAndRegion(bandwidthRate, region).toString() + 'KB/s';
 </script>
 

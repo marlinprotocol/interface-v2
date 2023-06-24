@@ -6,7 +6,7 @@
 	} from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { mPondToPond } from '$lib/utils/conversion';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
@@ -19,7 +19,7 @@
 	export let modalToClose: string;
 	export let handleOnSuccess: (txnHash: string) => void;
 
-	let amount = BigNumberZero;
+	let amount = BIG_NUMBER_ZERO;
 	let approved = false;
 	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
 		amount = value.allowances.mPond;

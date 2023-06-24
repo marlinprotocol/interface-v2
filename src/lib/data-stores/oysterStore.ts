@@ -1,5 +1,5 @@
 import type { OysterStore } from '$lib/types/storeTypes';
-import { BigNumberZero } from '$lib/utils/constants/constants';
+import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import { DEFAULT_OYSTER_STORE } from '$lib/utils/constants/storeDefaults';
 import { writable, type Writable } from 'svelte/store';
 
@@ -14,7 +14,7 @@ export function resetOysterStore() {
 			},
 			allMarketplaceData: state.allMarketplaceData,
 			jobsData: [],
-			allowance: BigNumberZero,
+			allowance: BIG_NUMBER_ZERO,
 			merchantJobsData: [],
 			marketplaceLoaded: true
 		};

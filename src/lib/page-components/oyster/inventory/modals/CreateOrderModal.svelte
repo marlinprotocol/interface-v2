@@ -11,7 +11,7 @@
 		OysterMarketplaceDataModel
 	} from '$lib/types/oysterComponentType';
 	import type { Address } from '$lib/types/storeTypes';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { RATE_SCALING_FACTOR, kOysterOwnerInventory } from '$lib/utils/constants/oysterConstants';
 	import { checkValidURL, closeModal } from '$lib/utils/helpers/commonHelper';
 	import { getRateForProviderAndFilters } from '$lib/utils/helpers/oysterHelpers';
@@ -34,11 +34,11 @@
 	let owner: Address;
 
 	let duration = 0; //durationInSecs
-	let instanceCost = BigNumberZero;
+	let instanceCost = BIG_NUMBER_ZERO;
 	let invalidCost = false;
 	let instanceCostString = '';
-	let bandwidthCost = BigNumberZero;
-	let finalBandwidthRate = BigNumberZero;
+	let bandwidthCost = BIG_NUMBER_ZERO;
+	let finalBandwidthRate = BIG_NUMBER_ZERO;
 
 	//loading states
 	let submitLoading = false;
@@ -163,7 +163,7 @@
 
 	const handleMerchantChange = () => {
 		duration = 0;
-		instanceCost = BigNumberZero;
+		instanceCost = BIG_NUMBER_ZERO;
 		invalidCost = false;
 		instanceCostString = '';
 	};
@@ -179,10 +179,10 @@
 	let notServiceable = false;
 
 	$: approved =
-		instanceCost.gt(BigNumberZero) &&
+		instanceCost.gt(BIG_NUMBER_ZERO) &&
 		approvedAmount?.gte(totalCost) &&
-		bandwidthCost.gt(BigNumberZero) &&
-		totalCost.gt(BigNumberZero);
+		bandwidthCost.gt(BIG_NUMBER_ZERO) &&
+		totalCost.gt(BIG_NUMBER_ZERO);
 
 	$: instanceRateDisabled =
 		notServiceable ||
@@ -195,8 +195,8 @@
 
 	$: submitEnable =
 		duration &&
-		instanceCost?.gt(BigNumberZero) &&
-		bandwidthCost?.gt(BigNumberZero) &&
+		instanceCost?.gt(BIG_NUMBER_ZERO) &&
+		bandwidthCost?.gt(BIG_NUMBER_ZERO) &&
 		instanceRate &&
 		totalRate &&
 		!invalidCost &&
@@ -209,7 +209,7 @@
 			? checkValidURL(enclaveImageUrl.value)
 			: true;
 
-	$: totalRate = finalBandwidthRate.add(instanceRate?.mul(RATE_SCALING_FACTOR) || BigNumberZero);
+	$: totalRate = finalBandwidthRate.add(instanceRate?.mul(RATE_SCALING_FACTOR) || BIG_NUMBER_ZERO);
 	$: totalCost = instanceCost.add(bandwidthCost);
 
 	const subtitle =

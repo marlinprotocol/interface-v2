@@ -6,7 +6,7 @@
 	import { epochCycleStore } from '$lib/data-stores/epochCycleStore';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import type { EpochCycleStore, ReceiverStakingData } from '$lib/types/storeTypes';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { epochToDurationString } from '$lib/utils/conversion';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
@@ -45,7 +45,7 @@
 			inQueue = false;
 			return {
 				...value,
-				queuedBalance: BigNumberZero,
+				queuedBalance: BIG_NUMBER_ZERO,
 				stakedBalance: value.stakedBalance.add(value.queuedBalance),
 				epochData: {
 					...value.epochData,

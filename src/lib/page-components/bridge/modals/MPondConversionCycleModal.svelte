@@ -5,7 +5,7 @@
 	import LoadingAnimationModal from '$lib/components/loading/LoadingAnimationModal.svelte';
 	import type { MPondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
 	import { kMPondConversionCycleTableHeader } from '$lib/utils/constants/bridgeConstants';
-	import { pondPrecisions } from '$lib/utils/constants/constants';
+	import { POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import {
 		bigNumberToCommaString,
 		epochSecToString,
@@ -66,8 +66,8 @@
 							</div>
 							{`${bigNumberToCommaString(
 								rowData?.totalEligible,
-								pondPrecisions
-							)}/${bigNumberToCommaString(rowData?.netPending, pondPrecisions)}`}
+								POND_PRECISIONS
+							)}/${bigNumberToCommaString(rowData?.netPending, POND_PRECISIONS)}`}
 						</div>
 					{/each}
 				</div>

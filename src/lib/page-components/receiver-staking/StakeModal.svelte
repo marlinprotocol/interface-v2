@@ -16,7 +16,7 @@
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { Address, ReceiverStakingData, WalletBalance } from '$lib/types/storeTypes';
-	import { BigNumberZero, pondPrecisions } from '$lib/utils/constants/constants';
+	import { BIG_NUMBER_ZERO, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { MESSAGES } from '$lib/utils/constants/messages';
 	import {
 		DEFAULT_RECEIVER_STAKING_DATA,
@@ -51,7 +51,7 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BigNumberZero;
+		: BIG_NUMBER_ZERO;
 
 	//loading states
 	let approveLoading = false;
@@ -62,7 +62,7 @@
 	let balanceText = 'Balance: 0.00';
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		maxPondBalance = value.pond;
-		balanceText = `Balance: ${bigNumberToCommaString(maxPondBalance, pondPrecisions)}`;
+		balanceText = `Balance: ${bigNumberToCommaString(maxPondBalance, POND_PRECISIONS)}`;
 	});
 
 	//approve balance

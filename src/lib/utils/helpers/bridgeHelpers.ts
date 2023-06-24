@@ -5,10 +5,11 @@ import type {
 	MPondToPondHistoryDataModel,
 	MPondToPondRequestModel
 } from '$lib/types/bridgeComponentType';
+
+import { BIG_NUMBER_ZERO } from '../constants/constants';
 import { BigNumber } from 'ethers';
-import { BigNumberZero } from '../constants/constants';
-import { mPondToPond } from '../conversion';
 import { BigNumberUtils } from './bigNumberUtils';
+import { mPondToPond } from '../conversion';
 
 export const getModifiedMPondToPondHistory = (
 	mpondToPondConversions: MPondToPondConversionModel[],
@@ -65,7 +66,7 @@ export const getModifiedMPondToPondHistory = (
 			_releaseStartTime < _liquidityStartTime ? _liquidityStartTime : _releaseStartTime;
 
 		const eligibleCycles: MPondEligibleCyclesModel[] = [];
-		let totalEligible = BigNumberZero;
+		let totalEligible = BIG_NUMBER_ZERO;
 
 		let _cycleStartTime = _firstCycleStartTime;
 		// create eligible convserion cycles
@@ -84,8 +85,8 @@ export const getModifiedMPondToPondHistory = (
 		}
 
 		//current states
-		let currentPondInProcess = BigNumberZero;
-		let currentEligiblePond = BigNumberZero;
+		let currentPondInProcess = BIG_NUMBER_ZERO;
+		let currentEligiblePond = BIG_NUMBER_ZERO;
 		let currentCycle = 0;
 
 		// if liquidity release has started

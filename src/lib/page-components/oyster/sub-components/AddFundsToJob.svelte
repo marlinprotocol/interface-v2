@@ -3,7 +3,7 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import {
 		RATE_SCALING_FACTOR,
 		getDurationInSecondsForUnit,
@@ -56,7 +56,7 @@
 			: bigNumberToString(cost, decimal);
 	}
 
-	let maxBalance = BigNumberZero;
+	let maxBalance = BIG_NUMBER_ZERO;
 	let durationUnit = 'Days';
 	let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
 

@@ -10,11 +10,12 @@
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
 	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToString, epochToDurationString } from '$lib/utils/conversion';
 	import {
+		bigNumberToString,
 		convertRateToPerHourString,
-		getInventoryDurationVariant
-	} from '$lib/utils/helpers/oysterHelpers';
+		epochToDurationString
+	} from '$lib/utils/conversion';
+	import { getInventoryDurationVariant } from '$lib/utils/helpers/oysterHelpers';
 	import plus from 'svelte-awesome/icons/plus';
 	import { slide } from 'svelte/transition';
 	import AddFundsToJobModal from './modals/AddFundsToJobModal.svelte';

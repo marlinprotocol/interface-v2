@@ -2,6 +2,7 @@ import {
 	BIG_NUMBER_ZERO,
 	DEFAULT_CURRENCY_DECIMALS,
 	DEFAULT_PRECISION,
+	SECONDS_IN_HOUR,
 	SECONDS_IN_HUNDRED_YEARS
 } from '$lib/utils/constants/constants';
 import { BigNumber, ethers } from 'ethers';
@@ -167,4 +168,17 @@ export const mPondToPond = (mPond: BigNumber) => {
 export const pondToMPond = (pond: BigNumber) => {
 	//one pond is 10^-6 mPond
 	return pond.div(ethers.BigNumber.from(10).pow(6));
+};
+
+export const convertRateToPerHourString = (
+	rate: BigNumber,
+	decimal = DEFAULT_CURRENCY_DECIMALS,
+	precision = DEFAULT_PRECISION
+) => {
+	const rateInHour = rate.mul(SECONDS_IN_HOUR);
+	return bigNumberToString(rateInHour, decimal, precision);
+};
+
+export const convertHourlyRateToSecondlyRate = (rate: BigNumber) => {
+	return rate.div(SECONDS_IN_HOUR);
 };

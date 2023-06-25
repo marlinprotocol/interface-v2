@@ -8,11 +8,11 @@
 	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToCommaString,
+		convertRateToPerHourString,
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/conversion';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
-	import { convertRateToPerHourString } from '$lib/utils/helpers/oysterHelpers';
 	import PaymentHistoryTable from '../../sub-components/PaymentHistoryTable.svelte';
 
 	export let modalFor: string;

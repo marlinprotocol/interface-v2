@@ -11,7 +11,7 @@
 	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
-	import { convertRateToPerHourString } from '$lib/utils/helpers/oysterHelpers';
+	import { convertRateToPerHourString } from '$lib/utils/conversion';
 	import CreateOrderModal from '../inventory/modals/CreateOrderModal.svelte';
 
 	export let rowData: OysterMarketplaceDataModel;

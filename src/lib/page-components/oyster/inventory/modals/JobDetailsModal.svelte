@@ -11,11 +11,11 @@
 	} from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
+		convertRateToPerHourString,
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/conversion';
 	import {
-		convertRateToPerHourString,
 		getBandwidthFromRateAndRegion,
 		getRateForProviderAndFilters
 	} from '$lib/utils/helpers/oysterHelpers';

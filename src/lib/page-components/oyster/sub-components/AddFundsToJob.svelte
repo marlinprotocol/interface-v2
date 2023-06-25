@@ -9,14 +9,17 @@
 		OYSTER_DURATION_UNITS_LIST,
 		OYSTER_RATE_METADATA
 	} from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
+	import {
+		bigNumberToString,
+		convertHourlyRateToSecondlyRate,
+		convertRateToPerHourString,
+		stringToBigNumber
+	} from '$lib/utils/conversion';
 	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		computeCost,
 		computeDuration,
 		computeDurationString,
-		convertHourlyRateToSecondlyRate,
-		convertRateToPerHourString,
 		getDurationInSecondsForUnit
 	} from '$lib/utils/helpers/oysterHelpers';
 	import type { BigNumber } from 'ethers';

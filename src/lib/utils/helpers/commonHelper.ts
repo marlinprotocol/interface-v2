@@ -1,5 +1,5 @@
 import { checkIfSignerExistsInSubgraph } from '$lib/controllers/subgraphController';
-import { shortenText } from '../conversion';
+import { shortenText } from '$lib/utils/conversion';
 
 export function copyTextToClipboard(text: string) {
 	if (navigator.clipboard) {

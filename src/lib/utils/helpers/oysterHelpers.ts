@@ -1,10 +1,4 @@
-import {
-	BIG_NUMBER_ZERO,
-	DEFAULT_CURRENCY_DECIMALS,
-	DEFAULT_PRECISION,
-	SECONDS_IN_DAY,
-	SECONDS_IN_HOUR
-} from '$lib/utils/constants/constants';
+import { BIG_NUMBER_ZERO, SECONDS_IN_DAY } from '$lib/utils/constants/constants';
 import type {
 	OysterFiltersModel,
 	OysterInventoryDataModel,
@@ -18,22 +12,8 @@ import {
 	OYSTER_RATE_SCALING_FACTOR
 } from '$lib/utils/constants/oysterConstants';
 import { addToast } from '$lib/data-stores/toastStore';
-import { bigNumberToString } from '$lib/utils/conversion';
 import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
-
-export const convertRateToPerHourString = (
-	rate: BigNumber,
-	decimal = DEFAULT_CURRENCY_DECIMALS,
-	precision = DEFAULT_PRECISION
-) => {
-	const rateInHour = rate.mul(SECONDS_IN_HOUR);
-	return bigNumberToString(rateInHour, decimal, precision);
-};
-
-export const convertHourlyRateToSecondlyRate = (rate: BigNumber) => {
-	return rate.div(SECONDS_IN_HOUR);
-};
 
 export const getSearchedInventoryData = (
 	searchInput: string,

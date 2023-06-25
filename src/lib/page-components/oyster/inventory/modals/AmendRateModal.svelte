@@ -12,12 +12,13 @@
 		OYSTER_RATE_SCALING_FACTOR,
 		OYSTER_RATE_METADATA
 	} from '$lib/utils/constants/oysterConstants';
-	import { epochToDurationString, stringToBigNumber } from '$lib/utils/conversion';
-	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		convertHourlyRateToSecondlyRate,
-		convertRateToPerHourString
-	} from '$lib/utils/helpers/oysterHelpers';
+		convertRateToPerHourString,
+		epochToDurationString,
+		stringToBigNumber
+	} from '$lib/utils/conversion';
+	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleCancelRateRevise,
 		handleFinaliseRateRevise,

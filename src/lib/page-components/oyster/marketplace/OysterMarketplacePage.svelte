@@ -4,23 +4,21 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
 	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
-	import {
-		kOysterMarketplaceTableHeader,
-		oysterTableItemsPerPage
-	} from '$lib/utils/constants/oysterConstants';
+	import { kOysterMarketplaceTableHeader } from '$lib/utils/constants/oysterConstants';
 	import { sortOysterMarketplace } from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import OysterTableCommon from '../inventory/OysterTableCommon.svelte';
 	import OysterMarketplaceFilters from './OysterMarketplaceFilters.svelte';
 	import OysterMarketplaceTableRow from './OysterMarketplaceTableRow.svelte';
+	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 
 	let activePage = 1;
 	let loading = true;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
 	let filterMap: Record<string, string> = {};
 
-	const itemsPerPage = oysterTableItemsPerPage;
+	const itemsPerPage = TABLE_ITEMS_PER_PAGE;
 
 	let allMarketplaceData: OysterMarketplaceDataModel[];
 	let filteredData: OysterMarketplaceDataModel[];

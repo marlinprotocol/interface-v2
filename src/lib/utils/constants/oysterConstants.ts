@@ -13,8 +13,6 @@ export const kOysterRateMetaData = {
 	rateReviseWaitingTime: 5 * 60 // 5 minutes
 };
 
-export const oysterTableItemsPerPage = 10;
-
 export const RATE_SCALING_FACTOR = BigNumber.from(10).pow(
 	DEFAULT_CURRENCY_DECIMALS - kOysterRateMetaData.decimal
 );

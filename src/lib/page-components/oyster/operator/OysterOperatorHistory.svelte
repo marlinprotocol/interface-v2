@@ -5,10 +5,7 @@
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import {
-		kOysterOperatorHistoryTableHeader,
-		oysterTableItemsPerPage
-	} from '$lib/utils/constants/oysterConstants';
+	import { kOysterOperatorHistoryTableHeader } from '$lib/utils/constants/oysterConstants';
 	import {
 		getSearchedInventoryData,
 		sortOysterOperatorHistory
@@ -18,13 +15,14 @@
 	import OysterTableCommon from '../inventory/OysterTableCommon.svelte';
 	import OysterOperatorHistoryTableRow from './OysterOperatorHistoryTableRow.svelte';
 	import { OPERATOR_JOBS_URL } from '$lib/utils/constants/urls';
+	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 
 	let searchInput = '';
 	let activePage = 1;
 	let operatorHistoryData: OysterInventoryDataModel[] | undefined;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
 
-	const itemsPerPage = oysterTableItemsPerPage;
+	const itemsPerPage = TABLE_ITEMS_PER_PAGE;
 
 	const handlePageChange = (page: number) => {
 		activePage = page;

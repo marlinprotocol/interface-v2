@@ -11,6 +11,8 @@ export const BIG_NUMBER_ZERO = BigNumber.from(0);
 
 export const MEMORY_SUFFIX = ' MiB';
 
+export const TABLE_ITEMS_PER_PAGE = 10;
+
 export const DEFAULT_CURRENCY_DECIMALS = 18; // we use POND as a default currency which has its lowest unit in 18 decimals
 export const DEFAULT_PRECISION = 2;
 

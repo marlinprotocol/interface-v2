@@ -5,21 +5,19 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import {
-		kOysterHistoryTableHeader,
-		oysterTableItemsPerPage
-	} from '$lib/utils/constants/oysterConstants';
+	import { kOysterHistoryTableHeader } from '$lib/utils/constants/oysterConstants';
 	import { getSearchedInventoryData, sortOysterInventory } from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import OysterTableCommon from '../inventory/OysterTableCommon.svelte';
 	import OysterHistoryTableRow from './OysterHistoryTableRow.svelte';
+	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 
 	let searchInput = '';
 	let activePage = 1;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
 
-	const itemsPerPage = oysterTableItemsPerPage;
+	const itemsPerPage = TABLE_ITEMS_PER_PAGE;
 
 	let inventoryData: OysterInventoryDataModel[] | undefined;
 

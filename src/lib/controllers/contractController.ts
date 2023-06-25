@@ -4,16 +4,12 @@ import { walletStore } from '$lib/data-stores/walletProviderStore';
 import { environmentStore } from '$lib/data-stores/environment';
 import type { Environment } from '$lib/types/environmentTypes';
 import type { ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
-import {
-	MPOND_PRECISIONS,
-	OYSTER_MARKET_ABI,
-	POND_PRECISIONS
-} from '$lib/utils/constants/constants';
+import { MPOND_PRECISIONS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToCommaString } from '$lib/utils/conversion';
 import { capitalizeFirstLetter, minifyAddress } from '$lib/utils/helpers/commonHelper';
 import { BigNumber, ethers, type Bytes } from 'ethers';
-import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
+import { OYSTER_MARKET_ABI, OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 
 let contractAbi: ContractAbi;
 let contractAddresses: ContractAddress;

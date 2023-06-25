@@ -23,7 +23,7 @@
 	import { checkValidURL } from '$lib/utils/helpers/commonHelper';
 	import { onDestroy } from 'svelte';
 	import edit from 'svelte-awesome/icons/edit';
-	import InstancesTable from './sub-components/InstancesTable.svelte';
+	import InstancesTable from '$lib/page-components/oyster/sub-components/InstancesTable.svelte';
 	import { invalidate } from '$app/navigation';
 	import { environmentStore } from '$lib/data-stores/environment';
 	import {

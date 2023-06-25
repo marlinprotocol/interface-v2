@@ -8,10 +8,10 @@
 		MPOND_HISTORY_PAGE_URL,
 		BRIDGE_LEARN_MORE_DOC_LINK
 	} from '$lib/utils/constants/urls';
-	import MPondTopond from './MPondTopond.svelte';
-	import PondToMPond from './PondToMPond.svelte';
-	import ConversionHistoryButton from './sub-components/ConversionHistoryButton.svelte';
-	import TabPondMPond from './sub-components/TabPondMPond.svelte';
+	import MPondTopond from '$lib/page-components/bridge/MPondTopond.svelte';
+	import PondToMPond from '$lib/page-components/bridge/PondToMPond.svelte';
+	import ConversionHistoryButton from '$lib/page-components/bridge/sub-components/ConversionHistoryButton.svelte';
+	import TabPondMPond from '$lib/page-components/bridge/sub-components/TabPondMPond.svelte';
 
 	const styles = {
 		conversionHistory: 'flex flex-col w-full sm:w-130 mx-auto mt-4'

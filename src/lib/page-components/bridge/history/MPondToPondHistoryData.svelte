@@ -6,8 +6,8 @@
 	import { MPOND_TO_POND_TABLE_HEADER } from '$lib/utils/constants/bridgeConstants';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import HistoryTableCommon from './HistoryTableCommon.svelte';
-	import MPondTableRow from './MPondTableRow.svelte';
+	import HistoryTableCommon from '$lib/page-components/bridge/history/HistoryTableCommon.svelte';
+	import MPondTableRow from '$lib/page-components/bridge/history/MPondTableRow.svelte';
 	import { POND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
 
 	let address: Address;

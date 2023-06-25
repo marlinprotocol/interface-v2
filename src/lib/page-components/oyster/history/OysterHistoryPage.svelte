@@ -9,8 +9,8 @@
 	import { getSearchedInventoryData, sortOysterInventory } from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import OysterTableCommon from '../inventory/OysterTableCommon.svelte';
-	import OysterHistoryTableRow from './OysterHistoryTableRow.svelte';
+	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
+	import OysterHistoryTableRow from '$lib/page-components/oyster/history/OysterHistoryTableRow.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 
 	let searchInput = '';

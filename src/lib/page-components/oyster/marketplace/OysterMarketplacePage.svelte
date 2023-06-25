@@ -8,9 +8,9 @@
 	import { sortOysterMarketplace } from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import OysterTableCommon from '../inventory/OysterTableCommon.svelte';
-	import OysterMarketplaceFilters from './OysterMarketplaceFilters.svelte';
-	import OysterMarketplaceTableRow from './OysterMarketplaceTableRow.svelte';
+	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
+	import OysterMarketplaceFilters from '$lib/page-components/oyster/marketplace/OysterMarketplaceFilters.svelte';
+	import OysterMarketplaceTableRow from '$lib/page-components/oyster/marketplace/OysterMarketplaceTableRow.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 
 	let activePage = 1;

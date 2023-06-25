@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import UnstakeModal from '../UnstakeModal.svelte';
+	import UnstakeModal from '$lib/page-components/receiver-staking/UnstakeModal.svelte';
 
 	let modalFor = 'unstake-modal';
 	export let disabled = false;

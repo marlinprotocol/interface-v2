@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers';
-import { DEFAULT_CURRENCY_DECIMALS } from './constants';
+import { DEFAULT_CURRENCY_DECIMALS } from '$lib/utils/constants/constants';
 import type { TableModel } from '$lib/types/componentTypes';
 
 // while developing locally change currency to POND

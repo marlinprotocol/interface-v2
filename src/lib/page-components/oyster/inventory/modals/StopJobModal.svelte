@@ -13,7 +13,7 @@
 		handleConfirmJobStop,
 		handleInitiateRateRevise
 	} from '$lib/utils/services/oysterServices';
-	import StopModalContent from '../../sub-components/StopModalContent.svelte';
+	import StopModalContent from '$lib/page-components/oyster/sub-components/StopModalContent.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;

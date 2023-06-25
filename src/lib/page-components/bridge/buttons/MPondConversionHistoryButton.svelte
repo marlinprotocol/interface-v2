@@ -2,8 +2,8 @@
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
-	import MPondConversionHistoryModal from '../modals/MPondConversionHistoryModal.svelte';
-	import HistoryDataIconButton from '../sub-components/HistoryDataIconButton.svelte';
+	import MPondConversionHistoryModal from '$lib/page-components/bridge/modals/MPondConversionHistoryModal.svelte';
+	import HistoryDataIconButton from '$lib/page-components/bridge/sub-components/HistoryDataIconButton.svelte';
 
 	export let conversionHistory: MPondToPondHistoryDataModel['conversionHistory'];
 

@@ -9,7 +9,7 @@ import type {
 	WalletStore
 } from '$lib/types/storeTypes';
 
-import { BIG_NUMBER_ZERO } from './constants';
+import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 
 // walletProviderStore
 export const DEFAULT_WALLET_STORE: WalletStore = {

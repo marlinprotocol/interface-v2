@@ -18,11 +18,11 @@
 	import { getInventoryDurationVariant } from '$lib/utils/helpers/oysterHelpers';
 	import plus from 'svelte-awesome/icons/plus';
 	import { slide } from 'svelte/transition';
-	import AddFundsToJobModal from './modals/AddFundsToJobModal.svelte';
-	import AmendRateModal from './modals/AmendRateModal.svelte';
-	import InventoryJobDetailsModal from './modals/JobDetailsModal.svelte';
-	import StopJobModal from './modals/StopJobModal.svelte';
-	import WithdrawFundsFromJobModal from './modals/WithdrawFundsFromJobModal.svelte';
+	import AddFundsToJobModal from '$lib/page-components/oyster/inventory/modals/AddFundsToJobModal.svelte';
+	import AmendRateModal from '$lib/page-components/oyster/inventory/modals/AmendRateModal.svelte';
+	import InventoryJobDetailsModal from '$lib/page-components/oyster/inventory/modals/JobDetailsModal.svelte';
+	import StopJobModal from '$lib/page-components/oyster/inventory/modals/StopJobModal.svelte';
+	import WithdrawFundsFromJobModal from '$lib/page-components/oyster/inventory/modals/WithdrawFundsFromJobModal.svelte';
 	import type { Bytes } from 'ethers';
 	import { refreshJobStatusForJobId } from '$lib/controllers/httpController';
 	import { oysterStore } from '$lib/data-stores/oysterStore';

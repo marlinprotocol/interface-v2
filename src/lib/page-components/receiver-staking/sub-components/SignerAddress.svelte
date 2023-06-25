@@ -8,7 +8,7 @@
 	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 	import { minifyAddress } from '$lib/utils/helpers/commonHelper';
 	import edit from 'svelte-awesome/icons/edit';
-	import SignerAddressModal from './SignerAddressModal.svelte';
+	import SignerAddressModal from '$lib/page-components/receiver-staking/sub-components/SignerAddressModal.svelte';
 
 	const modalFor = 'signer-address-modal';
 

@@ -13,7 +13,7 @@
 	import { onDestroy } from 'svelte';
 	import plus from 'svelte-awesome/icons/plus';
 	import type { Unsubscriber } from 'svelte/store';
-	import OysterTableCommon from './OysterTableCommon.svelte';
+	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 
 	let searchInput = '';

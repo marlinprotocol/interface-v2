@@ -6,7 +6,7 @@
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { InputCardVariant, ModalInputModel } from '$lib/types/componentTypes';
-	import AmountInput from './AmountInput.svelte';
+	import AmountInput from '$lib/components/inputs/AmountInput.svelte';
 
 	export let title: ModalInputModel['title'];
 	export let tooltipText: ModalInputModel['tooltipText'] = '';

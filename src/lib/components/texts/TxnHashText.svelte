@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { shortenText } from '$lib/utils/conversion';
-	import TxnIcon from '../icons/TxnIcon.svelte';
+	import TxnIcon from '$lib/components/icons/TxnIcon.svelte';
 	export let txnHash: string;
 	export let txnHashUrl: string;
 	export let startInt = 6;

@@ -7,8 +7,8 @@
 	import { bigNumberToCommaString, mPondToPond, pondToMPond } from '$lib/utils/conversion';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
-	import { staticImages } from '../images/staticImages';
-	import LoadingAnimationModal from '../loading/LoadingAnimationModal.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
+	import LoadingAnimationModal from '$lib/components/loading/LoadingAnimationModal.svelte';
 	import { getAmountPrecision } from '$lib/utils/helpers/bridgeHelpers';
 
 	export let handleApproveClick: () => Promise<void>;

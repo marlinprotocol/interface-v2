@@ -6,7 +6,7 @@
 	import type { ChainStore } from '$lib/types/storeTypes';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import DisconnectWalletModal from './DisconnectWalletModal.svelte';
+	import DisconnectWalletModal from '$lib/components/header/sub-components/DisconnectWalletModal.svelte';
 
 	export let disconnect: () => void;
 

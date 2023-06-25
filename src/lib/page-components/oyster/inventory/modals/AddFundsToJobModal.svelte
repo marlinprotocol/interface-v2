@@ -13,7 +13,7 @@
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import AddFundsToJob from '../../sub-components/AddFundsToJob.svelte';
+	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;

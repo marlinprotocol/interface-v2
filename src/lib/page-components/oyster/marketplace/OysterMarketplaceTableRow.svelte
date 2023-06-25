@@ -12,7 +12,7 @@
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import { convertRateToPerHourString } from '$lib/utils/conversion';
-	import CreateOrderModal from '../inventory/modals/CreateOrderModal.svelte';
+	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
 
 	export let rowData: OysterMarketplaceDataModel;
 	export let rowIndex: number;

@@ -11,7 +11,7 @@
 	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import HistoryTableCommon from './HistoryTableCommon.svelte';
+	import HistoryTableCommon from '$lib/page-components/bridge/history/HistoryTableCommon.svelte';
 	import { MPOND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
 
 	let address: Address;

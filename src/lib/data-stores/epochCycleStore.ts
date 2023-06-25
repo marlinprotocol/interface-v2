@@ -1,8 +1,8 @@
 import type { EpochCycleStore } from '$lib/types/storeTypes';
 import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 import { writable, type Writable } from 'svelte/store';
-import { receiverStakingStore } from './receiverStakingStore';
-import { addToast } from './toastStore';
+import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
+import { addToast } from '$lib/data-stores/toastStore';
 
 const defaultValue = DEFAULT_RECEIVER_STAKING_DATA.epochData.epochCycle;
 // receiver staked data store

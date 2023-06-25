@@ -20,7 +20,7 @@
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
-	import AmountInputWithMaxButton from '../../components/inputs/AmountInputWithMaxButton.svelte';
+	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import { MPOND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
 
 	const maxAmountTooltipText =

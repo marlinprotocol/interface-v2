@@ -1,5 +1,5 @@
 import type { Environment } from '$lib/types/environmentTypes';
-import { NETWORK_INFO } from '../constants/network';
+import { NETWORK_INFO } from '$lib/utils/constants/network';
 import { addToast } from '$lib/data-stores/toastStore';
 import { connectWallet } from '$lib/controllers/walletController';
 import { environmentStore } from '$lib/data-stores/environment';

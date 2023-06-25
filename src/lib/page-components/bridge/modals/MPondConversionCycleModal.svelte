@@ -11,7 +11,7 @@
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/conversion';
-	import TableHeadingText from '../../../components/texts/TableHeadingText.svelte';
+	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
 
 	export let cycles: MPondEligibleCyclesModel[];
 	export let endEpochTime: number;

@@ -13,7 +13,7 @@
 		epochToDurationString
 	} from '$lib/utils/conversion';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
-	import PaymentHistoryTable from '../../sub-components/PaymentHistoryTable.svelte';
+	import PaymentHistoryTable from '$lib/page-components/oyster/sub-components/PaymentHistoryTable.svelte';
 
 	export let modalFor: string;
 	export let rowIndex: number;

@@ -11,8 +11,8 @@
 	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, epochToDurationString } from '$lib/utils/conversion';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
-	import CreateOrderModal from '../inventory/modals/CreateOrderModal.svelte';
-	import PastJobDetailsModal from '../inventory/modals/PastJobDetailsModal.svelte';
+	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
+	import PastJobDetailsModal from '$lib/page-components/oyster/inventory/modals/PastJobDetailsModal.svelte';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;

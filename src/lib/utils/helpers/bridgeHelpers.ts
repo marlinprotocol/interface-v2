@@ -13,8 +13,8 @@ import {
 	POND_PRECISIONS
 } from '$lib/utils/constants/constants';
 import { BigNumber } from 'ethers';
-import { BigNumberUtils } from './bigNumberUtils';
-import { mPondToPond } from '../conversion';
+import { BigNumberUtils } from '$lib/utils/helpers/bigNumberUtils';
+import { mPondToPond } from '$lib/utils/conversion';
 
 export const getModifiedMPondToPondHistory = (
 	mpondToPondConversions: MPondToPondConversionModel[],

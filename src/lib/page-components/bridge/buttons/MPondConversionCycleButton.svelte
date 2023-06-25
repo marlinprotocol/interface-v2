@@ -2,8 +2,8 @@
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import type { MPondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
-	import MPondConversionCycleModal from '../modals/MPondConversionCycleModal.svelte';
-	import HistoryDataIconButton from '../sub-components/HistoryDataIconButton.svelte';
+	import MPondConversionCycleModal from '$lib/page-components/bridge/modals/MPondConversionCycleModal.svelte';
+	import HistoryDataIconButton from '$lib/page-components/bridge/sub-components/HistoryDataIconButton.svelte';
 
 	export let eligibleCycles: MPondEligibleCyclesModel[];
 	export let endEpochTime: number;

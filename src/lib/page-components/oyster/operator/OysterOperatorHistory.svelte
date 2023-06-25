@@ -12,8 +12,8 @@
 	} from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import OysterTableCommon from '../inventory/OysterTableCommon.svelte';
-	import OysterOperatorHistoryTableRow from './OysterOperatorHistoryTableRow.svelte';
+	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
+	import OysterOperatorHistoryTableRow from '$lib/page-components/oyster/operator/OysterOperatorHistoryTableRow.svelte';
 	import { OPERATOR_JOBS_URL } from '$lib/utils/constants/urls';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 

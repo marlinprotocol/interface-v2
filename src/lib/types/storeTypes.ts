@@ -1,5 +1,8 @@
 import type { BigNumber, providers, Signer } from 'ethers';
-import type { OysterInventoryDataModel, OysterMarketplaceDataModel } from './oysterComponentType';
+import type {
+	OysterInventoryDataModel,
+	OysterMarketplaceDataModel
+} from '$lib/types/oysterComponentType';
 
 //common types
 export type Address = string;

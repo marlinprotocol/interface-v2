@@ -17,7 +17,7 @@
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
-	import MPondApproveConfirmModal from './MPondApproveConfirmModal.svelte';
+	import MPondApproveConfirmModal from '$lib/page-components/bridge/modals/MPondApproveConfirmModal.svelte';
 
 	export let modalFor: string;
 	export let maxAmount: BigNumber;

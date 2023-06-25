@@ -18,8 +18,8 @@
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
-	import AmountInputWithMaxButton from '../../components/inputs/AmountInputWithMaxButton.svelte';
-	import PondApproveConfirmModal from './PondApproveConfirmModal.svelte';
+	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
+	import PondApproveConfirmModal from '$lib/page-components/bridge/PondApproveConfirmModal.svelte';
 
 	const styles = {
 		wrapper: 'w-full flex flex-col items-center justify-center py-8',

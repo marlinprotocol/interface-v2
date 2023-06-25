@@ -19,7 +19,7 @@ import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 import type { OysterStore } from '$lib/types/storeTypes';
 import { oysterStore } from '$lib/data-stores/oysterStore';
-import { parseMetadata } from '../data-modifiers/oysterModifiers';
+import { parseMetadata } from '$lib/utils/data-modifiers/oysterModifiers';
 
 export async function handleClaimAmountFromOysterJob(jobId: Bytes) {
 	try {

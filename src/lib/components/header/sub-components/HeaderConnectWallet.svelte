@@ -5,8 +5,8 @@
 		web3WalletStore
 	} from '$lib/controllers/walletController';
 	import { connected } from '$lib/data-stores/walletProviderStore';
-	import ConnectWalletButton from './ConnectWalletButton.svelte';
-	import DisconnectWalletButton from './DisconnectWalletButton.svelte';
+	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
+	import DisconnectWalletButton from '$lib/components/header/sub-components/DisconnectWalletButton.svelte';
 
 	$: connectedAccount = $web3WalletStore?.[0];
 	$: if (connectedAccount) {

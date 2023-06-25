@@ -24,10 +24,10 @@
 	} from '$lib/utils/conversion';
 	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
-	import MPondConversionCycleButton from '../buttons/MPondConversionCycleButton.svelte';
-	import MPondConversionHistoryButton from '../buttons/MPondConversionHistoryButton.svelte';
-	import MPondEligibleConvertModal from '../modals/MPondEligibleConvertModal.svelte';
-	import HistoryDataIconButton from '../sub-components/HistoryDataIconButton.svelte';
+	import MPondConversionCycleButton from '$lib/page-components/bridge/buttons/MPondConversionCycleButton.svelte';
+	import MPondConversionHistoryButton from '$lib/page-components/bridge/buttons/MPondConversionHistoryButton.svelte';
+	import MPondEligibleConvertModal from '$lib/page-components/bridge/modals/MPondEligibleConvertModal.svelte';
+	import HistoryDataIconButton from '$lib/page-components/bridge/sub-components/HistoryDataIconButton.svelte';
 
 	export let rowData: MPondToPondHistoryDataModel;
 	export let rowIndex: number;

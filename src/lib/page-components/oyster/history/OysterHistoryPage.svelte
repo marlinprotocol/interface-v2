@@ -5,7 +5,7 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { kOysterHistoryTableHeader } from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_HISTORY_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { getSearchedInventoryData, sortOysterInventory } from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
@@ -74,7 +74,7 @@
 	</div>
 	<OysterTableCommon
 		{handleSortData}
-		tableHeading={kOysterHistoryTableHeader}
+		tableHeading={OYSTER_HISTORY_TABLE_HEADER}
 		noDataFound={paginatedData?.length ? false : true}
 	>
 		{#if paginatedData?.length}

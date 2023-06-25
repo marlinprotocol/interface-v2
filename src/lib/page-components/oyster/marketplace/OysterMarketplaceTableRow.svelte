@@ -10,14 +10,14 @@
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import { convertRateToPerHourString } from '$lib/utils/helpers/oysterHelpers';
 	import CreateOrderModal from '../inventory/modals/CreateOrderModal.svelte';
 
 	export let rowData: OysterMarketplaceDataModel;
 	export let rowIndex: number;
 
-	const { symbol, decimal, precision } = kOysterRateMetaData;
+	const { symbol, decimal, precision } = OYSTER_RATE_METADATA;
 	$: ({
 		provider: { name, address },
 		instance,

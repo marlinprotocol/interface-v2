@@ -5,7 +5,7 @@
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToCommaString,
 		epochSecToString,
@@ -33,7 +33,7 @@
 		endEpochTime
 	} = jobData);
 
-	const { symbol, decimal } = kOysterRateMetaData;
+	const { symbol, decimal } = OYSTER_RATE_METADATA;
 
 	const handleRedeploy = () => {
 		openModal(`create-order-modal-${rowIndex}`);

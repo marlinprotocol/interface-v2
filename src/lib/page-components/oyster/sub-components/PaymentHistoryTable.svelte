@@ -5,15 +5,15 @@
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
 	import type { OysterDepositHistoryDataModel } from '$lib/types/oysterComponentType';
 	import {
-		kOysterPaymentHistoryTableHeader,
-		kOysterRateMetaData
+		OYSTER_PAYMENT_HISTORY_TABLE_HEADER,
+		OYSTER_RATE_METADATA
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, epochSecToString } from '$lib/utils/conversion';
 	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 
 	export let tableData: OysterDepositHistoryDataModel[] = [];
 
-	const { symbol, decimal } = kOysterRateMetaData;
+	const { symbol, decimal } = OYSTER_RATE_METADATA;
 	const styles = {
 		docButton: 'text-primary font-medium',
 		tableCell: tableCellClasses.rowNormal
@@ -23,7 +23,7 @@
 <InputCardWithEndButton title={'Transaction History'}>
 	<div class="w-full max-h-40 overflow-y-auto overflow-x-hidden">
 		<Table
-			tableHeading={kOysterPaymentHistoryTableHeader}
+			tableHeading={OYSTER_PAYMENT_HISTORY_TABLE_HEADER}
 			headingStyleClass={'text-xs'}
 			iconWidth={'13px'}
 			tablePadding={'pt-2 px-0'}

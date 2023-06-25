@@ -3,9 +3,9 @@
 	import Select from '$lib/components/select/Select.svelte';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import {
-		RATE_SCALING_FACTOR,
-		kBandwidthUnitsList,
-		kOysterRateMetaData
+		OYSTER_RATE_SCALING_FACTOR,
+		OYSTER_BANDWIDTH_UNITS_LIST,
+		OYSTER_RATE_METADATA
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString } from '$lib/utils/conversion';
 	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
@@ -22,8 +22,8 @@
 	let bandwidthUnit = 'KB/s';
 	let bandwidthCostString = '';
 
-	const { currency, decimal } = kOysterRateMetaData;
-	const bandwidthUnitList = kBandwidthUnitsList.map((unit) => unit.label);
+	const { currency, decimal } = OYSTER_RATE_METADATA;
+	const bandwidthUnitList = OYSTER_BANDWIDTH_UNITS_LIST.map((unit) => unit.label);
 
 	function calculateBandwidthCost(
 		bandwidth: string | number,
@@ -32,13 +32,13 @@
 		duration: number // in seconds
 	) {
 		const unitConversionDivisor = BigNumber.from(
-			kBandwidthUnitsList.find((unit) => unit.label === bandwidthUnit)?.value
+			OYSTER_BANDWIDTH_UNITS_LIST.find((unit) => unit.label === bandwidthUnit)?.value
 		);
 		finalBandwidthRate = BigNumber.from(bandwidth)
 			.mul(rate)
-			.mul(RATE_SCALING_FACTOR)
+			.mul(OYSTER_RATE_SCALING_FACTOR)
 			.div(unitConversionDivisor || BigNumber.from(1));
-		return finalBandwidthRate.mul(duration).div(RATE_SCALING_FACTOR);
+		return finalBandwidthRate.mul(duration).div(OYSTER_RATE_SCALING_FACTOR);
 	}
 
 	$: bandwidthRateForRegion = getBandwidthRateForRegion(region.value);

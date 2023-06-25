@@ -5,7 +5,7 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import OysterOperatorInventoryTableRow from '$lib/page-components/oyster/operator/OysterOperatorInventoryTableRow.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { kOysterMerchantJobTableHeader } from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_MERCHANT_JOB_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import {
 		getSearchedOysterJobsData,
 		sortOysterOperatorInventory
@@ -79,7 +79,7 @@
 </div>
 <OysterTableCommon
 	{handleSortData}
-	tableHeading={kOysterMerchantJobTableHeader}
+	tableHeading={OYSTER_MERCHANT_JOB_TABLE_HEADER}
 	{loading}
 	noDataFound={paginatedData?.length ? false : true}
 	emptyTableMessage={'No jobs found.'}

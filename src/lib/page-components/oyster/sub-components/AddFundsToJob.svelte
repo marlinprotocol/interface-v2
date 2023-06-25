@@ -5,10 +5,10 @@
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import {
-		RATE_SCALING_FACTOR,
+		OYSTER_RATE_SCALING_FACTOR,
 		getDurationInSecondsForUnit,
-		kDurationUnitsList,
-		kOysterRateMetaData
+		OYSTER_DURATION_UNITS_LIST,
+		OYSTER_RATE_METADATA
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
 	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
@@ -32,7 +32,7 @@
 	// this is not being used currently as we are not allowing the user to edit the instance rate
 	export let instanceRateEditable = true;
 
-	const { symbol, decimal, currency } = kOysterRateMetaData;
+	const { symbol, decimal, currency } = OYSTER_RATE_METADATA;
 
 	let instanceRateString = '';
 
@@ -47,12 +47,14 @@
 		}
 	};
 
-	$: rateToUseForStrings = isTotalRate ? instanceRate?.div(RATE_SCALING_FACTOR) : instanceRate;
+	$: rateToUseForStrings = isTotalRate
+		? instanceRate?.div(OYSTER_RATE_SCALING_FACTOR)
+		: instanceRate;
 	$: updateRateString(rateToUseForStrings);
 
 	function getInstanceCostString(cost: BigNumber) {
 		return isTotalRate
-			? bigNumberToString(cost.div(RATE_SCALING_FACTOR), decimal)
+			? bigNumberToString(cost.div(OYSTER_RATE_SCALING_FACTOR), decimal)
 			: bigNumberToString(cost, decimal);
 	}
 
@@ -60,7 +62,7 @@
 	let durationUnit = 'Days';
 	let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
 
-	const durationUnitList = kDurationUnitsList.map((unit) => unit.label);
+	const durationUnitList = OYSTER_DURATION_UNITS_LIST.map((unit) => unit.label);
 
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		maxBalance = value.pond;

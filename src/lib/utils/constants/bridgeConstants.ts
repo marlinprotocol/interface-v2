@@ -1,6 +1,6 @@
 import type { TableModel } from '$lib/types/componentTypes';
 
-export const kPondToMPondTableHeader: TableModel['header'][] = [
+export const POND_TO_MPOND_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'DATE',
 		id: 'date',
@@ -24,7 +24,7 @@ export const kPondToMPondTableHeader: TableModel['header'][] = [
 	}
 ];
 
-export const kMPondToPondTableHeader: TableModel['header'][] = [
+export const MPOND_TO_POND_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'DATE',
 		id: 'date',
@@ -67,7 +67,7 @@ export const kMPondToPondTableHeader: TableModel['header'][] = [
 	}
 ];
 
-export const kMPondConversionHistoryTableHeader: TableModel['header'][] = [
+export const MPOND_CONVERSION_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'DATE',
 		id: 'date'
@@ -84,7 +84,7 @@ export const kMPondConversionHistoryTableHeader: TableModel['header'][] = [
 	}
 ];
 
-export const kMPondConversionCycleTableHeader: TableModel['header'][] = [
+export const MPOND_CONVERSION_CYCLE_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'ELIGIBLE / PENDING',
 		id: 'eligible',

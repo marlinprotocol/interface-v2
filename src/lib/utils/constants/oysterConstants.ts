@@ -3,7 +3,7 @@ import { DEFAULT_CURRENCY_DECIMALS } from './constants';
 import type { TableModel } from '$lib/types/componentTypes';
 
 // while developing locally change currency to POND
-export const kOysterRateMetaData = {
+export const OYSTER_RATE_METADATA = {
 	currency: 'POND',
 	symbol: '$',
 	decimal: 6,
@@ -13,12 +13,13 @@ export const kOysterRateMetaData = {
 	rateReviseWaitingTime: 5 * 60 // 5 minutes
 };
 
-export const RATE_SCALING_FACTOR = BigNumber.from(10).pow(
-	DEFAULT_CURRENCY_DECIMALS - kOysterRateMetaData.decimal
+// scaling for rates in order to maintain precision while calculating cost
+export const OYSTER_RATE_SCALING_FACTOR = BigNumber.from(10).pow(
+	DEFAULT_CURRENCY_DECIMALS - OYSTER_RATE_METADATA.decimal
 );
 
 // make sure the id matches the id in Data Model
-export const kInstancesTableHeader: TableModel['header'][] = [
+export const OYSTER_INSTANCES_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'Instance Type',
 		id: 'type'
@@ -36,7 +37,7 @@ export const kInstancesTableHeader: TableModel['header'][] = [
 ];
 
 // make sure the id matches the id in Data Model
-export const kOysterMerchantJobTableHeader: TableModel['header'][] = [
+export const OYSTER_MERCHANT_JOB_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'USER',
 		id: 'provider',
@@ -85,7 +86,7 @@ export const kOysterMerchantJobTableHeader: TableModel['header'][] = [
 ];
 
 // make sure the id matches the id in Data Model
-export const kOysterOperatorHistoryTableHeader: TableModel['header'][] = [
+export const OYSTER_OPERATOR_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'USER',
 		id: 'provider',
@@ -128,7 +129,7 @@ export const kOysterOperatorHistoryTableHeader: TableModel['header'][] = [
 ];
 
 // make sure the id matches the id in Data Model
-export const kOysterInventoryTableHeader: TableModel['header'][] = [
+export const OYSTER_INVENTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'OPERATOR',
 		id: 'provider',
@@ -176,7 +177,7 @@ export const kOysterInventoryTableHeader: TableModel['header'][] = [
 	}
 ];
 
-export const kOysterPaymentHistoryTableHeader: TableModel['header'][] = [
+export const OYSTER_PAYMENT_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'DATE',
 		id: 'date'
@@ -192,7 +193,7 @@ export const kOysterPaymentHistoryTableHeader: TableModel['header'][] = [
 ];
 
 // make sure the id matches the id in Data Model
-export const kOysterHistoryTableHeader: TableModel['header'][] = [
+export const OYSTER_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'OPERATOR',
 		id: 'provider'
@@ -239,7 +240,7 @@ export const kOysterHistoryTableHeader: TableModel['header'][] = [
 ];
 
 // make sure the id matches the id in Data Model
-export const kOysterMarketplaceTableHeader: TableModel['header'][] = [
+export const OYSTER_MARKETPLACE_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'OPERATOR',
 		id: 'provider',
@@ -281,7 +282,7 @@ export const kOysterMarketplaceTableHeader: TableModel['header'][] = [
 	}
 ];
 
-export const kDurationUnitsList = [
+export const OYSTER_DURATION_UNITS_LIST = [
 	{
 		label: 'Minutes',
 		id: 'minute',
@@ -299,7 +300,7 @@ export const kDurationUnitsList = [
 	}
 ];
 
-export const kBandwidthUnitsList = [
+export const OYSTER_BANDWIDTH_UNITS_LIST = [
 	{
 		label: 'KB/s',
 		id: 'kbps',
@@ -318,5 +319,5 @@ export const kBandwidthUnitsList = [
 ];
 
 export const getDurationInSecondsForUnit = (durationUnit: string) => {
-	return kDurationUnitsList.find((unit) => unit.label === durationUnit)?.value ?? 1;
+	return OYSTER_DURATION_UNITS_LIST.find((unit) => unit.label === durationUnit)?.value ?? 1;
 };

@@ -8,7 +8,7 @@
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, epochToDurationString } from '$lib/utils/conversion';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
 	import CreateOrderModal from '../inventory/modals/CreateOrderModal.svelte';
@@ -17,7 +17,7 @@
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
 
-	const { symbol, decimal } = kOysterRateMetaData;
+	const { symbol, decimal } = OYSTER_RATE_METADATA;
 	$: ({
 		provider: { name, address },
 		instance,

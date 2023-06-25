@@ -1,12 +1,12 @@
 <script lang="ts">
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, epochToDurationString } from '$lib/utils/conversion';
 
 	export let jobData: OysterInventoryDataModel;
 
-	const { currency, decimal } = kOysterRateMetaData;
+	const { currency, decimal } = OYSTER_RATE_METADATA;
 	$: ({ balance, durationLeft } = jobData);
 
 	const styles = {

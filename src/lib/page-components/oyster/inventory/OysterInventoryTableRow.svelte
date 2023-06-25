@@ -9,7 +9,7 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
-	import { RATE_SCALING_FACTOR, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, epochToDurationString } from '$lib/utils/conversion';
 	import {
 		convertRateToPerHourString,
@@ -32,7 +32,7 @@
 	export let rowIndex: number;
 	export let expandedRows: Set<string>;
 
-	const { symbol, decimal, precision } = kOysterRateMetaData;
+	const { symbol, decimal, precision } = OYSTER_RATE_METADATA;
 	let refreshLoading = false;
 	$: ({
 		provider: { name, address },

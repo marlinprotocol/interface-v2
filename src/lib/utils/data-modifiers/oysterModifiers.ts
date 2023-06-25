@@ -5,7 +5,10 @@ import type {
 	OysterInventoryDataModel,
 	OysterMarketplaceDataModel
 } from '$lib/types/oysterComponentType';
-import { RATE_SCALING_FACTOR, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+import {
+	OYSTER_RATE_SCALING_FACTOR,
+	OYSTER_RATE_METADATA
+} from '$lib/utils/constants/oysterConstants';
 import { getProvidersInstancesJSON, getProvidersNameJSON } from '$lib/controllers/httpController';
 
 import { BANDWIDTH_RATES_LOOKUP } from '$lib/page-components/oyster/data/bandwidthRates';
@@ -97,7 +100,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	const _balance = BigNumber.from(balance);
 	const _rate = BigNumber.from(rate); // in seconds
 	const _refund = BigNumber.from(refund);
-	const _downScaledRate = _rate.div(RATE_SCALING_FACTOR);
+	const _downScaledRate = _rate.div(OYSTER_RATE_SCALING_FACTOR);
 
 	//job with all basic conversions
 	const modifiedJob = {
@@ -220,7 +223,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 
 export async function getOysterProvidersModified(providers: any[]) {
 	if (!providers?.length) return [];
-	const { rateCPUrlUnitInSeconds } = kOysterRateMetaData;
+	const { rateCPUrlUnitInSeconds } = OYSTER_RATE_METADATA;
 	//fetch all providers name and instances
 	const [allNames, allInstances] = await Promise.all([
 		getProvidersNameJSON(),

@@ -8,7 +8,7 @@
 	import OysterInventoryTableRow from '$lib/page-components/oyster/inventory/OysterInventoryTableRow.svelte';
 	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { kOysterInventoryTableHeader } from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_INVENTORY_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { getSearchedInventoryData, sortOysterInventory } from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import plus from 'svelte-awesome/icons/plus';
@@ -87,7 +87,7 @@
 	</div>
 	<OysterTableCommon
 		{handleSortData}
-		tableHeading={kOysterInventoryTableHeader}
+		tableHeading={OYSTER_INVENTORY_TABLE_HEADER}
 		{loading}
 		noDataFound={paginatedData?.length ? false : true}
 		emptyTableMessage={'You do not have any active orders.'}

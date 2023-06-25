@@ -7,7 +7,7 @@
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
 	import {
 		closeModal,
@@ -20,7 +20,7 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	const { currency, decimal } = kOysterRateMetaData;
+	const { currency, decimal } = OYSTER_RATE_METADATA;
 	$: ({ rate, balance: maxAmount, id } = jobData);
 
 	//initial states

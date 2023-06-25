@@ -5,7 +5,7 @@
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { kOysterOperatorHistoryTableHeader } from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_OPERATOR_HISTORY_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import {
 		getSearchedInventoryData,
 		sortOysterOperatorHistory
@@ -76,7 +76,7 @@
 	</div>
 	<OysterTableCommon
 		{handleSortData}
-		tableHeading={kOysterOperatorHistoryTableHeader}
+		tableHeading={OYSTER_OPERATOR_HISTORY_TABLE_HEADER}
 		noDataFound={paginatedData?.length ? false : true}
 	>
 		{#if paginatedData?.length}

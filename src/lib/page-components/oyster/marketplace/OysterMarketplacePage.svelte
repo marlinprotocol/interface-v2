@@ -4,7 +4,7 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
 	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
-	import { kOysterMarketplaceTableHeader } from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_MARKETPLACE_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { sortOysterMarketplace } from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
@@ -63,7 +63,7 @@
 	<OysterTableCommon
 		walletConnectionRequired={false}
 		{handleSortData}
-		tableHeading={kOysterMarketplaceTableHeader}
+		tableHeading={OYSTER_MARKETPLACE_TABLE_HEADER}
 		{loading}
 		noDataFound={paginatedData?.length ? false : true}
 	>

@@ -1,5 +1,8 @@
 import type { BigNumber, Bytes } from 'ethers';
-import { RATE_SCALING_FACTOR, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+import {
+	OYSTER_RATE_SCALING_FACTOR,
+	OYSTER_RATE_METADATA
+} from '$lib/utils/constants/oysterConstants';
 import {
 	addFundsToOysterJob,
 	approveFundsForOysterJobAdd,
@@ -146,7 +149,7 @@ export async function handleInitiateRateRevise(
 	jobData: OysterInventoryDataModel,
 	newRate: BigNumber
 ) {
-	const { rateReviseWaitingTime } = kOysterRateMetaData;
+	const { rateReviseWaitingTime } = OYSTER_RATE_METADATA;
 	const { id } = jobData;
 	try {
 		await initiateRateReviseOysterJob(id, newRate);
@@ -298,7 +301,7 @@ export async function handleCreateJob(
 			amountUsed: BIG_NUMBER_ZERO,
 			refund: BIG_NUMBER_ZERO,
 			rate,
-			downScaledRate: rate.div(RATE_SCALING_FACTOR),
+			downScaledRate: rate.div(OYSTER_RATE_SCALING_FACTOR),
 			balance,
 			totalDeposit: balance,
 			live: true,

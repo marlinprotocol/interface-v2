@@ -3,7 +3,7 @@
 	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
 	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
-	import { kMPondConversionHistoryTableHeader } from '$lib/utils/constants/bridgeConstants';
+	import { MPOND_CONVERSION_HISTORY_TABLE_HEADER } from '$lib/utils/constants/bridgeConstants';
 	import { POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, epochSecToString, mPondToPond } from '$lib/utils/conversion';
 	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
@@ -19,11 +19,11 @@
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-row w-full mb-8">
-			{#each kMPondConversionHistoryTableHeader as headingData, i}
+			{#each MPOND_CONVERSION_HISTORY_TABLE_HEADER as headingData, i}
 				<div class="flex-1">
 					<TableHeadingText
 						heading={headingData}
-						tooltipDirection={i === kMPondConversionHistoryTableHeader.length - 1
+						tooltipDirection={i === MPOND_CONVERSION_HISTORY_TABLE_HEADER.length - 1
 							? 'tooltip-left'
 							: i === 0
 							? 'tooltip-right'

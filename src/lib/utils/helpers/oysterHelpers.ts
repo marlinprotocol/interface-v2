@@ -13,7 +13,7 @@ import type {
 } from '$lib/types/oysterComponentType';
 
 import { BigNumber } from 'ethers';
-import { RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
+import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 import { addToast } from '$lib/data-stores/toastStore';
 import { bigNumberToString } from '$lib/utils/conversion';
 import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
@@ -520,7 +520,8 @@ export function getBandwidthFromRateAndRegion(bandwidthRate: BigNumber, region: 
 		.mul(BigNumber.from(1024 * 1024))
 		.div(rateForRegion);
 
+	// the add, sub and div is done to ceil the number
 	return bandwidthWithAllPrecision
-		.add(RATE_SCALING_FACTOR.sub(BigNumber.from(1)))
-		.div(RATE_SCALING_FACTOR);
+		.add(OYSTER_RATE_SCALING_FACTOR.sub(BigNumber.from(1)))
+		.div(OYSTER_RATE_SCALING_FACTOR);
 }

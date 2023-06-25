@@ -7,12 +7,12 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
 	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, epochToDurationString } from '$lib/utils/conversion';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
 	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
 	import PastJobDetailsModal from '$lib/page-components/oyster/inventory/modals/PastJobDetailsModal.svelte';
+	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;

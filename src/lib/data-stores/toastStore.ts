@@ -3,7 +3,7 @@ import {
 	getColorClassByVariant,
 	getIconbyVariant,
 	getTextColorClassByVariant
-} from '$lib/utils/constants/componentConstants';
+} from '$lib/utils/helpers/componentHelper';
 import type { Toast, ToastModel } from '$lib/types/componentTypes';
 
 export const toastsStore: Writable<ToastModel[]> = writable([]);

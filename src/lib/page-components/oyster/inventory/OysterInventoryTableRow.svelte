@@ -8,7 +8,6 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
 	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
@@ -28,6 +27,7 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import refresh from 'svelte-awesome/icons/refresh';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
+	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;

@@ -8,13 +8,13 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
 	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/conversion';
+	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
 	import { handleClaimAmountFromOysterJob } from '$lib/utils/services/oysterServices';
 

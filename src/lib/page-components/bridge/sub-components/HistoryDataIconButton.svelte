@@ -4,7 +4,7 @@
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import type { CommonVariant, TextModel } from '$lib/types/componentTypes';
-	import { getTextColorClassByVariant } from '$lib/utils/constants/componentConstants';
+	import { getTextColorClassByVariant } from '$lib/utils/helpers/componentHelper';
 
 	export let src = '';
 	export let imgWidth = 13;

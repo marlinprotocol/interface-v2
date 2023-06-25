@@ -22,16 +22,6 @@ export const SECONDS_IN_HUNDRED_YEARS = 60 * 60 * 24 * 365 * 100; //not accounti
 
 export const POND_PRECISIONS = 2;
 export const MPOND_PRECISIONS = 6;
-export const AMOUNT_PRECISION = (token: 'pond' | 'mPond') => {
-	switch (token) {
-		case 'pond':
-			return POND_PRECISIONS;
-		case 'mPond':
-			return MPOND_PRECISIONS;
-		default:
-			return DEFAULT_PRECISION;
-	}
-};
 
 export const OYSTER_MARKET_ABI = [
 	{ inputs: [], stateMutability: 'nonpayable', type: 'constructor' },

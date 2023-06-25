@@ -13,7 +13,10 @@ import type {
 } from '$lib/types/oysterComponentType';
 
 import { BigNumber } from 'ethers';
-import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
+import {
+	OYSTER_DURATION_UNITS_LIST,
+	OYSTER_RATE_SCALING_FACTOR
+} from '$lib/utils/constants/oysterConstants';
 import { addToast } from '$lib/data-stores/toastStore';
 import { bigNumberToString } from '$lib/utils/conversion';
 import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
@@ -525,3 +528,7 @@ export function getBandwidthFromRateAndRegion(bandwidthRate: BigNumber, region: 
 		.add(OYSTER_RATE_SCALING_FACTOR.sub(BigNumber.from(1)))
 		.div(OYSTER_RATE_SCALING_FACTOR);
 }
+
+export const getDurationInSecondsForUnit = (durationUnit: string) => {
+	return OYSTER_DURATION_UNITS_LIST.find((unit) => unit.label === durationUnit)?.value ?? 1;
+};

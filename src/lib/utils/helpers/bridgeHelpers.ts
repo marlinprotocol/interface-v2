@@ -6,7 +6,12 @@ import type {
 	MPondToPondRequestModel
 } from '$lib/types/bridgeComponentType';
 
-import { BIG_NUMBER_ZERO } from '../constants/constants';
+import {
+	BIG_NUMBER_ZERO,
+	DEFAULT_PRECISION,
+	MPOND_PRECISIONS,
+	POND_PRECISIONS
+} from '$lib/utils/constants/constants';
 import { BigNumber } from 'ethers';
 import { BigNumberUtils } from './bigNumberUtils';
 import { mPondToPond } from '../conversion';
@@ -145,4 +150,15 @@ export const getModifiedMPondToPondHistory = (
 		};
 	});
 	return ret;
+};
+
+export const getAmountPrecision = (token: 'pond' | 'mPond') => {
+	switch (token) {
+		case 'pond':
+			return POND_PRECISIONS;
+		case 'mPond':
+			return MPOND_PRECISIONS;
+		default:
+			return DEFAULT_PRECISION;
+	}
 };

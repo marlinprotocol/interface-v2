@@ -6,7 +6,6 @@
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import {
 		OYSTER_RATE_SCALING_FACTOR,
-		getDurationInSecondsForUnit,
 		OYSTER_DURATION_UNITS_LIST,
 		OYSTER_RATE_METADATA
 	} from '$lib/utils/constants/oysterConstants';
@@ -17,7 +16,8 @@
 		computeDuration,
 		computeDurationString,
 		convertHourlyRateToSecondlyRate,
-		convertRateToPerHourString
+		convertRateToPerHourString,
+		getDurationInSecondsForUnit
 	} from '$lib/utils/helpers/oysterHelpers';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';

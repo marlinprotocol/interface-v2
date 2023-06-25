@@ -3,12 +3,13 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import SuccessfulConversionModal from '$lib/page-components/bridge/modals/SuccessfulConversionModal.svelte';
-	import { AMOUNT_PRECISION, BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
+	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, mPondToPond, pondToMPond } from '$lib/utils/conversion';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { staticImages } from '../images/staticImages';
 	import LoadingAnimationModal from '../loading/LoadingAnimationModal.svelte';
+	import { getAmountPrecision } from '$lib/utils/helpers/bridgeHelpers';
 
 	export let handleApproveClick: () => Promise<void>;
 	export let handleConfirmClick: () => Promise<void>;
@@ -24,11 +25,11 @@
 
 	$: amountConvertedFrom = bigNumberToCommaString(
 		amountConverted,
-		AMOUNT_PRECISION(conversionFrom)
+		getAmountPrecision(conversionFrom)
 	);
 	$: amountConvertedTo = bigNumberToCommaString(
 		conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted),
-		AMOUNT_PRECISION(conversionFrom === 'pond' ? 'mPond' : 'pond')
+		getAmountPrecision(conversionFrom === 'pond' ? 'mPond' : 'pond')
 	);
 	$: conversionFromText = conversionFrom === 'pond' ? 'POND' : 'MPond';
 	$: conversionToText = conversionFrom === 'pond' ? 'MPond' : 'POND';
@@ -55,6 +56,7 @@
 			closeModal(modalForApproveConfirm);
 			openModal(modalForSuccessConversion);
 		} catch (e) {
+			console.error(e);
 			throw e;
 		} finally {
 			confirmLoading = false;

@@ -177,6 +177,7 @@ export const OYSTER_INVENTORY_TABLE_HEADER: TableModel['header'][] = [
 	}
 ];
 
+// make sure the id matches the id in Data Model
 export const OYSTER_PAYMENT_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'DATE',
@@ -317,7 +318,3 @@ export const OYSTER_BANDWIDTH_UNITS_LIST = [
 		value: 1
 	}
 ];
-
-export const getDurationInSecondsForUnit = (durationUnit: string) => {
-	return OYSTER_DURATION_UNITS_LIST.find((unit) => unit.label === durationUnit)?.value ?? 1;
-};

@@ -1,9 +1,5 @@
 import type { TableModel } from '$lib/types/componentTypes';
 
-export const kBridgeLearnMoreDocLink = 'https://docs.marlin.org/docs/Learn/Bridges/';
-export const kPondHistoryPage = '/bridge/pondToMPondHistory';
-export const kMPondHistoryPage = '/bridge/mPondToPondHistory';
-
 export const kPondToMPondTableHeader: TableModel['header'][] = [
 	{
 		title: 'DATE',

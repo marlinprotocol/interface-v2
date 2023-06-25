@@ -5,12 +5,12 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
-	import { kPondHistoryPage } from '$lib/utils/constants/bridgeConstants';
 	import {
 		BIG_NUMBER_ZERO,
 		MPOND_PRECISIONS,
 		POND_PRECISIONS
 	} from '$lib/utils/constants/constants';
+	import { POND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
 	import { bigNumberToCommaString, mPondToPond, pondToMPond } from '$lib/utils/conversion';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
@@ -63,7 +63,7 @@
 	<svelte:fragment slot="actionButtons">
 		<Button
 			onclick={() => {
-				if (conversionFrom === 'pond') goto(kPondHistoryPage);
+				if (conversionFrom === 'pond') goto(POND_HISTORY_PAGE_URL);
 				closeModal(modalFor);
 			}}
 			variant="filled"

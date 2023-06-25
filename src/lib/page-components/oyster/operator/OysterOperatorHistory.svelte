@@ -6,7 +6,6 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import {
-		kOperatorJobs,
 		kOysterOperatorHistoryTableHeader,
 		oysterTableItemsPerPage
 	} from '$lib/utils/constants/oysterConstants';
@@ -18,6 +17,7 @@
 	import type { Unsubscriber } from 'svelte/store';
 	import OysterTableCommon from '../inventory/OysterTableCommon.svelte';
 	import OysterOperatorHistoryTableRow from './OysterOperatorHistoryTableRow.svelte';
+	import { OPERATOR_JOBS_URL } from '$lib/utils/constants/urls';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -67,7 +67,7 @@
 </script>
 
 <div class="mx-auto">
-	<PageTitle title={'History of Claims'} backHref={kOperatorJobs} />
+	<PageTitle title={'History of Claims'} backHref={OPERATOR_JOBS_URL} />
 	<div class="flex gap-4 items-center mb-6">
 		<SearchBar
 			{onSearchClick}

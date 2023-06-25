@@ -9,7 +9,6 @@
 	import { requestMPondConversion } from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
-	import { kMPondHistoryPage } from '$lib/utils/constants/bridgeConstants';
 	import { BIG_NUMBER_ZERO, MPOND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 	import {
@@ -22,6 +21,7 @@
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import AmountInputWithMaxButton from '../../components/inputs/AmountInputWithMaxButton.svelte';
+	import { MPOND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
 
 	const maxAmountTooltipText =
 		'Unrequested is the amount of MPond for which a conversion request is not placed. MPond conversion requests placed is categorised as Requested. Conversion requests for staked MPond can also be placed.';
@@ -86,7 +86,7 @@
 			await requestMPondConversion(inputAmount);
 			resetInputs();
 			requestConversionLoading = false;
-			goto(kMPondHistoryPage);
+			goto(MPOND_HISTORY_PAGE_URL);
 		} catch (error: any) {
 			requestConversionLoading = false;
 			console.log('error:', error);

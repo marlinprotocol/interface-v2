@@ -2,14 +2,6 @@ import { BigNumber } from 'ethers';
 import { DEFAULT_CURRENCY_DECIMALS } from './constants';
 import type { TableModel } from '$lib/types/componentTypes';
 
-//
-export const kOysterOwnerInventory = '/oyster/inventory';
-export const kOysterOwnerHistory = '/oyster/history';
-
-//operator pages
-export const kOperatorJobs = '/oyster/operator/jobs';
-export const kOperatorHistory = '/oyster/operator/history';
-
 // while developing locally change currency to POND
 export const kOysterRateMetaData = {
 	currency: 'POND',
@@ -248,31 +240,6 @@ export const kOysterHistoryTableHeader: TableModel['header'][] = [
 	}
 ];
 
-export const kHistoryTableColumnsWidth = (id: string) => {
-	switch (id) {
-		case 'provider':
-			return '20%';
-		case 'instance':
-			return '10%';
-		case 'region':
-			return '10%';
-		case 'totalDeposit':
-			return '10%';
-		case 'amountUsed':
-			return '10%';
-		case 'refund':
-			return '10%';
-		case 'durationRun':
-			return '10%';
-		case 'status':
-			return '12.5%';
-		case 'action':
-			return '7.5%';
-		default:
-			return '0%';
-	}
-};
-
 // make sure the id matches the id in Data Model
 export const kOysterMarketplaceTableHeader: TableModel['header'][] = [
 	{
@@ -316,9 +283,6 @@ export const kOysterMarketplaceTableHeader: TableModel['header'][] = [
 	}
 ];
 
-export const kOysterDocLink = 'https://docs.marlin.org/docs/User%20Guides/Oyster/';
-export const kOysterSupportLink = 'https://discord.gg/xqJfSGY6gR';
-
 export const kDurationUnitsList = [
 	{
 		label: 'Minutes',
@@ -354,6 +318,7 @@ export const kBandwidthUnitsList = [
 		value: 1
 	}
 ];
+
 export const getDurationInSecondsForUnit = (durationUnit: string) => {
 	return kDurationUnitsList.find((unit) => unit.label === durationUnit)?.value ?? 1;
 };

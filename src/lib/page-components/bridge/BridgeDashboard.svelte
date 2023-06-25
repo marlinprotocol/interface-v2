@@ -4,10 +4,10 @@
 	import { Tab, TabList, TabPanel, Tabs } from '$lib/atoms/tabs/tabs';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import {
-		kBridgeLearnMoreDocLink,
-		kMPondHistoryPage,
-		kPondHistoryPage
-	} from '$lib/utils/constants/bridgeConstants';
+		POND_HISTORY_PAGE_URL,
+		MPOND_HISTORY_PAGE_URL,
+		BRIDGE_LEARN_MORE_DOC_LINK
+	} from '$lib/utils/constants/urls';
 	import MPondTopond from './MPondTopond.svelte';
 	import PondToMPond from './PondToMPond.svelte';
 	import ConversionHistoryButton from './sub-components/ConversionHistoryButton.svelte';
@@ -52,15 +52,15 @@
 </ContainerCard>
 <div class={styles.conversionHistory}>
 	<TabPanel id={'pond'} {activeTabValue}>
-		<a href={kPondHistoryPage}>
+		<a href={POND_HISTORY_PAGE_URL}>
 			<ConversionHistoryButton firstText="POND" secondText="MPond" />
 		</a>
 	</TabPanel>
 
 	<TabPanel id={'mPond'} {activeTabValue}>
-		<a href={kMPondHistoryPage}>
+		<a href={MPOND_HISTORY_PAGE_URL}>
 			<ConversionHistoryButton firstText="MPond" secondText="POND" />
 		</a>
 	</TabPanel>
-	<InfoButtonLink href={kBridgeLearnMoreDocLink} text="Learn More" />
+	<InfoButtonLink href={BRIDGE_LEARN_MORE_DOC_LINK} text="Learn More" />
 </div>

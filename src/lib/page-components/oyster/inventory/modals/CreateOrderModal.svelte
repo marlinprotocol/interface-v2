@@ -12,7 +12,7 @@
 	} from '$lib/types/oysterComponentType';
 	import type { Address } from '$lib/types/storeTypes';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
-	import { RATE_SCALING_FACTOR, kOysterOwnerInventory } from '$lib/utils/constants/oysterConstants';
+	import { RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 	import { checkValidURL, closeModal } from '$lib/utils/helpers/commonHelper';
 	import { getRateForProviderAndFilters } from '$lib/utils/helpers/oysterHelpers';
 	import {
@@ -25,6 +25,7 @@
 	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
 	import MetadetailsForNewOrder from '$lib/page-components/oyster/sub-components/MetadetailsForNewOrder.svelte';
 	import BandwidthSelector from '$lib/page-components/oyster/sub-components/BandwidthSelector.svelte';
+	import { OYSTER_OWNER_INVENTORY_URL } from '$lib/utils/constants/urls';
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
@@ -131,7 +132,7 @@
 		}
 		resetInputs();
 		closeModal(modalFor);
-		goto(kOysterOwnerInventory);
+		goto(OYSTER_OWNER_INVENTORY_URL);
 	};
 
 	const handleApproveClick = async () => {

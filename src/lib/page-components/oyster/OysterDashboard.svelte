@@ -20,17 +20,17 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
-	import {
-		kOperatorJobs,
-		kOysterDocLink,
-		kOysterSupportLink
-	} from '$lib/utils/constants/oysterConstants';
 	import { checkValidURL } from '$lib/utils/helpers/commonHelper';
 	import { onDestroy } from 'svelte';
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from './sub-components/InstancesTable.svelte';
 	import { invalidate } from '$app/navigation';
 	import { environmentStore } from '$lib/data-stores/environment';
+	import {
+		OPERATOR_JOBS_URL,
+		OYSTER_DOC_LINK,
+		OYSTER_SUPPORT_LINK
+	} from '$lib/utils/constants/urls';
 
 	const styles = {
 		docButton: 'text-primary',
@@ -190,11 +190,11 @@
 		<div class="text-left text-grey-700 flex flex-col gap-1 mt-2 mb-4">
 			<div class="flex gap-2 items-center">
 				<Text variant="body" text="Quick access:" />
-				<a href={kOysterDocLink} target="_blank">
+				<a href={OYSTER_DOC_LINK} target="_blank">
 					<Text styleClass={styles.docButton} fontWeight="font-medium" text="Documentation" />
 				</a>
 				<div class={dividerClasses.vertical} />
-				<a href={kOysterSupportLink} target="_blank">
+				<a href={OYSTER_SUPPORT_LINK} target="_blank">
 					<Text styleClass={styles.docButton} fontWeight="font-medium" text="Support" />
 				</a>
 			</div>
@@ -295,7 +295,7 @@
 	{/if}
 </ContainerCard>
 {#if $connected}
-	<a href={kOperatorJobs}>
+	<a href={OPERATOR_JOBS_URL}>
 		<Button variant="whiteFilled" size={'large'} styleClass="w-full sm:w-130 mt-4 mx-auto">
 			<div class="flex justify-between w-full">
 				<div class="w-full flex justify-center">TRACK USAGE</div>

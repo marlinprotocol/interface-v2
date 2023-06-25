@@ -5,13 +5,14 @@
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import type { Address, WalletStore } from '$lib/types/storeTypes';
-	import { kMPondHistoryPage, kPondToMPondTableHeader } from '$lib/utils/constants/bridgeConstants';
+	import { kPondToMPondTableHeader } from '$lib/utils/constants/bridgeConstants';
 	import { MPOND_PRECISIONS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
 	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import HistoryTableCommon from './HistoryTableCommon.svelte';
+	import { MPOND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
 
 	let address: Address;
 	let historyData: PondToMPondHistoryDataModel[] | undefined;
@@ -37,7 +38,7 @@
 		backButton: {
 			firstText: 'MPond',
 			secondText: 'POND',
-			href: kMPondHistoryPage
+			href: MPOND_HISTORY_PAGE_URL
 		},
 		title: 'POND to MPond conversion history'
 	}}

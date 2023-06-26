@@ -32,6 +32,8 @@
 		OYSTER_SUPPORT_LINK
 	} from '$lib/utils/constants/urls';
 
+	import { getModifiedInstances } from '$lib/utils/data-modifiers/oysterModifiers';
+
 	const styles = {
 		docButton: 'text-primary',
 		tableCell: tableCellClasses.rowMini
@@ -109,9 +111,13 @@
 	async function getInstances(useUpdatedCpURL: boolean) {
 		try {
 			if (useUpdatedCpURL) {
-				return await getInstancesFromControlPlaneUsingCpUrl(updatedCpURL);
+				const instances = await getInstancesFromControlPlaneUsingCpUrl(updatedCpURL);
+				return getModifiedInstances(instances);
 			} else if (registeredCpURL !== '' && !useUpdatedCpURL) {
-				return await getInstancesFromControlPlaneUsingOperatorAddress($walletStore.address);
+				const instances = await getInstancesFromControlPlaneUsingOperatorAddress(
+					$walletStore.address
+				);
+				return getModifiedInstances(instances);
 			} else {
 				return [];
 			}

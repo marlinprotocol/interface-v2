@@ -1,5 +1,6 @@
+import { DEFAULT_CURRENCY_DECIMALS, SECONDS_IN_DAY } from '$lib/utils/constants/constants';
+
 import { BigNumber } from 'ethers';
-import { DEFAULT_CURRENCY_DECIMALS } from '$lib/utils/constants/constants';
 import type { TableModel } from '$lib/types/componentTypes';
 
 // while developing locally change currency to POND
@@ -17,6 +18,9 @@ export const OYSTER_RATE_METADATA = {
 export const OYSTER_RATE_SCALING_FACTOR = BigNumber.from(10).pow(
 	DEFAULT_CURRENCY_DECIMALS - OYSTER_RATE_METADATA.decimal
 );
+
+export const OYSTER_CAUTION_DURATION = SECONDS_IN_DAY;
+export const OYSTER_WARNING_DURATION = SECONDS_IN_DAY * 3; // 3 days
 
 // make sure the id matches the id in Data Model
 export const OYSTER_INSTANCES_TABLE_HEADER: TableModel['header'][] = [

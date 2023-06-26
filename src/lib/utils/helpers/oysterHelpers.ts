@@ -1,4 +1,9 @@
-import { BIG_NUMBER_ZERO, SECONDS_IN_DAY } from '$lib/utils/constants/constants';
+import {
+	OYSTER_CAUTION_DURATION,
+	OYSTER_DURATION_UNITS_LIST,
+	OYSTER_RATE_SCALING_FACTOR,
+	OYSTER_WARNING_DURATION
+} from '$lib/utils/constants/oysterConstants';
 import type {
 	OysterFiltersModel,
 	OysterInventoryDataModel,
@@ -6,11 +11,8 @@ import type {
 	OysterMarketplaceFilterModel
 } from '$lib/types/oysterComponentType';
 
+import { BIG_NUMBER_ZERO } from '../constants/constants';
 import { BigNumber } from 'ethers';
-import {
-	OYSTER_DURATION_UNITS_LIST,
-	OYSTER_RATE_SCALING_FACTOR
-} from '$lib/utils/constants/oysterConstants';
 import { addToast } from '$lib/data-stores/toastStore';
 import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
@@ -91,9 +93,9 @@ export const getInventoryStatusVariant = (status: string) => {
 };
 
 export const getInventoryDurationVariant = (duration: number) => {
-	if (duration < SECONDS_IN_DAY) {
+	if (duration < OYSTER_CAUTION_DURATION) {
 		return 'error';
-	} else if (duration < SECONDS_IN_DAY * 3) {
+	} else if (duration < OYSTER_WARNING_DURATION) {
 		return 'warning';
 	} else {
 		return 'success';

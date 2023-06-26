@@ -3,16 +3,14 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
-	import { BigNumberZero, pondPrecisions } from '$lib/utils/constants/constants';
+	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import {
+		RATE_SCALING_FACTOR,
 		getDurationInSecondsForUnit,
-		kDurationUnitsList
+		kDurationUnitsList,
+		kOysterRateMetaData
 	} from '$lib/utils/constants/oysterConstants';
-	import {
-		bigNumberToString,
-		stringToBigNumber,
-		bigNumberToCommaString
-	} from '$lib/utils/conversion';
+	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
 	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		computeCost,
@@ -24,28 +22,39 @@
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 
-	export let rate: BigNumber | undefined;
+	export let instanceRate: BigNumber | undefined;
 	export let duration: number | undefined;
-	export let cost: BigNumber;
+	export let instanceCost: BigNumber;
 	export let selectId: string;
 	export let invalidCost = false;
-	export let costString = '';
-	export let rateEditable = true;
+	export let instanceCostString = '';
+	export let isTotalRate = false;
+	// this is not being used currently as we are not allowing the user to edit the instance rate
+	export let instanceRateEditable = true;
 
-	let rateString = '';
+	const { symbol, decimal, currency } = kOysterRateMetaData;
 
-	const updateRateString = (_rate: BigNumber | undefined) => {
-		if (_rate && rateString === '') {
-			rateString = _rate ? convertRateToPerHourString(_rate) : '';
+	let instanceRateString = '';
+
+	const updateRateString = (_instanceRate: BigNumber | undefined) => {
+		if (_instanceRate) {
+			instanceRateString = _instanceRate ? convertRateToPerHourString(_instanceRate, decimal) : '';
 			return;
 		}
-		if (!_rate && rateString !== '') {
-			rateString = '';
+		if (!_instanceRate && instanceRateString !== '') {
+			instanceRateString = '';
 			return;
 		}
 	};
 
-	$: updateRateString(rate);
+	$: rateToUseForStrings = isTotalRate ? instanceRate?.div(RATE_SCALING_FACTOR) : instanceRate;
+	$: updateRateString(rateToUseForStrings);
+
+	function getInstanceCostString(cost: BigNumber) {
+		return isTotalRate
+			? bigNumberToString(cost.div(RATE_SCALING_FACTOR), decimal)
+			: bigNumberToString(cost, decimal);
+	}
 
 	let maxBalance = BigNumberZero;
 	let durationUnit = 'Days';
@@ -60,22 +69,22 @@
 
 	const handleRateChange = (e: any) => {
 		const value = e.target.value;
-		rateString = value;
+		instanceRateString = value;
 		if (!value) {
-			rate = undefined;
-			costString = '';
+			instanceRate = undefined;
+			instanceCostString = '';
 			return;
 		}
 		try {
 			if (isInputAmountValid(value)) {
 				const hourlyRate = stringToBigNumber(value);
-				rate = convertHourlyRateToSecondlyRate(hourlyRate);
-				const _cost = computeCost(duration || 0, rate);
-				costString = bigNumberToString(_cost);
+				instanceRate = convertHourlyRateToSecondlyRate(hourlyRate);
+				const _instanceCost = computeCost(duration || 0, instanceRate);
+				instanceCostString = getInstanceCostString(_instanceCost);
 			}
 		} catch (error) {
-			rate = undefined;
-			costString = '';
+			instanceRate = undefined;
+			instanceCostString = '';
 			console.log(error);
 		}
 	};
@@ -84,8 +93,8 @@
 		const value = e.target.value;
 		try {
 			duration = computeDuration(value, durationUnitInSec);
-			const _cost = computeCost(duration || 0, rate);
-			costString = bigNumberToString(_cost);
+			const _instanceCost = computeCost(duration || 0, instanceRate);
+			instanceCostString = getInstanceCostString(_instanceCost);
 		} catch (error) {
 			duration = 0;
 			console.log(error);
@@ -95,56 +104,56 @@
 	const handleDurationUnitChange = (unit: any) => {
 		durationUnitInSec = getDurationInSecondsForUnit(unit);
 		duration = computeDuration(durationString, durationUnitInSec);
-		const _cost = computeCost(duration || 0, rate);
-		costString = bigNumberToString(_cost);
+		const _instanceCost = computeCost(duration || 0, instanceRate);
+		instanceCostString = getInstanceCostString(_instanceCost);
 	};
 
 	const handleCostChange = (e: any) => {
 		const value = e.target.value;
-		const _cost = isInputAmountValid(value) ? Number(value) : 0;
+		const _instanceCost = isInputAmountValid(value) ? Number(value) : 0;
 
 		if (!value) {
 			duration = 0;
-			costString = '';
+			instanceCostString = '';
 			return;
 		}
-		if (_cost === 0) {
+		if (_instanceCost === 0) {
 			duration = 0;
 			return;
 		}
-		if (_cost && rate) {
+		if (_instanceCost && instanceRate) {
 			try {
-				let _rate = rate.toNumber() / 10 ** 18;
-				duration = Math.floor(_cost / _rate);
-				costString = value;
+				let _instanceRate = instanceRate.toNumber() / 10 ** decimal;
+				duration = Math.floor(_instanceCost / _instanceRate);
+				instanceCostString = value;
 			} catch (error) {
 				duration = 0;
-				costString = '';
+				instanceCostString = '';
 				console.log(error);
 			}
 		}
 	};
 
 	$: durationString = computeDurationString(duration, durationUnitInSec);
-	$: cost = computeCost(duration || 0, rate);
-	$: invalidCost = !cost || !maxBalance.gte(cost);
-	$: inValidMessage = !cost
+	$: instanceCost = computeCost(duration || 0, instanceRate);
+	$: invalidCost = !instanceCost || !maxBalance.gte(instanceCost);
+	$: inValidMessage = !instanceCost
 		? ''
 		: invalidCost
-		? `Insufficient balance. Your current wallet has ${bigNumberToCommaString(
+		? `Insufficient balance. Your current wallet has ${bigNumberToString(
 				maxBalance,
-				pondPrecisions
-		  )} POND.`
+				decimal
+		  )} ${currency}.`
 		: '';
 </script>
 
 <div class="flex gap-2">
 	<AmountInputWithTitle
 		title={'Hourly Rate'}
-		bind:inputAmountString={rateString}
-		prefix={'$'}
+		bind:inputAmountString={instanceRateString}
+		prefix={symbol}
 		handleUpdatedAmount={handleRateChange}
-		disabled={!rateEditable}
+		disabled={true}
 	/>
 	<AmountInputWithTitle
 		title={'Duration'}
@@ -152,7 +161,7 @@
 		suffix={durationUnit}
 		handleUpdatedAmount={handleDurationChange}
 		onlyInteger
-		disabled={!rate}
+		disabled={!instanceRate}
 	>
 		<div slot="endButton">
 			<Select
@@ -165,11 +174,11 @@
 		</div>
 	</AmountInputWithTitle>
 	<AmountInputWithTitle
-		title={'Cost'}
-		bind:inputAmountString={costString}
+		title={isTotalRate ? 'Total Cost' : 'Instance Cost'}
+		bind:inputAmountString={instanceCostString}
 		handleUpdatedAmount={handleCostChange}
-		suffix={'USDC'}
-		disabled={!rate}
+		suffix={currency}
+		disabled={!instanceRate}
 	/>
 </div>
-<ErrorTextCard showError={inValidMessage != ''} errorMessage={inValidMessage} styleClass="mt-0" />
+<ErrorTextCard showError={inValidMessage !== ''} errorMessage={inValidMessage} />

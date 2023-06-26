@@ -17,7 +17,7 @@
 	let searchContainer: HTMLDivElement;
 
 	const handleClickOutside = (event: MouseEvent) => {
-		if (searchContainer.contains(event.target as Node) == false) {
+		if (searchContainer.contains(event.target as Node) === false) {
 			showSuggestions = false;
 		}
 	};

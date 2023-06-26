@@ -8,7 +8,7 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { RATE_SCALING_FACTOR, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { epochToDurationString, stringToBigNumber } from '$lib/utils/conversion';
 	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
@@ -25,16 +25,18 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	$: ({ rate, reviseRate: { newRate = BigNumberZero, updatesAt = 0, rateStatus = '' } = {} } =
-		jobData);
-	const { symbol } = kOysterRateMetaData;
+	$: ({
+		downScaledRate,
+		reviseRate: { newRate = BigNumberZero, updatesAt = 0, rateStatus = '' } = {}
+	} = jobData);
+	const { symbol, decimal } = kOysterRateMetaData;
 
 	//initial states
 	let inputRate: BigNumber = BigNumberZero;
 	let inputAmountString = '';
 
 	$: inputRate = isInputAmountValid(inputAmountString)
-		? convertHourlyRateToSecondlyRate(stringToBigNumber(inputAmountString))
+		? convertHourlyRateToSecondlyRate(stringToBigNumber(inputAmountString)).mul(RATE_SCALING_FACTOR)
 		: BigNumberZero;
 
 	let submitLoading = false;
@@ -70,11 +72,10 @@
 
 	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
 	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
-
 	$: submitEnable =
 		inputRate &&
 		isInputAmountValid(inputAmountString) &&
-		!inputRate.eq(rate) &&
+		!inputRate.eq(downScaledRate) &&
 		inputAmountString !== '' &&
 		rateStatus !== 'pending';
 </script>
@@ -91,7 +92,7 @@
 			<div class="flex gap-4">
 				<AmountInputWithTitle
 					title={`Current Hourly Rate`}
-					inputAmountString={convertRateToPerHourString(rate)}
+					inputAmountString={convertRateToPerHourString(downScaledRate, decimal)}
 					disabled
 					prefix={symbol}
 				/>
@@ -100,7 +101,7 @@
 				{:else}
 					<AmountInputWithTitle
 						title="New Hourly Rate"
-						inputAmountString={convertRateToPerHourString(newRate)}
+						inputAmountString={convertRateToPerHourString(newRate, decimal)}
 						prefix={symbol}
 						disabled
 					/>
@@ -124,7 +125,7 @@
 		</div>
 		<ErrorTextCard
 			styleClass={'mt-4'}
-			showError={inputRate.eq(rate)}
+			showError={convertRateToPerHourString(downScaledRate, decimal) === inputAmountString}
 			errorMessage={'New rate cannot be same as current rate.'}
 		/>
 	</svelte:fragment>

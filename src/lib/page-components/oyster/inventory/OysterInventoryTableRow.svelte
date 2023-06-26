@@ -9,9 +9,8 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
-	import { maxDecimals, oysterAmountPrecision } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToCommaString, epochToDurationString } from '$lib/utils/conversion';
+	import { RATE_SCALING_FACTOR, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { bigNumberToString, epochToDurationString } from '$lib/utils/conversion';
 	import {
 		convertRateToPerHourString,
 		getInventoryDurationVariant
@@ -23,23 +22,23 @@
 	import InventoryJobDetailsModal from './modals/JobDetailsModal.svelte';
 	import StopJobModal from './modals/StopJobModal.svelte';
 	import WithdrawFundsFromJobModal from './modals/WithdrawFundsFromJobModal.svelte';
-	import Button from '$lib/atoms/buttons/Button.svelte';
 	import type { Bytes } from 'ethers';
 	import { refreshJobStatusForJobId } from '$lib/controllers/httpController';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import AddFundsToJob from '../sub-components/AddFundsToJob.svelte';
+	import refresh from 'svelte-awesome/icons/refresh';
+	import Icon from '$lib/atoms/icons/Icon.svelte';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
 	export let expandedRows: Set<string>;
 
-	const { symbol } = kOysterRateMetaData;
+	const { symbol, decimal, precision } = kOysterRateMetaData;
 	let refreshLoading = false;
 	$: ({
 		provider: { name, address },
 		instance,
 		region,
-		rate,
+		downScaledRate,
 		id,
 		ip,
 		balance,
@@ -49,8 +48,11 @@
 
 	// Handler function for toggling the expansion of a row
 	function toggleRowExpansion(rowId: string) {
-		if (expandedRows.has(rowId)) {
-			expandedRows.delete(rowId);
+		if (expandedRows.size > 0 && expandedRows.has(rowId)) {
+			expandedRows.clear();
+		} else if (expandedRows.size > 0) {
+			expandedRows.clear();
+			expandedRows.add(rowId);
 		} else {
 			expandedRows.add(rowId);
 		}
@@ -78,7 +80,7 @@
 		refreshLoading = false;
 	}
 
-	$: isJobFinished = !Boolean(Math.floor(endEpochTime - Date.now() / 1000) > 0);
+	$: isJobFinished = !(Math.floor(endEpochTime - Date.now() / 1000) > 0);
 	$: isOpen = expandedRows.has(id.toString());
 	$: closeButtonText =
 		stopStatus === '' || stopStatus === 'disabled'
@@ -108,7 +110,15 @@
 		</NameWithAddress>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		{ip ?? 'N/A'}
+		<div class="flex items-center gap-2 justify-center">
+			<button
+				class={`${refreshLoading ? 'animate-spin' : ''} flex items-center`}
+				on:click={() => refreshJobStatus(id)}
+			>
+				<Icon data={refresh} size={12} />
+			</button>
+			{ip ?? 'N/A'}
+		</div>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		{instance ?? 'N/A'}
@@ -117,13 +127,15 @@
 		{region ?? 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate, maxDecimals)}`}>
-			{symbol}{convertRateToPerHourString(rate)}
+		<Tooltip
+			tooltipText={`${symbol}${convertRateToPerHourString(downScaledRate, decimal, precision)}`}
+		>
+			{symbol}{convertRateToPerHourString(downScaledRate, decimal)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={`${symbol}${bigNumberToCommaString(balance, maxDecimals)}`}>
-			{symbol}{bigNumberToCommaString(balance, oysterAmountPrecision)}
+		<Tooltip tooltipText={`${symbol}${bigNumberToString(balance, decimal, precision)}`}>
+			{symbol}{bigNumberToString(balance, decimal)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
@@ -189,12 +201,6 @@
 					>
 						{amendRateButtonText}
 					</ModalButton>
-					<Button
-						variant="outlined"
-						loading={refreshLoading}
-						size="small"
-						onclick={() => refreshJobStatus(id)}>REFRESH</Button
-					>
 				{/if}
 				<ModalButton variant="outlined" size="small" modalFor={`job-details-modal-${id}`}>
 					DETAILS

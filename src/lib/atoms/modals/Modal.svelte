@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { staticImages } from '$lib/components/images/staticImages';
-	import { closeModal } from '$lib/utils/helpers/commonHelper';
+	import { closeModal, doNothing } from '$lib/utils/helpers/commonHelper';
 
 	export let modalFor = '';
 	export let modalWidth = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
-	export let onClose: () => void = () => {};
+	export let onClose: () => void = () => {
+		doNothing();
+	};
 	export let padding = true;
 
 	const styles = {

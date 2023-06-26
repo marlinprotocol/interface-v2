@@ -7,8 +7,18 @@ export const GET_OPTIONS = {
 	}
 };
 
-export const maxDecimals = 18;
-export const oysterAmountPrecision = 6;
+export const MEMORY_SUFFIX = ' MiB';
+
+export const DEFAULT_PRECISION = 2;
+
+export const DEFAULT_CURRENCY_DECIMALS = 18; // we use POND as a default currency which has its lowest unit in 18 decimals
+
+export const secondsInHour = 3600;
+
+export const SECONDS_IN_DAY = 86400;
+
+export const hundredYears = 60 * 60 * 24 * 365 * 100; //not accounting for leap years
+
 export const pondPrecisions = 2;
 export const mPondPrecisions = 6;
 
@@ -19,7 +29,7 @@ export const amountPrecision = (token: 'pond' | 'mPond') => {
 		case 'mPond':
 			return mPondPrecisions;
 		default:
-			return 2;
+			return DEFAULT_PRECISION;
 	}
 };
 

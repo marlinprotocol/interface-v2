@@ -13,13 +13,13 @@
 		// user can only enter numbers, arrows, backspace, delete and one decimal point if onlyInteger is false
 		if (
 			(e.key >= '0' && e.key <= '9') ||
-			(!onlyInteger && e.key == '.' && !value.includes('.')) ||
-			e.key == 'Backspace' ||
-			e.key == 'Delete' ||
-			e.key == 'ArrowLeft' ||
-			e.key == 'ArrowRight' ||
-			e.key == 'ArrowUp' ||
-			e.key == 'ArrowDown'
+			(!onlyInteger && e.key === '.' && !value.includes('.')) ||
+			e.key === 'Backspace' ||
+			e.key === 'Delete' ||
+			e.key === 'ArrowLeft' ||
+			e.key === 'ArrowRight' ||
+			e.key === 'ArrowUp' ||
+			e.key === 'ArrowDown'
 		) {
 			return true;
 		} else {

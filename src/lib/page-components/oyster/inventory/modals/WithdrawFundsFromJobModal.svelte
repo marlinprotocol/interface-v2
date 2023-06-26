@@ -6,13 +6,9 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BigNumberZero, oysterAmountPrecision } from '$lib/utils/constants/constants';
+	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
-	import {
-		bigNumberToCommaString,
-		bigNumberToString,
-		stringToBigNumber
-	} from '$lib/utils/conversion';
+	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
 	import {
 		closeModal,
 		inputAmountInValidMessage,
@@ -24,7 +20,7 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	const { currency } = kOysterRateMetaData;
+	const { currency, decimal } = kOysterRateMetaData;
 	$: ({ rate, balance: maxAmount, id } = jobData);
 
 	//initial states
@@ -59,7 +55,7 @@
 
 	const handleMaxClick = () => {
 		if (maxAmount) {
-			inputAmountString = bigNumberToString(maxAmount);
+			inputAmountString = bigNumberToString(maxAmount, decimal);
 			//reset input error message
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
@@ -95,10 +91,7 @@
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			inputCardVariant={'none'}
-			maxAmountText={'Available balance: ' +
-				bigNumberToCommaString(maxAmount, oysterAmountPrecision) +
-				' ' +
-				currency}
+			maxAmountText={'Available balance: ' + bigNumberToString(maxAmount, decimal) + ' ' + currency}
 		>
 			<Text slot="input-end-button" text="Amount" fontWeight="font-medium" />
 			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />

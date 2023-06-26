@@ -12,8 +12,7 @@
 	} from '$lib/types/oysterComponentType';
 	import type { Address } from '$lib/types/storeTypes';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import { kOysterOwnerInventory } from '$lib/utils/constants/oysterConstants';
-	import { getvCpuMemoryData } from '$lib/utils/data-modifiers/oysterModifiers';
+	import { RATE_SCALING_FACTOR, kOysterOwnerInventory } from '$lib/utils/constants/oysterConstants';
 	import { checkValidURL, closeModal } from '$lib/utils/helpers/commonHelper';
 	import { getRateForProviderAndFilters } from '$lib/utils/helpers/oysterHelpers';
 	import {
@@ -23,8 +22,9 @@
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import AddFundsToJob from '../../sub-components/AddFundsToJob.svelte';
-	import MetadetailsForNewOrder from '../../sub-components/MetadetailsForNewOrder.svelte';
+	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
+	import MetadetailsForNewOrder from '$lib/page-components/oyster/sub-components/MetadetailsForNewOrder.svelte';
+	import BandwidthSelector from '$lib/page-components/oyster/sub-components/BandwidthSelector.svelte';
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
@@ -34,10 +34,11 @@
 	let owner: Address;
 
 	let duration = 0; //durationInSecs
-	let cost = BigNumberZero;
-	// let rate: BigNumber | undefined = undefined;
+	let instanceCost = BigNumberZero;
 	let invalidCost = false;
-	let costString = '';
+	let instanceCostString = '';
+	let bandwidthCost = BigNumberZero;
+	let finalBandwidthRate = BigNumberZero;
 
 	//loading states
 	let submitLoading = false;
@@ -82,42 +83,46 @@
 	};
 
 	// deep copy of initial states
-	let jobValues = {
-		merchant: {
-			...initialStates.merchant
-		},
-		instance: {
-			...initialStates.instance
-		},
-		region: {
-			...initialStates.region
-		},
-		enclaveImageUrl: {
-			...initialStates.enclaveImageUrl
-		}
+	let merchant = {
+		...initialStates.merchant
+	};
+	let instance = {
+		...initialStates.instance
+	};
+	let region = {
+		...initialStates.region
+	};
+	let enclaveImageUrl = {
+		...initialStates.enclaveImageUrl
 	};
 
 	const handleSubmitClick = async () => {
-		if (!rate || !cost || !jobValues.instance.value || !jobValues.region.value) {
+		if (
+			!instanceRate ||
+			!instanceCost ||
+			!finalBandwidthRate ||
+			!bandwidthCost ||
+			!instance.value ||
+			!region.value
+		) {
 			return;
 		}
 
-		const { vcpu, memory } = getvCpuMemoryData(jobValues.instance.value);
 		const metadata = JSON.stringify({
-			instance: jobValues.instance.value,
-			region: jobValues.region.value,
-			memory: memory ?? '',
-			vcpu: vcpu ?? '',
-			url: jobValues.enclaveImageUrl.value
+			instance: instance.value,
+			region: region.value,
+			memory: Number(memory.split(' ')[0]),
+			vcpu: Number(vcpu),
+			url: enclaveImageUrl.value
 		});
 
 		submitLoading = true;
 		const success = await handleCreateJob(
 			owner,
 			metadata,
-			jobValues.merchant.value,
-			rate,
-			cost,
+			merchant.value,
+			totalRate,
+			totalCost,
 			duration
 		);
 		submitLoading = false;
@@ -130,71 +135,82 @@
 	};
 
 	const handleApproveClick = async () => {
-		if (!cost) {
+		if (!instanceCost || !bandwidthCost) {
 			return;
 		}
 		submitLoading = true;
-		await handleApproveFundForOysterJob(cost);
+		await handleApproveFundForOysterJob(totalCost);
 		submitLoading = false;
 	};
 
 	const resetInputs = () => {
 		handleMerchantChange();
 		submitLoading = false;
-		rate = undefined;
-		jobValues = {
-			merchant: {
-				...initialStates.merchant
-			},
-			instance: {
-				...initialStates.instance
-			},
-			region: {
-				...initialStates.region
-			},
-			enclaveImageUrl: {
-				...initialStates.enclaveImageUrl
-			}
+		instanceRate = undefined;
+		merchant = {
+			...initialStates.merchant
+		};
+		instance = {
+			...initialStates.instance
+		};
+		region = {
+			...initialStates.region
+		};
+		enclaveImageUrl = {
+			...initialStates.enclaveImageUrl
 		};
 	};
 
 	const handleMerchantChange = () => {
 		duration = 0;
-		cost = BigNumberZero;
+		instanceCost = BigNumberZero;
 		invalidCost = false;
-		costString = '';
+		instanceCostString = '';
 	};
 
-	let rate = getRateForProviderAndFilters(
+	let instanceRate = getRateForProviderAndFilters(
 		providerAddress,
-		jobValues.instance.value,
-		jobValues.region.value,
+		instance.value,
+		region.value,
 		allMarketplaceData
 	);
+	let vcpu = '';
+	let memory = '';
 	let notServiceable = false;
 
-	$: approved = cost && approvedAmount?.gte(cost) && cost.gt(BigNumberZero);
+	$: approved =
+		instanceCost.gt(BigNumberZero) &&
+		approvedAmount?.gte(totalCost) &&
+		bandwidthCost.gt(BigNumberZero) &&
+		totalCost.gt(BigNumberZero);
 
-	$: rateDisabled =
+	$: instanceRateDisabled =
 		notServiceable ||
-		jobValues.merchant.error ||
-		jobValues.merchant.value === '' ||
-		jobValues.region.error ||
-		jobValues.region.value === '' ||
-		jobValues.instance.error ||
-		jobValues.instance.value === '';
+		merchant.error ||
+		merchant.value === '' ||
+		region.error ||
+		region.value === '' ||
+		instance.error ||
+		instance.value === '';
+
 	$: submitEnable =
 		duration &&
-		cost?.gt(BigNumberZero) &&
-		rate &&
+		instanceCost?.gt(BigNumberZero) &&
+		bandwidthCost?.gt(BigNumberZero) &&
+		instanceRate &&
+		totalRate &&
 		!invalidCost &&
 		validEnclaveUrl &&
-		!rateDisabled &&
-		jobValues.enclaveImageUrl.value !== '';
+		!instanceRateDisabled &&
+		enclaveImageUrl.value !== '';
+
 	$: validEnclaveUrl =
-		jobValues.enclaveImageUrl.value !== undefined && jobValues.enclaveImageUrl.value !== ''
-			? checkValidURL(jobValues.enclaveImageUrl.value)
+		enclaveImageUrl.value !== undefined && enclaveImageUrl.value !== ''
+			? checkValidURL(enclaveImageUrl.value)
 			: true;
+
+	$: totalRate = finalBandwidthRate.add(instanceRate?.mul(RATE_SCALING_FACTOR) || BigNumberZero);
+	$: totalCost = instanceCost.add(bandwidthCost);
 
 	const subtitle =
 		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';
@@ -214,27 +230,38 @@
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-2 px-4">
 			<MetadetailsForNewOrder
-				bind:jobValues
+				bind:merchant
+				bind:instance
+				bind:region
 				bind:providerAddress
-				bind:rate
+				bind:instanceRate
+				bind:vcpu
+				bind:memory
 				bind:notServiceable
 				{allMarketplaceData}
 				handleChange={handleMerchantChange}
 			/>
 			<AddFundsToJob
-				bind:cost
+				bind:instanceCost
 				bind:duration
 				bind:invalidCost
-				bind:rate
-				bind:costString
+				bind:instanceRate
+				bind:instanceCostString
 				selectId="create-order-duration-unit-select"
-				rateEditable={!rateDisabled}
+				instanceRateEditable={!instanceRateDisabled}
+			/>
+			<BandwidthSelector
+				bind:region
+				bind:bandwidthCost
+				bind:duration
+				bind:instanceCost
+				bind:finalBandwidthRate
 			/>
 			<TextInputWithEndButton
 				styleClass={styles.inputText}
 				title={'Enclave Image URL'}
 				placeholder={'Paste URL here'}
-				bind:input={jobValues.enclaveImageUrl.value}
+				bind:input={enclaveImageUrl.value}
 			/>
 			<ErrorTextCard
 				styleClass="mt-0"

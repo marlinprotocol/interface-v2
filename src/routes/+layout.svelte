@@ -13,7 +13,9 @@
 	onMount(async () => {
 		// removes console logs in production
 		if ($environmentStore.production) {
-			window.console.log = function () {};
+			window.console.log = function () {
+				// do nothing
+			};
 		}
 	});
 

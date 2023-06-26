@@ -9,7 +9,7 @@
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
-	import { maxDecimals } from '$lib/utils/constants/constants';
+	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import { convertRateToPerHourString } from '$lib/utils/helpers/oysterHelpers';
 	import CreateOrderModal from '../inventory/modals/CreateOrderModal.svelte';
@@ -17,7 +17,7 @@
 	export let rowData: OysterMarketplaceDataModel;
 	export let rowIndex: number;
 
-	const { symbol } = kOysterRateMetaData;
+	const { symbol, decimal, precision } = kOysterRateMetaData;
 	$: ({
 		provider: { name, address },
 		instance,
@@ -47,15 +47,15 @@
 		{region ?? 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate, maxDecimals)}`}>
-			{symbol}{convertRateToPerHourString(rate)}
+		<Tooltip tooltipText={`${symbol}${convertRateToPerHourString(rate, decimal, precision)}`}>
+			{symbol}{convertRateToPerHourString(rate, decimal)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		{vcpu ? vcpu : 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		{memory ? `${memory} GiB` : 'N/A'}
+		{memory ? `${memory}${MEMORY_SUFFIX}` : 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		{#if $connected}

@@ -17,7 +17,7 @@
 <InputCard styleClass={'w-full'} variant={'search'}>
 	<div class="search-container">
 		<div class="flex gap-2 items-center justify-between">
-			<Text variant="small" text={(value && value != 'All' ? value : title).toString()} />
+			<Text variant="small" text={(value && value !== 'All' ? value : title).toString()} />
 			<Select
 				{title}
 				{dataList}

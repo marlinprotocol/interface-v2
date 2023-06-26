@@ -1,6 +1,10 @@
 <script lang="ts">
+	import { doNothing } from '$lib/utils/helpers/commonHelper';
+
 	export let endEpochTime: number;
-	export let onTimerEnd: () => void = () => {};
+	export let onTimerEnd: () => void = () => {
+		doNothing();
+	};
 	export let timerId: string;
 
 	$: original = Math.floor(endEpochTime - Date.now() / 1000);

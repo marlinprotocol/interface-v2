@@ -61,6 +61,7 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 	durationRun: number;
 	id: Bytes;
 	amountToBeSettled: BigNumber;
+	downScaledRate: BigNumber;
 	reviseRate?: {
 		newRate: BigNumber;
 		updatesAt: number;

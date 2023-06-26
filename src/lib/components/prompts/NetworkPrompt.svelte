@@ -4,10 +4,11 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { environmentStore } from '$lib/data-stores/environment';
 	import { switchChain } from '$lib/utils/helpers/networkHelper';
-	import { walletStore } from '$lib/data-stores/walletProviderStore';
+	import { web3WalletStore } from '$lib/controllers/walletController';
 
+	$: connectedWallet = $web3WalletStore?.[0];
 	async function handleChainSwitch() {
-		await switchChain($walletStore.provider, $environmentStore.valid_chain_ids_with_0x[0]);
+		await switchChain(connectedWallet.provider, $environmentStore.valid_chain_ids_with_0x[0]);
 	}
 
 	const styles = {

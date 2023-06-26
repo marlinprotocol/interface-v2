@@ -9,10 +9,9 @@
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
-	import { maxDecimals, oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import {
-		bigNumberToCommaString,
+		bigNumberToString,
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/conversion';
@@ -23,7 +22,7 @@
 	export let rowIndex: number;
 	let submitLoading = false;
 
-	const { symbol } = kOysterRateMetaData;
+	const { symbol, decimal, precision } = kOysterRateMetaData;
 
 	const handleClaimClick = async () => {
 		submitLoading = true;
@@ -62,8 +61,8 @@
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={`${symbol}${bigNumberToCommaString(amountToBeSettled, maxDecimals)}`}>
-			{symbol}{bigNumberToCommaString(amountToBeSettled, oysterAmountPrecision)}
+		<Tooltip tooltipText={`${symbol}${bigNumberToString(amountToBeSettled, decimal, precision)}`}>
+			{symbol}{bigNumberToString(amountToBeSettled, decimal)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>

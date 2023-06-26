@@ -1,12 +1,13 @@
-import { ethers } from 'ethers';
-import { resetWalletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
-import { getChainDisplayName, isValidChain } from '$lib/utils/helpers/networkHelper';
-import { chainStore } from '$lib/data-stores/chainProviderStore';
-import { resetWalletProviderStore } from '$lib/data-stores/walletProviderStore';
-import onboard from './web3OnboardController';
 import type { EIP1193Provider, WalletState } from '@web3-onboard/core';
-import { resetReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
+import { getChainDisplayName, isValidChain } from '$lib/utils/helpers/networkHelper';
+import { resetWalletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
+
+import { chainStore } from '$lib/data-stores/chainProviderStore';
+import { ethers } from 'ethers';
+import onboard from './web3OnboardController';
 import { resetOysterStore } from '$lib/data-stores/oysterStore';
+import { resetReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
+import { resetWalletProviderStore } from '$lib/data-stores/walletProviderStore';
 import { writable } from 'svelte/store';
 
 const wallets$ = onboard.state.select('wallets');

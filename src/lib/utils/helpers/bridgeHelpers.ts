@@ -5,10 +5,11 @@ import type {
 	MPondToPondHistoryDataModel,
 	MPondToPondRequestModel
 } from '$lib/types/bridgeComponentType';
+
 import { BigNumber } from 'ethers';
+import { BigNumberUtils } from './bigNumberUtils';
 import { BigNumberZero } from '../constants/constants';
 import { mPondToPond } from '../conversion';
-import { BigNumberUtils } from './bigNumberUtils';
 
 export const getModifiedMPondToPondHistory = (
 	mpondToPondConversions: MPondToPondConversionModel[],

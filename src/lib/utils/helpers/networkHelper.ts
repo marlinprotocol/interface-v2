@@ -1,8 +1,8 @@
+import type { Environment } from '$lib/types/environmentTypes';
+import { addToast } from '$lib/data-stores/toastStore';
 import { connectWallet } from '$lib/controllers/walletController';
 import { environmentStore } from '$lib/data-stores/environment';
 import { networkInfo } from '../constants/network';
-import { addToast } from '$lib/data-stores/toastStore';
-import type { Environment } from '$lib/types/environmentTypes';
 
 let environment: Environment;
 environmentStore.subscribe((value) => {
@@ -19,35 +19,35 @@ export function isValidChain(chainId: number): boolean {
 }
 
 export async function switchChain(provider: any, chainId: string) {
-	await Promise.all([
-		provider.provider.request({
+	await provider
+		.request({
 			method: 'wallet_switchEthereumChain',
 			params: [{ chainId: chainId }]
-		}),
-		connectWallet(provider)
-	]).catch(async (err) => {
-		if (err.code === 4902) {
-			if (!networkInfo[chainId]) {
+		})
+		.catch(async (err) => {
+			if (err.code === 4902) {
+				if (!networkInfo[chainId]) {
+					addToast({
+						variant: 'error',
+						message: 'This chain is not supported by the app'
+					});
+					return;
+				}
+				await provider.request({
+					method: 'wallet_addEthereumChain',
+					params: [networkInfo[chainId]]
+				});
+			} else {
+				console.error(err);
 				addToast({
 					variant: 'error',
-					message: 'This chain is not supported by the app'
+					message: 'Unexpected error occurred'
 				});
 				return;
 			}
-			await provider.provider.request({
-				method: 'wallet_addEthereumChain',
-				params: [networkInfo[chainId]]
-			});
-		} else {
-			console.error(err);
-			addToast({
-				variant: 'error',
-				message: 'Unexpected error occurred'
-			});
-			return;
-		}
-		await switchChain(provider, chainId);
-	});
+			await switchChain(provider, chainId);
+		});
+	connectWallet(provider);
 }
 
 export const getChainDisplayName = (chainId: number): string | undefined => {

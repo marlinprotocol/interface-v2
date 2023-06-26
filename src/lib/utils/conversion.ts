@@ -1,7 +1,10 @@
 import { BigNumber, ethers } from 'ethers';
-import { BigNumberZero } from './constants/constants';
-
-export const hundredYears = 60 * 60 * 24 * 365 * 100; //not accounting for leap years
+import {
+	BigNumberZero,
+	DEFAULT_CURRENCY_DECIMALS,
+	DEFAULT_PRECISION,
+	hundredYears
+} from '$lib/utils/constants/constants';
 
 /**
  * Returns duration string for a epoch
@@ -50,7 +53,7 @@ export const epochToDurationString = (epoch: number, mini = false, uptoHoursOnly
 	return durationString;
 };
 
-function roundNumberString(numString: string, decimals = 2) {
+function roundNumberString(numString: string, decimals = DEFAULT_PRECISION) {
 	const num = Number(numString);
 	const roundedNum = num.toFixed(decimals);
 	return roundedNum;
@@ -62,7 +65,7 @@ function roundNumberString(numString: string, decimals = 2) {
  * @param decimals decimals of the fractional part
  * @returns string
  */
-export const bigNumberToCommaString = (value: BigNumber, decimals = 2) => {
+export const bigNumberToCommaString = (value: BigNumber, decimals = DEFAULT_PRECISION) => {
 	let result = ethers.utils.formatEther(value);
 
 	// Replace 0.0 by an empty value
@@ -71,7 +74,7 @@ export const bigNumberToCommaString = (value: BigNumber, decimals = 2) => {
 	let compareNum = BigNumberZero;
 
 	try {
-		compareNum = BigNumber.from(10).pow(18 - decimals);
+		compareNum = BigNumber.from(10).pow(DEFAULT_CURRENCY_DECIMALS - decimals);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}
@@ -92,20 +95,34 @@ export const bigNumberToCommaString = (value: BigNumber, decimals = 2) => {
  * Returns string for a big number
  * @param value: big number
  * @param bigNumberDecimal: decimal of the big number, default set to 18
+ * @param precision: number of digits after the decimal point, default set to 2
  * @returns string
  */
-export const bigNumberToString = (value: BigNumber, bigNumberDecimal = 18) => {
-	if (!value) return '0.00';
-	let ret = ethers.utils.formatUnits(value, bigNumberDecimal);
-	//if decimal count is less than 2, pad end it with 0
-	if (ret.split('.')[1].length < 2) {
-		ret = ret.split('.')[0] + '.' + ret.split('.')[1].padEnd(2, '0');
+export const bigNumberToString = (
+	value: BigNumber,
+	bigNumberDecimal = DEFAULT_CURRENCY_DECIMALS,
+	precision = DEFAULT_PRECISION
+) => {
+	if (value === undefined || value === null) {
+		throw new Error('Invalid value');
 	}
-	return ret;
+
+	const formattedValue = ethers.utils.formatUnits(value, bigNumberDecimal);
+
+	if (!formattedValue.includes('.')) {
+		// Integer value, no decimal part
+		return ethers.utils.commify(formattedValue) + '.' + '0'.repeat(precision);
+	}
+
+	const [integerPart, decimalPart] = formattedValue.split('.');
+	const commifiedIntegerPart = ethers.utils.commify(integerPart);
+	const truncatedDecimalPart = decimalPart.slice(0, precision).padEnd(precision, '0');
+
+	return `${commifiedIntegerPart}.${truncatedDecimalPart}`;
 };
 
 //return bignumber from string with decimal
-export const stringToBigNumber = (value: string, bigNumberDecimal = 18) => {
+export const stringToBigNumber = (value: string, bigNumberDecimal = DEFAULT_CURRENCY_DECIMALS) => {
 	if (!value) return BigNumberZero;
 	let newValue = value;
 	// eslint-disable-next-line prefer-const

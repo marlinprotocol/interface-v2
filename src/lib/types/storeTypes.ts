@@ -1,4 +1,4 @@
-import type { BigNumber, providers, Signer } from 'ethers';
+import type { BigNumber, Signer, providers } from 'ethers';
 import type { OysterInventoryDataModel, OysterMarketplaceDataModel } from './oysterComponentType';
 
 //common types

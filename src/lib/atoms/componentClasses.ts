@@ -36,7 +36,7 @@ export const tableCellClasses = {
 	rowNormal: 'font-normal text-sm py-3 whitespace-nowrap',
 	rowMini: 'font-normal text-xs py-1 whitespace-nowrap',
 	rowWithIcon: 'flex flex-col items-center justify-start',
-	empty: 'text-base text-center p-4 w-full'
+	empty: 'text-base text-center p-4 w-full font-normal'
 };
 
 export const inputClasses = {

@@ -2,15 +2,21 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
+	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
+	import { BigNumberZero, MEMORY_SUFFIX } from '$lib/utils/constants/constants';
+	import { RATE_SCALING_FACTOR, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import {
-		bigNumberToCommaString,
+		bigNumberToString,
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/conversion';
-	import { convertRateToPerHourString } from '$lib/utils/helpers/oysterHelpers';
-	import PaymentHistoryTable from '../../sub-components/PaymentHistoryTable.svelte';
+	import {
+		convertRateToPerHourString,
+		getBandwidthFromRateAndRegion,
+		getRateForProviderAndFilters
+	} from '$lib/utils/helpers/oysterHelpers';
+	import PaymentHistoryTable from '$lib/page-components/oyster/sub-components/PaymentHistoryTable.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -27,14 +33,26 @@
 		amountUsed,
 		createdAt,
 		endEpochTime,
-		depositHistory
+		depositHistory,
+		downScaledRate
 	} = jobData);
 
+	const { symbol, decimal } = kOysterRateMetaData;
 	const nowTime = new Date().getTime() / 1000;
 	const styles = {
 		modalWidth: 'w-11/12 sm:max-w-[700px]',
 		textPrimary: 'text-primary truncate'
 	};
+
+	$: instanceRate = getRateForProviderAndFilters(
+		address,
+		instance,
+		region,
+		$oysterStore.allMarketplaceData
+	);
+	$: bandwidthRate =
+		instanceRate !== undefined ? rate.sub(instanceRate.mul(RATE_SCALING_FACTOR)) : BigNumberZero;
+	$: bandwidth = getBandwidthFromRateAndRegion(bandwidthRate, region).toString() + 'KB/s';
 </script>
 
 <Modal {modalFor} modalWidth={styles.modalWidth} padding={false}>
@@ -70,13 +88,13 @@
 				/>
 				<TextInputCard
 					title={'Memory'}
-					value={(memory?.toString() ?? '') + (memory ? ' MiB' : '')}
+					value={(memory?.toString() ?? '') + (memory ? MEMORY_SUFFIX : '')}
 					centered
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
 					title={'Hourly Rate'}
-					value={`$${convertRateToPerHourString(rate)}`}
+					value={`${symbol}${convertRateToPerHourString(downScaledRate, decimal)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
@@ -90,13 +108,13 @@
 				/>
 				<TextInputCard
 					title={'Total Paid'}
-					value={bigNumberToCommaString(totalDeposit, oysterAmountPrecision)}
+					value={`${symbol}${bigNumberToString(totalDeposit, decimal)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
 					title={'Amount Used'}
-					value={bigNumberToCommaString(amountUsed, oysterAmountPrecision)}
+					value={`${symbol}${bigNumberToString(amountUsed, decimal)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
@@ -115,7 +133,18 @@
 					value={enclaveUrl}
 					textStyle={styles.textPrimary}
 				/>
-				<TextInputCard title={'Ip Address'} value={ip} textStyle={styles.textPrimary} />
+				<TextInputCard
+					title={'Ip Address'}
+					value={ip ?? 'N/A'}
+					centered
+					textStyle={styles.textPrimary}
+				/>
+				<TextInputCard
+					title={'Bandwidth'}
+					value={bandwidth}
+					centered
+					textStyle={styles.textPrimary}
+				/>
 			</div>
 			<PaymentHistoryTable tableData={depositHistory} />
 		</div>

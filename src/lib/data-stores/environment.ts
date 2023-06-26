@@ -22,6 +22,7 @@ export function loadEnvironment(chainId: number) {
 		environmentStore.set(ENVIRONMENT_ARB);
 		return;
 	}
-	environmentStore.set(environments[chainId]);
+
+	environmentStore.set(ENVIRONMENT_ARB);
 	console.log(environmentStore, get(environmentStore));
 }

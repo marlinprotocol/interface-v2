@@ -1,20 +1,34 @@
-import { addToast } from '$lib/data-stores/toastStore';
+import {
+	BigNumberZero,
+	DEFAULT_CURRENCY_DECIMALS,
+	DEFAULT_PRECISION,
+	secondsInHour
+} from '$lib/utils/constants/constants';
+import {
+	OYSTER_CAUTION_DURATION,
+	OYSTER_WARNING_DURATION,
+	RATE_SCALING_FACTOR
+} from '$lib/utils/constants/oysterConstants';
 import type {
 	OysterFiltersModel,
 	OysterInventoryDataModel,
 	OysterMarketplaceDataModel,
 	OysterMarketplaceFilterModel
 } from '$lib/types/oysterComponentType';
-import type { BigNumber } from 'ethers';
-import { BigNumberZero, oysterAmountPrecision } from '../constants/constants';
-import { bigNumberToString } from '../conversion';
-import { isInputAmountValid } from './commonHelper';
 
-const secondsInHour = 3600;
+import { BigNumber } from 'ethers';
+import { addToast } from '$lib/data-stores/toastStore';
+import { bigNumberToString } from '$lib/utils/conversion';
+import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
+import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 
-export const convertRateToPerHourString = (rate: BigNumber, decimal = oysterAmountPrecision) => {
+export const convertRateToPerHourString = (
+	rate: BigNumber,
+	decimal = DEFAULT_CURRENCY_DECIMALS,
+	precision = DEFAULT_PRECISION
+) => {
 	const rateInHour = rate.mul(secondsInHour);
-	return bigNumberToString(rateInHour, decimal);
+	return bigNumberToString(rateInHour, decimal, precision);
 };
 
 export const convertHourlyRateToSecondlyRate = (rate: BigNumber) => {
@@ -97,9 +111,9 @@ export const getInventoryStatusVariant = (status: string) => {
 };
 
 export const getInventoryDurationVariant = (duration: number) => {
-	if (duration < 86400) {
+	if (duration < OYSTER_CAUTION_DURATION) {
 		return 'error';
-	} else if (duration < 86400 * 3) {
+	} else if (duration < OYSTER_WARNING_DURATION) {
 		return 'warning';
 	} else {
 		return 'success';
@@ -383,7 +397,7 @@ export function getAllFiltersListforMarketplaceData(
 	addAllOption = true
 ) {
 	const providers = filteredData.map((item) =>
-		item.provider.name && item.provider.name != '' ? item.provider.name : item.provider.address
+		item.provider.name && item.provider.name !== '' ? item.provider.name : item.provider.address
 	);
 	// array of arrays where the first element is the region name and the second element is the region code
 	const regions = filteredData.map((item) => [item.regionName, item.region]);
@@ -501,3 +515,15 @@ export const addRegionNameToMarketplaceData = (
 	});
 	return newArray;
 };
+
+export function getBandwidthFromRateAndRegion(bandwidthRate: BigNumber, region: string) {
+	const rateForRegion = getBandwidthRateForRegion(region);
+	if (rateForRegion === undefined) return BigNumberZero;
+	const bandwidthWithAllPrecision = bandwidthRate
+		.mul(BigNumber.from(1024 * 1024))
+		.div(rateForRegion);
+
+	return bandwidthWithAllPrecision
+		.add(RATE_SCALING_FACTOR.sub(BigNumber.from(1)))
+		.div(RATE_SCALING_FACTOR);
+}

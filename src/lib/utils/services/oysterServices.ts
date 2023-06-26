@@ -1,3 +1,5 @@
+import type { BigNumber, Bytes } from 'ethers';
+import { RATE_SCALING_FACTOR, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 import {
 	addFundsToOysterJob,
 	approveFundsForOysterJobAdd,
@@ -9,12 +11,11 @@ import {
 	stopOysterJob,
 	withdrawFundsFromOysterJob
 } from '$lib/controllers/contractController';
-import { oysterStore } from '$lib/data-stores/oysterStore';
+
+import { BigNumberZero } from '$lib/utils/constants/constants';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 import type { OysterStore } from '$lib/types/storeTypes';
-import type { BigNumber, Bytes } from 'ethers';
-import { BigNumberZero } from '../constants/constants';
-import { kOysterRateMetaData } from '../constants/oysterConstants';
+import { oysterStore } from '$lib/data-stores/oysterStore';
 import { parseMetadata } from '../data-modifiers/oysterModifiers';
 
 export async function handleClaimAmountFromOysterJob(jobId: Bytes) {
@@ -297,6 +298,7 @@ export async function handleCreateJob(
 			amountUsed: BigNumberZero,
 			refund: BigNumberZero,
 			rate,
+			downScaledRate: rate.div(RATE_SCALING_FACTOR),
 			balance,
 			totalDeposit: balance,
 			live: true,

@@ -64,11 +64,14 @@
 		});
 	}
 
-	$: if ($connected && $chainStore.chainId) {
+	$: if ($connected && $chainStore.chainId && $chainStore.isValidChain) {
 		loadConnectedData();
 	}
 
-	$: if (prevChainId !== $chainStore.chainId || prevChainId === null) {
+	$: if (
+		prevChainId !== $chainStore.chainId ||
+		(prevChainId === null && $chainStore.isValidChain)
+	) {
 		prevChainId = $chainStore.chainId;
 		invalidateAll();
 		console.log('invalidate is called with config of:', $environmentStore.environment_name);

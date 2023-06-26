@@ -24,9 +24,13 @@
 			<LoadingAnimatedPing />
 		</div>
 	{:else if noDataFound}
-		<div class={tableCellClasses.empty + ' mb-8'}>
-			{emptyTableMessage}
-		</div>
+		<Table {tableHeading} {handleSortData} tablePadding={'py-6'} headingStyleClass={'h-[32px]'}>
+			<tbody slot="tableBody">
+				<th colspan={tableHeading.length} class={tableCellClasses.empty + ' mb-8'}>
+					{emptyTableMessage}
+				</th>
+			</tbody>
+		</Table>
 	{:else}
 		<Table {tableHeading} {handleSortData} tablePadding={'py-6'} headingStyleClass={'h-[32px]'}>
 			<tbody slot="tableBody">

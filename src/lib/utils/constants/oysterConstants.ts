@@ -1,3 +1,6 @@
+import { DEFAULT_CURRENCY_DECIMALS, SECONDS_IN_DAY } from '$lib/utils/constants/constants';
+
+import { BigNumber } from 'ethers';
 import type { TableModel } from '$lib/types/componentTypes';
 
 //
@@ -8,16 +11,25 @@ export const kOysterOwnerHistory = '/oyster/history';
 export const kOperatorJobs = '/oyster/operator/jobs';
 export const kOperatorHistory = '/oyster/operator/history';
 
+// while developing locally change currency to POND
 export const kOysterRateMetaData = {
 	currency: 'USDC',
 	symbol: '$',
 	decimal: 6,
+	precision: 6,
 	rateUnit: 'hour',
 	rateCPUrlUnitInSeconds: 1, // 1 hour
 	rateReviseWaitingTime: 5 * 60 // 5 minutes
 };
 
 export const oysterTableItemsPerPage = 10;
+
+export const RATE_SCALING_FACTOR = BigNumber.from(10).pow(
+	DEFAULT_CURRENCY_DECIMALS - kOysterRateMetaData.decimal
+);
+
+export const OYSTER_CAUTION_DURATION = SECONDS_IN_DAY;
+export const OYSTER_WARNING_DURATION = SECONDS_IN_DAY * 3; // 3 days
 
 // make sure the id matches the id in Data Model
 export const kInstancesTableHeader: TableModel['header'][] = [
@@ -404,6 +416,23 @@ export const kDurationUnitsList = [
 	// }
 ];
 
+export const kBandwidthUnitsList = [
+	{
+		label: 'KB/s',
+		id: 'kbps',
+		value: 1024 * 1024
+	},
+	{
+		label: 'MB/s',
+		id: 'mbps',
+		value: 1024
+	},
+	{
+		label: 'GB/s',
+		id: 'gbps',
+		value: 1
+	}
+];
 export const getDurationInSecondsForUnit = (durationUnit: string) => {
 	return kDurationUnitsList.find((unit) => unit.label === durationUnit)?.value ?? 1;
 };

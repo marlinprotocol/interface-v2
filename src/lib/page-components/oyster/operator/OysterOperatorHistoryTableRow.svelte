@@ -5,13 +5,12 @@
 	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { oysterAmountPrecision } from '$lib/utils/constants/constants';
 	import {
 		kOperatorHistoryTableColumnsWidth,
 		kOysterRateMetaData
 	} from '$lib/utils/constants/oysterConstants';
 	import {
-		bigNumberToCommaString,
+		bigNumberToString,
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/conversion';
@@ -19,7 +18,7 @@
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
 
-	const { symbol } = kOysterRateMetaData;
+	const { symbol, decimal } = kOysterRateMetaData;
 
 	$: ({
 		provider: { name, address },
@@ -64,7 +63,7 @@
 	</TableGridDataCell>
 	<!-- TODO: ask what this cell is supposed to show and the date thingy -->
 	<TableGridDataCell width={`${kOperatorHistoryTableColumnsWidth('amountToBeSettled')}`}>
-		{symbol}{bigNumberToCommaString(amountToBeSettled, oysterAmountPrecision)}
+		{symbol}{bigNumberToString(amountToBeSettled, decimal)}
 	</TableGridDataCell>
 	<TableGridDataCell width={`${kOperatorHistoryTableColumnsWidth('action')}`}>
 		<!-- <Button onclick={async () => await settleOysterJob(id)} size="tiny" styleClass="w-full"

@@ -1,5 +1,6 @@
+import { DEFAULT_CURRENCY_DECIMALS, SECONDS_IN_DAY } from '$lib/utils/constants/constants';
+
 import { BigNumber } from 'ethers';
-import { DEFAULT_CURRENCY_DECIMALS } from './constants';
 import type { TableModel } from '$lib/types/componentTypes';
 
 //
@@ -26,6 +27,9 @@ export const oysterTableItemsPerPage = 10;
 export const RATE_SCALING_FACTOR = BigNumber.from(10).pow(
 	DEFAULT_CURRENCY_DECIMALS - kOysterRateMetaData.decimal
 );
+
+export const OYSTER_CAUTION_DURATION = SECONDS_IN_DAY;
+export const OYSTER_WARNING_DURATION = SECONDS_IN_DAY * 3; // 3 days
 
 // make sure the id matches the id in Data Model
 export const kInstancesTableHeader: TableModel['header'][] = [

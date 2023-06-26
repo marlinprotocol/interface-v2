@@ -2,9 +2,13 @@ import {
 	BigNumberZero,
 	DEFAULT_CURRENCY_DECIMALS,
 	DEFAULT_PRECISION,
-	SECONDS_IN_DAY,
 	secondsInHour
 } from '$lib/utils/constants/constants';
+import {
+	OYSTER_CAUTION_DURATION,
+	OYSTER_WARNING_DURATION,
+	RATE_SCALING_FACTOR
+} from '$lib/utils/constants/oysterConstants';
 import type {
 	OysterFiltersModel,
 	OysterInventoryDataModel,
@@ -13,7 +17,6 @@ import type {
 } from '$lib/types/oysterComponentType';
 
 import { BigNumber } from 'ethers';
-import { RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 import { addToast } from '$lib/data-stores/toastStore';
 import { bigNumberToString } from '$lib/utils/conversion';
 import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
@@ -108,9 +111,9 @@ export const getInventoryStatusVariant = (status: string) => {
 };
 
 export const getInventoryDurationVariant = (duration: number) => {
-	if (duration < SECONDS_IN_DAY) {
+	if (duration < OYSTER_CAUTION_DURATION) {
 		return 'error';
-	} else if (duration < SECONDS_IN_DAY * 3) {
+	} else if (duration < OYSTER_WARNING_DURATION) {
 		return 'warning';
 	} else {
 		return 'success';

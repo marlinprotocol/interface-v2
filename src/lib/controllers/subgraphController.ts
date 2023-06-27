@@ -47,7 +47,7 @@ environmentStore.subscribe((value) => {
 
 /**
  * Generate HTTP request headers for querying subgraph
- * @param query graphQL query in stringified format
+ * @param query graphQL query in stringified format (shouuld be defined in constants/subgraphQueries.ts)
  * @param variable Object containing variables used in query
  * @returns HTTP request headers for subgraph
  */
@@ -72,7 +72,7 @@ export function subgraphQueryWrapper(query: string, variables: Record<string, an
 /**
  * Get POND balance from subgraph API.
  */
-export async function getPondBalance(address: Address): Promise<BigNumber> {
+export async function getPondBalanceFromSubgraph(address: Address): Promise<BigNumber> {
 	const url = environment.public_pond_subgraph_url;
 	const query = QUERY_TO_GET_POND_BALANCE_QUERY;
 	const queryVariables = { address: address.toLowerCase() };
@@ -93,7 +93,7 @@ export async function getPondBalance(address: Address): Promise<BigNumber> {
 /**
  * Get MPOND balance from subgraph API.
  */
-export async function getMPondBalance(address: Address): Promise<BigNumber> {
+export async function getMPondBalanceFromSubgraph(address: Address): Promise<BigNumber> {
 	const url = environment.public_mPond_subgraph_url;
 	const query = QUERY_TO_GET_MPOND_BALANCE;
 	const queryVariables = { id: address.toLowerCase() };
@@ -231,7 +231,7 @@ export async function checkIfSignerExistsInSubgraph(address: Address): Promise<b
 	}
 }
 
-export async function getPondAndMPondBridgeAllowances(address: Address, contractAddress: Address) {
+export async function getPondAndMPondBridgeAllowancesFromSubgraph(address: Address, contractAddress: Address) {
 	const url = environment.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
 
@@ -268,7 +268,7 @@ export async function getPondAndMPondBridgeAllowances(address: Address, contract
 	}
 }
 
-export async function getRequestedMPondForConversion(address: Address) {
+export async function getRequestedMPondForConversionFromSubgraph(address: Address) {
 	const url = environment.public_bridge_contract_subgraph_url;
 	const query = QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION;
 
@@ -300,7 +300,7 @@ export async function getRequestedMPondForConversion(address: Address) {
 
 // ----------------------------- bridge smart contract subgraph methods -----------------------------
 
-export async function getPondToMPondConversionHistory(address: Address) {
+export async function getPondToMPondConversionHistoryFromSubgraph(address: Address) {
 	const url = environment.public_bridge_contract_subgraph_url;
 	const query = QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY;
 
@@ -331,7 +331,7 @@ export async function getPondToMPondConversionHistory(address: Address) {
 	}
 }
 
-export async function getMPondToPondConversionHistory(address: Address) {
+export async function getMPondToPondConversionHistoryFromSubgraph(address: Address) {
 	const url = environment.public_bridge_contract_subgraph_url;
 	const query = QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY;
 
@@ -360,7 +360,7 @@ export async function getMPondToPondConversionHistory(address: Address) {
 
 // ----------------------------- enclaves smart contract subgraph methods -----------------------------
 
-export async function getOysterJobs(address: Address) {
+export async function getOysterJobsFromSubgraph(address: Address) {
 	const url = environment.public_enclaves_contract_subgraph_url;
 	const query = QUERY_TO_GET_JOBS_DATA;
 
@@ -442,7 +442,7 @@ export async function getAllProvidersDetailsFromSubgraph() {
 	}
 }
 
-export async function getApprovedOysterAllowances(address: Address) {
+export async function getApprovedOysterAllowancesFromSubgraph(address: Address) {
 	const oysterContractAddress = environment.public_oyster_contract_address;
 	const url = environment.public_contract_subgraph_url;
 	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
@@ -472,7 +472,7 @@ export async function getApprovedOysterAllowances(address: Address) {
 	}
 }
 
-export async function getOysterMerchantJobs(address: Address) {
+export async function getOysterMerchantJobsFromSubgraph(address: Address) {
 	const url = environment.public_enclaves_contract_subgraph_url;
 	const query = QUERY_TO_GET_MERCHANT_JOBS_DATA;
 

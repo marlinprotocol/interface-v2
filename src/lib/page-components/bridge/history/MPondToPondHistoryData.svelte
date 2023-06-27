@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getMPondToPondConversionHistory } from '$lib/controllers/subgraphController';
+	import { getMPondToPondConversionHistoryFromSubgraph } from '$lib/controllers/subgraphController';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import type { Address, WalletStore } from '$lib/types/storeTypes';
@@ -17,7 +17,7 @@
 		address = value.address;
 		if (address) {
 			loading = true;
-			historyData = await getMPondToPondConversionHistory(address);
+			historyData = await getMPondToPondConversionHistoryFromSubgraph(address);
 			loading = false;
 		}
 	});

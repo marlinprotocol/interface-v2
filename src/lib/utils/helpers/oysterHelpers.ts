@@ -498,6 +498,7 @@ export const addRegionNameToMarketplaceData = (
 	return newArray;
 };
 
+// returns bandwidth rate in Kb/s
 export function getBandwidthFromRateAndRegion(bandwidthRate: BigNumber, region: string) {
 	const rateForRegion = getBandwidthRateForRegion(region);
 	if (rateForRegion === undefined) return BIG_NUMBER_ZERO;

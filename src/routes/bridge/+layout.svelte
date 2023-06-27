@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {
-		getPondAndMPondBridgeAllowances,
-		getRequestedMPondForConversion
+		getPondAndMPondBridgeAllowancesFromSubgraph,
+		getRequestedMPondForConversionFromSubgraph
 	} from '$lib/controllers/subgraphController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
@@ -10,8 +10,11 @@
 
 	async function init() {
 		const [allowances, requestedMPond] = await Promise.all([
-			getPondAndMPondBridgeAllowances($walletStore.address, $contractAddressStore.Bridge),
-			getRequestedMPondForConversion($walletStore.address)
+			getPondAndMPondBridgeAllowancesFromSubgraph(
+				$walletStore.address,
+				$contractAddressStore.Bridge
+			),
+			getRequestedMPondForConversionFromSubgraph($walletStore.address)
 		]);
 		bridgeStore.set({
 			allowances: {

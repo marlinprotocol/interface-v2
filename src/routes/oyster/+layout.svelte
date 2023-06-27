@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { getJobStatuses } from '$lib/controllers/httpController';
 	import {
-		getApprovedOysterAllowances,
-		getOysterJobs,
+		getApprovedOysterAllowancesFromSubgraph,
+		getOysterJobsFromSubgraph,
 		getProviderDetailsFromSubgraph
 	} from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
@@ -11,8 +11,8 @@
 
 	async function loadConnectedData() {
 		const [allowance, oysterJobs, providerDetail, jobStatuses] = await Promise.all([
-			getApprovedOysterAllowances($walletStore.address),
-			getOysterJobs($walletStore.address),
+			getApprovedOysterAllowancesFromSubgraph($walletStore.address),
+			getOysterJobsFromSubgraph($walletStore.address),
 			getProviderDetailsFromSubgraph($walletStore.address),
 			getJobStatuses($walletStore.address)
 		]);

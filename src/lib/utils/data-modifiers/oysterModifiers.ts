@@ -6,8 +6,8 @@ import type {
 	OysterMarketplaceDataModel
 } from '$lib/types/oysterComponentType';
 import {
-	OYSTER_RATE_SCALING_FACTOR,
-	OYSTER_RATE_METADATA
+	OYSTER_RATE_METADATA,
+	OYSTER_RATE_SCALING_FACTOR
 } from '$lib/utils/constants/oysterConstants';
 import { getProvidersInstancesJSON, getProvidersNameJSON } from '$lib/controllers/httpController';
 

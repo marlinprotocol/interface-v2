@@ -1,3 +1,9 @@
+import {
+	BIG_NUMBER_ZERO,
+	DEFAULT_PRECISION,
+	MPOND_PRECISIONS,
+	POND_PRECISIONS
+} from '$lib/utils/constants/constants';
 import type {
 	MPondCoversionStateModel,
 	MPondEligibleCyclesModel,
@@ -6,12 +12,6 @@ import type {
 	MPondToPondRequestModel
 } from '$lib/types/bridgeComponentType';
 
-import {
-	BIG_NUMBER_ZERO,
-	DEFAULT_PRECISION,
-	MPOND_PRECISIONS,
-	POND_PRECISIONS
-} from '$lib/utils/constants/constants';
 import { BigNumber } from 'ethers';
 import { BigNumberUtils } from '$lib/utils/helpers/bigNumberUtils';
 import { mPondToPond } from '$lib/utils/conversion';

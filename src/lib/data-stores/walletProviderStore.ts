@@ -1,7 +1,10 @@
 import { derived, writable, type Readable, type Writable } from 'svelte/store';
 import type { Address, WalletBalance, WalletStore } from '$lib/types/storeTypes';
 import { DEFAULT_WALLET_BALANCE, DEFAULT_WALLET_STORE } from '$lib/utils/constants/storeDefaults';
-import { getMPondBalance, getPondBalance } from '$lib/controllers/subgraphController';
+import {
+	getMPondBalanceFromSubgraph,
+	getPondBalanceFromSubgraph
+} from '$lib/controllers/subgraphController';
 
 let walletAddress: Address = DEFAULT_WALLET_STORE.address;
 
@@ -29,8 +32,8 @@ export const connected: Readable<boolean> = derived(walletStore, ($walletStore) 
 async function setWalletBalance(walletAddress: Address): Promise<void> {
 	try {
 		const balances = await Promise.all([
-			getPondBalance(walletAddress),
-			getMPondBalance(walletAddress)
+			getPondBalanceFromSubgraph(walletAddress),
+			getMPondBalanceFromSubgraph(walletAddress)
 		]);
 		walletBalance.set({
 			pond: balances[0],

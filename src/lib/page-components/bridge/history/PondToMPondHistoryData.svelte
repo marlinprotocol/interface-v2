@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
-	import { getPondToMPondConversionHistory } from '$lib/controllers/subgraphController';
+	import { getPondToMPondConversionHistoryFromSubgraph } from '$lib/controllers/subgraphController';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import type { Address, WalletStore } from '$lib/types/storeTypes';
@@ -21,7 +21,7 @@
 		address = value.address;
 		if (address) {
 			loading = true;
-			historyData = await getPondToMPondConversionHistory(address);
+			historyData = await getPondToMPondConversionHistoryFromSubgraph(address);
 			loading = false;
 		}
 	});

@@ -3,7 +3,7 @@ import { addToast } from '$lib/data-stores/toastStore';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
 import { environmentStore } from '$lib/data-stores/environment';
 import type { Environment } from '$lib/types/environmentTypes';
-import type { ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
+import type { Address, ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
 import { MPOND_PRECISIONS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToCommaString } from '$lib/utils/conversion';
@@ -13,15 +13,11 @@ import { OYSTER_MARKET_ABI, OYSTER_RATE_METADATA } from '$lib/utils/constants/oy
 
 let contractAbi: ContractAbi;
 let contractAddresses: ContractAddress;
-let provider: WalletStore['provider'];
 let signer: WalletStore['signer'];
-let walletAddress: WalletStore['address'];
 let environment: Environment;
 
 walletStore.subscribe((value) => {
-	provider = value.provider;
 	signer = value.signer;
-	walletAddress = value.address;
 });
 contractAbiStore.subscribe((value) => {
 	contractAbi = value;
@@ -32,629 +28,428 @@ contractAddressStore.subscribe((value) => {
 environmentStore.subscribe((value) => {
 	environment = value;
 });
+
+function createSignerContract(contractAddress: Address, contractAbi: any) {
+	return new ethers.Contract(contractAddress, contractAbi, signer);
+}
+
+async function createTransaction(
+	contractFunctionCall: () => any,
+	initiateTxnMessage: string,
+	successTxnMessage: string,
+	errorTxnMessage: string,
+	parentFunctionName: string
+) {
+	try {
+		addToast({
+			message: initiateTxnMessage,
+			variant: 'info'
+		});
+
+		// invoking the contract function call
+		const txn = await contractFunctionCall();
+
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.CREATED,
+			variant: 'info'
+		});
+
+		// waiting for the transaction to be mined
+		const approveReciept = await txn.wait();
+
+		// if the transaction is not mined, throw an error and show a toast
+		if (!approveReciept) {
+			addToast({
+				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				variant: 'error'
+			});
+			throw new Error(errorTxnMessage);
+		}
+
+		// if the transaction is mined, show a toast with success message and return the txn
+		addToast({
+			message: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + successTxnMessage,
+			variant: 'success'
+		});
+		return { txn: txn, approveReciept: approveReciept };
+	} catch (error: any) {
+		addToast({
+			message: error.reason
+				? capitalizeFirstLetter(error.reason)
+				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			variant: 'error'
+		});
+		console.log('error :>> ', error);
+		throw new Error(`Transaction Error while creating transaction for ${parentFunctionName}`);
+	}
+}
 // ----------------------------- receiver staking contract methods -----------------------------
 
 export async function setSignerAddress(address: string) {
-	const receiverStakingContractAddress = contractAddresses.ReceiverStaking;
-	const receiverStakingContractAbi = contractAbi.ReceiverStaking;
-	const receiverStakingContract = new ethers.Contract(
-		receiverStakingContractAddress,
-		receiverStakingContractAbi,
-		signer
+	const receiverStakingContract = createSignerContract(
+		contractAddresses.ReceiverStaking,
+		contractAbi.ReceiverStaking
 	);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.UPDATE_SIGNER.UPDATING(minifyAddress(address)),
-			variant: 'info'
-		});
-		const tx = await receiverStakingContract.setSigner(address);
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.UPDATE_SIGNER.UPDATING(
+			minifyAddress(address)
+		);
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.UPDATE_SIGNER.SUCCESS(minifyAddress(address));
+		const errorTxnMessage = 'Unable to update signer address';
+		const parentFunctionName = 'setSignerAddress';
 
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to update signer address');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS +
-				' ' +
-				MESSAGES.TOAST.ACTIONS.UPDATE_SIGNER.SUCCESS(minifyAddress(address)),
-			variant: 'success'
-		});
-		return tx;
-	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while updating signer address');
+		const { txn } = await createTransaction(
+			() => receiverStakingContract.setSigner(address),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+		return txn;
+	} catch (error) {
+		throw new Error('Transaction Error');
 	}
 }
 
-export async function depositStakingToken(amount: BigNumber, signerAddress = '') {
-	const receiverStakingContractAddress = contractAddresses.ReceiverStaking;
-	const receiverStakingContractAbi = contractAbi.ReceiverStaking;
-	const receiverStakingContract = new ethers.Contract(
-		receiverStakingContractAddress,
-		receiverStakingContractAbi,
-		signer
+export async function depositStakingToken(amount: BigNumber) {
+	const receiverStakingContract = createSignerContract(
+		contractAddresses.ReceiverStaking,
+		contractAbi.ReceiverStaking
 	);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.DEPOSIT.POND(bigNumberToCommaString(amount, POND_PRECISIONS)),
-			variant: 'info'
-		});
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.DEPOSIT.POND(
+			bigNumberToCommaString(amount, POND_PRECISIONS)
+		);
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.DEPOSIT.POND_DEPOSITED(
+			bigNumberToCommaString(amount, POND_PRECISIONS)
+		);
+		const errorTxnMessage = 'Unable to deposit staking token';
+		const parentFunctionName = 'depositStakingToken';
 
-		const tx =
-			signerAddress === ''
-				? await receiverStakingContract.deposit(amount)
-				: await receiverStakingContract.depositAndSetSigner(amount, signerAddress);
+		const { txn } = await createTransaction(
+			() => receiverStakingContract.deposit(amount),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+		return txn;
+	} catch (error) {
+		throw new Error('Transaction Error');
+	}
+}
+export async function depositStakingTokenAndSetSigner(amount: BigNumber, signerAddress = '') {
+	const receiverStakingContract = createSignerContract(
+		contractAddresses.ReceiverStaking,
+		contractAbi.ReceiverStaking
+	);
+	try {
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.DEPOSIT.POND(
+			bigNumberToCommaString(amount, POND_PRECISIONS)
+		);
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.DEPOSIT.POND_DEPOSITED(
+			bigNumberToCommaString(amount, POND_PRECISIONS)
+		);
+		const errorTxnMessage = 'Unable to deposit staking token and set signer';
+		const parentFunctionName = 'depositStakingTokenAndSetSigner';
 
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to deposit staking token');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS +
-				' ' +
-				MESSAGES.TOAST.ACTIONS.DEPOSIT.POND_DEPOSITED(
-					bigNumberToCommaString(amount, POND_PRECISIONS)
-				),
-			variant: 'success'
-		});
-	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while depositing staking token');
+		const { txn } = await createTransaction(
+			() => receiverStakingContract.depositAndSetSigner(amount, signerAddress),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+		return txn;
+	} catch (error) {
+		throw new Error('Transaction Error');
 	}
 }
 
 export async function withdrawStakingToken(amount: BigNumber) {
-	const receiverStakingContractAddress = contractAddresses.ReceiverStaking;
-	const receiverStakingContractAbi = contractAbi.ReceiverStaking;
-	const receiverStakingContract = new ethers.Contract(
-		receiverStakingContractAddress,
-		receiverStakingContractAbi,
-		signer
+	const receiverStakingContract = createSignerContract(
+		contractAddresses.ReceiverStaking,
+		contractAbi.ReceiverStaking
 	);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.WITHDRAW.POND(
-				bigNumberToCommaString(amount, POND_PRECISIONS)
-			),
-			variant: 'info'
-		});
-		const tx = await receiverStakingContract.withdraw(amount);
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.WITHDRAW.POND(
+			bigNumberToCommaString(amount, POND_PRECISIONS)
+		);
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.WITHDRAW.POND_WITHDREW(
+			bigNumberToCommaString(amount, POND_PRECISIONS)
+		);
+		const errorTxnMessage = 'Unable to withdraw staking token';
+		const parentFunctionName = 'withdrawStakingToken';
 
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to withdraw staking token');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS +
-				' ' +
-				MESSAGES.TOAST.ACTIONS.WITHDRAW.POND_WITHDREW(
-					bigNumberToCommaString(amount, POND_PRECISIONS)
-				),
-			variant: 'success'
-		});
-		return tx;
+		const { txn } = await createTransaction(
+			() => receiverStakingContract.withdraw(amount),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while withdrawing staking token');
+		throw new Error('Transaction Error');
 	}
 }
 
 // ----------------------------- POND contract methods -----------------------------
 
+// approval in pond contract so that the receiver staking contract can spend our pond
 export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
-	const receiverStakingContractAddress = contractAddresses.ReceiverStaking;
-	const pondTokenContractAddress = contractAddresses.tokens['POND'].address;
-	const ERC20ContractAbi = contractAbi.ERC20;
-	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);
-	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.APPROVE.POND(bigNumberToCommaString(amount, POND_PRECISIONS)),
-			variant: 'info'
-		});
-		const tx = await pondTokenContract.approve(receiverStakingContractAddress, amount);
-
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to approve staking token');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS +
-				' ' +
-				MESSAGES.TOAST.ACTIONS.APPROVE.POND_APPROVED(
-					bigNumberToCommaString(amount, POND_PRECISIONS)
-				),
-			variant: 'success'
-		});
-		return tx;
-	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while approving staking token');
-	}
-}
-
-export async function approvePondTokenForConversion(amount: BigNumber) {
-	const bridgeContractAddress = contractAddresses.Bridge;
-	const pondTokenContractAddress = contractAddresses.tokens['POND'].address;
-	const ERC20ContractAbi = contractAbi.ERC20;
-	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);
-	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.APPROVE.POND(bigNumberToCommaString(amount, POND_PRECISIONS)),
-			variant: 'info'
-		});
-		const tx = await pondTokenContract.approve(bridgeContractAddress, amount);
-
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to approve staking token');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS +
-				' ' +
-				MESSAGES.TOAST.ACTIONS.APPROVE.POND_APPROVED(
-					bigNumberToCommaString(amount, POND_PRECISIONS)
-				),
-			variant: 'success'
-		});
-		return tx;
-	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while approving staking token');
-	}
-}
-
-export async function approveMPondTokenForConversion(amount: BigNumber) {
-	const bridgeContractAddress = contractAddresses.Bridge;
-	const mPondTokenContractAddress = contractAddresses.tokens['MPOND'].address;
-	const ERC20ContractAbi = contractAbi.ERC20;
-	const mPondTokenContract = new ethers.Contract(
-		mPondTokenContractAddress,
-		ERC20ContractAbi,
-		signer
+	const pondTokenContract = createSignerContract(
+		contractAddresses.tokens['POND'].address,
+		contractAbi.ERC20
 	);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.APPROVE.MPOND(
-				bigNumberToCommaString(amount, MPOND_PRECISIONS)
-			),
-			variant: 'info'
-		});
-		const tx = await mPondTokenContract.approve(bridgeContractAddress, amount);
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND(
+			bigNumberToCommaString(amount, POND_PRECISIONS)
+		);
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND_APPROVED(
+			bigNumberToCommaString(amount, POND_PRECISIONS)
+		);
+		const errorTxnMessage = 'Unable to approve staking token';
+		const parentFunctionName = 'approvePondTokenForReceiverStaking';
 
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to approve staking token');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS +
-				' ' +
-				MESSAGES.TOAST.ACTIONS.APPROVE.MPOND_APPROVED(
-					bigNumberToCommaString(amount, MPOND_PRECISIONS)
-				),
-			variant: 'success'
-		});
-		return tx;
+		const { txn } = await createTransaction(
+			() => pondTokenContract.approve(contractAddresses.ReceiverStaking, amount),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while approving staking token');
+		throw new Error('Transaction Error');
+	}
+}
+
+// approval in pond contract so that the bridge contract can spend our pond
+export async function approvePondTokenForConversion(amount: BigNumber) {
+	const pondTokenContract = createSignerContract(
+		contractAddresses.tokens['POND'].address,
+		contractAbi.ERC20
+	);
+	try {
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND(
+			bigNumberToCommaString(amount, POND_PRECISIONS)
+		);
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND_APPROVED(
+			bigNumberToCommaString(amount, POND_PRECISIONS)
+		);
+		const errorTxnMessage = 'Unable to approve staking token';
+		const parentFunctionName = 'approvePondTokenForConversion';
+
+		const { txn } = await createTransaction(
+			() => pondTokenContract.approve(contractAddresses.Bridge, amount),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+		return txn;
+	} catch (error: any) {
+		throw new Error('Transaction Error');
+	}
+}
+
+// approval in mpond contract so that the bridge contract can spend our mpond
+export async function approveMPondTokenForConversion(amount: BigNumber) {
+	const mPondTokenContract = createSignerContract(
+		contractAddresses.tokens['MPOND'].address,
+		contractAbi.ERC20
+	);
+	try {
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.MPOND(
+			bigNumberToCommaString(amount, MPOND_PRECISIONS)
+		);
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.MPOND_APPROVED(
+			bigNumberToCommaString(amount, MPOND_PRECISIONS)
+		);
+		const errorTxnMessage = 'Unable to approve staking token';
+		const parentFunctionName = 'approveMPondTokenForConversion';
+
+		const { txn } = await createTransaction(
+			() => mPondTokenContract.approve(contractAddresses.Bridge, amount),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+		return txn;
+	} catch (error: any) {
+		throw new Error('Transaction Error');
 	}
 }
 
 export async function convertPondToMPond(expectedMPond: BigNumber) {
-	const bridgeContractAddress = contractAddresses.Bridge;
-	const bridgeContractAbi = contractAbi.Bridge;
-	const bridgeContract = new ethers.Contract(bridgeContractAddress, bridgeContractAbi, signer);
+	const bridgeContract = createSignerContract(contractAddresses.Bridge, contractAbi.Bridge);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.CONVERT.POND_TO_MPOND_CONVERTING(
-				bigNumberToCommaString(expectedMPond, MPOND_PRECISIONS)
-			),
-			variant: 'info'
-		});
-		const tx = await bridgeContract.getMpond(expectedMPond);
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.CONVERT.POND_TO_MPOND_CONVERTING(
+			bigNumberToCommaString(expectedMPond, MPOND_PRECISIONS)
+		);
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.CONVERT.POND_TO_MPOND_CONVERTED(
+			bigNumberToCommaString(expectedMPond, MPOND_PRECISIONS)
+		);
+		const errorTxnMessage = 'Unable to convert POND to MPond';
+		const parentFunctionName = 'convertPondToMPond';
 
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to convert POND to MPond.');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS +
-				' ' +
-				MESSAGES.TOAST.ACTIONS.CONVERT.POND_TO_MPOND_CONVERTED(
-					bigNumberToCommaString(expectedMPond, MPOND_PRECISIONS)
-				),
-			variant: 'success'
-		});
-		return tx;
+		const { txn } = await createTransaction(
+			() => bridgeContract.getMpond(expectedMPond),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while converting pond to mPond');
+		throw new Error('Transaction Error');
 	}
 }
 
 export async function requestMPondConversion(amount: BigNumber) {
-	const bridgeContractAddress = contractAddresses.Bridge;
-	const bridgeContractAbi = contractAbi.Bridge;
-	const bridgeContract = new ethers.Contract(bridgeContractAddress, bridgeContractAbi, signer);
+	const bridgeContract = createSignerContract(contractAddresses.Bridge, contractAbi.Bridge);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_REQUESTING(
-				bigNumberToCommaString(amount, MPOND_PRECISIONS)
-			),
-			variant: 'info'
-		});
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_REQUESTING(
+			bigNumberToCommaString(amount, MPOND_PRECISIONS)
+		);
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_REQUESTED(
+			bigNumberToCommaString(amount, MPOND_PRECISIONS)
+		);
+		const errorTxnMessage = 'Unable to place request for converting MPond to POND.';
+		const parentFunctionName = 'requestMPondConversion';
 
-		const tx = await bridgeContract.placeRequest(amount);
-
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error',
-				timeout: 5000
-			});
-			throw new Error('Unable to place request for converting MPond to POND.');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS +
-				' ' +
-				MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_REQUESTED(
-					bigNumberToCommaString(amount, MPOND_PRECISIONS)
-				),
-			variant: 'success'
-		});
-		return tx;
+		const { txn } = await createTransaction(
+			() => bridgeContract.placeRequest(amount),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error',
-			timeout: 5000
-		});
-
-		throw new Error('Transaction Error while placing request for converting MPond to POND');
+		throw new Error('Transaction Error');
 	}
 }
 
 export async function cancelMPondConversionRequest(epoch: BigNumber) {
-	const bridgeContractAddress = contractAddresses.Bridge;
-	const bridgeContractAbi = contractAbi.Bridge;
-	const bridgeContract = new ethers.Contract(bridgeContractAddress, bridgeContractAbi, signer);
+	const bridgeContract = createSignerContract(contractAddresses.Bridge, contractAbi.Bridge);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_CANCELLING,
-			variant: 'info'
-		});
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_CANCELLING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_CANCELLED;
+		const errorTxnMessage = 'Unable to cancel request for converting MPond to POND.';
+		const parentFunctionName = 'cancelMPondConversionRequest';
 
-		const tx = await bridgeContract.cancelRequest(epoch);
-
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to convert POND to MPond.');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS +
-				' ' +
-				MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_CANCELLED,
-			variant: 'success'
-		});
-		return tx;
+		const { txn } = await createTransaction(
+			() => bridgeContract.cancelRequest(epoch),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while placing request for converting MPOND to POND');
+		throw new Error('Transaction Error');
 	}
 }
 
 export async function confirmMPondConversion(epoch: BigNumber, amount: BigNumber) {
-	const bridgeContractAddress = contractAddresses.Bridge;
-	const bridgeContractAbi = contractAbi.Bridge;
-	const bridgeContract = new ethers.Contract(bridgeContractAddress, bridgeContractAbi, signer);
+	const bridgeContract = createSignerContract(contractAddresses.Bridge, contractAbi.Bridge);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.CONVERT.MPOND_TO_POND_CONVERTING(
-				bigNumberToCommaString(amount, MPOND_PRECISIONS)
-			),
-			variant: 'info'
-		});
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.CONVERT.MPOND_TO_POND_CONVERTING(
+			bigNumberToCommaString(amount, MPOND_PRECISIONS)
+		);
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.CONVERT.MPOND_TO_POND_CONVERTED(
+			bigNumberToCommaString(amount, MPOND_PRECISIONS)
+		);
+		const errorTxnMessage = 'Unable to convert MPond to POND.';
+		const parentFunctionName = 'confirmMPondConversion';
 
-		const tx = await bridgeContract.convert(epoch, amount);
-
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to convert MPond to POND.');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS +
-				' ' +
-				MESSAGES.TOAST.ACTIONS.CONVERT.MPOND_TO_POND_CONVERTED(
-					bigNumberToCommaString(amount, MPOND_PRECISIONS)
-				),
-			variant: 'success'
-		});
-		return tx;
+		const { txn } = await createTransaction(
+			() => bridgeContract.convert(epoch, amount),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while confirming conversion of MPOND to POND');
+		throw new Error('Transaction Error');
 	}
 }
 
 // ----------------------------- Oyster contract methods -----------------------------
 
 export async function registerOysterInfrastructureProvider(controlPlaneUrl: string) {
-	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = OYSTER_MARKET_ABI;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = createSignerContract(
+		environment.public_oyster_contract_address,
+		OYSTER_MARKET_ABI
+	);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.REGISTER.REGISTERING,
-			variant: 'info'
-		});
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.REGISTER.REGISTERING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.REGISTER.REGISTERED;
+		const errorTxnMessage = 'Unable to register as Oyster Infrastructure Provider.';
+		const parentFunctionName = 'registerOysterInfrastructureProvider';
 
-		const tx = await oysterContract.providerAdd(controlPlaneUrl);
-
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to register as Oyster Infrastructure Provider.');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.REGISTER.REGISTERED,
-			variant: 'success'
-		});
-		return tx;
+		const { txn } = await createTransaction(
+			() => oysterContract.providerAdd(controlPlaneUrl),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while registering as Oyster Infrastructure Provider');
+		throw new Error('Transaction Error');
 	}
 }
 
 export async function updateOysterInfrastructureProvider(controlPlaneUrl: string) {
-	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = OYSTER_MARKET_ABI;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = createSignerContract(
+		environment.public_oyster_contract_address,
+		OYSTER_MARKET_ABI
+	);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.UPDATE.UPDATING,
-			variant: 'info'
-		});
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.UPDATE.UPDATING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.UPDATE.UPDATED;
+		const errorTxnMessage = 'Unable to update Oyster Infrastructure Provider.';
+		const parentFunctionName = 'updateOysterInfrastructureProvider';
 
-		const tx = await oysterContract.providerUpdateWithCp(controlPlaneUrl);
-
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to update Oyster Infrastructure Provider.');
-		}
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.UPDATE.UPDATED,
-			variant: 'success'
-		});
-		return tx;
+		const { txn } = await createTransaction(
+			() => oysterContract.providerUpdateWithCp(controlPlaneUrl),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while updating Oyster Infrastructure Provider');
+		throw new Error('Transaction Error');
 	}
 }
 
 export async function removeOysterInfrastructureProvider() {
-	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = OYSTER_MARKET_ABI;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = createSignerContract(
+		environment.public_oyster_contract_address,
+		OYSTER_MARKET_ABI
+	);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.REMOVE.REMOVING,
-			variant: 'info'
-		});
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.REMOVE.REMOVING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.REMOVE.REMOVED;
+		const errorTxnMessage = 'Unable to remove Oyster Infrastructure Provider.';
+		const parentFunctionName = 'removeOysterInfrastructureProvider';
 
-		const tx = await oysterContract.providerRemove();
-
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to remove Oyster Infrastructure Provider.');
-		}
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.REMOVE.REMOVED,
-			variant: 'success'
-		});
-		return tx;
+		const { txn } = await createTransaction(
+			() => oysterContract.providerRemove(),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while removing Oyster Infrastructure Provider');
+		throw new Error('Transaction Error');
 	}
 }
 
@@ -664,396 +459,238 @@ export async function createNewOysterJob(
 	rate: BigNumber,
 	balance: BigNumber
 ) {
-	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = OYSTER_MARKET_ABI;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = createSignerContract(
+		environment.public_oyster_contract_address,
+		OYSTER_MARKET_ABI
+	);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.CREATE_JOB.CREATING,
-			variant: 'info'
-		});
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.CREATE_JOB.CREATING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.CREATE_JOB.CREATED;
+		const errorTxnMessage = 'Unable to create new Oyster Job.';
+		const parentFunctionName = 'createNewOysterJob';
 
-		const tx = await oysterContract.jobOpen(metadata, provider, rate, balance);
+		const { txn, approveReciept } = await createTransaction(
+			() => oysterContract.jobOpen(metadata, provider, rate, balance),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
 
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to create new Oyster Job.');
-		}
-		const jobOpenEvent = approveReciept.events?.find((event: any) => event.event === 'JobOpened');
-		const jobId = jobOpenEvent?.args?.job;
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.CREATE_JOB.CREATED,
-			variant: 'success'
-		});
 		return {
-			jobId,
-			txHash: tx.hash
+			txn,
+			approveReciept
 		};
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while creating new Oyster Job');
+		throw new Error('Transaction Error');
 	}
 }
 
 export async function stopOysterJob(jobId: Bytes) {
-	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = OYSTER_MARKET_ABI;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = createSignerContract(
+		environment.public_oyster_contract_address,
+		OYSTER_MARKET_ABI
+	);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.STOP_JOB.STOPPING,
-			variant: 'info'
-		});
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.STOP_JOB.STOPPING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.STOP_JOB.STOPPED;
+		const errorTxnMessage = 'Unable to stop Oyster Job.';
+		const parentFunctionName = 'stopOysterJob';
 
-		const tx = await oysterContract.jobClose(jobId);
+		const { txn } = await createTransaction(
+			() => oysterContract.jobClose(jobId),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
 
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to stop Oyster Job.');
-		}
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.STOP_JOB.STOPPED,
-			variant: 'success'
-		});
-		return tx;
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while stopping Oyster Job');
+		throw new Error('Transaction Error');
 	}
 }
 
 export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber) {
-	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = OYSTER_MARKET_ABI;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = createSignerContract(
+		environment.public_oyster_contract_address,
+		OYSTER_MARKET_ABI
+	);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.WITHDRAW_JOB.WITHDRAWING,
-			variant: 'info'
-		});
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.WITHDRAW_JOB.WITHDRAWING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.WITHDRAW_JOB.WITHDRAWN;
+		const errorTxnMessage = 'Unable to withdraw funds from Oyster Job.';
+		const parentFunctionName = 'withdrawFundsFromOysterJob';
 
-		const tx = await oysterContract.jobWithdraw(jobId, amount);
+		const { txn } = await createTransaction(
+			() => oysterContract.jobWithdraw(jobId, amount),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
 
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to withdraw funds from Oyster Job.');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.WITHDRAW_JOB.WITHDRAWN,
-			variant: 'success'
-		});
-		return tx;
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while withdrawing funds from Oyster Job');
+		throw new Error('Transaction Error');
 	}
 }
 
+// approval in pond contract so that the oyster contract can spend pond
 export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 	// TODO: check token on mainnet, its POND on testnet
-	const oysterContractAddress = environment.public_oyster_contract_address;
 	const token = OYSTER_RATE_METADATA.currency;
-	const pondTokenContractAddress = contractAddresses.tokens[token].address;
-	const ERC20ContractAbi = contractAbi.ERC20;
-	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);
+	const pondTokenContract = createSignerContract(
+		contractAddresses.tokens[token].address,
+		contractAbi.ERC20
+	);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.APPROVE.APPROVING(
-				bigNumberToCommaString(amount, POND_PRECISIONS),
-				token
-			),
-			variant: 'info'
-		});
-		const tx = await pondTokenContract.approve(oysterContractAddress, amount);
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.APPROVING(
+			bigNumberToCommaString(amount, POND_PRECISIONS),
+			token
+		);
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.APPROVED(
+			bigNumberToCommaString(amount, POND_PRECISIONS),
+			token
+		);
+		const errorTxnMessage = 'Unable to approve funds for Oyster Job.';
+		const parentFunctionName = 'approveFundsForOysterJobAdd';
 
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
+		const { txn } = await createTransaction(
+			() => pondTokenContract.approve(environment.public_oyster_contract_address, amount),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
 
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to approve staking token');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS +
-				' ' +
-				MESSAGES.TOAST.ACTIONS.APPROVE.APPROVED(
-					bigNumberToCommaString(amount, POND_PRECISIONS),
-					token
-				),
-			variant: 'success'
-		});
-		return tx;
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while approving staking token');
+		throw new Error('Transaction Error');
 	}
 }
 
 export async function addFundsToOysterJob(jobId: Bytes, amount: BigNumber) {
-	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = OYSTER_MARKET_ABI;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = createSignerContract(
+		environment.public_oyster_contract_address,
+		OYSTER_MARKET_ABI
+	);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.ADD_FUNDS_JOB.ADDING_FUNDS,
-			variant: 'info'
-		});
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.ADD_FUNDS_JOB.ADDING_FUNDS;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.ADD_FUNDS_JOB.FUNDS_ADDED;
+		const errorTxnMessage = 'Unable to add funds to Oyster Job.';
+		const parentFunctionName = 'addFundsToOysterJob';
 
-		const tx = await oysterContract.jobDeposit(jobId, amount);
+		const { txn } = await createTransaction(
+			() => oysterContract.jobDeposit(jobId, amount),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
 
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to add funds to Oyster Job.');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.ADD_FUNDS_JOB.FUNDS_ADDED,
-			variant: 'success'
-		});
-		return tx;
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while adding funds to Oyster Job');
+		throw new Error('Transaction Error');
 	}
 }
 
 export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber) {
-	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = OYSTER_MARKET_ABI;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = createSignerContract(
+		environment.public_oyster_contract_address,
+		OYSTER_MARKET_ABI
+	);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATING,
-			variant: 'info'
-		});
-		const tx = await oysterContract.jobReviseRateInitiate(jobId, rate);
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATED;
+		const errorTxnMessage = 'Unable to initiate rate revision for Oyster Job.';
+		const parentFunctionName = 'initiateRateReviseOysterJob';
 
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to initiate rate revision for Oyster Job.');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATED,
-			variant: 'success'
-		});
-		return tx;
+		const { txn } = await createTransaction(
+			() => oysterContract.jobReviseRateInitiate(jobId, rate),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while initiating rate revision for Oyster Job');
+		throw new Error('Transaction Error');
 	}
 }
 
 export async function cancelRateReviseOysterJob(jobId: Bytes) {
-	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = OYSTER_MARKET_ABI;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = createSignerContract(
+		environment.public_oyster_contract_address,
+		OYSTER_MARKET_ABI
+	);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.CANCELLING,
-			variant: 'info'
-		});
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.CANCELLING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.CANCELLED;
+		const errorTxnMessage = 'Unable to cancel rate revision for Oyster Job.';
+		const parentFunctionName = 'cancelRateReviseOysterJob';
 
-		const tx = await oysterContract.jobReviseRateCancel(jobId);
+		const { txn } = await createTransaction(
+			() => oysterContract.jobReviseRateCancel(jobId),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
 
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to cancel rate revision for Oyster Job.');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.CANCELLED,
-			variant: 'success'
-		});
-		return tx;
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while cancelling rate revision for Oyster Job');
+		throw new Error('Transaction Error');
 	}
 }
 
 export async function finaliseRateReviseOysterJob(jobId: Bytes) {
-	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = OYSTER_MARKET_ABI;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = createSignerContract(
+		environment.public_oyster_contract_address,
+		OYSTER_MARKET_ABI
+	);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.AMENDING,
-			variant: 'info'
-		});
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.AMENDING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.AMENDED;
+		const errorTxnMessage = 'Unable to finalise rate revision for Oyster Job.';
+		const parentFunctionName = 'finaliseRateReviseOysterJob';
 
-		const tx = await oysterContract.jobReviseRateFinalize(jobId);
+		const { txn } = await createTransaction(
+			() => oysterContract.jobReviseRateFinalize(jobId),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
 
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to finalise rate revision for Oyster Job.');
-		}
-		addToast({
-			message:
-				MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.AMENDED,
-			variant: 'success'
-		});
-		return tx;
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while finalising rate revision for Oyster Job');
+		throw new Error('Transaction Error');
 	}
 }
 
 export async function settleOysterJob(jobId: Bytes) {
-	const oysterContractAddress = environment.public_oyster_contract_address;
-	const oysterContractAbi = OYSTER_MARKET_ABI;
-	const oysterContract = new ethers.Contract(oysterContractAddress, oysterContractAbi, signer);
+	const oysterContract = createSignerContract(
+		environment.public_oyster_contract_address,
+		OYSTER_MARKET_ABI
+	);
 	try {
-		addToast({
-			message: MESSAGES.TOAST.ACTIONS.SETTLE_JOB.SETTLING,
-			variant: 'info'
-		});
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.SETTLE_JOB.SETTLING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.SETTLE_JOB.SETTLED;
+		const errorTxnMessage = 'Unable to settle Oyster Job.';
+		const parentFunctionName = 'settleOysterJob';
 
-		const tx = await oysterContract.jobSettle(jobId);
+		const { txn } = await createTransaction(
+			() => oysterContract.jobSettle(jobId),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
 
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
-		});
-		const approveReciept = await tx.wait();
-		if (!approveReciept) {
-			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
-				variant: 'error'
-			});
-			throw new Error('Unable to settle Oyster Job.');
-		}
-		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.SETTLE_JOB.SETTLED,
-			variant: 'success'
-		});
-		return tx;
+		return txn;
 	} catch (error: any) {
-		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
-			variant: 'error'
-		});
-		console.log('error :>> ', error);
-		throw new Error('Transaction Error while settling Oyster Job');
+		throw new Error('Transaction Error');
 	}
 }

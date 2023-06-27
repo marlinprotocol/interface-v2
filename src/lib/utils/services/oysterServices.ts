@@ -1,7 +1,7 @@
 import type { BigNumber, Bytes } from 'ethers';
 import {
-	OYSTER_RATE_SCALING_FACTOR,
-	OYSTER_RATE_METADATA
+	OYSTER_RATE_METADATA,
+	OYSTER_RATE_SCALING_FACTOR
 } from '$lib/utils/constants/oysterConstants';
 import {
 	addFundsToOysterJob,
@@ -281,7 +281,12 @@ export async function handleCreateJob(
 	durationInSec: number
 ) {
 	try {
-		const { jobId, txHash } = await createNewOysterJob(metadata, provider, rate, balance);
+		const { txn, approveReciept } = await createNewOysterJob(metadata, provider, rate, balance);
+
+		const txHash = txn.hash;
+		const jobOpenEvent = approveReciept.events?.find((event: any) => event.event === 'JobOpened');
+		const jobId = jobOpenEvent?.args?.job;
+
 		const nowTime = Date.now() / 1000;
 
 		const { enclaveUrl, instance, region, vcpu, memory } = parseMetadata(metadata);

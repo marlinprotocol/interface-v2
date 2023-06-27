@@ -8,7 +8,8 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import {
 		approvePondTokenForReceiverStaking,
-		depositStakingToken
+		depositStakingToken,
+		depositStakingTokenAndSetSigner
 	} from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { addToast } from '$lib/data-stores/toastStore';
@@ -152,7 +153,7 @@
 
 		try {
 			if (updatedSignerAddress !== DEFAULT_RECEIVER_STAKING_DATA.signer) {
-				await depositStakingToken(inputAmount, updatedSignerAddress);
+				await depositStakingTokenAndSetSigner(inputAmount, updatedSignerAddress);
 				// update signer locally
 				receiverStakingStore.update((value: ReceiverStakingData) => {
 					return {

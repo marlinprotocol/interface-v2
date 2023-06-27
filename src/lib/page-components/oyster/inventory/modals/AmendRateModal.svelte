@@ -1,160 +1,110 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
-	import Timer from '$lib/atoms/timer/Timer.svelte';
-	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
-	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
+	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
-	import { epochToDurationString, stringToBigNumber } from '$lib/utils/conversion';
-	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import {
-		convertHourlyRateToSecondlyRate,
-		convertRateToPerHourString
-	} from '$lib/utils/helpers/oysterHelpers';
-	import {
-		handleCancelRateRevise,
-		handleFinaliseRateRevise,
-		handleInitiateRateRevise
+		handleApproveFundForOysterJob,
+		handleFundsAddToJob
 	} from '$lib/utils/services/oysterServices';
 	import type { BigNumber } from 'ethers';
+	import { onDestroy } from 'svelte';
+	import type { Unsubscriber } from 'svelte/store';
+	import AddFundsToJob from '../../sub-components/AddFundsToJob.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	$: ({ rate, reviseRate: { newRate = BigNumberZero, updatesAt = 0, rateStatus = '' } = {} } =
-		jobData);
-	const { symbol } = kOysterRateMetaData;
+	$: ({ rate } = jobData);
 
-	//initial states
-	let inputRate: BigNumber = BigNumberZero;
-	let inputAmountString = '';
+	let duration: number | undefined = undefined; //durationInSecs
+	let instanceCost: BigNumber = BigNumberZero;
+	let invalidCost = false;
 
-	$: inputRate = isInputAmountValid(inputAmountString)
-		? convertHourlyRateToSecondlyRate(stringToBigNumber(inputAmountString))
-		: BigNumberZero;
-
+	//loading states
 	let submitLoading = false;
-	let cancelLoading = false;
+	let approvedLoading = false;
+	let approved = false;
 
-	const handleInitiateClick = async () => {
-		submitLoading = true;
-		await handleInitiateRateRevise(jobData, inputRate);
+	let approvedAmount: BigNumber;
+
+	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
+		approvedAmount = value.allowance;
+	});
+	onDestroy(unsubscribeOysterStore);
+
+	let instanceCostString = '';
+
+	//reset amount
+	const resetInputs = () => {
+		duration = undefined;
+		invalidCost = false;
+		instanceCostString = '';
+		approvedLoading = false;
 		submitLoading = false;
-		closeModal(modalFor);
 	};
 
-	const handleConfirmClick = async () => {
+	const handleApproveClick = async () => {
+		approvedLoading = true;
+		await handleApproveFundForOysterJob(instanceCost);
+		approvedLoading = false;
+	};
+
+	const handleSubmitClick = async () => {
 		submitLoading = true;
-		await handleFinaliseRateRevise(jobData, newRate);
+		await handleFundsAddToJob(jobData, instanceCost, duration ?? 0);
 		submitLoading = false;
+		resetInputs();
 		closeModal(modalFor);
 	};
 
-	const handleCancelInitiate = async () => {
-		cancelLoading = true;
-		await handleCancelRateRevise(jobData);
-		cancelLoading = false;
-		closeModal(modalFor);
-	};
-
-	$: modalTitle =
-		rateStatus === ''
-			? 'INITIATE RATE REVISE'
-			: rateStatus === 'completed'
-			? 'CONFIRM RATE REVISE'
-			: 'INITIATED RATE REVISE';
-
-	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
-	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
-
-	$: submitEnable =
-		inputRate &&
-		isInputAmountValid(inputAmountString) &&
-		!inputRate.eq(rate) &&
-		inputAmountString !== '' &&
-		rateStatus !== 'pending';
+	$: approved =
+		connected && instanceCost && approvedAmount.gte(instanceCost) && instanceCost.gt(BigNumberZero);
+	$: approveEnable = connected && !submitLoading && instanceCost.gt(BigNumberZero) && !invalidCost;
+	$: confirmEnable = approved && approveEnable;
 </script>
 
-<Modal {modalFor}>
+<Modal {modalFor} onClose={resetInputs}>
 	<svelte:fragment slot="title">
-		{modalTitle}
+		{'ADD FUNDS'}
 	</svelte:fragment>
 	<svelte:fragment slot="subtitle">
-		{"You're about to revise the hourly rate for this job."}
+		{'Add funds by approving and depositing tokens for the job'}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex flex-col gap-4">
-			<div class="flex gap-4">
-				<AmountInputWithTitle
-					title={`Current Hourly Rate`}
-					inputAmountString={convertRateToPerHourString(rate)}
-					disabled
-					prefix={symbol}
-				/>
-				{#if rateStatus === ''}
-					<AmountInputWithTitle title="New Hourly Rate" bind:inputAmountString prefix={symbol} />
-				{:else}
-					<AmountInputWithTitle
-						title="New Hourly Rate"
-						inputAmountString={convertRateToPerHourString(newRate)}
-						prefix={symbol}
-						disabled
-					/>
-				{/if}
-			</div>
-			{#if rateStatus === 'pending'}
-				<div class="w-full">
-					<Timer timerId={`timer-for-${modalFor}`} endEpochTime={updatesAt}>
-						<div slot="active" let:timer class="w-full">
-							<InputCard variant="warning">
-								<Text
-									styleClass={'py-2'}
-									text={`Time left to confirm: ${epochToDurationString(timer)}`}
-									variant="small"
-								/>
-							</InputCard>
-						</div>
-					</Timer>
-				</div>
-			{/if}
-		</div>
-		<ErrorTextCard
-			styleClass={'mt-4'}
-			showError={inputRate.eq(rate)}
-			errorMessage={'New rate cannot be same as current rate.'}
+		<AddFundsToJob
+			bind:duration
+			bind:invalidCost
+			bind:instanceCost
+			bind:instanceCostString
+			selectId="add-funds-duration-unit-select"
+			instanceRate={rate}
+			instanceRateEditable={false}
+			isTotalRate={true}
 		/>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<div class="flex gap-4">
-			{#if rateStatus !== ''}
-				<div class="w-full">
-					<Button
-						variant="outlined"
-						loading={cancelLoading}
-						onclick={handleCancelInitiate}
-						size="large"
-						styleClass={'btn-block w-full my-0'}
-					>
-						{'CANCEL'}
-					</Button>
-				</div>
-			{/if}
-			<div class="w-full">
-				<Button
-					variant="filled"
-					disabled={!submitEnable}
-					loading={submitLoading}
-					onclick={submitButtonAction}
-					size="large"
-					styleClass={'btn-block w-full my-0'}
-				>
-					{submitButtonText}
-				</Button>
-			</div>
-		</div>
+		{#if !approved}
+			<Button
+				variant="filled"
+				disabled={!approveEnable}
+				loading={approvedLoading}
+				onclick={handleApproveClick}
+				size="large"
+				styleClass={'btn-block w-full my-0'}>APPROVE</Button
+			>
+		{:else}
+			<Button
+				variant="filled"
+				disabled={!confirmEnable}
+				loading={submitLoading}
+				onclick={handleSubmitClick}
+				size="large"
+				styleClass={'btn-block w-full my-0'}>CONFIRM</Button
+			>
+		{/if}
 	</svelte:fragment>
 </Modal>

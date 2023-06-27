@@ -10,7 +10,7 @@ const environments: Record<number, Environment> = {
 	1: ENVIRONMENT_MAINNET
 };
 
-export const environmentStore: Writable<Environment> = writable(ENVIRONMENT_ARB);
+export const environmentStore: Writable<Environment> = writable(ENVIRONMENT_DEV);
 console.log('Initial Environment Loaded');
 
 // subscription to chainStore.chainId
@@ -19,10 +19,10 @@ export function loadEnvironment(chainId: number) {
 	// check if chainId exists in environments and set environmentStore else set default
 	if (!environments[chainId]) {
 		console.log('Environment not found, setting default');
-		environmentStore.set(ENVIRONMENT_ARB);
+		environmentStore.set(ENVIRONMENT_DEV);
 		return;
 	}
 
-	environmentStore.set(ENVIRONMENT_ARB);
+	environmentStore.set(ENVIRONMENT_DEV);
 	console.log(environmentStore, get(environmentStore));
 }

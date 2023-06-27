@@ -11,7 +11,7 @@ import type {
 	OysterMarketplaceFilterModel
 } from '$lib/types/oysterComponentType';
 
-import { BIG_NUMBER_ZERO } from '../constants/constants';
+import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import { BigNumber } from 'ethers';
 import { addToast } from '$lib/data-stores/toastStore';
 import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';

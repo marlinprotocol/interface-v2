@@ -20,5 +20,6 @@ export const SECONDS_IN_HOUR = 3600;
 export const SECONDS_IN_DAY = 86400;
 export const SECONDS_IN_HUNDRED_YEARS = 60 * 60 * 24 * 365 * 100; //not accounting for leap years
 
+// TODO: make these precisions standard based on currencies
 export const POND_PRECISIONS = 2;
 export const MPOND_PRECISIONS = 6;

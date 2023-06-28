@@ -7,7 +7,7 @@
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
-	import { mPondToPond } from '$lib/utils/conversion';
+	import { mPondToPond } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';

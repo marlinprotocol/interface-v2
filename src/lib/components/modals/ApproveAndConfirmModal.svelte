@@ -4,7 +4,11 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import SuccessfulConversionModal from '$lib/page-components/bridge/modals/SuccessfulConversionModal.svelte';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
-	import { bigNumberToCommaString, mPondToPond, pondToMPond } from '$lib/utils/conversion';
+	import {
+		bigNumberToCommaString,
+		mPondToPond,
+		pondToMPond
+	} from '$lib/utils/helpers/conversionHelper';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { staticImages } from '$lib/components/images/staticImages';

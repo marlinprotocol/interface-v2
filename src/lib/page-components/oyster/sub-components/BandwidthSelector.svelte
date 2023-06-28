@@ -7,7 +7,7 @@
 		OYSTER_BANDWIDTH_UNITS_LIST,
 		OYSTER_RATE_METADATA
 	} from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToString } from '$lib/utils/conversion';
+	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 	import { BigNumber } from 'ethers';
 

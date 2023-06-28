@@ -6,7 +6,7 @@ import type { Environment } from '$lib/types/environmentTypes';
 import type { Address, ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
 import { MPOND_PRECISIONS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
-import { bigNumberToCommaString } from '$lib/utils/conversion';
+import { bigNumberToCommaString } from '$lib/utils/helpers/conversionHelper';
 import { capitalizeFirstLetter, minifyAddress } from '$lib/utils/helpers/commonHelper';
 import { BigNumber, ethers, type Bytes } from 'ethers';
 import { OYSTER_MARKET_ABI, OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';

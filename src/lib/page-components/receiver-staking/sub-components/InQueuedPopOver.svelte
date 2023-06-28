@@ -7,7 +7,7 @@
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import type { EpochCycleStore, ReceiverStakingData } from '$lib/types/storeTypes';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
-	import { epochToDurationString } from '$lib/utils/conversion';
+	import { epochToDurationString } from '$lib/utils/helpers/conversionHelper';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 

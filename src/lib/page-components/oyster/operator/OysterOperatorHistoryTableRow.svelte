@@ -10,7 +10,7 @@
 		bigNumberToString,
 		epochSecToString,
 		epochToDurationString
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;

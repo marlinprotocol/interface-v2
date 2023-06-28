@@ -27,7 +27,7 @@
 		bigNumberToCommaString,
 		bigNumberToString,
 		stringToBigNumber
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import {
 		closeModal,
 		getCurrentEpochCycle,

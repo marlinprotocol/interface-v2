@@ -14,7 +14,7 @@ import type {
 
 import { BigNumber } from 'ethers';
 import { BigNumberUtils } from '$lib/utils/helpers/bigNumberUtils';
-import { mPondToPond } from '$lib/utils/conversion';
+import { mPondToPond } from '$lib/utils/helpers/conversionHelper';
 
 export const getModifiedMPondToPondHistory = (
 	mpondToPondConversions: MPondToPondConversionModel[],

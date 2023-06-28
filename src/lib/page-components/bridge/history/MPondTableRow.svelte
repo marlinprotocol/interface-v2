@@ -21,7 +21,7 @@
 		epochToDurationString,
 		mPondToPond,
 		pondToMPond
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import MPondConversionCycleButton from '$lib/page-components/bridge/buttons/MPondConversionCycleButton.svelte';

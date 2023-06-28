@@ -6,7 +6,7 @@
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
-	import { epochToDurationString } from '$lib/utils/conversion';
+	import { epochToDurationString } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleCancelRateRevise,

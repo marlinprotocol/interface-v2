@@ -16,7 +16,7 @@
 		bigNumberToString,
 		mPondToPond,
 		stringToBigNumber
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';

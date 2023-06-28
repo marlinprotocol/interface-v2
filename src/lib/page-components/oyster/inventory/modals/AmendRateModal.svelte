@@ -17,7 +17,7 @@
 		convertRateToPerHourString,
 		epochToDurationString,
 		stringToBigNumber
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleCancelRateRevise,

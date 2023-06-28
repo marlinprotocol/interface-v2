@@ -10,7 +10,7 @@
 		bigNumberToCommaString,
 		epochSecToString,
 		epochToDurationString
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
 
 	export let cycles: MPondEligibleCyclesModel[];

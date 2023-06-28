@@ -13,7 +13,7 @@
 		bigNumberToString,
 		epochSecToString,
 		epochToDurationString
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
 	import { handleClaimAmountFromOysterJob } from '$lib/utils/services/oysterServices';

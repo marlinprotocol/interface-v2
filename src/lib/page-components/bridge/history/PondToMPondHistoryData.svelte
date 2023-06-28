@@ -7,7 +7,7 @@
 	import type { Address, WalletStore } from '$lib/types/storeTypes';
 	import { POND_TO_MPOND_TABLE_HEADER } from '$lib/utils/constants/bridgeConstants';
 	import { MPOND_PRECISIONS, POND_PRECISIONS } from '$lib/utils/constants/constants';
-	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/conversion';
+	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/helpers/conversionHelper';
 	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';

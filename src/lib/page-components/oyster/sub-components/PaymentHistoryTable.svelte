@@ -8,7 +8,7 @@
 		OYSTER_PAYMENT_HISTORY_TABLE_HEADER,
 		OYSTER_RATE_METADATA
 	} from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToString, epochSecToString } from '$lib/utils/conversion';
+	import { bigNumberToString, epochSecToString } from '$lib/utils/helpers/conversionHelper';
 	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 
 	export let tableData: OysterDepositHistoryDataModel[] = [];

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { shortenText } from '$lib/utils/conversion';
+	import { shortenText } from '$lib/utils/helpers/conversionHelper';
 	import TxnIcon from '$lib/components/icons/TxnIcon.svelte';
 	export let txnHash: string;
 	export let txnHashUrl: string;

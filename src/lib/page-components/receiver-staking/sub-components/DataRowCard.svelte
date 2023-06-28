@@ -2,7 +2,7 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { POND_PRECISIONS } from '$lib/utils/constants/constants';
-	import { bigNumberToCommaString, bigNumberToString } from '$lib/utils/conversion';
+	import { bigNumberToCommaString, bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import type { BigNumber } from 'ethers';
 
 	export let data: { title: string; value: BigNumber };

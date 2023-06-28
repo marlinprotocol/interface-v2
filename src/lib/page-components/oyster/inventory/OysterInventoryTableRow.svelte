@@ -13,7 +13,7 @@
 		bigNumberToString,
 		convertRateToPerHourString,
 		epochToDurationString
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import { getInventoryDurationVariant } from '$lib/utils/helpers/oysterHelpers';
 	import plus from 'svelte-awesome/icons/plus';
 	import { slide } from 'svelte/transition';

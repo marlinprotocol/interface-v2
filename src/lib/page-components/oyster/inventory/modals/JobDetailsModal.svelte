@@ -14,7 +14,7 @@
 		convertRateToPerHourString,
 		epochSecToString,
 		epochToDurationString
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import {
 		getBandwidthFromRateAndRegion,
 		getRateForProviderAndFilters

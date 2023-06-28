@@ -2,7 +2,7 @@
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToString, epochToDurationString } from '$lib/utils/conversion';
+	import { bigNumberToString, epochToDurationString } from '$lib/utils/helpers/conversionHelper';
 
 	export let jobData: OysterInventoryDataModel;
 

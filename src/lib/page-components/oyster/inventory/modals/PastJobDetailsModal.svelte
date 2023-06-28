@@ -11,7 +11,7 @@
 		convertRateToPerHourString,
 		epochSecToString,
 		epochToDurationString
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
 	import PaymentHistoryTable from '$lib/page-components/oyster/sub-components/PaymentHistoryTable.svelte';
 

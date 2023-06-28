@@ -14,7 +14,7 @@
 		convertHourlyRateToSecondlyRate,
 		convertRateToPerHourString,
 		stringToBigNumber
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		computeCost,

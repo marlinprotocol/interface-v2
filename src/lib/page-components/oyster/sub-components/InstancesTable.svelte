@@ -10,7 +10,7 @@
 		OYSTER_INSTANCES_TABLE_HEADER,
 		OYSTER_RATE_METADATA
 	} from '$lib/utils/constants/oysterConstants';
-	import { convertRateToPerHourString } from '$lib/utils/conversion';
+	import { convertRateToPerHourString } from '$lib/utils/helpers/conversionHelper';
 	import { slide } from 'svelte/transition';
 
 	const { symbol, decimal } = OYSTER_RATE_METADATA;

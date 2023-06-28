@@ -5,7 +5,11 @@
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import { MPOND_CONVERSION_HISTORY_TABLE_HEADER } from '$lib/utils/constants/bridgeConstants';
 	import { POND_PRECISIONS } from '$lib/utils/constants/constants';
-	import { bigNumberToCommaString, epochSecToString, mPondToPond } from '$lib/utils/conversion';
+	import {
+		bigNumberToCommaString,
+		epochSecToString,
+		mPondToPond
+	} from '$lib/utils/helpers/conversionHelper';
 	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 
 	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];

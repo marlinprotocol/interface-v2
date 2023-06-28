@@ -11,7 +11,11 @@
 		POND_PRECISIONS
 	} from '$lib/utils/constants/constants';
 	import { POND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
-	import { bigNumberToCommaString, mPondToPond, pondToMPond } from '$lib/utils/conversion';
+	import {
+		bigNumberToCommaString,
+		mPondToPond,
+		pondToMPond
+	} from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 

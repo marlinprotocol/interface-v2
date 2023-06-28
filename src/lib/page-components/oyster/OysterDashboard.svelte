@@ -84,7 +84,7 @@
 			registered = true;
 			disableCpURL = true;
 			// rerun load function for marketplace which resides in oyster/+layout.ts
-			invalidate($environmentStore.public_enclaves_contract_subgraph_url);
+			invalidate($environmentStore.public_oyster_contract_subgraph_url);
 		} else {
 			addToast({
 				variant: 'error',
@@ -105,7 +105,7 @@
 			return value;
 		});
 		// rerun load function for marketplace which resides in oyster/+layout.ts
-		invalidate($environmentStore.public_enclaves_contract_subgraph_url);
+		invalidate($environmentStore.public_oyster_contract_subgraph_url);
 	};
 
 	async function getInstances(useUpdatedCpURL: boolean) {

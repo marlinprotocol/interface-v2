@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getJobStatuses } from '$lib/controllers/httpController';
 	import {
+		getAllProvidersDetailsFromSubgraph,
 		getApprovedOysterAllowancesFromSubgraph,
 		getOysterJobsFromSubgraph,
 		getProviderDetailsFromSubgraph
@@ -8,7 +9,12 @@
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
-	import { modifyOysterJobData } from '$lib/utils/data-modifiers/oysterModifiers';
+	import { REGION_NAME_CONSTANTS } from '$lib/utils/constants/regionNameConstants';
+	import {
+		getOysterProvidersModified,
+		modifyOysterJobData
+	} from '$lib/utils/data-modifiers/oysterModifiers';
+	import { addRegionNameToMarketplaceData } from '$lib/utils/helpers/oysterHelpers';
 
 	async function loadConnectedData() {
 		const [allowance, oysterJobsFromSubgraph, providerDetail, jobStatuses] = await Promise.all([
@@ -52,6 +58,26 @@
 		});
 	}
 
+	async function loadMarketplaceData() {
+		const providersDataFromSubgraph = await getAllProvidersDetailsFromSubgraph();
+		const marketplaceData = await getOysterProvidersModified(providersDataFromSubgraph);
+		const marketplaceDataWithRegionName = addRegionNameToMarketplaceData(
+			marketplaceData,
+			REGION_NAME_CONSTANTS
+		);
+		// updating stores instead of returning data as we don't need to show this data explicitly
+		oysterStore.update((store) => {
+			return {
+				...store,
+				allMarketplaceData: marketplaceDataWithRegionName,
+				marketplaceLoaded: true
+			};
+		});
+	}
+
+	// TODO: ask prateek how to determine when this would refresh
+	// as chain is not available till the user connects wallet
+	loadMarketplaceData();
 	$: if ($connected && $chainStore.chainId) {
 		loadConnectedData();
 	}

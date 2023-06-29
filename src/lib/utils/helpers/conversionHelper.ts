@@ -102,7 +102,8 @@ export const bigNumberToCommaString = (value: BigNumber, decimals = DEFAULT_PREC
 export const bigNumberToString = (
 	value: BigNumber,
 	bigNumberDecimal = DEFAULT_CURRENCY_DECIMALS,
-	precision = DEFAULT_PRECISION
+	precision = DEFAULT_PRECISION,
+	commify = true
 ) => {
 	if (value === undefined || value === null) {
 		throw new Error('Invalid value');
@@ -116,7 +117,7 @@ export const bigNumberToString = (
 	}
 
 	const [integerPart, decimalPart] = formattedValue.split('.');
-	const commifiedIntegerPart = ethers.utils.commify(integerPart);
+	const commifiedIntegerPart = commify ? ethers.utils.commify(integerPart) : integerPart;
 	const truncatedDecimalPart = decimalPart.slice(0, precision).padEnd(precision, '0');
 
 	return `${commifiedIntegerPart}.${truncatedDecimalPart}`;

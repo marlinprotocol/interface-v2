@@ -7,7 +7,11 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
-	import { BIG_NUMBER_ZERO, POND_PRECISIONS } from '$lib/utils/constants/constants';
+	import {
+		BIG_NUMBER_ZERO,
+		MPOND_PRECISIONS,
+		POND_PRECISIONS
+	} from '$lib/utils/constants/constants';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,
@@ -44,8 +48,9 @@
 		: BIG_NUMBER_ZERO;
 
 	// convert pond to mPond by dividing by 10^6
-	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(pondToMPond(inputAmount)) : '';
-
+	$: convertedAmountString = inputAmount.gt(0)
+		? bigNumberToString(pondToMPond(inputAmount), 18, MPOND_PRECISIONS)
+		: '';
 	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.pond;
 	let balanceText = 'Balance: 0.00';
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
@@ -56,7 +61,7 @@
 
 	const handleMaxClick = () => {
 		if (maxPondBalance) {
-			inputAmountString = bigNumberToString(maxPondBalance);
+			inputAmountString = bigNumberToString(maxPondBalance, 18, 18, false);
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
 			inValidMessage = '';

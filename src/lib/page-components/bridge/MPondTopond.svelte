@@ -9,7 +9,11 @@
 	import { requestMPondConversion } from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
-	import { BIG_NUMBER_ZERO, MPOND_PRECISIONS } from '$lib/utils/constants/constants';
+	import {
+		BIG_NUMBER_ZERO,
+		MPOND_PRECISIONS,
+		POND_PRECISIONS
+	} from '$lib/utils/constants/constants';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,
@@ -41,7 +45,9 @@
 		? stringToBigNumber(inputAmountString)
 		: BIG_NUMBER_ZERO;
 
-	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(mPondToPond(inputAmount)) : '';
+	$: convertedAmountString = inputAmount.gt(0)
+		? bigNumberToString(mPondToPond(inputAmount), 18, POND_PRECISIONS)
+		: '';
 
 	let walletMPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.mPond;
 	let requestedMPond: BigNumber = BIG_NUMBER_ZERO;
@@ -66,7 +72,7 @@
 
 	const handleMaxClick = () => {
 		if (unrequestedMPondBalance) {
-			inputAmountString = bigNumberToString(unrequestedMPondBalance);
+			inputAmountString = bigNumberToString(unrequestedMPondBalance, 18, 18, false);
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
 			inValidMessage = '';

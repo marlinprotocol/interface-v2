@@ -9,9 +9,9 @@ import { subgraphQueryWrapper } from '$lib/controllers/subgraphController';
 import { addRegionNameToMarketplaceData } from '$lib/utils/helpers/oysterHelpers';
 import { REGION_NAME_CONSTANTS } from '$lib/utils/constants/regionNameConstants';
 
-let enclavesContractSubgraphUrl = '';
+let oysterContractSubgraphUrl = '';
 environmentStore.subscribe((value) => {
-	enclavesContractSubgraphUrl = value.public_enclaves_contract_subgraph_url;
+	oysterContractSubgraphUrl = value.public_oyster_contract_subgraph_url;
 });
 
 export const load = (async ({ fetch }) => {
@@ -19,7 +19,7 @@ export const load = (async ({ fetch }) => {
 		const query = QUERY_TO_GET_ALL_PROVIDERS_DATA;
 		const options: RequestInit = subgraphQueryWrapper(query, {});
 
-		const response = await fetch(enclavesContractSubgraphUrl, options);
+		const response = await fetch(oysterContractSubgraphUrl, options);
 
 		if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
 

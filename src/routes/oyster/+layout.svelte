@@ -8,14 +8,18 @@
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
+	import { modifyOysterJobData } from '$lib/utils/data-modifiers/oysterModifiers';
 
 	async function loadConnectedData() {
-		const [allowance, oysterJobs, providerDetail, jobStatuses] = await Promise.all([
+		const [allowance, oysterJobsFromSubgraph, providerDetail, jobStatuses] = await Promise.all([
 			getApprovedOysterAllowancesFromSubgraph($walletStore.address),
 			getOysterJobsFromSubgraph($walletStore.address),
 			getProviderDetailsFromSubgraph($walletStore.address),
 			getJobStatuses($walletStore.address)
 		]);
+
+		const oysterJobs = await modifyOysterJobData(oysterJobsFromSubgraph);
+
 		// Create a lookup object based on jobStatuses
 		let jobStatusLookup: Record<string, string> = {};
 		jobStatuses.forEach((status: any) => {

@@ -9,6 +9,7 @@
 	import HistoryTableCommon from '$lib/page-components/bridge/history/HistoryTableCommon.svelte';
 	import MPondTableRow from '$lib/page-components/bridge/history/MPondTableRow.svelte';
 	import { POND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
+	import { modifyMPondToPondConversionHistory } from '$lib/utils/data-modifiers/subgraphModifier';
 
 	let address: Address;
 	let historyData: MPondToPondHistoryDataModel[] | undefined;
@@ -17,7 +18,8 @@
 		address = value.address;
 		if (address) {
 			loading = true;
-			historyData = await getMPondToPondConversionHistoryFromSubgraph(address);
+			const historyDataFromSubgraph = await getMPondToPondConversionHistoryFromSubgraph(address);
+			historyData = modifyMPondToPondConversionHistory(historyDataFromSubgraph);
 			loading = false;
 		}
 	});

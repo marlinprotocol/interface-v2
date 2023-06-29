@@ -13,6 +13,7 @@
 	import type { Unsubscriber } from 'svelte/store';
 	import HistoryTableCommon from '$lib/page-components/bridge/history/HistoryTableCommon.svelte';
 	import { MPOND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
+	import { modifyPondToMpondConversionHistory } from '$lib/utils/data-modifiers/subgraphModifier';
 
 	let address: Address;
 	let historyData: PondToMPondHistoryDataModel[] | undefined;
@@ -21,7 +22,8 @@
 		address = value.address;
 		if (address) {
 			loading = true;
-			historyData = await getPondToMPondConversionHistoryFromSubgraph(address);
+			const historyDataFromSubgraph = await getPondToMPondConversionHistoryFromSubgraph(address);
+			historyData = modifyPondToMpondConversionHistory(historyDataFromSubgraph);
 			loading = false;
 		}
 	});

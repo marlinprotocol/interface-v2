@@ -48,7 +48,7 @@ export const getBandwidthRateForRegion = (region: string) => {
 	return BigNumber.from(bandwidthRate);
 };
 
-export async function getOysterJobsModified(jobs: any[]) {
+export async function modifyOysterJobData(jobs: any[]) {
 	if (!jobs?.length) return [];
 
 	const names = await getProvidersNameJSON();

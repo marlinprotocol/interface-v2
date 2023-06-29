@@ -31,7 +31,7 @@ export async function getInstancesFromControlPlaneUsingOperatorAddress(operatorA
 	const response: CPInstances = await fetchHttpData(controlPlaneDetailsEndpoint, options);
 
 	if (!response || response.error) {
-		console.log('error from getInstancesFromControlPlaneUsingCpUrl');
+		console.log('error from getInstancesFromControlPlaneUsingOperatorAddress');
 		throw new Error('Unable to fetch instances');
 	}
 	return response;

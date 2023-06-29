@@ -5,9 +5,12 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import OysterMerchantJobs from '$lib/page-components/oyster/operator/OysterOperatorJobs.svelte';
+	import { modifyOysterJobData } from '$lib/utils/data-modifiers/oysterModifiers';
 
 	async function fetchOysterMerchantJobs() {
-		const merchantJobs = await getOysterMerchantJobsFromSubgraph($walletStore.address);
+		const merchantJobsFromSubgraph = await getOysterMerchantJobsFromSubgraph($walletStore.address);
+
+		const merchantJobs = await modifyOysterJobData(merchantJobsFromSubgraph);
 		// updating the oyster store with merchant jobs
 		if (merchantJobs !== null) {
 			oysterStore.update((value) => {

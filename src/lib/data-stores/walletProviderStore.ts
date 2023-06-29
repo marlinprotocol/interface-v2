@@ -25,6 +25,20 @@ export const connected: Readable<boolean> = derived(walletStore, ($walletStore) 
 });
 
 /**
+ *  reset the walletStore to its default value
+ */
+export function resetWalletProviderStore(): void {
+	walletStore.set(DEFAULT_WALLET_STORE);
+}
+
+/**
+ * reset walletBalanceStore to its default value.
+ */
+export function resetWalletBalanceStore(): void {
+	walletBalance.set(DEFAULT_WALLET_BALANCE);
+}
+
+/**
  * fetches the balance for POND and MPond based on
  * wallet address and sets the walletBalance store.
  * @param walletAddress should be a Hex Address i.e. all lowercase
@@ -46,24 +60,8 @@ async function setWalletBalance(walletAddress: Address): Promise<void> {
 	}
 }
 
-/**
- *  Resets the walletStore to its default value
- */
-export function resetWalletProviderStore(): void {
-	walletStore.set(DEFAULT_WALLET_STORE);
-}
-
-/**
- * Reset wallet balance to its default value.
- */
-export function resetWalletBalanceStore(): void {
-	walletBalance.set(DEFAULT_WALLET_BALANCE);
-}
-
-/**
- * Subscriptions to walletStore
- * allows us to fetch wallet balance when the user has a valid wallet address
- */
+// subscription to walletStore allows us to fetch wallet balance
+// when the user has a valid wallet address
 walletStore.subscribe((value) => {
 	walletAddress = value.address;
 	if (walletAddress !== DEFAULT_WALLET_STORE.address) {

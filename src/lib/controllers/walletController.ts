@@ -1,10 +1,12 @@
 import type { EIP1193Provider, WalletState } from '@web3-onboard/core';
+import { chainStore, resetChainStore } from '$lib/data-stores/chainProviderStore';
 import { getChainDisplayName, isValidChain } from '$lib/utils/helpers/networkHelper';
 import { resetWalletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
 
-import { chainStore } from '$lib/data-stores/chainProviderStore';
 import { ethers } from 'ethers';
 import onboard from '$lib/controllers//web3OnboardController';
+import { resetBridgeStore } from '$lib/data-stores/bridgeStore';
+import { resetEpochCycleStore } from '$lib/data-stores/epochCycleStore';
 import { resetOysterStore } from '$lib/data-stores/oysterStore';
 import { resetReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 import { resetWalletProviderStore } from '$lib/data-stores/walletProviderStore';
@@ -85,6 +87,9 @@ export async function setWalletAndChainStores(provider: EIP1193Provider) {
 
 export function disconnectWallet(wallets: WalletState[]) {
 	onboard.disconnectWallet({ label: wallets?.[0]?.label });
+	resetChainStore();
+	resetEpochCycleStore();
+	resetBridgeStore();
 	resetWalletBalanceStore();
 	resetWalletProviderStore();
 	resetReceiverStakingStore();

@@ -1,8 +1,8 @@
 import type { Environment } from '$lib/types/environmentTypes';
 import { NETWORK_INFO } from '$lib/utils/constants/network';
 import { addToast } from '$lib/data-stores/toastStore';
-import { connectWallet } from '$lib/controllers/walletController';
 import { environmentStore } from '$lib/data-stores/environment';
+import { setWalletAndChainStores } from '$lib/controllers/walletController';
 
 let environment: Environment;
 environmentStore.subscribe((value) => {
@@ -24,7 +24,7 @@ export async function switchChain(provider: any, chainId: string) {
 			method: 'wallet_switchEthereumChain',
 			params: [{ chainId: chainId }]
 		}),
-		connectWallet(provider)
+		setWalletAndChainStores(provider)
 	]).catch(async (err) => {
 		if (err.code === 4902) {
 			if (!NETWORK_INFO[chainId]) {

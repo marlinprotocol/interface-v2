@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {
-		connectWallet,
 		disconnectWallet,
+		setWalletAndChainStores,
 		web3WalletStore
 	} from '$lib/controllers/walletController';
 	import { connected } from '$lib/data-stores/walletProviderStore';
@@ -10,7 +10,7 @@
 
 	$: connectedAccount = $web3WalletStore?.[0];
 	$: if (connectedAccount) {
-		connectWallet(connectedAccount.provider);
+		setWalletAndChainStores(connectedAccount.provider);
 	}
 
 	const disconnect = () => {

@@ -4,6 +4,10 @@
 	export let navItem: NavLinkModel;
 </script>
 
-<a href={navItem.href} target={navItem.openInNewTab ? '_blank' : ''}>
+<a
+	href={navItem.href}
+	target={navItem.openInNewTab ? '_blank' : ''}
+	data-sveltekit-preload-data={navItem.preload ? 'hover' : 'off'}
+>
 	<Text variant="nav" text={navItem.title} />
 </a>

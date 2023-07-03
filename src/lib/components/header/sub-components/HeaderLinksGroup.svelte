@@ -16,17 +16,20 @@
 		{
 			title: 'Marketplace',
 			href: '/oyster/marketplace',
-			openInNewTab: false
+			openInNewTab: false,
+			preload: true
 		},
 		{
 			title: 'Operator',
 			href: '/oyster/operator',
-			openInNewTab: false
+			openInNewTab: false,
+			preload: true
 		},
 		{
 			title: 'Inventory',
 			href: '/oyster/inventory',
-			openInNewTab: false
+			openInNewTab: false,
+			preload: false
 		}
 	];
 </script>

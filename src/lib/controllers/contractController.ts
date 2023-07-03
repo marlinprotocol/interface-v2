@@ -6,10 +6,11 @@ import type { Environment } from '$lib/types/environmentTypes';
 import type { Address, ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
 import { mPondPrecisions, oysterMarketAbi, pondPrecisions } from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
-import { bigNumberToCommaString } from '$lib/utils/conversion';
+import { bigNumberToCommaString, bigNumberToString } from '$lib/utils/conversion';
 import { capitalizeFirstLetter, minifyAddress } from '$lib/utils/helpers/commonHelper';
 import { BigNumberZero } from '$lib/utils/constants/constants';
 import { BigNumber, ethers, type Bytes } from 'ethers';
+import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 
 let contractAbi: ContractAbi;
 let contractAddresses: ContractAddress;
@@ -796,18 +797,20 @@ export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber
 export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 	// TODO: check token on mainnet, its POND on testnet
 	const oysterContractAddress = environment.public_oyster_contract_address;
-	const token = 'USDC';
-	const pondTokenContractAddress = "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8";
+	const token = kOysterRateMetaData.currency;
+	// using pond here as this branch is only for preview
+	const pondTokenContractAddress = environment.public_pond_token_address;
 	const ERC20ContractAbi = contractAbi.ERC20;
 	const pondTokenContract = new ethers.Contract(pondTokenContractAddress, ERC20ContractAbi, signer);
 	try {
 		addToast({
 			message: MESSAGES.TOAST.ACTIONS.APPROVE.APPROVING(
-				bigNumberToCommaString(amount, pondPrecisions),
+				bigNumberToString(amount, kOysterRateMetaData.decimal, kOysterRateMetaData.precision),
 				token
 			),
 			variant: 'info'
 		});
+		console.log(amount.toString());
 		const tx = await pondTokenContract.approve(oysterContractAddress, amount);
 
 		addToast({
@@ -828,7 +831,7 @@ export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 				MESSAGES.TOAST.TRANSACTION.SUCCESS +
 				' ' +
 				MESSAGES.TOAST.ACTIONS.APPROVE.APPROVED(
-					bigNumberToCommaString(amount, pondPrecisions),
+					bigNumberToString(amount, kOysterRateMetaData.decimal, kOysterRateMetaData.precision),
 					token
 				),
 			variant: 'success'
@@ -1057,7 +1060,8 @@ export async function settleOysterJob(jobId: Bytes) {
 }
 
 export async function getApprovedOysterAllowances(address: Address) {
-	const usdcTokenContractAddress = "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8";
+	// using pond here as this branch is only for preview
+	const usdcTokenContractAddress = environment.public_pond_token_address;
 	const ERC20ContractAbi = contractAbi.ERC20;
 	const usdcTokenContract = new ethers.Contract(usdcTokenContractAddress, ERC20ContractAbi, signer);
 
@@ -1077,4 +1081,3 @@ export async function getApprovedOysterAllowances(address: Address) {
 		return BigNumberZero;
 	}
 }
-

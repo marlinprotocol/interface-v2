@@ -9,6 +9,7 @@
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
+	import { BigNumberZero } from '$lib/utils/constants/constants';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
@@ -78,7 +79,7 @@
 			variant="tableConvertButton"
 			onclick={handleClaimClick}
 			size="smaller"
-			disabled={submitLoading}
+			disabled={submitLoading || amountToBeSettled.eq(BigNumberZero)}
 			styleClass="w-fit px-8 rounded text-xs mr-6"
 		>
 			{'CLAIM'}

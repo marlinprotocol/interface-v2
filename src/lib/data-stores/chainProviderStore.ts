@@ -21,7 +21,7 @@ chainStore.subscribe(({ chainId }) => {
 		(prevChainId === null && environment.valid_chain_ids.includes(chainId))
 	) {
 		prevChainId = chainId;
-		loadEnvironment(chainId);
+		// loadEnvironment(chainId);
 	}
 });
 

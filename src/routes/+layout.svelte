@@ -5,13 +5,9 @@
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
-	import { invalidateAll } from '$app/navigation';
 	import { getContractDetails } from '$lib/controllers/httpController';
 	import { updateContractStoresWithoutBridge } from '$lib/data-stores/contractStore';
 	import { addToast } from '$lib/data-stores/toastStore';
-
-	let prevChainId: null | number = null;
 
 	onMount(async () => {
 		// removes console logs in production
@@ -37,12 +33,6 @@
 			console.error('Error while fetching contract details', error);
 		}
 	});
-
-	$: if (prevChainId !== $chainStore.chainId || prevChainId === null) {
-		prevChainId = $chainStore.chainId;
-		invalidateAll();
-		console.log('invalidate is called with config of:', $environmentStore.environment_name);
-	}
 </script>
 
 <svelte:head>

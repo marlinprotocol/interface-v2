@@ -2,11 +2,15 @@
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToCommaString, epochToDurationString } from '$lib/utils/conversion';
+	import {
+		bigNumberToCommaString,
+		bigNumberToString,
+		epochToDurationString
+	} from '$lib/utils/conversion';
 
 	export let jobData: OysterInventoryDataModel;
 
-	const { currency } = kOysterRateMetaData;
+	const { currency, decimal } = kOysterRateMetaData;
 	$: ({ balance, durationLeft } = jobData);
 
 	const styles = {
@@ -19,7 +23,7 @@
 		<div class="w-full">
 			<TextInputCard
 				title={'Current Balance'}
-				value={`${bigNumberToCommaString(balance, 6)} ${currency}`}
+				value={`${bigNumberToString(balance, decimal)} ${currency}`}
 				centered
 				textStyle={styles.textPrimary}
 			/>

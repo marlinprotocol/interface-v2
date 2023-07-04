@@ -1,23 +1,37 @@
 export type Environment = {
 	environment_name: string;
 	production: boolean;
-	public_chain_id: string;
-	public_pond_token_address: string;
-	public_mpond_token_address: string;
-	public_oyster_contract_address: string;
-	public_pond_subgraph_url: string;
-	public_mpond_subgraph_url: string;
-	public_contract_subgraph_url: string;
-	public_bridge_contract_subgraph_url: string;
-	public_oyster_contract_subgraph_url: string;
-	public_contract_details_url: string;
-	public_bridge_contract_details_url: string;
-	public_oyster_instances_using_cp_url: string;
-	public_oyster_instances_using_operator_address: string;
-	public_oyster_provider_names_url: string;
-	public_oyster_provider_instances_url: string;
-	public_oyster_job_status_url: string;
-	public_oyster_job_refresh_url: string;
-	valid_chain_ids: number[];
-	valid_chain_ids_with_0x: string[];
+	valid_chains: Record<number, ChainConfig>;
+	default_chain_id: number;
+};
+
+export type ChainConfig = {
+	chain_id: string;
+	chain_name: string;
+	contract_subgraph_url: string;
+	contract_details_url: string;
+	bridge: {
+		contract_details_url: string;
+		contract_subgraph_url: string;
+	};
+	oyster: {
+		contract_address: string;
+		contract_subgraph_url: string;
+		instances_using_cp_url: string;
+		instances_using_operator_address: string;
+		provider_names_url: string;
+		provider_instances_url: string;
+		job_status_url: string;
+		job_refresh_url: string;
+		token: string;
+	};
+	tokens: Record<string, TokenMetadata>;
+};
+
+export type TokenMetadata = {
+	token_address: string;
+	subgraph_url: string;
+	token_decimals: number;
+	token_precision: number;
+	symbol: string;
 };

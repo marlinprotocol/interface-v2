@@ -2,7 +2,7 @@ import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contrac
 import { addToast } from '$lib/data-stores/toastStore';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
 import { environmentStore } from '$lib/data-stores/environment';
-import type { Environment } from '$lib/types/environmentTypes';
+import type { ChainConfig } from '$lib/types/environmentTypes';
 import type { Address, ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
 import { MPOND_PRECISIONS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
@@ -10,11 +10,14 @@ import { bigNumberToCommaString } from '$lib/utils/helpers/conversionHelper';
 import { capitalizeFirstLetter, minifyAddress } from '$lib/utils/helpers/commonHelper';
 import { BigNumber, ethers, type Bytes } from 'ethers';
 import { OYSTER_MARKET_ABI, OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
+import { chainStore } from '$lib/data-stores/chainProviderStore';
 
 let contractAbi: ContractAbi;
 let contractAddresses: ContractAddress;
 let signer: WalletStore['signer'];
-let environment: Environment;
+let chainConfig: ChainConfig;
+let defaultChainId: number;
+let currentChain: number | null;
 
 walletStore.subscribe((value) => {
 	signer = value.signer;
@@ -25,8 +28,13 @@ contractAbiStore.subscribe((value) => {
 contractAddressStore.subscribe((value) => {
 	contractAddresses = value;
 });
+chainStore.subscribe((value) => {
+	currentChain = value.chainId;
+});
 environmentStore.subscribe((value) => {
-	environment = value;
+	defaultChainId = value.default_chain_id;
+	chainConfig =
+		currentChain !== null ? value.valid_chains[currentChain] : value.valid_chains[defaultChainId];
 });
 
 function createSignerContract(contractAddress: Address, contractAbi: any) {
@@ -383,7 +391,7 @@ export async function confirmMPondConversion(epoch: BigNumber, amount: BigNumber
 
 export async function registerOysterInfrastructureProvider(controlPlaneUrl: string) {
 	const oysterContract = createSignerContract(
-		environment.public_oyster_contract_address,
+		chainConfig.oyster.contract_address,
 		OYSTER_MARKET_ABI
 	);
 	try {
@@ -407,7 +415,7 @@ export async function registerOysterInfrastructureProvider(controlPlaneUrl: stri
 
 export async function updateOysterInfrastructureProvider(controlPlaneUrl: string) {
 	const oysterContract = createSignerContract(
-		environment.public_oyster_contract_address,
+		chainConfig.oyster.contract_address,
 		OYSTER_MARKET_ABI
 	);
 	try {
@@ -431,7 +439,7 @@ export async function updateOysterInfrastructureProvider(controlPlaneUrl: string
 
 export async function removeOysterInfrastructureProvider() {
 	const oysterContract = createSignerContract(
-		environment.public_oyster_contract_address,
+		chainConfig.oyster.contract_address,
 		OYSTER_MARKET_ABI
 	);
 	try {
@@ -460,7 +468,7 @@ export async function createNewOysterJob(
 	balance: BigNumber
 ) {
 	const oysterContract = createSignerContract(
-		environment.public_oyster_contract_address,
+		chainConfig.oyster.contract_address,
 		OYSTER_MARKET_ABI
 	);
 	try {
@@ -488,7 +496,7 @@ export async function createNewOysterJob(
 
 export async function stopOysterJob(jobId: Bytes) {
 	const oysterContract = createSignerContract(
-		environment.public_oyster_contract_address,
+		chainConfig.oyster.contract_address,
 		OYSTER_MARKET_ABI
 	);
 	try {
@@ -513,7 +521,7 @@ export async function stopOysterJob(jobId: Bytes) {
 
 export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber) {
 	const oysterContract = createSignerContract(
-		environment.public_oyster_contract_address,
+		chainConfig.oyster.contract_address,
 		OYSTER_MARKET_ABI
 	);
 	try {
@@ -557,7 +565,7 @@ export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 		const parentFunctionName = 'approveFundsForOysterJobAdd';
 
 		const { txn } = await createTransaction(
-			() => pondTokenContract.approve(environment.public_oyster_contract_address, amount),
+			() => pondTokenContract.approve(chainConfig.oyster.contract_address, amount),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
@@ -572,7 +580,7 @@ export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 
 export async function addFundsToOysterJob(jobId: Bytes, amount: BigNumber) {
 	const oysterContract = createSignerContract(
-		environment.public_oyster_contract_address,
+		chainConfig.oyster.contract_address,
 		OYSTER_MARKET_ABI
 	);
 	try {
@@ -597,7 +605,7 @@ export async function addFundsToOysterJob(jobId: Bytes, amount: BigNumber) {
 
 export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber) {
 	const oysterContract = createSignerContract(
-		environment.public_oyster_contract_address,
+		chainConfig.oyster.contract_address,
 		OYSTER_MARKET_ABI
 	);
 	try {
@@ -622,7 +630,7 @@ export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber)
 
 export async function cancelRateReviseOysterJob(jobId: Bytes) {
 	const oysterContract = createSignerContract(
-		environment.public_oyster_contract_address,
+		chainConfig.oyster.contract_address,
 		OYSTER_MARKET_ABI
 	);
 	try {
@@ -647,7 +655,7 @@ export async function cancelRateReviseOysterJob(jobId: Bytes) {
 
 export async function finaliseRateReviseOysterJob(jobId: Bytes) {
 	const oysterContract = createSignerContract(
-		environment.public_oyster_contract_address,
+		chainConfig.oyster.contract_address,
 		OYSTER_MARKET_ABI
 	);
 	try {
@@ -672,7 +680,7 @@ export async function finaliseRateReviseOysterJob(jobId: Bytes) {
 
 export async function settleOysterJob(jobId: Bytes) {
 	const oysterContract = createSignerContract(
-		environment.public_oyster_contract_address,
+		chainConfig.oyster.contract_address,
 		OYSTER_MARKET_ABI
 	);
 	try {

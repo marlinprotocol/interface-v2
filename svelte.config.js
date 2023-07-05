@@ -11,7 +11,8 @@ const config = {
 			fallback: 'index.html',
 			precompress: false,
 			strict: true
-		})
+		}),
+		appDir: "_oyster",
 	},
 	preprocess: vitePreprocess()
 };

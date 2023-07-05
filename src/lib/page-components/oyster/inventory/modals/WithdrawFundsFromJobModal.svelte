@@ -32,7 +32,7 @@
 	let updatedAmountInputDirty = false;
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
-		? stringToBigNumber(inputAmountString)
+		? stringToBigNumber(inputAmountString, decimal)
 		: BIG_NUMBER_ZERO;
 
 	//loading states

@@ -30,7 +30,7 @@
 		variant="outlined"
 		styleClass={`${connectWalletStyles} w-fit text-sm h-11 flex items-center`}
 	>
-		<img src="/images/lockicon.svg" alt="Connect" />
+		<img src="/_oysterstatic/images/lockicon.svg" alt="Connect" />
 		{connectButtonText}
 	</Button>
 {/if}

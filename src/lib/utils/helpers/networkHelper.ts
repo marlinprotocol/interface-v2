@@ -15,7 +15,8 @@ environmentStore.subscribe((value) => {
  * @returns if chain is supported or not
  */
 export function isValidChain(chainId: number): boolean {
-	return environment.valid_chain_ids.includes(chainId);
+	// check if environment.valid_chains has chainId as a key in it
+	return Object.keys(environment.valid_chains).includes(chainId.toString());
 }
 
 export async function switchChain(provider: any, chainId: string) {

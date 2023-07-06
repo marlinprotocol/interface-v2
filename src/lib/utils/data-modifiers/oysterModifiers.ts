@@ -179,7 +179,11 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		};
 	}
 
-	if (_rate.eq(BIG_NUMBER_ZERO) || _balance.div(_downScaledRate).gt(SECONDS_IN_HUNDRED_YEARS)) {
+	if (
+		_rate.eq(BIG_NUMBER_ZERO) ||
+		(_balance.mul(OYSTER_RATE_SCALING_FACTOR).div(_rate).gt(SECONDS_IN_HUNDRED_YEARS) &&
+			_balance.gt(BIG_NUMBER_ZERO))
+	) {
 		const time = Math.floor(nowTime - _lastSettled);
 		const _balanceUpdated = _balance.sub(_downScaledRate.mul(time));
 		//job is running and will never end

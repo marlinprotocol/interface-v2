@@ -4,11 +4,16 @@ import { PUBLIC_NODE_ENV } from '$env/static/public';
 import { type Writable, writable, get } from 'svelte/store';
 import { ENVIRONMENT_MAINNET } from '$lib/environments/environment.mainnet';
 
+// to add an environment, create a new file in environments folder and import it here,
+// then in the .env file, add the environment name to PUBLIC_NODE_ENV.
+// Eg.PUBLIC_NODE_ENV = arb_mainnet
 const environments: Record<string, Environment> = {
 	development: ENVIRONMENT_DEV,
 	arb_mainnet: ENVIRONMENT_MAINNET
 };
 
-export const environmentStore: Writable<Environment> = writable(environments[PUBLIC_NODE_ENV]);
+export const environmentStore: Writable<Environment> = writable(
+	PUBLIC_NODE_ENV ? environments[PUBLIC_NODE_ENV] : environments.development
+);
 console.log('Environment Loaded for', PUBLIC_NODE_ENV);
 console.log(get(environmentStore));

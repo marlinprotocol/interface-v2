@@ -23,21 +23,19 @@
 			getProviderDetailsFromSubgraph($walletStore.address),
 			getJobStatuses($walletStore.address)
 		]);
-
-		const oysterJobs = await modifyOysterJobData(oysterJobsFromSubgraph);
-
 		// Create a lookup object based on jobStatuses
 		let jobStatusLookup: Record<string, string> = {};
 		jobStatuses.forEach((status: any) => {
 			jobStatusLookup[status.jobId] = status.ip;
 		});
-
 		// Assign IP addresses from jobStatus to jobData
-		oysterJobs.forEach((data) => {
+		oysterJobsFromSubgraph.forEach((data: any) => {
 			if (Object.prototype.hasOwnProperty.call(jobStatusLookup, data.id.toString())) {
 				data.ip = jobStatusLookup[data.id.toString()];
 			}
 		});
+		const oysterJobs = await modifyOysterJobData(oysterJobsFromSubgraph);
+
 		// console.log('Existing Oyster Data - ', $oysterStore);
 		// console.log('Oyster Data Fetch - allowance', allowance);
 		// console.log('Oyster Data Fetch - oysterJobs', oysterJobs);

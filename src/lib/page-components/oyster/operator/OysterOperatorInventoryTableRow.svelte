@@ -78,7 +78,7 @@
 			variant="tableConvertButton"
 			onclick={handleClaimClick}
 			size="smaller"
-			disabled={submitLoading}
+			disabled={submitLoading || status === 'closed'}
 			styleClass="w-fit px-8 rounded text-xs mr-6"
 		>
 			{'CLAIM'}

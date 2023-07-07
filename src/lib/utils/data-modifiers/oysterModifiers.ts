@@ -61,6 +61,7 @@ export async function modifyOysterJobData(jobs: any[]) {
 const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	const {
 		metadata,
+		ip,
 		id,
 		owner,
 		rate = '0',
@@ -108,6 +109,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 			name: names[provider] ?? '',
 			address: provider
 		},
+		ip,
 		owner,
 		metadata,
 		enclaveUrl,
@@ -149,8 +151,24 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		return acc.add(BigNumber.from(settlement.amount));
 	}, BIG_NUMBER_ZERO);
 
+	if (_refund.gt(BIG_NUMBER_ZERO)) {
+		//job is stopped and refunded so amount used is total deposit - refund and current balance is 0
+		return {
+			...modifiedJob,
+			amountUsed: _totalDeposit.sub(_refund),
+			balance: BIG_NUMBER_ZERO,
+			durationLeft: 0,
+			durationRun: _lastSettled - _createdAt,
+			endEpochTime: _lastSettled,
+			live: true,
+			status: 'closed',
+			amountToBeSettled: _totalDeposit.sub(_refund).sub(_totalSettledAmount)
+		};
+	}
+
 	if (_totalDeposit.eq(_totalSettledAmount) && _balance.eq(BIG_NUMBER_ZERO)) {
-		// job is settled so amount used is total deposit and current balance is 0
+		// job is settled so amount used is total deposit and current balance is 0,
+		// we call this job completed as from operator perspective it is completed
 		return {
 			...modifiedJob,
 			amountUsed: _totalDeposit,
@@ -159,23 +177,8 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 			durationRun: _lastSettled - _createdAt,
 			endEpochTime: _lastSettled,
 			live: true,
-			status: 'settled',
+			status: 'closed',
 			amountToBeSettled: BIG_NUMBER_ZERO
-		};
-	}
-
-	if (_refund.gt(BIG_NUMBER_ZERO)) {
-		//job is stopped and refunded so amount is used is total deposit - refund and current balance is 0
-		return {
-			...modifiedJob,
-			amountUsed: _totalDeposit.sub(_refund),
-			balance: BIG_NUMBER_ZERO,
-			durationLeft: 0,
-			durationRun: _lastSettled - _createdAt,
-			endEpochTime: _lastSettled,
-			live: false,
-			status: 'stopped',
-			amountToBeSettled: _totalDeposit.sub(_refund).sub(_totalSettledAmount)
 		};
 	}
 
@@ -213,7 +216,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 			durationLeft: 0,
 			durationRun: endEpochTime - _createdAt,
 			endEpochTime,
-			live: false,
+			live: true,
 			status: 'completed',
 			amountToBeSettled: _totalDeposit.sub(_totalSettledAmount)
 		};
@@ -232,7 +235,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		durationRun: nowTime - _createdAt,
 		endEpochTime,
 		live: true,
-		status: 'running',
+		status: ip ? 'running' : 'pending',
 		amountToBeSettled: _totalDeposit.sub(currentBalance).sub(_totalSettledAmount)
 	};
 };

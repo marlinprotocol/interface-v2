@@ -24,7 +24,7 @@ export async function switchChain(provider: any, chainId: string) {
 			method: 'wallet_switchEthereumChain',
 			params: [{ chainId: chainId }]
 		})
-		.catch(async (err) => {
+		.catch(async (err: any) => {
 			if (err.code === 4902) {
 				if (!networkInfo[chainId]) {
 					addToast({

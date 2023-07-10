@@ -2,9 +2,9 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { addToast } from '$lib/data-stores/toastStore';
-	import { getColorHexForTableRow } from '$lib/utils/constants/componentConstants';
-	import { shortenText } from '$lib/utils/conversion';
+	import { shortenText } from '$lib/utils/helpers/conversionHelper';
 	import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
+	import { getColorHexForTableRow } from '$lib/utils/helpers/componentHelper';
 
 	export let name = '';
 	export let address = '';

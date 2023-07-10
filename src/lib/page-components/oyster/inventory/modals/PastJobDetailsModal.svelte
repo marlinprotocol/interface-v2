@@ -5,15 +5,15 @@
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToCommaString,
+		convertRateToPerHourString,
 		epochSecToString,
 		epochToDurationString
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
-	import { convertRateToPerHourString } from '$lib/utils/helpers/oysterHelpers';
-	import PaymentHistoryTable from '../../sub-components/PaymentHistoryTable.svelte';
+	import PaymentHistoryTable from '$lib/page-components/oyster/sub-components/PaymentHistoryTable.svelte';
 
 	export let modalFor: string;
 	export let rowIndex: number;
@@ -33,7 +33,7 @@
 		endEpochTime
 	} = jobData);
 
-	const { symbol, decimal } = kOysterRateMetaData;
+	const { symbol, decimal } = OYSTER_RATE_METADATA;
 
 	const handleRedeploy = () => {
 		openModal(`create-order-modal-${rowIndex}`);

@@ -6,9 +6,9 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToString, stringToBigNumber } from '$lib/utils/conversion';
+	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
+	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
+	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import {
 		closeModal,
 		inputAmountInValidMessage,
@@ -20,7 +20,7 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	const { currency, decimal } = kOysterRateMetaData;
+	const { currency, decimal } = OYSTER_RATE_METADATA;
 	$: ({ rate, balance: maxAmount, id } = jobData);
 
 	//initial states
@@ -33,7 +33,7 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BigNumberZero;
+		: BIG_NUMBER_ZERO;
 
 	//loading states
 	let submitLoading = false;

@@ -4,10 +4,10 @@ import { DEFAULT_CHAIN_STORE } from '$lib/utils/constants/storeDefaults';
 import { writable, type Writable } from 'svelte/store';
 
 let prevChainId: number | null = null;
-// svelte store
+
 export const chainStore: Writable<ChainStore> = writable(DEFAULT_CHAIN_STORE);
 
-// load environment based on chainID
+// subscription to chainStore enables us to load environment based on chainID
 chainStore.subscribe(({ chainId }) => {
 	if (chainId === null) return;
 	if (prevChainId !== chainId || prevChainId === null) {
@@ -19,6 +19,6 @@ chainStore.subscribe(({ chainId }) => {
 /**
  *  Resets the chainStore to its default value.
  */
-export function resetChainProviderStore() {
+export function resetChainStore() {
 	chainStore.set(DEFAULT_CHAIN_STORE);
 }

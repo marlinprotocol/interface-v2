@@ -8,7 +8,8 @@ import type {
 	WalletBalance,
 	WalletStore
 } from '$lib/types/storeTypes';
-import { BigNumberZero } from './constants';
+
+import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 
 // walletProviderStore
 export const DEFAULT_WALLET_STORE: WalletStore = {
@@ -19,8 +20,8 @@ export const DEFAULT_WALLET_STORE: WalletStore = {
 
 // walletBalanceStore
 export const DEFAULT_WALLET_BALANCE: WalletBalance = {
-	pond: BigNumberZero,
-	mPond: BigNumberZero
+	pond: BIG_NUMBER_ZERO,
+	mPond: BIG_NUMBER_ZERO
 };
 
 // chainProviderStore
@@ -58,9 +59,9 @@ export const DEFAULT_CONTRACT_ADDRESS_STORE: ContractAddress = {
 // receiver staked, queued data store
 export const DEFAULT_RECEIVER_STAKING_DATA: ReceiverStakingData = {
 	signer: '',
-	approvedBalance: BigNumberZero,
-	stakedBalance: BigNumberZero,
-	queuedBalance: BigNumberZero,
+	approvedBalance: BIG_NUMBER_ZERO,
+	stakedBalance: BIG_NUMBER_ZERO,
+	queuedBalance: BIG_NUMBER_ZERO,
 	epochData: {
 		epochCycle: 0,
 		startTime: 0,
@@ -68,21 +69,23 @@ export const DEFAULT_RECEIVER_STAKING_DATA: ReceiverStakingData = {
 	}
 };
 
+// bridgeStore
 export const DEFAULT_BRIDGE_STORE: BridgeStore = {
 	allowances: {
-		pond: BigNumberZero,
-		mPond: BigNumberZero
+		pond: BIG_NUMBER_ZERO,
+		mPond: BIG_NUMBER_ZERO
 	},
-	requestedMPond: BigNumberZero
+	requestedMPond: BIG_NUMBER_ZERO
 };
 
+// oysterStore
 export const DEFAULT_OYSTER_STORE: OysterStore = {
 	providerData: {
 		registered: false
 	},
 	allMarketplaceData: [],
 	jobsData: [],
-	allowance: BigNumberZero,
+	allowance: BIG_NUMBER_ZERO,
 	merchantJobsData: [],
 	marketplaceLoaded: false,
 	oysterStoreLoaded: false,

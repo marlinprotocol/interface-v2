@@ -3,15 +3,29 @@ import {
 	getColorClassByVariant,
 	getIconbyVariant,
 	getTextColorClassByVariant
-} from '$lib/utils/constants/componentConstants';
+} from '$lib/utils/helpers/componentHelper';
 import type { Toast, ToastModel } from '$lib/types/componentTypes';
 
+/**
+ * toast store holds an array of toast objects, it should be updated using add and dismiss functions only
+ */
 export const toastsStore: Writable<ToastModel[]> = writable([]);
 
+/**
+ * takes in a unique toast id and removes it from the toastsStore
+ * @param id
+ */
 export const dismissToast = (id: number) => {
 	toastsStore.update((all: any) => all.filter((t: Toast) => t.id !== id));
 };
 
+/**
+ * adds a toast to toastStore and display it to the user
+ * @param message message that you want the user to see
+ * @param dismissible whether or not user can dismiss the toast on click
+ * @param timeout how long the toast will be displayed before it is dismissed in seconds
+ * @param variant the color of the toast
+ */
 export const addToast = ({
 	message = 'Set Toast Message',
 	dismissible = true,

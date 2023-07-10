@@ -5,26 +5,24 @@
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import {
-		kOperatorJobs,
-		kOysterOperatorHistoryTableHeader,
-		oysterTableItemsPerPage
-	} from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_OPERATOR_HISTORY_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import {
 		getSearchedInventoryData,
 		sortOysterOperatorHistory
 	} from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import OysterTableCommon from '../inventory/OysterTableCommon.svelte';
-	import OysterOperatorHistoryTableRow from './OysterOperatorHistoryTableRow.svelte';
+	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
+	import OysterOperatorHistoryTableRow from '$lib/page-components/oyster/operator/OysterOperatorHistoryTableRow.svelte';
+	import { OPERATOR_JOBS_URL } from '$lib/utils/constants/urls';
+	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 
 	let searchInput = '';
 	let activePage = 1;
 	let operatorHistoryData: OysterInventoryDataModel[] | undefined;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
 
-	const itemsPerPage = oysterTableItemsPerPage;
+	const itemsPerPage = TABLE_ITEMS_PER_PAGE;
 
 	const handlePageChange = (page: number) => {
 		activePage = page;
@@ -67,7 +65,7 @@
 </script>
 
 <div class="mx-auto">
-	<PageTitle title={'History of Claims'} backHref={kOperatorJobs} />
+	<PageTitle title={'History of Claims'} backHref={OPERATOR_JOBS_URL} />
 	<div class="flex gap-4 items-center mb-6">
 		<SearchBar
 			{onSearchClick}
@@ -78,7 +76,7 @@
 	</div>
 	<OysterTableCommon
 		{handleSortData}
-		tableHeading={kOysterOperatorHistoryTableHeader}
+		tableHeading={OYSTER_OPERATOR_HISTORY_TABLE_HEADER}
 		noDataFound={paginatedData?.length ? false : true}
 	>
 		{#if paginatedData?.length}

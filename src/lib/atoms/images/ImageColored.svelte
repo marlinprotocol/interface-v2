@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { CommonVariant } from '$lib/types/componentTypes';
-	import { getImageClassByVariant } from '$lib/utils/constants/componentConstants';
+	import { getImageClassByVariant } from '$lib/utils/helpers/componentHelper';
 
 	export let src: string;
 	export let alt = 'Image';

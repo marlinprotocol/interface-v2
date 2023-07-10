@@ -2,7 +2,7 @@
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { afterUpdate } from 'svelte';
-	import CollapseButton from '../buttons/CollapseButton.svelte';
+	import CollapseButton from '$lib/components/buttons/CollapseButton.svelte';
 
 	export let dataList: (string | number)[] = [];
 	export let title = '';

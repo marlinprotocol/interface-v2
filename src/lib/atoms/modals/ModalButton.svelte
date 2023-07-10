@@ -3,7 +3,7 @@
 	import type { ButtonModel } from '$lib/types/componentTypes';
 	import { openModal } from '$lib/utils/helpers/commonHelper';
 	import type { IconData } from 'svelte-awesome/components/Icon.svelte';
-	import Icon from '../icons/Icon.svelte';
+	import Icon from '$lib/atoms/icons/Icon.svelte';
 
 	export let modalFor: string;
 	export let disabled = false;

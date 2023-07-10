@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { staticImages } from '../images/staticImages';
+	import { staticImages } from '$lib/components/images/staticImages';
 	export let txnHashUrl: string;
 </script>
 

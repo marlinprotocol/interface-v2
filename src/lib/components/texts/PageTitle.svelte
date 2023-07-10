@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import BackButton from '../buttons/BackButton.svelte';
+	import BackButton from '$lib/components/buttons/BackButton.svelte';
 
 	export let title: string;
 	export let backHref = '';

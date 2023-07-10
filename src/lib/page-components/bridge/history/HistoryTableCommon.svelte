@@ -6,7 +6,7 @@
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { TableModel } from '$lib/types/componentTypes';
-	import HistoryBackButton from '../sub-components/HistoryBackButton.svelte';
+	import HistoryBackButton from '$lib/page-components/bridge/sub-components/HistoryBackButton.svelte';
 
 	export let tableTitle: {
 		backButton: {

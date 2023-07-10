@@ -9,19 +9,23 @@
 	import { requestMPondConversion } from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
-	import { kMPondHistoryPage } from '$lib/utils/constants/bridgeConstants';
-	import { BigNumberZero, mPondPrecisions } from '$lib/utils/constants/constants';
+	import {
+		BIG_NUMBER_ZERO,
+		MPOND_PRECISIONS,
+		POND_PRECISIONS
+	} from '$lib/utils/constants/constants';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,
 		bigNumberToString,
 		mPondToPond,
 		stringToBigNumber
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
-	import AmountInputWithMaxButton from '../../components/inputs/AmountInputWithMaxButton.svelte';
+	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
+	import { MPOND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
 
 	const maxAmountTooltipText =
 		'Unrequested is the amount of MPond for which a conversion request is not placed. MPond conversion requests placed is categorised as Requested. Conversion requests for staked MPond can also be placed.';
@@ -39,12 +43,14 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BigNumberZero;
+		: BIG_NUMBER_ZERO;
 
-	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(mPondToPond(inputAmount)) : '';
+	$: convertedAmountString = inputAmount.gt(0)
+		? bigNumberToString(mPondToPond(inputAmount), 18, POND_PRECISIONS)
+		: '';
 
 	let walletMPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.mPond;
-	let requestedMPond: BigNumber = BigNumberZero;
+	let requestedMPond: BigNumber = BIG_NUMBER_ZERO;
 
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		walletMPondBalance = value.mPond;
@@ -57,8 +63,8 @@
 	$: balanceText = $connected
 		? `Unrequested: ${bigNumberToCommaString(
 				unrequestedMPondBalance,
-				mPondPrecisions
-		  )} | Requested: ${bigNumberToCommaString(requestedMPond, mPondPrecisions)}`
+				MPOND_PRECISIONS
+		  )} | Requested: ${bigNumberToCommaString(requestedMPond, MPOND_PRECISIONS)}`
 		: 'Unrequested: 0 | Requested: 0';
 
 	onDestroy(unsubscribeWalletBalanceStore);
@@ -66,7 +72,7 @@
 
 	const handleMaxClick = () => {
 		if (unrequestedMPondBalance) {
-			inputAmountString = bigNumberToString(unrequestedMPondBalance);
+			inputAmountString = bigNumberToString(unrequestedMPondBalance, 18, 18, false);
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
 			inValidMessage = '';
@@ -86,7 +92,7 @@
 			await requestMPondConversion(inputAmount);
 			resetInputs();
 			requestConversionLoading = false;
-			goto(kMPondHistoryPage);
+			goto(MPOND_HISTORY_PAGE_URL);
 		} catch (error: any) {
 			requestConversionLoading = false;
 			console.log('error:', error);

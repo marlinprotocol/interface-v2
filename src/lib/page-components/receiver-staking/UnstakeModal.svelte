@@ -6,13 +6,13 @@
 	import { withdrawStakingToken } from '$lib/controllers/contractController';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import { BigNumberZero, pondPrecisions } from '$lib/utils/constants/constants';
+	import { BIG_NUMBER_ZERO, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,
 		bigNumberToString,
 		stringToBigNumber
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import {
 		closeModal,
 		inputAmountInValidMessage,
@@ -33,7 +33,7 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BigNumberZero;
+		: BIG_NUMBER_ZERO;
 
 	//loading states
 	let submitLoading = false;
@@ -46,9 +46,9 @@
 		const { stakedBalance, queuedBalance } = value;
 		maxAmount = stakedBalance.add(queuedBalance);
 
-		balanceText = `Staked: ${bigNumberToCommaString(stakedBalance, pondPrecisions)}${
+		balanceText = `Staked: ${bigNumberToCommaString(stakedBalance, POND_PRECISIONS)}${
 			!queuedBalance.isZero()
-				? ' + Queued: ' + bigNumberToCommaString(queuedBalance, pondPrecisions)
+				? ' + Queued: ' + bigNumberToCommaString(queuedBalance, POND_PRECISIONS)
 				: ''
 		}`;
 	});
@@ -92,7 +92,7 @@
 			receiverStakingStore.update((value) => {
 				if (inputAmount.gt(value.queuedBalance)) {
 					value.stakedBalance = value.stakedBalance.sub(inputAmount.sub(value.queuedBalance));
-					value.queuedBalance = BigNumberZero;
+					value.queuedBalance = BIG_NUMBER_ZERO;
 				} else {
 					value.queuedBalance = value.queuedBalance.sub(inputAmount);
 				}

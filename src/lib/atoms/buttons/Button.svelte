@@ -4,11 +4,11 @@
 	import OutlinedButton from '$lib/atoms/buttons/OutlinedButton.svelte';
 	import type { ButtonModel } from '$lib/types/componentTypes';
 	import type { IconData } from 'svelte-awesome/components/Icon.svelte';
-	import GreyFilledButton from './GreyFilledButton.svelte';
-	import InfoButton from './InfoButton.svelte';
-	import TextButton from './TextButton.svelte';
-	import WhiteFilledButton from './WhiteFilledButton.svelte';
-	import Icon from '../icons/Icon.svelte';
+	import GreyFilledButton from '$lib/atoms/buttons/GreyFilledButton.svelte';
+	import InfoButton from '$lib/atoms/buttons/InfoButton.svelte';
+	import TextButton from '$lib/atoms/buttons/TextButton.svelte';
+	import WhiteFilledButton from '$lib/atoms/buttons/WhiteFilledButton.svelte';
+	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import TableConvertButton from '$lib/atoms/buttons/TableConvertButton.svelte';
 
 	export let variant: ButtonModel['variant'] = 'filled';

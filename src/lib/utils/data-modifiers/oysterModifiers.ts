@@ -1,11 +1,14 @@
-import { BigNumberZero, hundredYears } from '$lib/utils/constants/constants';
+import { BIG_NUMBER_ZERO, SECONDS_IN_HUNDRED_YEARS } from '$lib/utils/constants/constants';
 import type {
 	CPInstances,
 	CPUrlDataModel,
 	OysterInventoryDataModel,
 	OysterMarketplaceDataModel
 } from '$lib/types/oysterComponentType';
-import { RATE_SCALING_FACTOR, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+import {
+	OYSTER_RATE_METADATA,
+	OYSTER_RATE_SCALING_FACTOR
+} from '$lib/utils/constants/oysterConstants';
 import { getProvidersInstancesJSON, getProvidersNameJSON } from '$lib/controllers/httpController';
 
 import { BANDWIDTH_RATES_LOOKUP } from '$lib/page-components/oyster/data/bandwidthRates';
@@ -45,7 +48,7 @@ export const getBandwidthRateForRegion = (region: string) => {
 	return BigNumber.from(bandwidthRate);
 };
 
-export async function getOysterJobsModified(jobs: any[]) {
+export async function modifyOysterJobData(jobs: any[]) {
 	if (!jobs?.length) return [];
 
 	const names = await getProvidersNameJSON();
@@ -85,7 +88,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		reviseRateMap = {
 			newRate: BigNumber.from(value),
 			rateStatus: _rateStatus,
-			stopStatus: BigNumber.from(value).gt(BigNumberZero) ? 'disabled' : _rateStatus,
+			stopStatus: BigNumber.from(value).gt(BIG_NUMBER_ZERO) ? 'disabled' : _rateStatus,
 			updatesAt: Number(updatesAt)
 		};
 	}
@@ -97,7 +100,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	const _balance = BigNumber.from(balance);
 	const _rate = BigNumber.from(rate); // in seconds
 	const _refund = BigNumber.from(refund);
-	const _downScaledRate = _rate.div(RATE_SCALING_FACTOR);
+	const _downScaledRate = _rate.div(OYSTER_RATE_SCALING_FACTOR);
 
 	//job with all basic conversions
 	const modifiedJob = {
@@ -133,7 +136,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 				amount: BigNumber.from(deposit.amount),
 				timestamp: Number(deposit.timestamp),
 				transactionStatus:
-					_refund.gt(BigNumberZero) && i === 0
+					_refund.gt(BIG_NUMBER_ZERO) && i === 0
 						? 'refunded'
 						: deposit.isWithdrawal
 						? 'withdrawal'
@@ -144,14 +147,14 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 
 	const _totalSettledAmount = settlementHistory.reduce((acc: BigNumber, settlement: any) => {
 		return acc.add(BigNumber.from(settlement.amount));
-	}, BigNumberZero);
+	}, BIG_NUMBER_ZERO);
 
-	if (_refund.gt(BigNumberZero)) {
+	if (_refund.gt(BIG_NUMBER_ZERO)) {
 		//job is stopped and refunded so amount is used is total deposit - refund and current balance is 0
 		return {
 			...modifiedJob,
 			amountUsed: _totalDeposit.sub(_refund),
-			balance: BigNumberZero,
+			balance: BIG_NUMBER_ZERO,
 			durationLeft: 0,
 			durationRun: _lastSettled - _createdAt,
 			endEpochTime: _lastSettled,
@@ -161,7 +164,10 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		};
 	}
 
-	if (_downScaledRate.eq(BigNumberZero) || _balance.div(_downScaledRate).gt(hundredYears)) {
+	if (
+		_downScaledRate.eq(BIG_NUMBER_ZERO) ||
+		_balance.div(_downScaledRate).gt(SECONDS_IN_HUNDRED_YEARS)
+	) {
 		const time = Math.floor(nowTime - _lastSettled);
 		const _balanceUpdated = _balance.sub(_downScaledRate.mul(time));
 		//job is running and will never end
@@ -169,9 +175,9 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 			...modifiedJob,
 			amountUsed: _totalDeposit.sub(_balanceUpdated),
 			balance: _balanceUpdated,
-			durationLeft: hundredYears * 2,
+			durationLeft: SECONDS_IN_HUNDRED_YEARS * 2,
 			durationRun: nowTime - _createdAt,
-			endEpochTime: _lastSettled + hundredYears * 2,
+			endEpochTime: _lastSettled + SECONDS_IN_HUNDRED_YEARS * 2,
 			live: true,
 			status: 'running',
 			amountToBeSettled: _totalDeposit.sub(_balanceUpdated).sub(_totalSettledAmount)
@@ -187,7 +193,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		return {
 			...modifiedJob,
 			amountUsed: _totalDeposit,
-			balance: BigNumberZero,
+			balance: BIG_NUMBER_ZERO,
 			durationLeft: 0,
 			durationRun: endEpochTime - _createdAt,
 			endEpochTime,
@@ -217,7 +223,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 
 export async function getOysterProvidersModified(providers: any[]) {
 	if (!providers?.length) return [];
-	const { rateCPUrlUnitInSeconds } = kOysterRateMetaData;
+	const { rateCPUrlUnitInSeconds } = OYSTER_RATE_METADATA;
 	//fetch all providers name and instances
 	const [allNames, allInstances] = await Promise.all([
 		getProvidersNameJSON(),
@@ -229,7 +235,7 @@ export async function getOysterProvidersModified(providers: any[]) {
 		const instances = getModifiedInstances(allInstances[provider.id]);
 		instances?.forEach((instance: any, index: number) => {
 			//rate is hourly rate so convert it to per second rate
-			const rateFromCPUrl = instance.rate ? BigNumber.from(instance.rate) : BigNumberZero;
+			const rateFromCPUrl = instance.rate ? BigNumber.from(instance.rate) : BIG_NUMBER_ZERO;
 			ret.push({
 				...instance,
 				rate: rateFromCPUrl.div(rateCPUrlUnitInSeconds),

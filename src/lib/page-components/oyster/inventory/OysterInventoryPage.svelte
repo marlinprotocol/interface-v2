@@ -8,21 +8,19 @@
 	import OysterInventoryTableRow from '$lib/page-components/oyster/inventory/OysterInventoryTableRow.svelte';
 	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import {
-		kOysterInventoryTableHeader,
-		oysterTableItemsPerPage
-	} from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_INVENTORY_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { getSearchedInventoryData, sortOysterInventory } from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import plus from 'svelte-awesome/icons/plus';
 	import type { Unsubscriber } from 'svelte/store';
-	import OysterTableCommon from './OysterTableCommon.svelte';
+	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
+	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 
 	let searchInput = '';
 	let activePage = 1;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
 
-	const itemsPerPage = oysterTableItemsPerPage;
+	const itemsPerPage = TABLE_ITEMS_PER_PAGE;
 
 	let loading = true;
 	let inventoryData: OysterInventoryDataModel[] | undefined;
@@ -89,7 +87,7 @@
 	</div>
 	<OysterTableCommon
 		{handleSortData}
-		tableHeading={kOysterInventoryTableHeader}
+		tableHeading={OYSTER_INVENTORY_TABLE_HEADER}
 		{loading}
 		noDataFound={paginatedData?.length ? false : true}
 		emptyTableMessage={'You do not have any active orders.'}

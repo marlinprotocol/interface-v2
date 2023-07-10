@@ -8,13 +8,13 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
-	import { kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
 		epochSecToString,
 		epochToDurationString
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
+	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
 	import { handleClaimAmountFromOysterJob } from '$lib/utils/services/oysterServices';
 
@@ -22,7 +22,7 @@
 	export let rowIndex: number;
 	let submitLoading = false;
 
-	const { symbol, decimal, precision } = kOysterRateMetaData;
+	const { symbol, decimal, precision } = OYSTER_RATE_METADATA;
 
 	const handleClaimClick = async () => {
 		submitLoading = true;

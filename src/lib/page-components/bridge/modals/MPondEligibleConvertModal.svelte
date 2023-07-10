@@ -5,19 +5,19 @@
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import { BigNumberZero, mPondPrecisions } from '$lib/utils/constants/constants';
+	import { BIG_NUMBER_ZERO, MPOND_PRECISIONS } from '$lib/utils/constants/constants';
 	import {
 		bigNumberToCommaString,
 		bigNumberToString,
 		stringToBigNumber
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import {
 		closeModal,
 		inputAmountInValidMessage,
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
-	import MPondApproveConfirmModal from './MPondApproveConfirmModal.svelte';
+	import MPondApproveConfirmModal from '$lib/page-components/bridge/modals/MPondApproveConfirmModal.svelte';
 
 	export let modalFor: string;
 	export let maxAmount: BigNumber;
@@ -25,7 +25,7 @@
 	export let rowIndex: number;
 	export let handleOnSuccess: (convertedMPond: BigNumber, txnHash: string) => void;
 
-	$: balanceText = `Eligible Balance: ${bigNumberToCommaString(maxAmount, mPondPrecisions)}`;
+	$: balanceText = `Eligible Balance: ${bigNumberToCommaString(maxAmount, MPOND_PRECISIONS)}`;
 
 	//initial amount states
 	let inputAmount: BigNumber;
@@ -34,7 +34,7 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BigNumberZero;
+		: BIG_NUMBER_ZERO;
 
 	//input amount states
 	let inputAmountIsValid = true;

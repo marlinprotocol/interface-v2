@@ -6,11 +6,14 @@
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
-	import { kInstancesTableHeader, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
-	import { convertRateToPerHourString } from '$lib/utils/helpers/oysterHelpers';
+	import {
+		OYSTER_INSTANCES_TABLE_HEADER,
+		OYSTER_RATE_METADATA
+	} from '$lib/utils/constants/oysterConstants';
+	import { convertRateToPerHourString } from '$lib/utils/helpers/conversionHelper';
 	import { slide } from 'svelte/transition';
 
-	const { symbol, decimal } = kOysterRateMetaData;
+	const { symbol, decimal } = OYSTER_RATE_METADATA;
 
 	const styles = {
 		docButton: 'text-primary font-medium',
@@ -34,7 +37,7 @@
 				</div>
 			{:then value}
 				<Table
-					tableHeading={kInstancesTableHeader}
+					tableHeading={OYSTER_INSTANCES_TABLE_HEADER}
 					headingStyleClass={'text-sm'}
 					tablePadding={'py-4'}
 					iconWidth={'13px'}

@@ -1,29 +1,29 @@
 <script lang="ts">
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
+	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import {
-		RATE_SCALING_FACTOR,
-		kBandwidthUnitsList,
-		kOysterRateMetaData
+		OYSTER_RATE_SCALING_FACTOR,
+		OYSTER_BANDWIDTH_UNITS_LIST,
+		OYSTER_RATE_METADATA
 	} from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToString } from '$lib/utils/conversion';
+	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 	import { BigNumber } from 'ethers';
 
 	export let region: any;
-	export let bandwidthRateForRegion = BigNumberZero;
-	export let bandwidthCost = BigNumberZero;
+	export let bandwidthRateForRegion = BIG_NUMBER_ZERO;
+	export let bandwidthCost = BIG_NUMBER_ZERO;
 	export let duration = 0;
-	export let instanceCost = BigNumberZero;
-	export let finalBandwidthRate = BigNumberZero;
+	export let instanceCost = BIG_NUMBER_ZERO;
+	export let finalBandwidthRate = BIG_NUMBER_ZERO;
 
 	let bandwidth = '';
 	let bandwidthUnit = 'KB/s';
 	let bandwidthCostString = '';
 
-	const { currency, decimal } = kOysterRateMetaData;
-	const bandwidthUnitList = kBandwidthUnitsList.map((unit) => unit.label);
+	const { currency, decimal } = OYSTER_RATE_METADATA;
+	const bandwidthUnitList = OYSTER_BANDWIDTH_UNITS_LIST.map((unit) => unit.label);
 
 	function calculateBandwidthCost(
 		bandwidth: string | number,
@@ -32,24 +32,24 @@
 		duration: number // in seconds
 	) {
 		const unitConversionDivisor = BigNumber.from(
-			kBandwidthUnitsList.find((unit) => unit.label === bandwidthUnit)?.value
+			OYSTER_BANDWIDTH_UNITS_LIST.find((unit) => unit.label === bandwidthUnit)?.value
 		);
 		finalBandwidthRate = BigNumber.from(bandwidth)
 			.mul(rate)
-			.mul(RATE_SCALING_FACTOR)
+			.mul(OYSTER_RATE_SCALING_FACTOR)
 			.div(unitConversionDivisor || BigNumber.from(1));
-		return finalBandwidthRate.mul(duration).div(RATE_SCALING_FACTOR);
+		return finalBandwidthRate.mul(duration).div(OYSTER_RATE_SCALING_FACTOR);
 	}
 
 	$: bandwidthRateForRegion = getBandwidthRateForRegion(region.value);
 	$: bandwidthCost =
 		bandwidth !== ''
 			? calculateBandwidthCost(bandwidth, bandwidthUnit, bandwidthRateForRegion, duration)
-			: BigNumberZero;
+			: BIG_NUMBER_ZERO;
 	$: bandwidthCostString = bandwidth !== '' ? bigNumberToString(bandwidthCost, decimal, 4) : '';
 
 	$: totalAmount = bandwidthCost.add(instanceCost);
-	$: totalAmountString = !totalAmount.eq(BigNumberZero)
+	$: totalAmountString = !totalAmount.eq(BIG_NUMBER_ZERO)
 		? bigNumberToString(totalAmount, decimal, 4)
 		: '';
 </script>

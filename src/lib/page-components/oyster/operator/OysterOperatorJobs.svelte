@@ -5,17 +5,15 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import OysterOperatorInventoryTableRow from '$lib/page-components/oyster/operator/OysterOperatorInventoryTableRow.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import {
-		kOysterMerchantJobTableHeader,
-		oysterTableItemsPerPage
-	} from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_MERCHANT_JOB_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import {
 		getSearchedOysterJobsData,
 		sortOysterOperatorInventory
 	} from '$lib/utils/helpers/oysterHelpers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import OysterTableCommon from '../inventory/OysterTableCommon.svelte';
+	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
+	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 
 	let searchInput = '';
 	let loading = true;
@@ -29,7 +27,7 @@
 		loading = !value.merchantJobsLoaded;
 	});
 
-	const itemsPerPage = oysterTableItemsPerPage;
+	const itemsPerPage = TABLE_ITEMS_PER_PAGE;
 
 	const handleSortData = (id: string) => {
 		if (sortingMap[id]) {
@@ -81,7 +79,7 @@
 </div>
 <OysterTableCommon
 	{handleSortData}
-	tableHeading={kOysterMerchantJobTableHeader}
+	tableHeading={OYSTER_MERCHANT_JOB_TABLE_HEADER}
 	{loading}
 	noDataFound={paginatedData?.length ? false : true}
 	emptyTableMessage={'No jobs found.'}

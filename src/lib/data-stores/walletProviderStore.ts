@@ -1,7 +1,10 @@
 import { derived, writable, type Readable, type Writable } from 'svelte/store';
 import type { Address, WalletBalance, WalletStore } from '$lib/types/storeTypes';
 import { DEFAULT_WALLET_BALANCE, DEFAULT_WALLET_STORE } from '$lib/utils/constants/storeDefaults';
-import { getMPondBalance, getPondBalance } from '$lib/controllers/subgraphController';
+import {
+	getMPondBalanceFromSubgraph,
+	getPondBalanceFromSubgraph
+} from '$lib/controllers/subgraphController';
 
 let walletAddress: Address = DEFAULT_WALLET_STORE.address;
 
@@ -22,6 +25,20 @@ export const connected: Readable<boolean> = derived(walletStore, ($walletStore) 
 });
 
 /**
+ *  reset the walletStore to its default value
+ */
+export function resetWalletProviderStore(): void {
+	walletStore.set(DEFAULT_WALLET_STORE);
+}
+
+/**
+ * reset walletBalanceStore to its default value.
+ */
+export function resetWalletBalanceStore(): void {
+	walletBalance.set(DEFAULT_WALLET_BALANCE);
+}
+
+/**
  * fetches the balance for POND and MPond based on
  * wallet address and sets the walletBalance store.
  * @param walletAddress should be a Hex Address i.e. all lowercase
@@ -29,8 +46,8 @@ export const connected: Readable<boolean> = derived(walletStore, ($walletStore) 
 async function setWalletBalance(walletAddress: Address): Promise<void> {
 	try {
 		const balances = await Promise.all([
-			getPondBalance(walletAddress),
-			getMPondBalance(walletAddress)
+			getPondBalanceFromSubgraph(walletAddress),
+			getMPondBalanceFromSubgraph(walletAddress)
 		]);
 		walletBalance.set({
 			pond: balances[0],
@@ -43,24 +60,8 @@ async function setWalletBalance(walletAddress: Address): Promise<void> {
 	}
 }
 
-/**
- *  Resets the walletStore to its default value
- */
-export function resetWalletProviderStore(): void {
-	walletStore.set(DEFAULT_WALLET_STORE);
-}
-
-/**
- * Reset wallet balance to its default value.
- */
-export function resetWalletBalanceStore(): void {
-	walletBalance.set(DEFAULT_WALLET_BALANCE);
-}
-
-/**
- * Subscriptions to walletStore
- * allows us to fetch wallet balance when the user has a valid wallet address
- */
+// subscription to walletStore allows us to fetch wallet balance
+// when the user has a valid wallet address
 walletStore.subscribe((value) => {
 	walletAddress = value.address;
 	if (walletAddress !== DEFAULT_WALLET_STORE.address) {

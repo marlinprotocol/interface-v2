@@ -7,6 +7,9 @@
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { invalidateAll } from '$app/navigation';
+	import { getContractDetails } from '$lib/controllers/httpController';
+	import { updateContractStoresWithoutBridge } from '$lib/data-stores/contractStore';
+	import { addToast } from '$lib/data-stores/toastStore';
 
 	let prevChainId: null | number = null;
 
@@ -16,6 +19,22 @@
 			window.console.log = function () {
 				// do nothing
 			};
+		}
+
+		// get contract details and set address+abi stores
+		try {
+			const contractDetails = await getContractDetails();
+			const addresses = contractDetails.addresses;
+			const ABIS = contractDetails.ABI;
+
+			updateContractStoresWithoutBridge(addresses, ABIS);
+		} catch (error: any) {
+			addToast({
+				variant: 'error',
+				message: `${error.message}. Please try refreshing the page.`,
+				timeout: 6000
+			});
+			console.error('Error while fetching contract details', error);
 		}
 	});
 

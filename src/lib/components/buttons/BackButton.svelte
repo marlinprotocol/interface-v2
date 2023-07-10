@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/atoms/componentClasses';
-	import { staticImages } from '../images/staticImages';
+	import { staticImages } from '$lib/components/images/staticImages';
 
 	export let text = 'Back';
 	export let href: string;

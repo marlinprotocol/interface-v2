@@ -11,8 +11,8 @@
 		OysterMarketplaceDataModel
 	} from '$lib/types/oysterComponentType';
 	import type { Address } from '$lib/types/storeTypes';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import { RATE_SCALING_FACTOR, kOysterOwnerInventory } from '$lib/utils/constants/oysterConstants';
+	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
+	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 	import { checkValidURL, closeModal } from '$lib/utils/helpers/commonHelper';
 	import { getRateForProviderAndFilters } from '$lib/utils/helpers/oysterHelpers';
 	import {
@@ -25,6 +25,7 @@
 	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
 	import MetadetailsForNewOrder from '$lib/page-components/oyster/sub-components/MetadetailsForNewOrder.svelte';
 	import BandwidthSelector from '$lib/page-components/oyster/sub-components/BandwidthSelector.svelte';
+	import { OYSTER_OWNER_INVENTORY_URL } from '$lib/utils/constants/urls';
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
@@ -34,11 +35,11 @@
 	let owner: Address;
 
 	let duration = 0; //durationInSecs
-	let instanceCost = BigNumberZero;
+	let instanceCost = BIG_NUMBER_ZERO;
 	let invalidCost = false;
 	let instanceCostString = '';
-	let bandwidthCost = BigNumberZero;
-	let finalBandwidthRate = BigNumberZero;
+	let bandwidthCost = BIG_NUMBER_ZERO;
+	let finalBandwidthRate = BIG_NUMBER_ZERO;
 
 	//loading states
 	let submitLoading = false;
@@ -131,7 +132,7 @@
 		}
 		resetInputs();
 		closeModal(modalFor);
-		goto(kOysterOwnerInventory);
+		goto(OYSTER_OWNER_INVENTORY_URL);
 	};
 
 	const handleApproveClick = async () => {
@@ -163,7 +164,7 @@
 
 	const handleMerchantChange = () => {
 		duration = 0;
-		instanceCost = BigNumberZero;
+		instanceCost = BIG_NUMBER_ZERO;
 		invalidCost = false;
 		instanceCostString = '';
 	};
@@ -179,10 +180,10 @@
 	let notServiceable = false;
 
 	$: approved =
-		instanceCost.gt(BigNumberZero) &&
+		instanceCost.gt(BIG_NUMBER_ZERO) &&
 		approvedAmount?.gte(totalCost) &&
-		bandwidthCost.gt(BigNumberZero) &&
-		totalCost.gt(BigNumberZero);
+		bandwidthCost.gt(BIG_NUMBER_ZERO) &&
+		totalCost.gt(BIG_NUMBER_ZERO);
 
 	$: instanceRateDisabled =
 		notServiceable ||
@@ -195,8 +196,8 @@
 
 	$: submitEnable =
 		duration &&
-		instanceCost?.gt(BigNumberZero) &&
-		bandwidthCost?.gt(BigNumberZero) &&
+		instanceCost?.gt(BIG_NUMBER_ZERO) &&
+		bandwidthCost?.gt(BIG_NUMBER_ZERO) &&
 		instanceRate &&
 		totalRate &&
 		!invalidCost &&
@@ -209,7 +210,9 @@
 			? checkValidURL(enclaveImageUrl.value)
 			: true;
 
-	$: totalRate = finalBandwidthRate.add(instanceRate?.mul(RATE_SCALING_FACTOR) || BigNumberZero);
+	$: totalRate = finalBandwidthRate.add(
+		instanceRate?.mul(OYSTER_RATE_SCALING_FACTOR) || BIG_NUMBER_ZERO
+	);
 	$: totalCost = instanceCost.add(bandwidthCost);
 
 	const subtitle =

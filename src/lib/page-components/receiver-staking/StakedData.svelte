@@ -7,7 +7,7 @@
 	import type { ReceiverStakingData } from '$lib/types/storeTypes';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
-	import SignerAddress from './sub-components/SignerAddress.svelte';
+	import SignerAddress from '$lib/page-components/receiver-staking/sub-components/SignerAddress.svelte';
 
 	let receiverData: ReceiverStakingData;
 	const unsubscribeReceiverStakedStore: Unsubscriber = receiverStakingStore.subscribe(

@@ -1,13 +1,8 @@
 import {
-	BigNumberZero,
-	DEFAULT_CURRENCY_DECIMALS,
-	DEFAULT_PRECISION,
-	secondsInHour
-} from '$lib/utils/constants/constants';
-import {
 	OYSTER_CAUTION_DURATION,
-	OYSTER_WARNING_DURATION,
-	RATE_SCALING_FACTOR
+	OYSTER_DURATION_UNITS_LIST,
+	OYSTER_RATE_SCALING_FACTOR,
+	OYSTER_WARNING_DURATION
 } from '$lib/utils/constants/oysterConstants';
 import type {
 	OysterFiltersModel,
@@ -16,24 +11,11 @@ import type {
 	OysterMarketplaceFilterModel
 } from '$lib/types/oysterComponentType';
 
+import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import { BigNumber } from 'ethers';
 import { addToast } from '$lib/data-stores/toastStore';
-import { bigNumberToString } from '$lib/utils/conversion';
 import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
-
-export const convertRateToPerHourString = (
-	rate: BigNumber,
-	decimal = DEFAULT_CURRENCY_DECIMALS,
-	precision = DEFAULT_PRECISION
-) => {
-	const rateInHour = rate.mul(secondsInHour);
-	return bigNumberToString(rateInHour, decimal, precision);
-};
-
-export const convertHourlyRateToSecondlyRate = (rate: BigNumber) => {
-	return rate.div(secondsInHour);
-};
 
 export const getSearchedInventoryData = (
 	searchInput: string,
@@ -479,13 +461,13 @@ export const getCreateOrderInstanceRegionFilters = (
 
 export const computeCost = (duration: number, rate?: BigNumber) => {
 	try {
-		return rate ? rate.mul(duration) : BigNumberZero;
+		return rate ? rate.mul(duration) : BIG_NUMBER_ZERO;
 	} catch (e) {
 		addToast({
 			variant: 'error',
 			message: `Error computing cost, please try again.`
 		});
-		return BigNumberZero;
+		return BIG_NUMBER_ZERO;
 	}
 };
 
@@ -516,14 +498,20 @@ export const addRegionNameToMarketplaceData = (
 	return newArray;
 };
 
+// returns bandwidth rate in Kb/s
 export function getBandwidthFromRateAndRegion(bandwidthRate: BigNumber, region: string) {
 	const rateForRegion = getBandwidthRateForRegion(region);
-	if (rateForRegion === undefined) return BigNumberZero;
+	if (rateForRegion === undefined) return BIG_NUMBER_ZERO;
 	const bandwidthWithAllPrecision = bandwidthRate
 		.mul(BigNumber.from(1024 * 1024))
 		.div(rateForRegion);
 
+	// the add, sub and div is done to ceil the number
 	return bandwidthWithAllPrecision
-		.add(RATE_SCALING_FACTOR.sub(BigNumber.from(1)))
-		.div(RATE_SCALING_FACTOR);
+		.add(OYSTER_RATE_SCALING_FACTOR.sub(BigNumber.from(1)))
+		.div(OYSTER_RATE_SCALING_FACTOR);
 }
+
+export const getDurationInSecondsForUnit = (durationUnit: string) => {
+	return OYSTER_DURATION_UNITS_LIST.find((unit) => unit.label === durationUnit)?.value ?? 1;
+};

@@ -8,31 +8,32 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
-	import { RATE_SCALING_FACTOR, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
-	import { bigNumberToString, epochToDurationString } from '$lib/utils/conversion';
+	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
+		bigNumberToString,
 		convertRateToPerHourString,
-		getInventoryDurationVariant
-	} from '$lib/utils/helpers/oysterHelpers';
+		epochToDurationString
+	} from '$lib/utils/helpers/conversionHelper';
+	import { getInventoryDurationVariant } from '$lib/utils/helpers/oysterHelpers';
 	import plus from 'svelte-awesome/icons/plus';
 	import { slide } from 'svelte/transition';
-	import AddFundsToJobModal from './modals/AddFundsToJobModal.svelte';
-	import AmendRateModal from './modals/AmendRateModal.svelte';
-	import InventoryJobDetailsModal from './modals/JobDetailsModal.svelte';
-	import StopJobModal from './modals/StopJobModal.svelte';
-	import WithdrawFundsFromJobModal from './modals/WithdrawFundsFromJobModal.svelte';
+	import AddFundsToJobModal from '$lib/page-components/oyster/inventory/modals/AddFundsToJobModal.svelte';
+	import AmendRateModal from '$lib/page-components/oyster/inventory/modals/AmendRateModal.svelte';
+	import InventoryJobDetailsModal from '$lib/page-components/oyster/inventory/modals/JobDetailsModal.svelte';
+	import StopJobModal from '$lib/page-components/oyster/inventory/modals/StopJobModal.svelte';
+	import WithdrawFundsFromJobModal from '$lib/page-components/oyster/inventory/modals/WithdrawFundsFromJobModal.svelte';
 	import type { Bytes } from 'ethers';
 	import { refreshJobStatusForJobId } from '$lib/controllers/httpController';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import refresh from 'svelte-awesome/icons/refresh';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
+	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
 	export let expandedRows: Set<string>;
 
-	const { symbol, decimal, precision } = kOysterRateMetaData;
+	const { symbol, decimal, precision } = OYSTER_RATE_METADATA;
 	let refreshLoading = false;
 	$: ({
 		provider: { name, address },

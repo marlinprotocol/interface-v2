@@ -3,12 +3,17 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import SuccessfulConversionModal from '$lib/page-components/bridge/modals/SuccessfulConversionModal.svelte';
-	import { amountPrecision, BigNumberZero } from '$lib/utils/constants/constants';
-	import { bigNumberToCommaString, mPondToPond, pondToMPond } from '$lib/utils/conversion';
+	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
+	import {
+		bigNumberToCommaString,
+		mPondToPond,
+		pondToMPond
+	} from '$lib/utils/helpers/conversionHelper';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
-	import { staticImages } from '../images/staticImages';
-	import LoadingAnimationModal from '../loading/LoadingAnimationModal.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
+	import LoadingAnimationModal from '$lib/components/loading/LoadingAnimationModal.svelte';
+	import { getAmountPrecision } from '$lib/utils/helpers/bridgeHelpers';
 
 	export let handleApproveClick: () => Promise<void>;
 	export let handleConfirmClick: () => Promise<void>;
@@ -17,15 +22,18 @@
 	export let rowIndex: number;
 	export let approveButtonText = 'APPROVE';
 	export let confirmButtonText = 'CONFIRM';
-	export let amountConverted: BigNumber = BigNumberZero;
+	export let amountConverted: BigNumber = BIG_NUMBER_ZERO;
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
 
 	export let modalForApproveConfirm: string;
 
-	$: amountConvertedFrom = bigNumberToCommaString(amountConverted, amountPrecision(conversionFrom));
+	$: amountConvertedFrom = bigNumberToCommaString(
+		amountConverted,
+		getAmountPrecision(conversionFrom)
+	);
 	$: amountConvertedTo = bigNumberToCommaString(
 		conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted),
-		amountPrecision(conversionFrom === 'pond' ? 'mPond' : 'pond')
+		getAmountPrecision(conversionFrom === 'pond' ? 'mPond' : 'pond')
 	);
 	$: conversionFromText = conversionFrom === 'pond' ? 'POND' : 'MPond';
 	$: conversionToText = conversionFrom === 'pond' ? 'MPond' : 'POND';
@@ -52,6 +60,7 @@
 			closeModal(modalForApproveConfirm);
 			openModal(modalForSuccessConversion);
 		} catch (e) {
+			console.error(e);
 			throw e;
 		} finally {
 			confirmLoading = false;

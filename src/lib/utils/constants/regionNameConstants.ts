@@ -1,4 +1,4 @@
-export const regionNameConstants = {
+export const REGION_NAME_CONSTANTS = {
 	'us-east-2': 'US East (Ohio)',
 	'us-east-1': 'US East (N. Virginia)',
 	'us-west-1': 'US West (N. California)',

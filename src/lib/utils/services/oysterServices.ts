@@ -1,5 +1,8 @@
 import type { BigNumber, Bytes } from 'ethers';
-import { RATE_SCALING_FACTOR, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+import {
+	OYSTER_RATE_METADATA,
+	OYSTER_RATE_SCALING_FACTOR
+} from '$lib/utils/constants/oysterConstants';
 import {
 	addFundsToOysterJob,
 	approveFundsForOysterJobAdd,
@@ -12,11 +15,11 @@ import {
 	withdrawFundsFromOysterJob
 } from '$lib/controllers/contractController';
 
-import { BigNumberZero } from '$lib/utils/constants/constants';
+import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 import type { OysterStore } from '$lib/types/storeTypes';
 import { oysterStore } from '$lib/data-stores/oysterStore';
-import { parseMetadata } from '../data-modifiers/oysterModifiers';
+import { parseMetadata } from '$lib/utils/data-modifiers/oysterModifiers';
 
 export async function handleClaimAmountFromOysterJob(jobId: Bytes) {
 	try {
@@ -29,7 +32,7 @@ export async function handleClaimAmountFromOysterJob(jobId: Bytes) {
 						console.log('job :>> ', job);
 						return {
 							...job,
-							amountToBeSettled: BigNumberZero
+							amountToBeSettled: BIG_NUMBER_ZERO
 						};
 					}
 					return job;
@@ -146,7 +149,7 @@ export async function handleInitiateRateRevise(
 	jobData: OysterInventoryDataModel,
 	newRate: BigNumber
 ) {
-	const { rateReviseWaitingTime } = kOysterRateMetaData;
+	const { rateReviseWaitingTime } = OYSTER_RATE_METADATA;
 	const { id } = jobData;
 	try {
 		await initiateRateReviseOysterJob(id, newRate);
@@ -156,7 +159,7 @@ export async function handleInitiateRateRevise(
 			reviseRate: {
 				newRate: newRate,
 				rateStatus: 'pending',
-				stopStatus: newRate.gt(BigNumberZero) ? 'disabled' : 'pending',
+				stopStatus: newRate.gt(BIG_NUMBER_ZERO) ? 'disabled' : 'pending',
 				updatesAt: nowTime + rateReviseWaitingTime
 			}
 		};
@@ -236,9 +239,9 @@ export async function handleConfirmJobStop(jobData: OysterInventoryDataModel) {
 			...jobData,
 			live: false,
 			refund: jobData.balance,
-			balance: BigNumberZero,
+			balance: BIG_NUMBER_ZERO,
 			status: 'stopped',
-			rate: BigNumberZero,
+			rate: BIG_NUMBER_ZERO,
 			reviseRate: undefined,
 			depositHistory: [
 				{
@@ -278,7 +281,12 @@ export async function handleCreateJob(
 	durationInSec: number
 ) {
 	try {
-		const { jobId, txHash } = await createNewOysterJob(metadata, provider, rate, balance);
+		const { txn, approveReciept } = await createNewOysterJob(metadata, provider, rate, balance);
+
+		const txHash = txn.hash;
+		const jobOpenEvent = approveReciept.events?.find((event: any) => event.event === 'JobOpened');
+		const jobId = jobOpenEvent?.args?.job;
+
 		const nowTime = Date.now() / 1000;
 
 		const { enclaveUrl, instance, region, vcpu, memory } = parseMetadata(metadata);
@@ -295,10 +303,10 @@ export async function handleCreateJob(
 			region,
 			vcpu,
 			memory,
-			amountUsed: BigNumberZero,
-			refund: BigNumberZero,
+			amountUsed: BIG_NUMBER_ZERO,
+			refund: BIG_NUMBER_ZERO,
 			rate,
-			downScaledRate: rate.div(RATE_SCALING_FACTOR),
+			downScaledRate: rate.div(OYSTER_RATE_SCALING_FACTOR),
 			balance,
 			totalDeposit: balance,
 			live: true,
@@ -318,7 +326,7 @@ export async function handleCreateJob(
 					transactionStatus: 'deposit'
 				}
 			],
-			amountToBeSettled: BigNumberZero,
+			amountToBeSettled: BIG_NUMBER_ZERO,
 			settlementHistory: []
 		};
 		oysterStore.update((value) => {

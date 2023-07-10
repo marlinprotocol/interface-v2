@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
-	import { pondPrecisions } from '$lib/utils/constants/constants';
-	import { bigNumberToCommaString, bigNumberToString } from '$lib/utils/conversion';
+	import { POND_PRECISIONS } from '$lib/utils/constants/constants';
+	import { bigNumberToCommaString, bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import type { BigNumber } from 'ethers';
 
 	export let data: { title: string; value: BigNumber };
@@ -23,7 +23,7 @@
 			<Text
 				variant="body"
 				styleClass="font-semibold text-right"
-				text={`${bigNumberToCommaString(data.value, pondPrecisions)} POND`}
+				text={`${bigNumberToCommaString(data.value, POND_PRECISIONS)} POND`}
 			/>
 		</Tooltip>
 	</div>

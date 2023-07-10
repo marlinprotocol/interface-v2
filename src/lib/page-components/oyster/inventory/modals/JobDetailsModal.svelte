@@ -4,15 +4,18 @@
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BigNumberZero, MEMORY_SUFFIX } from '$lib/utils/constants/constants';
-	import { RATE_SCALING_FACTOR, kOysterRateMetaData } from '$lib/utils/constants/oysterConstants';
+	import { BIG_NUMBER_ZERO, MEMORY_SUFFIX } from '$lib/utils/constants/constants';
+	import {
+		OYSTER_RATE_SCALING_FACTOR,
+		OYSTER_RATE_METADATA
+	} from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
+		convertRateToPerHourString,
 		epochSecToString,
 		epochToDurationString
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import {
-		convertRateToPerHourString,
 		getBandwidthFromRateAndRegion,
 		getRateForProviderAndFilters
 	} from '$lib/utils/helpers/oysterHelpers';
@@ -37,7 +40,7 @@
 		downScaledRate
 	} = jobData);
 
-	const { symbol, decimal } = kOysterRateMetaData;
+	const { symbol, decimal } = OYSTER_RATE_METADATA;
 	const nowTime = new Date().getTime() / 1000;
 	const styles = {
 		modalWidth: 'w-11/12 sm:max-w-[700px]',
@@ -51,7 +54,9 @@
 		$oysterStore.allMarketplaceData
 	);
 	$: bandwidthRate =
-		instanceRate !== undefined ? rate.sub(instanceRate.mul(RATE_SCALING_FACTOR)) : BigNumberZero;
+		instanceRate !== undefined
+			? rate.sub(instanceRate.mul(OYSTER_RATE_SCALING_FACTOR))
+			: BIG_NUMBER_ZERO;
 	$: bandwidth = getBandwidthFromRateAndRegion(bandwidthRate, region).toString() + 'KB/s';
 </script>
 

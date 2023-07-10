@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { CommonVariant } from '$lib/types/componentTypes';
-	import { getColorHexByVariant } from '$lib/utils/constants/componentConstants';
+	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
 
 	export let variant: CommonVariant = 'primary';
 	export let styleClass = '';

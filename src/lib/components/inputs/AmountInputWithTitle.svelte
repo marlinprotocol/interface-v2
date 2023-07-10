@@ -1,7 +1,7 @@
 <script lang="ts">
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import AmountInput from './AmountInput.svelte';
+	import AmountInput from '$lib/components/inputs/AmountInput.svelte';
 
 	export let title: string;
 	export let disabled = false;

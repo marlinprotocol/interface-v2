@@ -5,15 +5,15 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BigNumberZero } from '$lib/utils/constants/constants';
-	import { epochToDurationString } from '$lib/utils/conversion';
+	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
+	import { epochToDurationString } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleCancelRateRevise,
 		handleConfirmJobStop,
 		handleInitiateRateRevise
 	} from '$lib/utils/services/oysterServices';
-	import StopModalContent from '../../sub-components/StopModalContent.svelte';
+	import StopModalContent from '$lib/page-components/oyster/sub-components/StopModalContent.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -25,7 +25,7 @@
 
 	const handleInitiateClick = async () => {
 		submitLoading = true;
-		await handleInitiateRateRevise(jobData, BigNumberZero);
+		await handleInitiateRateRevise(jobData, BIG_NUMBER_ZERO);
 		submitLoading = false;
 		closeModal(modalFor);
 	};

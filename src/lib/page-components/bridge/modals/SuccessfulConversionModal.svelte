@@ -5,20 +5,28 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
-	import { kPondHistoryPage } from '$lib/utils/constants/bridgeConstants';
-	import { BigNumberZero, mPondPrecisions, pondPrecisions } from '$lib/utils/constants/constants';
-	import { bigNumberToCommaString, mPondToPond, pondToMPond } from '$lib/utils/conversion';
+	import {
+		BIG_NUMBER_ZERO,
+		MPOND_PRECISIONS,
+		POND_PRECISIONS
+	} from '$lib/utils/constants/constants';
+	import { POND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
+	import {
+		bigNumberToCommaString,
+		mPondToPond,
+		pondToMPond
+	} from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 
 	export let modalFor: string;
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
-	export let amountConverted: BigNumber = BigNumberZero;
+	export let amountConverted: BigNumber = BIG_NUMBER_ZERO;
 
 	$: conversionTo = conversionFrom === 'pond' ? 'mPond' : 'pond';
 	$: amountConvertedFrom = bigNumberToCommaString(
 		amountConverted,
-		conversionFrom === 'pond' ? pondPrecisions : mPondPrecisions
+		conversionFrom === 'pond' ? POND_PRECISIONS : MPOND_PRECISIONS
 	);
 	$: amountConvertedTo =
 		conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted);
@@ -41,7 +49,7 @@
 				<span class="font-bold text-black"
 					>{bigNumberToCommaString(
 						amountConvertedTo,
-						conversionFrom === 'pond' ? mPondPrecisions : pondPrecisions
+						conversionFrom === 'pond' ? MPOND_PRECISIONS : POND_PRECISIONS
 					)}
 					{conversionTo.toUpperCase()}</span
 				>
@@ -49,17 +57,17 @@
 			<Divider margin="my-6" />
 			<div>Updated Wallet Balance</div>
 			<span class="font-bold text-black"
-				>{bigNumberToCommaString($walletBalance.pond, pondPrecisions)} POND
+				>{bigNumberToCommaString($walletBalance.pond, POND_PRECISIONS)} POND
 			</span>|
 			<span class="font-bold text-black">
-				{bigNumberToCommaString($walletBalance.mPond, mPondPrecisions)} MPOND</span
+				{bigNumberToCommaString($walletBalance.mPond, MPOND_PRECISIONS)} MPOND</span
 			>
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		<Button
 			onclick={() => {
-				if (conversionFrom === 'pond') goto(kPondHistoryPage);
+				if (conversionFrom === 'pond') goto(POND_HISTORY_PAGE_URL);
 				closeModal(modalFor);
 			}}
 			variant="filled"

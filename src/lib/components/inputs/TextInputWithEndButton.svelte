@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { inputClasses } from '$lib/atoms/componentClasses';
-	import InputCardWithEndButton from './InputCardWithEndButton.svelte';
+	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
 
 	export let styleClass = '';
 	export let tooltipText = '';

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import type { TableModel, TooltipDirection } from '$lib/types/componentTypes';
-	import { staticImages } from '../images/staticImages';
+	import { staticImages } from '$lib/components/images/staticImages';
 
 	export let heading: TableModel['header'];
 	export let tooltipDirection: TooltipDirection = 'tooltip-right';

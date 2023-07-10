@@ -7,19 +7,23 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
-	import { BigNumberZero, pondPrecisions } from '$lib/utils/constants/constants';
+	import {
+		BIG_NUMBER_ZERO,
+		MPOND_PRECISIONS,
+		POND_PRECISIONS
+	} from '$lib/utils/constants/constants';
 	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,
 		bigNumberToString,
 		pondToMPond,
 		stringToBigNumber
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
-	import AmountInputWithMaxButton from '../../components/inputs/AmountInputWithMaxButton.svelte';
-	import PondApproveConfirmModal from './PondApproveConfirmModal.svelte';
+	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
+	import PondApproveConfirmModal from '$lib/page-components/bridge/PondApproveConfirmModal.svelte';
 
 	const styles = {
 		wrapper: 'w-full flex flex-col items-center justify-center py-8',
@@ -41,22 +45,23 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BigNumberZero;
+		: BIG_NUMBER_ZERO;
 
 	// convert pond to mPond by dividing by 10^6
-	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(pondToMPond(inputAmount)) : '';
-
+	$: convertedAmountString = inputAmount.gt(0)
+		? bigNumberToString(pondToMPond(inputAmount), 18, MPOND_PRECISIONS)
+		: '';
 	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.pond;
 	let balanceText = 'Balance: 0.00';
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		maxPondBalance = value.pond;
-		balanceText = `Balance: ${bigNumberToCommaString(maxPondBalance, pondPrecisions)}`;
+		balanceText = `Balance: ${bigNumberToCommaString(maxPondBalance, POND_PRECISIONS)}`;
 	});
 	onDestroy(unsubscribeWalletBalanceStore);
 
 	const handleMaxClick = () => {
 		if (maxPondBalance) {
-			inputAmountString = bigNumberToString(maxPondBalance);
+			inputAmountString = bigNumberToString(maxPondBalance, 18, 18, false);
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
 			inValidMessage = '';

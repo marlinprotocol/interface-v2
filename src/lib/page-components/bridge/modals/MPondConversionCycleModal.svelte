@@ -4,14 +4,14 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import LoadingAnimationModal from '$lib/components/loading/LoadingAnimationModal.svelte';
 	import type { MPondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
-	import { kMPondConversionCycleTableHeader } from '$lib/utils/constants/bridgeConstants';
-	import { pondPrecisions } from '$lib/utils/constants/constants';
+	import { MPOND_CONVERSION_CYCLE_TABLE_HEADER } from '$lib/utils/constants/bridgeConstants';
+	import { POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import {
 		bigNumberToCommaString,
 		epochSecToString,
 		epochToDurationString
-	} from '$lib/utils/conversion';
-	import TableHeadingText from '../../../components/texts/TableHeadingText.svelte';
+	} from '$lib/utils/helpers/conversionHelper';
+	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
 
 	export let cycles: MPondEligibleCyclesModel[];
 	export let endEpochTime: number;
@@ -32,11 +32,11 @@
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-row w-full mb-8">
-			{#each kMPondConversionCycleTableHeader as headingData, i}
+			{#each MPOND_CONVERSION_CYCLE_TABLE_HEADER as headingData, i}
 				<div class="flex-1">
 					<TableHeadingText
 						heading={headingData}
-						tooltipDirection={i === kMPondConversionCycleTableHeader.length - 1
+						tooltipDirection={i === MPOND_CONVERSION_CYCLE_TABLE_HEADER.length - 1
 							? 'tooltip-left'
 							: i === 0
 							? 'tooltip-right'
@@ -66,8 +66,8 @@
 							</div>
 							{`${bigNumberToCommaString(
 								rowData?.totalEligible,
-								pondPrecisions
-							)}/${bigNumberToCommaString(rowData?.netPending, pondPrecisions)}`}
+								POND_PRECISIONS
+							)}/${bigNumberToCommaString(rowData?.netPending, POND_PRECISIONS)}`}
 						</div>
 					{/each}
 				</div>

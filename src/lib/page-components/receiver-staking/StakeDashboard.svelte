@@ -7,8 +7,8 @@
 	import { connected } from '$lib/data-stores/walletProviderStore';
 
 	import StakedData from '$lib/page-components/receiver-staking/StakedData.svelte';
-	import StakeButton from './buttons/StakeButton.svelte';
-	import UnstakeButton from './buttons/UnstakeButton.svelte';
+	import StakeButton from '$lib/page-components/receiver-staking/buttons/StakeButton.svelte';
+	import UnstakeButton from '$lib/page-components/receiver-staking/buttons/UnstakeButton.svelte';
 
 	const styles = {
 		buttonsGroup: 'flex gap-4 items-center justify-center w-full',

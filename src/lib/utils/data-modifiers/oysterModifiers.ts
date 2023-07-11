@@ -57,6 +57,7 @@ export async function getOysterJobsModified(jobs: any[]) {
 
 const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	const {
+		ip,
 		metadata,
 		id,
 		owner,
@@ -101,6 +102,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 
 	//job with all basic conversions
 	const modifiedJob = {
+		ip,
 		provider: {
 			name: names[provider] ?? '',
 			address: provider
@@ -155,13 +157,32 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 			durationLeft: 0,
 			durationRun: _lastSettled - _createdAt,
 			endEpochTime: _lastSettled,
-			live: false,
-			status: 'stopped',
+			live: true,
+			status: 'closed',
 			amountToBeSettled: _totalDeposit.sub(_refund).sub(_totalSettledAmount)
 		};
 	}
 
-	if (_downScaledRate.eq(BigNumberZero) || _balance.div(_downScaledRate).gt(hundredYears)) {
+	if (_totalDeposit.eq(_totalSettledAmount) && _balance.eq(BigNumberZero)) {
+		// job is settled so amount used is total deposit and current balance is 0,
+		// we call this job closed as from operator perspective it is closed
+		return {
+			...modifiedJob,
+			amountUsed: _totalDeposit,
+			balance: BigNumberZero,
+			durationLeft: 0,
+			durationRun: _lastSettled - _createdAt,
+			endEpochTime: _lastSettled,
+			live: true,
+			status: 'closed',
+			amountToBeSettled: BigNumberZero
+		};
+	}
+
+	if (
+		(_rate.eq(BigNumberZero) || _balance.mul(RATE_SCALING_FACTOR).div(_rate).gt(hundredYears)) &&
+		_balance.gt(BigNumberZero)
+	) {
 		const time = Math.floor(nowTime - _lastSettled);
 		const _balanceUpdated = _balance.sub(_downScaledRate.mul(time));
 		//job is running and will never end
@@ -179,7 +200,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	}
 
 	//job is running or has completed
-	const _paidDuration = _balance.div(_downScaledRate).toNumber();
+	const _paidDuration = _balance.mul(RATE_SCALING_FACTOR).div(_rate).toNumber();
 	const endEpochTime = _lastSettled + _paidDuration;
 
 	if (endEpochTime < nowTime) {
@@ -191,7 +212,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 			durationLeft: 0,
 			durationRun: endEpochTime - _createdAt,
 			endEpochTime,
-			live: false,
+			live: true,
 			status: 'completed',
 			amountToBeSettled: _totalDeposit.sub(_totalSettledAmount)
 		};
@@ -200,7 +221,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	let currentBalance = _balance;
 	//job is running
 	const time = Math.floor(nowTime - _lastSettled);
-	currentBalance = _balance.sub(_downScaledRate.mul(time));
+	currentBalance = _balance.sub(_rate.mul(time).div(RATE_SCALING_FACTOR));
 
 	return {
 		...modifiedJob,
@@ -210,7 +231,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		durationRun: nowTime - _createdAt,
 		endEpochTime,
 		live: true,
-		status: 'running',
+		status: ip ? 'running' : 'pending',
 		amountToBeSettled: _totalDeposit.sub(currentBalance).sub(_totalSettledAmount)
 	};
 };

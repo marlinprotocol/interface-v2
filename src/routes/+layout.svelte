@@ -15,6 +15,7 @@
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { onMount } from 'svelte';
 	import '../app.css';
+	import { getOysterJobsModified } from '$lib/utils/data-modifiers/oysterModifiers';
 
 	let prevChainId: null | number = null;
 
@@ -26,7 +27,7 @@
 	});
 
 	async function loadConnectedData() {
-		const [allowance, oysterJobs, providerDetail, jobStatuses] = await Promise.all([
+		const [allowance, oysterJobsFromSubgraph, providerDetail, jobStatuses] = await Promise.all([
 			getApprovedOysterAllowances($walletStore.address),
 			getOysterJobs($walletStore.address),
 			getProviderDetailsFromSubgraph($walletStore.address),
@@ -39,11 +40,13 @@
 		});
 
 		// Assign IP addresses from jobStatus to jobData
-		oysterJobs.forEach((data) => {
+		oysterJobsFromSubgraph.forEach((data: any) => {
 			if (Object.prototype.hasOwnProperty.call(jobStatusLookup, data.id.toString())) {
 				data.ip = jobStatusLookup[data.id.toString()];
 			}
 		});
+
+		const oysterJobs = await getOysterJobsModified(oysterJobsFromSubgraph);
 		// console.log('Existing Oyster Data - ', $oysterStore);
 		// console.log('Oyster Data Fetch - allowance', allowance);
 		// console.log('Oyster Data Fetch - oysterJobs', oysterJobs);

@@ -4,7 +4,7 @@ export const ENVIRONMENT_DEV = {
 	public_chain_id: '0x66eed',
 	public_pond_token_address: '0xa9472a9C135Cb33221de441a4DEd393FD515a69C',
 	public_mPond_token_address: '0x0B3d9b224496C2A2Fa1a4096D8EB4D350eFd9079',
-	public_oyster_contract_address: '0x0F5F91BA30a00bD43Bd19466f020B3E5fc7a49ec',
+	public_oyster_contract_address: '0xdBC4779B69bdC0f657ba35648e434bAe042a00E0',
 	public_pond_subgraph_url: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-dev',
 	public_mPond_subgraph_url:
 		'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-dev',

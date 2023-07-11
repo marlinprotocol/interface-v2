@@ -1,13 +1,30 @@
-<script>
+<script lang="ts">
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
+	import { getJobStatuses } from '$lib/controllers/httpController';
 	import { getOysterMerchantJobs } from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import OysterMerchantJobs from '$lib/page-components/oyster/operator/OysterOperatorJobs.svelte';
+	import { getOysterJobsModified } from '$lib/utils/data-modifiers/oysterModifiers';
 
 	async function fetchOysterMerchantJobs() {
-		const merchantJobs = await getOysterMerchantJobs($walletStore.address);
+		const [merchantJobsFromSubgraph, jobStatuses] = await Promise.all([
+			getOysterMerchantJobs($walletStore.address),
+			getJobStatuses($walletStore.address)
+		]);
+		let jobStatusLookup: Record<string, string> = {};
+		jobStatuses.forEach((status: any) => {
+			jobStatusLookup[status.jobId] = status.ip;
+		});
+		// Assign IP addresses from jobStatus to jobData
+		merchantJobsFromSubgraph.forEach((data: any) => {
+			if (Object.prototype.hasOwnProperty.call(jobStatusLookup, data.id.toString())) {
+				data.ip = jobStatusLookup[data.id.toString()];
+			}
+		});
+
+		const merchantJobs = await getOysterJobsModified(merchantJobsFromSubgraph);
 		// updating the oyster store with merchant jobs
 		if (merchantJobs !== null) {
 			oysterStore.update((value) => {

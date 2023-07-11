@@ -1,10 +1,4 @@
-import { contractAddressStore } from '$lib/data-stores/contractStore';
-import { addToast } from '$lib/data-stores/toastStore';
-import { environmentStore } from '$lib/data-stores/environment';
-import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
-import type { Environment } from '$lib/types/environmentTypes';
 import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/storeTypes';
-import { BigNumberZero } from '$lib/utils/constants/constants';
 import {
 	DEFAULT_RECEIVER_STAKING_DATA,
 	DEFAULT_WALLET_BALANCE
@@ -24,14 +18,21 @@ import {
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
+import { fetchHttpData, showFetchHttpDataError } from '$lib/utils/helpers/httpHelper';
 import {
 	getOysterJobsModified,
 	getOysterProvidersModified
 } from '$lib/utils/data-modifiers/oysterModifiers';
-import { getModifiedMPondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
-import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
-import { fetchHttpData, showFetchHttpDataError } from '$lib/utils/helpers/httpHelper';
+
 import { BigNumber } from 'ethers';
+import { BigNumberZero } from '$lib/utils/constants/constants';
+import type { Environment } from '$lib/types/environmentTypes';
+import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
+import { addToast } from '$lib/data-stores/toastStore';
+import { contractAddressStore } from '$lib/data-stores/contractStore';
+import { environmentStore } from '$lib/data-stores/environment';
+import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
+import { getModifiedMPondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
 import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 
 let contractAddresses: ContractAddress;
@@ -379,8 +380,7 @@ export async function getOysterJobs(address: Address) {
 			}
 			return [];
 		}
-		const ret = await getOysterJobsModified(jobs);
-		return ret;
+		return jobs;
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
@@ -492,8 +492,7 @@ export async function getOysterMerchantJobs(address: Address) {
 			return [];
 		}
 
-		const ret = await getOysterJobsModified(jobs);
-		return ret;
+		return jobs;
 	} catch (error: any) {
 		addToast({
 			variant: 'error',

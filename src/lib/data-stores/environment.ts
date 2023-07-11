@@ -10,7 +10,7 @@ const environments: Record<number, Environment> = {
 	1: ENVIRONMENT_MAINNET
 };
 
-export const environmentStore: Writable<Environment> = writable(ENVIRONMENT_ARB);
+export const environmentStore: Writable<Environment> = writable(ENVIRONMENT_DEV);
 console.log('Initial Environment Loaded');
 
 // subscription to chainStore.chainId

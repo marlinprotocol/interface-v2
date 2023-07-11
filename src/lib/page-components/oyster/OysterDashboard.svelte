@@ -53,11 +53,9 @@
 	onDestroy(unsubscribeWalletStore);
 
 	const unsubscribeOysterStore = oysterStore.subscribe((value) => {
-		if (value.providerData.data) {
-			registeredCpURL = value.providerData.data.cp;
-			updatedCpURL = value.providerData.data.cp;
-			registered = value.providerData.registered ?? false;
-		}
+		registeredCpURL = value?.providerData?.data?.cp ?? '';
+		updatedCpURL = value?.providerData?.data?.cp ?? '';
+		registered = value?.providerData?.registered ?? false;
 	});
 	onDestroy(unsubscribeOysterStore);
 

@@ -272,21 +272,21 @@ export async function handleConfirmJobStop(jobData: OysterInventoryDataModel) {
 export async function handleCreateJob(
 	owner: string,
 	metadata: string,
-	provider: string,
+	provider: { name?: string; address: string },
 	rate: BigNumber,
 	balance: BigNumber,
 	durationInSec: number
 ) {
 	try {
-		const { jobId, txHash } = await createNewOysterJob(metadata, provider, rate, balance);
+		const { jobId, txHash } = await createNewOysterJob(metadata, provider.address, rate, balance);
 		const nowTime = Date.now() / 1000;
 
 		const { enclaveUrl, instance, region, vcpu, memory } = parseMetadata(metadata);
 		const newJob: OysterInventoryDataModel = {
 			id: jobId,
 			provider: {
-				address: provider,
-				name: ''
+				name: provider?.name || '',
+				address: provider.address
 			},
 			owner,
 			metadata,

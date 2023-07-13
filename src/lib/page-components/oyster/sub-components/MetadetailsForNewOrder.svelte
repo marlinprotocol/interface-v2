@@ -101,6 +101,8 @@
 
 	const handleMerchantChange = async (value: string | number) => {
 		merchant.value = value as string;
+		merchant.name =
+			allMarketplaceData.find((data) => data.provider.address === value)?.provider.name || '';
 		merchant.isDirty = true;
 		if (value === '') {
 			merchant.error = 'Operator is required';

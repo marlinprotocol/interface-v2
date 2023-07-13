@@ -62,6 +62,7 @@
 	let initialStates = {
 		merchant: {
 			value: preFilledData?.provider?.address || '',
+			name: preFilledData?.provider?.name || '',
 			error: '',
 			isDirty: false,
 			title: 'Operator'
@@ -118,10 +119,16 @@
 		});
 
 		submitLoading = true;
+
+		const provider = {
+			address: merchant.value,
+			name: merchant?.name || ''
+		};
+
 		const success = await handleCreateJob(
 			owner,
 			metadata,
-			merchant.value,
+			provider,
 			totalRate,
 			totalCost,
 			duration

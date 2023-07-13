@@ -275,13 +275,18 @@ export async function handleConfirmJobStop(jobData: OysterInventoryDataModel) {
 export async function handleCreateJob(
 	owner: string,
 	metadata: string,
-	provider: string,
+	provider: { name?: string; address: string },
 	rate: BigNumber,
 	balance: BigNumber,
 	durationInSec: number
 ) {
 	try {
-		const { txn, approveReciept } = await createNewOysterJob(metadata, provider, rate, balance);
+		const { txn, approveReciept } = await createNewOysterJob(
+			metadata,
+			provider.address,
+			rate,
+			balance
+		);
 
 		const txHash = txn.hash;
 		const jobOpenEvent = approveReciept.events?.find((event: any) => event.event === 'JobOpened');
@@ -293,8 +298,8 @@ export async function handleCreateJob(
 		const newJob: OysterInventoryDataModel = {
 			id: jobId,
 			provider: {
-				address: provider,
-				name: ''
+				name: provider?.name || '',
+				address: provider.address
 			},
 			owner,
 			metadata,

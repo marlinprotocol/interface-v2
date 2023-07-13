@@ -95,7 +95,7 @@
 		emptyTableMessage={'You do not have any active orders.'}
 	>
 		{#if paginatedData?.length}
-			{#each paginatedData as rowData, rowIndex}
+			{#each paginatedData as rowData, rowIndex (rowData.id)}
 				<OysterInventoryTableRow {rowData} {rowIndex} bind:expandedRows />
 			{/each}
 		{/if}

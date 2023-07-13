@@ -63,7 +63,10 @@
 	};
 
 	$: approved =
-		connected && instanceCost && approvedAmount.gte(instanceCost) && instanceCost.gt(BigNumberZero);
+		connected &&
+		instanceCost &&
+		approvedAmount.gte(instanceCost.div(RATE_SCALING_FACTOR)) &&
+		instanceCost.gt(BigNumberZero);
 	$: approveEnable = connected && !submitLoading && instanceCost.gt(BigNumberZero) && !invalidCost;
 	$: confirmEnable = approved && approveEnable;
 </script>

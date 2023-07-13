@@ -147,7 +147,7 @@
 	const resetInputs = () => {
 		handleMerchantChange();
 		submitLoading = false;
-		instanceRate = undefined;
+		instanceRate = preFilledData?.provider ? instanceRate : undefined;
 		merchant = {
 			...initialStates.merchant
 		};

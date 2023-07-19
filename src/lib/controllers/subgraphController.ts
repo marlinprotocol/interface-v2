@@ -11,7 +11,7 @@ import {
 	QUERY_TO_GET_MERCHANT_JOBS_DATA,
 	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY,
-	QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES,
+	QUERY_TO_GET_POND_AND_MPOND_ALLOWANCES,
 	QUERY_TO_GET_POND_BALANCE_QUERY,
 	QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY,
 	QUERY_TO_GET_PROVIDER_DATA,
@@ -234,7 +234,7 @@ export async function getPondAndMPondBridgeAllowancesFromSubgraph(
 ) {
 	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
 
-	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
+	const query = QUERY_TO_GET_POND_AND_MPOND_ALLOWANCES;
 	const queryVariables = {
 		address: address.toLowerCase(),
 		contractAddress: contractAddress.toLowerCase()
@@ -468,7 +468,7 @@ export async function getApprovedOysterAllowancesFromSubgraph(address: Address) 
 	const oysterContractAddress = contractAddresses.OYSTER;
 	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
 
-	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
+	const query = QUERY_TO_GET_POND_AND_MPOND_ALLOWANCES;
 	const queryVariables = {
 		address: address.toLowerCase(),
 		contractAddress: oysterContractAddress.toLowerCase()

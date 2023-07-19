@@ -1,15 +1,18 @@
 import type { ContractAddress, ContractAbi } from '$lib/types/storeTypes';
-import {
-	DEFAULT_CONTRACT_ABI_STORE,
-	DEFAULT_CONTRACT_ADDRESS_STORE
-} from '$lib/utils/constants/storeDefaults';
-import { writable, type Writable } from 'svelte/store';
+import { DEFAULT_CONTRACT_ABI_STORE } from '$lib/utils/constants/storeDefaults';
+import { get, writable, type Readable, type Writable, derived } from 'svelte/store';
+import { environmentStore } from '$lib/data-stores/environment';
+import { chainStore } from '$lib/data-stores/chainProviderStore';
 
 /**
  * store containing contract addresses of almost all the contracts used in the app
  */
-export const contractAddressStore: Writable<ContractAddress> = writable(
-	DEFAULT_CONTRACT_ADDRESS_STORE
+export const contractAddressStore: Readable<ContractAddress> = derived(
+	[environmentStore, chainStore],
+	([$environmentStore, $chainStore]) => {
+		return $environmentStore.valid_chains[$chainStore.chainId ?? $environmentStore.default_chain_id]
+			.contract_addresses;
+	}
 );
 
 /**
@@ -18,12 +21,12 @@ export const contractAddressStore: Writable<ContractAddress> = writable(
 export const contractAbiStore: Writable<ContractAbi> = writable(DEFAULT_CONTRACT_ABI_STORE);
 
 /**
- * updates the contract stores with the given addresees and ABIS.
+ * updates the contract stores with the given ABIS.
  * Note, if working with bridge contracts, use updateContractStoresWithBridge instead
  * @param addresses
  * @param ABIS
  */
-export function updateContractStoresWithoutBridge(addresses: any, ABIS: any) {
+export function updateContractStoresWithoutBridge(ABIS: any) {
 	contractAbiStore.update((value) => {
 		return {
 			...value,
@@ -36,39 +39,22 @@ export function updateContractStoresWithoutBridge(addresses: any, ABIS: any) {
 			StakeManager: ABIS.StakeManager
 		};
 	});
-	contractAddressStore.update((value) => {
-		return {
-			...value,
-			ClusterRegistry: addresses.ClusterRegistry,
-			ClusterRewards: addresses.ClusterRewards,
-			EpochSelector: addresses.EpochSelector,
-			ReceiverStaking: addresses.ReceiverStaking,
-			RewardDelegators: addresses.RewardDelegators,
-			StakeManager: addresses.StakeManager,
-			tokens: addresses.tokens
-		};
-	});
+	console.log('contractAddressStore :>> ', get(contractAddressStore));
+	console.log('contractAbiStore :>> ', get(contractAbiStore));
 }
 
 /**
 
- * updates the contract stores with the given addresees and ABIS explicitly for bridge contract.
+ * updates the contract stores with the given ABIS explicitly for bridge contract.
  * Note, if working with other contracts, use updateContractStoresWithoutBridge instead
  * @param addresses
  * @param ABIS
  */
-export function updateContractStoresWithBridge(addresses: any, ABIS: any) {
+export function updateContractStoresWithBridge(ABIS: any) {
 	contractAbiStore.update((value) => {
 		return {
 			...value,
 			Bridge: ABIS.Bridge
-		};
-	});
-	contractAddressStore.update((value) => {
-		return {
-			...value,
-			Bridge: addresses.bridge,
-			tokens: addresses.tokens
 		};
 	});
 }

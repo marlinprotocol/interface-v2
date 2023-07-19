@@ -1,7 +1,7 @@
 <script lang="ts">
+	import { environmentStore } from '$lib/data-stores/environment';
 	import Toast from '$lib/atoms/toast/Toast.svelte';
 	import Header from '$lib/components/header/Header.svelte';
-	import { environmentStore } from '$lib/data-stores/environment';
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
@@ -17,13 +17,12 @@
 			};
 		}
 
-		// get contract details and set address+abi stores
+		// get contract details and set abi stores
 		try {
 			const contractDetails = await getContractDetails();
-			const addresses = contractDetails.addresses;
 			const ABIS = contractDetails.ABI;
 
-			updateContractStoresWithoutBridge(addresses, ABIS);
+			updateContractStoresWithoutBridge(ABIS);
 		} catch (error: any) {
 			addToast({
 				variant: 'error',

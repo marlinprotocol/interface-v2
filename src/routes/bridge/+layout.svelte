@@ -8,7 +8,7 @@
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import {
 		contractAddressStore,
-		updateContractStoresWithoutBridge
+		updateContractStoresWithBridge
 	} from '$lib/data-stores/contractStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
@@ -20,10 +20,9 @@
 		try {
 			fetchedContractDetails = false;
 			const bridgeContractDetails = await getBridgeContractDetails();
-			const addresses = bridgeContractDetails.addresses;
 			const ABIS = bridgeContractDetails.ABI;
 
-			updateContractStoresWithoutBridge(addresses, ABIS);
+			updateContractStoresWithBridge(ABIS);
 
 			fetchedContractDetails = true;
 		} catch (error: any) {
@@ -40,7 +39,7 @@
 		const [allowancesData, requestedMPond] = await Promise.all([
 			getPondAndMPondBridgeAllowancesFromSubgraph(
 				$walletStore.address,
-				$contractAddressStore.Bridge
+				$contractAddressStore.BRIDGE
 			),
 			getRequestedMPondForConversionFromSubgraph($walletStore.address)
 		]);

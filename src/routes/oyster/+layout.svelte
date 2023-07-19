@@ -6,7 +6,7 @@
 		getOysterJobsFromSubgraph,
 		getProviderDetailsFromSubgraph
 	} from '$lib/controllers/subgraphController';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
+	import { chainConfigStore, chainStore } from '$lib/data-stores/chainProviderStore';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { REGION_NAME_CONSTANTS } from '$lib/utils/constants/regionNameConstants';
@@ -73,9 +73,10 @@
 		});
 	}
 
-	// TODO: ask prateek how to determine when this would refresh
-	// as chain is not available till the user connects wallet
-	loadMarketplaceData();
+	$: if ($chainConfigStore) {
+		loadMarketplaceData();
+	}
+
 	$: if ($connected && $chainStore.chainId) {
 		loadConnectedData();
 	}

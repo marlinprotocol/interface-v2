@@ -10,8 +10,11 @@ import { chainStore } from '$lib/data-stores/chainProviderStore';
 export const contractAddressStore: Readable<ContractAddress> = derived(
 	[environmentStore, chainStore],
 	([$environmentStore, $chainStore]) => {
-		return $environmentStore.valid_chains[$chainStore.chainId ?? $environmentStore.default_chain_id]
-			.contract_addresses;
+		const isChainValid =
+			$chainStore.chainId !== null && $environmentStore.valid_chains[$chainStore.chainId];
+		return isChainValid
+			? $environmentStore.valid_chains[$chainStore.chainId as number].contract_addresses
+			: $environmentStore.valid_chains[$environmentStore.default_chain_id].contract_addresses;
 	}
 );
 

@@ -46,14 +46,16 @@ export const DEFAULT_CONTRACT_ABI_STORE: ContractAbi = {
 
 // addressStore
 export const DEFAULT_CONTRACT_ADDRESS_STORE: ContractAddress = {
-	StakeManager: '',
-	RewardDelegators: '',
-	ClusterRegistry: '',
-	ClusterRewards: '',
-	ReceiverStaking: '',
-	EpochSelector: {},
-	Bridge: '',
-	tokens: {}
+	STAKE_MANAGER: '',
+	REWARD_DELEGATORS: '',
+	CLUSTER_REGISTRY: '',
+	CLUSTER_REWARDS: '',
+	RECEIVER_STAKING: '',
+	BRIDGE: '',
+	OYSTER: '',
+	POND: '',
+	MPOND: '',
+	USDC: ''
 };
 
 // receiver staked, queued data store

@@ -24,26 +24,18 @@ import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import { BigNumber } from 'ethers';
 import type { ChainConfig } from '$lib/types/environmentTypes';
 import { addToast } from '$lib/data-stores/toastStore';
-import { chainStore } from '$lib/data-stores/chainProviderStore';
+import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 import { contractAddressStore } from '$lib/data-stores/contractStore';
-import { environmentStore } from '$lib/data-stores/environment';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
 
 let contractAddresses: ContractAddress;
 let chainConfig: ChainConfig;
-let currentChain: number | null;
-let defaultChainId: number;
 
 contractAddressStore.subscribe((value) => {
 	contractAddresses = value;
 });
-chainStore.subscribe((value) => {
-	currentChain = value.chainId;
-});
-environmentStore.subscribe((value) => {
-	defaultChainId = value.default_chain_id;
-	chainConfig =
-		currentChain !== null ? value.valid_chains[currentChain] : value.valid_chains[defaultChainId];
+chainConfigStore.subscribe((value) => {
+	chainConfig = value;
 });
 /**
  * Generate HTTP request headers for querying subgraph
@@ -72,7 +64,7 @@ export function subgraphQueryWrapper(query: string, variables: Record<string, an
  * Get POND balance from subgraph API.
  */
 export async function getPondBalanceFromSubgraph(address: Address): Promise<BigNumber> {
-	const url = chainConfig.tokens.pond.subgraph_url;
+	const url = chainConfig.subgraph_urls.POND;
 
 	const query = QUERY_TO_GET_POND_BALANCE_QUERY;
 	const queryVariables = { address: address.toLowerCase() };
@@ -106,7 +98,7 @@ export async function getPondBalanceFromSubgraph(address: Address): Promise<BigN
  * Get MPOND balance from subgraph API.
  */
 export async function getMPondBalanceFromSubgraph(address: Address): Promise<BigNumber> {
-	const url = chainConfig.tokens.mpond.subgraph_url;
+	const url = chainConfig.subgraph_urls.MPOND;
 
 	const query = QUERY_TO_GET_MPOND_BALANCE;
 	const queryVariables = { id: address.toLowerCase() };
@@ -137,7 +129,7 @@ export async function getMPondBalanceFromSubgraph(address: Address): Promise<Big
 }
 // ----------------------------- receiver staking smart contract subgraph methods -----------------------------
 export async function getReceiverPondBalanceFromSubgraph(address: Address): Promise<any> {
-	const url = chainConfig.contract_subgraph_url;
+	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
 
 	const query = QUERY_TO_GET_RECEIVER_POND_BALANCE;
 	const queryVariables = { id: address.toLowerCase() };
@@ -173,8 +165,8 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 export async function getReceiverStakingDataFromSubgraph(
 	address: Address
 ): Promise<ReceiverStakingData> {
-	const receiver_staking_address = contractAddresses.ReceiverStaking || '0x00000000000';
-	const url = chainConfig.contract_subgraph_url;
+	const receiver_staking_address = contractAddresses.RECEIVER_STAKING || '0x00000000000';
+	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
 
 	const query = QUERY_TO_GET_RECEIVER_STAKING_DATA;
 	const queryVariables = {
@@ -207,7 +199,7 @@ export async function getReceiverStakingDataFromSubgraph(
 }
 
 export async function checkIfSignerExistsInSubgraph(address: Address): Promise<boolean> {
-	const url = chainConfig.contract_subgraph_url;
+	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
 
 	const query = QUERY_TO_CHECK_IF_SIGNER_EXISTS;
 	const queryVariables = { signer: address.toLowerCase() };
@@ -240,7 +232,7 @@ export async function getPondAndMPondBridgeAllowancesFromSubgraph(
 	address: Address,
 	contractAddress: Address
 ) {
-	const url = chainConfig.contract_subgraph_url;
+	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
 
 	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
 	const queryVariables = {
@@ -275,7 +267,7 @@ export async function getPondAndMPondBridgeAllowancesFromSubgraph(
 // ----------------------------- bridge smart contract subgraph methods -----------------------------
 
 export async function getRequestedMPondForConversionFromSubgraph(address: Address) {
-	const url = chainConfig.bridge.contract_subgraph_url;
+	const url = chainConfig.subgraph_urls.BRIDGE;
 
 	const query = QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION;
 	const queryVariables = {
@@ -308,7 +300,7 @@ export async function getRequestedMPondForConversionFromSubgraph(address: Addres
 }
 
 export async function getPondToMPondConversionHistoryFromSubgraph(address: Address) {
-	const url = chainConfig.bridge.contract_subgraph_url;
+	const url = chainConfig.subgraph_urls.BRIDGE;
 
 	const query = QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY;
 	const queryVariables = {
@@ -341,7 +333,7 @@ export async function getPondToMPondConversionHistoryFromSubgraph(address: Addre
 }
 
 export async function getMPondToPondConversionHistoryFromSubgraph(address: Address) {
-	const url = chainConfig.bridge.contract_subgraph_url;
+	const url = chainConfig.subgraph_urls.BRIDGE;
 
 	const query = QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY;
 	const queryVariables = {
@@ -375,7 +367,7 @@ export async function getMPondToPondConversionHistoryFromSubgraph(address: Addre
 // ----------------------------- oyster smart contract subgraph methods -----------------------------
 
 export async function getOysterJobsFromSubgraph(address: Address) {
-	const url = chainConfig.oyster.contract_subgraph_url;
+	const url = chainConfig.subgraph_urls.OYSTER;
 
 	const query = QUERY_TO_GET_JOBS_DATA;
 	const queryVariables = {
@@ -408,7 +400,7 @@ export async function getOysterJobsFromSubgraph(address: Address) {
 }
 
 export async function getProviderDetailsFromSubgraph(address: Address) {
-	const url = chainConfig.oyster.contract_subgraph_url;
+	const url = chainConfig.subgraph_urls.OYSTER;
 
 	const query = QUERY_TO_GET_PROVIDER_DATA;
 	const queryVariables = {
@@ -441,8 +433,8 @@ export async function getProviderDetailsFromSubgraph(address: Address) {
 }
 
 export async function getAllProvidersDetailsFromSubgraph() {
-	const url = chainConfig.oyster.contract_subgraph_url;
-
+	const url = chainConfig.subgraph_urls.OYSTER;
+	console.log('url', url);
 	const query = QUERY_TO_GET_ALL_PROVIDERS_DATA;
 
 	const options: RequestInit = subgraphQueryWrapper(query, {});
@@ -473,8 +465,8 @@ export async function getAllProvidersDetailsFromSubgraph() {
 }
 
 export async function getApprovedOysterAllowancesFromSubgraph(address: Address) {
-	const oysterContractAddress = chainConfig.oyster.contract_address;
-	const url = chainConfig.contract_subgraph_url;
+	const oysterContractAddress = contractAddresses.OYSTER;
+	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
 
 	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
 	const queryVariables = {
@@ -505,7 +497,7 @@ export async function getApprovedOysterAllowancesFromSubgraph(address: Address) 
 }
 
 export async function getOysterMerchantJobsFromSubgraph(address: Address) {
-	const url = chainConfig.oyster.contract_subgraph_url;
+	const url = chainConfig.subgraph_urls.OYSTER;
 
 	const query = QUERY_TO_GET_MERCHANT_JOBS_DATA;
 	const queryVariables = {

@@ -6,6 +6,7 @@
 		doNothing();
 	};
 	export let timerId: string;
+	//TODO: create a timer function that can be invoked from outside to stop the timer
 
 	$: original = Math.floor(endEpochTime - Date.now() / 1000);
 

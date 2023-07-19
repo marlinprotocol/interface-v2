@@ -214,6 +214,7 @@
 <InventoryJobDetailsModal bind:jobData={rowData} modalFor={`job-details-modal-${id}`} />
 <AddFundsToJobModal bind:jobData={rowData} modalFor={`job-add-funds-modal-${id}`} />
 <WithdrawFundsFromJobModal bind:jobData={rowData} modalFor={`job-withdraw-fund-modal-${id}`} />
+<!-- TODO: check this when job is stopped it should update local state -->
 <StopJobModal bind:jobData={rowData} modalFor={`job-stop-modal-${id}`} />
 <AmendRateModal bind:jobData={rowData} modalFor={`job-amend-rate-modal-${id}`} />
 

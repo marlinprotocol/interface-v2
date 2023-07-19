@@ -36,12 +36,6 @@
 		});
 		const oysterJobs = await modifyOysterJobData(oysterJobsFromSubgraph);
 
-		// console.log('Existing Oyster Data - ', $oysterStore);
-		// console.log('Oyster Data Fetch - allowance', allowance);
-		// console.log('Oyster Data Fetch - oysterJobs', oysterJobs);
-		// console.log('Oyster Data Fetch - providerDetail', providerDetail);
-		// console.log('Oyster Data Fetch - jobStatuses', jobStatuses);
-
 		oysterStore.update((value) => {
 			return {
 				...value,

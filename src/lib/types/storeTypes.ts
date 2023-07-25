@@ -96,3 +96,10 @@ export type OysterStore = {
 	merchantJobsLoaded: boolean;
 	providerDetailsLoaded: boolean;
 };
+
+// receiver rewards store
+export type ReceiverRewardsData = {
+	rewardPerEpoch: BigNumber;
+	rewardBalance: BigNumber;
+	amountApproved: BigNumber;
+};

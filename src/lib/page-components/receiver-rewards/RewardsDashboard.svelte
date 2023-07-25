@@ -6,12 +6,13 @@
 	import AddRewards from '$lib/page-components/receiver-rewards/buttons/AddRewards.svelte';
 	import UpdateRewards from '$lib/page-components/receiver-rewards/buttons/UpdateRewards.svelte';
 	import RewardsData from '$lib/page-components/receiver-rewards/RewardsData.svelte';
+	import { receiverRewardsStore } from '$lib/data-stores/receiverRewardsStore';
+	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 
 	const styles = {
 		buttonsGroup: 'flex gap-4 items-center justify-center w-full',
 		buttonLarge: 'h-14 text-base font-semibold'
 	};
-	const rewardsData = false;
 </script>
 
 <ContainerCard>
@@ -19,7 +20,7 @@
 	<RewardsData />
 	{#if $connected}
 		<div class={styles.buttonsGroup}>
-			{#if rewardsData}
+			{#if $receiverRewardsStore.rewardBalance.gt(BIG_NUMBER_ZERO)}
 				<UpdateRewards />
 			{:else}
 				<AddRewards />

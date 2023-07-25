@@ -97,6 +97,7 @@ export const bigNumberToCommaString = (value: BigNumber, decimals = DEFAULT_PREC
  * @param value: big number
  * @param bigNumberDecimal: decimal of the big number, default set to 18
  * @param precision: number of digits after the decimal point, default set to 2
+ * @param commify: boolean, default set to true
  * @returns string
  */
 export const bigNumberToString = (

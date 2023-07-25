@@ -63,7 +63,7 @@
 	const durationUnitList = kDurationUnitsList.map((unit) => unit.label);
 
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
-		maxBalance = value.pond;
+		maxBalance = value.usdc;
 	});
 	onDestroy(unsubscribeWalletBalanceStore);
 

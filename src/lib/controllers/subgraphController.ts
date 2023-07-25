@@ -1,10 +1,10 @@
-import { contractAddressStore } from '$lib/data-stores/contractStore';
-import { addToast } from '$lib/data-stores/toastStore';
-import { environmentStore } from '$lib/data-stores/environment';
-import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
-import type { Environment } from '$lib/types/environmentTypes';
-import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/storeTypes';
-import { BigNumberZero } from '$lib/utils/constants/constants';
+import type {
+	Address,
+	ContractAbi,
+	ContractAddress,
+	ReceiverStakingData
+} from '$lib/types/storeTypes';
+import { BigNumber, ethers } from 'ethers';
 import {
 	DEFAULT_RECEIVER_STAKING_DATA,
 	DEFAULT_WALLET_BALANCE
@@ -24,24 +24,33 @@ import {
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
+import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
+import { fetchHttpData, showFetchHttpDataError } from '$lib/utils/helpers/httpHelper';
 import {
 	getOysterJobsModified,
 	getOysterProvidersModified
 } from '$lib/utils/data-modifiers/oysterModifiers';
-import { getModifiedMPondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
+
+import { BigNumberZero } from '$lib/utils/constants/constants';
+import type { Environment } from '$lib/types/environmentTypes';
+import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
+import { addToast } from '$lib/data-stores/toastStore';
+import { environmentStore } from '$lib/data-stores/environment';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
-import { fetchHttpData, showFetchHttpDataError } from '$lib/utils/helpers/httpHelper';
-import { BigNumber } from 'ethers';
+import { getModifiedMPondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
 import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 
 let contractAddresses: ContractAddress;
 let environment: Environment;
-
+let contractAbi: ContractAbi;
 contractAddressStore.subscribe((value) => {
 	contractAddresses = value;
 });
 environmentStore.subscribe((value) => {
 	environment = value;
+});
+contractAbiStore.subscribe((value) => {
+	contractAbi = value;
 });
 
 /**
@@ -501,5 +510,24 @@ export async function getOysterMerchantJobs(address: Address) {
 		});
 		console.error('Error getting enclaves jobs from subgraph', error);
 		return [];
+	}
+}
+
+// Get usdc wallet balance via provider
+export async function getUsdcBalanceViaProvider(address: Address, provider: any) {
+	const usdcTokenContractAddress = '0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8';
+	const ERC20ContractAbi = contractAbi.ERC20;
+	const usdcTokenContract = new ethers.Contract(
+		usdcTokenContractAddress,
+		ERC20ContractAbi,
+		provider
+	);
+
+	try {
+		let balance = await usdcTokenContract.balanceOf(address);
+		return BigNumber.from(balance);
+	} catch (error: any) {
+		console.log('unable to fetch usdc balance :>> ', error);
+		return BigNumberZero;
 	}
 }

@@ -8,6 +8,7 @@ import type {
 	WalletBalance,
 	WalletStore
 } from '$lib/types/storeTypes';
+
 import { BigNumberZero } from './constants';
 
 // walletProviderStore
@@ -20,7 +21,8 @@ export const DEFAULT_WALLET_STORE: WalletStore = {
 // walletBalanceStore
 export const DEFAULT_WALLET_BALANCE: WalletBalance = {
 	pond: BigNumberZero,
-	mPond: BigNumberZero
+	mPond: BigNumberZero,
+	usdc: BigNumberZero
 };
 
 // chainProviderStore

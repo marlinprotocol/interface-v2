@@ -1,9 +1,14 @@
 import { derived, writable, type Readable, type Writable } from 'svelte/store';
 import type { Address, WalletBalance, WalletStore } from '$lib/types/storeTypes';
 import { DEFAULT_WALLET_BALANCE, DEFAULT_WALLET_STORE } from '$lib/utils/constants/storeDefaults';
-import { getMPondBalance, getPondBalance } from '$lib/controllers/subgraphController';
+import {
+	getMPondBalance,
+	getPondBalance,
+	getUsdcBalanceViaProvider
+} from '$lib/controllers/subgraphController';
 
 let walletAddress: Address = DEFAULT_WALLET_STORE.address;
+let walletProvider: any = DEFAULT_WALLET_STORE.provider;
 
 // svelte stores
 /**
@@ -25,16 +30,19 @@ export const connected: Readable<boolean> = derived(walletStore, ($walletStore) 
  * fetches the balance for POND and MPond based on
  * wallet address and sets the walletBalance store.
  * @param walletAddress should be a Hex Address i.e. all lowercase
+ * @param walletProvider should be a ethers provider
  */
-async function setWalletBalance(walletAddress: Address): Promise<void> {
+async function setWalletBalance(walletAddress: Address, walletProvider: any): Promise<void> {
 	try {
 		const balances = await Promise.all([
 			getPondBalance(walletAddress),
-			getMPondBalance(walletAddress)
+			getMPondBalance(walletAddress),
+			getUsdcBalanceViaProvider(walletAddress, walletProvider)
 		]);
 		walletBalance.set({
 			pond: balances[0],
-			mPond: balances[1]
+			mPond: balances[1],
+			usdc: balances[2]
 		});
 		console.log(' Wallet balance updated ');
 	} catch (error) {
@@ -63,7 +71,8 @@ export function resetWalletBalanceStore(): void {
  */
 walletStore.subscribe((value) => {
 	walletAddress = value.address;
-	if (walletAddress !== DEFAULT_WALLET_STORE.address) {
-		setWalletBalance(walletAddress);
+	walletProvider = value.provider;
+	if (walletAddress !== DEFAULT_WALLET_STORE.address && connected) {
+		setWalletBalance(walletAddress, walletProvider);
 	}
 });

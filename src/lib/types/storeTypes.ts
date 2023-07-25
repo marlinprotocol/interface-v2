@@ -15,6 +15,7 @@ export type WalletStore = {
 export type WalletBalance = {
 	pond: BigNumber;
 	mPond: BigNumber;
+	usdc: BigNumber;
 };
 
 // chain store

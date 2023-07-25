@@ -38,7 +38,6 @@ let chainConfig: ChainConfig;
 let contractAbi: ContractAbi;
 
 contractAddressStore.subscribe((value) => {
-	console.log('contractAddressStore.subscribe', value);
 	contractAddresses = value;
 });
 chainConfigStore.subscribe((value) => {

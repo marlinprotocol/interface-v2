@@ -27,6 +27,11 @@
 			title: 'Inventory',
 			href: '/oyster/inventory',
 			openInNewTab: false
+		},
+		{
+			title: 'Rewards',
+			href: '/receiver-rewards',
+			openInNewTab: false
 		}
 	];
 </script>

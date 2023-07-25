@@ -3,10 +3,12 @@ import type { Address, WalletBalance, WalletStore } from '$lib/types/storeTypes'
 import { DEFAULT_WALLET_BALANCE, DEFAULT_WALLET_STORE } from '$lib/utils/constants/storeDefaults';
 import {
 	getMPondBalanceFromSubgraph,
-	getPondBalanceFromSubgraph
+	getPondBalanceFromSubgraph,
+	getUsdcBalanceFromProvider
 } from '$lib/controllers/subgraphController';
 
 let walletAddress: Address = DEFAULT_WALLET_STORE.address;
+let walletProvider: any;
 
 // svelte stores
 /**
@@ -43,15 +45,17 @@ export function resetWalletBalanceStore(): void {
  * wallet address and sets the walletBalance store.
  * @param walletAddress should be a Hex Address i.e. all lowercase
  */
-async function setWalletBalance(walletAddress: Address): Promise<void> {
+async function setWalletBalance(walletAddress: Address, walletProvider: any): Promise<void> {
 	try {
 		const balances = await Promise.all([
 			getPondBalanceFromSubgraph(walletAddress),
-			getMPondBalanceFromSubgraph(walletAddress)
+			getMPondBalanceFromSubgraph(walletAddress),
+			getUsdcBalanceFromProvider(walletAddress, walletProvider)
 		]);
 		walletBalance.set({
 			pond: balances[0],
-			mPond: balances[1]
+			mPond: balances[1],
+			usdc: balances[2]
 		});
 		console.log(' Wallet balance updated ');
 	} catch (error) {
@@ -64,7 +68,8 @@ async function setWalletBalance(walletAddress: Address): Promise<void> {
 // when the user has a valid wallet address
 walletStore.subscribe((value) => {
 	walletAddress = value.address;
-	if (walletAddress !== DEFAULT_WALLET_STORE.address) {
-		setWalletBalance(walletAddress);
+	walletProvider = value.provider;
+	if (walletAddress !== DEFAULT_WALLET_STORE.address && Object.keys(walletProvider).length > 0) {
+		setWalletBalance(walletAddress, walletProvider);
 	}
 });

@@ -5,7 +5,6 @@ import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 import { addToast } from '$lib/data-stores/toastStore';
 
 const defaultValue = DEFAULT_RECEIVER_STAKING_DATA.epochData.epochCycle;
-// TODO: check if this store is needed or not
 // receiver staked data store
 export const epochCycleStore: Writable<EpochCycleStore> = writable(defaultValue);
 

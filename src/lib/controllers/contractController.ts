@@ -503,7 +503,6 @@ export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber
 
 // approval in pond contract so that the oyster contract can spend pond
 export async function approveFundsForOysterJobAdd(amount: BigNumber) {
-	// TODO: check token on mainnet, its POND on testnet
 	const token = OYSTER_RATE_METADATA.currency;
 	const pondTokenContract = createSignerContract(contractAddresses[token], contractAbi.ERC20);
 	try {

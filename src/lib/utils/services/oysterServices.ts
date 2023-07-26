@@ -203,6 +203,35 @@ export async function handleCancelRateRevise(jobData: OysterInventoryDataModel) 
 	}
 }
 
+export async function handleJobStatusOnStopTimerEnd(jobData: OysterInventoryDataModel) {
+	const { id } = jobData;
+	try {
+		const nowTime = Date.now() / 1000;
+		const modifiedJobData = {
+			...jobData,
+			reviseRate: {
+				newRate: BIG_NUMBER_ZERO,
+				rateStatus: 'pending',
+				stopStatus: 'completed',
+				updatesAt: nowTime
+			}
+		};
+		oysterStore.update((value: OysterStore) => {
+			return {
+				...value,
+				jobsData: value.jobsData.map((job) => {
+					if (job.id === id) {
+						return modifiedJobData;
+					}
+					return job;
+				})
+			};
+		});
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
 export async function handleFinaliseRateRevise(
 	jobData: OysterInventoryDataModel,
 	newRate: BigNumber
@@ -243,6 +272,7 @@ export async function handleConfirmJobStop(jobData: OysterInventoryDataModel) {
 			status: 'stopped',
 			rate: BIG_NUMBER_ZERO,
 			reviseRate: undefined,
+			endEpochTime: nowTime,
 			depositHistory: [
 				{
 					amount: jobData.balance,

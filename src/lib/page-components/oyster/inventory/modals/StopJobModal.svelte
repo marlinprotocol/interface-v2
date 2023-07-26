@@ -11,14 +11,15 @@
 	import {
 		handleCancelRateRevise,
 		handleConfirmJobStop,
-		handleInitiateRateRevise
+		handleInitiateRateRevise,
+		handleJobStatusOnStopTimerEnd
 	} from '$lib/utils/services/oysterServices';
 	import StopModalContent from '$lib/page-components/oyster/sub-components/StopModalContent.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	$: ({ reviseRate: { stopStatus = '', updatesAt = 0 } = {} } = jobData);
+	$: ({ reviseRate: { stopStatus = '', updatesAt = 0 } = {}, id } = jobData);
 
 	let submitLoading = false;
 	let cancelLoading = false;
@@ -44,6 +45,10 @@
 		closeModal(modalFor);
 	};
 
+	const handleOnTimerEnd = async () => {
+		await handleJobStatusOnStopTimerEnd(jobData);
+	};
+
 	$: modalTitle =
 		stopStatus === '' || stopStatus === 'disabled'
 			? 'INITIATE STOP'
@@ -66,7 +71,11 @@
 		<StopModalContent {jobData} />
 		{#if stopStatus === 'pending'}
 			<div class="w-full">
-				<Timer timerId={`timer-for-${modalFor}`} endEpochTime={updatesAt}>
+				<Timer
+					timerId={`timer-for-${modalFor}`}
+					endEpochTime={updatesAt}
+					onTimerEnd={() => handleOnTimerEnd()}
+				>
 					<div slot="active" let:timer class="w-full">
 						<InputCard variant="warning" styleClass="mt-4">
 							<Text

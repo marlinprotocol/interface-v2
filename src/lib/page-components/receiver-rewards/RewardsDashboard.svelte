@@ -3,14 +3,16 @@
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import AddRewards from '$lib/page-components/receiver-rewards/buttons/AddRewards.svelte';
-	import UpdateRewards from '$lib/page-components/receiver-rewards/buttons/UpdateRewards.svelte';
 	import RewardsData from '$lib/page-components/receiver-rewards/RewardsData.svelte';
 	import { receiverRewardsStore } from '$lib/data-stores/receiverRewardsStore';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
+	import InitiateRewards from '$lib/page-components/receiver-rewards/buttons/InitiateRewards.svelte';
+	import UpdateTicketRewards from './buttons/UpdateTicketRewards.svelte';
+	import AddRewardsBalance from './buttons/AddRewardsBalance.svelte';
 
 	const styles = {
 		buttonsGroup: 'flex gap-4 items-center justify-center w-full',
+		buttonsSubgroup: 'flex gap-4 items-center justify-center w-1/2',
 		buttonLarge: 'h-14 text-base font-semibold'
 	};
 </script>
@@ -21,9 +23,12 @@
 	{#if $connected}
 		<div class={styles.buttonsGroup}>
 			{#if $receiverRewardsStore.rewardBalance.gt(BIG_NUMBER_ZERO)}
-				<UpdateRewards />
+				<div class={styles.buttonsSubgroup}>
+					<UpdateTicketRewards />
+					<AddRewardsBalance />
+				</div>
 			{:else}
-				<AddRewards />
+				<InitiateRewards />
 			{/if}
 		</div>
 	{:else}

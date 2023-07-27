@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import AddRewardModal from '$lib/page-components/receiver-rewards/modals/AddRewardModal.svelte';
+	import InitiateRewardModal from '$lib/page-components/receiver-rewards/modals/InitiateRewardModal.svelte';
 
 	const modalFor = 'initiate-reward-modal';
 	const styles = {
@@ -9,4 +9,4 @@
 </script>
 
 <ModalButton {modalFor} styleClass={`${styles.buttonLarge}`}>GIVE REWARDS</ModalButton>
-<AddRewardModal {modalFor} />
+<InitiateRewardModal {modalFor} />

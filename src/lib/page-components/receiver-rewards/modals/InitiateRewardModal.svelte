@@ -19,7 +19,7 @@
 
 	export let modalFor: string;
 	let approveLoading = false;
-	let confirmloading = false;
+	let confirmLoading = false;
 	let updatedAmountInputDirty = false;
 	let inputAmountIsValid = true;
 	let inputAmountString = '';
@@ -35,13 +35,14 @@
 	const rewardToolTipText = 'Reward per ticket for operators.';
 
 	function resetInputs() {
+		// TODO: add reset logic here
 		console.log('reset inputs for add rewards');
 	}
 
 	function handleConfirmClick() {
-		confirmloading = true;
+		confirmLoading = true;
 		try {
-			// add confirm logic here
+			// TODO: add confirm logic here
 			receiverRewardsStore.update((value) => {
 				return {
 					...value,
@@ -50,16 +51,22 @@
 					rewardBalance: value.rewardBalance.add(inputAmount)
 				};
 			});
-			confirmloading = false;
+			walletBalance.update((value) => {
+				return {
+					...value,
+					pond: value.pond.sub(inputAmount)
+				};
+			});
+			confirmLoading = false;
 		} catch (error) {
 			console.error('error while submitting pond for rewards :>>', error);
-			confirmloading = false;
+			confirmLoading = false;
 		}
 	}
 	function handleApproveClick() {
 		approveLoading = true;
 		try {
-			// add approve logic here
+			// TODO: add approve logic here
 			receiverRewardsStore.update((value) => {
 				return {
 					...value,
@@ -96,12 +103,8 @@
 	}
 	function handleRewardMaxClick() {
 		if ($receiverRewardsStore.amountApproved) {
-			rewardString = bigNumberToString(
-				$receiverRewardsStore.amountApproved,
-				DEFAULT_CURRENCY_DECIMALS,
-				POND_PRECISIONS,
-				false
-			);
+			reward = $receiverRewardsStore.amountApproved;
+			rewardString = bigNumberToString(reward, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS, false);
 			//reset input error message
 			rewardIsValid = true;
 			updatedRewardIsDirty = false;
@@ -211,7 +214,7 @@
 		<Button
 			variant="filled"
 			disabled={confirmDisabled}
-			loading={confirmloading}
+			loading={confirmLoading}
 			onclick={handleConfirmClick}
 			size="large"
 			styleClass={'btn-block w-full'}>CONFIRM</Button

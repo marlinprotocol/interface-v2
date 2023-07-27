@@ -3,6 +3,7 @@ import type { ChainConfig } from '$lib/types/environmentTypes';
 export const ARB_GOERLI: ChainConfig = {
 	chain_id: '0x66eed',
 	chain_name: 'Arbitrum Goerli',
+	block_explorer_url: 'https://goerli.arbiscan.io',
 	contract_details_url: 'https://api.aragog.live/getcontractdetails',
 	bridge_contract_details_url: 'https://api.aragog.live/getBridgeDetails',
 	contract_addresses: {

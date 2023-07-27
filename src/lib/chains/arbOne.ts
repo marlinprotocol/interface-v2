@@ -3,6 +3,7 @@ import type { ChainConfig } from '$lib/types/environmentTypes';
 export const ARB_ONE: ChainConfig = {
 	chain_id: '0xa4b1',
 	chain_name: 'Arbitrum One',
+	block_explorer_url: 'https://arbiscan.io',
 	contract_details_url: 'https://sk.arb1.marlin.org/getcontractdetails',
 	bridge_contract_details_url: 'https://sk.arb1.marlin.org/getBridgeDetails',
 	contract_addresses: {

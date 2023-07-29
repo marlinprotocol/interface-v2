@@ -102,4 +102,5 @@ export type ReceiverRewardsData = {
 	rewardPerEpoch: BigNumber;
 	rewardBalance: BigNumber;
 	amountApproved: BigNumber;
+	epochDuration: number;
 };

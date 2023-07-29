@@ -91,6 +91,14 @@ export const QUERY_TO_GET_POND_AND_MPOND_ALLOWANCES = `query PondMPondDetails($a
   }
 }`;
 
+export const QUERY_TO_GET_POND_ALLOWANCES = `query PondDetails($address: String, $contractAddress: String) {
+  pondApprovals(
+    where: { to: $contractAddress, from: $address }
+  ) {
+    value
+  }   
+}`;
+
 export const QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION = `query User($address: String) {
   user(
     id: $address
@@ -271,4 +279,9 @@ export const QUERY_TO_GET_MERCHANT_JOBS_DATA = `query Jobs($address: String) {
       timestamp
     }
   }
+}`;
+
+// TODO: create this query when subgraph is updated
+export const QUERY_TO_GET_RECEIVER_REWARDS_DATA = `query ReceiverRewards($address: String) {
+  
 }`;

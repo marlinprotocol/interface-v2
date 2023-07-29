@@ -17,11 +17,13 @@ import {
 	QUERY_TO_GET_MERCHANT_JOBS_DATA,
 	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY,
+	QUERY_TO_GET_POND_ALLOWANCES,
 	QUERY_TO_GET_POND_AND_MPOND_ALLOWANCES,
 	QUERY_TO_GET_POND_BALANCE_QUERY,
 	QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY,
 	QUERY_TO_GET_PROVIDER_DATA,
 	QUERY_TO_GET_RECEIVER_POND_BALANCE,
+	QUERY_TO_GET_RECEIVER_REWARDS_DATA,
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
@@ -460,8 +462,6 @@ export async function getAllProvidersDetailsFromSubgraph() {
 		} else {
 			return [];
 		}
-		// const ret = await getOysterProvidersModified(providers);
-		// return ret;
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
@@ -546,6 +546,73 @@ export async function getUsdcBalanceFromProvider(address: Address, provider: any
 		return BigNumber.from(balance);
 	} catch (error: any) {
 		console.log('error fetching usdc balance :>> ', error);
+		return BIG_NUMBER_ZERO;
+	}
+}
+
+// ----------------------------- receiver rewards subgraph methods -----------------------------
+
+export async function getReceiverRewardsDataFromSubgraph(address: Address) {
+	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
+
+	const query = QUERY_TO_GET_RECEIVER_REWARDS_DATA;
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
+
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+
+	try {
+		const result = await fetchHttpData(url, options);
+		const receiverRewards = result['data']?.receiverRewards;
+
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data'] && receiverRewards?.length) {
+			return receiverRewards;
+		} else {
+			return [];
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: `Error getting receiver rewards data from subgraph. ${error.message}`,
+			timeout: 6000
+		});
+		console.error('Error getting receiver rewards data from subgraph', error);
+		return [];
+	}
+}
+
+export async function getApprovedReceiverRewardAllowancesFromSubgraph(address: Address) {
+	const receiverRewardContractAddress = contractAddresses.REWARD_DELEGATORS;
+	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
+
+	const query = QUERY_TO_GET_POND_ALLOWANCES;
+	const queryVariables = {
+		address: address.toLowerCase(),
+		contractAddress: receiverRewardContractAddress.toLowerCase()
+	};
+
+	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+
+	try {
+		const result = await fetchHttpData(url, options);
+		const pondApprovals = result['data']?.pondApprovals;
+
+		if (result['data'] && pondApprovals && pondApprovals.length > 0) {
+			return BigNumber.from(pondApprovals[0]?.value ?? 0);
+		} else {
+			return BIG_NUMBER_ZERO;
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: `Error fetching rewards allowances from subgraph. ${error.message}`,
+			timeout: 6000
+		});
+		console.log('Error fetching rewards allowances from subgraph', error);
 		return BIG_NUMBER_ZERO;
 	}
 }

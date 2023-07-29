@@ -215,6 +215,32 @@ export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
 	}
 }
 
+// approval in pond contract so that the receiver rewards contract can spend our pond
+export async function approvePondTokenForReceiverRewards(amount: BigNumber) {
+	const pondTokenContract = createSignerContract(contractAddresses.POND, contractAbi.ERC20);
+	try {
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND(
+			bigNumberToCommaString(amount, POND_PRECISIONS)
+		);
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND_APPROVED(
+			bigNumberToCommaString(amount, POND_PRECISIONS)
+		);
+		const errorTxnMessage = 'Unable to approve staking token';
+		const parentFunctionName = 'approvePondTokenForReceiverRewards';
+
+		const { txn } = await createTransaction(
+			() => pondTokenContract.approve(contractAddresses.REWARD_DELEGATORS, amount),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+		return txn;
+	} catch (error: any) {
+		throw new Error('Transaction Error');
+	}
+}
+
 // approval in pond contract so that the bridge contract can spend our pond
 export async function approvePondTokenForConversion(amount: BigNumber) {
 	const pondTokenContract = createSignerContract(contractAddresses.POND, contractAbi.ERC20);
@@ -629,6 +655,89 @@ export async function settleOysterJob(jobId: Bytes) {
 
 		const { txn } = await createTransaction(
 			() => oysterContract.jobSettle(jobId),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+
+		return txn;
+	} catch (error: any) {
+		throw new Error('Transaction Error');
+	}
+}
+
+// ----------------------------- Receiver Rewards contract methods -----------------------------
+
+export async function initiateReceiverRewards(rewardBalance: BigNumber, rewardPerEpoch: BigNumber) {
+	const receiverRewardsContract = createSignerContract(
+		contractAddresses.REWARD_DELEGATORS,
+		contractAbi.RewardDelegators
+	);
+	try {
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.RECEIVER_REWARDS.INITIATING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.RECEIVER_REWARDS.INITIATED;
+		const errorTxnMessage = 'Unable to initiate receiver rewards.';
+		const parentFunctionName = 'initiateReceiverRewards';
+
+		const { txn } = await createTransaction(
+			() => receiverRewardsContract.initiateReceiverReward(rewardBalance, rewardPerEpoch),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+
+		return txn;
+	} catch (error: any) {
+		throw new Error('Transaction Error');
+	}
+}
+export async function addReceiverBalance(receiverAddress: Address, rewardBalance: BigNumber) {
+	const receiverRewardsContract = createSignerContract(
+		contractAddresses.REWARD_DELEGATORS,
+		contractAbi.RewardDelegators
+	);
+	try {
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.RECEIVER_REWARDS.UPDATING_REWARDS(
+			bigNumberToCommaString(rewardBalance, POND_PRECISIONS)
+		);
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.RECEIVER_REWARDS.UPDATED_REWARDS(
+			bigNumberToCommaString(rewardBalance, POND_PRECISIONS)
+		);
+		const errorTxnMessage = 'Unable to add receiver balance.';
+		const parentFunctionName = 'addReceiverBalance';
+
+		const { txn } = await createTransaction(
+			() => receiverRewardsContract.addReceiverBalance(receiverAddress, rewardBalance),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+
+		return txn;
+	} catch (error: any) {
+		throw new Error('Transaction Error');
+	}
+}
+export async function updateReceiverTicketReward(rewardPerEpoch: BigNumber) {
+	const receiverRewardsContract = createSignerContract(
+		contractAddresses.REWARD_DELEGATORS,
+		contractAbi.RewardDelegators
+	);
+	try {
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.RECEIVER_REWARDS.UPDATING_REWARDS(
+			bigNumberToCommaString(rewardPerEpoch, POND_PRECISIONS)
+		);
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.RECEIVER_REWARDS.UPDATED_REWARDS(
+			bigNumberToCommaString(rewardPerEpoch, POND_PRECISIONS)
+		);
+		const errorTxnMessage = 'Unable to update ticket rewards.';
+		const parentFunctionName = 'updateReceiverTicketReward';
+
+		const { txn } = await createTransaction(
+			() => receiverRewardsContract.setReceiverRewardPerEpoch(rewardPerEpoch),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,

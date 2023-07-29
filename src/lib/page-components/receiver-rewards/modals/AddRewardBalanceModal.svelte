@@ -3,7 +3,7 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import { walletBalance } from '$lib/data-stores/walletProviderStore';
+	import { walletBalance, walletStore } from '$lib/data-stores/walletProviderStore';
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import {
 		BIG_NUMBER_ZERO,
@@ -18,6 +18,10 @@
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import { receiverRewardsStore } from '$lib/data-stores/receiverRewardsStore';
+	import {
+		handleAddRewardBalance,
+		handleRewardsPondApproval
+	} from '$lib/utils/services/receiverRewardServices';
 
 	export let modalFor: string;
 	let loading = false;
@@ -59,40 +63,22 @@
 		}
 	}
 
-	function handleConfirmClick() {
+	async function handleConfirmClick() {
 		loading = true;
 		try {
-			// TODO: add confirm logic here
-			receiverRewardsStore.update((value) => {
-				return {
-					...value,
-					amountApproved: value.amountApproved.sub(inputAmount),
-					rewardBalance: value.rewardBalance.add(inputAmount)
-				};
-			});
-			walletBalance.update((value) => {
-				return {
-					...value,
-					pond: value.pond.sub(inputAmount)
-				};
-			});
+			await handleAddRewardBalance($walletStore.address, inputAmount);
 			loading = false;
 			closeModal(modalFor);
 		} catch (error) {
-			console.error('error while submitting pond for rewards :>>', error);
 			loading = false;
+			console.error('error while submitting pond for rewards :>>', error);
 		}
 	}
-	function handleApproveClick() {
+
+	async function handleApproveClick() {
 		approveLoading = true;
 		try {
-			// add approve logic here
-			receiverRewardsStore.update((value) => {
-				return {
-					...value,
-					amountApproved: inputAmount
-				};
-			});
+			await handleRewardsPondApproval(inputAmount);
 			approveLoading = false;
 		} catch (error) {
 			approveLoading = false;

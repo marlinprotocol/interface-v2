@@ -16,6 +16,10 @@
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
+	import {
+		handleInitiateRewards,
+		handleRewardsPondApproval
+	} from '$lib/utils/services/receiverRewardServices';
 
 	export let modalFor: string;
 	let approveLoading = false;
@@ -39,40 +43,20 @@
 		console.log('reset inputs for add rewards');
 	}
 
-	function handleConfirmClick() {
+	async function handleConfirmClick() {
 		confirmLoading = true;
 		try {
-			// TODO: add confirm logic here
-			receiverRewardsStore.update((value) => {
-				return {
-					...value,
-					rewardPerEpoch: value.rewardPerEpoch.add(reward),
-					amountApproved: value.amountApproved.sub(inputAmount),
-					rewardBalance: value.rewardBalance.add(inputAmount)
-				};
-			});
-			walletBalance.update((value) => {
-				return {
-					...value,
-					pond: value.pond.sub(inputAmount)
-				};
-			});
+			await handleInitiateRewards(inputAmount, reward);
 			confirmLoading = false;
 		} catch (error) {
-			console.error('error while submitting pond for rewards :>>', error);
 			confirmLoading = false;
+			console.error('error while submitting pond for rewards :>>', error);
 		}
 	}
-	function handleApproveClick() {
+	async function handleApproveClick() {
 		approveLoading = true;
 		try {
-			// TODO: add approve logic here
-			receiverRewardsStore.update((value) => {
-				return {
-					...value,
-					amountApproved: inputAmount
-				};
-			});
+			await handleRewardsPondApproval(inputAmount);
 			approveLoading = false;
 		} catch (error) {
 			approveLoading = false;

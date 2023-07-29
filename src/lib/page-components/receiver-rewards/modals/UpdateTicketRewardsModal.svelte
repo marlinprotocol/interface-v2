@@ -19,6 +19,7 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
+	import { handleUpdateTicketRewards } from '$lib/utils/services/receiverRewardServices';
 
 	export let modalFor: string;
 	let updatedRewardIsDirty = false;
@@ -71,17 +72,10 @@
 		}
 	}
 
-	function handleConfirmClick() {
-		console.log('submit for update ticket rewards clicked');
+	async function handleConfirmClick() {
 		confirmLoading = true;
 		try {
-			//TODO: add submit logic here
-			receiverRewardsStore.update((value) => {
-				return {
-					...value,
-					rewardPerEpoch: reward
-				};
-			});
+			await handleUpdateTicketRewards(reward);
 			confirmLoading = false;
 			closeModal(modalFor);
 		} catch (error) {
@@ -96,7 +90,6 @@
 	)} POND`;
 	$: confirmDisabled =
 		!rewardIsValid || !reward.gt(0) || reward?.gt($receiverRewardsStore.rewardBalance);
-	$: console.log(!rewardIsValid, !reward.gt(0), reward?.lt($receiverRewardsStore.rewardBalance));
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>

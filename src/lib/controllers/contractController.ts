@@ -670,7 +670,7 @@ export async function settleOysterJob(jobId: Bytes) {
 // ----------------------------- Receiver Rewards contract methods -----------------------------
 
 export async function initiateReceiverRewards(rewardBalance: BigNumber, rewardPerEpoch: BigNumber) {
-	const receiverRewardsContract = createSignerContract(
+	const rewardDelegatorContract = createSignerContract(
 		contractAddresses.REWARD_DELEGATORS,
 		contractAbi.RewardDelegators
 	);
@@ -682,7 +682,7 @@ export async function initiateReceiverRewards(rewardBalance: BigNumber, rewardPe
 
 		const { txn } = await createTransaction(
 			() =>
-				receiverRewardsContract.addReceiverBalanceAndSetReceiverRewardPerEpoch(
+				rewardDelegatorContract.addReceiverBalanceAndSetReceiverRewardPerEpoch(
 					rewardBalance,
 					rewardPerEpoch
 				),
@@ -698,7 +698,7 @@ export async function initiateReceiverRewards(rewardBalance: BigNumber, rewardPe
 	}
 }
 export async function addReceiverBalance(receiverAddress: Address, rewardBalance: BigNumber) {
-	const receiverRewardsContract = createSignerContract(
+	const rewardDelegatorContract = createSignerContract(
 		contractAddresses.REWARD_DELEGATORS,
 		contractAbi.RewardDelegators
 	);
@@ -713,7 +713,7 @@ export async function addReceiverBalance(receiverAddress: Address, rewardBalance
 		const parentFunctionName = 'addReceiverBalance';
 
 		const { txn } = await createTransaction(
-			() => receiverRewardsContract.addReceiverBalance(receiverAddress, rewardBalance),
+			() => rewardDelegatorContract.addReceiverBalance(receiverAddress, rewardBalance),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
@@ -726,7 +726,7 @@ export async function addReceiverBalance(receiverAddress: Address, rewardBalance
 	}
 }
 export async function updateReceiverTicketReward(rewardPerEpoch: BigNumber) {
-	const receiverRewardsContract = createSignerContract(
+	const rewardDelegatorContract = createSignerContract(
 		contractAddresses.REWARD_DELEGATORS,
 		contractAbi.RewardDelegators
 	);
@@ -741,7 +741,7 @@ export async function updateReceiverTicketReward(rewardPerEpoch: BigNumber) {
 		const parentFunctionName = 'updateReceiverTicketReward';
 
 		const { txn } = await createTransaction(
-			() => receiverRewardsContract.setReceiverRewardPerEpoch(rewardPerEpoch),
+			() => rewardDelegatorContract.setReceiverRewardPerEpoch(rewardPerEpoch),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,

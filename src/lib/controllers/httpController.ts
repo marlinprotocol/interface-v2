@@ -1,10 +1,9 @@
-import { chainConfigStore, chainStore } from '$lib/data-stores/chainProviderStore';
-
 import type { Address } from '$lib/types/storeTypes';
 import type { Bytes } from 'ethers';
 import type { CPInstances } from '$lib/types/oysterComponentType';
 import type { ChainConfig } from '$lib/types/environmentTypes';
 import { GET_OPTIONS } from '$lib/utils/constants/constants';
+import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
 
 let chainConfig: ChainConfig;

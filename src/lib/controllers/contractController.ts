@@ -669,11 +669,7 @@ export async function settleOysterJob(jobId: Bytes) {
 
 // ----------------------------- Receiver Rewards contract methods -----------------------------
 
-export async function initiateReceiverRewards(
-	receiverAddress: Address,
-	rewardBalance: BigNumber,
-	rewardPerEpoch: BigNumber
-) {
+export async function initiateReceiverRewards(rewardBalance: BigNumber, rewardPerEpoch: BigNumber) {
 	const receiverRewardsContract = createSignerContract(
 		contractAddresses.REWARD_DELEGATORS,
 		contractAbi.RewardDelegators
@@ -686,8 +682,7 @@ export async function initiateReceiverRewards(
 
 		const { txn } = await createTransaction(
 			() =>
-				receiverRewardsContract.initiateReceiverReward(
-					receiverAddress,
+				receiverRewardsContract.addReceiverBalanceAndSetReceiverRewardPerEpoch(
 					rewardBalance,
 					rewardPerEpoch
 				),

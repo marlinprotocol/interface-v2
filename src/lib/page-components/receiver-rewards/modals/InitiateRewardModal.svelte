@@ -10,7 +10,7 @@
 		DEFAULT_CURRENCY_DECIMALS,
 		POND_PRECISIONS
 	} from '$lib/utils/constants/constants';
-	import { connected, walletBalance, walletStore } from '$lib/data-stores/walletProviderStore';
+	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import { receiverRewardsStore } from '$lib/data-stores/receiverRewardsStore';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
@@ -46,7 +46,7 @@
 	async function handleConfirmClick() {
 		confirmLoading = true;
 		try {
-			await handleInitiateRewards($walletStore.address, inputAmount, reward);
+			await handleInitiateRewards(inputAmount, reward);
 			confirmLoading = false;
 		} catch (error) {
 			confirmLoading = false;

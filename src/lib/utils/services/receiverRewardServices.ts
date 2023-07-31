@@ -24,13 +24,9 @@ export async function handleRewardsPondApproval(amount: BigNumber) {
 	}
 }
 
-export async function handleInitiateRewards(
-	receiverBalance: Address,
-	rewardBalance: BigNumber,
-	rewardPerEpoch: BigNumber
-) {
+export async function handleInitiateRewards(rewardBalance: BigNumber, rewardPerEpoch: BigNumber) {
 	try {
-		await initiateReceiverRewards(receiverBalance, rewardBalance, rewardPerEpoch);
+		await initiateReceiverRewards(rewardBalance, rewardPerEpoch);
 		receiverRewardsStore.update((value) => {
 			return {
 				...value,

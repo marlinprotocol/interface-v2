@@ -570,9 +570,9 @@ export async function getReceiverRewardsDataFromSubgraph(address: Address) {
 			throw new Error(result['errors'][0].message);
 		}
 		if (result['data'] && receiverRewards?.length) {
-			return receiverRewards;
+			return receiverRewards[0];
 		} else {
-			return [];
+			throw new Error('No receiver rewards data found for this address');
 		}
 	} catch (error: any) {
 		addToast({

@@ -281,7 +281,11 @@ export const QUERY_TO_GET_MERCHANT_JOBS_DATA = `query Jobs($address: String) {
   }
 }`;
 
-// TODO: create this query when subgraph is updated
 export const QUERY_TO_GET_RECEIVER_REWARDS_DATA = `query ReceiverRewards($address: String) {
-  
+  receiverRewards(
+    where: { id: $address}
+  ) {
+    amount
+    rewardPerEpoch
+  }
 }`;

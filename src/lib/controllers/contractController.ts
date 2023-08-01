@@ -681,11 +681,7 @@ export async function initiateReceiverRewards(rewardBalance: BigNumber, rewardPe
 		const parentFunctionName = 'initiateReceiverRewards';
 
 		const { txn } = await createTransaction(
-			() =>
-				rewardDelegatorContract.addReceiverBalanceAndSetReceiverRewardPerEpoch(
-					rewardBalance,
-					rewardPerEpoch
-				),
+			() => rewardDelegatorContract.setupReceiverReward(rewardBalance, rewardPerEpoch),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,

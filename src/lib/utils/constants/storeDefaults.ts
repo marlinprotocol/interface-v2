@@ -101,5 +101,6 @@ export const DEFAULT_RECEIVER_REWARDS_DATA = {
 	rewardPerEpoch: BIG_NUMBER_ZERO,
 	rewardBalance: BIG_NUMBER_ZERO,
 	amountApproved: BIG_NUMBER_ZERO,
-	epochDuration: 0
+	epochDuration: 0,
+	startTime: 0
 };

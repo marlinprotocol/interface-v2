@@ -288,4 +288,10 @@ export const QUERY_TO_GET_RECEIVER_REWARDS_DATA = `query ReceiverRewards($addres
     amount
     rewardPerEpoch
   }
+  params (
+    where: { id_in: ["EPOCH_LENGTH", "START_TIME"] },
+  ) {
+    id
+    value
+  }
 }`;

@@ -565,12 +565,13 @@ export async function getReceiverRewardsDataFromSubgraph(address: Address) {
 	try {
 		const result = await fetchHttpData(url, options);
 		const receiverRewards = result['data']?.receiverRewards;
+		const receiverParams = result['data']?.params;
 
 		if (result['errors']) {
 			throw new Error(result['errors'][0].message);
 		}
-		if (result['data'] && receiverRewards?.length) {
-			return receiverRewards[0];
+		if (result['data'] && receiverRewards?.length && receiverParams?.length) {
+			return result['data'];
 		} else {
 			throw new Error('No receiver rewards data found for this address');
 		}

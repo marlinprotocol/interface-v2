@@ -14,11 +14,20 @@
 				getReceiverRewardsDataFromSubgraph($walletStore.address),
 				getApprovedReceiverRewardAllowancesFromSubgraph($walletStore.address)
 			]);
+
 			if (rewardsData) {
+				let startTime = rewardsData.params.find(
+					(param: Record<'id' | 'value', string>) => param.id === 'START_TIME'
+				).value;
+				let epochLength = rewardsData.params.find(
+					(param: Record<'id' | 'value', string>) => param.id === 'EPOCH_LENGTH'
+				).value;
+
 				receiverRewardsStore.update((value) => {
-					value.rewardBalance = BigNumber.from(rewardsData.amount);
-					value.rewardPerEpoch = BigNumber.from(rewardsData.rewardPerEpoch);
-					value.epochDuration = rewardsData?.epochDuration;
+					value.startTime = parseInt(startTime);
+					value.epochDuration = parseInt(epochLength);
+					value.rewardBalance = BigNumber.from(rewardsData.receiverRewards[0].amount);
+					value.rewardPerEpoch = BigNumber.from(rewardsData.receiverRewards[0].rewardPerEpoch);
 					return value;
 				});
 			}

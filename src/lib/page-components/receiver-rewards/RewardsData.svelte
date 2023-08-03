@@ -19,10 +19,13 @@
 		startTime: number,
 		epochDuration: number,
 		rewardBalance: BigNumber,
-		rewardPerEpoch: BigNumber
+		rewardPerEpoch: BigNumber,
+		lastTicketIssuedEpoch: number | undefined
 	) {
 		if (rewardPerEpoch.eq(BIG_NUMBER_ZERO) || epochDuration === 0) return 0;
-		const currentEpochNumber = Math.floor((Date.now() / 1000 - startTime) / epochDuration);
+		const currentEpochNumber = lastTicketIssuedEpoch
+			? lastTicketIssuedEpoch
+			: Math.floor((Date.now() / 1000 - startTime) / epochDuration);
 		const finalEpochNumber = currentEpochNumber + rewardBalance.div(rewardPerEpoch).toNumber();
 		return startTime + epochDuration * finalEpochNumber;
 	}
@@ -31,7 +34,8 @@
 		$receiverRewardsStore.startTime,
 		$receiverRewardsStore.epochDuration,
 		$receiverRewardsStore.rewardBalance,
-		$receiverRewardsStore.rewardPerEpoch
+		$receiverRewardsStore.rewardPerEpoch,
+		$receiverRewardsStore.lastTicketIssuedEpoch
 	);
 </script>
 

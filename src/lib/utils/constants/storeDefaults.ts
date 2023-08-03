@@ -4,6 +4,7 @@ import type {
 	ContractAbi,
 	ContractAddress,
 	OysterStore,
+	ReceiverRewardsStore,
 	ReceiverStakingData,
 	WalletBalance,
 	WalletStore
@@ -97,10 +98,11 @@ export const DEFAULT_OYSTER_STORE: OysterStore = {
 };
 
 // receiverRewardsStore
-export const DEFAULT_RECEIVER_REWARDS_DATA = {
+export const DEFAULT_RECEIVER_REWARDS_STORE: ReceiverRewardsStore = {
 	rewardPerEpoch: BIG_NUMBER_ZERO,
 	rewardBalance: BIG_NUMBER_ZERO,
 	amountApproved: BIG_NUMBER_ZERO,
 	epochDuration: 0,
-	startTime: 0
+	startTime: 0,
+	lastTicketIssuedEpoch: undefined
 };

@@ -98,10 +98,11 @@ export type OysterStore = {
 };
 
 // receiver rewards store
-export type ReceiverRewardsData = {
+export type ReceiverRewardsStore = {
 	rewardPerEpoch: BigNumber;
 	rewardBalance: BigNumber;
 	amountApproved: BigNumber;
 	startTime: number;
 	epochDuration: number;
+	lastTicketIssuedEpoch: number | undefined;
 };

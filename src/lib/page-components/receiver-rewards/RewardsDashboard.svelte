@@ -9,6 +9,7 @@
 	import InitiateRewards from '$lib/page-components/receiver-rewards/buttons/InitiateRewards.svelte';
 	import UpdateTicketRewards from './buttons/UpdateTicketRewards.svelte';
 	import AddRewardsBalance from './buttons/AddRewardsBalance.svelte';
+	import ReceiverTabToggle from '$lib/page-components/receiver-portal/ReceiverTabToggle.svelte';
 
 	const styles = {
 		buttonsGroup: 'flex gap-4 items-center justify-center w-full',
@@ -19,6 +20,7 @@
 
 <ContainerCard>
 	<Text variant="h3" text="Receiver Rewards" styleClass="text-center" />
+	<ReceiverTabToggle />
 	<RewardsData />
 	{#if $connected}
 		<div class={styles.buttonsGroup}>

@@ -18,7 +18,7 @@
 	onDestroy(unsubscribeReceiverStakedStore);
 
 	const styles = {
-		wrapper: 'w-full flex flex-col items-center justify-center py-8',
+		wrapper: 'w-full flex flex-col items-center justify-center pt-4 pb-8',
 		cardWrapper: 'w-full flex px-2 mb-2'
 	};
 </script>

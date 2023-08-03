@@ -1,11 +1,13 @@
 <script lang="ts">
+	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import {
-		getApprovedReceiverRewardAllowancesFromSubgraph,
-		getReceiverRewardsDataFromSubgraph
+		getReceiverRewardsDataFromSubgraph,
+		getApprovedReceiverRewardAllowancesFromSubgraph
 	} from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { receiverRewardsStore } from '$lib/data-stores/receiverRewardsStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
+	import RewardsDashboard from '$lib/page-components/receiver-rewards/RewardsDashboard.svelte';
 	import { BigNumber } from 'ethers';
 
 	async function loadConnectedData() {
@@ -46,4 +48,10 @@
 	}
 </script>
 
-<slot />
+<div class="py-4">
+	{#if $chainStore.isValidChain}
+		<RewardsDashboard />
+	{:else}
+		<NetworkPrompt />
+	{/if}
+</div>

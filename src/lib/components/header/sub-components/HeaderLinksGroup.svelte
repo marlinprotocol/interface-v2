@@ -29,8 +29,8 @@
 			openInNewTab: false
 		},
 		{
-			title: 'Rewards',
-			href: '/receiver-rewards',
+			title: 'Receiver Portal',
+			href: '/receiver-portal/receiver-staking',
 			openInNewTab: false
 		}
 	];
@@ -41,6 +41,3 @@
 		<HeaderNavLinkItem {navItem} />
 	{/each}
 </div>
-
-<style>
-</style>

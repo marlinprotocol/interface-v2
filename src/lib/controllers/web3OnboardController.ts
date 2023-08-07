@@ -12,7 +12,7 @@ import walletConnectModule from '@web3-onboard/walletconnect';
 const injected = injectedWalletsModule();
 const ledger = ledgerModule({
 	walletConnectVersion: 2,
-	projectId: '85c0877a4199946ad75f772be3aab90d',
+	projectId: import.meta.env.VITE_PROJECT_ID,
 	requiredChains: [42161, 421613]
 });
 const coinbaseWalletSdk = coinbaseWalletModule();
@@ -23,7 +23,7 @@ const trezor = trezorModule({
 	appUrl: 'https://app2.aragog.live'
 });
 const walletConnect = walletConnectModule({
-	projectId: '85c0877a4199946ad75f772be3aab90d',
+	projectId: import.meta.env.VITE_PROJECT_ID,
 	requiredChains: [42161, 421613],
 	connectFirstChainId: true,
 	qrcodeModalOptions: {

@@ -29,6 +29,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Marlin Receiver Portal</title>
+</svelte:head>
+
 <div class="py-4">
 	{#if $chainStore.isValidChain}
 		<StakeDashboard />

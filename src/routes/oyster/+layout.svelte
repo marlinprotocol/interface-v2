@@ -76,4 +76,8 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Marlin Oyster</title>
+</svelte:head>
+
 <slot />

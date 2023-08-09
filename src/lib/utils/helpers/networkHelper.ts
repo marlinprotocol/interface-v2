@@ -25,7 +25,7 @@ export async function switchChain(provider: any, chainId: string) {
 			params: [{ chainId: chainId }]
 		})
 		.catch(async (err: any) => {
-			if (err.code === 4902) {
+			if (err.code === 4902 || err.code === -32603) {
 				if (!networkInfo[chainId]) {
 					addToast({
 						variant: 'error',

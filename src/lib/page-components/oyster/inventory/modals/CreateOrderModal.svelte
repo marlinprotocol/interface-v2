@@ -40,6 +40,7 @@
 	let instanceCostString = '';
 	let bandwidthCost = BIG_NUMBER_ZERO;
 	let finalBandwidthRate = BIG_NUMBER_ZERO;
+	let totalCost = BIG_NUMBER_ZERO;
 
 	//loading states
 	let submitLoading = false;
@@ -147,7 +148,7 @@
 			return;
 		}
 		submitLoading = true;
-		await handleApproveFundForOysterJob(totalCost);
+		await handleApproveFundForOysterJob(totalCost.div(OYSTER_RATE_SCALING_FACTOR));
 		submitLoading = false;
 	};
 
@@ -217,10 +218,20 @@
 			? checkValidURL(enclaveImageUrl.value)
 			: true;
 
-	$: totalRate = finalBandwidthRate.add(
-		instanceRate?.mul(OYSTER_RATE_SCALING_FACTOR) || BIG_NUMBER_ZERO
-	);
-	$: totalCost = instanceCost.add(bandwidthCost);
+	$: totalRate = finalBandwidthRate.add(instanceRate || BIG_NUMBER_ZERO);
+
+	// $: console.log(
+	// 	'totalRate',
+	// 	totalRate.toString(),
+	// 	finalBandwidthRate.toString(),
+	// 	instanceRate?.toString()
+	// );
+	// $: console.log(
+	// 	'totalCost',
+	// 	totalCost.toString(),
+	// 	instanceCost.toString(),
+	// 	bandwidthCost.toString()
+	// );
 
 	const subtitle =
 		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';
@@ -252,11 +263,11 @@
 				handleChange={handleMerchantChange}
 			/>
 			<AddFundsToJob
+				bind:instanceRate
 				bind:instanceCost
+				bind:instanceCostString
 				bind:duration
 				bind:invalidCost
-				bind:instanceRate
-				bind:instanceCostString
 				selectId="create-order-duration-unit-select"
 				instanceRateEditable={!instanceRateDisabled}
 			/>
@@ -266,6 +277,7 @@
 				bind:duration
 				bind:instanceCost
 				bind:finalBandwidthRate
+				bind:totalCost
 			/>
 			<TextInputWithEndButton
 				styleClass={styles.inputText}

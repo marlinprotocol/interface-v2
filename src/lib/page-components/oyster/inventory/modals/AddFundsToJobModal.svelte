@@ -50,7 +50,7 @@
 
 	const handleApproveClick = async () => {
 		approvedLoading = true;
-		await handleApproveFundForOysterJob(instanceCost);
+		await handleApproveFundForOysterJob(instanceCost.div(OYSTER_RATE_SCALING_FACTOR));
 		approvedLoading = false;
 	};
 

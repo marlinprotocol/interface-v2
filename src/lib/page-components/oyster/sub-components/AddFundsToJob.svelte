@@ -138,7 +138,7 @@
 
 	$: durationString = computeDurationString(duration, durationUnitInSec);
 	$: instanceCost = computeCost(duration || 0, instanceRate);
-	$: invalidCost = !instanceCost || !maxBalance.gte(instanceCost);
+	$: invalidCost = !instanceCost || !maxBalance.gte(instanceCost.div(OYSTER_RATE_SCALING_FACTOR));
 	$: inValidMessage = !instanceCost
 		? ''
 		: invalidCost

@@ -6,22 +6,18 @@
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
-	import type {
-		CreateOrderPreFilledModel,
-		OysterMarketplaceDataModel
-	} from '$lib/types/oysterComponentType';
-	import type { Address } from '$lib/types/storeTypes';
+	import type { CreateOrderPreFilledModel } from '$lib/types/oysterComponentType';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
-	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
+	import {
+		OYSTER_RATE_METADATA,
+		OYSTER_RATE_SCALING_FACTOR
+	} from '$lib/utils/constants/oysterConstants';
 	import { checkValidURL, closeModal } from '$lib/utils/helpers/commonHelper';
 	import { getRateForProviderAndFilters } from '$lib/utils/helpers/oysterHelpers';
 	import {
 		handleApproveFundForOysterJob,
 		handleCreateJob
 	} from '$lib/utils/services/oysterServices';
-	import type { BigNumber } from 'ethers';
-	import { onDestroy } from 'svelte';
-	import type { Unsubscriber } from 'svelte/store';
 	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
 	import MetadetailsForNewOrder from '$lib/page-components/oyster/sub-components/MetadetailsForNewOrder.svelte';
 	import BandwidthSelector from '$lib/page-components/oyster/sub-components/BandwidthSelector.svelte';
@@ -29,10 +25,6 @@
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
-
-	let allMarketplaceData: OysterMarketplaceDataModel[] = [];
-	let approvedAmount: BigNumber;
-	let owner: Address;
 
 	let duration = 0; //durationInSecs
 	let instanceCost = BIG_NUMBER_ZERO;
@@ -44,19 +36,6 @@
 
 	//loading states
 	let submitLoading = false;
-
-	const unsubscribeWalletStore: Unsubscriber = walletStore.subscribe(async (value) => {
-		owner = value.address;
-	});
-
-	onDestroy(unsubscribeWalletStore);
-
-	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
-		allMarketplaceData = value.allMarketplaceData;
-		approvedAmount = value.allowance;
-	});
-	onDestroy(unsubscribeOysterStore);
-
 	let providerAddress: string | undefined = preFilledData.provider?.address;
 
 	//initial states
@@ -127,7 +106,7 @@
 		};
 
 		const success = await handleCreateJob(
-			owner,
+			$walletStore.address,
 			metadata,
 			provider,
 			totalRate,
@@ -181,7 +160,7 @@
 		providerAddress,
 		instance.value,
 		region.value,
-		allMarketplaceData
+		$oysterStore.allMarketplaceData
 	);
 	let vcpu = '';
 	let memory = '';
@@ -189,7 +168,7 @@
 
 	$: approved =
 		instanceCost.gt(BIG_NUMBER_ZERO) &&
-		approvedAmount?.gte(totalCost.div(OYSTER_RATE_SCALING_FACTOR)) &&
+		$oysterStore.allowance?.gte(totalCost.div(OYSTER_RATE_SCALING_FACTOR)) &&
 		bandwidthCost.gt(BIG_NUMBER_ZERO) &&
 		totalCost.gt(BIG_NUMBER_ZERO);
 
@@ -246,7 +225,7 @@
 				bind:vcpu
 				bind:memory
 				bind:notServiceable
-				{allMarketplaceData}
+				allMarketplaceData={$oysterStore.allMarketplaceData}
 				handleChange={handleMerchantChange}
 			/>
 			<AddFundsToJob

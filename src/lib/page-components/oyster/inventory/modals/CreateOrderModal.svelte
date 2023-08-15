@@ -131,7 +131,7 @@
 			metadata,
 			provider,
 			totalRate,
-			totalCost,
+			totalCost.div(OYSTER_RATE_SCALING_FACTOR),
 			duration
 		);
 		submitLoading = false;
@@ -189,7 +189,7 @@
 
 	$: approved =
 		instanceCost.gt(BIG_NUMBER_ZERO) &&
-		approvedAmount?.gte(totalCost) &&
+		approvedAmount?.gte(totalCost.div(OYSTER_RATE_SCALING_FACTOR)) &&
 		bandwidthCost.gt(BIG_NUMBER_ZERO) &&
 		totalCost.gt(BIG_NUMBER_ZERO);
 
@@ -219,19 +219,6 @@
 			: true;
 
 	$: totalRate = finalBandwidthRate.add(instanceRate || BIG_NUMBER_ZERO);
-
-	// $: console.log(
-	// 	'totalRate',
-	// 	totalRate.toString(),
-	// 	finalBandwidthRate.toString(),
-	// 	instanceRate?.toString()
-	// );
-	// $: console.log(
-	// 	'totalCost',
-	// 	totalCost.toString(),
-	// 	instanceCost.toString(),
-	// 	bandwidthCost.toString()
-	// );
 
 	const subtitle =
 		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';

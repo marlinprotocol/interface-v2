@@ -56,7 +56,7 @@
 
 	const handleSubmitClick = async () => {
 		submitLoading = true;
-		await handleFundsAddToJob(jobData, instanceCost, duration ?? 0);
+		await handleFundsAddToJob(jobData, instanceCost.div(OYSTER_RATE_SCALING_FACTOR), duration ?? 0);
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);

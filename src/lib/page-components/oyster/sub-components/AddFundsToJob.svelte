@@ -41,7 +41,9 @@
 
 	const updateRateString = (_instanceRate: BigNumber | undefined) => {
 		if (_instanceRate) {
-			instanceRateString = _instanceRate ? convertRateToPerHourString(_instanceRate, decimal) : '';
+			instanceRateString = _instanceRate
+				? convertRateToPerHourString(_instanceRate?.div(OYSTER_RATE_SCALING_FACTOR), decimal)
+				: '';
 			return;
 		}
 		if (!_instanceRate && instanceRateString !== '') {
@@ -50,15 +52,10 @@
 		}
 	};
 
-	$: rateToUseForStrings = isTotalRate
-		? instanceRate?.div(OYSTER_RATE_SCALING_FACTOR)
-		: instanceRate;
-	$: updateRateString(rateToUseForStrings);
+	$: updateRateString(instanceRate);
 
 	function getInstanceCostString(cost: BigNumber) {
-		return isTotalRate
-			? bigNumberToString(cost.div(OYSTER_RATE_SCALING_FACTOR), decimal)
-			: bigNumberToString(cost, decimal);
+		return bigNumberToString(cost.div(OYSTER_RATE_SCALING_FACTOR), decimal);
 	}
 
 	let maxBalance = BIG_NUMBER_ZERO;
@@ -141,7 +138,7 @@
 
 	$: durationString = computeDurationString(duration, durationUnitInSec);
 	$: instanceCost = computeCost(duration || 0, instanceRate);
-	$: invalidCost = !instanceCost || !maxBalance.gte(instanceCost);
+	$: invalidCost = !instanceCost || !maxBalance.gte(instanceCost.div(OYSTER_RATE_SCALING_FACTOR));
 	$: inValidMessage = !instanceCost
 		? ''
 		: invalidCost

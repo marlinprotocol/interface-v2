@@ -60,4 +60,8 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Marlin Bridge</title>
+</svelte:head>
+
 <slot />

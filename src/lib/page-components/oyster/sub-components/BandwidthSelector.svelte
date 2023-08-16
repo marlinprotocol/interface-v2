@@ -17,6 +17,7 @@
 	export let duration = 0;
 	export let instanceCost = BIG_NUMBER_ZERO;
 	export let finalBandwidthRate = BIG_NUMBER_ZERO;
+	export let totalCost = BIG_NUMBER_ZERO;
 
 	let bandwidth = '';
 	let bandwidthUnit = 'KB/s';
@@ -38,7 +39,7 @@
 			.mul(rate)
 			.mul(OYSTER_RATE_SCALING_FACTOR)
 			.div(unitConversionDivisor || BigNumber.from(1));
-		return finalBandwidthRate.mul(duration).div(OYSTER_RATE_SCALING_FACTOR);
+		return finalBandwidthRate.mul(duration);
 	}
 
 	$: bandwidthRateForRegion = getBandwidthRateForRegion(region.value);
@@ -46,11 +47,15 @@
 		bandwidth !== ''
 			? calculateBandwidthCost(bandwidth, bandwidthUnit, bandwidthRateForRegion, duration)
 			: BIG_NUMBER_ZERO;
-	$: bandwidthCostString = bandwidth !== '' ? bigNumberToString(bandwidthCost, decimal, 4) : '';
+	$: bandwidthCostString =
+		bandwidth !== ''
+			? bigNumberToString(bandwidthCost.div(OYSTER_RATE_SCALING_FACTOR), decimal, 4)
+			: '';
 
-	$: totalAmount = bandwidthCost.add(instanceCost);
-	$: totalAmountString = !totalAmount.eq(BIG_NUMBER_ZERO)
-		? bigNumberToString(totalAmount, decimal, 4)
+	$: totalCost = bandwidthCost.add(instanceCost);
+	$: downScaledTotalCost = totalCost.div(OYSTER_RATE_SCALING_FACTOR);
+	$: totalAmountString = !downScaledTotalCost.eq(BIG_NUMBER_ZERO)
+		? bigNumberToString(downScaledTotalCost, decimal, 4)
 		: '';
 </script>
 

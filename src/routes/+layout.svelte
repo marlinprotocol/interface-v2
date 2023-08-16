@@ -43,7 +43,7 @@
 	/>
 </svelte:head>
 
-<main class="text-center w-full font-poppins">
+<main class="text-center font-poppins max-w-[1400px] my-0 mx-auto xl:w-[82%] w-[90%]">
 	<Toast />
 	<Header />
 	<slot />
@@ -51,17 +51,3 @@
 
 <!-- This shows a prompt if the screen size is smaller than 1090px -->
 <SmallScreenPrompt />
-
-<style>
-	main {
-		width: 82%;
-		max-width: 1400px;
-		margin: 0 auto;
-	}
-
-	@media (max-width: 1200px) {
-		main {
-			width: 90%;
-		}
-	}
-</style>

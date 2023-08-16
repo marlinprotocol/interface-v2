@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { environmentStore } from '$lib/data-stores/environment';
+	import { environment } from '$lib/data-stores/environment';
 	import Toast from '$lib/atoms/toast/Toast.svelte';
 	import Header from '$lib/components/header/Header.svelte';
 	import { onMount } from 'svelte';
@@ -11,7 +11,7 @@
 
 	onMount(async () => {
 		// removes console logs in production
-		if ($environmentStore.production) {
+		if (environment.production) {
 			window.console.log = function () {
 				// do nothing
 			};

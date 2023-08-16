@@ -10,7 +10,7 @@
 	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletBalance, walletStore } from '$lib/data-stores/walletProviderStore';
-	import { environmentStore } from '$lib/data-stores/environment';
+	import { environment } from '$lib/data-stores/environment';
 	import type { ChainStore, WalletBalance, WalletStore } from '$lib/types/storeTypes';
 	import { MESSAGES } from '$lib/utils/constants/messages';
 	import { BigNumber } from 'ethers';
@@ -75,7 +75,7 @@
 
 <div>
 	<h2 class="text-primary text-2xl font-bold my-5">{pageTitle}</h2>
-	<div>Environment: {$environmentStore.environment_name}</div>
+	<div>Environment: {environment.environment_name}</div>
 	{#if $connected}
 		<div>Address: {wallet.address}</div>
 		<div>POND Balance: {balance.pond}</div>

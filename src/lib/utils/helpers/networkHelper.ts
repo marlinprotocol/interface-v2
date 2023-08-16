@@ -1,13 +1,7 @@
-import type { Environment } from '$lib/types/environmentTypes';
 import { NETWORK_INFO } from '$lib/utils/constants/network';
 import { addToast } from '$lib/data-stores/toastStore';
-import { environmentStore } from '$lib/data-stores/environment';
+import { environment } from '$lib/data-stores/environment';
 import { setWalletAndChainStores } from '$lib/controllers/walletController';
-
-let environment: Environment;
-environmentStore.subscribe((value) => {
-	environment = value;
-});
 
 /**
  * Checks if current chain is supported by the app or not

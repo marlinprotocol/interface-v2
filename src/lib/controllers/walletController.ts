@@ -10,14 +10,6 @@ import { resetEpochCycleStore } from '$lib/data-stores/epochCycleStore';
 import { resetOysterStore } from '$lib/data-stores/oysterStore';
 import { resetReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 import { resetWalletProviderStore } from '$lib/data-stores/walletProviderStore';
-import { writable } from 'svelte/store';
-
-const wallets$ = onboard.state.select('wallets');
-export const web3WalletStore = writable<WalletState[]>([]);
-// wallets$ is an observable so we turn it into a store for easier access throughout the app
-wallets$.subscribe((wallets) => {
-	web3WalletStore.set(wallets);
-});
 
 export function createEthersProviderAndSigner(provider: EIP1193Provider) {
 	const ethersProvider = new ethers.providers.Web3Provider(provider);

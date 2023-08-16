@@ -17,17 +17,17 @@
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { Address, ReceiverStakingData, WalletBalance } from '$lib/types/storeTypes';
-	import { BIG_NUMBER_ZERO, POND_PRECISIONS } from '$lib/utils/constants/constants';
+	import {
+		BIG_NUMBER_ZERO,
+		DEFAULT_CURRENCY_DECIMALS,
+		POND_PRECISIONS
+	} from '$lib/utils/constants/constants';
 	import { MESSAGES } from '$lib/utils/constants/messages';
 	import {
 		DEFAULT_RECEIVER_STAKING_DATA,
 		DEFAULT_WALLET_BALANCE
 	} from '$lib/utils/constants/storeDefaults';
-	import {
-		bigNumberToCommaString,
-		bigNumberToString,
-		stringToBigNumber
-	} from '$lib/utils/helpers/conversionHelper';
+	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import {
 		closeModal,
 		getCurrentEpochCycle,
@@ -63,7 +63,11 @@
 	let balanceText = 'Balance: 0.00';
 	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
 		maxPondBalance = value.pond;
-		balanceText = `Balance: ${bigNumberToCommaString(maxPondBalance, POND_PRECISIONS)}`;
+		balanceText = `Balance: ${bigNumberToString(
+			maxPondBalance,
+			DEFAULT_CURRENCY_DECIMALS,
+			POND_PRECISIONS
+		)}`;
 	});
 
 	//approve balance

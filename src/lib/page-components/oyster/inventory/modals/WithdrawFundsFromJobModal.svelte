@@ -24,7 +24,7 @@
 	export let jobData: OysterInventoryDataModel;
 
 	const { currency, decimal } = OYSTER_RATE_METADATA;
-	$: ({ rate, balance, id } = jobData);
+	$: ({ rate, balance } = jobData);
 
 	//initial states
 	let inputAmount: BigNumber;
@@ -101,7 +101,7 @@
 	>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
-			title="From"
+			title="Amount"
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			inputCardVariant={'none'}

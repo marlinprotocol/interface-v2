@@ -13,44 +13,6 @@ chainConfigStore.subscribe((value) => {
 	console.log('chainConfigStore', chainConfig);
 });
 
-export async function getContractDetails() {
-	const contractDetailsUrl = chainConfig.contract_details_url;
-	const options = GET_OPTIONS;
-	const response = await fetchHttpData(contractDetailsUrl, options);
-
-	if (!response) {
-		console.log('error from getContractDetails');
-		throw new Error('Contract details not found');
-	}
-	if (!response.ABI) {
-		console.log('error from getContractDetails');
-		throw new Error('Contract ABI not found');
-	}
-	if (!response.addresses) {
-		console.log('error from getContractDetails');
-		throw new Error('Contract addresses not found');
-	}
-	return response;
-}
-
-export async function getBridgeContractDetails() {
-	const bridgeContractDetailsUrl = chainConfig.bridge_contract_details_url;
-	const options = GET_OPTIONS;
-	const response = await fetchHttpData(bridgeContractDetailsUrl, options);
-
-	if (!response) {
-		throw new Error('Bridge contract details not found');
-	}
-	if (!response.ABI) {
-		throw new Error('Bridge contract ABI not found');
-	}
-	if (!response.addresses) {
-		throw new Error('Bridge contract addresses not found');
-	}
-
-	return response;
-}
-
 export async function getInstancesFromControlPlaneUsingCpUrl(controlPlaneUrl: string) {
 	const controlPlaneDetailsEndpoint =
 		chainConfig.oyster_urls.instances_using_cp_url + encodeURIComponent(controlPlaneUrl.trim());

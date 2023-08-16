@@ -10,7 +10,9 @@ export type Environment = {
 export type ChainConfig = {
 	chain_id: string;
 	chain_name: string;
+	chain_token: string;
 	block_explorer_url: string;
+	block_explorer_rpc_url: string;
 	contract_details_url: string;
 	bridge_contract_details_url: string;
 	contract_addresses: ContractAddress;

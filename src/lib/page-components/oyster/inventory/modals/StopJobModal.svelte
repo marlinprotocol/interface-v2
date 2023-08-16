@@ -19,7 +19,7 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	$: ({ reviseRate: { stopStatus = '', updatesAt = 0 } = {}, id } = jobData);
+	$: ({ reviseRate: { stopStatus = '', updatesAt = 0 } = {} } = jobData);
 
 	let submitLoading = false;
 	let cancelLoading = false;

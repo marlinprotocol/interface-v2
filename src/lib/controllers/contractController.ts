@@ -1,23 +1,27 @@
-import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
+import { contractAddressStore } from '$lib/data-stores/contractStore';
 import { addToast } from '$lib/data-stores/toastStore';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
-import type { Address, ContractAbi, ContractAddress, WalletStore } from '$lib/types/storeTypes';
-import { MPOND_PRECISIONS, POND_PRECISIONS } from '$lib/utils/constants/constants';
+import type { Address, ContractAddress, WalletStore } from '$lib/types/storeTypes';
+import {
+	DEFAULT_CURRENCY_DECIMALS,
+	MPOND_PRECISIONS,
+	POND_PRECISIONS
+} from '$lib/utils/constants/constants';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToCommaString, bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 import { capitalizeFirstLetter, minifyAddress } from '$lib/utils/helpers/commonHelper';
 import { BigNumber, ethers, type Bytes } from 'ethers';
-import { OYSTER_MARKET_ABI, OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
+import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
+import { RECEIVER_STAKING_ABI } from '$lib/utils/abis/receiverStaking';
+import { ERC20_ABI } from '$lib/utils/abis/erc20';
+import { BRIDGE_ABI } from '$lib/utils/abis/bridge';
+import { OYSTER_MARKET_ABI } from '$lib/utils/abis/oysterMarket';
 
-let contractAbi: ContractAbi;
 let contractAddresses: ContractAddress;
 let signer: WalletStore['signer'];
 
 walletStore.subscribe((value) => {
 	signer = value.signer;
-});
-contractAbiStore.subscribe((value) => {
-	contractAbi = value;
 });
 contractAddressStore.subscribe((value) => {
 	contractAddresses = value;
@@ -81,7 +85,7 @@ async function createTransaction(
 export async function setSignerAddress(address: string) {
 	const receiverStakingContract = createSignerContract(
 		contractAddresses.RECEIVER_STAKING,
-		contractAbi.ReceiverStaking
+		RECEIVER_STAKING_ABI
 	);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.UPDATE_SIGNER.UPDATING(
@@ -107,7 +111,7 @@ export async function setSignerAddress(address: string) {
 export async function depositStakingToken(amount: BigNumber) {
 	const receiverStakingContract = createSignerContract(
 		contractAddresses.RECEIVER_STAKING,
-		contractAbi.ReceiverStaking
+		RECEIVER_STAKING_ABI
 	);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.DEPOSIT.POND(
@@ -134,7 +138,7 @@ export async function depositStakingToken(amount: BigNumber) {
 export async function depositStakingTokenAndSetSigner(amount: BigNumber, signerAddress = '') {
 	const receiverStakingContract = createSignerContract(
 		contractAddresses.RECEIVER_STAKING,
-		contractAbi.ReceiverStaking
+		RECEIVER_STAKING_ABI
 	);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.DEPOSIT.POND(
@@ -162,7 +166,7 @@ export async function depositStakingTokenAndSetSigner(amount: BigNumber, signerA
 export async function withdrawStakingToken(amount: BigNumber) {
 	const receiverStakingContract = createSignerContract(
 		contractAddresses.RECEIVER_STAKING,
-		contractAbi.ReceiverStaking
+		RECEIVER_STAKING_ABI
 	);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.WITHDRAW.POND(
@@ -191,13 +195,13 @@ export async function withdrawStakingToken(amount: BigNumber) {
 
 // approval in pond contract so that the receiver staking contract can spend our pond
 export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
-	const pondTokenContract = createSignerContract(contractAddresses.POND, contractAbi.ERC20);
+	const pondTokenContract = createSignerContract(contractAddresses.POND, ERC20_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND(
-			bigNumberToCommaString(amount, POND_PRECISIONS)
+			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
 		);
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND_APPROVED(
-			bigNumberToCommaString(amount, POND_PRECISIONS)
+			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
 		);
 		const errorTxnMessage = 'Unable to approve staking token';
 		const parentFunctionName = 'approvePondTokenForReceiverStaking';
@@ -243,13 +247,13 @@ export async function approvePondTokenForReceiverRewards(amount: BigNumber) {
 
 // approval in pond contract so that the bridge contract can spend our pond
 export async function approvePondTokenForConversion(amount: BigNumber) {
-	const pondTokenContract = createSignerContract(contractAddresses.POND, contractAbi.ERC20);
+	const pondTokenContract = createSignerContract(contractAddresses.POND, ERC20_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND(
-			bigNumberToCommaString(amount, POND_PRECISIONS)
+			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
 		);
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND_APPROVED(
-			bigNumberToCommaString(amount, POND_PRECISIONS)
+			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
 		);
 		const errorTxnMessage = 'Unable to approve staking token';
 		const parentFunctionName = 'approvePondTokenForConversion';
@@ -269,13 +273,13 @@ export async function approvePondTokenForConversion(amount: BigNumber) {
 
 // approval in mpond contract so that the bridge contract can spend our mpond
 export async function approveMPondTokenForConversion(amount: BigNumber) {
-	const mPondTokenContract = createSignerContract(contractAddresses.POND, contractAbi.ERC20);
+	const mPondTokenContract = createSignerContract(contractAddresses.POND, ERC20_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.MPOND(
-			bigNumberToCommaString(amount, MPOND_PRECISIONS)
+			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)
 		);
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.MPOND_APPROVED(
-			bigNumberToCommaString(amount, MPOND_PRECISIONS)
+			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)
 		);
 		const errorTxnMessage = 'Unable to approve staking token';
 		const parentFunctionName = 'approveMPondTokenForConversion';
@@ -294,13 +298,13 @@ export async function approveMPondTokenForConversion(amount: BigNumber) {
 }
 
 export async function convertPondToMPond(expectedMPond: BigNumber) {
-	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, contractAbi.Bridge);
+	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, BRIDGE_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.CONVERT.POND_TO_MPOND_CONVERTING(
-			bigNumberToCommaString(expectedMPond, MPOND_PRECISIONS)
+			bigNumberToString(expectedMPond, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)
 		);
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.CONVERT.POND_TO_MPOND_CONVERTED(
-			bigNumberToCommaString(expectedMPond, MPOND_PRECISIONS)
+			bigNumberToString(expectedMPond, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)
 		);
 		const errorTxnMessage = 'Unable to convert POND to MPond';
 		const parentFunctionName = 'convertPondToMPond';
@@ -319,13 +323,13 @@ export async function convertPondToMPond(expectedMPond: BigNumber) {
 }
 
 export async function requestMPondConversion(amount: BigNumber) {
-	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, contractAbi.Bridge);
+	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, BRIDGE_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_REQUESTING(
-			bigNumberToCommaString(amount, MPOND_PRECISIONS)
+			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)
 		);
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_REQUESTED(
-			bigNumberToCommaString(amount, MPOND_PRECISIONS)
+			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)
 		);
 		const errorTxnMessage = 'Unable to place request for converting MPond to POND.';
 		const parentFunctionName = 'requestMPondConversion';
@@ -344,7 +348,7 @@ export async function requestMPondConversion(amount: BigNumber) {
 }
 
 export async function cancelMPondConversionRequest(epoch: BigNumber) {
-	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, contractAbi.Bridge);
+	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, BRIDGE_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_CANCELLING;
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_CANCELLED;
@@ -365,13 +369,13 @@ export async function cancelMPondConversionRequest(epoch: BigNumber) {
 }
 
 export async function confirmMPondConversion(epoch: BigNumber, amount: BigNumber) {
-	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, contractAbi.Bridge);
+	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, BRIDGE_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.CONVERT.MPOND_TO_POND_CONVERTING(
-			bigNumberToCommaString(amount, MPOND_PRECISIONS)
+			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)
 		);
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.CONVERT.MPOND_TO_POND_CONVERTED(
-			bigNumberToCommaString(amount, MPOND_PRECISIONS)
+			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)
 		);
 		const errorTxnMessage = 'Unable to convert MPond to POND.';
 		const parentFunctionName = 'confirmMPondConversion';
@@ -530,7 +534,7 @@ export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber
 // approval in pond contract so that the oyster contract can spend pond
 export async function approveFundsForOysterJobAdd(amount: BigNumber) {
 	const token = OYSTER_RATE_METADATA.currency;
-	const pondTokenContract = createSignerContract(contractAddresses[token], contractAbi.ERC20);
+	const pondTokenContract = createSignerContract(contractAddresses[token], ERC20_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.APPROVING(
 			bigNumberToString(amount, OYSTER_RATE_METADATA.decimal, OYSTER_RATE_METADATA.precision, true),

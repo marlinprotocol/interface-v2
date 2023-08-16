@@ -6,11 +6,21 @@ import {
 	getPondBalanceFromSubgraph,
 	getUsdcBalanceFromProvider
 } from '$lib/controllers/subgraphController';
+import onboard from '$lib/controllers/web3OnboardController';
+import type { WalletState } from '@web3-onboard/core';
+
+// web3-onboard stores
+const wallets$ = onboard.state.select('wallets');
+export const web3WalletStore = writable<WalletState[]>([]);
+// wallets$ is an observable so we turn it into a store for easier access throughout the app
+wallets$.subscribe((wallets) => {
+	web3WalletStore.set(wallets);
+});
 
 let walletAddress: Address = DEFAULT_WALLET_STORE.address;
 let walletProvider: any;
 
-// svelte stores
+// local svelte stores
 /**
  * Wallet store holds the wallet type, wallet address along with attached providera and signer
  */
@@ -57,7 +67,7 @@ async function setWalletBalance(walletAddress: Address, walletProvider: any): Pr
 			mPond: balances[1],
 			usdc: balances[2]
 		});
-		console.log(' Wallet balance updated ');
+		console.log('Wallet balance updated');
 	} catch (error) {
 		console.log('error while setting wallet balance');
 		console.log(error);

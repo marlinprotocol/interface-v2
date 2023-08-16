@@ -57,6 +57,10 @@
 			registeredCpURL = value.providerData.data.cp;
 			updatedCpURL = value.providerData.data.cp;
 			registered = value.providerData.registered ?? false;
+		} else {
+			registeredCpURL = '';
+			updatedCpURL = '';
+			registered = false;
 		}
 	});
 	onDestroy(unsubscribeOysterStore);

@@ -7,12 +7,14 @@
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import {
 		BIG_NUMBER_ZERO,
+		DEFAULT_CURRENCY_DECIMALS,
 		MPOND_PRECISIONS,
 		POND_PRECISIONS
 	} from '$lib/utils/constants/constants';
 	import { POND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
 	import {
 		bigNumberToCommaString,
+		bigNumberToString,
 		mPondToPond,
 		pondToMPond
 	} from '$lib/utils/helpers/conversionHelper';
@@ -47,8 +49,9 @@
 				>
 				to
 				<span class="font-bold text-black"
-					>{bigNumberToCommaString(
+					>{bigNumberToString(
 						amountConvertedTo,
+						DEFAULT_CURRENCY_DECIMALS,
 						conversionFrom === 'pond' ? MPOND_PRECISIONS : POND_PRECISIONS
 					)}
 					{conversionTo.toUpperCase()}</span
@@ -57,10 +60,10 @@
 			<Divider margin="my-6" />
 			<div>Updated Wallet Balance</div>
 			<span class="font-bold text-black"
-				>{bigNumberToCommaString($walletBalance.pond, POND_PRECISIONS)} POND
+				>{bigNumberToString($walletBalance.pond, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)} POND
 			</span>|
 			<span class="font-bold text-black">
-				{bigNumberToCommaString($walletBalance.mPond, MPOND_PRECISIONS)} MPOND</span
+				{bigNumberToString($walletBalance.mPond, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)} MPOND</span
 			>
 		</div>
 	</svelte:fragment>

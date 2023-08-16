@@ -1,35 +1,17 @@
 <script lang="ts">
-	import { environmentStore } from '$lib/data-stores/environment';
+	import { environment } from '$lib/data-stores/environment';
 	import Toast from '$lib/atoms/toast/Toast.svelte';
 	import Header from '$lib/components/header/Header.svelte';
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
-	import { getContractDetails } from '$lib/controllers/httpController';
-	import { updateContractStoresWithoutBridge } from '$lib/data-stores/contractStore';
-	import { addToast } from '$lib/data-stores/toastStore';
 
 	onMount(async () => {
 		// removes console logs in production
-		if ($environmentStore.production) {
+		if (environment.production) {
 			window.console.log = function () {
 				// do nothing
 			};
-		}
-
-		// get contract details and set abi stores
-		try {
-			const contractDetails = await getContractDetails();
-			const ABIS = contractDetails.ABI;
-
-			updateContractStoresWithoutBridge(ABIS);
-		} catch (error: any) {
-			addToast({
-				variant: 'error',
-				message: `${error.message}. Please try refreshing the page.`,
-				timeout: 6000
-			});
-			console.error('Error while fetching contract details', error);
 		}
 	});
 </script>

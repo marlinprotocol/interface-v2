@@ -8,10 +8,7 @@
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { CreateOrderPreFilledModel } from '$lib/types/oysterComponentType';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
-	import {
-		OYSTER_RATE_METADATA,
-		OYSTER_RATE_SCALING_FACTOR
-	} from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 	import { checkValidURL, closeModal } from '$lib/utils/helpers/commonHelper';
 	import { getRateForProviderAndFilters } from '$lib/utils/helpers/oysterHelpers';
 	import {

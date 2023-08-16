@@ -24,7 +24,7 @@
 	export let jobData: OysterInventoryDataModel;
 
 	const { currency, decimal } = OYSTER_RATE_METADATA;
-	$: ({ rate, balance, id } = jobData);
+	$: ({ rate, balance } = jobData);
 
 	//initial states
 	let inputAmount: BigNumber;

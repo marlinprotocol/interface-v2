@@ -5,10 +5,7 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BIG_NUMBER_ZERO, MEMORY_SUFFIX } from '$lib/utils/constants/constants';
-	import {
-		OYSTER_RATE_SCALING_FACTOR,
-		OYSTER_RATE_METADATA
-	} from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
 		convertRateToPerHourString,

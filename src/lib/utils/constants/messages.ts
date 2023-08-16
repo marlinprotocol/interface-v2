@@ -101,7 +101,7 @@ export const MESSAGES = {
 				 * @param value
 				 * @returns `Converting ${value} POND`
 				 */
-				POND_TO_MPOND_CONVERTING: (value: string | number) => `Converting ${value} POND.`,
+				POND_TO_MPOND_CONVERTING: (value: string | number) => `Converting to ${value} MPOND.`,
 				/**
 				 * @param value
 				 * @returns `Converting ${value} MPOND`
@@ -111,7 +111,7 @@ export const MESSAGES = {
 				 * @param value
 				 * @returns `Converted ${value} POND`
 				 */
-				POND_TO_MPOND_CONVERTED: (value: string | number) => `Converted ${value} POND.`,
+				POND_TO_MPOND_CONVERTED: (value: string | number) => `Converted to ${value} MPOND.`,
 				/**
 				 * @param value
 				 * @returns `Converted ${value} MPOND`

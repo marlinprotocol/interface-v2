@@ -16,7 +16,8 @@ export function resetOysterStore() {
 		return {
 			...DEFAULT_OYSTER_STORE,
 			providerData: {
-				registered: false
+				registered: false,
+				data: undefined
 			},
 			allMarketplaceData: state.allMarketplaceData,
 			jobsData: [],

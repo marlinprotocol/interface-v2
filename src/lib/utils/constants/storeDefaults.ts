@@ -83,7 +83,8 @@ export const DEFAULT_BRIDGE_STORE: BridgeStore = {
 // oysterStore
 export const DEFAULT_OYSTER_STORE: OysterStore = {
 	providerData: {
-		registered: false
+		registered: false,
+		data: undefined
 	},
 	allMarketplaceData: [],
 	jobsData: [],

@@ -101,7 +101,7 @@
 	>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
-			title="From"
+			title="Amount"
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			inputCardVariant={'none'}

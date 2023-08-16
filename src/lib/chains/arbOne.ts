@@ -3,7 +3,9 @@ import type { ChainConfig } from '$lib/types/environmentTypes';
 export const ARB_ONE: ChainConfig = {
 	chain_id: '0xa4b1',
 	chain_name: 'Arbitrum One',
+	chain_token: 'ETH',
 	block_explorer_url: 'https://arbiscan.io',
+	block_explorer_rpc_url: 'https://arbiscan.io/rpc',
 	contract_details_url: 'https://sk.arb1.marlin.org/getcontractdetails',
 	bridge_contract_details_url: 'https://sk.arb1.marlin.org/getBridgeDetails',
 	contract_addresses: {

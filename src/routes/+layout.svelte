@@ -5,9 +5,6 @@
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
-	import { getContractDetails } from '$lib/controllers/httpController';
-	import { updateContractStoresWithoutBridge } from '$lib/data-stores/contractStore';
-	import { addToast } from '$lib/data-stores/toastStore';
 
 	onMount(async () => {
 		// removes console logs in production
@@ -15,21 +12,6 @@
 			window.console.log = function () {
 				// do nothing
 			};
-		}
-
-		// get contract details and set abi stores
-		try {
-			const contractDetails = await getContractDetails();
-			const ABIS = contractDetails.ABI;
-
-			updateContractStoresWithoutBridge(ABIS);
-		} catch (error: any) {
-			addToast({
-				variant: 'error',
-				message: `${error.message}. Please try refreshing the page.`,
-				timeout: 6000
-			});
-			console.error('Error while fetching contract details', error);
 		}
 	});
 </script>

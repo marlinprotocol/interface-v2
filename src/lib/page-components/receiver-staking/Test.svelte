@@ -7,7 +7,6 @@
 	} from '$lib/controllers/contractController';
 	import { getReceiverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
-	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletBalance, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { environment } from '$lib/data-stores/environment';
@@ -16,6 +15,7 @@
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
+	import { contractAddressStore } from '$lib/data-stores/contractStore';
 
 	let wallet: WalletStore;
 	let balance: WalletBalance;
@@ -36,10 +36,6 @@
 	);
 	const unsubscribeChainProviderStore: Unsubscriber = chainStore.subscribe((value: ChainStore) => {
 		chain = value;
-	});
-
-	const unsubscribeContractAbiStore: Unsubscriber = contractAbiStore.subscribe((value) => {
-		contractAbiDetails = value;
 	});
 
 	const unsubscribeContractAddressStore: Unsubscriber = contractAddressStore.subscribe((value) => {
@@ -69,7 +65,6 @@
 	onDestroy(unsubscribeWalletProviderStore);
 	onDestroy(unsubscribeWalletBalanceStore);
 	onDestroy(unsubscribeChainProviderStore);
-	onDestroy(unsubscribeContractAbiStore);
 	onDestroy(unsubscribeContractAddressStore);
 </script>
 

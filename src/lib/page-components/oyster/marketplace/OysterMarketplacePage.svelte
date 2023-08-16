@@ -27,7 +27,7 @@
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		allMarketplaceData = value.allMarketplaceData;
-		filteredData = allMarketplaceData;
+		filteredData = filteredData ? filteredData : allMarketplaceData;
 		loading = !value.marketplaceLoaded;
 	});
 	onDestroy(unsubscribeOysterStore);
@@ -81,4 +81,4 @@
 		{/if}
 	</OysterTableCommon>
 </div>
-<CreateOrderModal modalFor="create-new-order" />
+<CreateOrderModal modalFor="create-new-order-from-marketplace" />

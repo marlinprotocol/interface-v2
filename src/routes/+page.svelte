@@ -2,7 +2,7 @@
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import { getReceiverStakingDataFromSubgraph } from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
-	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
+	import { initializeReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import StakeDashboard from '$lib/page-components/receiver-staking/StakeDashboard.svelte';
 	import { modifyReceiverStakingData } from '$lib/utils/data-modifiers/subgraphModifier';
@@ -13,7 +13,7 @@
 	async function getAndSetReceiverStakingData(address: string) {
 		const receiverStakingDataFromSubgraph = await getReceiverStakingDataFromSubgraph(address);
 		const modifiedReceiverStakingData = modifyReceiverStakingData(receiverStakingDataFromSubgraph);
-		receiverStakingStore.set(modifiedReceiverStakingData);
+		initializeReceiverStakingStore(modifiedReceiverStakingData);
 	}
 
 	$: if (

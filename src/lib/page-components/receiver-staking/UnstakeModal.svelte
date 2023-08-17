@@ -4,7 +4,10 @@
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import { withdrawStakingToken } from '$lib/controllers/contractController';
-	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
+	import {
+		receiverStakingStore,
+		withdrawStakedBalanceFromReceiverStakingStore
+	} from '$lib/data-stores/receiverStakingStore';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import { BIG_NUMBER_ZERO, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
@@ -89,15 +92,7 @@
 			await withdrawStakingToken(inputAmount);
 			closeModal(modalFor);
 			//substract input amount first from queued amount and then from staked amount
-			receiverStakingStore.update((value) => {
-				if (inputAmount.gt(value.queuedBalance)) {
-					value.stakedBalance = value.stakedBalance.sub(inputAmount.sub(value.queuedBalance));
-					value.queuedBalance = BIG_NUMBER_ZERO;
-				} else {
-					value.queuedBalance = value.queuedBalance.sub(inputAmount);
-				}
-				return value;
-			});
+			withdrawStakedBalanceFromReceiverStakingStore(inputAmount);
 			walletBalance.update((value) => {
 				value.pond = value.pond.add(inputAmount);
 				return value;

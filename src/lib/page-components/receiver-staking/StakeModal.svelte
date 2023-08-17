@@ -11,12 +11,17 @@
 		depositStakingToken,
 		depositStakingTokenAndSetSigner
 	} from '$lib/controllers/contractController';
-	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
+	import {
+		addStakedBalanceInReceiverStakingStore,
+		receiverStakingStore,
+		updateAllowanceInReceiverStakingStore,
+		updateSignerAddressInReceiverStakingStore
+	} from '$lib/data-stores/receiverStakingStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import type { Address, ReceiverStakingData, WalletBalance } from '$lib/types/storeTypes';
+	import type { Address, WalletBalance } from '$lib/types/storeTypes';
 	import {
 		BIG_NUMBER_ZERO,
 		DEFAULT_CURRENCY_DECIMALS,
@@ -30,7 +35,6 @@
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import {
 		closeModal,
-		getCurrentEpochCycle,
 		inputAmountInValidMessage,
 		isAddressValid,
 		isInputAmountValid
@@ -127,12 +131,7 @@
 		approveLoading = true;
 		try {
 			await approvePondTokenForReceiverStaking(inputAmount);
-			receiverStakingStore.update((value: ReceiverStakingData) => {
-				return {
-					...value,
-					approvedBalance: inputAmount
-				};
-			});
+			updateAllowanceInReceiverStakingStore(inputAmount);
 		} catch (e) {
 			console.log('error approving', e);
 		} finally {
@@ -159,12 +158,7 @@
 			if (updatedSignerAddress !== DEFAULT_RECEIVER_STAKING_DATA.signer) {
 				await depositStakingTokenAndSetSigner(inputAmount, updatedSignerAddress);
 				// update signer locally
-				receiverStakingStore.update((value: ReceiverStakingData) => {
-					return {
-						...value,
-						signer: updatedSignerAddress
-					};
-				});
+				updateSignerAddressInReceiverStakingStore(updatedSignerAddress);
 			} else {
 				await depositStakingToken(inputAmount);
 			}
@@ -177,29 +171,7 @@
 					pond: value.pond.sub(inputAmount)
 				};
 			});
-
-			// if epoch startTime is less than current time, update queued balance else staked balance
-			receiverStakingStore.update((value: ReceiverStakingData) => {
-				const {
-					epochData: { startTime, epochLength }
-				} = value;
-				const currentTime = Date.now() / 1000;
-				const epochCycle = getCurrentEpochCycle(startTime, epochLength);
-
-				return {
-					...value,
-					epochData: {
-						...value.epochData,
-						epochCycle
-					},
-					queuedBalance:
-						startTime < currentTime ? value.queuedBalance.add(inputAmount) : value.queuedBalance,
-					stakedBalance:
-						startTime < currentTime ? value.stakedBalance : value.stakedBalance.add(inputAmount),
-					approvedBalance: value.approvedBalance.sub(inputAmount)
-				};
-			});
-
+			addStakedBalanceInReceiverStakingStore(inputAmount);
 			resetInputs();
 		} catch (e) {
 			console.log('error submitting', e);

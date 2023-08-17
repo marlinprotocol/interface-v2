@@ -7,7 +7,10 @@
 		getProviderDetailsFromSubgraph
 	} from '$lib/controllers/subgraphController';
 	import { chainConfigStore, chainStore } from '$lib/data-stores/chainProviderStore';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import {
+		initializeOysterStore,
+		updateMarketplaceDataInOysterStore
+	} from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { REGION_NAME_CONSTANTS } from '$lib/utils/constants/regionNameConstants';
 	import {
@@ -36,18 +39,7 @@
 		});
 		const oysterJobs = await modifyOysterJobData(oysterJobsFromSubgraph);
 
-		oysterStore.update((value) => {
-			return {
-				...value,
-				providerData: {
-					data: providerDetail,
-					registered: providerDetail !== null
-				},
-				allowance: allowance,
-				jobsData: oysterJobs,
-				oysterStoreLoaded: true
-			};
-		});
+		initializeOysterStore(providerDetail, allowance, oysterJobs);
 	}
 
 	async function loadMarketplaceData() {
@@ -58,13 +50,7 @@
 			REGION_NAME_CONSTANTS
 		);
 		// updating stores instead of returning data as we don't need to show this data explicitly
-		oysterStore.update((store) => {
-			return {
-				...store,
-				allMarketplaceData: marketplaceDataWithRegionName,
-				marketplaceLoaded: true
-			};
-		});
+		updateMarketplaceDataInOysterStore(marketplaceDataWithRegionName);
 	}
 
 	$: if ($chainConfigStore) {

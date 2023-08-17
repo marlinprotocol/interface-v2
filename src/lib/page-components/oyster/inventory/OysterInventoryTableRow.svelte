@@ -24,7 +24,7 @@
 	import WithdrawFundsFromJobModal from '$lib/page-components/oyster/inventory/modals/WithdrawFundsFromJobModal.svelte';
 	import type { Bytes } from 'ethers';
 	import { refreshJobStatusForJobId } from '$lib/controllers/httpController';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import { updateJobStatusByIdInOysterStore } from '$lib/data-stores/oysterStore';
 	import refresh from 'svelte-awesome/icons/refresh';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
@@ -63,21 +63,8 @@
 
 	async function refreshJobStatus(jobId: Bytes) {
 		refreshLoading = true;
-
 		const updatedStatus = await refreshJobStatusForJobId(jobId);
-
-		oysterStore.update((state) => {
-			const jobData = state.jobsData;
-			let jobWithMatchingJobId = jobData.find((job) => updatedStatus.jobId === job.id);
-
-			if (jobWithMatchingJobId) {
-				jobWithMatchingJobId.ip = updatedStatus.ip;
-			}
-			return {
-				...state,
-				jobsData: jobData
-			};
-		});
+		updateJobStatusByIdInOysterStore(updatedStatus);
 		refreshLoading = false;
 	}
 

@@ -46,7 +46,7 @@
 	};
 
 	const handleOnTimerEnd = async () => {
-		await handleJobStatusOnStopTimerEnd(jobData);
+		handleJobStatusOnStopTimerEnd(jobData);
 	};
 
 	$: modalTitle =

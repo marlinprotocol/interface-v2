@@ -23,6 +23,7 @@ import {
 import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import { BigNumber } from 'ethers';
 import type { ChainConfig } from '$lib/types/environmentTypes';
+import type { ProviderData } from '$lib/types/oysterComponentType';
 import { addToast } from '$lib/data-stores/toastStore';
 import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 import { contractAddressStore } from '$lib/data-stores/contractStore';
@@ -411,7 +412,7 @@ export async function getProviderDetailsFromSubgraph(address: Address) {
 
 	try {
 		const result = await fetchHttpData(url, options);
-		const provider = result['data']?.providers[0];
+		const provider: ProviderData = result['data']?.providers[0];
 
 		if (result['errors']) {
 			throw new Error(result['errors'][0].message);

@@ -111,3 +111,9 @@ export interface OysterFiltersModel {
 	memory: (number | string)[];
 	// rate: (number | string)[];
 }
+
+export interface ProviderData {
+	cp: string;
+	id: string;
+	live: boolean;
+}

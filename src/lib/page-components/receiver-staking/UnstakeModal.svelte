@@ -23,7 +23,7 @@
 	} from '$lib/utils/helpers/commonHelper';
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
-	import { walletBalance } from '$lib/data-stores/walletProviderStore';
+	import { addPondToWalletBalanceStore } from '$lib/data-stores/walletProviderStore';
 
 	export let modalFor: string;
 	const subtitle =
@@ -93,11 +93,7 @@
 			closeModal(modalFor);
 			//substract input amount first from queued amount and then from staked amount
 			withdrawStakedBalanceFromReceiverStakingStore(inputAmount);
-			walletBalance.update((value) => {
-				value.pond = value.pond.add(inputAmount);
-				return value;
-			});
-
+			addPondToWalletBalanceStore(inputAmount);
 			//reset input
 			resetInputs();
 		} catch (e) {

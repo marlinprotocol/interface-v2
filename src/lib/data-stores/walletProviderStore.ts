@@ -1,12 +1,16 @@
 import { derived, writable, type Readable, type Writable } from 'svelte/store';
-import type { Address, WalletBalance, WalletStore } from '$lib/types/storeTypes';
-import { DEFAULT_WALLET_BALANCE, DEFAULT_WALLET_STORE } from '$lib/utils/constants/storeDefaults';
+import type { Address, WalletBalanceStore, WalletStore } from '$lib/types/storeTypes';
+import {
+	DEFAULT_WALLET_BALANCE_STORE,
+	DEFAULT_WALLET_STORE
+} from '$lib/utils/constants/storeDefaults';
 import {
 	getMPondBalanceFromSubgraph,
 	getPondBalanceFromSubgraph
 } from '$lib/controllers/subgraphController';
 import onboard from '$lib/controllers/web3OnboardController';
 import type { WalletState } from '@web3-onboard/core';
+import type { BigNumber, ethers } from 'ethers';
 
 // web3-onboard stores
 const wallets$ = onboard.state.select('wallets');
@@ -26,7 +30,9 @@ export const walletStore: Writable<WalletStore> = writable(DEFAULT_WALLET_STORE)
 /**
  * Wallet balance store holds the balance of POND and MPond for the connected wallet
  */
-export const walletBalance: Writable<WalletBalance> = writable(DEFAULT_WALLET_BALANCE);
+export const walletBalanceStore: Writable<WalletBalanceStore> = writable(
+	DEFAULT_WALLET_BALANCE_STORE
+);
 /**
  * Connected store holds the boolean value of whether the wallet is connected or not
  */
@@ -41,16 +47,60 @@ export function resetWalletProviderStore(): void {
 	walletStore.set(DEFAULT_WALLET_STORE);
 }
 
+export function initializeWalletStore(
+	provider: ethers.providers.Web3Provider,
+	signer: ethers.providers.JsonRpcSigner,
+	address: Lowercase<string>
+) {
+	walletStore.set({
+		provider,
+		signer,
+		address
+	});
+}
+
 /**
  * reset walletBalanceStore to its default value.
  */
 export function resetWalletBalanceStore(): void {
-	walletBalance.set(DEFAULT_WALLET_BALANCE);
+	walletBalanceStore.set(DEFAULT_WALLET_BALANCE_STORE);
 }
 
+export function addPondToWalletBalanceStore(amount: BigNumber) {
+	walletBalanceStore.update((walletBalanceStore) => {
+		return {
+			...walletBalanceStore,
+			pond: walletBalanceStore.pond.add(amount)
+		};
+	});
+}
+export function addMpondToWalletBalanceStore(amount: BigNumber) {
+	walletBalanceStore.update((walletBalanceStore) => {
+		return {
+			...walletBalanceStore,
+			mPond: walletBalanceStore.mPond.add(amount)
+		};
+	});
+}
+export function withdrawPondFromWalletBalanceStore(amount: BigNumber) {
+	walletBalanceStore.update((walletBalanceStore) => {
+		return {
+			...walletBalanceStore,
+			pond: walletBalanceStore.pond.sub(amount)
+		};
+	});
+}
+export function withdrawMpondFromWalletBalanceStore(amount: BigNumber) {
+	walletBalanceStore.update((walletBalanceStore) => {
+		return {
+			...walletBalanceStore,
+			mPond: walletBalanceStore.mPond.sub(amount)
+		};
+	});
+}
 /**
  * fetches the balance for POND and MPond based on
- * wallet address and sets the walletBalance store.
+ * wallet address and sets the walletBalanceStore store.
  * @param walletAddress should be a Hex Address i.e. all lowercase
  */
 async function setWalletBalance(walletAddress: Address): Promise<void> {
@@ -59,7 +109,7 @@ async function setWalletBalance(walletAddress: Address): Promise<void> {
 			getPondBalanceFromSubgraph(walletAddress),
 			getMPondBalanceFromSubgraph(walletAddress)
 		]);
-		walletBalance.set({
+		walletBalanceStore.set({
 			pond: balances[0],
 			mPond: balances[1]
 		});

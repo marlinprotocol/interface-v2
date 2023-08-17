@@ -8,9 +8,9 @@
 	import { getReceiverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { addToast } from '$lib/data-stores/toastStore';
-	import { connected, walletBalance, walletStore } from '$lib/data-stores/walletProviderStore';
+	import { connected, walletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { environment } from '$lib/data-stores/environment';
-	import type { ChainStore, WalletBalance, WalletStore } from '$lib/types/storeTypes';
+	import type { ChainStore, WalletBalanceStore, WalletStore } from '$lib/types/storeTypes';
 	import { MESSAGES } from '$lib/utils/constants/messages';
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
@@ -18,7 +18,7 @@
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 
 	let wallet: WalletStore;
-	let balance: WalletBalance;
+	let balance: WalletBalanceStore;
 	let chain: ChainStore;
 	let contractAbiDetails = {};
 	let contractAddressDetails = {};
@@ -29,8 +29,8 @@
 			wallet = value;
 		}
 	);
-	const unsubscribeWalletBalanceStore: Unsubscriber = walletBalance.subscribe(
-		(value: WalletBalance) => {
+	const unsubscribeWalletBalanceStore: Unsubscriber = walletBalanceStore.subscribe(
+		(value: WalletBalanceStore) => {
 			balance = value;
 		}
 	);

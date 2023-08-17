@@ -9,7 +9,10 @@
 		decreaseMpondAllowanceInBridgeStore,
 		updateMpondAllowanceInBridgeStore
 	} from '$lib/data-stores/bridgeStore';
-	import { walletBalance } from '$lib/data-stores/walletProviderStore';
+	import {
+		addPondToWalletBalanceStore,
+		withdrawMpondFromWalletBalanceStore
+	} from '$lib/data-stores/walletProviderStore';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { mPondToPond } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
@@ -46,11 +49,8 @@
 		try {
 			const txn = await confirmMPondConversion(requestEpoch, mpondToConvert);
 			if (txn) {
-				walletBalance.update((value) => {
-					value.mPond = value.mPond.sub(mpondToConvert);
-					value.pond = value.pond.add(mPondToPond(mpondToConvert));
-					return value;
-				});
+				withdrawMpondFromWalletBalanceStore(mpondToConvert);
+				addPondToWalletBalanceStore(mPondToPond(mpondToConvert));
 				decreaseMpondAllowanceInBridgeStore(mpondToConvert);
 			}
 			txnHash = txn.hash;

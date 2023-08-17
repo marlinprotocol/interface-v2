@@ -2,7 +2,7 @@ import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/s
 import {
 	DEFAULT_BRIDGE_STORE,
 	DEFAULT_RECEIVER_STAKING_DATA,
-	DEFAULT_WALLET_BALANCE
+	DEFAULT_WALLET_BALANCE_STORE
 } from '$lib/utils/constants/storeDefaults';
 import {
 	QUERY_TO_CHECK_IF_SIGNER_EXISTS,
@@ -85,7 +85,7 @@ export async function getPondBalanceFromSubgraph(address: Address): Promise<BigN
 		if (result['data'] && users?.length !== 0) {
 			return BigNumber.from(users[0]?.balance);
 		} else {
-			return DEFAULT_WALLET_BALANCE.pond;
+			return DEFAULT_WALLET_BALANCE_STORE.pond;
 		}
 	} catch (error: any) {
 		addToast({
@@ -94,7 +94,7 @@ export async function getPondBalanceFromSubgraph(address: Address): Promise<BigN
 			timeout: 6000
 		});
 		console.log('Error fetching Pond balance', error);
-		return DEFAULT_WALLET_BALANCE.pond;
+		return DEFAULT_WALLET_BALANCE_STORE.pond;
 	}
 }
 
@@ -117,7 +117,7 @@ export async function getMPondBalanceFromSubgraph(address: Address): Promise<Big
 		if (result['data'] && balances?.length !== 0) {
 			return BigNumber.from(balances[0]?.amount);
 		} else {
-			return DEFAULT_WALLET_BALANCE.mPond;
+			return DEFAULT_WALLET_BALANCE_STORE.mPond;
 		}
 	} catch (error: any) {
 		addToast({
@@ -126,7 +126,7 @@ export async function getMPondBalanceFromSubgraph(address: Address): Promise<Big
 			timeout: 6000
 		});
 		console.log('Error fetching MPond balance', error);
-		return DEFAULT_WALLET_BALANCE.mPond;
+		return DEFAULT_WALLET_BALANCE_STORE.mPond;
 	}
 }
 // ----------------------------- receiver staking smart contract subgraph methods -----------------------------
@@ -145,7 +145,7 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 		}
 		if (result['data'] && receiverBalances?.length !== 0)
 			return BigNumber.from(receiverBalances[0]?.balance);
-		else return DEFAULT_WALLET_BALANCE.mPond;
+		else return DEFAULT_WALLET_BALANCE_STORE.mPond;
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
@@ -153,7 +153,7 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 			timeout: 6000
 		});
 		console.log('Error fetching receiver Pond balance from subgraph', error);
-		return DEFAULT_WALLET_BALANCE.mPond;
+		return DEFAULT_WALLET_BALANCE_STORE.mPond;
 	}
 }
 

@@ -15,7 +15,7 @@ export type WalletStore = {
 };
 
 // wallet balance store
-export type WalletBalance = {
+export type WalletBalanceStore = {
 	pond: BigNumber;
 	mPond: BigNumber;
 };

@@ -4,7 +4,7 @@
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import { walletBalance } from '$lib/data-stores/walletProviderStore';
+	import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import {
 		BIG_NUMBER_ZERO,
 		DEFAULT_CURRENCY_DECIMALS,
@@ -60,10 +60,10 @@
 			<Divider margin="my-6" />
 			<div>Updated Wallet Balance</div>
 			<span class="font-bold text-black"
-				>{bigNumberToString($walletBalance.pond, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)} POND
+				>{bigNumberToString($walletBalanceStore.pond, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)} POND
 			</span>|
 			<span class="font-bold text-black">
-				{bigNumberToString($walletBalance.mPond, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)} MPOND</span
+				{bigNumberToString($walletBalanceStore.mPond, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)} MPOND</span
 			>
 		</div>
 	</svelte:fragment>

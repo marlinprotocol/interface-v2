@@ -18,10 +18,13 @@
 		updateSignerAddressInReceiverStakingStore
 	} from '$lib/data-stores/receiverStakingStore';
 	import { addToast } from '$lib/data-stores/toastStore';
-	import { walletBalance } from '$lib/data-stores/walletProviderStore';
+	import {
+		walletBalanceStore,
+		withdrawPondFromWalletBalanceStore
+	} from '$lib/data-stores/walletProviderStore';
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import type { Address, WalletBalance } from '$lib/types/storeTypes';
+	import type { Address } from '$lib/types/storeTypes';
 	import {
 		BIG_NUMBER_ZERO,
 		DEFAULT_CURRENCY_DECIMALS,
@@ -30,7 +33,7 @@
 	import { MESSAGES } from '$lib/utils/constants/messages';
 	import {
 		DEFAULT_RECEIVER_STAKING_DATA,
-		DEFAULT_WALLET_BALANCE
+		DEFAULT_WALLET_BALANCE_STORE
 	} from '$lib/utils/constants/storeDefaults';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import {
@@ -63,9 +66,9 @@
 	let submitLoading = false;
 
 	//max amount in wallet
-	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.pond;
+	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE_STORE.pond;
 	let balanceText = 'Balance: 0.00';
-	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
+	const unsubscribeWalletBalanceStore = walletBalanceStore.subscribe((value) => {
 		maxPondBalance = value.pond;
 		balanceText = `Balance: ${bigNumberToString(
 			maxPondBalance,
@@ -162,17 +165,10 @@
 			} else {
 				await depositStakingToken(inputAmount);
 			}
-			closeModal(modalFor);
-
-			// update wallet balance locally
-			walletBalance.update((value: WalletBalance) => {
-				return {
-					...value,
-					pond: value.pond.sub(inputAmount)
-				};
-			});
+			withdrawPondFromWalletBalanceStore(inputAmount);
 			addStakedBalanceInReceiverStakingStore(inputAmount);
 			resetInputs();
+			closeModal(modalFor);
 		} catch (e) {
 			console.log('error submitting', e);
 		} finally {

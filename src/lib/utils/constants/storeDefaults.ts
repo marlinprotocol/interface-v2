@@ -5,7 +5,7 @@ import type {
 	ContractAddress,
 	OysterStore,
 	ReceiverStakingData,
-	WalletBalance,
+	WalletBalanceStore,
 	WalletStore
 } from '$lib/types/storeTypes';
 
@@ -19,7 +19,7 @@ export const DEFAULT_WALLET_STORE: WalletStore = {
 };
 
 // walletBalanceStore
-export const DEFAULT_WALLET_BALANCE: WalletBalance = {
+export const DEFAULT_WALLET_BALANCE_STORE: WalletBalanceStore = {
 	pond: BIG_NUMBER_ZERO,
 	mPond: BIG_NUMBER_ZERO
 };

@@ -4,7 +4,11 @@
 		approveMPondTokenForConversion,
 		confirmMPondConversion
 	} from '$lib/controllers/contractController';
-	import { bridgeStore } from '$lib/data-stores/bridgeStore';
+	import {
+		bridgeStore,
+		decreaseMpondAllowanceInBridgeStore,
+		updateMpondAllowanceInBridgeStore
+	} from '$lib/data-stores/bridgeStore';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { mPondToPond } from '$lib/utils/helpers/conversionHelper';
@@ -30,10 +34,7 @@
 		try {
 			await approveMPondTokenForConversion(mpondToConvert);
 			// update bridge store locally in case when user approves amount greater than previous allowance
-			bridgeStore.update((value) => {
-				value.allowances.mPond = mpondToConvert;
-				return value;
-			});
+			updateMpondAllowanceInBridgeStore(mpondToConvert);
 			approved = true;
 		} catch (error) {
 			console.log(error);
@@ -50,10 +51,7 @@
 					value.pond = value.pond.add(mPondToPond(mpondToConvert));
 					return value;
 				});
-				bridgeStore.update((value) => {
-					value.allowances.mPond = value.allowances.mPond.sub(mpondToConvert);
-					return value;
-				});
+				decreaseMpondAllowanceInBridgeStore(mpondToConvert);
 			}
 			txnHash = txn.hash;
 			closeModal(modalToClose);

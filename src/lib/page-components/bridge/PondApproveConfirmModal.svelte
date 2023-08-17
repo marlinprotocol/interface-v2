@@ -4,7 +4,11 @@
 		approvePondTokenForConversion,
 		convertPondToMPond
 	} from '$lib/controllers/contractController';
-	import { bridgeStore } from '$lib/data-stores/bridgeStore';
+	import {
+		bridgeStore,
+		decreasePondAllowanceInBridgeStore,
+		updatePondAllowanceInBridgeStore
+	} from '$lib/data-stores/bridgeStore';
 	import { walletBalance } from '$lib/data-stores/walletProviderStore';
 	import { pondToMPond } from '$lib/utils/helpers/conversionHelper';
 	import { doNothing } from '$lib/utils/helpers/commonHelper';
@@ -27,10 +31,7 @@
 	const handleApproveClick = async () => {
 		try {
 			await approvePondTokenForConversion(pond);
-			bridgeStore.update((value) => {
-				value.allowances.pond = pond;
-				return value;
-			});
+			updatePondAllowanceInBridgeStore(pond);
 			approved = true;
 		} catch (error) {
 			console.log(error);
@@ -47,10 +48,7 @@
 					value.mPond = value.mPond.add(mPond);
 					return value;
 				});
-				bridgeStore.update((value) => {
-					value.allowances.pond = value.allowances.pond.sub(pond);
-					return value;
-				});
+				decreasePondAllowanceInBridgeStore(pond);
 			}
 		} catch (error) {
 			console.log(error);

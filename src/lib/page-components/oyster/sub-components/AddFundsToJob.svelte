@@ -42,7 +42,7 @@
 	const updateRateString = (_instanceRate: BigNumber | undefined) => {
 		if (_instanceRate) {
 			instanceRateString = _instanceRate
-				? convertRateToPerHourString(_instanceRate?.div(OYSTER_RATE_SCALING_FACTOR), decimal)
+				? convertRateToPerHourString(_instanceRate?.div(OYSTER_RATE_SCALING_FACTOR), decimal, 4)
 				: '';
 			return;
 		}
@@ -55,7 +55,7 @@
 	$: updateRateString(instanceRate);
 
 	function getInstanceCostString(cost: BigNumber) {
-		return bigNumberToString(cost.div(OYSTER_RATE_SCALING_FACTOR), decimal);
+		return bigNumberToString(cost.div(OYSTER_RATE_SCALING_FACTOR), decimal, 4);
 	}
 
 	let maxBalance = BIG_NUMBER_ZERO;

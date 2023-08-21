@@ -43,6 +43,7 @@
 		id,
 		ip,
 		balance,
+		durationLeft,
 		endEpochTime, // epoch time in seconds based on duration left,
 		reviseRate: { newRate = null, rateStatus = '', stopStatus = '' } = {}
 	} = rowData);
@@ -128,13 +129,15 @@
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		<Timer timerId={`timer-for-inventory-table-row-${id}`} {endEpochTime}>
-			<div slot="active" let:timer class="mx-auto">
-				<Tooltip tooltipText={epochToDurationString(timer)} tooltipDirection="tooltip-left">
+			<div slot="active" class="mx-auto">
+				<Tooltip tooltipText={epochToDurationString(durationLeft)} tooltipDirection="tooltip-left">
 					<div
 						class="py-1 w-24 text-white rounded mx-auto text-sm text-center"
-						style={`background-color:${getColorHexByVariant(getInventoryDurationVariant(timer))}`}
+						style={`background-color:${getColorHexByVariant(
+							getInventoryDurationVariant(durationLeft)
+						)}`}
 					>
-						{epochToDurationString(timer, true)}
+						{epochToDurationString(durationLeft, true)}
 					</div>
 				</Tooltip>
 			</div>

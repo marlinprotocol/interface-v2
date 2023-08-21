@@ -13,8 +13,6 @@ export type ChainConfig = {
 	chain_token: string;
 	block_explorer_url: string;
 	block_explorer_rpc_url: string;
-	contract_details_url: string;
-	bridge_contract_details_url: string;
 	contract_addresses: ContractAddress;
 	subgraph_urls: SubgraphUrls;
 	oyster_urls: {

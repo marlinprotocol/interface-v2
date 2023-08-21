@@ -6,8 +6,6 @@ export const ARB_ONE: ChainConfig = {
 	chain_token: 'ETH',
 	block_explorer_url: 'https://arbiscan.io',
 	block_explorer_rpc_url: 'https://arbiscan.io/rpc',
-	contract_details_url: 'https://sk.arb1.marlin.org/getcontractdetails',
-	bridge_contract_details_url: 'https://sk.arb1.marlin.org/getBridgeDetails',
 	contract_addresses: {
 		BRIDGE: '0x7cf89b836d1c647ef31a5eeb152b7addcf002a08',
 		CLUSTER_REGISTRY: '0x1f3Fe1E2a752cF6732C8be849a424482639EffC9',

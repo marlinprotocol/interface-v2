@@ -61,12 +61,13 @@ export async function handleFundsAddToJob(
 
 export async function handleFundsWithdrawFromJob(
 	jobData: OysterInventoryDataModel,
-	amount: BigNumber
+	amount: BigNumber, 
+	duration: number
 ) {
 	const { id } = jobData;
 	try {
 		const txn = await withdrawFundsFromOysterJob(id, amount);
-		withdrawFundsFromJobInOysterStore(id, txn, jobData, amount);
+		withdrawFundsFromJobInOysterStore(id, txn, jobData, amount, duration);
 	} catch (e) {
 		console.log('e :>> ', e);
 		return jobData;

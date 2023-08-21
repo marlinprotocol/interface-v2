@@ -171,13 +171,16 @@ export function withdrawFundsFromJobInOysterStore(
 	id: Bytes,
 	txn: any,
 	jobData: OysterInventoryDataModel,
-	amount: BigNumber
+	amount: BigNumber,
+	duration: number
 ) {
 	const nowTime = Date.now() / 1000;
 	const modifiedJobData = {
 		...jobData,
 		totalDeposit: jobData.totalDeposit.sub(amount),
 		balance: jobData.balance.sub(amount),
+		durationLeft: jobData.durationLeft - duration,
+		endEpochTime: jobData.endEpochTime - duration,
 		depositHistory: [
 			{
 				amount,

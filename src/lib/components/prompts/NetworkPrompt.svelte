@@ -9,19 +9,17 @@
 	export let routeSupportedChains: number[];
 
 	async function handleChainSwitch() {
-		const chainToSwitchTo =
-			routeSupportedChains.length > 0 ? routeSupportedChains[0] : environment.default_chain_id;
-		await switchChain($walletStore.provider, environment.valid_chains[chainToSwitchTo].chain_id);
+		await switchChain(
+			$walletStore.provider,
+			environment.valid_chains[routeSupportedChains[0]].chain_id
+		);
 	}
 
 	const styles = {
 		subtitle: 'text-[15px] font-medium text-left mt-1 text-black/50 mt-4 px-2'
 	};
 
-	const defaultSupportedChainName =
-		routeSupportedChains.length > 0
-			? environment.valid_chains[routeSupportedChains[0]].chain_name
-			: environment.valid_chains[environment.default_chain_id].chain_name;
+	$: defaultSupportedChainName = environment.valid_chains[routeSupportedChains[0]].chain_name;
 </script>
 
 <ContainerCard>

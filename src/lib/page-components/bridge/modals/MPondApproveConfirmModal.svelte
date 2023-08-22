@@ -4,8 +4,15 @@
 		approveMPondTokenForConversion,
 		confirmMPondConversion
 	} from '$lib/controllers/contractController';
-	import { bridgeStore } from '$lib/data-stores/bridgeStore';
-	import { walletBalance } from '$lib/data-stores/walletProviderStore';
+	import {
+		bridgeStore,
+		decreaseMpondAllowanceInBridgeStore,
+		updateMpondAllowanceInBridgeStore
+	} from '$lib/data-stores/bridgeStore';
+	import {
+		addPondToWalletBalanceStore,
+		withdrawMpondFromWalletBalanceStore
+	} from '$lib/data-stores/walletProviderStore';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { mPondToPond } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
@@ -30,10 +37,7 @@
 		try {
 			await approveMPondTokenForConversion(mpondToConvert);
 			// update bridge store locally in case when user approves amount greater than previous allowance
-			bridgeStore.update((value) => {
-				value.allowances.mPond = mpondToConvert;
-				return value;
-			});
+			updateMpondAllowanceInBridgeStore(mpondToConvert);
 			approved = true;
 		} catch (error) {
 			console.log(error);
@@ -45,15 +49,9 @@
 		try {
 			const txn = await confirmMPondConversion(requestEpoch, mpondToConvert);
 			if (txn) {
-				walletBalance.update((value) => {
-					value.mPond = value.mPond.sub(mpondToConvert);
-					value.pond = value.pond.add(mPondToPond(mpondToConvert));
-					return value;
-				});
-				bridgeStore.update((value) => {
-					value.allowances.mPond = value.allowances.mPond.sub(mpondToConvert);
-					return value;
-				});
+				withdrawMpondFromWalletBalanceStore(mpondToConvert);
+				addPondToWalletBalanceStore(mPondToPond(mpondToConvert));
+				decreaseMpondAllowanceInBridgeStore(mpondToConvert);
 			}
 			txnHash = txn.hash;
 			closeModal(modalToClose);

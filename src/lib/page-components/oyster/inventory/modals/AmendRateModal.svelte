@@ -117,7 +117,11 @@
 			</div>
 			{#if rateStatus === 'pending'}
 				<div class="w-full">
-					<Timer timerId={`timer-for-${modalFor}`} endEpochTime={updatesAt}>
+					<Timer
+						timerId={`timer-for-${modalFor}`}
+						endEpochTime={updatesAt}
+						onTimerEnd={() => (submitEnable = true)}
+					>
 						<div slot="active" let:timer class="w-full">
 							<InputCard variant="warning">
 								<Text

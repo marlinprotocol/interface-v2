@@ -17,7 +17,11 @@
 		getInstancesFromControlPlaneUsingCpUrl,
 		getInstancesFromControlPlaneUsingOperatorAddress
 	} from '$lib/controllers/httpController';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import {
+		oysterStore,
+		removeProviderFromOysterStore,
+		updateProviderInOysterStore
+	} from '$lib/data-stores/oysterStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { checkValidURL } from '$lib/utils/helpers/commonHelper';
@@ -73,15 +77,7 @@
 				await registerOysterInfrastructureProvider(updatedCpURL);
 			}
 
-			oysterStore.update((value) => {
-				value.providerData.registered = true;
-				if (value.providerData.data) {
-					value.providerData.data.cp = updatedCpURL;
-					value.providerData.data.id = $walletStore.address;
-					value.providerData.data.live = true;
-				}
-				return value;
-			});
+			updateProviderInOysterStore(updatedCpURL, $walletStore.address);
 			registeredCpURL = updatedCpURL;
 			registered = true;
 			disableCpURL = true;
@@ -95,15 +91,7 @@
 
 	const handleOnUnregister = async () => {
 		await removeOysterInfrastructureProvider();
-		oysterStore.update((value) => {
-			value.providerData.registered = false;
-			if (value.providerData.data) {
-				value.providerData.data.cp = '';
-				value.providerData.data.id = '';
-				value.providerData.data.live = false;
-			}
-			return value;
-		});
+		removeProviderFromOysterStore();
 	};
 
 	async function getInstances(useUpdatedCpURL: boolean) {

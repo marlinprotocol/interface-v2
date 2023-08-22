@@ -19,3 +19,17 @@ export const chainConfigStore = derived([chainStore], ([$chainStore]) => {
 export function resetChainStore() {
 	chainStore.set(DEFAULT_CHAIN_STORE);
 }
+
+export function initializeChainStore(
+	chainId: number,
+	chainName: string,
+	chainDisplayName: string | undefined,
+	isValidChain: boolean
+) {
+	chainStore.set({
+		chainId: chainId,
+		chainName: chainName,
+		chainDisplayName: chainDisplayName ?? chainName,
+		isValidChain: isValidChain
+	});
+}

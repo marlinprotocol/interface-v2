@@ -24,7 +24,7 @@
 	export let jobData: OysterInventoryDataModel;
 
 	const { currency, decimal } = OYSTER_RATE_METADATA;
-	$: ({ rate, balance } = jobData);
+	$: ({ rate, balance, downScaledRate } = jobData);
 
 	//initial states
 	let inputAmount: BigNumber;
@@ -68,7 +68,7 @@
 
 	const handleSubmitClick = async () => {
 		submitLoading = true;
-		await handleFundsWithdrawFromJob(jobData, inputAmount);
+		await handleFundsWithdrawFromJob(jobData, inputAmount, durationReduced.toNumber());
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
@@ -90,6 +90,7 @@
 			: '';
 	$: submitEnable = inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
 	$: maxAmount = getMaxAmountForJob(rate, balance);
+	$: durationReduced = inputAmount.gt(0) ? inputAmount.div(downScaledRate) : BIG_NUMBER_ZERO;
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>

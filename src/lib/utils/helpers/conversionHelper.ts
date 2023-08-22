@@ -21,7 +21,7 @@ export const epochToDurationString = (epoch: number, mini = false, uptoHoursOnly
 	const hours = Math.floor(epoch / (60 * 60)) % 24;
 	const days = Math.floor(epoch / (60 * 60 * 24)) % 30;
 	const months = Math.floor(epoch / (60 * 60 * 24 * 30)) % 12;
-	const years = Math.floor(epoch / (60 * 60 * 24 * 365));
+	const years = Math.floor(epoch / (60 * 60 * 24 * 30 * 12));
 
 	let durationString = '';
 	if (years > 0) {

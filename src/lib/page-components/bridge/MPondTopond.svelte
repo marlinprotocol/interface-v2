@@ -8,13 +8,13 @@
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { requestMPondConversion } from '$lib/controllers/contractController';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
-	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
+	import { connected, walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import {
 		BIG_NUMBER_ZERO,
 		MPOND_PRECISIONS,
 		POND_PRECISIONS
 	} from '$lib/utils/constants/constants';
-	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
+	import { DEFAULT_WALLET_BALANCE_STORE } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,
 		bigNumberToString,
@@ -49,10 +49,10 @@
 		? bigNumberToString(mPondToPond(inputAmount), 18, POND_PRECISIONS)
 		: '';
 
-	let walletMPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.mPond;
+	let walletMPondBalance: BigNumber = DEFAULT_WALLET_BALANCE_STORE.mPond;
 	let requestedMPond: BigNumber = BIG_NUMBER_ZERO;
 
-	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
+	const unsubscribeWalletBalanceStore = walletBalanceStore.subscribe((value) => {
 		walletMPondBalance = value.mPond;
 	});
 	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {

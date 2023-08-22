@@ -25,7 +25,7 @@
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		allMarketplaceData = value.allMarketplaceData;
-		filteredData = filteredData ? filteredData : allMarketplaceData;
+		filteredData = filteredData?.length > 0 ? filteredData : allMarketplaceData;
 		loading = !value.marketplaceLoaded;
 	});
 	onDestroy(unsubscribeOysterStore);
@@ -55,6 +55,7 @@
 		(activePage - 1) * itemsPerPage,
 		activePage * itemsPerPage
 	);
+	$: console.log('filteredData', filteredData, 'filterMap', filterMap);
 </script>
 
 <div class="mx-auto">

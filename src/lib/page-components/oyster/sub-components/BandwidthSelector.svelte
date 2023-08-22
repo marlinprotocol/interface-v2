@@ -37,7 +37,6 @@
 		);
 		finalBandwidthRate = BigNumber.from(bandwidth)
 			.mul(rate)
-			.mul(OYSTER_RATE_SCALING_FACTOR)
 			.div(unitConversionDivisor || BigNumber.from(1));
 		return finalBandwidthRate.mul(duration);
 	}

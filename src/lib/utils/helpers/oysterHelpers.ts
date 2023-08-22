@@ -508,12 +508,12 @@ export function getBandwidthFromRateAndRegion(bandwidthRate: BigNumber, region: 
 	if (rateForRegion === undefined) return BIG_NUMBER_ZERO;
 	const bandwidthWithAllPrecision = bandwidthRate
 		.mul(BigNumber.from(1024 * 1024))
+		// this is done to ceil the number since rateForRegion
+		// is essentially, actualRate * OYSTER_RATE_SCALING_FACTOR
+		.add(OYSTER_RATE_SCALING_FACTOR.sub(BigNumber.from(1)))
 		.div(rateForRegion);
 
-	// the add, sub and div is done to ceil the number
-	return bandwidthWithAllPrecision
-		.add(OYSTER_RATE_SCALING_FACTOR.sub(BigNumber.from(1)))
-		.div(OYSTER_RATE_SCALING_FACTOR);
+	return bandwidthWithAllPrecision;
 }
 
 export const getDurationInSecondsForUnit = (durationUnit: string) => {

@@ -1,9 +1,4 @@
-import type {
-	Address,
-	ContractAbi,
-	ContractAddress,
-	ReceiverStakingData
-} from '$lib/types/storeTypes';
+import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/storeTypes';
 import { BigNumber, ethers } from 'ethers';
 import {
 	DEFAULT_BRIDGE_STORE,
@@ -26,27 +21,24 @@ import {
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
-import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 
 import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import type { ChainConfig } from '$lib/types/environmentTypes';
+import { ERC20_ABI } from '$lib/utils/abis/erc20';
 import type { ProviderData } from '$lib/types/oysterComponentType';
 import { addToast } from '$lib/data-stores/toastStore';
 import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+import { contractAddressStore } from '$lib/data-stores/contractStore';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
 
 let contractAddresses: ContractAddress;
 let chainConfig: ChainConfig;
-let contractAbi: ContractAbi;
 
 contractAddressStore.subscribe((value) => {
 	contractAddresses = value;
 });
 chainConfigStore.subscribe((value) => {
 	chainConfig = value;
-});
-contractAbiStore.subscribe((value) => {
-	contractAbi = value;
 });
 /**
  * Generate HTTP request headers for querying subgraph
@@ -515,7 +507,7 @@ export async function getOysterMerchantJobsFromSubgraph(address: Address) {
 }
 
 export async function getUsdcBalanceFromProvider(address: Address, provider: any) {
-	const usdcContract = new ethers.Contract(contractAddresses.USDC, contractAbi.ERC20, provider);
+	const usdcContract = new ethers.Contract(contractAddresses.USDC, ERC20_ABI, provider);
 
 	try {
 		const balance = await usdcContract.balanceOf(address);
@@ -538,10 +530,8 @@ export async function getReceiverRewardsDataFromSubgraph(address: Address) {
 		contractAddress: receiverRewardContractAddress.toLowerCase()
 	};
 
-	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-
 	try {
-		const result = await fetchHttpData(url, options);
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
 
 		if (result['errors']) {
 			throw new Error(result['errors'][0].message);

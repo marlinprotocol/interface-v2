@@ -8,7 +8,7 @@ import {
 import type { Address } from '$lib/types/storeTypes';
 import type { BigNumber } from 'ethers';
 import { receiverRewardsStore } from '$lib/data-stores/receiverRewardsStore';
-import { walletBalance } from '$lib/data-stores/walletProviderStore';
+import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 
 export async function handleRewardsPondApproval(amount: BigNumber) {
 	try {
@@ -35,7 +35,7 @@ export async function handleInitiateRewards(rewardBalance: BigNumber, rewardPerE
 				rewardBalance: value.rewardBalance.add(rewardBalance)
 			};
 		});
-		walletBalance.update((value) => {
+		walletBalanceStore.update((value) => {
 			return {
 				...value,
 				pond: value.pond.sub(rewardBalance)
@@ -56,7 +56,7 @@ export async function handleAddRewardBalance(address: Address, amount: BigNumber
 				rewardBalance: value.rewardBalance.add(amount)
 			};
 		});
-		walletBalance.update((value) => {
+		walletBalanceStore.update((value) => {
 			return {
 				...value,
 				pond: value.pond.sub(amount)

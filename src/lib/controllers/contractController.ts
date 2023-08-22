@@ -16,6 +16,7 @@ import { RECEIVER_STAKING_ABI } from '$lib/utils/abis/receiverStaking';
 import { ERC20_ABI } from '$lib/utils/abis/erc20';
 import { BRIDGE_ABI } from '$lib/utils/abis/bridge';
 import { OYSTER_MARKET_ABI } from '$lib/utils/abis/oysterMarket';
+import { REWARD_DELEGATORS_ABI } from '$lib/utils/abis/rewardDelegators';
 
 let contractAddresses: ContractAddress;
 let signer: WalletStore['signer'];
@@ -221,7 +222,7 @@ export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
 
 // approval in pond contract so that the receiver rewards contract can spend our pond
 export async function approvePondTokenForReceiverRewards(amount: BigNumber) {
-	const pondTokenContract = createSignerContract(contractAddresses.POND, contractAbi.ERC20);
+	const pondTokenContract = createSignerContract(contractAddresses.POND, ERC20_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND(
 			bigNumberToCommaString(amount, POND_PRECISIONS)
@@ -676,7 +677,7 @@ export async function settleOysterJob(jobId: Bytes) {
 export async function initiateReceiverRewards(rewardBalance: BigNumber, rewardPerEpoch: BigNumber) {
 	const rewardDelegatorContract = createSignerContract(
 		contractAddresses.REWARD_DELEGATORS,
-		contractAbi.RewardDelegators
+		REWARD_DELEGATORS_ABI
 	);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.RECEIVER_REWARDS.INITIATING;
@@ -700,7 +701,7 @@ export async function initiateReceiverRewards(rewardBalance: BigNumber, rewardPe
 export async function addReceiverBalance(receiverAddress: Address, rewardBalance: BigNumber) {
 	const rewardDelegatorContract = createSignerContract(
 		contractAddresses.REWARD_DELEGATORS,
-		contractAbi.RewardDelegators
+		REWARD_DELEGATORS_ABI
 	);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.RECEIVER_REWARDS.UPDATING_REWARDS(
@@ -728,7 +729,7 @@ export async function addReceiverBalance(receiverAddress: Address, rewardBalance
 export async function updateReceiverTicketReward(rewardPerEpoch: BigNumber) {
 	const rewardDelegatorContract = createSignerContract(
 		contractAddresses.REWARD_DELEGATORS,
-		contractAbi.RewardDelegators
+		REWARD_DELEGATORS_ABI
 	);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.RECEIVER_REWARDS.UPDATING_REWARDS(

@@ -3,7 +3,7 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import { walletBalance, walletStore } from '$lib/data-stores/walletProviderStore';
+	import { walletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import {
 		BIG_NUMBER_ZERO,
@@ -49,9 +49,9 @@
 	}
 
 	function handleMaxClick() {
-		if ($walletBalance.pond) {
+		if ($walletBalanceStore.pond) {
 			inputAmountString = bigNumberToString(
-				$walletBalance.pond,
+				$walletBalanceStore.pond,
 				DEFAULT_CURRENCY_DECIMALS,
 				POND_PRECISIONS,
 				false
@@ -87,7 +87,7 @@
 	}
 
 	$: balanceText = `Balance: ${bigNumberToString(
-		$walletBalance.pond,
+		$walletBalanceStore.pond,
 		DEFAULT_CURRENCY_DECIMALS,
 		POND_PRECISIONS
 	)} POND`;
@@ -98,10 +98,10 @@
 	$: approveDisabled =
 		!inputAmount ||
 		!inputAmount.gt(0) ||
-		!$walletBalance.pond?.gte(inputAmount) ||
+		!$walletBalanceStore.pond?.gte(inputAmount) ||
 		approvedAmount?.gte(inputAmount);
 	$: pondDisabledText =
-		inputAmount && inputAmount.gt(0) && !$walletBalance.pond?.gte(inputAmount)
+		inputAmount && inputAmount.gt(0) && !$walletBalanceStore.pond?.gte(inputAmount)
 			? 'Insufficient POND'
 			: '';
 	$: disabled = !inputAmount.gt(0) || !inputAmount.lte(approvedAmount);

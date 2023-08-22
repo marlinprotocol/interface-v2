@@ -10,7 +10,7 @@
 		DEFAULT_CURRENCY_DECIMALS,
 		POND_PRECISIONS
 	} from '$lib/utils/constants/constants';
-	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
+	import { connected, walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import { receiverRewardsStore } from '$lib/data-stores/receiverRewardsStore';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
@@ -72,9 +72,9 @@
 	}
 
 	function handleMaxClick() {
-		if ($walletBalance.pond) {
+		if ($walletBalanceStore.pond) {
 			inputAmountString = bigNumberToString(
-				$walletBalance.pond,
+				$walletBalanceStore.pond,
 				DEFAULT_CURRENCY_DECIMALS,
 				POND_PRECISIONS,
 				false
@@ -120,7 +120,7 @@
 	}
 
 	$: balanceText = `Balance: ${bigNumberToString(
-		$walletBalance.pond,
+		$walletBalanceStore.pond,
 		DEFAULT_CURRENCY_DECIMALS,
 		POND_PRECISIONS
 	)} POND`;
@@ -136,10 +136,10 @@
 	$: approveDisabled =
 		!inputAmount ||
 		!inputAmount.gt(0) ||
-		!$walletBalance.pond?.gte(inputAmount) ||
+		!$walletBalanceStore.pond?.gte(inputAmount) ||
 		approvedAmount?.gte(inputAmount);
 	$: pondDisabledText =
-		inputAmount && inputAmount.gt(0) && !$walletBalance.pond?.gte(inputAmount)
+		inputAmount && inputAmount.gt(0) && !$walletBalanceStore.pond?.gte(inputAmount)
 			? 'Insufficient POND'
 			: '';
 	$: confirmDisabled =

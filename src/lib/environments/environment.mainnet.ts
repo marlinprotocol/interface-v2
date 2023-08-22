@@ -5,5 +5,11 @@ export const ENVIRONMENT_MAINNET: Environment = {
 	environment_name: 'mainnet',
 	production: true,
 	valid_chains: { 42161: ARB_ONE },
-	default_chain_id: 42161
+	default_chain_id: 42161,
+	supported_chains: {
+		bridge: [42161],
+		receiver_staking: [42161],
+		oyster: [42161],
+		relay: [42161]
+	}
 };

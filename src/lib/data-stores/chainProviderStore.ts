@@ -1,19 +1,16 @@
-import { loadEnvironment } from '$lib/data-stores/environment';
 import type { ChainStore } from '$lib/types/storeTypes';
 import { DEFAULT_CHAIN_STORE } from '$lib/utils/constants/storeDefaults';
-import { writable, type Writable } from 'svelte/store';
-
-let prevChainId: number | null = null;
+import { type Writable, writable, derived } from 'svelte/store';
+import { environment } from '$lib/data-stores/environment';
 
 export const chainStore: Writable<ChainStore> = writable(DEFAULT_CHAIN_STORE);
 
-// subscription to chainStore enables us to load environment based on chainID
-chainStore.subscribe(({ chainId }) => {
-	if (chainId === null) return;
-	if (prevChainId !== chainId || prevChainId === null) {
-		prevChainId = chainId;
-		loadEnvironment(chainId);
-	}
+export const chainConfigStore = derived([chainStore], ([$chainStore]) => {
+	const isChainValid =
+		$chainStore.chainId !== null && environment.valid_chains[$chainStore.chainId];
+	return isChainValid
+		? environment.valid_chains[$chainStore.chainId as number]
+		: environment.valid_chains[environment.default_chain_id];
 });
 
 /**
@@ -21,4 +18,18 @@ chainStore.subscribe(({ chainId }) => {
  */
 export function resetChainStore() {
 	chainStore.set(DEFAULT_CHAIN_STORE);
+}
+
+export function initializeChainStore(
+	chainId: number,
+	chainName: string,
+	chainDisplayName: string | undefined,
+	isValidChain: boolean
+) {
+	chainStore.set({
+		chainId: chainId,
+		chainName: chainName,
+		chainDisplayName: chainDisplayName ?? chainName,
+		isValidChain: isValidChain
+	});
 }

@@ -8,7 +8,8 @@
 	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
 	import {
 		OYSTER_INSTANCES_TABLE_HEADER,
-		OYSTER_RATE_METADATA
+		OYSTER_RATE_METADATA,
+		OYSTER_RATE_SCALING_FACTOR
 	} from '$lib/utils/constants/oysterConstants';
 	import { convertRateToPerHourString } from '$lib/utils/helpers/conversionHelper';
 	import { slide } from 'svelte/transition';
@@ -48,7 +49,10 @@
 								<td class={styles.tableCell}>{row.instance}</td>
 								<td class={styles.tableCell}>{row.region}</td>
 								<td class={styles.tableCell}>
-									{symbol}{convertRateToPerHourString(row.rate, decimal)}
+									{symbol}{convertRateToPerHourString(
+										row.rate.div(OYSTER_RATE_SCALING_FACTOR),
+										decimal
+									)}
 								</td>
 							</tr>
 						{/each}

@@ -11,26 +11,33 @@
 		depositStakingToken,
 		depositStakingTokenAndSetSigner
 	} from '$lib/controllers/contractController';
-	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
+	import {
+		addStakedBalanceInReceiverStakingStore,
+		receiverStakingStore,
+		updateAllowanceInReceiverStakingStore,
+		updateSignerAddressInReceiverStakingStore
+	} from '$lib/data-stores/receiverStakingStore';
 	import { addToast } from '$lib/data-stores/toastStore';
-	import { walletBalance } from '$lib/data-stores/walletProviderStore';
+	import {
+		walletBalanceStore,
+		withdrawPondFromWalletBalanceStore
+	} from '$lib/data-stores/walletProviderStore';
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import type { Address, ReceiverStakingData, WalletBalance } from '$lib/types/storeTypes';
-	import { BIG_NUMBER_ZERO, POND_PRECISIONS } from '$lib/utils/constants/constants';
+	import type { Address } from '$lib/types/storeTypes';
+	import {
+		BIG_NUMBER_ZERO,
+		DEFAULT_CURRENCY_DECIMALS,
+		POND_PRECISIONS
+	} from '$lib/utils/constants/constants';
 	import { MESSAGES } from '$lib/utils/constants/messages';
 	import {
 		DEFAULT_RECEIVER_STAKING_DATA,
-		DEFAULT_WALLET_BALANCE
+		DEFAULT_WALLET_BALANCE_STORE
 	} from '$lib/utils/constants/storeDefaults';
-	import {
-		bigNumberToCommaString,
-		bigNumberToString,
-		stringToBigNumber
-	} from '$lib/utils/helpers/conversionHelper';
+	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import {
 		closeModal,
-		getCurrentEpochCycle,
 		inputAmountInValidMessage,
 		isAddressValid,
 		isInputAmountValid
@@ -59,11 +66,15 @@
 	let submitLoading = false;
 
 	//max amount in wallet
-	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.pond;
+	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE_STORE.pond;
 	let balanceText = 'Balance: 0.00';
-	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
+	const unsubscribeWalletBalanceStore = walletBalanceStore.subscribe((value) => {
 		maxPondBalance = value.pond;
-		balanceText = `Balance: ${bigNumberToCommaString(maxPondBalance, POND_PRECISIONS)}`;
+		balanceText = `Balance: ${bigNumberToString(
+			maxPondBalance,
+			DEFAULT_CURRENCY_DECIMALS,
+			POND_PRECISIONS
+		)}`;
 	});
 
 	//approve balance
@@ -123,12 +134,7 @@
 		approveLoading = true;
 		try {
 			await approvePondTokenForReceiverStaking(inputAmount);
-			receiverStakingStore.update((value: ReceiverStakingData) => {
-				return {
-					...value,
-					approvedBalance: inputAmount
-				};
-			});
+			updateAllowanceInReceiverStakingStore(inputAmount);
 		} catch (e) {
 			console.log('error approving', e);
 		} finally {
@@ -155,48 +161,14 @@
 			if (updatedSignerAddress !== DEFAULT_RECEIVER_STAKING_DATA.signer) {
 				await depositStakingTokenAndSetSigner(inputAmount, updatedSignerAddress);
 				// update signer locally
-				receiverStakingStore.update((value: ReceiverStakingData) => {
-					return {
-						...value,
-						signer: updatedSignerAddress
-					};
-				});
+				updateSignerAddressInReceiverStakingStore(updatedSignerAddress);
 			} else {
 				await depositStakingToken(inputAmount);
 			}
-			closeModal(modalFor);
-
-			// update wallet balance locally
-			walletBalance.update((value: WalletBalance) => {
-				return {
-					...value,
-					pond: value.pond.sub(inputAmount)
-				};
-			});
-
-			// if epoch startTime is less than current time, update queued balance else staked balance
-			receiverStakingStore.update((value: ReceiverStakingData) => {
-				const {
-					epochData: { startTime, epochLength }
-				} = value;
-				const currentTime = Date.now() / 1000;
-				const epochCycle = getCurrentEpochCycle(startTime, epochLength);
-
-				return {
-					...value,
-					epochData: {
-						...value.epochData,
-						epochCycle
-					},
-					queuedBalance:
-						startTime < currentTime ? value.queuedBalance.add(inputAmount) : value.queuedBalance,
-					stakedBalance:
-						startTime < currentTime ? value.stakedBalance : value.stakedBalance.add(inputAmount),
-					approvedBalance: value.approvedBalance.sub(inputAmount)
-				};
-			});
-
+			withdrawPondFromWalletBalanceStore(inputAmount);
+			addStakedBalanceInReceiverStakingStore(inputAmount);
 			resetInputs();
+			closeModal(modalFor);
 		} catch (e) {
 			console.log('error submitting', e);
 		} finally {

@@ -117,7 +117,6 @@ export function capitalizeFirstLetter(string: string) {
  * @example checkValidURL('example.com') => false as it has no http:// or https:// at the start
  */
 export function checkValidURL(url: string) {
-	// TODO: the regex is not perfect and can be improved
 	const ipv4Regex = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
 	const ipv6Regex = /^(?:[a-fA-F0-9]{1,4}:){7}[a-fA-F0-9]{1,4}$/;
 	const urlRegex = /^(http|https):\/\/[\w.-]+(:\d+)?(\/\S*)?[^/]$/;

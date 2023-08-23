@@ -6,8 +6,11 @@
 		getOysterJobsFromSubgraph,
 		getProviderDetailsFromSubgraph
 	} from '$lib/controllers/subgraphController';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import { chainConfigStore, chainStore } from '$lib/data-stores/chainProviderStore';
+	import {
+		initializeOysterStore,
+		updateMarketplaceDataInOysterStore
+	} from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { REGION_NAME_CONSTANTS } from '$lib/utils/constants/regionNameConstants';
 	import {
@@ -23,39 +26,20 @@
 			getProviderDetailsFromSubgraph($walletStore.address),
 			getJobStatuses($walletStore.address)
 		]);
-
-		const oysterJobs = await modifyOysterJobData(oysterJobsFromSubgraph);
-
 		// Create a lookup object based on jobStatuses
 		let jobStatusLookup: Record<string, string> = {};
 		jobStatuses.forEach((status: any) => {
 			jobStatusLookup[status.jobId] = status.ip;
 		});
-
 		// Assign IP addresses from jobStatus to jobData
-		oysterJobs.forEach((data) => {
+		oysterJobsFromSubgraph.forEach((data: any) => {
 			if (Object.prototype.hasOwnProperty.call(jobStatusLookup, data.id.toString())) {
 				data.ip = jobStatusLookup[data.id.toString()];
 			}
 		});
-		// console.log('Existing Oyster Data - ', $oysterStore);
-		// console.log('Oyster Data Fetch - allowance', allowance);
-		// console.log('Oyster Data Fetch - oysterJobs', oysterJobs);
-		// console.log('Oyster Data Fetch - providerDetail', providerDetail);
-		// console.log('Oyster Data Fetch - jobStatuses', jobStatuses);
+		const oysterJobs = await modifyOysterJobData(oysterJobsFromSubgraph);
 
-		oysterStore.update((value) => {
-			return {
-				...value,
-				providerData: {
-					data: providerDetail,
-					registered: providerDetail !== null
-				},
-				allowance: allowance,
-				jobsData: oysterJobs,
-				oysterStoreLoaded: true
-			};
-		});
+		initializeOysterStore(providerDetail, allowance, oysterJobs);
 	}
 
 	async function loadMarketplaceData() {
@@ -66,21 +50,20 @@
 			REGION_NAME_CONSTANTS
 		);
 		// updating stores instead of returning data as we don't need to show this data explicitly
-		oysterStore.update((store) => {
-			return {
-				...store,
-				allMarketplaceData: marketplaceDataWithRegionName,
-				marketplaceLoaded: true
-			};
-		});
+		updateMarketplaceDataInOysterStore(marketplaceDataWithRegionName);
 	}
 
-	// TODO: ask prateek how to determine when this would refresh
-	// as chain is not available till the user connects wallet
-	loadMarketplaceData();
+	$: if ($chainConfigStore) {
+		loadMarketplaceData();
+	}
+
 	$: if ($connected && $chainStore.chainId) {
 		loadConnectedData();
 	}
 </script>
+
+<svelte:head>
+	<title>Marlin Oyster</title>
+</svelte:head>
 
 <slot />

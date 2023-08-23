@@ -5,7 +5,7 @@ import type {
 	ContractAddress,
 	OysterStore,
 	ReceiverStakingData,
-	WalletBalance,
+	WalletBalanceStore,
 	WalletStore
 } from '$lib/types/storeTypes';
 
@@ -19,7 +19,7 @@ export const DEFAULT_WALLET_STORE: WalletStore = {
 };
 
 // walletBalanceStore
-export const DEFAULT_WALLET_BALANCE: WalletBalance = {
+export const DEFAULT_WALLET_BALANCE_STORE: WalletBalanceStore = {
 	pond: BIG_NUMBER_ZERO,
 	mPond: BIG_NUMBER_ZERO
 };
@@ -46,14 +46,16 @@ export const DEFAULT_CONTRACT_ABI_STORE: ContractAbi = {
 
 // addressStore
 export const DEFAULT_CONTRACT_ADDRESS_STORE: ContractAddress = {
-	StakeManager: '',
-	RewardDelegators: '',
-	ClusterRegistry: '',
-	ClusterRewards: '',
-	ReceiverStaking: '',
-	EpochSelector: {},
-	Bridge: '',
-	tokens: {}
+	STAKE_MANAGER: '',
+	REWARD_DELEGATORS: '',
+	CLUSTER_REGISTRY: '',
+	CLUSTER_REWARDS: '',
+	RECEIVER_STAKING: '',
+	BRIDGE: '',
+	OYSTER: '',
+	POND: '',
+	MPOND: '',
+	USDC: ''
 };
 
 // receiver staked, queued data store
@@ -81,7 +83,8 @@ export const DEFAULT_BRIDGE_STORE: BridgeStore = {
 // oysterStore
 export const DEFAULT_OYSTER_STORE: OysterStore = {
 	providerData: {
-		registered: false
+		registered: false,
+		data: undefined
 	},
 	allMarketplaceData: [],
 	jobsData: [],

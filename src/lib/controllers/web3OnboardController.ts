@@ -1,6 +1,7 @@
 import Onboard from '@web3-onboard/core';
 import type { OnboardAPI } from '@web3-onboard/core';
 import coinbaseWalletModule from '@web3-onboard/coinbase';
+import { environment } from '$lib/data-stores/environment';
 import gnosisModule from '@web3-onboard/gnosis';
 import icon from '../../logos/logo-name.svg';
 import infinityWalletWalletModule from '@web3-onboard/infinity-wallet';
@@ -9,11 +10,21 @@ import ledgerModule from '@web3-onboard/ledger';
 import trezorModule from '@web3-onboard/trezor';
 import walletConnectModule from '@web3-onboard/walletconnect';
 
+const valid_chain_ids = Object.keys(environment.valid_chains).map((chainId) => parseInt(chainId));
+const valid_chains_metadata = Object.entries(environment.valid_chains).map(
+	([chainId, chainConfig]) => ({
+		id: parseInt(chainId),
+		token: chainConfig.tokens[chainConfig.oyster_token].symbol,
+		label: chainConfig.chain_name,
+		rpcUrl: chainConfig.block_explorer_url
+	})
+);
+
 const injected = injectedWalletsModule();
 const ledger = ledgerModule({
 	walletConnectVersion: 2,
-	projectId: '85c0877a4199946ad75f772be3aab90d',
-	requiredChains: [42161, 421613]
+	projectId: import.meta.env.VITE_PROJECT_ID,
+	requiredChains: valid_chain_ids
 });
 const coinbaseWalletSdk = coinbaseWalletModule();
 const gnosis = gnosisModule();
@@ -23,8 +34,8 @@ const trezor = trezorModule({
 	appUrl: 'https://app2.aragog.live'
 });
 const walletConnect = walletConnectModule({
-	projectId: '85c0877a4199946ad75f772be3aab90d',
-	requiredChains: [42161, 421613],
+	projectId: import.meta.env.VITE_PROJECT_ID,
+	requiredChains: valid_chain_ids,
 	connectFirstChainId: true,
 	qrcodeModalOptions: {
 		mobileLinks: ['rainbow', 'metamask', 'argent', 'trust', 'imtoken', 'pillar']
@@ -41,20 +52,7 @@ const wallets = [
 	infinityWalletSDK
 ];
 
-const chains = [
-	{
-		id: 42161,
-		token: 'ETH',
-		label: 'Arbitrum One',
-		rpcUrl: 'https://arbiscan.io/rpc'
-	},
-	{
-		id: 421613,
-		token: 'AGOR',
-		label: 'Arbitrum Görli',
-		rpcUrl: 'https://goerli-rollup.arbitrum.io/rpc'
-	}
-];
+const chains = valid_chains_metadata;
 
 const appMetadata = {
 	name: 'Marlin',

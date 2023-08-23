@@ -55,7 +55,6 @@
 			{epochToDurationString(durationRun, true)}
 		</Tooltip>
 	</TableGridDataCell>
-	<!-- TODO: ask what this cell is supposed to show and the date thingy -->
 	<TableGridDataCell>
 		{symbol}{bigNumberToString(amountToBeSettled, decimal)}
 	</TableGridDataCell>

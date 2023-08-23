@@ -7,7 +7,10 @@
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
-	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
+	import {
+		OYSTER_RATE_METADATA,
+		OYSTER_RATE_SCALING_FACTOR
+	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import {
 		closeModal,
@@ -21,7 +24,7 @@
 	export let jobData: OysterInventoryDataModel;
 
 	const { currency, decimal } = OYSTER_RATE_METADATA;
-	$: ({ rate, balance: maxAmount, id } = jobData);
+	$: ({ rate, balance, downScaledRate } = jobData);
 
 	//initial states
 	let inputAmount: BigNumber;
@@ -32,7 +35,7 @@
 	let updatedAmountInputDirty = false;
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
-		? stringToBigNumber(inputAmountString)
+		? stringToBigNumber(inputAmountString, decimal)
 		: BIG_NUMBER_ZERO;
 
 	//loading states
@@ -65,17 +68,29 @@
 
 	const handleSubmitClick = async () => {
 		submitLoading = true;
-		await handleFundsWithdrawFromJob(jobData, inputAmount);
+		await handleFundsWithdrawFromJob(jobData, inputAmount, durationReduced.toNumber());
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
 	};
+
+	function getMaxAmountForJob(rate: BigNumber, balance: BigNumber) {
+		if (rate && balance) {
+			const downScaledRate = rate.div(OYSTER_RATE_SCALING_FACTOR);
+			const amountForDownTime = downScaledRate.mul(OYSTER_RATE_METADATA.rateReviseWaitingTime);
+			const finalBalance = balance.sub(amountForDownTime);
+			return finalBalance.gte(BIG_NUMBER_ZERO) ? finalBalance : BIG_NUMBER_ZERO;
+		}
+		return BIG_NUMBER_ZERO;
+	}
 
 	$: maxDisabedText =
 		updatedAmountInputDirty && inputAmount && inputAmount.gt(maxAmount)
 			? 'Insufficient balance'
 			: '';
 	$: submitEnable = inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
+	$: maxAmount = getMaxAmountForJob(rate, balance);
+	$: durationReduced = inputAmount.gt(0) ? inputAmount.div(downScaledRate) : BIG_NUMBER_ZERO;
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
@@ -87,7 +102,7 @@
 	>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
-			title="From"
+			title="Amount"
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			inputCardVariant={'none'}

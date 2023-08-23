@@ -6,11 +6,7 @@
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
-	import type {
-		CreateOrderPreFilledModel,
-		OysterMarketplaceDataModel
-	} from '$lib/types/oysterComponentType';
-	import type { Address } from '$lib/types/storeTypes';
+	import type { CreateOrderPreFilledModel } from '$lib/types/oysterComponentType';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 	import { checkValidURL, closeModal } from '$lib/utils/helpers/commonHelper';
@@ -19,9 +15,6 @@
 		handleApproveFundForOysterJob,
 		handleCreateJob
 	} from '$lib/utils/services/oysterServices';
-	import type { BigNumber } from 'ethers';
-	import { onDestroy } from 'svelte';
-	import type { Unsubscriber } from 'svelte/store';
 	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
 	import MetadetailsForNewOrder from '$lib/page-components/oyster/sub-components/MetadetailsForNewOrder.svelte';
 	import BandwidthSelector from '$lib/page-components/oyster/sub-components/BandwidthSelector.svelte';
@@ -30,38 +23,23 @@
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
 
-	let allMarketplaceData: OysterMarketplaceDataModel[] = [];
-	let approvedAmount: BigNumber;
-	let owner: Address;
-
 	let duration = 0; //durationInSecs
 	let instanceCost = BIG_NUMBER_ZERO;
 	let invalidCost = false;
 	let instanceCostString = '';
 	let bandwidthCost = BIG_NUMBER_ZERO;
 	let finalBandwidthRate = BIG_NUMBER_ZERO;
+	let totalCost = BIG_NUMBER_ZERO;
 
 	//loading states
 	let submitLoading = false;
-
-	const unsubscribeWalletStore: Unsubscriber = walletStore.subscribe(async (value) => {
-		owner = value.address;
-	});
-
-	onDestroy(unsubscribeWalletStore);
-
-	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
-		allMarketplaceData = value.allMarketplaceData;
-		approvedAmount = value.allowance;
-	});
-	onDestroy(unsubscribeOysterStore);
-
 	let providerAddress: string | undefined = preFilledData.provider?.address;
 
 	//initial states
 	let initialStates = {
 		merchant: {
 			value: preFilledData?.provider?.address || '',
+			name: preFilledData?.provider?.name || '',
 			error: '',
 			isDirty: false,
 			title: 'Operator'
@@ -118,12 +96,18 @@
 		});
 
 		submitLoading = true;
+
+		const provider = {
+			address: merchant.value,
+			name: merchant?.name || ''
+		};
+
 		const success = await handleCreateJob(
-			owner,
+			$walletStore.address,
 			metadata,
-			merchant.value,
+			provider,
 			totalRate,
-			totalCost,
+			totalCost.div(OYSTER_RATE_SCALING_FACTOR),
 			duration
 		);
 		submitLoading = false;
@@ -140,14 +124,14 @@
 			return;
 		}
 		submitLoading = true;
-		await handleApproveFundForOysterJob(totalCost);
+		await handleApproveFundForOysterJob(totalCost.div(OYSTER_RATE_SCALING_FACTOR));
 		submitLoading = false;
 	};
 
 	const resetInputs = () => {
 		handleMerchantChange();
 		submitLoading = false;
-		instanceRate = undefined;
+		instanceRate = preFilledData?.provider ? instanceRate : undefined;
 		merchant = {
 			...initialStates.merchant
 		};
@@ -173,7 +157,7 @@
 		providerAddress,
 		instance.value,
 		region.value,
-		allMarketplaceData
+		$oysterStore.allMarketplaceData
 	);
 	let vcpu = '';
 	let memory = '';
@@ -181,7 +165,7 @@
 
 	$: approved =
 		instanceCost.gt(BIG_NUMBER_ZERO) &&
-		approvedAmount?.gte(totalCost) &&
+		$oysterStore.allowance?.gte(totalCost.div(OYSTER_RATE_SCALING_FACTOR)) &&
 		bandwidthCost.gt(BIG_NUMBER_ZERO) &&
 		totalCost.gt(BIG_NUMBER_ZERO);
 
@@ -210,10 +194,7 @@
 			? checkValidURL(enclaveImageUrl.value)
 			: true;
 
-	$: totalRate = finalBandwidthRate.add(
-		instanceRate?.mul(OYSTER_RATE_SCALING_FACTOR) || BIG_NUMBER_ZERO
-	);
-	$: totalCost = instanceCost.add(bandwidthCost);
+	$: totalRate = finalBandwidthRate.add(instanceRate || BIG_NUMBER_ZERO);
 
 	const subtitle =
 		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';
@@ -241,15 +222,15 @@
 				bind:vcpu
 				bind:memory
 				bind:notServiceable
-				{allMarketplaceData}
+				allMarketplaceData={$oysterStore.allMarketplaceData}
 				handleChange={handleMerchantChange}
 			/>
 			<AddFundsToJob
+				bind:instanceRate
 				bind:instanceCost
+				bind:instanceCostString
 				bind:duration
 				bind:invalidCost
-				bind:instanceRate
-				bind:instanceCostString
 				selectId="create-order-duration-unit-select"
 				instanceRateEditable={!instanceRateDisabled}
 			/>
@@ -259,6 +240,7 @@
 				bind:duration
 				bind:instanceCost
 				bind:finalBandwidthRate
+				bind:totalCost
 			/>
 			<TextInputWithEndButton
 				styleClass={styles.inputText}

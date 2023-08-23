@@ -11,7 +11,8 @@
 	import {
 		handleCancelRateRevise,
 		handleConfirmJobStop,
-		handleInitiateRateRevise
+		handleInitiateRateRevise,
+		handleJobStatusOnStopTimerEnd
 	} from '$lib/utils/services/oysterServices';
 	import StopModalContent from '$lib/page-components/oyster/sub-components/StopModalContent.svelte';
 
@@ -44,6 +45,11 @@
 		closeModal(modalFor);
 	};
 
+	const handleOnTimerEnd = async () => {
+		submitButtonDisabled = false;
+		handleJobStatusOnStopTimerEnd(jobData);
+	};
+
 	$: modalTitle =
 		stopStatus === '' || stopStatus === 'disabled'
 			? 'INITIATE STOP'
@@ -55,6 +61,7 @@
 		stopStatus === '' || stopStatus === 'disabled' ? 'INITIATE STOP' : 'CONFIRM';
 	$: submitButtonAction =
 		stopStatus === '' || stopStatus === 'disabled' ? handleInitiateClick : handleConfirmClick;
+	$: submitButtonDisabled = stopStatus === 'pending' || stopStatus === 'disabled';
 </script>
 
 <Modal {modalFor}>
@@ -66,7 +73,11 @@
 		<StopModalContent {jobData} />
 		{#if stopStatus === 'pending'}
 			<div class="w-full">
-				<Timer timerId={`timer-for-${modalFor}`} endEpochTime={updatesAt}>
+				<Timer
+					timerId={`timer-for-${modalFor}`}
+					endEpochTime={updatesAt}
+					onTimerEnd={() => handleOnTimerEnd()}
+				>
 					<div slot="active" let:timer class="w-full">
 						<InputCard variant="warning" styleClass="mt-4">
 							<Text
@@ -83,7 +94,7 @@
 			<InputCard variant="warning" styleClass="mt-4">
 				<Text
 					styleClass={'py-2'}
-					text={'A non-zero rate revision has been initiated, you may cancel it using RATE AMEND button.'}
+					text={'A non zero rate revision has been initiated. Please wait for it to complete and confirmed or cancel it using CANCEL RATE AMEND button.'}
 					variant="small"
 				/>
 			</InputCard>
@@ -107,7 +118,7 @@
 			<div class="w-full">
 				<Button
 					variant="filled"
-					disabled={stopStatus === 'pending' || stopStatus === 'disabled'}
+					disabled={submitButtonDisabled}
 					loading={submitLoading}
 					onclick={submitButtonAction}
 					size="large"

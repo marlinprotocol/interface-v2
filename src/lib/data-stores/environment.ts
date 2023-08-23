@@ -1,27 +1,20 @@
 import { ENVIRONMENT_DEV } from '$lib/environments/environment.dev';
-import { ENVIRONMENT_ARB } from '$lib/environments/environment.arb';
 import { ENVIRONMENT_MAINNET } from '$lib/environments/environment.mainnet';
 import type { Environment } from '$lib/types/environmentTypes';
-import { get, writable, type Writable } from 'svelte/store';
+import { PUBLIC_NODE_ENV } from '$env/static/public';
 
-const environments: Record<number, Environment> = {
-	421613: ENVIRONMENT_DEV,
-	42161: ENVIRONMENT_ARB,
-	1: ENVIRONMENT_MAINNET
+// to add an environment, create a new file in environments folder and import it here,
+// then in the .env file, add the environment name to PUBLIC_NODE_ENV.
+// Eg.PUBLIC_NODE_ENV = arb_mainnet
+const environments: Record<string, Environment> = {
+	development: ENVIRONMENT_DEV,
+	arb_mainnet: ENVIRONMENT_MAINNET
 };
 
-export const environmentStore: Writable<Environment> = writable(ENVIRONMENT_DEV);
-console.log('Initial Environment Loaded');
-
-// subscription to chainStore.chainId
-export function loadEnvironment(chainId: number) {
-	console.log('Environment Loaded based on chainId: ', chainId);
-	// check if chainId exists in environments and set environmentStore else set default
-	if (!environments[chainId]) {
-		console.log('Environment not found, setting default');
-		environmentStore.set(ENVIRONMENT_DEV);
-		return;
-	}
-	environmentStore.set(environments[chainId]);
-	console.log(environmentStore, get(environmentStore));
-}
+// never manipulate this variable directly, use the .env file to set the environment
+export const environment =
+	PUBLIC_NODE_ENV && environments[PUBLIC_NODE_ENV]
+		? environments[PUBLIC_NODE_ENV]
+		: environments.development;
+console.log('Environment Loaded for', PUBLIC_NODE_ENV);
+console.log(environment);

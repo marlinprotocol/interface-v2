@@ -4,13 +4,13 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
 
 	export let modalFor: string;
 	export let disconnect: () => void;
-	$: blockChainExplorerLink = `https://arbiscan.io/address/${$walletStore.address}`;
 
 	const onCopyAddress = () => {
 		copyTextToClipboard($walletStore.address);
@@ -19,6 +19,8 @@
 			variant: 'success'
 		});
 	};
+
+	$: blockChainExplorerLink = `${$chainConfigStore.block_explorer_url}/address/${$walletStore.address}`;
 </script>
 
 <Modal {modalFor}>
@@ -40,7 +42,6 @@
 				<img src={staticImages.Copy} alt="Copy" />
 				Copy Address
 			</div>
-			<!-- TODO: make link and text dynamic based on chain -->
 			<a href={blockChainExplorerLink} target="_blank" rel="noopener noreferrer">
 				<div class={`${buttonClasses.greyFilled} h-10 text-small font-medium gap-3`}>
 					<img src={staticImages.OpenInNew} alt="Open" />

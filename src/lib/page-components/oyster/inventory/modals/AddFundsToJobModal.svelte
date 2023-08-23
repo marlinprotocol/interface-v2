@@ -14,6 +14,7 @@
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
+	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -49,13 +50,13 @@
 
 	const handleApproveClick = async () => {
 		approvedLoading = true;
-		await handleApproveFundForOysterJob(instanceCost);
+		await handleApproveFundForOysterJob(instanceCost.div(OYSTER_RATE_SCALING_FACTOR));
 		approvedLoading = false;
 	};
 
 	const handleSubmitClick = async () => {
 		submitLoading = true;
-		await handleFundsAddToJob(jobData, instanceCost, duration ?? 0);
+		await handleFundsAddToJob(jobData, instanceCost.div(OYSTER_RATE_SCALING_FACTOR), duration ?? 0);
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
@@ -64,7 +65,7 @@
 	$: approved =
 		connected &&
 		instanceCost &&
-		approvedAmount.gte(instanceCost) &&
+		approvedAmount.gte(instanceCost.div(OYSTER_RATE_SCALING_FACTOR)) &&
 		instanceCost.gt(BIG_NUMBER_ZERO);
 	$: approveEnable =
 		connected && !submitLoading && instanceCost.gt(BIG_NUMBER_ZERO) && !invalidCost;

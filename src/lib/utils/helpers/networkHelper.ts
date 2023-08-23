@@ -1,13 +1,7 @@
-import type { Environment } from '$lib/types/environmentTypes';
 import { NETWORK_INFO } from '$lib/utils/constants/network';
 import { addToast } from '$lib/data-stores/toastStore';
-import { environmentStore } from '$lib/data-stores/environment';
+import { environment } from '$lib/data-stores/environment';
 import { setWalletAndChainStores } from '$lib/controllers/walletController';
-
-let environment: Environment;
-environmentStore.subscribe((value) => {
-	environment = value;
-});
 
 /**
  * Checks if current chain is supported by the app or not
@@ -15,7 +9,8 @@ environmentStore.subscribe((value) => {
  * @returns if chain is supported or not
  */
 export function isValidChain(chainId: number): boolean {
-	return environment.valid_chain_ids.includes(chainId);
+	// check if environment.valid_chains has chainId as a key in it
+	return Object.keys(environment.valid_chains).includes(chainId.toString());
 }
 
 export async function switchChain(provider: any, chainId: string) {

@@ -4,7 +4,10 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { setSignerAddress } from '$lib/controllers/contractController';
-	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
+	import {
+		receiverStakingStore,
+		updateSignerAddressInReceiverStakingStore
+	} from '$lib/data-stores/receiverStakingStore';
 	import type { Address } from '$lib/types/storeTypes';
 	import { MESSAGES } from '$lib/utils/constants/messages';
 	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
@@ -30,10 +33,7 @@
 		submitLoading = true;
 		try {
 			await setSignerAddress(updatedSignerAddress);
-			receiverStakingStore.update((data) => {
-				data.signer = updatedSignerAddress;
-				return data;
-			});
+			updateSignerAddressInReceiverStakingStore(updatedSignerAddress);
 			updatedSignerAddress = '';
 			submitLoading = false;
 			closeModal(modalFor);

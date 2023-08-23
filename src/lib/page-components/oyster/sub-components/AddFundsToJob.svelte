@@ -2,7 +2,7 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
-	import { walletBalance } from '$lib/data-stores/walletProviderStore';
+	import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import {
 		OYSTER_RATE_SCALING_FACTOR,
@@ -41,7 +41,9 @@
 
 	const updateRateString = (_instanceRate: BigNumber | undefined) => {
 		if (_instanceRate) {
-			instanceRateString = _instanceRate ? convertRateToPerHourString(_instanceRate, decimal) : '';
+			instanceRateString = _instanceRate
+				? convertRateToPerHourString(_instanceRate?.div(OYSTER_RATE_SCALING_FACTOR), decimal, 4)
+				: '';
 			return;
 		}
 		if (!_instanceRate && instanceRateString !== '') {
@@ -50,15 +52,10 @@
 		}
 	};
 
-	$: rateToUseForStrings = isTotalRate
-		? instanceRate?.div(OYSTER_RATE_SCALING_FACTOR)
-		: instanceRate;
-	$: updateRateString(rateToUseForStrings);
+	$: updateRateString(instanceRate);
 
 	function getInstanceCostString(cost: BigNumber) {
-		return isTotalRate
-			? bigNumberToString(cost.div(OYSTER_RATE_SCALING_FACTOR), decimal)
-			: bigNumberToString(cost, decimal);
+		return bigNumberToString(cost.div(OYSTER_RATE_SCALING_FACTOR), decimal, 4);
 	}
 
 	let maxBalance = BIG_NUMBER_ZERO;
@@ -67,7 +64,7 @@
 
 	const durationUnitList = OYSTER_DURATION_UNITS_LIST.map((unit) => unit.label);
 
-	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
+	const unsubscribeWalletBalanceStore = walletBalanceStore.subscribe((value) => {
 		maxBalance = value.pond;
 	});
 	onDestroy(unsubscribeWalletBalanceStore);
@@ -141,7 +138,7 @@
 
 	$: durationString = computeDurationString(duration, durationUnitInSec);
 	$: instanceCost = computeCost(duration || 0, instanceRate);
-	$: invalidCost = !instanceCost || !maxBalance.gte(instanceCost);
+	$: invalidCost = !instanceCost || !maxBalance.gte(instanceCost.div(OYSTER_RATE_SCALING_FACTOR));
 	$: inValidMessage = !instanceCost
 		? ''
 		: invalidCost
@@ -186,4 +183,4 @@
 		disabled={!instanceRate}
 	/>
 </div>
-<ErrorTextCard showError={inValidMessage !== ''} errorMessage={inValidMessage} />
+<ErrorTextCard styleClass="mt-0" showError={inValidMessage !== ''} errorMessage={inValidMessage} />

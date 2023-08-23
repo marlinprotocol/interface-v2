@@ -24,7 +24,7 @@
 		handleFinaliseRateRevise,
 		handleInitiateRateRevise
 	} from '$lib/utils/services/oysterServices';
-	import type { BigNumber } from 'ethers';
+	import { BigNumber } from 'ethers';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -38,12 +38,6 @@
 	//initial states
 	let inputRate: BigNumber = BIG_NUMBER_ZERO;
 	let inputAmountString = '';
-
-	$: inputRate = isInputAmountValid(inputAmountString)
-		? convertHourlyRateToSecondlyRate(stringToBigNumber(inputAmountString)).mul(
-				OYSTER_RATE_SCALING_FACTOR
-		  )
-		: BIG_NUMBER_ZERO;
 
 	let submitLoading = false;
 	let cancelLoading = false;
@@ -75,14 +69,17 @@
 			: rateStatus === 'completed'
 			? 'CONFIRM RATE REVISE'
 			: 'INITIATED RATE REVISE';
-
+	$: inputRate = isInputAmountValid(inputAmountString)
+		? convertHourlyRateToSecondlyRate(
+				stringToBigNumber(inputAmountString, decimal).mul(OYSTER_RATE_SCALING_FACTOR)
+		  )
+		: BIG_NUMBER_ZERO;
 	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
 	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
 	$: submitEnable =
-		inputRate &&
+		(inputRate.gt(BIG_NUMBER_ZERO) || newRate.gt(BIG_NUMBER_ZERO)) &&
 		isInputAmountValid(inputAmountString) &&
 		!inputRate.eq(downScaledRate) &&
-		inputAmountString !== '' &&
 		rateStatus !== 'pending';
 </script>
 
@@ -107,7 +104,12 @@
 				{:else}
 					<AmountInputWithTitle
 						title="New Hourly Rate"
-						inputAmountString={convertRateToPerHourString(newRate, decimal)}
+						inputAmountString={convertRateToPerHourString(
+							newRate
+								.add(OYSTER_RATE_SCALING_FACTOR.sub(BigNumber.from(1)))
+								.div(OYSTER_RATE_SCALING_FACTOR),
+							decimal
+						)}
 						prefix={symbol}
 						disabled
 					/>
@@ -115,7 +117,11 @@
 			</div>
 			{#if rateStatus === 'pending'}
 				<div class="w-full">
-					<Timer timerId={`timer-for-${modalFor}`} endEpochTime={updatesAt}>
+					<Timer
+						timerId={`timer-for-${modalFor}`}
+						endEpochTime={updatesAt}
+						onTimerEnd={() => (submitEnable = true)}
+					>
 						<div slot="active" let:timer class="w-full">
 							<InputCard variant="warning">
 								<Text

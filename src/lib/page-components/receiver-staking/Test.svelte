@@ -7,18 +7,18 @@
 	} from '$lib/controllers/contractController';
 	import { getReceiverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
-	import { contractAbiStore, contractAddressStore } from '$lib/data-stores/contractStore';
 	import { addToast } from '$lib/data-stores/toastStore';
-	import { connected, walletBalance, walletStore } from '$lib/data-stores/walletProviderStore';
-	import { environmentStore } from '$lib/data-stores/environment';
-	import type { ChainStore, WalletBalance, WalletStore } from '$lib/types/storeTypes';
+	import { connected, walletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
+	import { environment } from '$lib/data-stores/environment';
+	import type { ChainStore, WalletBalanceStore, WalletStore } from '$lib/types/storeTypes';
 	import { MESSAGES } from '$lib/utils/constants/messages';
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
+	import { contractAddressStore } from '$lib/data-stores/contractStore';
 
 	let wallet: WalletStore;
-	let balance: WalletBalance;
+	let balance: WalletBalanceStore;
 	let chain: ChainStore;
 	let contractAbiDetails = {};
 	let contractAddressDetails = {};
@@ -29,17 +29,13 @@
 			wallet = value;
 		}
 	);
-	const unsubscribeWalletBalanceStore: Unsubscriber = walletBalance.subscribe(
-		(value: WalletBalance) => {
+	const unsubscribeWalletBalanceStore: Unsubscriber = walletBalanceStore.subscribe(
+		(value: WalletBalanceStore) => {
 			balance = value;
 		}
 	);
 	const unsubscribeChainProviderStore: Unsubscriber = chainStore.subscribe((value: ChainStore) => {
 		chain = value;
-	});
-
-	const unsubscribeContractAbiStore: Unsubscriber = contractAbiStore.subscribe((value) => {
-		contractAbiDetails = value;
 	});
 
 	const unsubscribeContractAddressStore: Unsubscriber = contractAddressStore.subscribe((value) => {
@@ -69,13 +65,12 @@
 	onDestroy(unsubscribeWalletProviderStore);
 	onDestroy(unsubscribeWalletBalanceStore);
 	onDestroy(unsubscribeChainProviderStore);
-	onDestroy(unsubscribeContractAbiStore);
 	onDestroy(unsubscribeContractAddressStore);
 </script>
 
 <div>
 	<h2 class="text-primary text-2xl font-bold my-5">{pageTitle}</h2>
-	<div>Environment: {$environmentStore.environment_name}</div>
+	<div>Environment: {environment.environment_name}</div>
 	{#if $connected}
 		<div>Address: {wallet.address}</div>
 		<div>POND Balance: {balance.pond}</div>

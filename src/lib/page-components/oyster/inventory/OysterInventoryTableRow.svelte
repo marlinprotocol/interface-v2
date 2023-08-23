@@ -24,7 +24,7 @@
 	import WithdrawFundsFromJobModal from '$lib/page-components/oyster/inventory/modals/WithdrawFundsFromJobModal.svelte';
 	import type { Bytes } from 'ethers';
 	import { refreshJobStatusForJobId } from '$lib/controllers/httpController';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import { updateJobStatusByIdInOysterStore } from '$lib/data-stores/oysterStore';
 	import refresh from 'svelte-awesome/icons/refresh';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
@@ -43,6 +43,7 @@
 		id,
 		ip,
 		balance,
+		durationLeft,
 		endEpochTime, // epoch time in seconds based on duration left,
 		reviseRate: { newRate = null, rateStatus = '', stopStatus = '' } = {}
 	} = rowData);
@@ -63,21 +64,8 @@
 
 	async function refreshJobStatus(jobId: Bytes) {
 		refreshLoading = true;
-
 		const updatedStatus = await refreshJobStatusForJobId(jobId);
-
-		oysterStore.update((state) => {
-			const jobData = state.jobsData;
-			let jobWithMatchingJobId = jobData.find((job) => updatedStatus.jobId === job.id);
-
-			if (jobWithMatchingJobId) {
-				jobWithMatchingJobId.ip = updatedStatus.ip;
-			}
-			return {
-				...state,
-				jobsData: jobData
-			};
-		});
+		updateJobStatusByIdInOysterStore(updatedStatus);
 		refreshLoading = false;
 	}
 
@@ -141,13 +129,15 @@
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		<Timer timerId={`timer-for-inventory-table-row-${id}`} {endEpochTime}>
-			<div slot="active" let:timer class="mx-auto">
-				<Tooltip tooltipText={epochToDurationString(timer)} tooltipDirection="tooltip-left">
+			<div slot="active" class="mx-auto">
+				<Tooltip tooltipText={epochToDurationString(durationLeft)} tooltipDirection="tooltip-left">
 					<div
 						class="py-1 w-24 text-white rounded mx-auto text-sm text-center"
-						style={`background-color:${getColorHexByVariant(getInventoryDurationVariant(timer))}`}
+						style={`background-color:${getColorHexByVariant(
+							getInventoryDurationVariant(durationLeft)
+						)}`}
 					>
-						{epochToDurationString(timer, true)}
+						{epochToDurationString(durationLeft, true)}
 					</div>
 				</Tooltip>
 			</div>

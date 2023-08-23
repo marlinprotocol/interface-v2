@@ -17,15 +17,17 @@
 		getInstancesFromControlPlaneUsingCpUrl,
 		getInstancesFromControlPlaneUsingOperatorAddress
 	} from '$lib/controllers/httpController';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import {
+		oysterStore,
+		removeProviderFromOysterStore,
+		updateProviderInOysterStore
+	} from '$lib/data-stores/oysterStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { checkValidURL } from '$lib/utils/helpers/commonHelper';
 	import { onDestroy } from 'svelte';
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from '$lib/page-components/oyster/sub-components/InstancesTable.svelte';
-	import { invalidate } from '$app/navigation';
-	import { environmentStore } from '$lib/data-stores/environment';
 	import {
 		OPERATOR_JOBS_URL,
 		OYSTER_DOC_LINK,
@@ -59,6 +61,10 @@
 			registeredCpURL = value.providerData.data.cp;
 			updatedCpURL = value.providerData.data.cp;
 			registered = value.providerData.registered ?? false;
+		} else {
+			registeredCpURL = '';
+			updatedCpURL = '';
+			registered = false;
 		}
 	});
 	onDestroy(unsubscribeOysterStore);
@@ -71,20 +77,10 @@
 				await registerOysterInfrastructureProvider(updatedCpURL);
 			}
 
-			oysterStore.update((value) => {
-				value.providerData.registered = true;
-				if (value.providerData.data) {
-					value.providerData.data.cp = updatedCpURL;
-					value.providerData.data.id = $walletStore.address;
-					value.providerData.data.live = true;
-				}
-				return value;
-			});
+			updateProviderInOysterStore(updatedCpURL, $walletStore.address);
 			registeredCpURL = updatedCpURL;
 			registered = true;
 			disableCpURL = true;
-			// rerun load function for marketplace which resides in oyster/+layout.ts
-			invalidate($environmentStore.public_oyster_contract_subgraph_url);
 		} else {
 			addToast({
 				variant: 'error',
@@ -95,17 +91,7 @@
 
 	const handleOnUnregister = async () => {
 		await removeOysterInfrastructureProvider();
-		oysterStore.update((value) => {
-			value.providerData.registered = false;
-			if (value.providerData.data) {
-				value.providerData.data.cp = '';
-				value.providerData.data.id = '';
-				value.providerData.data.live = false;
-			}
-			return value;
-		});
-		// rerun load function for marketplace which resides in oyster/+layout.ts
-		invalidate($environmentStore.public_oyster_contract_subgraph_url);
+		removeProviderFromOysterStore();
 	};
 
 	async function getInstances(useUpdatedCpURL: boolean) {

@@ -1,48 +1,19 @@
 <script lang="ts">
+	import { environment } from '$lib/data-stores/environment';
 	import Toast from '$lib/atoms/toast/Toast.svelte';
 	import Header from '$lib/components/header/Header.svelte';
-	import { environmentStore } from '$lib/data-stores/environment';
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
-	import { invalidateAll } from '$app/navigation';
-	import { getContractDetails } from '$lib/controllers/httpController';
-	import { updateContractStoresWithoutBridge } from '$lib/data-stores/contractStore';
-	import { addToast } from '$lib/data-stores/toastStore';
-
-	let prevChainId: null | number = null;
 
 	onMount(async () => {
 		// removes console logs in production
-		if ($environmentStore.production) {
+		if (environment.production) {
 			window.console.log = function () {
 				// do nothing
 			};
 		}
-
-		// get contract details and set address+abi stores
-		try {
-			const contractDetails = await getContractDetails();
-			const addresses = contractDetails.addresses;
-			const ABIS = contractDetails.ABI;
-
-			updateContractStoresWithoutBridge(addresses, ABIS);
-		} catch (error: any) {
-			addToast({
-				variant: 'error',
-				message: `${error.message}. Please try refreshing the page.`,
-				timeout: 6000
-			});
-			console.error('Error while fetching contract details', error);
-		}
 	});
-
-	$: if (prevChainId !== $chainStore.chainId || prevChainId === null) {
-		prevChainId = $chainStore.chainId;
-		invalidateAll();
-		console.log('invalidate is called with config of:', $environmentStore.environment_name);
-	}
 </script>
 
 <svelte:head>
@@ -54,7 +25,7 @@
 	/>
 </svelte:head>
 
-<main class="text-center w-full font-poppins">
+<main class="text-center font-poppins max-w-[1400px] my-0 mx-auto xl:w-[82%] w-[90%]">
 	<Toast />
 	<Header />
 	<slot />
@@ -62,17 +33,3 @@
 
 <!-- This shows a prompt if the screen size is smaller than 1090px -->
 <SmallScreenPrompt />
-
-<style>
-	main {
-		width: 82%;
-		max-width: 1400px;
-		margin: 0 auto;
-	}
-
-	@media (max-width: 1200px) {
-		main {
-			width: 90%;
-		}
-	}
-</style>

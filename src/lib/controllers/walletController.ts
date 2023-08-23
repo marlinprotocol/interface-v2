@@ -1,7 +1,10 @@
 import type { EIP1193Provider, WalletState } from '@web3-onboard/core';
-import { chainStore, resetChainStore } from '$lib/data-stores/chainProviderStore';
 import { getChainDisplayName, isValidChain } from '$lib/utils/helpers/networkHelper';
-import { resetWalletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
+import { initializeChainStore, resetChainStore } from '$lib/data-stores/chainProviderStore';
+import {
+	initializeWalletStore,
+	resetWalletBalanceStore
+} from '$lib/data-stores/walletProviderStore';
 
 import { ethers } from 'ethers';
 import onboard from '$lib/controllers//web3OnboardController';
@@ -10,14 +13,6 @@ import { resetEpochCycleStore } from '$lib/data-stores/epochCycleStore';
 import { resetOysterStore } from '$lib/data-stores/oysterStore';
 import { resetReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 import { resetWalletProviderStore } from '$lib/data-stores/walletProviderStore';
-import { writable } from 'svelte/store';
-
-const wallets$ = onboard.state.select('wallets');
-export const web3WalletStore = writable<WalletState[]>([]);
-// wallets$ is an observable so we turn it into a store for easier access throughout the app
-wallets$.subscribe((wallets) => {
-	web3WalletStore.set(wallets);
-});
 
 export function createEthersProviderAndSigner(provider: EIP1193Provider) {
 	const ethersProvider = new ethers.providers.Web3Provider(provider);
@@ -61,18 +56,9 @@ export async function setWalletAndChainStores(provider: EIP1193Provider) {
 	if (providerIsValid) {
 		const { walletHexAddress, chainId, chainName, chainDisplayName, isValidChain } =
 			await getWalletAddressAndConnectedChain(ethersSigner, ethersProvider);
+		initializeWalletStore(ethersProvider, ethersSigner, walletHexAddress);
+		initializeChainStore(chainId, chainName, chainDisplayName, isValidChain);
 
-		walletStore.set({
-			provider: ethersProvider,
-			signer: ethersSigner,
-			address: walletHexAddress
-		});
-		chainStore.set({
-			chainId: chainId,
-			chainName: chainName,
-			chainDisplayName: chainDisplayName ?? chainName,
-			isValidChain: isValidChain
-		});
 		console.log('walletStore updated with address:', walletHexAddress);
 		console.log(
 			'chainStore updated to chainId:',

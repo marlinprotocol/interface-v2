@@ -1,23 +1,42 @@
+import type { ContractAddress } from '$lib/types/storeTypes';
+
 export type Environment = {
 	environment_name: string;
 	production: boolean;
-	public_chain_id: string;
-	public_pond_token_address: string;
-	public_mpond_token_address: string;
-	public_oyster_contract_address: string;
-	public_pond_subgraph_url: string;
-	public_mpond_subgraph_url: string;
-	public_contract_subgraph_url: string;
-	public_bridge_contract_subgraph_url: string;
-	public_oyster_contract_subgraph_url: string;
-	public_contract_details_url: string;
-	public_bridge_contract_details_url: string;
-	public_oyster_instances_using_cp_url: string;
-	public_oyster_instances_using_operator_address: string;
-	public_oyster_provider_names_url: string;
-	public_oyster_provider_instances_url: string;
-	public_oyster_job_status_url: string;
-	public_oyster_job_refresh_url: string;
-	valid_chain_ids: number[];
-	valid_chain_ids_with_0x: string[];
+	valid_chains: Record<number, ChainConfig>;
+	default_chain_id: number;
+};
+
+export type ChainConfig = {
+	chain_id: string;
+	chain_name: string;
+	chain_token: string;
+	block_explorer_url: string;
+	block_explorer_rpc_url: string;
+	contract_addresses: ContractAddress;
+	subgraph_urls: SubgraphUrls;
+	oyster_urls: {
+		instances_using_cp_url: string;
+		instances_using_operator_address: string;
+		provider_names_url: string;
+		provider_instances_url: string;
+		job_status_url: string;
+		job_refresh_url: string;
+	};
+	oyster_token: string;
+	tokens: Record<string, TokenMetadata>;
+};
+
+export type TokenMetadata = {
+	token_decimals: number;
+	token_precision: number;
+	symbol: string;
+};
+
+export type SubgraphUrls = {
+	RECEIVER_STAKING: string;
+	BRIDGE: string;
+	OYSTER: string;
+	POND: string;
+	MPOND: string;
 };

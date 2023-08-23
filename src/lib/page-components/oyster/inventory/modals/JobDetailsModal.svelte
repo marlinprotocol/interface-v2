@@ -5,10 +5,7 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { BIG_NUMBER_ZERO, MEMORY_SUFFIX } from '$lib/utils/constants/constants';
-	import {
-		OYSTER_RATE_SCALING_FACTOR,
-		OYSTER_RATE_METADATA
-	} from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
 		convertRateToPerHourString,
@@ -53,10 +50,7 @@
 		region,
 		$oysterStore.allMarketplaceData
 	);
-	$: bandwidthRate =
-		instanceRate !== undefined
-			? rate.sub(instanceRate.mul(OYSTER_RATE_SCALING_FACTOR))
-			: BIG_NUMBER_ZERO;
+	$: bandwidthRate = instanceRate !== undefined ? rate.sub(instanceRate) : BIG_NUMBER_ZERO;
 	$: bandwidth = getBandwidthFromRateAndRegion(bandwidthRate, region).toString() + 'KB/s';
 </script>
 

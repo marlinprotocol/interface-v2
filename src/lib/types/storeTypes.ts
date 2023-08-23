@@ -1,4 +1,4 @@
-import type { BigNumber, providers, Signer } from 'ethers';
+import type { BigNumber, Signer, providers } from 'ethers';
 import type {
 	OysterInventoryDataModel,
 	OysterMarketplaceDataModel
@@ -15,7 +15,7 @@ export type WalletStore = {
 };
 
 // wallet balance store
-export type WalletBalance = {
+export type WalletBalanceStore = {
 	pond: BigNumber;
 	mPond: BigNumber;
 };
@@ -42,14 +42,16 @@ export type ContractAbi = {
 
 // address store
 export type ContractAddress = {
-	StakeManager: Address;
-	RewardDelegators: Address;
-	ClusterRegistry: Address;
-	ClusterRewards: Address;
-	ReceiverStaking: Address;
-	EpochSelector: Record<string, Address>;
-	Bridge: Address;
-	tokens: Record<string, any>;
+	STAKE_MANAGER: Address;
+	REWARD_DELEGATORS: Address;
+	CLUSTER_REGISTRY: Address;
+	CLUSTER_REWARDS: Address;
+	RECEIVER_STAKING: Address;
+	BRIDGE: Address;
+	OYSTER: Address;
+	POND: Address;
+	MPOND: Address;
+	USDC: Address;
 };
 
 // receiver staking store

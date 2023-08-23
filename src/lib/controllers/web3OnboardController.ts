@@ -16,7 +16,7 @@ const valid_chains_metadata = Object.entries(environment.valid_chains).map(
 		id: parseInt(chainId),
 		token: chainConfig.tokens[chainConfig.oyster_token].symbol,
 		label: chainConfig.chain_name,
-		rpcUrl: chainConfig.block_explorer_url
+		rpcUrl: chainConfig.block_explorer_rpc_url
 	})
 );
 

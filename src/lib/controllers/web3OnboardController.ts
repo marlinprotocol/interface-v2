@@ -58,10 +58,7 @@ const appMetadata = {
 	name: 'Marlin',
 	logo: icon,
 	description: 'Marlin Onboarding',
-	recommendedInjectedWallets: [
-		{ name: 'Coinbase', url: 'https://wallet.coinbase.com/' },
-		{ name: 'MetaMask', url: 'https://metamask.io' }
-	]
+	recommendedInjectedWallets: [{ name: 'MetaMask', url: 'https://metamask.io' }]
 };
 let onboard;
 

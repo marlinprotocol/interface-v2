@@ -30,8 +30,8 @@ const coinbaseWalletSdk = coinbaseWalletModule();
 const gnosis = gnosisModule();
 const infinityWalletSDK = infinityWalletWalletModule();
 const trezor = trezorModule({
-	email: 'roshan@blackfishtech.in',
-	appUrl: 'https://app2.aragog.live'
+	email: 'examplesupport@mail.com',
+	appUrl: environment.dapp_url
 });
 const walletConnect = walletConnectModule({
 	projectId: import.meta.env.VITE_PROJECT_ID,

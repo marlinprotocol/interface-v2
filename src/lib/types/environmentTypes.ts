@@ -5,6 +5,7 @@ export type Environment = {
 	production: boolean;
 	valid_chains: Record<number, ChainConfig>;
 	default_chain_id: number;
+	dapp_url: string;
 };
 
 export type ChainConfig = {

@@ -6,5 +6,6 @@ export const ENVIRONMENT_MAINNET: Environment = {
 	production: true,
 	valid_chains: { 42161: ARB_ONE },
 	default_chain_id: 42161,
-	dapp_url: 'https://app.aragog.live'
+	dapp_url: 'https://app.aragog.live',
+	trezor_email: 'security@marlin.org'
 };

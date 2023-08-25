@@ -30,7 +30,7 @@ const coinbaseWalletSdk = coinbaseWalletModule();
 const gnosis = gnosisModule();
 const infinityWalletSDK = infinityWalletWalletModule();
 const trezor = trezorModule({
-	email: 'examplesupport@mail.com',
+	email: environment.trezor_email,
 	appUrl: environment.dapp_url
 });
 const walletConnect = walletConnectModule({

@@ -55,7 +55,6 @@
 		(activePage - 1) * itemsPerPage,
 		activePage * itemsPerPage
 	);
-	$: console.log('filteredData', filteredData, 'filterMap', filterMap);
 </script>
 
 <div class="mx-auto">

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import { getJobStatuses } from '$lib/controllers/httpController';
 	import {
 		getAllProvidersDetailsFromSubgraph,
@@ -7,6 +8,7 @@
 		getProviderDetailsFromSubgraph
 	} from '$lib/controllers/subgraphController';
 	import { chainConfigStore, chainStore } from '$lib/data-stores/chainProviderStore';
+	import { environment } from '$lib/data-stores/environment';
 	import {
 		initializeOysterStore,
 		updateMarketplaceDataInOysterStore
@@ -53,11 +55,15 @@
 		updateMarketplaceDataInOysterStore(marketplaceDataWithRegionName);
 	}
 
-	$: if ($chainConfigStore) {
+	$: chainSupportedInOyster = $chainStore.chainId
+		? environment.supported_chains.oyster.includes($chainStore.chainId)
+		: true;
+
+	$: if ($chainConfigStore && chainSupportedInOyster) {
 		loadMarketplaceData();
 	}
 
-	$: if ($connected && $chainStore.chainId) {
+	$: if ($connected && $chainStore.chainId && chainSupportedInOyster) {
 		loadConnectedData();
 	}
 </script>
@@ -66,4 +72,8 @@
 	<title>Marlin Oyster</title>
 </svelte:head>
 
-<slot />
+{#if $chainStore.isValidChain && chainSupportedInOyster}
+	<slot />
+{:else}
+	<NetworkPrompt routeSupportedChains={environment.supported_chains.oyster} />
+{/if}

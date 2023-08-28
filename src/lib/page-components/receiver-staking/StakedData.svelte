@@ -4,18 +4,7 @@
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import DataRowCard from '$lib/page-components/receiver-staking/sub-components/DataRowCard.svelte';
 	import InQueuedPopOver from '$lib/page-components/receiver-staking/sub-components/InQueuedPopOver.svelte';
-	import type { ReceiverStakingData } from '$lib/types/storeTypes';
-	import { onDestroy } from 'svelte';
-	import type { Unsubscriber } from 'svelte/store';
 	import SignerAddress from '$lib/page-components/receiver-staking/sub-components/SignerAddress.svelte';
-
-	let receiverData: ReceiverStakingData;
-	const unsubscribeReceiverStakedStore: Unsubscriber = receiverStakingStore.subscribe(
-		async (value: ReceiverStakingData) => {
-			receiverData = value;
-		}
-	);
-	onDestroy(unsubscribeReceiverStakedStore);
 
 	const styles = {
 		wrapper: 'w-full flex flex-col items-center justify-center py-8',
@@ -28,7 +17,7 @@
 		<DataRowCard
 			data={{
 				title: 'Staked',
-				value: receiverData.stakedBalance
+				value: $receiverStakingStore.stakedBalance
 			}}
 		>
 			<TooltipIcon
@@ -42,7 +31,7 @@
 		<DataRowCard
 			data={{
 				title: 'Queued',
-				value: receiverData.queuedBalance
+				value: $receiverStakingStore.queuedBalance
 			}}
 		>
 			<InQueuedPopOver slot="icon" />

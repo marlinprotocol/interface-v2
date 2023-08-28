@@ -5,5 +5,7 @@ export const ENVIRONMENT_MAINNET: Environment = {
 	environment_name: 'mainnet',
 	production: true,
 	valid_chains: { 42161: ARB_ONE },
-	default_chain_id: 42161
+	default_chain_id: 42161,
+	dapp_url: 'https://arb1.marlin.org',
+	trezor_email: 'security@marlin.org'
 };

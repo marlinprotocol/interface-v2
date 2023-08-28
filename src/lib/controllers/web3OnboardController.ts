@@ -16,7 +16,7 @@ const valid_chains_metadata = Object.entries(environment.valid_chains).map(
 		id: parseInt(chainId),
 		token: chainConfig.tokens[chainConfig.oyster_token].symbol,
 		label: chainConfig.chain_name,
-		rpcUrl: chainConfig.block_explorer_url
+		rpcUrl: chainConfig.rpc_url
 	})
 );
 
@@ -30,8 +30,8 @@ const coinbaseWalletSdk = coinbaseWalletModule();
 const gnosis = gnosisModule();
 const infinityWalletSDK = infinityWalletWalletModule();
 const trezor = trezorModule({
-	email: 'roshan@blackfishtech.in',
-	appUrl: 'https://app2.aragog.live'
+	email: environment.trezor_email,
+	appUrl: environment.dapp_url
 });
 const walletConnect = walletConnectModule({
 	projectId: import.meta.env.VITE_PROJECT_ID,
@@ -58,10 +58,7 @@ const appMetadata = {
 	name: 'Marlin',
 	logo: icon,
 	description: 'Marlin Onboarding',
-	recommendedInjectedWallets: [
-		{ name: 'Coinbase', url: 'https://wallet.coinbase.com/' },
-		{ name: 'MetaMask', url: 'https://metamask.io' }
-	]
+	recommendedInjectedWallets: [{ name: 'MetaMask', url: 'https://metamask.io' }]
 };
 let onboard;
 

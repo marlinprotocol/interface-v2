@@ -3,6 +3,8 @@
 	import lock from 'svelte-awesome/icons/lock';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import onboard from '$lib/controllers/web3OnboardController';
+	import { setWalletAndChainStores } from '$lib/controllers/walletController';
+	import { web3WalletStore } from '$lib/data-stores/walletProviderStore';
 
 	export let isLarge = false;
 	export let connectButtonText = 'Connect Wallet';
@@ -13,6 +15,11 @@
 		console.log('connection', connection);
 	};
 	const connectWalletStyles = 'flex gap-[10.3px] ';
+
+	$: connectedAccount = $web3WalletStore?.[0];
+	$: if (connectedAccount) {
+		setWalletAndChainStores(connectedAccount.provider);
+	}
 </script>
 
 {#if isLarge}

@@ -1,21 +1,22 @@
 <script lang="ts">
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
-	import type { ChainStore } from '$lib/types/storeTypes';
-	import { onDestroy } from 'svelte';
-	import type { Unsubscriber } from 'svelte/store';
+	import { web3WalletStore } from '$lib/data-stores/walletProviderStore';
 	import DisconnectWalletModal from '$lib/components/header/sub-components/DisconnectWalletModal.svelte';
-
-	export let disconnect: () => void;
+	import { disconnectWallet, setWalletAndChainStores } from '$lib/controllers/walletController';
+	import { chainStore } from '$lib/data-stores/chainProviderStore';
 
 	let modalFor = 'disconnect-wallet-modal';
-	let chain: ChainStore;
 
-	const unsubscribeChainProviderStore: Unsubscriber = chainStore.subscribe((value: ChainStore) => {
-		chain = value;
-	});
+	const disconnect = () => {
+		disconnectWallet($web3WalletStore);
+	};
+
+	const styles = {
+		address: 'text-2xs text-[#0498ad] font-medium',
+		network: 'font-bold text-sm text-[#07617d]'
+	};
 
 	$: shortAddress =
 		$walletStore.address.slice().substring(0, 6) +
@@ -24,13 +25,10 @@
 
 	// do not remove this line
 	$: provider = $walletStore.provider;
-
-	onDestroy(unsubscribeChainProviderStore);
-
-	const styles = {
-		address: 'text-2xs text-[#0498ad] font-medium',
-		network: 'font-bold text-sm text-[#07617d]'
-	};
+	$: connectedAccount = $web3WalletStore?.[0];
+	$: if (connectedAccount) {
+		setWalletAndChainStores(connectedAccount.provider);
+	}
 </script>
 
 <ModalButton
@@ -40,7 +38,7 @@
 >
 	<img src={staticImages.WalletConnected} alt="Metamask Logo" />
 	<div class={'flex flex-col text-left'}>
-		<h6 class={styles.network}>{chain?.chainDisplayName?.toLocaleUpperCase()}</h6>
+		<h6 class={styles.network}>{$chainStore?.chainDisplayName?.toLocaleUpperCase()}</h6>
 		<p class={styles.address}>{shortAddress}</p>
 	</div>
 </ModalButton>

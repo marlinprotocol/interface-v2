@@ -11,6 +11,8 @@ export type Environment = {
 		oyster: number[];
 		relay: number[];
 	};
+	dapp_url: string;
+	trezor_email: string;
 };
 
 export type ChainConfig = {
@@ -18,7 +20,7 @@ export type ChainConfig = {
 	chain_name: string;
 	chain_token: string;
 	block_explorer_url: string;
-	block_explorer_rpc_url: string;
+	rpc_url: string;
 	contract_addresses: ContractAddress;
 	subgraph_urls: SubgraphUrls;
 	oyster_urls: {

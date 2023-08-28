@@ -12,5 +12,7 @@ export const ENVIRONMENT_DEV: Environment = {
 		receiver_staking: [421613, 42161],
 		oyster: [421613, 42161],
 		relay: [421613, 42161]
-	}
+	},
+	dapp_url: 'https://adummy.site',
+	trezor_email: 'arandomsupportemail@xyz.com'
 };

@@ -11,5 +11,7 @@ export const ENVIRONMENT_MAINNET: Environment = {
 		receiver_staking: [42161],
 		oyster: [42161],
 		relay: [42161]
-	}
+	},
+	dapp_url: 'https://arb1.marlin.org',
+	trezor_email: 'security@marlin.org'
 };

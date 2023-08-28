@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
@@ -6,10 +6,12 @@
 	import { switchChain } from '$lib/utils/helpers/networkHelper';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 
+	export let routeSupportedChains: number[];
+
 	async function handleChainSwitch() {
 		await switchChain(
 			$walletStore.provider,
-			environment.valid_chains[environment.default_chain_id].chain_id
+			environment.valid_chains[routeSupportedChains[0]].chain_id
 		);
 	}
 
@@ -17,8 +19,7 @@
 		subtitle: 'text-[15px] font-medium text-left mt-1 text-black/50 mt-4 px-2'
 	};
 
-	const defaultSupportedChainName =
-		environment.valid_chains[environment.default_chain_id].chain_name;
+	$: defaultSupportedChainName = environment.valid_chains[routeSupportedChains[0]].chain_name;
 </script>
 
 <ContainerCard>

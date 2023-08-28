@@ -20,8 +20,8 @@
 </script>
 
 <input type="checkbox" id={modalFor} class="modal-toggle" />
-<div class="modal modal-backdrop">
-	<div class={`${modalWidth} rounded-lg bg-base-100 shadow-none py-0 px-0`}>
+<div class="modal">
+	<div class={`${modalWidth} modal-box rounded-lg bg-base-100 shadow-none py-0 px-0`}>
 		<div class="modal-header flex items-center pt-8 pb-4 px-6">
 			<div class="flex flex-col w-full">
 				{#if $$slots.icon}

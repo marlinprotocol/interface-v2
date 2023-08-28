@@ -1,8 +1,6 @@
 <script lang="ts">
-	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import { getJobStatuses } from '$lib/controllers/httpController';
 	import { getOysterMerchantJobsFromSubgraph } from '$lib/controllers/subgraphController';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { updateMerchantJobsInOysterStore } from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import OysterMerchantJobs from '$lib/page-components/oyster/operator/OysterOperatorJobs.svelte';
@@ -40,9 +38,5 @@
 </script>
 
 <div class="py-4">
-	{#if $chainStore.isValidChain}
-		<OysterMerchantJobs />
-	{:else}
-		<NetworkPrompt />
-	{/if}
+	<OysterMerchantJobs />
 </div>

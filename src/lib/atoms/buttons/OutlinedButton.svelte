@@ -6,9 +6,12 @@
 	export let disabled = false;
 	export let loading = false;
 	export let styleClass = '';
-	$: buttonClass = `${styleClass} ${buttonClasses.outlined} ${loading ? 'loading' : ''}`;
+	$: buttonClass = `${styleClass} ${buttonClasses.outlined}`;
 </script>
 
 <button on:click|preventDefault={onclick} class={buttonClass} {disabled}>
+	{#if loading}
+		<span class="loading loading-spinner loading-sm" />
+	{/if}
 	<slot />
 </button>

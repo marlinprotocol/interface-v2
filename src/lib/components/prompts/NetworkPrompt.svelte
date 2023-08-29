@@ -1,33 +1,17 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import { environment } from '$lib/data-stores/environment';
-	import { switchChain } from '$lib/utils/helpers/networkHelper';
-	import { walletStore } from '$lib/data-stores/walletProviderStore';
-
-	export let routeSupportedChains: number[];
-
-	async function handleChainSwitch() {
-		await switchChain(
-			$walletStore.provider,
-			environment.valid_chains[routeSupportedChains[0]].chain_id
-		);
-	}
+	import ChainSwitcher from '../header/sub-components/ChainSwitcher.svelte';
 
 	const styles = {
-		subtitle: 'text-[15px] font-medium text-left mt-1 text-black/50 mt-4 px-2'
+		subtitle: 'text-[15px] font-medium text-left mt-1 text-black/50 mt-4 px-2 mb-8 text-center'
 	};
-
-	$: defaultSupportedChainName = environment.valid_chains[routeSupportedChains[0]].chain_name;
 </script>
 
 <ContainerCard>
 	<Text variant="h3" text="Unsupported Network" styleClass="text-center" />
-	<span class={styles.subtitle}
-		>Please switch to the {defaultSupportedChainName} network to continue.</span
-	>
-	<Button styleClass="mt-8 w-full" variant="filled" size="large" onclick={() => handleChainSwitch()}
-		>SWITCH NETWORK</Button
-	>
+	<span class={styles.subtitle}>Please switch to one of the following chains to continue.</span>
+	<div class="flex items-center justify-center">
+		<ChainSwitcher />
+	</div>
 </ContainerCard>

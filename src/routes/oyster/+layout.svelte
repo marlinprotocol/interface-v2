@@ -75,5 +75,5 @@
 {#if $chainStore.isValidChain && chainSupportedInOyster}
 	<slot />
 {:else}
-	<NetworkPrompt routeSupportedChains={environment.supported_chains.oyster} />
+	<NetworkPrompt />
 {/if}

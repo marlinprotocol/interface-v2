@@ -22,6 +22,9 @@ const UnActiveTick = '/images/unactivetick.svg';
 const Verified = '/images/verifiedicon.svg';
 const WalletConnect = '/images/walleticon.svg';
 const WalletConnected = '/images/wallet-connected.svg';
+const ArbitrumLogo = '/images/arbitrum.webp';
+const EthereumLogo = '/images/eth.webp';
+const LineaLogo = '/images/linea.webp'
 
 export const staticImages = {
 	Alert,
@@ -47,5 +50,8 @@ export const staticImages = {
 	UnActiveTick,
 	Verified,
 	WalletConnect,
-	WalletConnected
+	WalletConnected,
+	ArbitrumLogo,
+	EthereumLogo,
+	LineaLogo
 };

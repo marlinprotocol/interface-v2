@@ -11,12 +11,12 @@ import { MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToCommaString, bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 import { capitalizeFirstLetter, minifyAddress } from '$lib/utils/helpers/commonHelper';
 import { BigNumber, ethers, type Bytes } from 'ethers';
-import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 import { RECEIVER_STAKING_ABI } from '$lib/utils/abis/receiverStaking';
 import { ERC20_ABI } from '$lib/utils/abis/erc20';
 import { BRIDGE_ABI } from '$lib/utils/abis/bridge';
 import { OYSTER_MARKET_ABI } from '$lib/utils/abis/oysterMarket';
 import { REWARD_DELEGATORS_ABI } from '$lib/utils/abis/rewardDelegators';
+import type { TokenMetadata, Tokens } from '$lib/types/environmentTypes';
 
 let contractAddresses: ContractAddress;
 let signer: WalletStore['signer'];
@@ -194,99 +194,29 @@ export async function withdrawStakingToken(amount: BigNumber) {
 
 // ----------------------------- POND contract methods -----------------------------
 
-// approval in pond contract so that the receiver staking contract can spend our pond
-export async function approvePondTokenForReceiverStaking(amount: BigNumber) {
-	const pondTokenContract = createSignerContract(contractAddresses.POND, ERC20_ABI);
+export async function approveToken(
+	tokenToApprove: TokenMetadata,
+	amount: BigNumber,
+	toAddress: Address
+) {
+	const tokenContract = createSignerContract(
+		contractAddresses[tokenToApprove.symbol as keyof Tokens],
+		ERC20_ABI
+	);
+
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND(
-			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.APPROVING(
+			bigNumberToString(amount, tokenToApprove.token_decimals, tokenToApprove.token_precision),
+			tokenToApprove.symbol
 		);
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND_APPROVED(
-			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.APPROVED(
+			bigNumberToString(amount, tokenToApprove.token_decimals, tokenToApprove.token_precision),
+			tokenToApprove.symbol
 		);
 		const errorTxnMessage = 'Unable to approve staking token';
-		const parentFunctionName = 'approvePondTokenForReceiverStaking';
-
+		const parentFunctionName = 'approveToken';
 		const { txn } = await createTransaction(
-			() => pondTokenContract.approve(contractAddresses.RECEIVER_STAKING, amount),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
-			parentFunctionName
-		);
-		return txn;
-	} catch (error: any) {
-		throw new Error('Transaction Error');
-	}
-}
-
-// approval in pond contract so that the receiver rewards contract can spend our pond
-export async function approvePondTokenForReceiverRewards(amount: BigNumber) {
-	const pondTokenContract = createSignerContract(contractAddresses.POND, ERC20_ABI);
-	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND(
-			bigNumberToCommaString(amount, POND_PRECISIONS)
-		);
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND_APPROVED(
-			bigNumberToCommaString(amount, POND_PRECISIONS)
-		);
-		const errorTxnMessage = 'Unable to approve staking token';
-		const parentFunctionName = 'approvePondTokenForReceiverRewards';
-
-		const { txn } = await createTransaction(
-			() => pondTokenContract.approve(contractAddresses.REWARD_DELEGATORS, amount),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
-			parentFunctionName
-		);
-		return txn;
-	} catch (error: any) {
-		throw new Error('Transaction Error');
-	}
-}
-
-// approval in pond contract so that the bridge contract can spend our pond
-export async function approvePondTokenForConversion(amount: BigNumber) {
-	const pondTokenContract = createSignerContract(contractAddresses.POND, ERC20_ABI);
-	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND(
-			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
-		);
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.POND_APPROVED(
-			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
-		);
-		const errorTxnMessage = 'Unable to approve staking token';
-		const parentFunctionName = 'approvePondTokenForConversion';
-
-		const { txn } = await createTransaction(
-			() => pondTokenContract.approve(contractAddresses.BRIDGE, amount),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
-			parentFunctionName
-		);
-		return txn;
-	} catch (error: any) {
-		throw new Error('Transaction Error');
-	}
-}
-
-// approval in mpond contract so that the bridge contract can spend our mpond
-export async function approveMPondTokenForConversion(amount: BigNumber) {
-	const mPondTokenContract = createSignerContract(contractAddresses.POND, ERC20_ABI);
-	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.MPOND(
-			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)
-		);
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.MPOND_APPROVED(
-			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)
-		);
-		const errorTxnMessage = 'Unable to approve staking token';
-		const parentFunctionName = 'approveMPondTokenForConversion';
-
-		const { txn } = await createTransaction(
-			() => mPondTokenContract.approve(contractAddresses.BRIDGE, amount),
+			() => tokenContract.approve(toAddress, amount),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
@@ -520,36 +450,6 @@ export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber
 
 		const { txn } = await createTransaction(
 			() => oysterContract.jobWithdraw(jobId, amount),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
-			parentFunctionName
-		);
-
-		return txn;
-	} catch (error: any) {
-		throw new Error('Transaction Error');
-	}
-}
-
-// approval in pond contract so that the oyster contract can spend pond
-export async function approveFundsForOysterJobAdd(amount: BigNumber) {
-	const token = OYSTER_RATE_METADATA.currency;
-	const pondTokenContract = createSignerContract(contractAddresses[token], ERC20_ABI);
-	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.APPROVING(
-			bigNumberToString(amount, OYSTER_RATE_METADATA.decimal, OYSTER_RATE_METADATA.precision, true),
-			token
-		);
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.APPROVED(
-			bigNumberToString(amount, OYSTER_RATE_METADATA.decimal, OYSTER_RATE_METADATA.precision, true),
-			token
-		);
-		const errorTxnMessage = 'Unable to approve funds for Oyster Job.';
-		const parentFunctionName = 'approveFundsForOysterJobAdd';
-
-		const { txn } = await createTransaction(
-			() => pondTokenContract.approve(contractAddresses.OYSTER, amount),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,

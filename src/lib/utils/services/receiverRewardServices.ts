@@ -1,6 +1,7 @@
+import type { Address, ContractAddress } from '$lib/types/storeTypes';
 import {
 	addReceiverBalance,
-	approvePondTokenForReceiverRewards,
+	approveToken,
 	initiateReceiverRewards,
 	updateReceiverTicketReward
 } from '$lib/controllers/contractController';
@@ -11,13 +12,24 @@ import {
 	updateTicketRewardsInReceiverRewardsStore
 } from '$lib/data-stores/receiverRewardsStore';
 
-import type { Address } from '$lib/types/storeTypes';
 import type { BigNumber } from 'ethers';
+import type { ChainConfig } from '$lib/types/environmentTypes';
+import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+import { contractAddressStore } from '$lib/data-stores/contractStore';
 import { withdrawPondFromWalletBalanceStore } from '$lib/data-stores/walletProviderStore';
+
+let chainConfig: ChainConfig;
+let contractAddresses: ContractAddress;
+chainConfigStore.subscribe((value) => {
+	chainConfig = value;
+});
+contractAddressStore.subscribe((value) => {
+	contractAddresses = value;
+});
 
 export async function handleRewardsPondApproval(amount: BigNumber) {
 	try {
-		await approvePondTokenForReceiverRewards(amount);
+		await approveToken(chainConfig.tokens.POND, amount, contractAddresses.POND);
 		updateAmountApprovedInReceiverRewardsStore(amount);
 	} catch (e) {
 		throw new Error(`error while approving pond for receiver rewards :>> ${e}`);

@@ -14,7 +14,7 @@ import { resetOysterStore } from '$lib/data-stores/oysterStore';
 import { resetReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 import { resetWalletProviderStore } from '$lib/data-stores/walletProviderStore';
 
-export function createEthersProviderAndSigner(provider: EIP1193Provider) {
+function createEthersProviderAndSigner(provider: EIP1193Provider) {
 	const ethersProvider = new ethers.providers.Web3Provider(provider);
 
 	if (provider !== undefined) {
@@ -26,7 +26,7 @@ export function createEthersProviderAndSigner(provider: EIP1193Provider) {
 	}
 }
 
-export async function getWalletAddressAndConnectedChain(
+async function getWalletAddressAndConnectedChain(
 	signer: ethers.providers.JsonRpcSigner,
 	provider: ethers.providers.Web3Provider
 ) {

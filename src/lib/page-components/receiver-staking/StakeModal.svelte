@@ -7,11 +7,6 @@
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import {
-		approveToken,
-		depositStakingToken,
-		depositStakingTokenAndSetSigner
-	} from '$lib/controllers/contractController';
-	import {
 		addStakedBalanceInReceiverStakingStore,
 		receiverStakingStore,
 		updateAllowanceInReceiverStakingStore,
@@ -46,6 +41,11 @@
 	import { onDestroy } from 'svelte';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
+	import {
+		depositStakingTokenAndSetSigner,
+		depositStakingToken
+	} from '$lib/controllers/contract-controllers/receiverStakingContractController';
+	import { approveToken } from '$lib/controllers/contract-controllers/tokenContractController';
 
 	export let modalFor: string;
 

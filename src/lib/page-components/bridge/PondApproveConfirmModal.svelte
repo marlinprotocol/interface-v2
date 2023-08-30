@@ -1,6 +1,5 @@
 <script lang="ts">
 	import ApproveAndConfirmModal from '$lib/components/modals/ApproveAndConfirmModal.svelte';
-	import { approveToken, convertPondToMPond } from '$lib/controllers/contractController';
 	import {
 		bridgeStore,
 		decreasePondAllowanceInBridgeStore,
@@ -16,6 +15,8 @@
 	import { onDestroy } from 'svelte';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { approveToken } from '$lib/controllers/contract-controllers/tokenContractController';
+	import { convertPondToMPond } from '$lib/controllers/contract-controllers/bridgeContractController';
 
 	export let pond: BigNumber;
 	export let modalFor: string;

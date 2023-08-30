@@ -1,10 +1,6 @@
 <script lang="ts">
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import {
-		approveToken,
-		depositStakingToken,
-		withdrawStakingToken
-	} from '$lib/controllers/contractController';
+
 	import { getReceiverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
 	import { chainConfigStore, chainStore } from '$lib/data-stores/chainProviderStore';
 	import { addToast } from '$lib/data-stores/toastStore';
@@ -16,6 +12,11 @@
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
+	import {
+		depositStakingToken,
+		withdrawStakingToken
+	} from '$lib/controllers/contract-controllers/receiverStakingContractController';
+	import { approveToken } from '$lib/controllers/contract-controllers/tokenContractController';
 
 	let wallet: WalletStore;
 	let balance: WalletBalanceStore;

@@ -9,11 +9,6 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import {
-		registerOysterInfrastructureProvider,
-		removeOysterInfrastructureProvider,
-		updateOysterInfrastructureProvider
-	} from '$lib/controllers/contractController';
-	import {
 		getInstancesFromControlPlaneUsingCpUrl,
 		getInstancesFromControlPlaneUsingOperatorAddress
 	} from '$lib/controllers/httpController';
@@ -35,6 +30,11 @@
 	} from '$lib/utils/constants/urls';
 
 	import { getModifiedInstances } from '$lib/utils/data-modifiers/oysterModifiers';
+	import {
+		updateOysterInfrastructureProvider,
+		registerOysterInfrastructureProvider,
+		removeOysterInfrastructureProvider
+	} from '$lib/controllers/contract-controllers/oysterContractController';
 
 	const styles = {
 		docButton: 'text-primary',

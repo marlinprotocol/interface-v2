@@ -1,6 +1,5 @@
 <script lang="ts">
 	import ApproveAndConfirmModal from '$lib/components/modals/ApproveAndConfirmModal.svelte';
-	import { approveToken, confirmMPondConversion } from '$lib/controllers/contractController';
 	import {
 		bridgeStore,
 		decreaseMpondAllowanceInBridgeStore,
@@ -17,6 +16,8 @@
 	import { onDestroy } from 'svelte';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { approveToken } from '$lib/controllers/contract-controllers/tokenContractController';
+	import { confirmMPondConversion } from '$lib/controllers/contract-controllers/bridgeContractController';
 
 	export let modalFor: string;
 	export let rowIndex: number;

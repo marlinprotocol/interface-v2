@@ -1,10 +1,9 @@
 import type { Address, ContractAddress } from '$lib/types/storeTypes';
 import {
 	addReceiverBalance,
-	approveToken,
 	initiateReceiverRewards,
 	updateReceiverTicketReward
-} from '$lib/controllers/contractController';
+} from '$lib/controllers/contract-controllers/receiverRewardsContractController';
 import {
 	addRewardBalanceInReceiverRewardsStore,
 	initiateReceiverRewardsInReceiverRewardsStore,
@@ -14,6 +13,7 @@ import {
 
 import type { BigNumber } from 'ethers';
 import type { ChainConfig } from '$lib/types/environmentTypes';
+import { approveToken } from '$lib/controllers/contract-controllers/tokenContractController';
 import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 import { contractAddressStore } from '$lib/data-stores/contractStore';
 import { withdrawPondFromWalletBalanceStore } from '$lib/data-stores/walletProviderStore';

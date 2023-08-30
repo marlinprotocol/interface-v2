@@ -1,10 +1,6 @@
 <script lang="ts">
 	import ApproveAndConfirmModal from '$lib/components/modals/ApproveAndConfirmModal.svelte';
 	import {
-		approvePondTokenForConversion,
-		convertPondToMPond
-	} from '$lib/controllers/contractController';
-	import {
 		bridgeStore,
 		decreasePondAllowanceInBridgeStore,
 		updatePondAllowanceInBridgeStore
@@ -17,6 +13,10 @@
 	import { doNothing } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
+	import { contractAddressStore } from '$lib/data-stores/contractStore';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { convertPondToMPond } from '$lib/controllers/contract/bridge';
+	import { approveToken } from '$lib/controllers/contract/token';
 
 	export let pond: BigNumber;
 	export let modalFor: string;
@@ -33,7 +33,7 @@
 
 	const handleApproveClick = async () => {
 		try {
-			await approvePondTokenForConversion(pond);
+			await approveToken($chainConfigStore.tokens.POND, pond, $contractAddressStore.BRIDGE);
 			updatePondAllowanceInBridgeStore(pond);
 			approved = true;
 		} catch (error) {

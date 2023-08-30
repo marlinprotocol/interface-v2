@@ -31,8 +31,14 @@ export type ChainConfig = {
 		job_status_url: string;
 		job_refresh_url: string;
 	};
-	oyster_token: string;
-	tokens: Record<string, TokenMetadata>;
+	oyster_token: keyof Tokens;
+	tokens: Tokens;
+};
+
+export type Tokens = {
+	POND: TokenMetadata;
+	MPOND: TokenMetadata;
+	USDC: TokenMetadata;
 };
 
 export type TokenMetadata = {

@@ -13,7 +13,6 @@ import {
 } from '$lib/data-stores/oysterStore';
 import {
 	addFundsToOysterJob,
-	approveFundsForOysterJobAdd,
 	cancelRateReviseOysterJob,
 	createNewOysterJob,
 	finaliseRateReviseOysterJob,
@@ -21,10 +20,19 @@ import {
 	settleOysterJob,
 	stopOysterJob,
 	withdrawFundsFromOysterJob
-} from '$lib/controllers/contractController';
+} from '$lib/controllers/contract/oyster';
 
 import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
+import type { ContractAddress } from '$lib/types/storeTypes';
+import { OYSTER_RATE_METADATA } from '../constants/oysterConstants';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+import { approveToken } from '$lib/controllers/contract/token';
+import { contractAddressStore } from '$lib/data-stores/contractStore';
+
+let contractAddress: ContractAddress;
+contractAddressStore.subscribe((value) => {
+	contractAddress = value;
+});
 
 export async function handleClaimAmountFromOysterJob(jobId: Bytes) {
 	try {
@@ -37,7 +45,15 @@ export async function handleClaimAmountFromOysterJob(jobId: Bytes) {
 
 export async function handleApproveFundForOysterJob(amount: BigNumber) {
 	try {
-		await approveFundsForOysterJobAdd(amount);
+		await approveToken(
+			{
+				symbol: OYSTER_RATE_METADATA.currency as string,
+				token_decimals: OYSTER_RATE_METADATA.decimal,
+				token_precision: OYSTER_RATE_METADATA.precision
+			},
+			amount,
+			contractAddress.OYSTER
+		);
 		updateApprovedFundsInOysterStore(amount);
 	} catch (e) {
 		console.log('e :>> ', e);
@@ -61,7 +77,7 @@ export async function handleFundsAddToJob(
 
 export async function handleFundsWithdrawFromJob(
 	jobData: OysterInventoryDataModel,
-	amount: BigNumber, 
+	amount: BigNumber,
 	duration: number
 ) {
 	const { id } = jobData;

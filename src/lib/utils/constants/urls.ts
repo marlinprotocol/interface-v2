@@ -19,3 +19,7 @@ export const OYSTER_OWNER_HISTORY_URL = '/oyster/history';
 //oyster operator pages
 export const OPERATOR_JOBS_URL = '/oyster/operator/jobs';
 export const OPERATOR_HISTORY_URL = '/oyster/operator/history';
+
+//receiver pages
+export const RECEIVER_STAKING_URL = '/receiver-portal/receiver-staking';
+export const RECEIVER_REWARDS_URL = '/receiver-portal/receiver-rewards';

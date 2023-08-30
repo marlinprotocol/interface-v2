@@ -272,3 +272,29 @@ export const QUERY_TO_GET_MERCHANT_JOBS_DATA = `query Jobs($address: String) {
     }
   }
 }`;
+
+export const QUERY_TO_GET_RECEIVER_REWARDS_DATA = `query ReceiverRewards($address: String, $contractAddress: String) {
+  receiverRewards(
+    where: { id: $address}
+  ) {
+    amount
+    rewardPerEpoch
+  }
+  params (
+    where: { id_in: ["EPOCH_LENGTH", "START_TIME"] },
+  ) {
+    id
+    value
+  }
+  ticketsIssueds(
+    orderBy: epoch, orderDirection: desc, first: 1, 
+    where:{ issuedBy: $address }
+  ) {
+    epoch
+  }
+  pondApprovals(
+    where: { to: $contractAddress, from: $address }
+  ) {
+    value
+  }   
+}`;

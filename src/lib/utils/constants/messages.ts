@@ -181,6 +181,14 @@ export const MESSAGES = {
 			SETTLE_JOB: {
 				SETTLING: 'Settling job.',
 				SETTLED: 'Job Settled.'
+			},
+			RECEIVER_REWARDS: {
+				INITIATING: 'Initiating receiver rewards.',
+				INITIATED: 'Receiver rewards initiated.',
+				ADDING_BALANCE: (value: string | number) => `Adding ${value} POND to rewards balance.`,
+				ADDED_BALANCE: (value: string | number) => `Added ${value} POND to rewards balance.`,
+				UPDATING_REWARDS: (value: string | number) => `Updating ticket reward to ${value} POND.`,
+				UPDATED_REWARDS: (value: string | number) => `Updated ticket reward to ${value} POND.`
 			}
 		}
 	},

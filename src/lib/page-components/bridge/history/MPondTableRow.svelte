@@ -5,7 +5,6 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import TableDataWithButton from '$lib/components/table-cells/TableDataWithButton.svelte';
 	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
-	import { cancelMPondConversionRequest } from '$lib/controllers/contractController';
 	import type {
 		MPondEligibleCyclesModel,
 		MPondToPondHistoryDataModel
@@ -28,6 +27,7 @@
 	import MPondConversionHistoryButton from '$lib/page-components/bridge/buttons/MPondConversionHistoryButton.svelte';
 	import MPondEligibleConvertModal from '$lib/page-components/bridge/modals/MPondEligibleConvertModal.svelte';
 	import HistoryDataIconButton from '$lib/page-components/bridge/sub-components/HistoryDataIconButton.svelte';
+	import { cancelMPondConversionRequest } from '$lib/controllers/contract/bridge';
 
 	export let rowData: MPondToPondHistoryDataModel;
 	export let rowIndex: number;

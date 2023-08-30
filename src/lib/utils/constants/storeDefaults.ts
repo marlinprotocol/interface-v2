@@ -4,6 +4,7 @@ import type {
 	ContractAbi,
 	ContractAddress,
 	OysterStore,
+	ReceiverRewardsStore,
 	ReceiverStakingData,
 	WalletBalanceStore,
 	WalletStore
@@ -21,7 +22,8 @@ export const DEFAULT_WALLET_STORE: WalletStore = {
 // walletBalanceStore
 export const DEFAULT_WALLET_BALANCE_STORE: WalletBalanceStore = {
 	pond: BIG_NUMBER_ZERO,
-	mPond: BIG_NUMBER_ZERO
+	mPond: BIG_NUMBER_ZERO,
+	usdc: BIG_NUMBER_ZERO
 };
 
 // chainProviderStore
@@ -94,4 +96,14 @@ export const DEFAULT_OYSTER_STORE: OysterStore = {
 	oysterStoreLoaded: false,
 	merchantJobsLoaded: false,
 	providerDetailsLoaded: false
+};
+
+// receiverRewardsStore
+export const DEFAULT_RECEIVER_REWARDS_STORE: ReceiverRewardsStore = {
+	rewardPerEpoch: BIG_NUMBER_ZERO,
+	rewardBalance: BIG_NUMBER_ZERO,
+	amountApproved: BIG_NUMBER_ZERO,
+	epochDuration: 0,
+	startTime: 0,
+	lastTicketIssuedEpoch: undefined
 };

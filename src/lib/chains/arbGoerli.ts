@@ -16,7 +16,7 @@ export const ARB_GOERLI: ChainConfig = {
 		OYSTER: '0xdbc4779b69bdc0f657ba35648e434bae042a00e0',
 		POND: '0xa9472a9C135Cb33221de441a4DEd393FD515a69C',
 		MPOND: '0x0B3d9b224496C2A2Fa1a4096D8EB4D350eFd9079',
-		USDC: '0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8'
+		USDC: '0x53F3Cacb08F1c3ee7dC4fac2d1B73482e5d56423'
 	},
 	subgraph_urls: {
 		RECEIVER_STAKING: 'https://api.thegraph.com/subgraphs/name/marlin-staging/staking-arb1-goerli',

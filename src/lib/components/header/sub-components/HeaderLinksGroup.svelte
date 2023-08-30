@@ -27,6 +27,11 @@
 			title: 'Inventory',
 			href: '/oyster/inventory',
 			openInNewTab: false
+		},
+		{
+			title: 'Receiver Portal',
+			href: '/receiver-portal/receiver-staking',
+			openInNewTab: false
 		}
 	];
 </script>
@@ -36,6 +41,3 @@
 		<HeaderNavLinkItem {navItem} />
 	{/each}
 </div>
-
-<style>
-</style>

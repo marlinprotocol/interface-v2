@@ -2,13 +2,14 @@ import { DEFAULT_CURRENCY_DECIMALS, SECONDS_IN_DAY } from '$lib/utils/constants/
 
 import { BigNumber } from 'ethers';
 import type { TableModel } from '$lib/types/componentTypes';
+import type { Tokens } from '$lib/types/environmentTypes';
 
 export const OYSTER_CAUTION_DURATION = SECONDS_IN_DAY;
 export const OYSTER_WARNING_DURATION = SECONDS_IN_DAY * 3; // 3 days
 
 // while developing locally change currency to POND
 export const OYSTER_RATE_METADATA = {
-	currency: 'POND',
+	currency: 'POND' as keyof Tokens,
 	symbol: '$',
 	decimal: 6,
 	precision: 6,

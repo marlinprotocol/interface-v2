@@ -11,6 +11,7 @@ import {
 import onboard from '$lib/controllers/web3OnboardController';
 import type { WalletState } from '@web3-onboard/core';
 import type { BigNumber, ethers } from 'ethers';
+import { getUsdcBalanceFromProvider } from '$lib/controllers/contract/usdc';
 
 // web3-onboard stores
 const wallets$ = onboard.state.select('wallets');
@@ -21,6 +22,7 @@ wallets$.subscribe((wallets) => {
 });
 
 let walletAddress: Address = DEFAULT_WALLET_STORE.address;
+let walletProvider: any;
 
 // local svelte stores
 /**
@@ -103,15 +105,17 @@ export function withdrawMpondFromWalletBalanceStore(amount: BigNumber) {
  * wallet address and sets the walletBalanceStore store.
  * @param walletAddress should be a Hex Address i.e. all lowercase
  */
-async function setWalletBalance(walletAddress: Address): Promise<void> {
+async function setWalletBalance(walletAddress: Address, walletProvider: any): Promise<void> {
 	try {
 		const balances = await Promise.all([
 			getPondBalanceFromSubgraph(walletAddress),
-			getMPondBalanceFromSubgraph(walletAddress)
+			getMPondBalanceFromSubgraph(walletAddress),
+			getUsdcBalanceFromProvider(walletAddress, walletProvider)
 		]);
 		walletBalanceStore.set({
 			pond: balances[0],
-			mPond: balances[1]
+			mPond: balances[1],
+			usdc: balances[2]
 		});
 		console.log('Wallet balance updated');
 	} catch (error) {
@@ -124,7 +128,8 @@ async function setWalletBalance(walletAddress: Address): Promise<void> {
 // when the user has a valid wallet address
 walletStore.subscribe((value) => {
 	walletAddress = value.address;
-	if (walletAddress !== DEFAULT_WALLET_STORE.address) {
-		setWalletBalance(walletAddress);
+	walletProvider = value.provider;
+	if (walletAddress !== DEFAULT_WALLET_STORE.address && Object.keys(walletProvider).length > 0) {
+		setWalletBalance(walletAddress, walletProvider);
 	}
 });

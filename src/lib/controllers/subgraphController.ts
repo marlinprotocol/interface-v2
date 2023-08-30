@@ -506,18 +506,6 @@ export async function getOysterMerchantJobsFromSubgraph(address: Address) {
 	}
 }
 
-export async function getUsdcBalanceFromProvider(address: Address, provider: any) {
-	const usdcContract = new ethers.Contract(contractAddresses.USDC, ERC20_ABI, provider);
-
-	try {
-		const balance = await usdcContract.balanceOf(address);
-		return BigNumber.from(balance);
-	} catch (error: any) {
-		console.log('error fetching usdc balance :>> ', error);
-		return BIG_NUMBER_ZERO;
-	}
-}
-
 // ----------------------------- receiver rewards subgraph methods -----------------------------
 
 export async function getReceiverRewardsDataFromSubgraph(address: Address) {

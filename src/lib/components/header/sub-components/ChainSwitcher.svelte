@@ -14,6 +14,7 @@
 		switchChain(provider, environment.valid_chains[chainId].chain_id);
 	}
 
+	// base route should be same as the key in environment.supported_chains object
 	$: baseRoute = $page?.route?.id?.split('/')?.[1];
 	$: routeSupportedChains =
 		environment.supported_chains[

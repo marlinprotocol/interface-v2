@@ -15,8 +15,8 @@
 	import { onDestroy } from 'svelte';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
-	import { approveToken } from '$lib/controllers/contract-controllers/tokenContractController';
-	import { convertPondToMPond } from '$lib/controllers/contract-controllers/bridgeContractController';
+	import { convertPondToMPond } from '$lib/controllers/contract/bridge';
+	import { approveToken } from '$lib/controllers/contract/token';
 
 	export let pond: BigNumber;
 	export let modalFor: string;

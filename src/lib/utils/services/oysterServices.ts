@@ -20,13 +20,13 @@ import {
 	settleOysterJob,
 	stopOysterJob,
 	withdrawFundsFromOysterJob
-} from '$lib/controllers/contract-controllers/oysterContractController';
+} from '$lib/controllers/contract/oyster';
 
 import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import type { ContractAddress } from '$lib/types/storeTypes';
 import { OYSTER_RATE_METADATA } from '../constants/oysterConstants';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-import { approveToken } from '$lib/controllers/contract-controllers/tokenContractController';
+import { approveToken } from '$lib/controllers/contract/token';
 import { contractAddressStore } from '$lib/data-stores/contractStore';
 
 let contractAddress: ContractAddress;

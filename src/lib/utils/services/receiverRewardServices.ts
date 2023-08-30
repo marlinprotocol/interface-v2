@@ -3,7 +3,7 @@ import {
 	addReceiverBalance,
 	initiateReceiverRewards,
 	updateReceiverTicketReward
-} from '$lib/controllers/contract-controllers/receiverRewardsContractController';
+} from '$lib/controllers/contract/receiverRewards';
 import {
 	addRewardBalanceInReceiverRewardsStore,
 	initiateReceiverRewardsInReceiverRewardsStore,
@@ -13,7 +13,7 @@ import {
 
 import type { BigNumber } from 'ethers';
 import type { ChainConfig } from '$lib/types/environmentTypes';
-import { approveToken } from '$lib/controllers/contract-controllers/tokenContractController';
+import { approveToken } from '$lib/controllers/contract/token';
 import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 import { contractAddressStore } from '$lib/data-stores/contractStore';
 import { withdrawPondFromWalletBalanceStore } from '$lib/data-stores/walletProviderStore';

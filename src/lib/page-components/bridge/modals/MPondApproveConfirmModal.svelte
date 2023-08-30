@@ -16,8 +16,8 @@
 	import { onDestroy } from 'svelte';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
-	import { approveToken } from '$lib/controllers/contract-controllers/tokenContractController';
-	import { confirmMPondConversion } from '$lib/controllers/contract-controllers/bridgeContractController';
+	import { confirmMPondConversion } from '$lib/controllers/contract/bridge';
+	import { approveToken } from '$lib/controllers/contract/token';
 
 	export let modalFor: string;
 	export let rowIndex: number;

@@ -34,7 +34,7 @@
 		updateOysterInfrastructureProvider,
 		registerOysterInfrastructureProvider,
 		removeOysterInfrastructureProvider
-	} from '$lib/controllers/contract-controllers/oysterContractController';
+	} from '$lib/controllers/contract/oyster';
 
 	const styles = {
 		docButton: 'text-primary',

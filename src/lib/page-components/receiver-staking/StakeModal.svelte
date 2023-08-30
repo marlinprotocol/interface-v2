@@ -44,8 +44,8 @@
 	import {
 		depositStakingTokenAndSetSigner,
 		depositStakingToken
-	} from '$lib/controllers/contract-controllers/receiverStakingContractController';
-	import { approveToken } from '$lib/controllers/contract-controllers/tokenContractController';
+	} from '$lib/controllers/contract/receiverStaking';
+	import { approveToken } from '$lib/controllers/contract/token';
 
 	export let modalFor: string;
 

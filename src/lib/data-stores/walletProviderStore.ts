@@ -11,7 +11,7 @@ import {
 import onboard from '$lib/controllers/web3OnboardController';
 import type { WalletState } from '@web3-onboard/core';
 import type { BigNumber, ethers } from 'ethers';
-import { getUsdcBalanceFromProvider } from '$lib/controllers/contract-controllers/uscdContractController';
+import { getUsdcBalanceFromProvider } from '$lib/controllers/contract/usdc';
 
 // web3-onboard stores
 const wallets$ = onboard.state.select('wallets');

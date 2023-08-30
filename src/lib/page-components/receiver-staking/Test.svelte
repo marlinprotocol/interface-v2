@@ -15,8 +15,8 @@
 	import {
 		depositStakingToken,
 		withdrawStakingToken
-	} from '$lib/controllers/contract-controllers/receiverStakingContractController';
-	import { approveToken } from '$lib/controllers/contract-controllers/tokenContractController';
+	} from '$lib/controllers/contract/receiverStaking';
+	import { approveToken } from '$lib/controllers/contract/token';
 
 	let wallet: WalletStore;
 	let balance: WalletBalanceStore;

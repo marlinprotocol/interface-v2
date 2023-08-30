@@ -23,7 +23,7 @@
 	import { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import { addPondToWalletBalanceStore } from '$lib/data-stores/walletProviderStore';
-	import { withdrawStakingToken } from '$lib/controllers/contract-controllers/receiverStakingContractController';
+	import { withdrawStakingToken } from '$lib/controllers/contract/receiverStaking';
 
 	export let modalFor: string;
 	const subtitle =

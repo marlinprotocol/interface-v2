@@ -25,7 +25,7 @@
 	import { onDestroy } from 'svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import { MPOND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
-	import { requestMPondConversion } from '$lib/controllers/contract-controllers/bridgeContractController';
+	import { requestMPondConversion } from '$lib/controllers/contract/bridge';
 
 	const maxAmountTooltipText =
 		'Unrequested is the amount of MPond for which a conversion request is not placed. MPond conversion requests placed is categorised as Requested. Conversion requests for staked MPond can also be placed.';

@@ -27,7 +27,7 @@
 	import MPondConversionHistoryButton from '$lib/page-components/bridge/buttons/MPondConversionHistoryButton.svelte';
 	import MPondEligibleConvertModal from '$lib/page-components/bridge/modals/MPondEligibleConvertModal.svelte';
 	import HistoryDataIconButton from '$lib/page-components/bridge/sub-components/HistoryDataIconButton.svelte';
-	import { cancelMPondConversionRequest } from '$lib/controllers/contract-controllers/bridgeContractController';
+	import { cancelMPondConversionRequest } from '$lib/controllers/contract/bridge';
 
 	export let rowData: MPondToPondHistoryDataModel;
 	export let rowIndex: number;

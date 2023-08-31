@@ -18,6 +18,7 @@ export type WalletStore = {
 export type WalletBalanceStore = {
 	pond: BigNumber;
 	mPond: BigNumber;
+	usdc: BigNumber;
 };
 
 // chain store
@@ -94,4 +95,14 @@ export type OysterStore = {
 	oysterStoreLoaded: boolean;
 	merchantJobsLoaded: boolean;
 	providerDetailsLoaded: boolean;
+};
+
+// receiver rewards store
+export type ReceiverRewardsStore = {
+	rewardPerEpoch: BigNumber;
+	rewardBalance: BigNumber;
+	amountApproved: BigNumber;
+	startTime: number;
+	epochDuration: number;
+	lastTicketIssuedEpoch: number | undefined;
 };

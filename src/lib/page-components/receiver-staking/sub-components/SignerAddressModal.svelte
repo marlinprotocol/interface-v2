@@ -3,7 +3,7 @@
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import { setSignerAddress } from '$lib/controllers/contractController';
+	import { setSignerAddress } from '$lib/controllers/contract/receiverStaking';
 	import {
 		receiverStakingStore,
 		updateSignerAddressInReceiverStakingStore

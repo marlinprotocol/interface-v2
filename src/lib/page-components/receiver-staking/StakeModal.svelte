@@ -7,11 +7,6 @@
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import {
-		approvePondTokenForReceiverStaking,
-		depositStakingToken,
-		depositStakingTokenAndSetSigner
-	} from '$lib/controllers/contractController';
-	import {
 		addStakedBalanceInReceiverStakingStore,
 		receiverStakingStore,
 		updateAllowanceInReceiverStakingStore,
@@ -44,6 +39,13 @@
 	} from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { contractAddressStore } from '$lib/data-stores/contractStore';
+	import {
+		depositStakingTokenAndSetSigner,
+		depositStakingToken
+	} from '$lib/controllers/contract/receiverStaking';
+	import { approveToken } from '$lib/controllers/contract/token';
 
 	export let modalFor: string;
 
@@ -133,7 +135,11 @@
 		}
 		approveLoading = true;
 		try {
-			await approvePondTokenForReceiverStaking(inputAmount);
+			await approveToken(
+				$chainConfigStore.tokens.POND,
+				inputAmount,
+				$contractAddressStore.RECEIVER_STAKING
+			);
 			updateAllowanceInReceiverStakingStore(inputAmount);
 		} catch (e) {
 			console.log('error approving', e);

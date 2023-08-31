@@ -1,4 +1,5 @@
 import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/storeTypes';
+import { BigNumber, ethers } from 'ethers';
 import {
 	DEFAULT_BRIDGE_STORE,
 	DEFAULT_RECEIVER_STAKING_DATA,
@@ -16,13 +17,14 @@ import {
 	QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY,
 	QUERY_TO_GET_PROVIDER_DATA,
 	QUERY_TO_GET_RECEIVER_POND_BALANCE,
+	QUERY_TO_GET_RECEIVER_REWARDS_DATA,
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
 
 import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
-import { BigNumber } from 'ethers';
 import type { ChainConfig } from '$lib/types/environmentTypes';
+import { ERC20_ABI } from '$lib/utils/abis/erc20';
 import type { ProviderData } from '$lib/types/oysterComponentType';
 import { addToast } from '$lib/data-stores/toastStore';
 import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
@@ -500,6 +502,40 @@ export async function getOysterMerchantJobsFromSubgraph(address: Address) {
 			timeout: 6000
 		});
 		console.error('Error getting oyster jobs from subgraph', error);
+		return [];
+	}
+}
+
+// ----------------------------- receiver rewards subgraph methods -----------------------------
+
+export async function getReceiverRewardsDataFromSubgraph(address: Address) {
+	const receiverRewardContractAddress = contractAddresses.REWARD_DELEGATORS;
+	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
+
+	const query = QUERY_TO_GET_RECEIVER_REWARDS_DATA;
+	const queryVariables = {
+		address: address.toLowerCase(),
+		contractAddress: receiverRewardContractAddress.toLowerCase()
+	};
+
+	try {
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data']) {
+			return result['data'];
+		} else {
+			throw new Error('No receiver rewards data found for this address');
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: `Error getting receiver rewards data from subgraph. ${error.message}`,
+			timeout: 6000
+		});
+		console.error('Error getting receiver rewards data from subgraph', error);
 		return [];
 	}
 }

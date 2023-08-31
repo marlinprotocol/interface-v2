@@ -1,10 +1,6 @@
 <script lang="ts">
 	import ApproveAndConfirmModal from '$lib/components/modals/ApproveAndConfirmModal.svelte';
 	import {
-		approveMPondTokenForConversion,
-		confirmMPondConversion
-	} from '$lib/controllers/contractController';
-	import {
 		bridgeStore,
 		decreaseMpondAllowanceInBridgeStore,
 		updateMpondAllowanceInBridgeStore
@@ -18,6 +14,10 @@
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
+	import { contractAddressStore } from '$lib/data-stores/contractStore';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { confirmMPondConversion } from '$lib/controllers/contract/bridge';
+	import { approveToken } from '$lib/controllers/contract/token';
 
 	export let modalFor: string;
 	export let rowIndex: number;
@@ -35,7 +35,11 @@
 
 	const handleApproveClick = async () => {
 		try {
-			await approveMPondTokenForConversion(mpondToConvert);
+			await approveToken(
+				$chainConfigStore.tokens.MPOND,
+				mpondToConvert,
+				$contractAddressStore.BRIDGE
+			);
 			// update bridge store locally in case when user approves amount greater than previous allowance
 			updateMpondAllowanceInBridgeStore(mpondToConvert);
 			approved = true;

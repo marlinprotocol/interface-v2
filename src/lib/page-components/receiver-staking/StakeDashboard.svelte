@@ -9,6 +9,7 @@
 	import StakedData from '$lib/page-components/receiver-staking/StakedData.svelte';
 	import StakeButton from '$lib/page-components/receiver-staking/buttons/StakeButton.svelte';
 	import UnstakeButton from '$lib/page-components/receiver-staking/buttons/UnstakeButton.svelte';
+	import ReceiverTabToggle from '$lib/page-components/receiver-portal/ReceiverTabToggle.svelte';
 
 	const styles = {
 		buttonsGroup: 'flex gap-4 items-center justify-center w-full',
@@ -23,6 +24,7 @@
 
 <ContainerCard>
 	<Text variant="h3" text="Receiver Staking" styleClass="text-center" />
+	<ReceiverTabToggle />
 	<StakedData />
 	{#if $connected}
 		<div class={styles.buttonsGroup}>

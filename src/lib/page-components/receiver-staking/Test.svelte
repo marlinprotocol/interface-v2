@@ -1,12 +1,8 @@
 <script lang="ts">
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import {
-		approvePondTokenForReceiverStaking,
-		depositStakingToken,
-		withdrawStakingToken
-	} from '$lib/controllers/contractController';
+
 	import { getReceiverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
+	import { chainConfigStore, chainStore } from '$lib/data-stores/chainProviderStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { environment } from '$lib/data-stores/environment';
@@ -16,6 +12,11 @@
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
+	import {
+		depositStakingToken,
+		withdrawStakingToken
+	} from '$lib/controllers/contract/receiverStaking';
+	import { approveToken } from '$lib/controllers/contract/token';
 
 	let wallet: WalletStore;
 	let balance: WalletBalanceStore;
@@ -94,7 +95,8 @@
 	<div>Check console for response</div>
 	<button
 		class="btn btn-secondary"
-		on:click={() => approvePondTokenForReceiverStaking(BigNumber.from(500))}
+		on:click={() =>
+			approveToken($chainConfigStore.tokens.POND, BigNumber.from(500), $contractAddressStore.POND)}
 		>Approve 50 pond from POND contract</button
 	>
 	<div>Check console for response</div>

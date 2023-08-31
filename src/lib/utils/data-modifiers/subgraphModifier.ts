@@ -1,3 +1,7 @@
+import {
+	DEFAULT_RECEIVER_REWARDS_STORE,
+	DEFAULT_RECEIVER_STAKING_DATA
+} from '$lib/utils/constants/storeDefaults';
 import type {
 	MPondEligibleCyclesModel,
 	MPondToPondHistoryDataModel,
@@ -7,7 +11,6 @@ import type {
 import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import { BigNumber } from 'ethers';
 import { BigNumberUtils } from '$lib/utils/helpers/bigNumberUtils';
-import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 import type { ReceiverStakingData } from '$lib/types/storeTypes';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
 import { mPondToPond } from '$lib/utils/helpers/conversionHelper';
@@ -70,6 +73,54 @@ export function modifyReceiverStakingData(data: any) {
 		};
 	}
 	return stakingData;
+}
+
+export function modifyReceiverRewardsData(data: any) {
+	const receiverRewards = data?.receiverRewards[0];
+	const params = data?.params;
+	const lastTicketIssuedEpoch = data?.ticketsIssueds?.[0]?.epoch;
+	const pondApprovals = data?.pondApprovals[0]?.value;
+
+	let rewardsStoreData = DEFAULT_RECEIVER_REWARDS_STORE;
+
+	if (params?.length === 2) {
+		const startTime = params.find(
+			(param: Record<'id' | 'value', string>) => param.id === 'START_TIME'
+		).value;
+		const epochDuration = params.find(
+			(param: Record<'id' | 'value', string>) => param.id === 'EPOCH_LENGTH'
+		).value;
+		rewardsStoreData = {
+			...rewardsStoreData,
+			startTime: parseInt(startTime),
+			epochDuration: parseInt(epochDuration)
+		};
+	}
+
+	if (receiverRewards?.amount && receiverRewards?.rewardPerEpoch) {
+		const rewardBalance = BigNumber.from(receiverRewards.amount);
+		const rewardPerEpoch = BigNumber.from(receiverRewards.rewardPerEpoch);
+		rewardsStoreData = {
+			...rewardsStoreData,
+			rewardBalance,
+			rewardPerEpoch
+		};
+	}
+
+	if (pondApprovals) {
+		rewardsStoreData = {
+			...rewardsStoreData,
+			amountApproved: BigNumber.from(pondApprovals)
+		};
+	}
+
+	if (lastTicketIssuedEpoch) {
+		rewardsStoreData = {
+			...rewardsStoreData,
+			lastTicketIssuedEpoch: parseInt(lastTicketIssuedEpoch)
+		};
+	}
+	return rewardsStoreData;
 }
 
 export function modifyAllowancesData(data: any) {

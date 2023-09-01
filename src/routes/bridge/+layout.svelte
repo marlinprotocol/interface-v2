@@ -40,5 +40,5 @@
 {#if $chainStore.isValidChain && chainSupportedInBridge}
 	<slot />
 {:else}
-	<NetworkPrompt routeSupportedChains={environment.supported_chains.bridge} />
+	<NetworkPrompt />
 {/if}

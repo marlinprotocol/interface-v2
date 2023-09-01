@@ -42,6 +42,6 @@
 	{#if $chainStore.isValidChain && chainSupported}
 		<StakeDashboard />
 	{:else}
-		<NetworkPrompt routeSupportedChains={environment.supported_chains.receiver_staking} />
+		<NetworkPrompt />
 	{/if}
 </div>

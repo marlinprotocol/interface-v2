@@ -38,7 +38,6 @@ export const addToast = ({
 
 	const defaults: Toast = {
 		variant: 'info',
-		dismissible: true,
 		timeout: 2800,
 		message: 'Set Toast message.'
 	};

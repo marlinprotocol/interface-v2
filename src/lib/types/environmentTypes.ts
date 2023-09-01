@@ -5,12 +5,7 @@ export type Environment = {
 	production: boolean;
 	valid_chains: Record<number, ChainConfig>;
 	default_chain_id: number;
-	supported_chains: {
-		bridge: number[];
-		receiver_staking: number[];
-		oyster: number[];
-		relay: number[];
-	};
+	supported_chains: Record<string, number[]>;
 	dapp_url: string;
 	trezor_email: string;
 };

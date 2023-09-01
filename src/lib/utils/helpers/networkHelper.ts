@@ -2,6 +2,7 @@ import { NETWORK_INFO } from '$lib/utils/constants/network';
 import { addToast } from '$lib/data-stores/toastStore';
 import { environment } from '$lib/data-stores/environment';
 import { setWalletAndChainStores } from '$lib/controllers/walletController';
+import { staticImages } from '$lib/components/images/staticImages';
 
 /**
  * Checks if current chain is supported by the app or not
@@ -47,10 +48,30 @@ export async function switchChain(provider: any, chainId: string) {
 
 export const getChainDisplayName = (chainId: number): string | undefined => {
 	switch (chainId) {
+		case 1:
+			return 'Ethereum';
+		case 42161:
+			return 'ARB One';
 		case 421613:
 			return 'ARB Goerli';
-
+		case 59144:
+			return 'Linea';
 		default:
 			return undefined;
+	}
+};
+
+export const getImageForChain = (chainId: number | null) => {
+	switch (chainId) {
+		case 1:
+			return staticImages.EthereumLogo;
+		case 42161:
+			return staticImages.ArbitrumLogo;
+		case 421613:
+			return staticImages.ArbitrumLogo;
+		case 59144:
+			return staticImages.LineaLogo;
+		default:
+			return staticImages.ArbitrumLogo;
 	}
 };

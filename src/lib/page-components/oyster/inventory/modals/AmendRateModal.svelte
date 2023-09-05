@@ -76,7 +76,7 @@
 	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
 	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
 	$: submitEnable =
-		(Boolean(inputRate > BIG_NUMBER_ZERO) || Boolean(newRate > BIG_NUMBER_ZERO)) &&
+		(inputRate > BIG_NUMBER_ZERO || newRate > BIG_NUMBER_ZERO) &&
 		isInputAmountValid(inputAmountString) &&
 		!(inputRate === downScaledRate) &&
 		rateStatus !== 'pending';

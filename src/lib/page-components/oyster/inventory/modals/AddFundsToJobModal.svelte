@@ -65,10 +65,9 @@
 	$: approved =
 		connected &&
 		Boolean(instanceCost) &&
-		Boolean(approvedAmount >= instanceCost / BigInt(OYSTER_RATE_SCALING_FACTOR)) &&
-		Boolean(instanceCost > BIG_NUMBER_ZERO);
-	$: approveEnable =
-		connected && !submitLoading && Boolean(instanceCost > BIG_NUMBER_ZERO) && !invalidCost;
+		approvedAmount >= instanceCost / BigInt(OYSTER_RATE_SCALING_FACTOR) &&
+		instanceCost > BIG_NUMBER_ZERO;
+	$: approveEnable = connected && !submitLoading && instanceCost > BIG_NUMBER_ZERO && !invalidCost;
 	$: confirmEnable = approved && approveEnable;
 </script>
 

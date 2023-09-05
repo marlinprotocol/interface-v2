@@ -9,12 +9,12 @@
 	import { connected, walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import {
 		BIG_NUMBER_ZERO,
+		DEFAULT_CURRENCY_DECIMALS,
 		MPOND_PRECISIONS,
 		POND_PRECISIONS
 	} from '$lib/utils/constants/constants';
 	import { DEFAULT_WALLET_BALANCE_STORE } from '$lib/utils/constants/storeDefaults';
 	import {
-		bigNumberToCommaString,
 		bigNumberToString,
 		pondToMPond,
 		stringToBigNumber
@@ -54,7 +54,11 @@
 	let balanceText = 'Balance: 0.00';
 	const unsubscribeWalletBalanceStore = walletBalanceStore.subscribe((value) => {
 		maxPondBalance = value.pond;
-		balanceText = `Balance: ${bigNumberToCommaString(maxPondBalance, POND_PRECISIONS)}`;
+		balanceText = `Balance: ${bigNumberToString(
+			maxPondBalance,
+			DEFAULT_CURRENCY_DECIMALS,
+			POND_PRECISIONS
+		)}`;
 	});
 	onDestroy(unsubscribeWalletBalanceStore);
 

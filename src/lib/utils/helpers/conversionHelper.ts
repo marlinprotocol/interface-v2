@@ -61,6 +61,7 @@ function roundNumberString(numString: string, decimals = DEFAULT_PRECISION) {
 	return roundedNum;
 }
 
+// TODO: remove this function and use bigNumberToString instead
 /**
  * Returns comma separated string with set of decimals for a big number
  * @param value big number
@@ -115,11 +116,11 @@ export const bigNumberToString = (
 
 	if (!formattedValue.includes('.')) {
 		// Integer value, no decimal part
-		return formattedValue.toLocaleString() + '.' + '0'.repeat(precision);
+		return BigInt(formattedValue).toLocaleString('en-US') + '.' + '0'.repeat(precision);
 	}
 
 	const [integerPart, decimalPart] = formattedValue.split('.');
-	const commifiedIntegerPart = commify ? integerPart.toLocaleString() : integerPart;
+	const commifiedIntegerPart = commify ? BigInt(integerPart).toLocaleString() : integerPart;
 	const truncatedDecimalPart = decimalPart.slice(0, precision).padEnd(precision, '0');
 
 	return `${commifiedIntegerPart}.${truncatedDecimalPart}`;

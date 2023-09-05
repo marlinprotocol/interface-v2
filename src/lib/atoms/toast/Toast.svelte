@@ -4,7 +4,7 @@
 	import { fade, slide } from 'svelte/transition';
 
 	const baseClass =
-		'alert w-fit shadow-lg font-medium flex items-start justify-start gap-1 px-4 py-2 rounded flex-row';
+		'alert w-fit shadow-lg font-medium flex items-start justify-start gap-1 px-4 py-2 rounded flex-row whitespace-normal';
 </script>
 
 {#if $toastsStore.length > 0}

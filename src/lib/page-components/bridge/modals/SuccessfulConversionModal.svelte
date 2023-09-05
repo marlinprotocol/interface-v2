@@ -19,11 +19,10 @@
 		pondToMPond
 	} from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
 
 	export let modalFor: string;
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
-	export let amountConverted: BigNumber = BIG_NUMBER_ZERO;
+	export let amountConverted = BIG_NUMBER_ZERO;
 
 	$: conversionTo = conversionFrom === 'pond' ? 'mPond' : 'pond';
 	$: amountConvertedFrom = bigNumberToCommaString(

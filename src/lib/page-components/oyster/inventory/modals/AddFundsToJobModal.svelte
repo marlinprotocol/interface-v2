@@ -10,7 +10,7 @@
 		handleApproveFundForOysterJob,
 		handleFundsAddToJob
 	} from '$lib/utils/services/oysterServices';
-	import type { BigNumber } from 'ethers';
+
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
@@ -22,7 +22,7 @@
 	$: ({ rate } = jobData);
 
 	let duration: number | undefined = undefined; //durationInSecs
-	let instanceCost: BigNumber = BIG_NUMBER_ZERO;
+	let instanceCost = BIG_NUMBER_ZERO;
 	let invalidCost = false;
 
 	//loading states
@@ -30,7 +30,7 @@
 	let approvedLoading = false;
 	let approved = false;
 
-	let approvedAmount: BigNumber;
+	let approvedAmount: bigint;
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		approvedAmount = value.allowance;
@@ -50,13 +50,13 @@
 
 	const handleApproveClick = async () => {
 		approvedLoading = true;
-		await handleApproveFundForOysterJob(instanceCost.div(OYSTER_RATE_SCALING_FACTOR));
+		await handleApproveFundForOysterJob(instanceCost / OYSTER_RATE_SCALING_FACTOR);
 		approvedLoading = false;
 	};
 
 	const handleSubmitClick = async () => {
 		submitLoading = true;
-		await handleFundsAddToJob(jobData, instanceCost.div(OYSTER_RATE_SCALING_FACTOR), duration ?? 0);
+		await handleFundsAddToJob(jobData, instanceCost / OYSTER_RATE_SCALING_FACTOR, duration ?? 0);
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
@@ -64,11 +64,11 @@
 
 	$: approved =
 		connected &&
-		instanceCost &&
-		approvedAmount.gte(instanceCost.div(OYSTER_RATE_SCALING_FACTOR)) &&
-		instanceCost.gt(BIG_NUMBER_ZERO);
+		Boolean(instanceCost) &&
+		Boolean(approvedAmount >= instanceCost / BigInt(OYSTER_RATE_SCALING_FACTOR)) &&
+		Boolean(instanceCost > BIG_NUMBER_ZERO);
 	$: approveEnable =
-		connected && !submitLoading && instanceCost.gt(BIG_NUMBER_ZERO) && !invalidCost;
+		connected && !submitLoading && Boolean(instanceCost > BIG_NUMBER_ZERO) && !invalidCost;
 	$: confirmEnable = approved && approveEnable;
 </script>
 

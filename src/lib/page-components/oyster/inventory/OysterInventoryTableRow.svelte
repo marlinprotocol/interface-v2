@@ -22,7 +22,7 @@
 	import InventoryJobDetailsModal from '$lib/page-components/oyster/inventory/modals/JobDetailsModal.svelte';
 	import StopJobModal from '$lib/page-components/oyster/inventory/modals/StopJobModal.svelte';
 	import WithdrawFundsFromJobModal from '$lib/page-components/oyster/inventory/modals/WithdrawFundsFromJobModal.svelte';
-	import type { Bytes } from 'ethers';
+	import type { BytesLike } from 'ethers';
 	import { refreshJobStatusForJobId } from '$lib/controllers/httpController';
 	import { updateJobStatusByIdInOysterStore } from '$lib/data-stores/oysterStore';
 	import refresh from 'svelte-awesome/icons/refresh';
@@ -62,7 +62,7 @@
 		expandedRows = expandedRows;
 	}
 
-	async function refreshJobStatus(jobId: Bytes) {
+	async function refreshJobStatus(jobId: BytesLike) {
 		refreshLoading = true;
 		const updatedStatus = await refreshJobStatusForJobId(jobId);
 		updateJobStatusByIdInOysterStore(updatedStatus);

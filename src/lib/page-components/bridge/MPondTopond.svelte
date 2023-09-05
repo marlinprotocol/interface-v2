@@ -21,7 +21,7 @@
 		stringToBigNumber
 	} from '$lib/utils/helpers/conversionHelper';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
+
 	import { onDestroy } from 'svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import { MPOND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
@@ -31,7 +31,7 @@
 		'Unrequested is the amount of MPond for which a conversion request is not placed. MPond conversion requests placed is categorised as Requested. Conversion requests for staked MPond can also be placed.';
 
 	//initial amount states
-	let inputAmount: BigNumber;
+	let inputAmount: bigint;
 	let inputAmountString: string;
 	//error message states
 	let inputAmountIsValid = true;
@@ -45,12 +45,11 @@
 		? stringToBigNumber(inputAmountString)
 		: BIG_NUMBER_ZERO;
 
-	$: convertedAmountString = inputAmount.gt(0)
-		? bigNumberToString(mPondToPond(inputAmount), 18, POND_PRECISIONS)
-		: '';
+	$: convertedAmountString =
+		inputAmount > 0 ? bigNumberToString(mPondToPond(inputAmount), 18, POND_PRECISIONS) : '';
 
-	let walletMPondBalance: BigNumber = DEFAULT_WALLET_BALANCE_STORE.mPond;
-	let requestedMPond: BigNumber = BIG_NUMBER_ZERO;
+	let walletMPondBalance: bigint = DEFAULT_WALLET_BALANCE_STORE.mPond;
+	let requestedMPond: bigint = BIG_NUMBER_ZERO;
 
 	const unsubscribeWalletBalanceStore = walletBalanceStore.subscribe((value) => {
 		walletMPondBalance = value.mPond;
@@ -59,7 +58,7 @@
 		requestedMPond = value.requestedMPond;
 	});
 
-	$: unrequestedMPondBalance = walletMPondBalance.sub(requestedMPond);
+	$: unrequestedMPondBalance = walletMPondBalance - requestedMPond;
 	$: balanceText = $connected
 		? `Unrequested: ${bigNumberToCommaString(
 				unrequestedMPondBalance,
@@ -107,11 +106,10 @@
 	};
 
 	$: mPondDisabledText =
-		inputAmount && inputAmount.gt(0) && !unrequestedMPondBalance?.gte(inputAmount)
+		inputAmount && inputAmount > 0 && !(unrequestedMPondBalance >= inputAmount)
 			? 'Insufficient MPond'
 			: '';
-	$: enableConversion =
-		inputAmount && inputAmount.gt(0) && unrequestedMPondBalance?.gte(inputAmount);
+	$: enableConversion = inputAmount && inputAmount > 0 && unrequestedMPondBalance >= inputAmount;
 </script>
 
 <div class="my-2 mx-2">

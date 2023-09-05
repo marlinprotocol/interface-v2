@@ -1,5 +1,3 @@
-import { BigNumber } from 'ethers';
-
 export const GET_OPTIONS = {
 	method: 'GET',
 	headers: {
@@ -7,7 +5,7 @@ export const GET_OPTIONS = {
 	}
 };
 
-export const BIG_NUMBER_ZERO = BigNumber.from(0);
+export const BIG_NUMBER_ZERO = BigInt(0);
 
 export const MEMORY_SUFFIX = ' MiB';
 

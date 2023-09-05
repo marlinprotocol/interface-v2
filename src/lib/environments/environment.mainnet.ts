@@ -8,7 +8,7 @@ export const ENVIRONMENT_MAINNET: Environment = {
 	default_chain_id: 42161,
 	supported_chains: {
 		bridge: [42161],
-		receiver_staking: [42161],
+		receiver_portal: [42161],
 		oyster: [42161],
 		relay: [42161]
 	},

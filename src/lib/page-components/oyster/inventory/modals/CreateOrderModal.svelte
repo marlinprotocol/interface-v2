@@ -107,7 +107,7 @@
 			metadata,
 			provider,
 			totalRate,
-			totalCost.div(OYSTER_RATE_SCALING_FACTOR),
+			totalCost / OYSTER_RATE_SCALING_FACTOR,
 			duration
 		);
 		submitLoading = false;
@@ -124,7 +124,7 @@
 			return;
 		}
 		submitLoading = true;
-		await handleApproveFundForOysterJob(totalCost.div(OYSTER_RATE_SCALING_FACTOR));
+		await handleApproveFundForOysterJob(totalCost / OYSTER_RATE_SCALING_FACTOR);
 		submitLoading = false;
 	};
 
@@ -164,10 +164,10 @@
 	let notServiceable = false;
 
 	$: approved =
-		instanceCost.gt(BIG_NUMBER_ZERO) &&
-		$oysterStore.allowance?.gte(totalCost.div(OYSTER_RATE_SCALING_FACTOR)) &&
-		bandwidthCost.gt(BIG_NUMBER_ZERO) &&
-		totalCost.gt(BIG_NUMBER_ZERO);
+		instanceCost > BIG_NUMBER_ZERO &&
+		$oysterStore.allowance >= totalCost / OYSTER_RATE_SCALING_FACTOR &&
+		bandwidthCost > BIG_NUMBER_ZERO &&
+		totalCost > BIG_NUMBER_ZERO;
 
 	$: instanceRateDisabled =
 		notServiceable ||
@@ -180,8 +180,8 @@
 
 	$: submitEnable =
 		duration &&
-		instanceCost?.gt(BIG_NUMBER_ZERO) &&
-		bandwidthCost?.gt(BIG_NUMBER_ZERO) &&
+		instanceCost > BIG_NUMBER_ZERO &&
+		bandwidthCost > BIG_NUMBER_ZERO &&
 		instanceRate &&
 		totalRate &&
 		!invalidCost &&
@@ -194,7 +194,7 @@
 			? checkValidURL(enclaveImageUrl.value)
 			: true;
 
-	$: totalRate = finalBandwidthRate.add(instanceRate || BIG_NUMBER_ZERO);
+	$: totalRate = finalBandwidthRate + (instanceRate || BIG_NUMBER_ZERO);
 
 	const subtitle =
 		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';

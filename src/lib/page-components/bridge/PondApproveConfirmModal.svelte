@@ -11,25 +11,25 @@
 	} from '$lib/data-stores/walletProviderStore';
 	import { pondToMPond } from '$lib/utils/helpers/conversionHelper';
 	import { doNothing } from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
+
 	import { onDestroy } from 'svelte';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { convertPondToMPond } from '$lib/controllers/contract/bridge';
 	import { approveToken } from '$lib/controllers/contract/token';
 
-	export let pond: BigNumber;
+	export let pond: bigint;
 	export let modalFor: string;
 
 	let approved = false;
 	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
 		const amount = value.allowances.pond;
-		approved = amount.gte(pond) || false;
+		approved = amount >= pond || false;
 	});
 	onDestroy(unsubscribeBridgeStore);
 
 	$: mPond = pondToMPond(pond);
-	$: approved = $bridgeStore.allowances.pond.gte(pond) || false;
+	$: approved = $bridgeStore.allowances.pond >= pond || false;
 
 	const handleApproveClick = async () => {
 		try {

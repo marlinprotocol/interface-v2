@@ -1,5 +1,4 @@
 import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/storeTypes';
-import { BigNumber, ethers } from 'ethers';
 import {
 	DEFAULT_BRIDGE_STORE,
 	DEFAULT_RECEIVER_STAKING_DATA,
@@ -24,7 +23,6 @@ import {
 
 import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import type { ChainConfig } from '$lib/types/environmentTypes';
-import { ERC20_ABI } from '$lib/utils/abis/erc20';
 import type { ProviderData } from '$lib/types/oysterComponentType';
 import { addToast } from '$lib/data-stores/toastStore';
 import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
@@ -71,7 +69,7 @@ export async function subgraphQueryWrapper(
 /**
  * Get POND balance from subgraph API.
  */
-export async function getPondBalanceFromSubgraph(address: Address): Promise<BigNumber> {
+export async function getPondBalanceFromSubgraph(address: Address): Promise<bigint> {
 	const url = chainConfig.subgraph_urls.POND;
 
 	const query = QUERY_TO_GET_POND_BALANCE_QUERY;
@@ -85,7 +83,7 @@ export async function getPondBalanceFromSubgraph(address: Address): Promise<BigN
 			throw new Error(result['errors'][0].message);
 		}
 		if (result['data'] && users?.length !== 0) {
-			return BigNumber.from(users[0]?.balance);
+			return BigInt(users[0]?.balance);
 		} else {
 			return DEFAULT_WALLET_BALANCE_STORE.pond;
 		}
@@ -103,7 +101,7 @@ export async function getPondBalanceFromSubgraph(address: Address): Promise<BigN
 /**
  * Get MPOND balance from subgraph API.
  */
-export async function getMPondBalanceFromSubgraph(address: Address): Promise<BigNumber> {
+export async function getMPondBalanceFromSubgraph(address: Address): Promise<bigint> {
 	const url = chainConfig.subgraph_urls.MPOND;
 
 	const query = QUERY_TO_GET_MPOND_BALANCE;
@@ -117,7 +115,7 @@ export async function getMPondBalanceFromSubgraph(address: Address): Promise<Big
 			throw new Error(result['errors'][0].message);
 		}
 		if (result['data'] && balances?.length !== 0) {
-			return BigNumber.from(balances[0]?.amount);
+			return BigInt(balances[0]?.amount);
 		} else {
 			return DEFAULT_WALLET_BALANCE_STORE.mPond;
 		}
@@ -146,7 +144,7 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 			throw new Error(result['errors'][0].message);
 		}
 		if (result['data'] && receiverBalances?.length !== 0)
-			return BigNumber.from(receiverBalances[0]?.balance);
+			return BigInt(receiverBalances[0]?.balance);
 		else return DEFAULT_WALLET_BALANCE_STORE.mPond;
 	} catch (error: any) {
 		addToast({
@@ -278,7 +276,7 @@ export async function getRequestedMPondForConversionFromSubgraph(address: Addres
 			throw new Error(result['errors'][0].message);
 		}
 		if (result['data'] && userData !== null && userData?.totalMpondPlacedInRequest) {
-			return BigNumber.from(userData?.totalMpondPlacedInRequest);
+			return BigInt(userData?.totalMpondPlacedInRequest);
 		} else {
 			return BIG_NUMBER_ZERO;
 		}
@@ -460,7 +458,7 @@ export async function getApprovedOysterAllowancesFromSubgraph(address: Address) 
 		const pondApprovals = result['data']?.pondApprovals;
 
 		if (result['data'] && pondApprovals && pondApprovals.length > 0) {
-			return BigNumber.from(pondApprovals[0]?.value ?? 0);
+			return BigInt(pondApprovals[0]?.value ?? 0);
 		} else {
 			return BIG_NUMBER_ZERO;
 		}

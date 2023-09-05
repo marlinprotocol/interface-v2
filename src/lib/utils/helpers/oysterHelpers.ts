@@ -12,7 +12,7 @@ import type {
 } from '$lib/types/oysterComponentType';
 
 import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
-import { BigNumber } from 'ethers';
+
 import { addToast } from '$lib/data-stores/toastStore';
 import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
@@ -123,7 +123,7 @@ export const sortOysterInventory = (
 		) {
 			const bnA = a[sort];
 			const bnB = b[sort];
-			return bnA?.gt(bnB) ? 1 : -1;
+			return bnA > bnB ? 1 : -1;
 		}
 
 		if (
@@ -169,7 +169,7 @@ export const sortOysterOperatorInventory = (
 		if (sort === 'amountToBeSettled') {
 			const bnA = a[sort];
 			const bnB = b[sort];
-			return bnA?.gt(bnB) ? 1 : -1;
+			return bnA > bnB ? 1 : -1;
 		}
 
 		if (sort === 'durationLeft' || sort === 'durationRun' || sort === 'createdAt') {
@@ -207,7 +207,7 @@ export const sortOysterOperatorHistory = (
 		if (sort === 'amountToBeSettled') {
 			const bnA = a[sort];
 			const bnB = b[sort];
-			return bnA?.gt(bnB) ? 1 : -1;
+			return bnA > bnB ? 1 : -1;
 		}
 
 		if (sort === 'durationLeft' || sort === 'durationRun' || sort === 'createdAt') {
@@ -245,7 +245,7 @@ export const sortOysterMarketplace = (
 		if (sort === 'rate') {
 			const bnA = a[sort];
 			const bnB = b[sort];
-			return bnA?.gt(bnB) ? 1 : -1;
+			return bnA > bnB ? 1 : -1;
 		}
 
 		if (sort === 'memory' || sort === 'vcpu') {
@@ -400,7 +400,7 @@ export function getAllFiltersListforMarketplaceData(
 		.map((item) => item.memory ?? 0)
 		.filter((item) => item !== 0)
 		.sort((a, b) => a - b);
-	const rates = filteredData.map((item) => item.rate).sort((a, b) => (a.gt(b) ? 1 : -1));
+	const rates = filteredData.map((item) => item.rate).sort((a, b) => (a > b ? 1 : -1));
 
 	return {
 		allMarketplaceData: filteredData,
@@ -463,9 +463,9 @@ export const getCreateOrderInstanceRegionFilters = (
 	};
 };
 
-export const computeCost = (duration: number, rate?: BigNumber) => {
+export const computeCost = (duration: number, rate?: bigint) => {
 	try {
-		return rate ? rate.mul(duration) : BIG_NUMBER_ZERO;
+		return rate ? rate * BigInt(duration) : BIG_NUMBER_ZERO;
 	} catch (e) {
 		addToast({
 			variant: 'error',
@@ -503,15 +503,15 @@ export const addRegionNameToMarketplaceData = (
 };
 
 // returns bandwidth rate in Kb/s
-export function getBandwidthFromRateAndRegion(bandwidthRate: BigNumber, region: string) {
+export function getBandwidthFromRateAndRegion(bandwidthRate: bigint, region: string) {
 	const rateForRegion = getBandwidthRateForRegion(region);
 	if (rateForRegion === undefined) return BIG_NUMBER_ZERO;
-	const bandwidthWithAllPrecision = bandwidthRate
-		.mul(BigNumber.from(1024 * 1024))
+	const bandwidthWithAllPrecision =
+		bandwidthRate * BigInt(1024 * 1024) +
 		// this is done to ceil the number since rateForRegion
 		// is essentially, actualRate * OYSTER_RATE_SCALING_FACTOR
-		.add(OYSTER_RATE_SCALING_FACTOR.sub(BigNumber.from(1)))
-		.div(rateForRegion);
+		OYSTER_RATE_SCALING_FACTOR -
+		BigInt(1) / rateForRegion;
 
 	return bandwidthWithAllPrecision;
 }

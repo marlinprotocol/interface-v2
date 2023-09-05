@@ -11,7 +11,7 @@ import {
 } from '$lib/utils/constants/oysterConstants';
 import { DEFAULT_OYSTER_STORE } from '$lib/utils/constants/storeDefaults';
 import { parseMetadata } from '$lib/utils/data-modifiers/oysterModifiers';
-import type { BigNumber, Bytes } from 'ethers';
+import type { BytesLike } from 'ethers';
 import { writable, type Writable } from 'svelte/store';
 
 export const oysterStore: Writable<OysterStore> = writable(DEFAULT_OYSTER_STORE);
@@ -91,7 +91,10 @@ export function updateJobStatusByIdInOysterStore(updatedStatus: any) {
 	});
 }
 
-export function updateAmountToBeSettledForJobInOysterStore(jobId: Bytes, updatedAmount: BigNumber) {
+export function updateAmountToBeSettledForJobInOysterStore(
+	jobId: BytesLike,
+	updatedAmount: bigint
+) {
 	oysterStore.update((value: OysterStore) => {
 		return {
 			...value,
@@ -118,27 +121,27 @@ export function updateMerchantJobsInOysterStore(merchantJobs: OysterInventoryDat
 	});
 }
 
-export function updateApprovedFundsInOysterStore(updatedAmount: BigNumber) {
+export function updateApprovedFundsInOysterStore(updatedAmount: bigint) {
 	oysterStore.update((value) => {
 		return {
 			...value,
-			allowance: value.allowance.lt(updatedAmount) ? updatedAmount : value.allowance
+			allowance: value.allowance < updatedAmount ? updatedAmount : value.allowance
 		};
 	});
 }
 
 export function addFundsToJobInOysterStore(
-	id: Bytes,
+	id: BytesLike,
 	txn: any,
 	jobData: OysterInventoryDataModel,
-	amount: BigNumber,
+	amount: bigint,
 	duration: number
 ) {
 	const nowTime = Date.now() / 1000;
 	const modifiedJobData = {
 		...jobData,
-		totalDeposit: jobData.totalDeposit.add(amount),
-		balance: jobData.balance.add(amount),
+		totalDeposit: jobData.totalDeposit + amount,
+		balance: jobData.balance + amount,
 		durationLeft: jobData.durationLeft + duration,
 		endEpochTime: jobData.endEpochTime + duration,
 		depositHistory: [
@@ -156,7 +159,7 @@ export function addFundsToJobInOysterStore(
 	oysterStore.update((value: OysterStore) => {
 		return {
 			...value,
-			allowance: value.allowance.sub(amount),
+			allowance: value.allowance - amount,
 			jobsData: value.jobsData.map((job) => {
 				if (job.id === id) {
 					return modifiedJobData;
@@ -168,17 +171,17 @@ export function addFundsToJobInOysterStore(
 }
 
 export function withdrawFundsFromJobInOysterStore(
-	id: Bytes,
+	id: BytesLike,
 	txn: any,
 	jobData: OysterInventoryDataModel,
-	amount: BigNumber,
+	amount: bigint,
 	duration: number
 ) {
 	const nowTime = Date.now() / 1000;
 	const modifiedJobData = {
 		...jobData,
-		totalDeposit: jobData.totalDeposit.sub(amount),
-		balance: jobData.balance.sub(amount),
+		totalDeposit: jobData.totalDeposit - amount,
+		balance: jobData.balance - amount,
 		durationLeft: jobData.durationLeft - duration,
 		endEpochTime: jobData.endEpochTime - duration,
 		depositHistory: [
@@ -207,9 +210,9 @@ export function withdrawFundsFromJobInOysterStore(
 }
 
 export function initiateRateReviseInOysterStore(
-	id: Bytes,
+	id: BytesLike,
 	jobData: OysterInventoryDataModel,
-	newRate: BigNumber
+	newRate: bigint
 ) {
 	const { rateReviseWaitingTime } = OYSTER_RATE_METADATA;
 	const nowTime = Date.now() / 1000;
@@ -218,7 +221,7 @@ export function initiateRateReviseInOysterStore(
 		reviseRate: {
 			newRate: newRate,
 			rateStatus: 'pending',
-			stopStatus: newRate.gt(BIG_NUMBER_ZERO) ? 'disabled' : 'pending',
+			stopStatus: newRate > BIG_NUMBER_ZERO ? 'disabled' : 'pending',
 			updatesAt: nowTime + rateReviseWaitingTime
 		}
 	};
@@ -235,7 +238,7 @@ export function initiateRateReviseInOysterStore(
 	});
 }
 
-export function cancelRateReviseInOysterStore(id: Bytes, jobData: OysterInventoryDataModel) {
+export function cancelRateReviseInOysterStore(id: BytesLike, jobData: OysterInventoryDataModel) {
 	const modifiedJobData = {
 		...jobData,
 		reviseRate: undefined
@@ -278,7 +281,7 @@ export function updateJobStatusOnTimerEndInOysterStore(jobData: OysterInventoryD
 	});
 }
 
-export function updateJobRateInOysterStore(id: Bytes, newRate: BigNumber) {
+export function updateJobRateInOysterStore(id: BytesLike, newRate: bigint) {
 	oysterStore.update((value) => {
 		return {
 			...value,
@@ -296,7 +299,7 @@ export function updateJobRateInOysterStore(id: Bytes, newRate: BigNumber) {
 	});
 }
 
-export function stopJobInOysterStore(id: Bytes, txn: any, jobData: OysterInventoryDataModel) {
+export function stopJobInOysterStore(id: BytesLike, txn: any, jobData: OysterInventoryDataModel) {
 	const nowTime = Date.now() / 1000;
 	const modifiedJobData = {
 		...jobData,
@@ -338,8 +341,8 @@ export function createNewJobInOysterStore(
 	owner: string,
 	metadata: string,
 	provider: { name?: string; address: string },
-	rate: BigNumber,
-	balance: BigNumber,
+	rate: bigint,
+	balance: bigint,
 	durationInSec: number
 ) {
 	const txHash = txn.hash;
@@ -365,7 +368,7 @@ export function createNewJobInOysterStore(
 		amountUsed: BIG_NUMBER_ZERO,
 		refund: BIG_NUMBER_ZERO,
 		rate,
-		downScaledRate: rate.div(OYSTER_RATE_SCALING_FACTOR),
+		downScaledRate: rate / OYSTER_RATE_SCALING_FACTOR,
 		balance,
 		totalDeposit: balance,
 		live: true,
@@ -392,7 +395,7 @@ export function createNewJobInOysterStore(
 		return {
 			...value,
 			jobsData: [newJob, ...value.jobsData],
-			allowance: value.allowance.sub(balance)
+			allowance: value.allowance - balance
 		};
 	});
 }
@@ -409,7 +412,7 @@ export function updateMarketplaceDataInOysterStore(marketPlaceData: OysterMarket
 
 export function initializeOysterStore(
 	providerDetail: any,
-	allowance: BigNumber,
+	allowance: bigint,
 	oysterJobs: OysterInventoryDataModel[]
 ) {
 	oysterStore.update((value) => {

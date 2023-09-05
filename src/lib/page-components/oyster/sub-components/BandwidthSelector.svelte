@@ -9,7 +9,6 @@
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
-	import { BigNumber } from 'ethers';
 
 	export let region: any;
 	export let bandwidthRateForRegion = BIG_NUMBER_ZERO;
@@ -29,16 +28,14 @@
 	function calculateBandwidthCost(
 		bandwidth: string | number,
 		bandwidthUnit: string,
-		rate: BigNumber,
+		rate: bigint,
 		duration: number // in seconds
 	) {
-		const unitConversionDivisor = BigNumber.from(
-			OYSTER_BANDWIDTH_UNITS_LIST.find((unit) => unit.label === bandwidthUnit)?.value
+		const unitConversionDivisor = BigInt(
+			OYSTER_BANDWIDTH_UNITS_LIST.find((unit) => unit.label === bandwidthUnit)?.value ?? 1
 		);
-		finalBandwidthRate = BigNumber.from(bandwidth)
-			.mul(rate)
-			.div(unitConversionDivisor || BigNumber.from(1));
-		return finalBandwidthRate.mul(duration);
+		finalBandwidthRate = (BigInt(bandwidth) * rate) / (unitConversionDivisor || BigInt(1));
+		return finalBandwidthRate * BigInt(duration);
 	}
 
 	$: bandwidthRateForRegion = getBandwidthRateForRegion(region.value);
@@ -48,12 +45,12 @@
 			: BIG_NUMBER_ZERO;
 	$: bandwidthCostString =
 		bandwidth !== ''
-			? bigNumberToString(bandwidthCost.div(OYSTER_RATE_SCALING_FACTOR), decimal, 4)
+			? bigNumberToString(bandwidthCost / OYSTER_RATE_SCALING_FACTOR, decimal, 4)
 			: '';
 
-	$: totalCost = bandwidthCost.add(instanceCost);
-	$: downScaledTotalCost = totalCost.div(OYSTER_RATE_SCALING_FACTOR);
-	$: totalAmountString = !downScaledTotalCost.eq(BIG_NUMBER_ZERO)
+	$: totalCost = bandwidthCost + instanceCost;
+	$: downScaledTotalCost = totalCost / OYSTER_RATE_SCALING_FACTOR;
+	$: totalAmountString = !(downScaledTotalCost === BIG_NUMBER_ZERO)
 		? bigNumberToString(downScaledTotalCost, decimal, 4)
 		: '';
 </script>

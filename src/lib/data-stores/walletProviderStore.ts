@@ -10,7 +10,7 @@ import {
 } from '$lib/controllers/subgraphController';
 import onboard from '$lib/controllers/web3OnboardController';
 import type { WalletState } from '@web3-onboard/core';
-import type { BigNumber, ethers } from 'ethers';
+import type { ethers } from 'ethers';
 import { getUsdcBalanceFromProvider } from '$lib/controllers/contract/usdc';
 
 // web3-onboard stores
@@ -50,8 +50,8 @@ export function resetWalletProviderStore(): void {
 }
 
 export function initializeWalletStore(
-	provider: ethers.providers.Web3Provider,
-	signer: ethers.providers.JsonRpcSigner,
+	provider: ethers.BrowserProvider,
+	signer: ethers.JsonRpcSigner,
 	address: Lowercase<string>
 ) {
 	walletStore.set({
@@ -68,35 +68,35 @@ export function resetWalletBalanceStore(): void {
 	walletBalanceStore.set(DEFAULT_WALLET_BALANCE_STORE);
 }
 
-export function addPondToWalletBalanceStore(amount: BigNumber) {
+export function addPondToWalletBalanceStore(amount: bigint) {
 	walletBalanceStore.update((walletBalanceStore) => {
 		return {
 			...walletBalanceStore,
-			pond: walletBalanceStore.pond.add(amount)
+			pond: walletBalanceStore.pond + amount
 		};
 	});
 }
-export function addMpondToWalletBalanceStore(amount: BigNumber) {
+export function addMpondToWalletBalanceStore(amount: bigint) {
 	walletBalanceStore.update((walletBalanceStore) => {
 		return {
 			...walletBalanceStore,
-			mPond: walletBalanceStore.mPond.add(amount)
+			mPond: walletBalanceStore.mPond + amount
 		};
 	});
 }
-export function withdrawPondFromWalletBalanceStore(amount: BigNumber) {
+export function withdrawPondFromWalletBalanceStore(amount: bigint) {
 	walletBalanceStore.update((walletBalanceStore) => {
 		return {
 			...walletBalanceStore,
-			pond: walletBalanceStore.pond.sub(amount)
+			pond: walletBalanceStore.pond - amount
 		};
 	});
 }
-export function withdrawMpondFromWalletBalanceStore(amount: BigNumber) {
+export function withdrawMpondFromWalletBalanceStore(amount: bigint) {
 	walletBalanceStore.update((walletBalanceStore) => {
 		return {
 			...walletBalanceStore,
-			mPond: walletBalanceStore.mPond.sub(amount)
+			mPond: walletBalanceStore.mPond - amount
 		};
 	});
 }

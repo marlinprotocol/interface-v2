@@ -1,4 +1,4 @@
-import type { BigNumber, Bytes } from 'ethers';
+import type { BytesLike } from 'ethers';
 
 export type CPInstances = {
 	allowed_regions: string[];
@@ -21,7 +21,7 @@ export type ProviderMetaDataModel = {
 export type CPUrlDataModel = {
 	instance: string;
 	region: string;
-	rate: BigNumber;
+	rate: bigint;
 	vcpu?: number;
 	memory?: number;
 };
@@ -46,10 +46,10 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 	owner: string;
 	metadata: string;
 	enclaveUrl: string;
-	totalDeposit: BigNumber;
-	amountUsed: BigNumber;
-	balance: BigNumber;
-	refund: BigNumber;
+	totalDeposit: bigint;
+	amountUsed: bigint;
+	balance: bigint;
+	refund: bigint;
 	lastSettled: number;
 	createdAt: number;
 	durationLeft: number;
@@ -59,11 +59,11 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 	settlementHistory: OysterSettlementHistoryDataModel[];
 	depositHistory: OysterDepositHistoryDataModel[];
 	durationRun: number;
-	id: Bytes;
-	amountToBeSettled: BigNumber;
-	downScaledRate: BigNumber;
+	id: BytesLike;
+	amountToBeSettled: bigint;
+	downScaledRate: bigint;
 	reviseRate?: {
-		newRate: BigNumber;
+		newRate: bigint;
 		updatesAt: number;
 		rateStatus: string; //'' | 'pending' | 'completed'
 		stopStatus: string; //'' | 'disabled' | 'pending' | 'completed'
@@ -81,12 +81,12 @@ export interface CreateOrderPreFilledModel extends CPUrlDataModel {
 }
 
 export type OysterSettlementHistoryDataModel = {
-	amount: BigNumber;
+	amount: bigint;
 	id: string;
 	timestamp: number;
 };
 export type OysterDepositHistoryDataModel = {
-	amount: BigNumber;
+	amount: bigint;
 	id: string;
 	timestamp: number;
 	isWithdrawal: boolean;

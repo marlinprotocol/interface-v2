@@ -97,14 +97,14 @@
 	$: approvedAmount = $receiverRewardsStore.amountApproved;
 	$: approveDisabled =
 		!inputAmount ||
-		!inputAmount.gt(0) ||
-		!$walletBalanceStore.pond?.gte(inputAmount) ||
-		approvedAmount?.gte(inputAmount);
+		!(inputAmount > 0) ||
+		!($walletBalanceStore.pond >= inputAmount) ||
+		approvedAmount >= inputAmount;
 	$: pondDisabledText =
-		inputAmount && inputAmount.gt(0) && !$walletBalanceStore.pond?.gte(inputAmount)
+		inputAmount && inputAmount > 0 && !($walletBalanceStore.pond >= inputAmount)
 			? 'Insufficient POND'
 			: '';
-	$: disabled = !inputAmount.gt(0) || !inputAmount.lte(approvedAmount);
+	$: disabled = !(inputAmount > 0) || !(BigInt(inputAmount) <= approvedAmount);
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>

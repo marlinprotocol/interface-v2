@@ -2,7 +2,7 @@ import type { ReceiverStakingData } from '$lib/types/storeTypes';
 import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
-import type { BigNumber } from 'ethers';
+
 import { writable, type Writable } from 'svelte/store';
 
 /**
@@ -27,16 +27,15 @@ export function updateSignerAddressInReceiverStakingStore(signerAddress: string)
 	});
 }
 
-export function updateAllowanceInReceiverStakingStore(newAllowance: BigNumber): void {
+export function updateAllowanceInReceiverStakingStore(newAllowance: bigint): void {
 	receiverStakingStore.update((store) => {
-		store.approvedBalance = store.approvedBalance.lt(newAllowance)
-			? newAllowance
-			: store.approvedBalance;
+		store.approvedBalance =
+			store.approvedBalance < newAllowance ? newAllowance : store.approvedBalance;
 		return store;
 	});
 }
 
-export function addStakedBalanceInReceiverStakingStore(inputAmount: BigNumber): void {
+export function addStakedBalanceInReceiverStakingStore(inputAmount: bigint): void {
 	// if epoch startTime is less than current time, update queued balance else staked balance
 	receiverStakingStore.update((value: ReceiverStakingData) => {
 		const {
@@ -52,22 +51,22 @@ export function addStakedBalanceInReceiverStakingStore(inputAmount: BigNumber): 
 				epochCycle
 			},
 			queuedBalance:
-				startTime < currentTime ? value.queuedBalance.add(inputAmount) : value.queuedBalance,
+				startTime < currentTime ? value.queuedBalance + inputAmount : value.queuedBalance,
 			stakedBalance:
-				startTime < currentTime ? value.stakedBalance : value.stakedBalance.add(inputAmount),
-			approvedBalance: value.approvedBalance.sub(inputAmount)
+				startTime < currentTime ? value.stakedBalance : value.stakedBalance + inputAmount,
+			approvedBalance: value.approvedBalance - inputAmount
 		};
 	});
 }
 
-export function withdrawStakedBalanceFromReceiverStakingStore(inputAmount: BigNumber) {
+export function withdrawStakedBalanceFromReceiverStakingStore(inputAmount: bigint) {
 	//substract input amount first from queued amount and then from staked amount
 	receiverStakingStore.update((value) => {
-		if (inputAmount.gt(value.queuedBalance)) {
-			value.stakedBalance = value.stakedBalance.sub(inputAmount.sub(value.queuedBalance));
+		if (inputAmount > value.queuedBalance) {
+			value.stakedBalance = value.stakedBalance - (inputAmount - value.queuedBalance);
 			value.queuedBalance = BIG_NUMBER_ZERO;
 		} else {
-			value.queuedBalance = value.queuedBalance.sub(inputAmount);
+			value.queuedBalance = value.queuedBalance - inputAmount;
 		}
 		return value;
 	});
@@ -78,7 +77,7 @@ export function updateEpochOnTimerEndInReceiverStakingStore() {
 		return {
 			...value,
 			queuedBalance: BIG_NUMBER_ZERO,
-			stakedBalance: value.stakedBalance.add(value.queuedBalance),
+			stakedBalance: value.stakedBalance + value.queuedBalance,
 			epochData: {
 				...value.epochData,
 				epochCycle: value.epochData.epochCycle + 1

@@ -16,19 +16,19 @@
 		inputAmountInValidMessage,
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
+
 	import MPondApproveConfirmModal from '$lib/page-components/bridge/modals/MPondApproveConfirmModal.svelte';
 
 	export let modalFor: string;
-	export let maxAmount: BigNumber;
-	export let requestEpoch: BigNumber;
+	export let maxAmount: bigint;
+	export let requestEpoch: bigint;
 	export let rowIndex: number;
-	export let handleOnSuccess: (convertedMPond: BigNumber, txnHash: string) => void;
+	export let handleOnSuccess: (convertedMPond: bigint, txnHash: string) => void;
 
 	$: balanceText = `Eligible Balance: ${bigNumberToCommaString(maxAmount, MPOND_PRECISIONS)}`;
 
 	//initial amount states
-	let inputAmount: BigNumber;
+	let inputAmount: bigint;
 	let inputAmountString: string;
 	let modalForMPondApproveConfirm = 'mpond-approve-confirm-modal';
 
@@ -49,8 +49,8 @@
 		inValidMessage = inputAmountInValidMessage(target.value);
 	};
 
-	$: mPondDisabledText = inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient balance' : '';
-	$: submitEnable = inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
+	$: mPondDisabledText = inputAmount && inputAmount > maxAmount ? 'Insufficient balance' : '';
+	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;
 	$: modalIdWithRowIndex = `${modalForMPondApproveConfirm}-${rowIndex}`;
 
 	const handleMaxClick = () => {

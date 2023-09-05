@@ -55,10 +55,10 @@
 
 		if (isInputAmountValid(target.value)) {
 			reward = stringToBigNumber(target.value, DEFAULT_CURRENCY_DECIMALS);
-			if (reward.eq(BIG_NUMBER_ZERO)) {
+			if (reward === BIG_NUMBER_ZERO) {
 				rewardInvalidMessage = 'Ticket reward cannot be zero.';
 				rewardIsValid = false;
-			} else if (reward.gt($receiverRewardsStore.rewardBalance)) {
+			} else if (reward > $receiverRewardsStore.rewardBalance) {
 				rewardInvalidMessage = 'Ticket reward cannot be greater than reward balance.';
 				rewardIsValid = false;
 			} else {
@@ -89,7 +89,7 @@
 		POND_PRECISIONS
 	)} POND`;
 	$: confirmDisabled =
-		!rewardIsValid || !reward.gt(0) || reward?.gt($receiverRewardsStore.rewardBalance);
+		!rewardIsValid || !(reward > BIG_NUMBER_ZERO) || reward > $receiverRewardsStore.rewardBalance;
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>

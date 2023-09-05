@@ -20,7 +20,7 @@
 		inputAmountInValidMessage,
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
-	import { BigNumber } from 'ethers';
+
 	import { onDestroy } from 'svelte';
 	import { addPondToWalletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import { withdrawStakingToken } from '$lib/controllers/contract/receiverStaking';
@@ -31,7 +31,7 @@
 	const toolTipText =
 		'Enter the amount of POND you would like to unstake from the receiver address.';
 	//initial amount states
-	let inputAmount: BigNumber;
+	let inputAmount: bigint;
 	let inputAmountString: string;
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
@@ -42,15 +42,15 @@
 	let submitLoading = false;
 
 	// staked pond amount
-	let maxAmount = BigNumber.from(DEFAULT_RECEIVER_STAKING_DATA.stakedBalance);
+	let maxAmount = DEFAULT_RECEIVER_STAKING_DATA.stakedBalance;
 
 	let balanceText = 'Staked POND: 0.00';
 	const unsubscribeReceiverStakedStore = receiverStakingStore.subscribe((value) => {
 		const { stakedBalance, queuedBalance } = value;
-		maxAmount = stakedBalance.add(queuedBalance);
+		maxAmount = stakedBalance + queuedBalance;
 
 		balanceText = `Staked: ${bigNumberToCommaString(stakedBalance, POND_PRECISIONS)}${
-			!queuedBalance.isZero()
+			!(queuedBalance === BIG_NUMBER_ZERO)
 				? ' + Queued: ' + bigNumberToCommaString(queuedBalance, POND_PRECISIONS)
 				: ''
 		}`;
@@ -74,8 +74,8 @@
 		inValidMessage = inputAmountInValidMessage(target.value);
 	};
 
-	$: pondDisabledText = inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient POND' : '';
-	$: submitEnable = inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
+	$: pondDisabledText = inputAmount && inputAmount > maxAmount ? 'Insufficient POND' : '';
+	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;
 
 	const handleMaxClick = () => {
 		if (maxAmount) {

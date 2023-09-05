@@ -17,9 +17,7 @@
 		buttonLarge: 'h-14 text-base font-semibold'
 	};
 
-	$: validBalance = $receiverStakingStore.queuedBalance
-		.add($receiverStakingStore.stakedBalance)
-		.gt(0);
+	$: validBalance = $receiverStakingStore.queuedBalance + $receiverStakingStore.stakedBalance > 0;
 </script>
 
 <ContainerCard>

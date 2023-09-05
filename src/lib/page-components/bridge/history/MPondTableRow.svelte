@@ -22,7 +22,7 @@
 		pondToMPond
 	} from '$lib/utils/helpers/conversionHelper';
 	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
+
 	import MPondConversionCycleButton from '$lib/page-components/bridge/buttons/MPondConversionCycleButton.svelte';
 	import MPondConversionHistoryButton from '$lib/page-components/bridge/buttons/MPondConversionHistoryButton.svelte';
 	import MPondEligibleConvertModal from '$lib/page-components/bridge/modals/MPondEligibleConvertModal.svelte';
@@ -56,11 +56,11 @@
 	} = rowData);
 
 	$: cancelDisabled =
-		(!pondEligible || pondEligible.isZero()) &&
-		(!pondPending || pondPending.isZero()) &&
-		(!pondInProcess || pondInProcess.isZero());
+		(!pondEligible || pondEligible === BIG_NUMBER_ZERO) &&
+		(!pondPending || pondPending === BIG_NUMBER_ZERO) &&
+		(!pondInProcess || pondInProcess === BIG_NUMBER_ZERO);
 	$: endEpochTime = getTimerEpoch(currentCycle, eligibleCycles);
-	const handleCancelConversionRequest = async (requestEpoch: BigNumber) => {
+	const handleCancelConversionRequest = async (requestEpoch: bigint) => {
 		//not working yet
 		await cancelMPondConversionRequest(requestEpoch);
 	};
@@ -69,21 +69,19 @@
 		rowData = {
 			...rowData,
 			pondPending:
-				currentCycle === eligibleCycles?.length - 1
-					? BIG_NUMBER_ZERO
-					: pondPending.sub(pondInProcess),
+				currentCycle === eligibleCycles?.length - 1 ? BIG_NUMBER_ZERO : pondPending - pondInProcess,
 			pondInProcess: currentCycle === eligibleCycles?.length - 1 ? BIG_NUMBER_ZERO : pondInProcess,
-			pondEligible: pondEligible.add(pondInProcess),
+			pondEligible: pondEligible + pondInProcess,
 			currentCycle: currentCycle + 1
 		};
 	};
 
-	const handleUpdateOnConvert = (convertedMPond: BigNumber, txnHash: string) => {
+	const handleUpdateOnConvert = (convertedMPond: bigint, txnHash: string) => {
 		const convertedPond = mPondToPond(convertedMPond);
 		rowData = {
 			...rowData,
-			pondEligible: pondEligible.sub(convertedPond),
-			mpondConverted: mpondConverted.add(convertedMPond),
+			pondEligible: pondEligible - convertedPond,
+			mpondConverted: mpondConverted + convertedMPond,
 			conversionHistory: [
 				...conversionHistory,
 				{
@@ -170,7 +168,7 @@
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
 			<TableConvertButton
-				disabled={!pondEligible.gt(0)}
+				disabled={!(pondEligible > BIG_NUMBER_ZERO)}
 				modalFor={`mpond-convert-modal-${rowIndex}`}
 			/>
 			<MPondEligibleConvertModal

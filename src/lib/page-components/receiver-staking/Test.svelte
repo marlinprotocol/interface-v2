@@ -8,7 +8,7 @@
 	import { environment } from '$lib/data-stores/environment';
 	import type { ChainStore, WalletBalanceStore, WalletStore } from '$lib/types/storeTypes';
 	import { MESSAGES } from '$lib/utils/constants/messages';
-	import { BigNumber } from 'ethers';
+
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
@@ -96,15 +96,15 @@
 	<button
 		class="btn btn-secondary"
 		on:click={() =>
-			approveToken($chainConfigStore.tokens.POND, BigNumber.from(500), $contractAddressStore.POND)}
+			approveToken($chainConfigStore.tokens.POND, BigInt(500), $contractAddressStore.POND)}
 		>Approve 50 pond from POND contract</button
 	>
 	<div>Check console for response</div>
-	<button class="btn btn-secondary" on:click={() => depositStakingToken(BigNumber.from(5))}
+	<button class="btn btn-secondary" on:click={() => depositStakingToken(BigInt(5))}
 		>Deposit 5 POND to receiver staking contract</button
 	>
 	<div>Check console for response</div>
-	<button class="btn btn-secondary" on:click={() => withdrawStakingToken(BigNumber.from(5))}
+	<button class="btn btn-secondary" on:click={() => withdrawStakingToken(BigInt(5))}
 		>Withdraw 5 POND from receiver staking contract</button
 	>
 	<div>Check console for response</div>

@@ -14,11 +14,11 @@ import { resetOysterStore } from '$lib/data-stores/oysterStore';
 import { resetReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 import { resetWalletProviderStore } from '$lib/data-stores/walletProviderStore';
 
-function createEthersProviderAndSigner(provider: EIP1193Provider) {
-	const ethersProvider = new ethers.providers.Web3Provider(provider);
+async function createEthersProviderAndSigner(provider: EIP1193Provider) {
+	const ethersProvider = new ethers.BrowserProvider(provider);
 
 	if (provider !== undefined) {
-		const ethersSigner = ethersProvider.getSigner();
+		const ethersSigner = await ethersProvider.getSigner();
 		return { ethersProvider, ethersSigner };
 	} else {
 		console.error('wallet provider is undefined');
@@ -27,8 +27,8 @@ function createEthersProviderAndSigner(provider: EIP1193Provider) {
 }
 
 async function getWalletAddressAndConnectedChain(
-	signer: ethers.providers.JsonRpcSigner,
-	provider: ethers.providers.Web3Provider
+	signer: ethers.JsonRpcSigner,
+	provider: ethers.BrowserProvider
 ) {
 	const [walletChecksumAddress, networkData] = await Promise.all([
 		signer.getAddress(),
@@ -36,8 +36,8 @@ async function getWalletAddressAndConnectedChain(
 	]);
 	const walletHexAddress = walletChecksumAddress.toLowerCase() as Lowercase<string>;
 	const { chainId, name } = networkData;
-	const validChain = isValidChain(chainId);
-	const chainDisplayName = getChainDisplayName(chainId);
+	const validChain = isValidChain(Number(chainId));
+	const chainDisplayName = getChainDisplayName(Number(chainId));
 
 	return {
 		walletHexAddress,
@@ -49,15 +49,15 @@ async function getWalletAddressAndConnectedChain(
 }
 
 export async function setWalletAndChainStores(provider: EIP1193Provider) {
-	const { ethersProvider, ethersSigner } = createEthersProviderAndSigner(provider);
+	const { ethersProvider, ethersSigner } = await createEthersProviderAndSigner(provider);
 
 	const providerIsValid = ethersProvider !== undefined && ethersSigner !== undefined;
 
 	if (providerIsValid) {
 		const { walletHexAddress, chainId, chainName, chainDisplayName, isValidChain } =
 			await getWalletAddressAndConnectedChain(ethersSigner, ethersProvider);
-		initializeWalletStore(ethersProvider, ethersSigner, walletHexAddress);
-		initializeChainStore(chainId, chainName, chainDisplayName, isValidChain);
+		await initializeWalletStore(ethersProvider, ethersSigner, walletHexAddress);
+		initializeChainStore(Number(chainId), chainName, chainDisplayName, isValidChain);
 
 		console.log('walletStore updated with address:', walletHexAddress);
 		console.log(

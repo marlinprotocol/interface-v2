@@ -50,7 +50,7 @@
 		region,
 		$oysterStore.allMarketplaceData
 	);
-	$: bandwidthRate = instanceRate !== undefined ? rate.sub(instanceRate) : BIG_NUMBER_ZERO;
+	$: bandwidthRate = instanceRate !== undefined ? rate - instanceRate : BIG_NUMBER_ZERO;
 	$: bandwidth = getBandwidthFromRateAndRegion(bandwidthRate, region).toString() + 'KB/s';
 </script>
 

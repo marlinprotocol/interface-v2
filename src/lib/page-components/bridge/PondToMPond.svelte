@@ -20,7 +20,7 @@
 		stringToBigNumber
 	} from '$lib/utils/helpers/conversionHelper';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
+
 	import { onDestroy } from 'svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import PondApproveConfirmModal from '$lib/page-components/bridge/PondApproveConfirmModal.svelte';
@@ -34,7 +34,7 @@
 	let modalFor = 'pond-approve-confirm-modal';
 
 	//initial amount states
-	let inputAmount: BigNumber;
+	let inputAmount: bigint;
 	let inputAmountString: string;
 	//input error states
 	let inputAmountIsValid = true;
@@ -48,10 +48,9 @@
 		: BIG_NUMBER_ZERO;
 
 	// convert pond to mPond by dividing by 10^6
-	$: convertedAmountString = inputAmount.gt(0)
-		? bigNumberToString(pondToMPond(inputAmount), 18, MPOND_PRECISIONS)
-		: '';
-	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE_STORE.pond;
+	$: convertedAmountString =
+		inputAmount > 0 ? bigNumberToString(pondToMPond(inputAmount), 18, MPOND_PRECISIONS) : '';
+	let maxPondBalance = DEFAULT_WALLET_BALANCE_STORE.pond;
 	let balanceText = 'Balance: 0.00';
 	const unsubscribeWalletBalanceStore = walletBalanceStore.subscribe((value) => {
 		maxPondBalance = value.pond;
@@ -76,10 +75,8 @@
 	};
 
 	$: pondDisabledText =
-		inputAmount && inputAmount.gt(0) && !maxPondBalance?.gte(inputAmount)
-			? 'Insufficient POND'
-			: '';
-	$: enableConversion = inputAmount && inputAmount.gt(0) && maxPondBalance?.gte(inputAmount);
+		inputAmount && inputAmount > 0 && !(maxPondBalance >= inputAmount) ? 'Insufficient POND' : '';
+	$: enableConversion = inputAmount && inputAmount > 0 && maxPondBalance >= inputAmount;
 </script>
 
 <div class="my-2 mx-2">

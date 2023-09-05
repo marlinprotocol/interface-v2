@@ -15,10 +15,10 @@
 	}
 
 	// base route should be same as the key in environment.supported_chains object
-	$: baseRoute = $page?.route?.id?.split('/')?.[1];
+	$: baseRoute = $page?.route?.id?.split('/')?.[1].replace(/-/g, '_');
 	$: routeSupportedChains =
 		environment.supported_chains[
-			baseRoute === '' || baseRoute === undefined ? 'receiver_staking' : baseRoute
+			baseRoute === '' || baseRoute === undefined ? 'receiver_portal' : baseRoute
 		];
 	$: provider = $walletStore.provider;
 </script>
@@ -35,6 +35,7 @@
 	<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		{#each routeSupportedChains as chain (chain)}
+			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<li class="flex" on:click={() => handleChainSwitch(chain)}>
 				<div>
 					<div class="h-8 w-8">

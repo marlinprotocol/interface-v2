@@ -2,7 +2,7 @@ import { DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS } from '$lib/utils/constant
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
 
 import { BRIDGE_ABI } from '$lib/utils/abis/bridge';
-import type { BigNumber } from 'ethers';
+
 import type { ContractAddress } from '$lib/types/storeTypes';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
@@ -13,7 +13,7 @@ contractAddressStore.subscribe((value) => {
 	contractAddresses = value;
 });
 
-export async function convertPondToMPond(expectedMPond: BigNumber) {
+export async function convertPondToMPond(expectedMPond: bigint) {
 	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, BRIDGE_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.CONVERT.POND_TO_MPOND_CONVERTING(
@@ -38,7 +38,7 @@ export async function convertPondToMPond(expectedMPond: BigNumber) {
 	}
 }
 
-export async function requestMPondConversion(amount: BigNumber) {
+export async function requestMPondConversion(amount: bigint) {
 	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, BRIDGE_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_REQUESTING(
@@ -63,7 +63,7 @@ export async function requestMPondConversion(amount: BigNumber) {
 	}
 }
 
-export async function cancelMPondConversionRequest(epoch: BigNumber) {
+export async function cancelMPondConversionRequest(epoch: bigint) {
 	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, BRIDGE_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_CANCELLING;
@@ -84,7 +84,7 @@ export async function cancelMPondConversionRequest(epoch: BigNumber) {
 	}
 }
 
-export async function confirmMPondConversion(epoch: BigNumber, amount: BigNumber) {
+export async function confirmMPondConversion(epoch: bigint, amount: bigint) {
 	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, BRIDGE_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.CONVERT.MPOND_TO_POND_CONVERTING(

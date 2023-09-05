@@ -6,7 +6,7 @@
 	import { BIG_NUMBER_ZERO, DEFAULT_CURRENCY_DECIMALS } from '$lib/utils/constants/constants';
 	import { bigNumberToString, mPondToPond, pondToMPond } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
+
 	import { staticImages } from '$lib/components/images/staticImages';
 	import LoadingAnimationModal from '$lib/components/loading/LoadingAnimationModal.svelte';
 	import { getAmountPrecision } from '$lib/utils/helpers/bridgeHelpers';
@@ -18,7 +18,7 @@
 	export let rowIndex: number;
 	export let approveButtonText = 'APPROVE';
 	export let confirmButtonText = 'CONFIRM';
-	export let amountConverted: BigNumber = BIG_NUMBER_ZERO;
+	export let amountConverted = BIG_NUMBER_ZERO;
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
 
 	export let modalForApproveConfirm: string;

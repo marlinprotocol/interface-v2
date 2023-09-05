@@ -1,9 +1,7 @@
-import type { BigNumber } from 'ethers';
-
 export type PondToMPondHistoryDataModel = {
 	timestamp: number;
-	pondConverted: BigNumber;
-	mpondReceived: BigNumber;
+	pondConverted: bigint;
+	mpondReceived: bigint;
 	transactionHash: string;
 };
 
@@ -21,30 +19,30 @@ export type MPondToPondRequestModel = {
 
 export type MPondToPondHistoryDataModel = {
 	id: string;
-	mpondAmount: BigNumber;
-	mpondConverted: BigNumber;
-	pondAmount: BigNumber;
-	pondEligible: BigNumber;
-	pondPending: BigNumber;
-	pondInProcess: BigNumber;
+	mpondAmount: bigint;
+	mpondConverted: bigint;
+	pondAmount: bigint;
+	pondEligible: bigint;
+	pondPending: bigint;
+	pondInProcess: bigint;
 	timestamp: number;
 	transactionHash: string;
 	isCancelled: boolean;
 	cancelHash: string;
 	conversionHistory: {
 		id: string;
-		mpondToConvert: BigNumber;
+		mpondToConvert: bigint;
 		transactionHash: string;
 		timestamp: number;
 	}[];
 	eligibleCycles: MPondEligibleCyclesModel[];
 	currentCycle: number;
-	requestEpoch: BigNumber;
+	requestEpoch: bigint;
 };
 
 export type MPondToPondConversionModel = {
 	id: string;
-	mpondToConvert: BigNumber;
+	mpondToConvert: bigint;
 	transactionHash: string;
 	timestamp: string;
 	requestData: {
@@ -61,8 +59,8 @@ export type MPondCoversionStateModel = {
 };
 
 export type MPondEligibleCyclesModel = {
-	totalEligible: BigNumber;
-	netPending: BigNumber;
+	totalEligible: bigint;
+	netPending: bigint;
 	timestamp: number;
 	endTimestamp: number;
 	cycle: number;

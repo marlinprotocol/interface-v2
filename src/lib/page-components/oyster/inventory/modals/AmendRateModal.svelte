@@ -24,7 +24,6 @@
 		handleFinaliseRateRevise,
 		handleInitiateRateRevise
 	} from '$lib/utils/services/oysterServices';
-	import { BigNumber } from 'ethers';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -36,7 +35,7 @@
 	const { symbol, decimal } = OYSTER_RATE_METADATA;
 
 	//initial states
-	let inputRate: BigNumber = BIG_NUMBER_ZERO;
+	let inputRate = BIG_NUMBER_ZERO;
 	let inputAmountString = '';
 
 	let submitLoading = false;
@@ -71,15 +70,15 @@
 			: 'INITIATED RATE REVISE';
 	$: inputRate = isInputAmountValid(inputAmountString)
 		? convertHourlyRateToSecondlyRate(
-				stringToBigNumber(inputAmountString, decimal).mul(OYSTER_RATE_SCALING_FACTOR)
+				stringToBigNumber(inputAmountString, decimal) * OYSTER_RATE_SCALING_FACTOR
 		  )
 		: BIG_NUMBER_ZERO;
 	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
 	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
 	$: submitEnable =
-		(inputRate.gt(BIG_NUMBER_ZERO) || newRate.gt(BIG_NUMBER_ZERO)) &&
+		(Boolean(inputRate > BIG_NUMBER_ZERO) || Boolean(newRate > BIG_NUMBER_ZERO)) &&
 		isInputAmountValid(inputAmountString) &&
-		!inputRate.eq(downScaledRate) &&
+		!(inputRate === downScaledRate) &&
 		rateStatus !== 'pending';
 </script>
 
@@ -105,9 +104,7 @@
 					<AmountInputWithTitle
 						title="New Hourly Rate"
 						inputAmountString={convertRateToPerHourString(
-							newRate
-								.add(OYSTER_RATE_SCALING_FACTOR.sub(BigNumber.from(1)))
-								.div(OYSTER_RATE_SCALING_FACTOR),
+							newRate + (OYSTER_RATE_SCALING_FACTOR - BigInt(1)) / OYSTER_RATE_SCALING_FACTOR,
 							decimal
 						)}
 						prefix={symbol}

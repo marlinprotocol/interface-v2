@@ -102,10 +102,10 @@
 
 		if (isInputAmountValid(target.value)) {
 			reward = stringToBigNumber(target.value, DEFAULT_CURRENCY_DECIMALS);
-			if (reward.eq(BIG_NUMBER_ZERO)) {
+			if (reward === BIG_NUMBER_ZERO) {
 				rewardInvalidMessage = 'Ticket reward cannot be zero.';
 				rewardIsValid = false;
-			} else if (reward.gt($receiverRewardsStore.amountApproved)) {
+			} else if (reward > $receiverRewardsStore.amountApproved) {
 				rewardInvalidMessage = 'Ticket reward cannot be greater than approved amount.';
 				rewardIsValid = false;
 			} else {
@@ -135,15 +135,15 @@
 	$: approvedAmount = $receiverRewardsStore.amountApproved;
 	$: approveDisabled =
 		!inputAmount ||
-		!inputAmount.gt(0) ||
-		!$walletBalanceStore.pond?.gte(inputAmount) ||
-		approvedAmount?.gte(inputAmount);
+		!(inputAmount > 0) ||
+		!($walletBalanceStore.pond >= inputAmount) ||
+		approvedAmount >= inputAmount;
 	$: pondDisabledText =
-		inputAmount && inputAmount.gt(0) && !$walletBalanceStore.pond?.gte(inputAmount)
+		inputAmount && inputAmount > 0 && !($walletBalanceStore.pond >= inputAmount)
 			? 'Insufficient POND'
 			: '';
 	$: confirmDisabled =
-		!rewardIsValid || !reward || !reward.gt(0) || approvedAmount?.lt(inputAmount);
+		!rewardIsValid || !reward || !(reward > BIG_NUMBER_ZERO) || approvedAmount < inputAmount;
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>

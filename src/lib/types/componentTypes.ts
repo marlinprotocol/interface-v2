@@ -1,5 +1,3 @@
-import type { BigNumber } from 'ethers';
-
 export type TabModel = {
 	id: string;
 	title: string;
@@ -61,7 +59,7 @@ export type TooltipDirection = 'tooltip-top' | 'tooltip-right' | 'tooltip-bottom
 export type ModalInputModel = {
 	title: string;
 	tooltipText?: string;
-	maxAmount: BigNumber;
+	maxAmount: bigint;
 	maxAmountText?: string;
 	maxAmountTooltipText?: string;
 	handleApproveClick?: () => void;

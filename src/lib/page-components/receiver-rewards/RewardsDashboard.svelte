@@ -24,7 +24,7 @@
 	<RewardsData />
 	{#if $connected}
 		<div class={styles.buttonsGroup}>
-			{#if $receiverRewardsStore.rewardBalance.gt(BIG_NUMBER_ZERO)}
+			{#if $receiverRewardsStore.rewardBalance > BIG_NUMBER_ZERO}
 				<div class={styles.buttonsSubgroup}>
 					<UpdateTicketRewards />
 					<AddRewardsBalance />

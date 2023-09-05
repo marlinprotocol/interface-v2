@@ -1,8 +1,6 @@
 <script lang="ts">
-	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import { getReceiverStakingDataFromSubgraph } from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
-	import { environment } from '$lib/data-stores/environment';
 	import { initializeReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import StakeDashboard from '$lib/page-components/receiver-staking/StakeDashboard.svelte';
@@ -17,11 +15,7 @@
 		initializeReceiverStakingStore(modifiedReceiverStakingData);
 	}
 
-	$: chainSupported = $chainStore.chainId
-		? environment.supported_chains.receiver_staking.includes($chainStore.chainId)
-		: true;
 	$: if (
-		chainSupported &&
 		$walletStore.address !== '' &&
 		(prevWalletAddress !== $walletStore.address ||
 			prevChainId !== $chainStore.chainId ||
@@ -39,9 +33,5 @@
 </svelte:head>
 
 <div class="py-4">
-	{#if $chainStore.isValidChain && chainSupported}
-		<StakeDashboard />
-	{:else}
-		<NetworkPrompt />
-	{/if}
+	<StakeDashboard />
 </div>

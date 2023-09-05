@@ -12,7 +12,6 @@ import {
 import { getProvidersInstancesJSON, getProvidersNameJSON } from '$lib/controllers/httpController';
 
 import { BANDWIDTH_RATES_LOOKUP } from '$lib/page-components/oyster/data/bandwidthRates';
-
 import { instanceVcpuMemoryData } from '$lib/page-components/oyster/data/instanceVcpuMemoryData';
 
 export const parseMetadata = (metadata: string) => {
@@ -225,7 +224,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	let currentBalance = _balance;
 	//job is running
 	const time = Math.floor(nowTime - _lastSettled);
-	currentBalance = _balance - BigInt(_rate * BigInt(time)) / OYSTER_RATE_SCALING_FACTOR;
+	currentBalance = _balance - (_rate * BigInt(time)) / OYSTER_RATE_SCALING_FACTOR;
 
 	return {
 		...modifiedJob,

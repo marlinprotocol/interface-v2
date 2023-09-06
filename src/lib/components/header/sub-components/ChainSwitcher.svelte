@@ -13,9 +13,7 @@
 	// base route should be same as the key in environment.supported_chains object
 	$: baseRoute = $page?.route?.id?.split('/')?.[1].replace(/-/g, '_');
 	$: routeSupportedChains =
-		environment.supported_chains[
-			baseRoute === '' || baseRoute === undefined ? 'receiver_portal' : baseRoute
-		];
+		environment.supported_chains[baseRoute === '' || baseRoute === undefined ? 'relay' : baseRoute];
 	$: provider = $web3WalletStore[0].provider;
 </script>
 

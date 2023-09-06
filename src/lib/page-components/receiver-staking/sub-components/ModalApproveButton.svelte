@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 
 	export let disabled = false;
 	export let loading = false;
@@ -10,7 +9,7 @@
 	export let approvedAmount: bigint;
 
 	//approved if input amount is greater than 0 and approved amount is greater than input amount
-	$: approved = inputAmount > BIG_NUMBER_ZERO && approvedAmount >= inputAmount;
+	$: approved = inputAmount > 0n && approvedAmount >= inputAmount;
 
 	$: styleClass = `${buttonClasses.text} h-10 text-xl font-semibold ${
 		disabled

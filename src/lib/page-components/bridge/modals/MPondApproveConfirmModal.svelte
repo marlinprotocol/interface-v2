@@ -9,7 +9,6 @@
 		addPondToWalletBalanceStore,
 		withdrawMpondFromWalletBalanceStore
 	} from '$lib/data-stores/walletProviderStore';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { mPondToPond } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 
@@ -26,7 +25,7 @@
 	export let modalToClose: string;
 	export let handleOnSuccess: (txnHash: string) => void;
 
-	let amount = BIG_NUMBER_ZERO;
+	let amount = 0n;
 	let approved = false;
 	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
 		amount = value.allowances.mPond;

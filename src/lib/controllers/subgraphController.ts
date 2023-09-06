@@ -21,7 +21,6 @@ import {
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
 
-import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import type { ChainConfig } from '$lib/types/environmentTypes';
 import type { ProviderData } from '$lib/types/oysterComponentType';
 import { addToast } from '$lib/data-stores/toastStore';
@@ -278,7 +277,7 @@ export async function getRequestedMPondForConversionFromSubgraph(address: Addres
 		if (result['data'] && userData !== null && userData?.totalMpondPlacedInRequest) {
 			return BigInt(userData?.totalMpondPlacedInRequest);
 		} else {
-			return BIG_NUMBER_ZERO;
+			return 0n;
 		}
 	} catch (error: any) {
 		addToast({
@@ -287,7 +286,7 @@ export async function getRequestedMPondForConversionFromSubgraph(address: Addres
 			timeout: 6000
 		});
 		console.log('Error fetching requested MPond from subgraph', error);
-		return BIG_NUMBER_ZERO;
+		return 0n;
 	}
 }
 
@@ -460,7 +459,7 @@ export async function getApprovedOysterAllowancesFromSubgraph(address: Address) 
 		if (result['data'] && pondApprovals && pondApprovals.length > 0) {
 			return BigInt(pondApprovals[0]?.value ?? 0);
 		} else {
-			return BIG_NUMBER_ZERO;
+			return 0n;
 		}
 	} catch (error: any) {
 		addToast({
@@ -469,7 +468,7 @@ export async function getApprovedOysterAllowancesFromSubgraph(address: Address) 
 			timeout: 6000
 		});
 		console.log('Error fetching oyster allowances from subgraph', error);
-		return BIG_NUMBER_ZERO;
+		return 0n;
 	}
 }
 

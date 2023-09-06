@@ -1,5 +1,4 @@
 import {
-	BIG_NUMBER_ZERO,
 	DEFAULT_CURRENCY_DECIMALS,
 	DEFAULT_PRECISION,
 	SECONDS_IN_HOUR,
@@ -74,7 +73,7 @@ export const bigNumberToCommaString = (value: bigint, decimals = DEFAULT_PRECISI
 	// Replace 0.0 by an empty value
 	if (result === '0.0') return '0';
 
-	let compareNum = BIG_NUMBER_ZERO;
+	let compareNum = 0n;
 
 	try {
 		compareNum = BigInt(10) ** BigInt(DEFAULT_CURRENCY_DECIMALS - decimals);
@@ -128,7 +127,7 @@ export const bigNumberToString = (
 
 //return bignumber from string with decimal
 export const stringToBigNumber = (value: string, bigNumberDecimal = DEFAULT_CURRENCY_DECIMALS) => {
-	if (!value) return BIG_NUMBER_ZERO;
+	if (!value) return 0n;
 	let newValue = value;
 	// eslint-disable-next-line prefer-const
 	let [integer, fraction] = value.split('.');

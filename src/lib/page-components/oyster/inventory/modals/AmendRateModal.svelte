@@ -7,7 +7,6 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import {
 		OYSTER_RATE_SCALING_FACTOR,
 		OYSTER_RATE_METADATA
@@ -28,14 +27,12 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	$: ({
-		downScaledRate,
-		reviseRate: { newRate = BIG_NUMBER_ZERO, updatesAt = 0, rateStatus = '' } = {}
-	} = jobData);
+	$: ({ downScaledRate, reviseRate: { newRate = 0n, updatesAt = 0, rateStatus = '' } = {} } =
+		jobData);
 	const { symbol, decimal } = OYSTER_RATE_METADATA;
 
 	//initial states
-	let inputRate = BIG_NUMBER_ZERO;
+	let inputRate = 0n;
 	let inputAmountString = '';
 
 	let submitLoading = false;
@@ -72,11 +69,11 @@
 		? convertHourlyRateToSecondlyRate(
 				stringToBigNumber(inputAmountString, decimal) * OYSTER_RATE_SCALING_FACTOR
 		  )
-		: BIG_NUMBER_ZERO;
+		: 0n;
 	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
 	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
 	$: submitEnable =
-		(inputRate > BIG_NUMBER_ZERO || newRate > BIG_NUMBER_ZERO) &&
+		(inputRate > 0n || newRate > 0n) &&
 		isInputAmountValid(inputAmountString) &&
 		!(inputRate === downScaledRate) &&
 		rateStatus !== 'pending';

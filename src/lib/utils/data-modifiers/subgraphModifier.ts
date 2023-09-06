@@ -8,7 +8,6 @@ import type {
 	PondToMPondHistoryDataModel
 } from '$lib/types/bridgeComponentType';
 
-import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import { BigNumberUtils } from '$lib/utils/helpers/bigNumberUtils';
 import type { ReceiverStakingData } from '$lib/types/storeTypes';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
@@ -41,7 +40,7 @@ export function modifyReceiverStakingData(data: any) {
 		let queuedBalance = DEFAULT_RECEIVER_STAKING_DATA.queuedBalance;
 		let stakedBalance = DEFAULT_RECEIVER_STAKING_DATA.stakedBalance;
 
-		let balanceSnapshot = BIG_NUMBER_ZERO;
+		let balanceSnapshot = 0n;
 
 		if (balanceSnapshots?.length === 1 && balanceSnapshots[0].epoch === epochData.epochCycle) {
 			//if balance snapshot for current epoch cycle is present, then update staked and queued balance
@@ -122,8 +121,8 @@ export function modifyReceiverRewardsData(data: any) {
 }
 
 export function modifyAllowancesData(data: any) {
-	let mPond = BIG_NUMBER_ZERO;
-	let pond = BIG_NUMBER_ZERO;
+	let mPond = 0n;
+	let pond = 0n;
 
 	const pondApprovals = data?.pondApprovals;
 	const mpondApprovals = data?.mpondApprovals;
@@ -209,7 +208,7 @@ export function modifyMPondToPondConversionHistory(mpondToPondHistoryData: any) 
 			_releaseStartTime < _liquidityStartTime ? _liquidityStartTime : _releaseStartTime;
 
 		const eligibleCycles: MPondEligibleCyclesModel[] = [];
-		let totalEligible = BIG_NUMBER_ZERO;
+		let totalEligible = 0n;
 
 		let _cycleStartTime = _firstCycleStartTime;
 		// create eligible convserion cycles
@@ -228,8 +227,8 @@ export function modifyMPondToPondConversionHistory(mpondToPondHistoryData: any) 
 		}
 
 		//current states
-		let currentPondInProcess = BIG_NUMBER_ZERO;
-		let currentEligiblePond = BIG_NUMBER_ZERO;
+		let currentPondInProcess = 0n;
+		let currentEligiblePond = 0n;
 		let currentCycle = 0;
 
 		// if liquidity release has started

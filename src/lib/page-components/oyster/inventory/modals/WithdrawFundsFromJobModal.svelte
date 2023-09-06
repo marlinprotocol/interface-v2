@@ -6,7 +6,6 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import {
 		OYSTER_RATE_METADATA,
 		OYSTER_RATE_SCALING_FACTOR
@@ -35,7 +34,7 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString, decimal)
-		: BIG_NUMBER_ZERO;
+		: 0n;
 
 	//loading states
 	let submitLoading = false;
@@ -78,16 +77,16 @@
 			const downScaledRate = rate / OYSTER_RATE_SCALING_FACTOR;
 			const amountForDownTime = downScaledRate * BigInt(OYSTER_RATE_METADATA.rateReviseWaitingTime);
 			const finalBalance = balance - amountForDownTime;
-			return finalBalance >= BIG_NUMBER_ZERO ? finalBalance : BIG_NUMBER_ZERO;
+			return finalBalance >= 0n ? finalBalance : 0n;
 		}
-		return BIG_NUMBER_ZERO;
+		return 0n;
 	}
 
 	$: maxDisabedText =
 		updatedAmountInputDirty && inputAmount && inputAmount > maxAmount ? 'Insufficient balance' : '';
 	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;
 	$: maxAmount = getMaxAmountForJob(rate, balance);
-	$: durationReduced = inputAmount > 0 ? inputAmount / downScaledRate : BIG_NUMBER_ZERO;
+	$: durationReduced = inputAmount > 0 ? inputAmount / downScaledRate : 0n;
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>

@@ -1,4 +1,3 @@
-import { BIG_NUMBER_ZERO, SECONDS_IN_HUNDRED_YEARS } from '$lib/utils/constants/constants';
 import type {
 	CPInstances,
 	CPUrlDataModel,
@@ -12,6 +11,7 @@ import {
 import { getProvidersInstancesJSON, getProvidersNameJSON } from '$lib/controllers/httpController';
 
 import { BANDWIDTH_RATES_LOOKUP } from '$lib/page-components/oyster/data/bandwidthRates';
+import { SECONDS_IN_HUNDRED_YEARS } from '$lib/utils/constants/constants';
 import { instanceVcpuMemoryData } from '$lib/page-components/oyster/data/instanceVcpuMemoryData';
 
 export const parseMetadata = (metadata: string) => {
@@ -88,7 +88,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		reviseRateMap = {
 			newRate: BigInt(value),
 			rateStatus: _rateStatus,
-			stopStatus: BigInt(value) > BIG_NUMBER_ZERO ? 'disabled' : _rateStatus,
+			stopStatus: BigInt(value) > 0n ? 'disabled' : _rateStatus,
 			updatesAt: Number(updatesAt)
 		};
 	}
@@ -137,25 +137,21 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 				amount: BigInt(deposit.amount),
 				timestamp: Number(deposit.timestamp),
 				transactionStatus:
-					_refund > BIG_NUMBER_ZERO && i === 0
-						? 'refunded'
-						: deposit.isWithdrawal
-						? 'withdrawal'
-						: 'deposit'
+					_refund > 0n && i === 0 ? 'refunded' : deposit.isWithdrawal ? 'withdrawal' : 'deposit'
 			};
 		})
 	};
 
 	const _totalSettledAmount = settlementHistory.reduce((acc: bigint, settlement: any) => {
 		return acc + BigInt(settlement.amount);
-	}, BIG_NUMBER_ZERO);
+	}, 0n);
 
-	if (_refund > BIG_NUMBER_ZERO) {
+	if (_refund > 0n) {
 		//job is stopped and refunded so amount used is total deposit - refund and current balance is 0
 		return {
 			...modifiedJob,
 			amountUsed: _totalDeposit - _refund,
-			balance: BIG_NUMBER_ZERO,
+			balance: 0n,
 			durationLeft: 0,
 			durationRun: _lastSettled - _createdAt,
 			endEpochTime: _lastSettled,
@@ -165,26 +161,25 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		};
 	}
 
-	if (_totalDeposit === _totalSettledAmount && _balance === BIG_NUMBER_ZERO) {
+	if (_totalDeposit === _totalSettledAmount && _balance === 0n) {
 		// job is settled so amount used is total deposit and current balance is 0,
 		// we call this job completed as from operator perspective it is completed
 		return {
 			...modifiedJob,
 			amountUsed: _totalDeposit,
-			balance: BIG_NUMBER_ZERO,
+			balance: 0n,
 			durationLeft: 0,
 			durationRun: _lastSettled - _createdAt,
 			endEpochTime: _lastSettled,
 			live: true,
 			status: 'closed',
-			amountToBeSettled: BIG_NUMBER_ZERO
+			amountToBeSettled: 0n
 		};
 	}
 
 	if (
-		_rate === BIG_NUMBER_ZERO ||
-		((_balance * OYSTER_RATE_SCALING_FACTOR) / _rate > SECONDS_IN_HUNDRED_YEARS &&
-			_balance > BIG_NUMBER_ZERO)
+		_rate === 0n ||
+		((_balance * OYSTER_RATE_SCALING_FACTOR) / _rate > SECONDS_IN_HUNDRED_YEARS && _balance > 0n)
 	) {
 		const time = Math.floor(nowTime - _lastSettled);
 		const _balanceUpdated = _balance - _downScaledRate * BigInt(time);
@@ -211,7 +206,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		return {
 			...modifiedJob,
 			amountUsed: _totalDeposit,
-			balance: BIG_NUMBER_ZERO,
+			balance: 0n,
 			durationLeft: 0,
 			durationRun: endEpochTime - _createdAt,
 			endEpochTime,
@@ -253,7 +248,7 @@ export async function getOysterProvidersModified(providers: any[]) {
 		const instances = getModifiedInstances(allInstances[provider.id]);
 		instances?.forEach((instance: any, index: number) => {
 			//rate is hourly rate so convert it to per second rate
-			const rateFromCPUrl = instance.rate ? BigInt(instance.rate) : BIG_NUMBER_ZERO;
+			const rateFromCPUrl = instance.rate ? BigInt(instance.rate) : 0n;
 			ret.push({
 				...instance,
 				rate: rateFromCPUrl / BigInt(rateCPUrlUnitInSeconds),

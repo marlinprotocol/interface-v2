@@ -5,7 +5,7 @@
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import { BIG_NUMBER_ZERO, MPOND_PRECISIONS } from '$lib/utils/constants/constants';
+	import { MPOND_PRECISIONS } from '$lib/utils/constants/constants';
 	import {
 		bigNumberToCommaString,
 		bigNumberToString,
@@ -34,7 +34,7 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BIG_NUMBER_ZERO;
+		: 0n;
 
 	//input amount states
 	let inputAmountIsValid = true;

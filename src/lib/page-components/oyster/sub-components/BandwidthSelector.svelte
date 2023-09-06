@@ -1,7 +1,6 @@
 <script lang="ts">
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import {
 		OYSTER_RATE_SCALING_FACTOR,
 		OYSTER_BANDWIDTH_UNITS_LIST,
@@ -11,12 +10,12 @@
 	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 
 	export let region: any;
-	export let bandwidthRateForRegion = BIG_NUMBER_ZERO;
-	export let bandwidthCost = BIG_NUMBER_ZERO;
+	export let bandwidthRateForRegion = 0n;
+	export let bandwidthCost = 0n;
 	export let duration = 0;
-	export let instanceCost = BIG_NUMBER_ZERO;
-	export let finalBandwidthRate = BIG_NUMBER_ZERO;
-	export let totalCost = BIG_NUMBER_ZERO;
+	export let instanceCost = 0n;
+	export let finalBandwidthRate = 0n;
+	export let totalCost = 0n;
 
 	let bandwidth = '';
 	let bandwidthUnit = 'KB/s';
@@ -42,7 +41,7 @@
 	$: bandwidthCost =
 		bandwidth !== ''
 			? calculateBandwidthCost(bandwidth, bandwidthUnit, bandwidthRateForRegion, duration)
-			: BIG_NUMBER_ZERO;
+			: 0n;
 	$: bandwidthCostString =
 		bandwidth !== ''
 			? bigNumberToString(bandwidthCost / OYSTER_RATE_SCALING_FACTOR, decimal, 4)
@@ -50,7 +49,7 @@
 
 	$: totalCost = bandwidthCost + instanceCost;
 	$: downScaledTotalCost = totalCost / OYSTER_RATE_SCALING_FACTOR;
-	$: totalAmountString = !(downScaledTotalCost === BIG_NUMBER_ZERO)
+	$: totalAmountString = !(downScaledTotalCost === 0n)
 		? bigNumberToString(downScaledTotalCost, decimal, 4)
 		: '';
 </script>

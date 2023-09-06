@@ -5,11 +5,7 @@
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
-	import {
-		BIG_NUMBER_ZERO,
-		DEFAULT_CURRENCY_DECIMALS,
-		POND_PRECISIONS
-	} from '$lib/utils/constants/constants';
+	import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { connected, walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import { receiverRewardsStore } from '$lib/data-stores/receiverRewardsStore';
@@ -32,7 +28,7 @@
 	let rewardInvalidMessage = '';
 	let rewardString = '';
 	let rewardIsValid = false;
-	let reward = BIG_NUMBER_ZERO;
+	let reward = 0n;
 
 	const subtitle = 'Add rewards for operators and make em happier!';
 	const toolTipText = 'The lumpsum amount that you are willing to give as rewards to operators.';
@@ -102,7 +98,7 @@
 
 		if (isInputAmountValid(target.value)) {
 			reward = stringToBigNumber(target.value, DEFAULT_CURRENCY_DECIMALS);
-			if (reward === BIG_NUMBER_ZERO) {
+			if (reward === 0n) {
 				rewardInvalidMessage = 'Ticket reward cannot be zero.';
 				rewardIsValid = false;
 			} else if (reward > $receiverRewardsStore.amountApproved) {
@@ -113,7 +109,7 @@
 				rewardInvalidMessage = '';
 			}
 		} else {
-			reward = BIG_NUMBER_ZERO;
+			reward = 0n;
 			rewardIsValid = false;
 			rewardInvalidMessage = inputAmountInValidMessage(target.value);
 		}
@@ -131,7 +127,7 @@
 	)} POND`;
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString, DEFAULT_CURRENCY_DECIMALS)
-		: BIG_NUMBER_ZERO;
+		: 0n;
 	$: approvedAmount = $receiverRewardsStore.amountApproved;
 	$: approveDisabled =
 		!inputAmount ||
@@ -142,8 +138,7 @@
 		inputAmount && inputAmount > 0 && !($walletBalanceStore.pond >= inputAmount)
 			? 'Insufficient POND'
 			: '';
-	$: confirmDisabled =
-		!rewardIsValid || !reward || !(reward > BIG_NUMBER_ZERO) || approvedAmount < inputAmount;
+	$: confirmDisabled = !rewardIsValid || !reward || !(reward > 0n) || approvedAmount < inputAmount;
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>

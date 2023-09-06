@@ -4,7 +4,6 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleApproveFundForOysterJob,
@@ -22,7 +21,7 @@
 	$: ({ rate } = jobData);
 
 	let duration: number | undefined = undefined; //durationInSecs
-	let instanceCost = BIG_NUMBER_ZERO;
+	let instanceCost = 0n;
 	let invalidCost = false;
 
 	//loading states
@@ -66,8 +65,8 @@
 		connected &&
 		Boolean(instanceCost) &&
 		approvedAmount >= instanceCost / BigInt(OYSTER_RATE_SCALING_FACTOR) &&
-		instanceCost > BIG_NUMBER_ZERO;
-	$: approveEnable = connected && !submitLoading && instanceCost > BIG_NUMBER_ZERO && !invalidCost;
+		instanceCost > 0n;
+	$: approveEnable = connected && !submitLoading && instanceCost > 0n && !invalidCost;
 	$: confirmEnable = approved && approveEnable;
 </script>
 

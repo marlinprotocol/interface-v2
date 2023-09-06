@@ -9,11 +9,7 @@
 		MPondEligibleCyclesModel,
 		MPondToPondHistoryDataModel
 	} from '$lib/types/bridgeComponentType';
-	import {
-		BIG_NUMBER_ZERO,
-		MPOND_PRECISIONS,
-		POND_PRECISIONS
-	} from '$lib/utils/constants/constants';
+	import { MPOND_PRECISIONS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import {
 		bigNumberToCommaString,
 		epochSecToString,
@@ -56,9 +52,9 @@
 	} = rowData);
 
 	$: cancelDisabled =
-		(!pondEligible || pondEligible === BIG_NUMBER_ZERO) &&
-		(!pondPending || pondPending === BIG_NUMBER_ZERO) &&
-		(!pondInProcess || pondInProcess === BIG_NUMBER_ZERO);
+		(!pondEligible || pondEligible === 0n) &&
+		(!pondPending || pondPending === 0n) &&
+		(!pondInProcess || pondInProcess === 0n);
 	$: endEpochTime = getTimerEpoch(currentCycle, eligibleCycles);
 	const handleCancelConversionRequest = async (requestEpoch: bigint) => {
 		//not working yet
@@ -68,9 +64,8 @@
 	const handleOnTimerEnd = () => {
 		rowData = {
 			...rowData,
-			pondPending:
-				currentCycle === eligibleCycles?.length - 1 ? BIG_NUMBER_ZERO : pondPending - pondInProcess,
-			pondInProcess: currentCycle === eligibleCycles?.length - 1 ? BIG_NUMBER_ZERO : pondInProcess,
+			pondPending: currentCycle === eligibleCycles?.length - 1 ? 0n : pondPending - pondInProcess,
+			pondInProcess: currentCycle === eligibleCycles?.length - 1 ? 0n : pondInProcess,
 			pondEligible: pondEligible + pondInProcess,
 			currentCycle: currentCycle + 1
 		};
@@ -168,7 +163,7 @@
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
 			<TableConvertButton
-				disabled={!(pondEligible > BIG_NUMBER_ZERO)}
+				disabled={!(pondEligible > 0n)}
 				modalFor={`mpond-convert-modal-${rowIndex}`}
 			/>
 			<MPondEligibleConvertModal

@@ -8,7 +8,7 @@
 		withdrawStakedBalanceFromReceiverStakingStore
 	} from '$lib/data-stores/receiverStakingStore';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import { BIG_NUMBER_ZERO, POND_PRECISIONS } from '$lib/utils/constants/constants';
+	import { POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToCommaString,
@@ -36,7 +36,7 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BIG_NUMBER_ZERO;
+		: 0n;
 
 	//loading states
 	let submitLoading = false;
@@ -50,7 +50,7 @@
 		maxAmount = stakedBalance + queuedBalance;
 
 		balanceText = `Staked: ${bigNumberToCommaString(stakedBalance, POND_PRECISIONS)}${
-			!(queuedBalance === BIG_NUMBER_ZERO)
+			!(queuedBalance === 0n)
 				? ' + Queued: ' + bigNumberToCommaString(queuedBalance, POND_PRECISIONS)
 				: ''
 		}`;

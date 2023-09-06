@@ -11,7 +11,6 @@ import type {
 	OysterMarketplaceFilterModel
 } from '$lib/types/oysterComponentType';
 
-import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 
 import { addToast } from '$lib/data-stores/toastStore';
 import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
@@ -465,13 +464,13 @@ export const getCreateOrderInstanceRegionFilters = (
 
 export const computeCost = (duration: number, rate?: bigint) => {
 	try {
-		return rate ? rate * BigInt(duration) : BIG_NUMBER_ZERO;
+		return rate ? rate * BigInt(duration) : 0n;
 	} catch (e) {
 		addToast({
 			variant: 'error',
 			message: `Error computing cost, please try again.`
 		});
-		return BIG_NUMBER_ZERO;
+		return 0n;
 	}
 };
 
@@ -505,7 +504,7 @@ export const addRegionNameToMarketplaceData = (
 // returns bandwidth rate in Kb/s
 export function getBandwidthFromRateAndRegion(bandwidthRate: bigint, region: string) {
 	const rateForRegion = getBandwidthRateForRegion(region);
-	if (rateForRegion === undefined) return BIG_NUMBER_ZERO;
+	if (rateForRegion === undefined) return 0n;
 	const bandwidthWithAllPrecision =
 		bandwidthRate * BigInt(1024 * 1024) +
 		// this is done to ceil the number since rateForRegion

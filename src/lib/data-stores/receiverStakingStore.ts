@@ -1,5 +1,4 @@
 import type { ReceiverStakingData } from '$lib/types/storeTypes';
-import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
 
@@ -64,7 +63,7 @@ export function withdrawStakedBalanceFromReceiverStakingStore(inputAmount: bigin
 	receiverStakingStore.update((value) => {
 		if (inputAmount > value.queuedBalance) {
 			value.stakedBalance = value.stakedBalance - (inputAmount - value.queuedBalance);
-			value.queuedBalance = BIG_NUMBER_ZERO;
+			value.queuedBalance = 0n;
 		} else {
 			value.queuedBalance = value.queuedBalance - inputAmount;
 		}
@@ -76,7 +75,7 @@ export function updateEpochOnTimerEndInReceiverStakingStore() {
 	receiverStakingStore.update((value) => {
 		return {
 			...value,
-			queuedBalance: BIG_NUMBER_ZERO,
+			queuedBalance: 0n,
 			stakedBalance: value.stakedBalance + value.queuedBalance,
 			epochData: {
 				...value.epochData,

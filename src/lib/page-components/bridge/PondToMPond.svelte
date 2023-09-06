@@ -8,7 +8,6 @@
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { connected, walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import {
-		BIG_NUMBER_ZERO,
 		DEFAULT_CURRENCY_DECIMALS,
 		MPOND_PRECISIONS,
 		POND_PRECISIONS
@@ -45,7 +44,7 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BIG_NUMBER_ZERO;
+		: 0n;
 
 	// convert pond to mPond by dividing by 10^6
 	$: convertedAmountString =

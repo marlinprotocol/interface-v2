@@ -5,8 +5,6 @@ export const GET_OPTIONS = {
 	}
 };
 
-export const BIG_NUMBER_ZERO = BigInt(0);
-
 export const MEMORY_SUFFIX = ' MiB';
 
 export const TABLE_ITEMS_PER_PAGE = 10;

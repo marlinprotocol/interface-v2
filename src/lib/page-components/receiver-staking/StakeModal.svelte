@@ -20,11 +20,7 @@
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { Address } from '$lib/types/storeTypes';
-	import {
-		BIG_NUMBER_ZERO,
-		DEFAULT_CURRENCY_DECIMALS,
-		POND_PRECISIONS
-	} from '$lib/utils/constants/constants';
+	import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { MESSAGES } from '$lib/utils/constants/messages';
 	import {
 		DEFAULT_RECEIVER_STAKING_DATA,
@@ -60,7 +56,7 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BIG_NUMBER_ZERO;
+		: 0n;
 
 	//loading states
 	let approveLoading = false;
@@ -199,7 +195,7 @@
 	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount or approved amount is less than or equal to input amount, disable approve button
 	$: approveDisabled =
 		!inputAmount ||
-		!(inputAmount > BIG_NUMBER_ZERO) ||
+		!(inputAmount > 0n) ||
 		!(maxPondBalance >= inputAmount) ||
 		approvedAmount >= inputAmount;
 

@@ -4,7 +4,6 @@
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import { receiverRewardsStore } from '$lib/data-stores/receiverRewardsStore';
 	import DataRowCard from '$lib/page-components/receiver-staking/sub-components/DataRowCard.svelte';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
 	import { epochToDurationString } from '$lib/utils/helpers/conversionHelper';
 	import { getInventoryDurationVariant } from '$lib/utils/helpers/oysterHelpers';
@@ -21,7 +20,7 @@
 		rewardPerEpoch: bigint,
 		lastTicketIssuedEpoch: number | undefined
 	) {
-		if (rewardPerEpoch === BIG_NUMBER_ZERO || epochDuration === 0) return 0;
+		if (rewardPerEpoch === 0n || epochDuration === 0) return 0;
 		const currentEpochNumber = lastTicketIssuedEpoch
 			? lastTicketIssuedEpoch
 			: Math.floor((Date.now() / 1000 - startTime) / epochDuration);
@@ -75,7 +74,7 @@
 				styleClass="ml-1"
 			/>
 		</div>
-		{#if $receiverRewardsStore.rewardBalance > BIG_NUMBER_ZERO}
+		{#if $receiverRewardsStore.rewardBalance > 0n}
 			<Timer timerId="receiver-funding-end-timer" endEpochTime={rewardTimeEnd}>
 				<div slot="active" let:timer class="mx-auto">
 					<Tooltip tooltipText={epochToDurationString(timer)} tooltipDirection="tooltip-left">

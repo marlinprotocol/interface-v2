@@ -3,7 +3,6 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
 	import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import {
 		OYSTER_RATE_SCALING_FACTOR,
 		OYSTER_DURATION_UNITS_LIST,
@@ -58,7 +57,7 @@
 		return bigNumberToString(cost / OYSTER_RATE_SCALING_FACTOR, decimal, 4);
 	}
 
-	let maxBalance = BIG_NUMBER_ZERO;
+	let maxBalance = 0n;
 	let durationUnit = 'Days';
 	let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
 

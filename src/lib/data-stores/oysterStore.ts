@@ -4,7 +4,6 @@ import type {
 	ProviderData
 } from '$lib/types/oysterComponentType';
 import type { Address, OysterStore } from '$lib/types/storeTypes';
-import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import {
 	OYSTER_RATE_METADATA,
 	OYSTER_RATE_SCALING_FACTOR
@@ -32,7 +31,7 @@ export function resetOysterStore() {
 			},
 			allMarketplaceData: state.allMarketplaceData,
 			jobsData: [],
-			allowance: BIG_NUMBER_ZERO,
+			allowance: 0n,
 			merchantJobsData: [],
 			marketplaceLoaded: true
 		};
@@ -221,7 +220,7 @@ export function initiateRateReviseInOysterStore(
 		reviseRate: {
 			newRate: newRate,
 			rateStatus: 'pending',
-			stopStatus: newRate > BIG_NUMBER_ZERO ? 'disabled' : 'pending',
+			stopStatus: newRate > 0n ? 'disabled' : 'pending',
 			updatesAt: nowTime + rateReviseWaitingTime
 		}
 	};
@@ -262,7 +261,7 @@ export function updateJobStatusOnTimerEndInOysterStore(jobData: OysterInventoryD
 	const modifiedJobData = {
 		...jobData,
 		reviseRate: {
-			newRate: BIG_NUMBER_ZERO,
+			newRate: 0n,
 			rateStatus: 'pending',
 			stopStatus: 'completed',
 			updatesAt: nowTime
@@ -305,9 +304,9 @@ export function stopJobInOysterStore(id: BytesLike, txn: any, jobData: OysterInv
 		...jobData,
 		live: false,
 		refund: jobData.balance,
-		balance: BIG_NUMBER_ZERO,
+		balance: 0n,
 		status: 'stopped',
-		rate: BIG_NUMBER_ZERO,
+		rate: 0n,
 		reviseRate: undefined,
 		endEpochTime: nowTime,
 		depositHistory: [
@@ -365,8 +364,8 @@ export function createNewJobInOysterStore(
 		region,
 		vcpu,
 		memory,
-		amountUsed: BIG_NUMBER_ZERO,
-		refund: BIG_NUMBER_ZERO,
+		amountUsed: 0n,
+		refund: 0n,
 		rate,
 		downScaledRate: rate / OYSTER_RATE_SCALING_FACTOR,
 		balance,
@@ -388,7 +387,7 @@ export function createNewJobInOysterStore(
 				transactionStatus: 'deposit'
 			}
 		],
-		amountToBeSettled: BIG_NUMBER_ZERO,
+		amountToBeSettled: 0n,
 		settlementHistory: []
 	};
 	oysterStore.update((value) => {

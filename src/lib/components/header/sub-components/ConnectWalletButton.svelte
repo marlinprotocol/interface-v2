@@ -5,6 +5,7 @@
 	import onboard from '$lib/controllers/web3OnboardController';
 	import { setWalletAndChainStores } from '$lib/controllers/walletController';
 	import { web3WalletStore } from '$lib/data-stores/walletProviderStore';
+	import ChainSwitcher from '$lib/components/header/sub-components/ChainSwitcher.svelte';
 
 	export let isLarge = false;
 	export let connectButtonText = 'Connect Wallet';
@@ -31,13 +32,16 @@
 		Connect Wallet
 	</Button>
 {:else}
-	<Button
-		onclick={connect}
-		size="small"
-		variant="outlined"
-		styleClass={`${connectWalletStyles} w-fit text-sm h-11 flex items-center`}
-	>
-		<img src="/images/lockicon.svg" alt="Connect" />
-		{connectButtonText}
-	</Button>
+	<div class="flex gap-1 items-center">
+		<ChainSwitcher />
+		<Button
+			onclick={connect}
+			size="small"
+			variant="outlined"
+			styleClass={`${connectWalletStyles} w-fit text-sm h-11 flex items-center`}
+		>
+			<img src="/images/lockicon.svg" alt="Connect" />
+			{connectButtonText}
+		</Button>
+	</div>
 {/if}

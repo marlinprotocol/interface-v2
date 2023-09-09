@@ -33,3 +33,16 @@ export function initializeChainStore(
 		isValidChain: isValidChain
 	});
 }
+
+export function updateChainStore(
+	chainId: number,
+	chainName: string,
+	chainDisplayName: string | undefined
+) {
+	chainStore.update((chainStore) => {
+		chainStore.chainId = chainId;
+		chainStore.chainName = chainName;
+		chainStore.chainDisplayName = chainDisplayName ?? chainName;
+		return chainStore;
+	});
+}

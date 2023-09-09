@@ -409,6 +409,15 @@ export function updateMarketplaceDataInOysterStore(marketPlaceData: OysterMarket
 	});
 }
 
+export function setMarketplaceLoadedInOysterStore(status: boolean) {
+	oysterStore.update((store) => {
+		return {
+			...store,
+			marketplaceLoaded: status
+		};
+	});
+}
+
 export function initializeOysterStore(
 	providerDetail: any,
 	allowance: bigint,

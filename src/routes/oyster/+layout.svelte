@@ -11,6 +11,7 @@
 	import { environment } from '$lib/data-stores/environment';
 	import {
 		initializeOysterStore,
+		setMarketplaceLoadedInOysterStore,
 		updateMarketplaceDataInOysterStore
 	} from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
@@ -45,6 +46,7 @@
 	}
 
 	async function loadMarketplaceData() {
+		setMarketplaceLoadedInOysterStore(false);
 		const providersDataFromSubgraph = await getAllProvidersDetailsFromSubgraph();
 		const marketplaceData = await getOysterProvidersModified(providersDataFromSubgraph);
 		const marketplaceDataWithRegionName = addRegionNameToMarketplaceData(

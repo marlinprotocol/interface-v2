@@ -17,6 +17,7 @@
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
 	import { handleFundsWithdrawFromJob } from '$lib/utils/services/oysterServices';
+	import { DEFAULT_PRECISION } from '$lib/utils/constants/constants';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -56,7 +57,7 @@
 
 	const handleMaxClick = () => {
 		if (maxAmount) {
-			inputAmountString = bigNumberToString(maxAmount, decimal);
+			inputAmountString = bigNumberToString(maxAmount, decimal, DEFAULT_PRECISION, false);
 			//reset input error message
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;

@@ -13,14 +13,13 @@
 
 	const styles = {
 		titleIcon: 'flex items-center gap-1',
-		inputNumber:
-			'input input-ghost input-primary text-sm p-0 ml-0.5 placeholder:text-primary/[.2] h-[30px] mt-1',
-		prefix: 'text-sm text-primary mt-1',
-		suffix: 'text-sm text-primary ml-1 mt-1'
+		inputNumber: 'input input-ghost input-primary text-sm p-0 ml-0.5 placeholder:text-primary/[.2]',
+		prefix: 'text-sm text-primary',
+		suffix: 'text-sm text-primary ml-1'
 	};
 </script>
 
-<InputCard>
+<InputCard variant={'primary-mini'}>
 	<div class={styles.titleIcon}>
 		<Text variant="small" text={title} />
 	</div>

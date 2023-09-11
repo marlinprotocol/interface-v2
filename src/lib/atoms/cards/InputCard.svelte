@@ -21,7 +21,7 @@
 				return '';
 
 			case 'search':
-				return 'bg-[#dfedf9] px-6 py-2.5';
+				return 'bg-[#dfedf9] px-4 py-2.5';
 
 			default:
 				return 'bg-base-200 p-4';

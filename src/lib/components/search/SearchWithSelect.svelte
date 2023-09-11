@@ -77,7 +77,6 @@
 				setValue={(value) => setSearchValue(value, true)}
 				bind:showSuggestions
 				bind:suggestions
-				id={selectId}
 				{textSuffix}
 			/>
 		</div>

@@ -11,7 +11,6 @@ import type {
 	OysterMarketplaceFilterModel
 } from '$lib/types/oysterComponentType';
 
-
 import { addToast } from '$lib/data-stores/toastStore';
 import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
@@ -505,12 +504,10 @@ export const addRegionNameToMarketplaceData = (
 export function getBandwidthFromRateAndRegion(bandwidthRate: bigint, region: string) {
 	const rateForRegion = getBandwidthRateForRegion(region);
 	if (rateForRegion === undefined) return 0n;
+	// this is done to ceil the number since rateForRegion
+	// is essentially, actualRate * OYSTER_RATE_SCALING_FACTOR
 	const bandwidthWithAllPrecision =
-		bandwidthRate * BigInt(1024 * 1024) +
-		// this is done to ceil the number since rateForRegion
-		// is essentially, actualRate * OYSTER_RATE_SCALING_FACTOR
-		OYSTER_RATE_SCALING_FACTOR -
-		BigInt(1) / rateForRegion;
+		(bandwidthRate * BigInt(1024 * 1024) + OYSTER_RATE_SCALING_FACTOR - BigInt(1)) / rateForRegion;
 
 	return bandwidthWithAllPrecision;
 }

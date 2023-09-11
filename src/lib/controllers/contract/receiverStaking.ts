@@ -1,6 +1,5 @@
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
 
-import type { BigNumber } from 'ethers';
 import type { ContractAddress } from '$lib/types/storeTypes';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { POND_PRECISIONS } from '$lib/utils/constants/constants';
@@ -40,7 +39,7 @@ export async function setSignerAddress(address: string) {
 	}
 }
 
-export async function depositStakingToken(amount: BigNumber) {
+export async function depositStakingToken(amount: bigint) {
 	const receiverStakingContract = createSignerContract(
 		contractAddresses.RECEIVER_STAKING,
 		RECEIVER_STAKING_ABI
@@ -67,7 +66,7 @@ export async function depositStakingToken(amount: BigNumber) {
 		throw new Error('Transaction Error');
 	}
 }
-export async function depositStakingTokenAndSetSigner(amount: BigNumber, signerAddress = '') {
+export async function depositStakingTokenAndSetSigner(amount: bigint, signerAddress = '') {
 	const receiverStakingContract = createSignerContract(
 		contractAddresses.RECEIVER_STAKING,
 		RECEIVER_STAKING_ABI
@@ -95,7 +94,7 @@ export async function depositStakingTokenAndSetSigner(amount: BigNumber, signerA
 	}
 }
 
-export async function withdrawStakingToken(amount: BigNumber) {
+export async function withdrawStakingToken(amount: bigint) {
 	const receiverStakingContract = createSignerContract(
 		contractAddresses.RECEIVER_STAKING,
 		RECEIVER_STAKING_ABI

@@ -36,7 +36,7 @@
 	const subtitle = `Queued POND will be staked`;
 
 	//if queued balance is greater than 0 then inQueue is true
-	$: inQueue = receiverData.queuedBalance.gt(0);
+	$: inQueue = receiverData.queuedBalance > 0;
 
 	//end epoch time is the time when next epoch cycle will start
 	$: endEpochTime =

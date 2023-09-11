@@ -1,13 +1,9 @@
-import { BigNumber } from 'ethers';
-
 export const GET_OPTIONS = {
 	method: 'GET',
 	headers: {
 		'Content-Type': 'application/json'
 	}
 };
-
-export const BIG_NUMBER_ZERO = BigNumber.from(0);
 
 export const MEMORY_SUFFIX = ' MiB';
 

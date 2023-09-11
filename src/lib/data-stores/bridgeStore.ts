@@ -1,6 +1,6 @@
 import type { BridgeStore } from '$lib/types/storeTypes';
 import { DEFAULT_BRIDGE_STORE } from '$lib/utils/constants/storeDefaults';
-import type { BigNumber } from 'ethers';
+
 import { writable, type Writable } from 'svelte/store';
 
 export const bridgeStore: Writable<BridgeStore> = writable(DEFAULT_BRIDGE_STORE);
@@ -14,10 +14,10 @@ export function resetBridgeStore() {
 
 export function initializeBridgeStore(
 	allowances: {
-		pond: BigNumber;
-		mPond: BigNumber;
+		pond: bigint;
+		mPond: bigint;
 	},
-	requestedMPond: BigNumber
+	requestedMPond: bigint
 ) {
 	bridgeStore.set({
 		allowances: {
@@ -28,34 +28,32 @@ export function initializeBridgeStore(
 	});
 }
 
-export function updateMpondAllowanceInBridgeStore(newAllowance: BigNumber) {
+export function updateMpondAllowanceInBridgeStore(newAllowance: bigint) {
 	bridgeStore.update((store) => {
-		store.allowances.mPond = store.allowances.mPond.lt(newAllowance)
-			? newAllowance
-			: store.allowances.mPond;
+		store.allowances.mPond =
+			store.allowances.mPond < newAllowance ? newAllowance : store.allowances.mPond;
 		return store;
 	});
 }
 
-export function decreaseMpondAllowanceInBridgeStore(decreaseBy: BigNumber) {
+export function decreaseMpondAllowanceInBridgeStore(decreaseBy: bigint) {
 	bridgeStore.update((store) => {
-		store.allowances.mPond = store.allowances.mPond.sub(decreaseBy);
+		store.allowances.mPond = store.allowances.mPond - decreaseBy;
 		return store;
 	});
 }
 
-export function updatePondAllowanceInBridgeStore(newAllowance: BigNumber) {
+export function updatePondAllowanceInBridgeStore(newAllowance: bigint) {
 	bridgeStore.update((store) => {
-		store.allowances.pond = store.allowances.pond.lt(newAllowance)
-			? newAllowance
-			: store.allowances.pond;
+		store.allowances.pond =
+			store.allowances.pond < newAllowance ? newAllowance : store.allowances.pond;
 		return store;
 	});
 }
 
-export function decreasePondAllowanceInBridgeStore(decreaseBy: BigNumber) {
+export function decreasePondAllowanceInBridgeStore(decreaseBy: bigint) {
 	bridgeStore.update((store) => {
-		store.allowances.pond = store.allowances.pond.sub(decreaseBy);
+		store.allowances.pond = store.allowances.pond - decreaseBy;
 		return store;
 	});
 }

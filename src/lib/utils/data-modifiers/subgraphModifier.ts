@@ -8,8 +8,6 @@ import type {
 	PondToMPondHistoryDataModel
 } from '$lib/types/bridgeComponentType';
 
-import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
-import { BigNumber } from 'ethers';
 import { BigNumberUtils } from '$lib/utils/helpers/bigNumberUtils';
 import type { ReceiverStakingData } from '$lib/types/storeTypes';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
@@ -38,18 +36,18 @@ export function modifyReceiverStakingData(data: any) {
 
 	//update staked and queued balance
 	if (balance) {
-		const totalBalance = BigNumber.from(balance);
+		const totalBalance = BigInt(balance);
 		let queuedBalance = DEFAULT_RECEIVER_STAKING_DATA.queuedBalance;
 		let stakedBalance = DEFAULT_RECEIVER_STAKING_DATA.stakedBalance;
 
-		let balanceSnapshot = BIG_NUMBER_ZERO;
+		let balanceSnapshot = 0n;
 
 		if (balanceSnapshots?.length === 1 && balanceSnapshots[0].epoch === epochData.epochCycle) {
 			//if balance snapshot for current epoch cycle is present, then update staked and queued balance
-			balanceSnapshot = BigNumber.from(balanceSnapshots[0].balance ?? 0);
+			balanceSnapshot = BigInt(balanceSnapshots[0].balance ?? 0);
 			//queued amount is the difference of balance and balance snapshot at current epoch cycle
 			stakedBalance = balanceSnapshot;
-			queuedBalance = totalBalance.sub(stakedBalance);
+			queuedBalance = totalBalance - stakedBalance;
 		} else {
 			//if balance snapshot for current epoch cycle is not present, then update staked balance
 			stakedBalance = totalBalance;
@@ -68,8 +66,7 @@ export function modifyReceiverStakingData(data: any) {
 		const approvalData = approvals[0];
 		stakingData = {
 			...stakingData,
-			approvedBalance:
-				BigNumber.from(approvalData.value) ?? DEFAULT_RECEIVER_STAKING_DATA.approvedBalance
+			approvedBalance: BigInt(approvalData.value) ?? DEFAULT_RECEIVER_STAKING_DATA.approvedBalance
 		};
 	}
 	return stakingData;
@@ -98,8 +95,8 @@ export function modifyReceiverRewardsData(data: any) {
 	}
 
 	if (receiverRewards?.amount && receiverRewards?.rewardPerEpoch) {
-		const rewardBalance = BigNumber.from(receiverRewards.amount);
-		const rewardPerEpoch = BigNumber.from(receiverRewards.rewardPerEpoch);
+		const rewardBalance = BigInt(receiverRewards.amount);
+		const rewardPerEpoch = BigInt(receiverRewards.rewardPerEpoch);
 		rewardsStoreData = {
 			...rewardsStoreData,
 			rewardBalance,
@@ -110,7 +107,7 @@ export function modifyReceiverRewardsData(data: any) {
 	if (pondApprovals) {
 		rewardsStoreData = {
 			...rewardsStoreData,
-			amountApproved: BigNumber.from(pondApprovals)
+			amountApproved: BigInt(pondApprovals)
 		};
 	}
 
@@ -124,18 +121,18 @@ export function modifyReceiverRewardsData(data: any) {
 }
 
 export function modifyAllowancesData(data: any) {
-	let mPond = BIG_NUMBER_ZERO;
-	let pond = BIG_NUMBER_ZERO;
+	let mPond = 0n;
+	let pond = 0n;
 
 	const pondApprovals = data?.pondApprovals;
 	const mpondApprovals = data?.mpondApprovals;
 
 	// convert all to BigNumber
 	if (pondApprovals?.length > 0) {
-		pond = BigNumber.from(pondApprovals[0]?.value ?? 0);
+		pond = BigInt(pondApprovals[0]?.value ?? 0);
 	}
 	if (mpondApprovals?.length > 0) {
-		mPond = BigNumber.from(mpondApprovals[0]?.value ?? 0);
+		mPond = BigInt(mpondApprovals[0]?.value ?? 0);
 	}
 	return { pond, mPond };
 }
@@ -146,8 +143,8 @@ export function modifyPondToMpondConversionHistory(users: any) {
 	const pondToMpondConversions: PondToMPondHistoryDataModel[] | undefined =
 		user?.pondToMpondConversions?.map((conversion: any) => {
 			return {
-				pondConverted: BigNumber.from(conversion.pondConverted),
-				mpondReceived: BigNumber.from(conversion.mpondReceived),
+				pondConverted: BigInt(conversion.pondConverted),
+				mpondReceived: BigInt(conversion.mpondReceived),
 				timestamp: Number(conversion.timestamp),
 				transactionHash: conversion.transactionHash
 			};
@@ -193,10 +190,10 @@ export function modifyMPondToPondConversionHistory(mpondToPondHistoryData: any) 
 
 		//basic conversions
 		const _releaseTime = Number(releaseTime);
-		const mpondAmountBN = BigNumber.from(mpondAmount);
-		const mPondConvertedBN = BigNumber.from(mpondConverted);
+		const mpondAmountBN = BigInt(mpondAmount);
+		const mPondConvertedBN = BigInt(mpondConverted);
 		const pondConvertedBN = mPondToPond(mPondConvertedBN);
-		// const mPondInitallyPending = mpondAmountBN.sub(mPondConvertedBN);
+		// const mPondInitallyPending = mpondAmountBN-(mPondConvertedBN);
 		const pondAmountBN = mPondToPond(mpondAmountBN);
 		// const pondInitiallyPending = mPondToPond(mPondInitallyPending);
 
@@ -211,18 +208,18 @@ export function modifyMPondToPondConversionHistory(mpondToPondHistoryData: any) 
 			_releaseStartTime < _liquidityStartTime ? _liquidityStartTime : _releaseStartTime;
 
 		const eligibleCycles: MPondEligibleCyclesModel[] = [];
-		let totalEligible = BIG_NUMBER_ZERO;
+		let totalEligible = 0n;
 
 		let _cycleStartTime = _firstCycleStartTime;
 		// create eligible convserion cycles
 		for (let i = 0; i < totalCycles; i++) {
 			//add equal fraction of the pond amount to the total eligible
-			totalEligible = i === totalCycles - 1 ? pondAmountBN : totalEligible.add(pondProcessInACycle);
+			totalEligible = i === totalCycles - 1 ? pondAmountBN : totalEligible + pondProcessInACycle;
 			eligibleCycles.push({
 				timestamp: _cycleStartTime,
 				endTimestamp: _cycleStartTime + _liqudityReleaseEpochs,
 				totalEligible,
-				netPending: pondAmountBN.sub(totalEligible),
+				netPending: pondAmountBN - totalEligible,
 				cycle: i + 1
 			});
 			// start time of the cycle is the start time of the previous cycle plus the release interval
@@ -230,8 +227,8 @@ export function modifyMPondToPondConversionHistory(mpondToPondHistoryData: any) 
 		}
 
 		//current states
-		let currentPondInProcess = BIG_NUMBER_ZERO;
-		let currentEligiblePond = BIG_NUMBER_ZERO;
+		let currentPondInProcess = 0n;
+		let currentEligiblePond = 0n;
 		let currentCycle = 0;
 
 		// if liquidity release has started
@@ -240,12 +237,12 @@ export function modifyMPondToPondConversionHistory(mpondToPondHistoryData: any) 
 
 			if (currentCycle < totalCycles) {
 				// if liquidity release is in progress
-				currentEligiblePond = currentEligiblePond.add(pondProcessInACycle.mul(currentCycle));
+				currentEligiblePond = currentEligiblePond + pondProcessInACycle * BigInt(currentCycle);
 
 				if (currentCycle < totalCycles - 1) {
 					currentPondInProcess = pondProcessInACycle;
 				} else {
-					currentPondInProcess = pondAmountBN.sub(currentEligiblePond);
+					currentPondInProcess = pondAmountBN - currentEligiblePond;
 				}
 			} else {
 				// if liquidity release is completed
@@ -255,9 +252,9 @@ export function modifyMPondToPondConversionHistory(mpondToPondHistoryData: any) 
 		}
 
 		// net eligible pond is the pond eligible at current minus the pond converted
-		const netEligiblePond = currentEligiblePond.sub(pondConvertedBN);
+		const netEligiblePond = currentEligiblePond - pondConvertedBN;
 		// pending pond is the pond initially pending minus the pond eligible at current cycle plus pond in process
-		const netPendingPond = pondAmountBN.sub(currentEligiblePond).sub(currentPondInProcess);
+		const netPendingPond = pondAmountBN - currentEligiblePond - currentPondInProcess;
 
 		// filter the conversion history for the current request
 		const conversionHistory = mpondToPondConversions
@@ -265,7 +262,7 @@ export function modifyMPondToPondConversionHistory(mpondToPondHistoryData: any) 
 			?.map((conversion: any) => {
 				return {
 					id: conversion.id,
-					mpondToConvert: BigNumber.from(conversion.mpondToConvert),
+					mpondToConvert: BigInt(conversion.mpondToConvert),
 					transactionHash: conversion.transactionHash,
 					timestamp: Number(conversion.timestamp)
 				};
@@ -284,7 +281,7 @@ export function modifyMPondToPondConversionHistory(mpondToPondHistoryData: any) 
 			currentCycle: currentCycle,
 			timestamp: Number(timestamp),
 			transactionHash,
-			requestEpoch: BigNumber.from(requestEpoch),
+			requestEpoch: BigInt(requestEpoch),
 			isCancelled,
 			cancelHash
 		};

@@ -1,10 +1,8 @@
-import { BigNumber, ethers } from 'ethers';
-
 import type { Address } from '@web3-onboard/core/dist/types';
-import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 import type { ContractAddress } from '$lib/types/storeTypes';
 import { ERC20_ABI } from '$lib/utils/abis/erc20';
 import { contractAddressStore } from '$lib/data-stores/contractStore';
+import { ethers } from 'ethers';
 
 let contractAddresses: ContractAddress;
 contractAddressStore.subscribe((value) => {
@@ -16,9 +14,9 @@ export async function getUsdcBalanceFromProvider(address: Address, provider: any
 
 	try {
 		const balance = await usdcContract.balanceOf(address);
-		return BigNumber.from(balance);
+		return BigInt(balance);
 	} catch (error: any) {
 		console.log('error fetching usdc balance :>> ', error);
-		return BIG_NUMBER_ZERO;
+		return 0n;
 	}
 }

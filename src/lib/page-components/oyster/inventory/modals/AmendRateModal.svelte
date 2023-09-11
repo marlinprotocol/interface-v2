@@ -7,7 +7,6 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import {
 		OYSTER_RATE_SCALING_FACTOR,
 		OYSTER_RATE_METADATA
@@ -24,19 +23,16 @@
 		handleFinaliseRateRevise,
 		handleInitiateRateRevise
 	} from '$lib/utils/services/oysterServices';
-	import { BigNumber } from 'ethers';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	$: ({
-		downScaledRate,
-		reviseRate: { newRate = BIG_NUMBER_ZERO, updatesAt = 0, rateStatus = '' } = {}
-	} = jobData);
+	$: ({ downScaledRate, reviseRate: { newRate = 0n, updatesAt = 0, rateStatus = '' } = {} } =
+		jobData);
 	const { symbol, decimal } = OYSTER_RATE_METADATA;
 
 	//initial states
-	let inputRate: BigNumber = BIG_NUMBER_ZERO;
+	let inputRate = 0n;
 	let inputAmountString = '';
 
 	let submitLoading = false;
@@ -71,15 +67,15 @@
 			: 'INITIATED RATE REVISE';
 	$: inputRate = isInputAmountValid(inputAmountString)
 		? convertHourlyRateToSecondlyRate(
-				stringToBigNumber(inputAmountString, decimal).mul(OYSTER_RATE_SCALING_FACTOR)
+				stringToBigNumber(inputAmountString, decimal) * OYSTER_RATE_SCALING_FACTOR
 		  )
-		: BIG_NUMBER_ZERO;
+		: 0n;
 	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
 	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
 	$: submitEnable =
-		(inputRate.gt(BIG_NUMBER_ZERO) || newRate.gt(BIG_NUMBER_ZERO)) &&
+		(inputRate > 0n || newRate > 0n) &&
 		isInputAmountValid(inputAmountString) &&
-		!inputRate.eq(downScaledRate) &&
+		!(inputRate === downScaledRate) &&
 		rateStatus !== 'pending';
 </script>
 
@@ -105,9 +101,7 @@
 					<AmountInputWithTitle
 						title="New Hourly Rate"
 						inputAmountString={convertRateToPerHourString(
-							newRate
-								.add(OYSTER_RATE_SCALING_FACTOR.sub(BigNumber.from(1)))
-								.div(OYSTER_RATE_SCALING_FACTOR),
+							newRate + (OYSTER_RATE_SCALING_FACTOR - BigInt(1)) / OYSTER_RATE_SCALING_FACTOR,
 							decimal
 						)}
 						prefix={symbol}

@@ -6,7 +6,6 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import {
 		OYSTER_RATE_METADATA,
 		OYSTER_RATE_SCALING_FACTOR
@@ -18,7 +17,6 @@
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
 	import { handleFundsWithdrawFromJob } from '$lib/utils/services/oysterServices';
-	import type { BigNumber } from 'ethers';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -27,7 +25,7 @@
 	$: ({ rate, balance, downScaledRate } = jobData);
 
 	//initial states
-	let inputAmount: BigNumber;
+	let inputAmount: bigint;
 	let inputAmountString: string;
 	//error message states
 	let inputAmountIsValid = true;
@@ -36,7 +34,7 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString, decimal)
-		: BIG_NUMBER_ZERO;
+		: 0n;
 
 	//loading states
 	let submitLoading = false;
@@ -68,29 +66,27 @@
 
 	const handleSubmitClick = async () => {
 		submitLoading = true;
-		await handleFundsWithdrawFromJob(jobData, inputAmount, durationReduced.toNumber());
+		await handleFundsWithdrawFromJob(jobData, inputAmount, Number(durationReduced));
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
 	};
 
-	function getMaxAmountForJob(rate: BigNumber, balance: BigNumber) {
+	function getMaxAmountForJob(rate: bigint, balance: bigint) {
 		if (rate && balance) {
-			const downScaledRate = rate.div(OYSTER_RATE_SCALING_FACTOR);
-			const amountForDownTime = downScaledRate.mul(OYSTER_RATE_METADATA.rateReviseWaitingTime);
-			const finalBalance = balance.sub(amountForDownTime);
-			return finalBalance.gte(BIG_NUMBER_ZERO) ? finalBalance : BIG_NUMBER_ZERO;
+			const downScaledRate = rate / OYSTER_RATE_SCALING_FACTOR;
+			const amountForDownTime = downScaledRate * BigInt(OYSTER_RATE_METADATA.rateReviseWaitingTime);
+			const finalBalance = balance - amountForDownTime;
+			return finalBalance >= 0n ? finalBalance : 0n;
 		}
-		return BIG_NUMBER_ZERO;
+		return 0n;
 	}
 
 	$: maxDisabedText =
-		updatedAmountInputDirty && inputAmount && inputAmount.gt(maxAmount)
-			? 'Insufficient balance'
-			: '';
-	$: submitEnable = inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
+		updatedAmountInputDirty && inputAmount && inputAmount > maxAmount ? 'Insufficient balance' : '';
+	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;
 	$: maxAmount = getMaxAmountForJob(rate, balance);
-	$: durationReduced = inputAmount.gt(0) ? inputAmount.div(downScaledRate) : BIG_NUMBER_ZERO;
+	$: durationReduced = inputAmount > 0 ? inputAmount / downScaledRate : 0n;
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>

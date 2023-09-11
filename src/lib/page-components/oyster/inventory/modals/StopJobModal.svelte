@@ -5,7 +5,6 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { epochToDurationString } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import {
@@ -26,7 +25,7 @@
 
 	const handleInitiateClick = async () => {
 		submitLoading = true;
-		await handleInitiateRateRevise(jobData, BIG_NUMBER_ZERO);
+		await handleInitiateRateRevise(jobData, 0n);
 		submitLoading = false;
 		closeModal(modalFor);
 	};

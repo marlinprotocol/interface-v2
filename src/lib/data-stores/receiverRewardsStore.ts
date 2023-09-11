@@ -1,6 +1,6 @@
 import type { ReceiverRewardsStore } from '$lib/types/storeTypes';
 import { DEFAULT_RECEIVER_REWARDS_STORE } from '$lib/utils/constants/storeDefaults';
-import type { BigNumber } from 'ethers';
+
 import { writable, type Writable } from 'svelte/store';
 
 /**
@@ -18,7 +18,7 @@ export function resetReceiverRewardsStore(): void {
 	receiverRewardsStore.set(DEFAULT_RECEIVER_REWARDS_STORE);
 }
 
-export function updateAmountApprovedInReceiverRewardsStore(amountApproved: BigNumber) {
+export function updateAmountApprovedInReceiverRewardsStore(amountApproved: bigint) {
 	receiverRewardsStore.update((value) => {
 		return {
 			...value,
@@ -27,7 +27,7 @@ export function updateAmountApprovedInReceiverRewardsStore(amountApproved: BigNu
 	});
 }
 
-export function updateTicketRewardsInReceiverRewardsStore(rewardPerEpoch: BigNumber) {
+export function updateTicketRewardsInReceiverRewardsStore(rewardPerEpoch: bigint) {
 	receiverRewardsStore.update((value) => {
 		return {
 			...value,
@@ -36,26 +36,26 @@ export function updateTicketRewardsInReceiverRewardsStore(rewardPerEpoch: BigNum
 	});
 }
 
-export function addRewardBalanceInReceiverRewardsStore(amount: BigNumber) {
+export function addRewardBalanceInReceiverRewardsStore(amount: bigint) {
 	receiverRewardsStore.update((value) => {
 		return {
 			...value,
-			amountApproved: value.amountApproved.sub(amount),
-			rewardBalance: value.rewardBalance.add(amount)
+			amountApproved: value.amountApproved - amount,
+			rewardBalance: value.rewardBalance + amount
 		};
 	});
 }
 
 export function initiateReceiverRewardsInReceiverRewardsStore(
-	rewardBalance: BigNumber,
-	rewardPerEpoch: BigNumber
+	rewardBalance: bigint,
+	rewardPerEpoch: bigint
 ) {
 	receiverRewardsStore.update((value) => {
 		return {
 			...value,
-			rewardPerEpoch: value.rewardPerEpoch.add(rewardPerEpoch),
-			amountApproved: value.amountApproved.sub(rewardBalance),
-			rewardBalance: value.rewardBalance.add(rewardBalance)
+			rewardPerEpoch: value.rewardPerEpoch + rewardPerEpoch,
+			amountApproved: value.amountApproved - rewardBalance,
+			rewardBalance: value.rewardBalance + rewardBalance
 		};
 	});
 }

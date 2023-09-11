@@ -50,7 +50,7 @@
 								<td class={styles.tableCell}>{row.region}</td>
 								<td class={styles.tableCell}>
 									{symbol}{convertRateToPerHourString(
-										row.rate.div(OYSTER_RATE_SCALING_FACTOR),
+										row.rate / OYSTER_RATE_SCALING_FACTOR,
 										decimal
 									)}
 								</td>

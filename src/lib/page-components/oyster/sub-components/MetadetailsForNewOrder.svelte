@@ -13,13 +13,12 @@
 		getCreateOrderInstanceRegionFilters,
 		getRateForProviderAndFilters
 	} from '$lib/utils/helpers/oysterHelpers';
-	import type { BigNumber } from 'ethers';
 
 	export let allMarketplaceData: OysterMarketplaceDataModel[];
 	export let merchant: any;
 	export let instance: any;
 	export let region: any;
-	export let instanceRate: BigNumber | undefined;
+	export let instanceRate: bigint | undefined;
 	export let vcpu: string;
 	export let memory: string;
 	export let providerAddress: string | undefined;

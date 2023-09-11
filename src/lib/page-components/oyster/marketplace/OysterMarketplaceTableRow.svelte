@@ -29,7 +29,7 @@
 		memory,
 		rate
 	} = rowData);
-	$: downscaledInstanceRate = rate.div(OYSTER_RATE_SCALING_FACTOR);
+	$: downscaledInstanceRate = rate / OYSTER_RATE_SCALING_FACTOR;
 </script>
 
 <tr class="main-row hover:bg-base-200">

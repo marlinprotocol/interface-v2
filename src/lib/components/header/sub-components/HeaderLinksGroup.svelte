@@ -1,36 +1,44 @@
 <script lang="ts">
 	import type { NavLinkModel } from '$lib/types/headerTypes';
 	import HeaderNavLinkItem from '$lib/components/header/sub-components/HeaderNavLinkItem.svelte';
-	//nav-links list
+	import {
+		BRIDGE_URL,
+		OYSTER_MARKETPLACE_URL,
+		OYSTER_OPERATOR_URL,
+		OYSTER_OWNER_INVENTORY_URL,
+		RELAY_OPERATOR_LINK,
+		RELAY_RECEIVER_STAKING_URL
+	} from '$lib/utils/constants/urls';
+
 	const navLinks: NavLinkModel[] = [
 		{
 			title: 'Relay',
-			href: 'https://arb1.marlin.org/relay/operator',
+			href: RELAY_OPERATOR_LINK,
 			openInNewTab: true
 		},
 		{
 			title: 'Bridge',
-			href: '/bridge',
+			href: BRIDGE_URL,
 			openInNewTab: false
 		},
 		{
 			title: 'Marketplace',
-			href: '/oyster/marketplace',
+			href: OYSTER_MARKETPLACE_URL,
 			openInNewTab: false
 		},
 		{
 			title: 'Operator',
-			href: '/oyster/operator',
+			href: OYSTER_OPERATOR_URL,
 			openInNewTab: false
 		},
 		{
 			title: 'Inventory',
-			href: '/oyster/inventory',
+			href: OYSTER_OWNER_INVENTORY_URL,
 			openInNewTab: false
 		},
 		{
 			title: 'Receiver Portal',
-			href: '/receiver-portal/receiver-staking',
+			href: RELAY_RECEIVER_STAKING_URL,
 			openInNewTab: false
 		}
 	];

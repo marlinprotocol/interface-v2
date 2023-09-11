@@ -5,7 +5,6 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import RewardsData from '$lib/page-components/receiver-rewards/RewardsData.svelte';
 	import { receiverRewardsStore } from '$lib/data-stores/receiverRewardsStore';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import InitiateRewards from '$lib/page-components/receiver-rewards/buttons/InitiateRewards.svelte';
 	import UpdateTicketRewards from './buttons/UpdateTicketRewards.svelte';
 	import AddRewardsBalance from './buttons/AddRewardsBalance.svelte';
@@ -24,7 +23,7 @@
 	<RewardsData />
 	{#if $connected}
 		<div class={styles.buttonsGroup}>
-			{#if $receiverRewardsStore.rewardBalance.gt(BIG_NUMBER_ZERO)}
+			{#if $receiverRewardsStore.rewardBalance > 0n}
 				<div class={styles.buttonsSubgroup}>
 					<UpdateTicketRewards />
 					<AddRewardsBalance />

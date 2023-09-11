@@ -1,4 +1,3 @@
-import type { BigNumber, Bytes } from 'ethers';
 import {
 	addFundsToJobInOysterStore,
 	cancelRateReviseInOysterStore,
@@ -22,7 +21,7 @@ import {
 	withdrawFundsFromOysterJob
 } from '$lib/controllers/contract/oyster';
 
-import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
+import type { BytesLike } from 'ethers';
 import type { ContractAddress } from '$lib/types/storeTypes';
 import { OYSTER_RATE_METADATA } from '../constants/oysterConstants';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
@@ -34,16 +33,16 @@ contractAddressStore.subscribe((value) => {
 	contractAddress = value;
 });
 
-export async function handleClaimAmountFromOysterJob(jobId: Bytes) {
+export async function handleClaimAmountFromOysterJob(jobId: BytesLike) {
 	try {
 		await settleOysterJob(jobId);
-		updateAmountToBeSettledForJobInOysterStore(jobId, BIG_NUMBER_ZERO);
+		updateAmountToBeSettledForJobInOysterStore(jobId, 0n);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}
 }
 
-export async function handleApproveFundForOysterJob(amount: BigNumber) {
+export async function handleApproveFundForOysterJob(amount: bigint) {
 	try {
 		await approveToken(
 			{
@@ -62,7 +61,7 @@ export async function handleApproveFundForOysterJob(amount: BigNumber) {
 
 export async function handleFundsAddToJob(
 	jobData: OysterInventoryDataModel,
-	amount: BigNumber,
+	amount: bigint,
 	duration: number
 ) {
 	const { id } = jobData;
@@ -77,7 +76,7 @@ export async function handleFundsAddToJob(
 
 export async function handleFundsWithdrawFromJob(
 	jobData: OysterInventoryDataModel,
-	amount: BigNumber,
+	amount: bigint,
 	duration: number
 ) {
 	const { id } = jobData;
@@ -90,10 +89,7 @@ export async function handleFundsWithdrawFromJob(
 	}
 }
 
-export async function handleInitiateRateRevise(
-	jobData: OysterInventoryDataModel,
-	newRate: BigNumber
-) {
+export async function handleInitiateRateRevise(jobData: OysterInventoryDataModel, newRate: bigint) {
 	const { id } = jobData;
 	try {
 		await initiateRateReviseOysterJob(id, newRate);
@@ -121,10 +117,7 @@ export function handleJobStatusOnStopTimerEnd(jobData: OysterInventoryDataModel)
 	}
 }
 
-export async function handleFinaliseRateRevise(
-	jobData: OysterInventoryDataModel,
-	newRate: BigNumber
-) {
+export async function handleFinaliseRateRevise(jobData: OysterInventoryDataModel, newRate: bigint) {
 	const { id } = jobData;
 	try {
 		await finaliseRateReviseOysterJob(id);
@@ -149,8 +142,8 @@ export async function handleCreateJob(
 	owner: string,
 	metadata: string,
 	provider: { name?: string; address: string },
-	rate: BigNumber,
-	balance: BigNumber,
+	rate: bigint,
+	balance: bigint,
 	durationInSec: number
 ) {
 	try {

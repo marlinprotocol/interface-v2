@@ -2,7 +2,7 @@ import type { TokenMetadata, Tokens } from '$lib/types/environmentTypes';
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
 
 import type { Address } from '@web3-onboard/core/dist/types';
-import type { BigNumber } from 'ethers';
+
 import type { ContractAddress } from '$lib/types/storeTypes';
 import { ERC20_ABI } from '$lib/utils/abis/erc20';
 import { MESSAGES } from '$lib/utils/constants/messages';
@@ -16,7 +16,7 @@ contractAddressStore.subscribe((value) => {
 
 export async function approveToken(
 	tokenToApprove: TokenMetadata,
-	amount: BigNumber,
+	amount: bigint,
 	toAddress: Address
 ) {
 	const tokenContract = createSignerContract(

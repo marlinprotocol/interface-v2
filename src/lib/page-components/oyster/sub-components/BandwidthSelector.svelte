@@ -1,7 +1,6 @@
 <script lang="ts">
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import {
 		OYSTER_RATE_SCALING_FACTOR,
 		OYSTER_BANDWIDTH_UNITS_LIST,
@@ -9,15 +8,14 @@
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
-	import { BigNumber } from 'ethers';
 
 	export let region: any;
-	export let bandwidthRateForRegion = BIG_NUMBER_ZERO;
-	export let bandwidthCost = BIG_NUMBER_ZERO;
+	export let bandwidthRateForRegion = 0n;
+	export let bandwidthCost = 0n;
 	export let duration = 0;
-	export let instanceCost = BIG_NUMBER_ZERO;
-	export let finalBandwidthRate = BIG_NUMBER_ZERO;
-	export let totalCost = BIG_NUMBER_ZERO;
+	export let instanceCost = 0n;
+	export let finalBandwidthRate = 0n;
+	export let totalCost = 0n;
 
 	let bandwidth = '';
 	let bandwidthUnit = 'KB/s';
@@ -29,31 +27,29 @@
 	function calculateBandwidthCost(
 		bandwidth: string | number,
 		bandwidthUnit: string,
-		rate: BigNumber,
+		rate: bigint,
 		duration: number // in seconds
 	) {
-		const unitConversionDivisor = BigNumber.from(
-			OYSTER_BANDWIDTH_UNITS_LIST.find((unit) => unit.label === bandwidthUnit)?.value
+		const unitConversionDivisor = BigInt(
+			OYSTER_BANDWIDTH_UNITS_LIST.find((unit) => unit.label === bandwidthUnit)?.value ?? 1
 		);
-		finalBandwidthRate = BigNumber.from(bandwidth)
-			.mul(rate)
-			.div(unitConversionDivisor || BigNumber.from(1));
-		return finalBandwidthRate.mul(duration);
+		finalBandwidthRate = (BigInt(bandwidth) * rate) / (unitConversionDivisor || BigInt(1));
+		return finalBandwidthRate * BigInt(duration);
 	}
 
 	$: bandwidthRateForRegion = getBandwidthRateForRegion(region.value);
 	$: bandwidthCost =
 		bandwidth !== ''
 			? calculateBandwidthCost(bandwidth, bandwidthUnit, bandwidthRateForRegion, duration)
-			: BIG_NUMBER_ZERO;
+			: 0n;
 	$: bandwidthCostString =
 		bandwidth !== ''
-			? bigNumberToString(bandwidthCost.div(OYSTER_RATE_SCALING_FACTOR), decimal, 4)
+			? bigNumberToString(bandwidthCost / OYSTER_RATE_SCALING_FACTOR, decimal, 4)
 			: '';
 
-	$: totalCost = bandwidthCost.add(instanceCost);
-	$: downScaledTotalCost = totalCost.div(OYSTER_RATE_SCALING_FACTOR);
-	$: totalAmountString = !downScaledTotalCost.eq(BIG_NUMBER_ZERO)
+	$: totalCost = bandwidthCost + instanceCost;
+	$: downScaledTotalCost = totalCost / OYSTER_RATE_SCALING_FACTOR;
+	$: totalAmountString = !(downScaledTotalCost === 0n)
 		? bigNumberToString(downScaledTotalCost, decimal, 4)
 		: '';
 </script>

@@ -1,7 +1,7 @@
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
 
 import type { Address } from '@web3-onboard/core/dist/types';
-import type { BigNumber } from 'ethers';
+
 import type { ContractAddress } from '$lib/types/storeTypes';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { POND_PRECISIONS } from '$lib/utils/constants/constants';
@@ -14,7 +14,7 @@ contractAddressStore.subscribe((value) => {
 	contractAddresses = value;
 });
 
-export async function initiateReceiverRewards(rewardBalance: BigNumber, rewardPerEpoch: BigNumber) {
+export async function initiateReceiverRewards(rewardBalance: bigint, rewardPerEpoch: bigint) {
 	const rewardDelegatorContract = createSignerContract(
 		contractAddresses.REWARD_DELEGATORS,
 		REWARD_DELEGATORS_ABI
@@ -38,7 +38,7 @@ export async function initiateReceiverRewards(rewardBalance: BigNumber, rewardPe
 		throw new Error('Transaction Error');
 	}
 }
-export async function addReceiverBalance(receiverAddress: Address, rewardBalance: BigNumber) {
+export async function addReceiverBalance(receiverAddress: Address, rewardBalance: bigint) {
 	const rewardDelegatorContract = createSignerContract(
 		contractAddresses.REWARD_DELEGATORS,
 		REWARD_DELEGATORS_ABI
@@ -66,7 +66,7 @@ export async function addReceiverBalance(receiverAddress: Address, rewardBalance
 		throw new Error('Transaction Error');
 	}
 }
-export async function updateReceiverTicketReward(rewardPerEpoch: BigNumber) {
+export async function updateReceiverTicketReward(rewardPerEpoch: bigint) {
 	const rewardDelegatorContract = createSignerContract(
 		contractAddresses.REWARD_DELEGATORS,
 		REWARD_DELEGATORS_ABI

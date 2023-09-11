@@ -4,13 +4,12 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleApproveFundForOysterJob,
 		handleFundsAddToJob
 	} from '$lib/utils/services/oysterServices';
-	import type { BigNumber } from 'ethers';
+
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
@@ -22,7 +21,7 @@
 	$: ({ rate } = jobData);
 
 	let duration: number | undefined = undefined; //durationInSecs
-	let instanceCost: BigNumber = BIG_NUMBER_ZERO;
+	let instanceCost = 0n;
 	let invalidCost = false;
 
 	//loading states
@@ -30,7 +29,7 @@
 	let approvedLoading = false;
 	let approved = false;
 
-	let approvedAmount: BigNumber;
+	let approvedAmount: bigint;
 
 	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
 		approvedAmount = value.allowance;
@@ -50,13 +49,13 @@
 
 	const handleApproveClick = async () => {
 		approvedLoading = true;
-		await handleApproveFundForOysterJob(instanceCost.div(OYSTER_RATE_SCALING_FACTOR));
+		await handleApproveFundForOysterJob(instanceCost / OYSTER_RATE_SCALING_FACTOR);
 		approvedLoading = false;
 	};
 
 	const handleSubmitClick = async () => {
 		submitLoading = true;
-		await handleFundsAddToJob(jobData, instanceCost.div(OYSTER_RATE_SCALING_FACTOR), duration ?? 0);
+		await handleFundsAddToJob(jobData, instanceCost / OYSTER_RATE_SCALING_FACTOR, duration ?? 0);
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
@@ -64,11 +63,10 @@
 
 	$: approved =
 		connected &&
-		instanceCost &&
-		approvedAmount.gte(instanceCost.div(OYSTER_RATE_SCALING_FACTOR)) &&
-		instanceCost.gt(BIG_NUMBER_ZERO);
-	$: approveEnable =
-		connected && !submitLoading && instanceCost.gt(BIG_NUMBER_ZERO) && !invalidCost;
+		Boolean(instanceCost) &&
+		approvedAmount >= instanceCost / BigInt(OYSTER_RATE_SCALING_FACTOR) &&
+		instanceCost > 0n;
+	$: approveEnable = connected && !submitLoading && instanceCost > 0n && !invalidCost;
 	$: confirmEnable = approved && approveEnable;
 </script>
 

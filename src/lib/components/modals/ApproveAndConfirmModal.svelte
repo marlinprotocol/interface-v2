@@ -3,10 +3,10 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import SuccessfulConversionModal from '$lib/page-components/bridge/modals/SuccessfulConversionModal.svelte';
-	import { BIG_NUMBER_ZERO, DEFAULT_CURRENCY_DECIMALS } from '$lib/utils/constants/constants';
+	import { DEFAULT_CURRENCY_DECIMALS } from '$lib/utils/constants/constants';
 	import { bigNumberToString, mPondToPond, pondToMPond } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
+
 	import { staticImages } from '$lib/components/images/staticImages';
 	import LoadingAnimationModal from '$lib/components/loading/LoadingAnimationModal.svelte';
 	import { getAmountPrecision } from '$lib/utils/helpers/bridgeHelpers';
@@ -18,7 +18,7 @@
 	export let rowIndex: number;
 	export let approveButtonText = 'APPROVE';
 	export let confirmButtonText = 'CONFIRM';
-	export let amountConverted: BigNumber = BIG_NUMBER_ZERO;
+	export let amountConverted = 0n;
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
 
 	export let modalForApproveConfirm: string;

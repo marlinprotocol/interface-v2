@@ -1,11 +1,11 @@
 import {
-	BIG_NUMBER_ZERO,
 	DEFAULT_CURRENCY_DECIMALS,
 	DEFAULT_PRECISION,
 	SECONDS_IN_HOUR,
 	SECONDS_IN_HUNDRED_YEARS
 } from '$lib/utils/constants/constants';
-import { BigNumber, ethers } from 'ethers';
+
+import { ethers } from 'ethers';
 
 /**
  * Returns duration string for a epoch
@@ -60,28 +60,29 @@ function roundNumberString(numString: string, decimals = DEFAULT_PRECISION) {
 	return roundedNum;
 }
 
+// TODO: remove this function and use bigNumberToString instead
 /**
  * Returns comma separated string with set of decimals for a big number
  * @param value big number
  * @param decimals decimals of the fractional part
  * @returns string
  */
-export const bigNumberToCommaString = (value: BigNumber, decimals = DEFAULT_PRECISION) => {
-	let result = ethers.utils.formatEther(value);
+export const bigNumberToCommaString = (value: bigint, decimals = DEFAULT_PRECISION) => {
+	let result = ethers.formatEther(value);
 
 	// Replace 0.0 by an empty value
 	if (result === '0.0') return '0';
 
-	let compareNum = BIG_NUMBER_ZERO;
+	let compareNum = 0n;
 
 	try {
-		compareNum = BigNumber.from(10).pow(DEFAULT_CURRENCY_DECIMALS - decimals);
+		compareNum = BigInt(10) ** BigInt(DEFAULT_CURRENCY_DECIMALS - decimals);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}
 
-	if (value.gt(compareNum)) {
-		result = ethers.utils.commify(roundNumberString(result, decimals));
+	if (value > compareNum) {
+		result = roundNumberString(result, decimals).toLocaleString();
 		//add 0 to the end if decimal count is less than 2
 		if (result.split('.')[1]?.length < 2) {
 			result = result + '0';
@@ -101,7 +102,7 @@ export const bigNumberToCommaString = (value: BigNumber, decimals = DEFAULT_PREC
  * @returns string
  */
 export const bigNumberToString = (
-	value: BigNumber,
+	value: bigint,
 	bigNumberDecimal = DEFAULT_CURRENCY_DECIMALS,
 	precision = DEFAULT_PRECISION,
 	commify = true
@@ -110,15 +111,15 @@ export const bigNumberToString = (
 		throw new Error('Invalid value');
 	}
 
-	const formattedValue = ethers.utils.formatUnits(value, bigNumberDecimal);
+	const formattedValue = ethers.formatUnits(value, bigNumberDecimal);
 
 	if (!formattedValue.includes('.')) {
 		// Integer value, no decimal part
-		return ethers.utils.commify(formattedValue) + '.' + '0'.repeat(precision);
+		return BigInt(formattedValue).toLocaleString('en-US') + '.' + '0'.repeat(precision);
 	}
 
 	const [integerPart, decimalPart] = formattedValue.split('.');
-	const commifiedIntegerPart = commify ? ethers.utils.commify(integerPart) : integerPart;
+	const commifiedIntegerPart = commify ? BigInt(integerPart).toLocaleString() : integerPart;
 	const truncatedDecimalPart = decimalPart.slice(0, precision).padEnd(precision, '0');
 
 	return `${commifiedIntegerPart}.${truncatedDecimalPart}`;
@@ -126,7 +127,7 @@ export const bigNumberToString = (
 
 //return bignumber from string with decimal
 export const stringToBigNumber = (value: string, bigNumberDecimal = DEFAULT_CURRENCY_DECIMALS) => {
-	if (!value) return BIG_NUMBER_ZERO;
+	if (!value) return 0n;
 	let newValue = value;
 	// eslint-disable-next-line prefer-const
 	let [integer, fraction] = value.split('.');
@@ -135,7 +136,7 @@ export const stringToBigNumber = (value: string, bigNumberDecimal = DEFAULT_CURR
 		fraction = fraction.slice(0, bigNumberDecimal);
 		newValue = integer + '.' + fraction;
 	}
-	return ethers.utils.parseUnits(newValue, bigNumberDecimal);
+	return ethers.parseUnits(newValue, bigNumberDecimal);
 };
 
 export const epochSecToString = (date: number) => {
@@ -162,25 +163,25 @@ export const shortenText = (text: string, first = 6, last = 4) => {
 	return text.slice(0, first) + '...' + text.slice(-last);
 };
 
-export const mPondToPond = (mPond: BigNumber) => {
+export const mPondToPond = (mPond: bigint) => {
 	//one mPond is 10^6 pond
-	return mPond.mul(ethers.BigNumber.from(10).pow(6));
+	return mPond * BigInt(10) ** BigInt(6);
 };
 
-export const pondToMPond = (pond: BigNumber) => {
+export const pondToMPond = (pond: bigint) => {
 	//one pond is 10^-6 mPond
-	return pond.div(ethers.BigNumber.from(10).pow(6));
+	return pond / BigInt(10) ** BigInt(6);
 };
 
 export const convertRateToPerHourString = (
-	rate: BigNumber,
+	rate: bigint,
 	decimal = DEFAULT_CURRENCY_DECIMALS,
 	precision = DEFAULT_PRECISION
 ) => {
-	const rateInHour = rate.mul(SECONDS_IN_HOUR);
+	const rateInHour = rate * BigInt(SECONDS_IN_HOUR);
 	return bigNumberToString(rateInHour, decimal, precision);
 };
 
-export const convertHourlyRateToSecondlyRate = (rate: BigNumber) => {
-	return rate.div(SECONDS_IN_HOUR);
+export const convertHourlyRateToSecondlyRate = (rate: bigint) => {
+	return rate / BigInt(SECONDS_IN_HOUR);
 };

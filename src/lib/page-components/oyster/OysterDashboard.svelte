@@ -24,7 +24,7 @@
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from '$lib/page-components/oyster/sub-components/InstancesTable.svelte';
 	import {
-		OPERATOR_JOBS_URL,
+		OYSTER_OPERATOR_JOBS_URL,
 		OYSTER_DOC_LINK,
 		OYSTER_SUPPORT_LINK
 	} from '$lib/utils/constants/urls';
@@ -287,7 +287,7 @@
 	{/if}
 </ContainerCard>
 {#if $connected}
-	<a href={OPERATOR_JOBS_URL}>
+	<a href={OYSTER_OPERATOR_JOBS_URL}>
 		<Button variant="whiteFilled" size={'large'} styleClass="w-full sm:w-130 mt-4 mx-auto">
 			<div class="flex justify-between w-full">
 				<div class="w-full flex justify-center">TRACK USAGE</div>

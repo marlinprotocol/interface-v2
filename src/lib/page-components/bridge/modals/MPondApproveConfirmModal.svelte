@@ -9,10 +9,9 @@
 		addPondToWalletBalanceStore,
 		withdrawMpondFromWalletBalanceStore
 	} from '$lib/data-stores/walletProviderStore';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { mPondToPond } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
+
 	import { onDestroy } from 'svelte';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
@@ -21,12 +20,12 @@
 
 	export let modalFor: string;
 	export let rowIndex: number;
-	export let requestEpoch: BigNumber;
-	export let mpondToConvert: BigNumber;
+	export let requestEpoch: bigint;
+	export let mpondToConvert: bigint;
 	export let modalToClose: string;
 	export let handleOnSuccess: (txnHash: string) => void;
 
-	let amount = BIG_NUMBER_ZERO;
+	let amount = 0n;
 	let approved = false;
 	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
 		amount = value.allowances.mPond;
@@ -64,7 +63,7 @@
 			throw error;
 		}
 	};
-	$: approved = amount.gte(mpondToConvert) || false;
+	$: approved = amount >= mpondToConvert || false;
 </script>
 
 <ApproveAndConfirmModal

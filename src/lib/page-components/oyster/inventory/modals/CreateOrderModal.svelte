@@ -7,7 +7,6 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { CreateOrderPreFilledModel } from '$lib/types/oysterComponentType';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 	import { checkValidURL, closeModal } from '$lib/utils/helpers/commonHelper';
 	import { getRateForProviderAndFilters } from '$lib/utils/helpers/oysterHelpers';
@@ -24,12 +23,12 @@
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
 
 	let duration = 0; //durationInSecs
-	let instanceCost = BIG_NUMBER_ZERO;
+	let instanceCost = 0n;
 	let invalidCost = false;
 	let instanceCostString = '';
-	let bandwidthCost = BIG_NUMBER_ZERO;
-	let finalBandwidthRate = BIG_NUMBER_ZERO;
-	let totalCost = BIG_NUMBER_ZERO;
+	let bandwidthCost = 0n;
+	let finalBandwidthRate = 0n;
+	let totalCost = 0n;
 
 	//loading states
 	let submitLoading = false;
@@ -107,7 +106,7 @@
 			metadata,
 			provider,
 			totalRate,
-			totalCost.div(OYSTER_RATE_SCALING_FACTOR),
+			totalCost / OYSTER_RATE_SCALING_FACTOR,
 			duration
 		);
 		submitLoading = false;
@@ -124,7 +123,7 @@
 			return;
 		}
 		submitLoading = true;
-		await handleApproveFundForOysterJob(totalCost.div(OYSTER_RATE_SCALING_FACTOR));
+		await handleApproveFundForOysterJob(totalCost / OYSTER_RATE_SCALING_FACTOR);
 		submitLoading = false;
 	};
 
@@ -148,7 +147,7 @@
 
 	const handleMerchantChange = () => {
 		duration = 0;
-		instanceCost = BIG_NUMBER_ZERO;
+		instanceCost = 0n;
 		invalidCost = false;
 		instanceCostString = '';
 	};
@@ -164,10 +163,10 @@
 	let notServiceable = false;
 
 	$: approved =
-		instanceCost.gt(BIG_NUMBER_ZERO) &&
-		$oysterStore.allowance?.gte(totalCost.div(OYSTER_RATE_SCALING_FACTOR)) &&
-		bandwidthCost.gt(BIG_NUMBER_ZERO) &&
-		totalCost.gt(BIG_NUMBER_ZERO);
+		instanceCost > 0n &&
+		$oysterStore.allowance >= totalCost / OYSTER_RATE_SCALING_FACTOR &&
+		bandwidthCost > 0n &&
+		totalCost > 0n;
 
 	$: instanceRateDisabled =
 		notServiceable ||
@@ -180,8 +179,8 @@
 
 	$: submitEnable =
 		duration &&
-		instanceCost?.gt(BIG_NUMBER_ZERO) &&
-		bandwidthCost?.gt(BIG_NUMBER_ZERO) &&
+		instanceCost > 0n &&
+		bandwidthCost > 0n &&
 		instanceRate &&
 		totalRate &&
 		!invalidCost &&
@@ -194,7 +193,7 @@
 			? checkValidURL(enclaveImageUrl.value)
 			: true;
 
-	$: totalRate = finalBandwidthRate.add(instanceRate || BIG_NUMBER_ZERO);
+	$: totalRate = finalBandwidthRate + (instanceRate || 0n);
 
 	const subtitle =
 		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';

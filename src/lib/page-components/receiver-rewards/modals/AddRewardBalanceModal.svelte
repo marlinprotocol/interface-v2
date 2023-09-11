@@ -5,11 +5,7 @@
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import { walletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
-	import {
-		BIG_NUMBER_ZERO,
-		DEFAULT_CURRENCY_DECIMALS,
-		POND_PRECISIONS
-	} from '$lib/utils/constants/constants';
+	import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import {
 		closeModal,
 		inputAmountInValidMessage,
@@ -93,18 +89,18 @@
 	)} POND`;
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString, DEFAULT_CURRENCY_DECIMALS)
-		: BIG_NUMBER_ZERO;
+		: 0n;
 	$: approvedAmount = $receiverRewardsStore.amountApproved;
 	$: approveDisabled =
 		!inputAmount ||
-		!inputAmount.gt(0) ||
-		!$walletBalanceStore.pond?.gte(inputAmount) ||
-		approvedAmount?.gte(inputAmount);
+		!(inputAmount > 0) ||
+		!($walletBalanceStore.pond >= inputAmount) ||
+		approvedAmount >= inputAmount;
 	$: pondDisabledText =
-		inputAmount && inputAmount.gt(0) && !$walletBalanceStore.pond?.gte(inputAmount)
+		inputAmount && inputAmount > 0 && !($walletBalanceStore.pond >= inputAmount)
 			? 'Insufficient POND'
 			: '';
-	$: disabled = !inputAmount.gt(0) || !inputAmount.lte(approvedAmount);
+	$: disabled = !(inputAmount > 0) || !(BigInt(inputAmount) <= approvedAmount);
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>

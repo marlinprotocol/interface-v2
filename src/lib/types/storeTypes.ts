@@ -1,4 +1,4 @@
-import type { BigNumber, Signer, providers } from 'ethers';
+import type { Signer, ethers } from 'ethers';
 import type {
 	OysterInventoryDataModel,
 	OysterMarketplaceDataModel
@@ -9,16 +9,16 @@ export type Address = string;
 
 // wallet provider store
 export type WalletStore = {
-	provider: providers.Provider | undefined;
+	provider: ethers.BrowserProvider | undefined;
 	signer: Signer | undefined;
 	address: Address;
 };
 
 // wallet balance store
 export type WalletBalanceStore = {
-	pond: BigNumber;
-	mPond: BigNumber;
-	usdc: BigNumber;
+	pond: bigint;
+	mPond: bigint;
+	usdc: bigint;
 };
 
 // chain store
@@ -58,9 +58,9 @@ export type ContractAddress = {
 // receiver staking store
 export type ReceiverStakingData = {
 	signer: Address;
-	approvedBalance: BigNumber;
-	stakedBalance: BigNumber;
-	queuedBalance: BigNumber;
+	approvedBalance: bigint;
+	stakedBalance: bigint;
+	queuedBalance: bigint;
 	epochData: {
 		epochCycle: number;
 		startTime: number;
@@ -72,10 +72,10 @@ export type EpochCycleStore = number;
 
 export type BridgeStore = {
 	allowances: {
-		pond: BigNumber;
-		mPond: BigNumber;
+		pond: bigint;
+		mPond: bigint;
 	};
-	requestedMPond: BigNumber;
+	requestedMPond: bigint;
 };
 
 export type OysterStore = {
@@ -89,7 +89,7 @@ export type OysterStore = {
 	};
 	allMarketplaceData: OysterMarketplaceDataModel[];
 	jobsData: OysterInventoryDataModel[];
-	allowance: BigNumber;
+	allowance: bigint;
 	merchantJobsData: OysterInventoryDataModel[];
 	marketplaceLoaded: boolean;
 	oysterStoreLoaded: boolean;
@@ -99,9 +99,9 @@ export type OysterStore = {
 
 // receiver rewards store
 export type ReceiverRewardsStore = {
-	rewardPerEpoch: BigNumber;
-	rewardBalance: BigNumber;
-	amountApproved: BigNumber;
+	rewardPerEpoch: bigint;
+	rewardBalance: bigint;
+	amountApproved: bigint;
 	startTime: number;
 	epochDuration: number;
 	lastTicketIssuedEpoch: number | undefined;

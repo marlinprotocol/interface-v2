@@ -1,5 +1,5 @@
 import type { Address } from '$lib/types/storeTypes';
-import type { Bytes } from 'ethers';
+import type { BytesLike } from 'ethers';
 import type { CPInstances } from '$lib/types/oysterComponentType';
 import type { ChainConfig } from '$lib/types/environmentTypes';
 import { GET_OPTIONS } from '$lib/utils/constants/constants';
@@ -73,7 +73,7 @@ export async function getJobStatuses(userAddress: Address) {
 	return response;
 }
 
-export async function refreshJobStatusForJobId(jobId: Bytes) {
+export async function refreshJobStatusForJobId(jobId: BytesLike) {
 	const refreshJobStatusEndpoint = chainConfig.oyster_urls.job_refresh_url + jobId;
 	const options = GET_OPTIONS;
 	const response = await fetchHttpData(refreshJobStatusEndpoint, options);

@@ -14,7 +14,7 @@
 	import type { Unsubscriber } from 'svelte/store';
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
 	import OysterOperatorHistoryTableRow from '$lib/page-components/oyster/operator/OysterOperatorHistoryTableRow.svelte';
-	import { OPERATOR_JOBS_URL } from '$lib/utils/constants/urls';
+	import { OYSTER_OPERATOR_JOBS_URL } from '$lib/utils/constants/urls';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 
 	let searchInput = '';
@@ -65,7 +65,7 @@
 </script>
 
 <div class="mx-auto">
-	<PageTitle title={'History of Claims'} backHref={OPERATOR_JOBS_URL} />
+	<PageTitle title={'History of Claims'} backHref={OYSTER_OPERATOR_JOBS_URL} />
 	<div class="flex gap-4 items-center mb-6">
 		<SearchBar
 			{onSearchClick}

@@ -3,9 +3,8 @@
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
-	import type { BigNumber } from 'ethers';
 
-	export let data: { title: string; value: BigNumber };
+	export let data: { title: string; value: bigint };
 	const styles = {
 		itemCard: 'w-full',
 		dataRow: 'flex items-center justify-between',

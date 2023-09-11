@@ -6,7 +6,6 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import {
-		BIG_NUMBER_ZERO,
 		DEFAULT_CURRENCY_DECIMALS,
 		MPOND_PRECISIONS,
 		POND_PRECISIONS
@@ -19,11 +18,10 @@
 		pondToMPond
 	} from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
 
 	export let modalFor: string;
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
-	export let amountConverted: BigNumber = BIG_NUMBER_ZERO;
+	export let amountConverted = 0n;
 
 	$: conversionTo = conversionFrom === 'pond' ? 'mPond' : 'pond';
 	$: amountConvertedFrom = bigNumberToCommaString(

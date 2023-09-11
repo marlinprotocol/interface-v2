@@ -2,7 +2,6 @@
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import { getReceiverRewardsDataFromSubgraph } from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
-	import { environment } from '$lib/data-stores/environment';
 	import { receiverRewardsStore } from '$lib/data-stores/receiverRewardsStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import RewardsDashboard from '$lib/page-components/receiver-rewards/RewardsDashboard.svelte';
@@ -30,6 +29,6 @@
 	{#if $chainStore.isValidChain}
 		<RewardsDashboard />
 	{:else}
-		<NetworkPrompt routeSupportedChains={environment.supported_chains.receiver_staking} />
+		<NetworkPrompt />
 	{/if}
 </div>

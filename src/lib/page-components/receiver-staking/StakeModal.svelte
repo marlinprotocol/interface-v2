@@ -20,11 +20,7 @@
 	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { Address } from '$lib/types/storeTypes';
-	import {
-		BIG_NUMBER_ZERO,
-		DEFAULT_CURRENCY_DECIMALS,
-		POND_PRECISIONS
-	} from '$lib/utils/constants/constants';
+	import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { MESSAGES } from '$lib/utils/constants/messages';
 	import {
 		DEFAULT_RECEIVER_STAKING_DATA,
@@ -37,7 +33,6 @@
 		isAddressValid,
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
 	import { onDestroy } from 'svelte';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
@@ -55,20 +50,20 @@
 		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';
 
 	//initial amount states
-	let inputAmount: BigNumber;
+	let inputAmount: bigint;
 	let inputAmountString: string;
-	let approvedAmount: BigNumber;
+	let approvedAmount: bigint;
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BIG_NUMBER_ZERO;
+		: 0n;
 
 	//loading states
 	let approveLoading = false;
 	let submitLoading = false;
 
 	//max amount in wallet
-	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE_STORE.pond;
+	let maxPondBalance = DEFAULT_WALLET_BALANCE_STORE.pond;
 	let balanceText = 'Balance: 0.00';
 	const unsubscribeWalletBalanceStore = walletBalanceStore.subscribe((value) => {
 		maxPondBalance = value.pond;
@@ -126,7 +121,7 @@
 
 	const handleApproveClick = async () => {
 		if (approveDisabled) return;
-		if (!inputAmount || !inputAmount.gt(0)) {
+		if (!inputAmount || !(inputAmount > 0)) {
 			addToast({
 				message: 'Please enter an valid amount',
 				variant: 'error'
@@ -200,30 +195,28 @@
 	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount or approved amount is less than or equal to input amount, disable approve button
 	$: approveDisabled =
 		!inputAmount ||
-		!inputAmount.gt(0) ||
-		!maxPondBalance?.gte(inputAmount) ||
-		approvedAmount?.gte(inputAmount);
+		!(inputAmount > 0n) ||
+		!(maxPondBalance >= inputAmount) ||
+		approvedAmount >= inputAmount;
 
 	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount, disable submit button
 	$: pondDisabledText =
-		inputAmount && inputAmount.gt(0) && !maxPondBalance?.gte(inputAmount)
-			? 'Insufficient POND'
-			: '';
+		inputAmount && inputAmount > 0 && !(maxPondBalance >= inputAmount) ? 'Insufficient POND' : '';
 
 	$: signerAddressNotAdded = $receiverStakingStore.signer === DEFAULT_RECEIVER_STAKING_DATA.signer;
 	//if signerAddress is already set then we consider only inputAmount else we also consider signerAddress to be set while disabling submit button
 	$: submitEnable = signerAddressNotAdded
 		? inputAmount &&
-		  inputAmount.gt(0) &&
-		  approvedAmount?.gte(inputAmount) &&
-		  maxPondBalance?.gte(inputAmount) &&
+		  inputAmount > 0 &&
+		  approvedAmount >= inputAmount &&
+		  maxPondBalance >= inputAmount &&
 		  updatedSignerAddress !== '' &&
 		  signerAddressIsValid &&
 		  signerAddressIsUnique
 		: inputAmount &&
-		  inputAmount.gt(0) &&
-		  approvedAmount?.gte(inputAmount) &&
-		  maxPondBalance?.gte(inputAmount);
+		  inputAmount > 0 &&
+		  approvedAmount >= inputAmount &&
+		  maxPondBalance >= inputAmount;
 
 	$: subtitle = signerAddressNotAdded
 		? 'Staking POND requires users to approve the POND tokens. After approval, enter the signer address mentioned in the receiver client and confirm the transaction. There is no lock-in period for staking POND.'

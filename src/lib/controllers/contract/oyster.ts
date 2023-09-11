@@ -1,10 +1,10 @@
-import type { BigNumber, Bytes } from 'ethers';
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
 
 import type { ContractAddress } from '$lib/types/storeTypes';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { OYSTER_MARKET_ABI } from '$lib/utils/abis/oysterMarket';
 import { contractAddressStore } from '$lib/data-stores/contractStore';
+import type { BytesLike } from 'ethers';
 
 let contractAddresses: ContractAddress;
 contractAddressStore.subscribe((value) => {
@@ -77,8 +77,8 @@ export async function removeOysterInfrastructureProvider() {
 export async function createNewOysterJob(
 	metadata: string,
 	provider: string,
-	rate: BigNumber,
-	balance: BigNumber
+	rate: bigint,
+	balance: bigint
 ) {
 	const oysterContract = createSignerContract(contractAddresses.OYSTER, OYSTER_MARKET_ABI);
 	try {
@@ -103,7 +103,7 @@ export async function createNewOysterJob(
 	}
 }
 
-export async function stopOysterJob(jobId: Bytes) {
+export async function stopOysterJob(jobId: BytesLike) {
 	const oysterContract = createSignerContract(contractAddresses.OYSTER, OYSTER_MARKET_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.STOP_JOB.STOPPING;
@@ -125,7 +125,7 @@ export async function stopOysterJob(jobId: Bytes) {
 	}
 }
 
-export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber) {
+export async function withdrawFundsFromOysterJob(jobId: BytesLike, amount: bigint) {
 	const oysterContract = createSignerContract(contractAddresses.OYSTER, OYSTER_MARKET_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.WITHDRAW_JOB.WITHDRAWING;
@@ -147,7 +147,7 @@ export async function withdrawFundsFromOysterJob(jobId: Bytes, amount: BigNumber
 	}
 }
 
-export async function addFundsToOysterJob(jobId: Bytes, amount: BigNumber) {
+export async function addFundsToOysterJob(jobId: BytesLike, amount: bigint) {
 	const oysterContract = createSignerContract(contractAddresses.OYSTER, OYSTER_MARKET_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.ADD_FUNDS_JOB.ADDING_FUNDS;
@@ -169,7 +169,7 @@ export async function addFundsToOysterJob(jobId: Bytes, amount: BigNumber) {
 	}
 }
 
-export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber) {
+export async function initiateRateReviseOysterJob(jobId: BytesLike, rate: bigint) {
 	const oysterContract = createSignerContract(contractAddresses.OYSTER, OYSTER_MARKET_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATING;
@@ -191,7 +191,7 @@ export async function initiateRateReviseOysterJob(jobId: Bytes, rate: BigNumber)
 	}
 }
 
-export async function cancelRateReviseOysterJob(jobId: Bytes) {
+export async function cancelRateReviseOysterJob(jobId: BytesLike) {
 	const oysterContract = createSignerContract(contractAddresses.OYSTER, OYSTER_MARKET_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.CANCELLING;
@@ -213,7 +213,7 @@ export async function cancelRateReviseOysterJob(jobId: Bytes) {
 	}
 }
 
-export async function finaliseRateReviseOysterJob(jobId: Bytes) {
+export async function finaliseRateReviseOysterJob(jobId: BytesLike) {
 	const oysterContract = createSignerContract(contractAddresses.OYSTER, OYSTER_MARKET_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.AMENDING;
@@ -235,7 +235,7 @@ export async function finaliseRateReviseOysterJob(jobId: Bytes) {
 	}
 }
 
-export async function settleOysterJob(jobId: Bytes) {
+export async function settleOysterJob(jobId: BytesLike) {
 	const oysterContract = createSignerContract(contractAddresses.OYSTER, OYSTER_MARKET_ABI);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.SETTLE_JOB.SETTLING;

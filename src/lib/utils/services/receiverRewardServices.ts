@@ -11,7 +11,6 @@ import {
 	updateTicketRewardsInReceiverRewardsStore
 } from '$lib/data-stores/receiverRewardsStore';
 
-import type { BigNumber } from 'ethers';
 import type { ChainConfig } from '$lib/types/environmentTypes';
 import { approveToken } from '$lib/controllers/contract/token';
 import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
@@ -27,7 +26,7 @@ contractAddressStore.subscribe((value) => {
 	contractAddresses = value;
 });
 
-export async function handleRewardsPondApproval(amount: BigNumber) {
+export async function handleRewardsPondApproval(amount: bigint) {
 	try {
 		await approveToken(chainConfig.tokens.POND, amount, contractAddresses.POND);
 		updateAmountApprovedInReceiverRewardsStore(amount);
@@ -36,7 +35,7 @@ export async function handleRewardsPondApproval(amount: BigNumber) {
 	}
 }
 
-export async function handleInitiateRewards(rewardBalance: BigNumber, rewardPerEpoch: BigNumber) {
+export async function handleInitiateRewards(rewardBalance: bigint, rewardPerEpoch: bigint) {
 	try {
 		await initiateReceiverRewards(rewardBalance, rewardPerEpoch);
 		initiateReceiverRewardsInReceiverRewardsStore(rewardBalance, rewardPerEpoch);
@@ -46,7 +45,7 @@ export async function handleInitiateRewards(rewardBalance: BigNumber, rewardPerE
 	}
 }
 
-export async function handleAddRewardBalance(address: Address, amount: BigNumber) {
+export async function handleAddRewardBalance(address: Address, amount: bigint) {
 	try {
 		await addReceiverBalance(address, amount);
 		addRewardBalanceInReceiverRewardsStore(amount);
@@ -56,7 +55,7 @@ export async function handleAddRewardBalance(address: Address, amount: BigNumber
 	}
 }
 
-export async function handleUpdateTicketRewards(rewardPerEpoch: BigNumber) {
+export async function handleUpdateTicketRewards(rewardPerEpoch: bigint) {
 	try {
 		await updateReceiverTicketReward(rewardPerEpoch);
 		updateTicketRewardsInReceiverRewardsStore(rewardPerEpoch);

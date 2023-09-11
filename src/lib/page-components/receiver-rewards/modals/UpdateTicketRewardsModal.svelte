@@ -5,11 +5,7 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import { receiverRewardsStore } from '$lib/data-stores/receiverRewardsStore';
-	import {
-		BIG_NUMBER_ZERO,
-		DEFAULT_CURRENCY_DECIMALS,
-		POND_PRECISIONS
-	} from '$lib/utils/constants/constants';
+	import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import {
 		isInputAmountValid,
 		inputAmountInValidMessage,
@@ -26,7 +22,7 @@
 	let rewardInvalidMessage = '';
 	let rewardString = '';
 	let rewardIsValid = false;
-	let reward = BIG_NUMBER_ZERO;
+	let reward = 0n;
 	let confirmLoading = false;
 
 	const subtitle =
@@ -55,10 +51,10 @@
 
 		if (isInputAmountValid(target.value)) {
 			reward = stringToBigNumber(target.value, DEFAULT_CURRENCY_DECIMALS);
-			if (reward.eq(BIG_NUMBER_ZERO)) {
+			if (reward === 0n) {
 				rewardInvalidMessage = 'Ticket reward cannot be zero.';
 				rewardIsValid = false;
-			} else if (reward.gt($receiverRewardsStore.rewardBalance)) {
+			} else if (reward > $receiverRewardsStore.rewardBalance) {
 				rewardInvalidMessage = 'Ticket reward cannot be greater than reward balance.';
 				rewardIsValid = false;
 			} else {
@@ -66,7 +62,7 @@
 				rewardInvalidMessage = '';
 			}
 		} else {
-			reward = BIG_NUMBER_ZERO;
+			reward = 0n;
 			rewardIsValid = false;
 			rewardInvalidMessage = inputAmountInValidMessage(target.value);
 		}
@@ -89,7 +85,7 @@
 		POND_PRECISIONS
 	)} POND`;
 	$: confirmDisabled =
-		!rewardIsValid || !reward.gt(0) || reward?.gt($receiverRewardsStore.rewardBalance);
+		!rewardIsValid || !(reward > 0n) || reward > $receiverRewardsStore.rewardBalance;
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>

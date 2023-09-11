@@ -3,7 +3,6 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
 	import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
 	import {
 		OYSTER_RATE_SCALING_FACTOR,
 		OYSTER_DURATION_UNITS_LIST,
@@ -22,12 +21,12 @@
 		computeDurationString,
 		getDurationInSecondsForUnit
 	} from '$lib/utils/helpers/oysterHelpers';
-	import type { BigNumber } from 'ethers';
+
 	import { onDestroy } from 'svelte';
 
-	export let instanceRate: BigNumber | undefined;
+	export let instanceRate: bigint | undefined;
 	export let duration: number | undefined;
-	export let instanceCost: BigNumber;
+	export let instanceCost: bigint;
 	export let selectId: string;
 	export let invalidCost = false;
 	export let instanceCostString = '';
@@ -39,10 +38,10 @@
 
 	let instanceRateString = '';
 
-	const updateRateString = (_instanceRate: BigNumber | undefined) => {
+	const updateRateString = (_instanceRate: bigint | undefined) => {
 		if (_instanceRate) {
 			instanceRateString = _instanceRate
-				? convertRateToPerHourString(_instanceRate?.div(OYSTER_RATE_SCALING_FACTOR), decimal, 4)
+				? convertRateToPerHourString(_instanceRate / OYSTER_RATE_SCALING_FACTOR, decimal, 4)
 				: '';
 			return;
 		}
@@ -54,11 +53,11 @@
 
 	$: updateRateString(instanceRate);
 
-	function getInstanceCostString(cost: BigNumber) {
-		return bigNumberToString(cost.div(OYSTER_RATE_SCALING_FACTOR), decimal, 4);
+	function getInstanceCostString(cost: bigint) {
+		return bigNumberToString(cost / OYSTER_RATE_SCALING_FACTOR, decimal, 4);
 	}
 
-	let maxBalance = BIG_NUMBER_ZERO;
+	let maxBalance = 0n;
 	let durationUnit = 'Days';
 	let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
 
@@ -125,7 +124,7 @@
 		}
 		if (_instanceCost && instanceRate) {
 			try {
-				let _instanceRate = instanceRate.toNumber() / 10 ** decimal;
+				let _instanceRate = Number(instanceRate) / 10 ** decimal;
 				duration = Math.floor(_instanceCost / _instanceRate);
 				instanceCostString = value;
 			} catch (error) {
@@ -138,7 +137,7 @@
 
 	$: durationString = computeDurationString(duration, durationUnitInSec);
 	$: instanceCost = computeCost(duration || 0, instanceRate);
-	$: invalidCost = !instanceCost || !maxBalance.gte(instanceCost.div(OYSTER_RATE_SCALING_FACTOR));
+	$: invalidCost = !instanceCost || !(maxBalance >= instanceCost / OYSTER_RATE_SCALING_FACTOR);
 	$: inValidMessage = !instanceCost
 		? ''
 		: invalidCost

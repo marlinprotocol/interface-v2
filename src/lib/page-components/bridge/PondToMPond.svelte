@@ -8,19 +8,18 @@
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { connected, walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import {
-		BIG_NUMBER_ZERO,
+		DEFAULT_CURRENCY_DECIMALS,
 		MPOND_PRECISIONS,
 		POND_PRECISIONS
 	} from '$lib/utils/constants/constants';
 	import { DEFAULT_WALLET_BALANCE_STORE } from '$lib/utils/constants/storeDefaults';
 	import {
-		bigNumberToCommaString,
 		bigNumberToString,
 		pondToMPond,
 		stringToBigNumber
 	} from '$lib/utils/helpers/conversionHelper';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
+
 	import { onDestroy } from 'svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import PondApproveConfirmModal from '$lib/page-components/bridge/PondApproveConfirmModal.svelte';
@@ -34,7 +33,7 @@
 	let modalFor = 'pond-approve-confirm-modal';
 
 	//initial amount states
-	let inputAmount: BigNumber;
+	let inputAmount: bigint;
 	let inputAmountString: string;
 	//input error states
 	let inputAmountIsValid = true;
@@ -45,17 +44,20 @@
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BIG_NUMBER_ZERO;
+		: 0n;
 
 	// convert pond to mPond by dividing by 10^6
-	$: convertedAmountString = inputAmount.gt(0)
-		? bigNumberToString(pondToMPond(inputAmount), 18, MPOND_PRECISIONS)
-		: '';
-	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE_STORE.pond;
+	$: convertedAmountString =
+		inputAmount > 0 ? bigNumberToString(pondToMPond(inputAmount), 18, MPOND_PRECISIONS) : '';
+	let maxPondBalance = DEFAULT_WALLET_BALANCE_STORE.pond;
 	let balanceText = 'Balance: 0.00';
 	const unsubscribeWalletBalanceStore = walletBalanceStore.subscribe((value) => {
 		maxPondBalance = value.pond;
-		balanceText = `Balance: ${bigNumberToCommaString(maxPondBalance, POND_PRECISIONS)}`;
+		balanceText = `Balance: ${bigNumberToString(
+			maxPondBalance,
+			DEFAULT_CURRENCY_DECIMALS,
+			POND_PRECISIONS
+		)}`;
 	});
 	onDestroy(unsubscribeWalletBalanceStore);
 
@@ -76,10 +78,8 @@
 	};
 
 	$: pondDisabledText =
-		inputAmount && inputAmount.gt(0) && !maxPondBalance?.gte(inputAmount)
-			? 'Insufficient POND'
-			: '';
-	$: enableConversion = inputAmount && inputAmount.gt(0) && maxPondBalance?.gte(inputAmount);
+		inputAmount && inputAmount > 0 && !(maxPondBalance >= inputAmount) ? 'Insufficient POND' : '';
+	$: enableConversion = inputAmount && inputAmount > 0 && maxPondBalance >= inputAmount;
 </script>
 
 <div class="my-2 mx-2">

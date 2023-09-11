@@ -10,8 +10,6 @@ import type {
 	WalletStore
 } from '$lib/types/storeTypes';
 
-import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
-
 // walletProviderStore
 export const DEFAULT_WALLET_STORE: WalletStore = {
 	provider: undefined,
@@ -21,9 +19,9 @@ export const DEFAULT_WALLET_STORE: WalletStore = {
 
 // walletBalanceStore
 export const DEFAULT_WALLET_BALANCE_STORE: WalletBalanceStore = {
-	pond: BIG_NUMBER_ZERO,
-	mPond: BIG_NUMBER_ZERO,
-	usdc: BIG_NUMBER_ZERO
+	pond: 0n,
+	mPond: 0n,
+	usdc: 0n
 };
 
 // chainProviderStore
@@ -63,9 +61,9 @@ export const DEFAULT_CONTRACT_ADDRESS_STORE: ContractAddress = {
 // receiver staked, queued data store
 export const DEFAULT_RECEIVER_STAKING_DATA: ReceiverStakingData = {
 	signer: '',
-	approvedBalance: BIG_NUMBER_ZERO,
-	stakedBalance: BIG_NUMBER_ZERO,
-	queuedBalance: BIG_NUMBER_ZERO,
+	approvedBalance: 0n,
+	stakedBalance: 0n,
+	queuedBalance: 0n,
 	epochData: {
 		epochCycle: 0,
 		startTime: 0,
@@ -76,10 +74,10 @@ export const DEFAULT_RECEIVER_STAKING_DATA: ReceiverStakingData = {
 // bridgeStore
 export const DEFAULT_BRIDGE_STORE: BridgeStore = {
 	allowances: {
-		pond: BIG_NUMBER_ZERO,
-		mPond: BIG_NUMBER_ZERO
+		pond: 0n,
+		mPond: 0n
 	},
-	requestedMPond: BIG_NUMBER_ZERO
+	requestedMPond: 0n
 };
 
 // oysterStore
@@ -90,7 +88,7 @@ export const DEFAULT_OYSTER_STORE: OysterStore = {
 	},
 	allMarketplaceData: [],
 	jobsData: [],
-	allowance: BIG_NUMBER_ZERO,
+	allowance: 0n,
 	merchantJobsData: [],
 	marketplaceLoaded: false,
 	oysterStoreLoaded: false,
@@ -100,9 +98,9 @@ export const DEFAULT_OYSTER_STORE: OysterStore = {
 
 // receiverRewardsStore
 export const DEFAULT_RECEIVER_REWARDS_STORE: ReceiverRewardsStore = {
-	rewardPerEpoch: BIG_NUMBER_ZERO,
-	rewardBalance: BIG_NUMBER_ZERO,
-	amountApproved: BIG_NUMBER_ZERO,
+	rewardPerEpoch: 0n,
+	rewardBalance: 0n,
+	amountApproved: 0n,
 	epochDuration: 0,
 	startTime: 0,
 	lastTicketIssuedEpoch: undefined

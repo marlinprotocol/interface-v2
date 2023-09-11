@@ -1,6 +1,5 @@
 import { DEFAULT_CURRENCY_DECIMALS, SECONDS_IN_DAY } from '$lib/utils/constants/constants';
 
-import { BigNumber } from 'ethers';
 import type { TableModel } from '$lib/types/componentTypes';
 import type { Tokens } from '$lib/types/environmentTypes';
 
@@ -19,9 +18,8 @@ export const OYSTER_RATE_METADATA = {
 };
 
 // scaling for rates in order to maintain precision while calculating cost
-export const OYSTER_RATE_SCALING_FACTOR = BigNumber.from(10).pow(
-	DEFAULT_CURRENCY_DECIMALS - OYSTER_RATE_METADATA.decimal
-);
+export const OYSTER_RATE_SCALING_FACTOR =
+	BigInt(10) ** BigInt(DEFAULT_CURRENCY_DECIMALS - OYSTER_RATE_METADATA.decimal);
 
 // make sure the id matches the id in Data Model
 export const OYSTER_INSTANCES_TABLE_HEADER: TableModel['header'][] = [

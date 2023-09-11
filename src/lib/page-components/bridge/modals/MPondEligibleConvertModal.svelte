@@ -5,7 +5,7 @@
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import { BIG_NUMBER_ZERO, MPOND_PRECISIONS } from '$lib/utils/constants/constants';
+	import { MPOND_PRECISIONS } from '$lib/utils/constants/constants';
 	import {
 		bigNumberToCommaString,
 		bigNumberToString,
@@ -16,25 +16,25 @@
 		inputAmountInValidMessage,
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
+
 	import MPondApproveConfirmModal from '$lib/page-components/bridge/modals/MPondApproveConfirmModal.svelte';
 
 	export let modalFor: string;
-	export let maxAmount: BigNumber;
-	export let requestEpoch: BigNumber;
+	export let maxAmount: bigint;
+	export let requestEpoch: bigint;
 	export let rowIndex: number;
-	export let handleOnSuccess: (convertedMPond: BigNumber, txnHash: string) => void;
+	export let handleOnSuccess: (convertedMPond: bigint, txnHash: string) => void;
 
 	$: balanceText = `Eligible Balance: ${bigNumberToCommaString(maxAmount, MPOND_PRECISIONS)}`;
 
 	//initial amount states
-	let inputAmount: BigNumber;
+	let inputAmount: bigint;
 	let inputAmountString: string;
 	let modalForMPondApproveConfirm = 'mpond-approve-confirm-modal';
 
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString)
-		: BIG_NUMBER_ZERO;
+		: 0n;
 
 	//input amount states
 	let inputAmountIsValid = true;
@@ -49,8 +49,8 @@
 		inValidMessage = inputAmountInValidMessage(target.value);
 	};
 
-	$: mPondDisabledText = inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient balance' : '';
-	$: submitEnable = inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
+	$: mPondDisabledText = inputAmount && inputAmount > maxAmount ? 'Insufficient balance' : '';
+	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;
 	$: modalIdWithRowIndex = `${modalForMPondApproveConfirm}-${rowIndex}`;
 
 	const handleMaxClick = () => {

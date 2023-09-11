@@ -1,17 +1,15 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import { BIG_NUMBER_ZERO } from '$lib/utils/constants/constants';
-	import type { BigNumber } from 'ethers';
 
 	export let disabled = false;
 	export let loading = false;
 	export let handleApproveClick: () => void;
-	export let inputAmount: BigNumber;
-	export let approvedAmount: BigNumber;
+	export let inputAmount: bigint;
+	export let approvedAmount: bigint;
 
 	//approved if input amount is greater than 0 and approved amount is greater than input amount
-	$: approved = inputAmount?.gt(BIG_NUMBER_ZERO) && approvedAmount?.gte(inputAmount);
+	$: approved = inputAmount > 0n && approvedAmount >= inputAmount;
 
 	$: styleClass = `${buttonClasses.text} h-10 text-xl font-semibold ${
 		disabled

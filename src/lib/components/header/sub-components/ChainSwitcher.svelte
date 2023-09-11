@@ -15,7 +15,7 @@
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import chevronDown from 'svelte-awesome/icons/chevronDown';
 
-	export let isDark: boolean;
+	export let isDark: boolean = false;
 
 	function handleChainSwitch(chainId: number) {
 		if ($connected) {
@@ -30,11 +30,9 @@
 	}
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-<div class="dropdown">
+<details class="dropdown">
 	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-	<!-- svelte-ignore a11y-label-has-associated-control -->
-	<label
+	<summary
 		tabindex="0"
 		class="{isDark
 			? buttonClasses.greyFilled
@@ -48,7 +46,8 @@
 				<Icon data={chevronDown} size={12} iconColorClass="icon-primary" />
 			</div>
 		</div>
-	</label>
+	</summary>
+	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 	<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		{#each $allowedChainsStore as chain (chain)}
@@ -66,4 +65,4 @@
 			</li>
 		{/each}
 	</ul>
-</div>
+</details>

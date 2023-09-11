@@ -7,8 +7,11 @@
 	} from '$lib/utils/helpers/networkHelper';
 	import { environment } from '$lib/data-stores/environment';
 	import { connected, web3WalletStore } from '$lib/data-stores/walletProviderStore';
-	import { chainStore, updateChainStore } from '$lib/data-stores/chainProviderStore';
-	import { page } from '$app/stores';
+	import {
+		allowedChainsStore,
+		chainStore,
+		updateChainStore
+	} from '$lib/data-stores/chainProviderStore';
 
 	function handleChainSwitch(chainId: number) {
 		if ($connected) {
@@ -21,11 +24,6 @@
 			);
 		}
 	}
-
-	// base route should be same as the key in environment.supported_chains object
-	$: baseRoute = $page?.route?.id?.split('/')?.[1].replace(/-/g, '_');
-	$: routeSupportedChains =
-		environment.supported_chains[baseRoute === '' || baseRoute === undefined ? 'relay' : baseRoute];
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
@@ -39,7 +37,7 @@
 	</label>
 	<ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		{#each routeSupportedChains as chain (chain)}
+		{#each $allowedChainsStore as chain (chain)}
 			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<li
 				class="flex {$chainStore.chainId === chain ? 'bg-grey-300 rounded-lg' : ''}"

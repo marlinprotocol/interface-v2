@@ -10,6 +10,8 @@ import type {
 	WalletStore
 } from '$lib/types/storeTypes';
 
+import { environment } from '$lib/data-stores/environment';
+
 // walletProviderStore
 export const DEFAULT_WALLET_STORE: WalletStore = {
 	provider: undefined,
@@ -26,8 +28,8 @@ export const DEFAULT_WALLET_BALANCE_STORE: WalletBalanceStore = {
 
 // chainProviderStore
 export const DEFAULT_CHAIN_STORE: ChainStore = {
-	chainId: null,
-	chainName: '',
+	chainId: environment.default_chain_id,
+	chainName: environment.valid_chains[environment.default_chain_id].chain_name,
 	chainDisplayName: '',
 	isValidChain: true
 };

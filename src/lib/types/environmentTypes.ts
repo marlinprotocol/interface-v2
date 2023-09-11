@@ -5,7 +5,7 @@ export type Environment = {
 	production: boolean;
 	valid_chains: Record<number, ChainConfig>;
 	default_chain_id: number;
-	supported_chains: Record<string, number[]>;
+	supported_chains: Record<RouteNames, number[]>;
 	dapp_url: string;
 	trezor_email: string;
 };
@@ -49,3 +49,5 @@ export type SubgraphUrls = {
 	POND: string;
 	MPOND: string;
 };
+
+type RouteNames = 'bridge' | 'oyster' | 'receiver';

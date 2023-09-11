@@ -5,6 +5,8 @@ import { environment } from '$lib/data-stores/environment';
 
 export const chainStore: Writable<ChainStore> = writable(DEFAULT_CHAIN_STORE);
 
+export const allowedChainsStore: Writable<number[]> = writable([environment.default_chain_id]);
+
 export const chainConfigStore = derived([chainStore], ([$chainStore]) => {
 	const isChainValid =
 		$chainStore.chainId !== null && environment.valid_chains[$chainStore.chainId];
@@ -13,9 +15,14 @@ export const chainConfigStore = derived([chainStore], ([$chainStore]) => {
 		: environment.valid_chains[environment.default_chain_id];
 });
 
-/**
- *  Resets the chainStore to its default value.
- */
+export function resetAllowedChainsStore() {
+	allowedChainsStore.set([environment.default_chain_id]);
+}
+
+export function setAllowedChainsStore(chainIds: number[]) {
+	allowedChainsStore.set(chainIds);
+}
+
 export function resetChainStore() {
 	chainStore.set(DEFAULT_CHAIN_STORE);
 }

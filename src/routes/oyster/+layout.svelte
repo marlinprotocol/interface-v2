@@ -85,7 +85,8 @@
 </svelte:head>
 
 {#if $chainStore.isValidChain && chainSupported}
-	<slot />
+	<!-- <slot /> -->
+	<NetworkPrompt />
 {:else}
 	<NetworkPrompt />
 {/if}

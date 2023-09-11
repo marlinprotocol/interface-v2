@@ -230,7 +230,6 @@
 				bind:instanceCostString
 				bind:duration
 				bind:invalidCost
-				selectId="create-order-duration-unit-select"
 				instanceRateEditable={!instanceRateDisabled}
 			/>
 			<BandwidthSelector

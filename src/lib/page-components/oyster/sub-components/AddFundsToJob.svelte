@@ -19,18 +19,19 @@
 		computeCost,
 		computeDuration,
 		computeDurationString,
-		getDurationInSecondsForUnit
+		getDurationInSecondsForUnit,
+		getInstanceCostString
 	} from '$lib/utils/helpers/oysterHelpers';
 
-	import { onDestroy } from 'svelte';
-
+	const durationUnitList = OYSTER_DURATION_UNITS_LIST.map((unit) => unit.label);
+	let durationUnit = 'Days';
 	export let instanceRate: bigint | undefined;
 	export let duration: number | undefined;
 	export let instanceCost: bigint;
-	export let selectId: string;
 	export let invalidCost = false;
 	export let instanceCostString = '';
 	export let isTotalRate = false;
+	export let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
 	// this is not being used currently as we are not allowing the user to edit the instance rate
 	export let instanceRateEditable = true;
 
@@ -50,23 +51,6 @@
 			return;
 		}
 	};
-
-	$: updateRateString(instanceRate);
-
-	function getInstanceCostString(cost: bigint) {
-		return bigNumberToString(cost / OYSTER_RATE_SCALING_FACTOR, decimal, 4);
-	}
-
-	let maxBalance = 0n;
-	let durationUnit = 'Days';
-	let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
-
-	const durationUnitList = OYSTER_DURATION_UNITS_LIST.map((unit) => unit.label);
-
-	const unsubscribeWalletBalanceStore = walletBalanceStore.subscribe((value) => {
-		maxBalance = value.pond;
-	});
-	onDestroy(unsubscribeWalletBalanceStore);
 
 	const handleRateChange = (e: any) => {
 		const value = e.target.value;
@@ -135,14 +119,16 @@
 		}
 	};
 
+	$: updateRateString(instanceRate);
 	$: durationString = computeDurationString(duration, durationUnitInSec);
 	$: instanceCost = computeCost(duration || 0, instanceRate);
-	$: invalidCost = !instanceCost || !(maxBalance >= instanceCost / OYSTER_RATE_SCALING_FACTOR);
+	$: invalidCost =
+		!instanceCost || !($walletBalanceStore.pond >= instanceCost / OYSTER_RATE_SCALING_FACTOR);
 	$: inValidMessage = !instanceCost
 		? ''
 		: invalidCost
 		? `Insufficient balance. Your current wallet has ${bigNumberToString(
-				maxBalance,
+				$walletBalanceStore.pond,
 				decimal
 		  )} ${currency}.`
 		: '';

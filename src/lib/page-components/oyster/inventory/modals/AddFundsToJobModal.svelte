@@ -9,34 +9,38 @@
 		handleApproveFundForOysterJob,
 		handleFundsAddToJob
 	} from '$lib/utils/services/oysterServices';
-
-	import { onDestroy } from 'svelte';
-	import type { Unsubscriber } from 'svelte/store';
 	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
-	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
+	import {
+		OYSTER_RATE_METADATA,
+		OYSTER_RATE_SCALING_FACTOR
+	} from '$lib/utils/constants/oysterConstants';
+	import { dividerClasses } from '$lib/atoms/componentClasses';
+	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
+	import Text from '$lib/atoms/texts/Text.svelte';
 
+	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
+	import { getInstanceCostString } from '$lib/utils/helpers/oysterHelpers';
+	const { decimal, currency } = OYSTER_RATE_METADATA;
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
-
-	$: ({ rate } = jobData);
 
 	let duration: number | undefined = undefined; //durationInSecs
 	let instanceCost = 0n;
 	let invalidCost = false;
+	let durationUnitInSec: number;
 
 	//loading states
 	let submitLoading = false;
 	let approvedLoading = false;
 	let approved = false;
-
-	let approvedAmount: bigint;
-
-	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
-		approvedAmount = value.allowance;
-	});
-	onDestroy(unsubscribeOysterStore);
-
 	let instanceCostString = '';
+
+	function handleMaxClick() {
+		instanceCost = $oysterStore.allowance * BigInt(OYSTER_RATE_SCALING_FACTOR);
+		instanceCostString = getInstanceCostString(instanceCost);
+		// adding one as it always rounds down due to bigInt division
+		duration = Number(instanceCost / rate) + 1;
+	}
 
 	//reset amount
 	const resetInputs = () => {
@@ -61,10 +65,11 @@
 		closeModal(modalFor);
 	};
 
+	$: ({ rate } = jobData);
 	$: approved =
 		connected &&
 		Boolean(instanceCost) &&
-		approvedAmount >= instanceCost / BigInt(OYSTER_RATE_SCALING_FACTOR) &&
+		$oysterStore.allowance >= instanceCost / BigInt(OYSTER_RATE_SCALING_FACTOR) &&
 		instanceCost > 0n;
 	$: approveEnable = connected && !submitLoading && instanceCost > 0n && !invalidCost;
 	$: confirmEnable = approved && approveEnable;
@@ -83,11 +88,24 @@
 			bind:invalidCost
 			bind:instanceCost
 			bind:instanceCostString
-			selectId="add-funds-duration-unit-select"
+			bind:durationUnitInSec
 			instanceRate={rate}
 			instanceRateEditable={false}
 			isTotalRate={true}
 		/>
+		<div class="flex gap-2 items-center mt-2">
+			<MaxButton onclick={handleMaxClick} />
+			<div class={dividerClasses.vertical} />
+			<Text
+				variant="small"
+				styleClass="text-gray-400"
+				fontWeight="font-normal"
+				text={'Approved amount: ' +
+					bigNumberToString($oysterStore.allowance, decimal, 4) +
+					' ' +
+					currency}
+			/>
+		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		{#if !approved}

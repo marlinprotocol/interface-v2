@@ -1,6 +1,7 @@
 import {
 	OYSTER_CAUTION_DURATION,
 	OYSTER_DURATION_UNITS_LIST,
+	OYSTER_RATE_METADATA,
 	OYSTER_RATE_SCALING_FACTOR,
 	OYSTER_WARNING_DURATION
 } from '$lib/utils/constants/oysterConstants';
@@ -12,6 +13,7 @@ import type {
 } from '$lib/types/oysterComponentType';
 
 import { addToast } from '$lib/data-stores/toastStore';
+import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 
@@ -477,6 +479,10 @@ export const computeDuration = (durationString: string, durationUnitInSec: numbe
 	return isInputAmountValid(durationString)
 		? Math.floor(Number(durationString) * durationUnitInSec)
 		: 0;
+};
+
+export const getInstanceCostString = (cost: bigint) => {
+	return bigNumberToString(cost / OYSTER_RATE_SCALING_FACTOR, OYSTER_RATE_METADATA.decimal, 4);
 };
 
 export const computeDurationString = (duration: number | undefined, durationUnitInSec: number) => {

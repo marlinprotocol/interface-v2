@@ -63,12 +63,7 @@
 		disabled={!region}
 	>
 		<div slot="endButton">
-			<Select
-				title={'Bandwidth'}
-				dataList={bandwidthUnitList}
-				bind:value={bandwidthUnit}
-				id="create-order-bandwidth-unit-select"
-			/>
+			<Select title={'Bandwidth'} dataList={bandwidthUnitList} bind:value={bandwidthUnit} />
 		</div>
 	</AmountInputWithTitle>
 	<AmountInputWithTitle

@@ -170,7 +170,6 @@
 				dataList={durationUnitList}
 				bind:value={durationUnit}
 				setValue={handleDurationUnitChange}
-				id={selectId}
 			/>
 		</div>
 	</AmountInputWithTitle>

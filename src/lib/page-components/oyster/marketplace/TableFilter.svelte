@@ -6,7 +6,6 @@
 	export let dataList: (string | number)[] = [];
 	export let value: string | number | undefined = '';
 	export let setValue: (value: string | number) => any;
-	export let selectId: string;
 
 	export let title: string;
 
@@ -18,15 +17,7 @@
 	<div class="search-container">
 		<div class="flex gap-2 items-center justify-between">
 			<Text variant="small" text={(value && value !== 'All' ? value : title).toString()} />
-			<Select
-				{title}
-				{dataList}
-				bind:value
-				{setValue}
-				bind:showSuggestions
-				bind:suggestions
-				id={selectId}
-			/>
+			<Select {title} {dataList} bind:value {setValue} bind:showSuggestions bind:suggestions />
 		</div>
 	</div>
 </InputCard>

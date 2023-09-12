@@ -36,7 +36,7 @@
 	let instanceCostString = '';
 
 	function handleMaxClick() {
-		instanceCost = $oysterStore.allowance * BigInt(OYSTER_RATE_SCALING_FACTOR);
+		instanceCost = $oysterStore.allowance * OYSTER_RATE_SCALING_FACTOR;
 		instanceCostString = getInstanceCostString(instanceCost);
 		// adding one as it always rounds down due to bigInt division
 		duration = Number(instanceCost / rate) + 1;

@@ -16,7 +16,7 @@ export const ARB_GOERLI: ChainConfig = {
 		OYSTER: '0xdbc4779b69bdc0f657ba35648e434bae042a00e0',
 		POND: '0xa9472a9C135Cb33221de441a4DEd393FD515a69C',
 		MPOND: '0x0B3d9b224496C2A2Fa1a4096D8EB4D350eFd9079',
-		USDC: '0x53F3Cacb08F1c3ee7dC4fac2d1B73482e5d56423'
+		USDC: '0x8FB1E3fC51F3b789dED7557E680551d93Ea9d892'
 	},
 	subgraph_urls: {
 		RECEIVER_STAKING: 'https://api.thegraph.com/subgraphs/name/marlin-staging/staking-arb1-goerli',
@@ -36,19 +36,22 @@ export const ARB_GOERLI: ChainConfig = {
 	oyster_token: 'USDC',
 	tokens: {
 		POND: {
-			token_decimals: 18,
-			token_precision: 2,
-			symbol: 'POND'
+			decimal: 18,
+			precision: 2,
+			currency: 'POND',
+			symbol: '$'
 		},
 		MPOND: {
-			token_decimals: 18,
-			token_precision: 6,
-			symbol: 'MPOND'
+			decimal: 18,
+			precision: 6,
+			currency: 'MPOND',
+			symbol: '$'
 		},
 		USDC: {
-			token_decimals: 6,
-			token_precision: 6,
-			symbol: 'USDC'
+			decimal: 6,
+			precision: 6,
+			currency: 'USDC',
+			symbol: '$'
 		}
 	}
 };

@@ -46,9 +46,10 @@ export async function handleApproveFundForOysterJob(amount: bigint) {
 	try {
 		await approveToken(
 			{
-				symbol: OYSTER_RATE_METADATA.currency as string,
-				token_decimals: OYSTER_RATE_METADATA.decimal,
-				token_precision: OYSTER_RATE_METADATA.precision
+				symbol: OYSTER_RATE_METADATA.symbol as string,
+				decimal: OYSTER_RATE_METADATA.decimal,
+				precision: OYSTER_RATE_METADATA.precision,
+				currency: OYSTER_RATE_METADATA.currency
 			},
 			amount,
 			contractAddress.OYSTER

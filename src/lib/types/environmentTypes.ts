@@ -37,9 +37,10 @@ export type Tokens = {
 };
 
 export type TokenMetadata = {
-	token_decimals: number;
-	token_precision: number;
+	decimal: number;
+	precision: number;
 	symbol: string;
+	currency: string;
 };
 
 export type SubgraphUrls = {

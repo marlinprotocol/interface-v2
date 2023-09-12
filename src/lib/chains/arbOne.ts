@@ -36,19 +36,22 @@ export const ARB_ONE: ChainConfig = {
 	oyster_token: 'USDC',
 	tokens: {
 		POND: {
-			token_decimals: 18,
-			token_precision: 2,
+			decimal: 18,
+			precision: 2,
+			currency: 'POND',
 			symbol: 'POND'
 		},
 		MPOND: {
-			token_decimals: 18,
-			token_precision: 6,
+			decimal: 18,
+			precision: 6,
+			currency: 'MPOND',
 			symbol: 'MPOND'
 		},
 		USDC: {
-			token_decimals: 6,
-			token_precision: 6,
-			symbol: 'USDC'
+			decimal: 6,
+			precision: 6,
+			currency: 'USDC',
+			symbol: '$'
 		}
 	}
 };

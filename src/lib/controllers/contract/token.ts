@@ -2,7 +2,6 @@ import type { TokenMetadata, Tokens } from '$lib/types/environmentTypes';
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
 
 import type { Address } from '@web3-onboard/core/dist/types';
-
 import type { ContractAddress } from '$lib/types/storeTypes';
 import { ERC20_ABI } from '$lib/utils/abis/erc20';
 import { MESSAGES } from '$lib/utils/constants/messages';
@@ -26,11 +25,11 @@ export async function approveToken(
 
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.APPROVING(
-			bigNumberToString(amount, tokenToApprove.token_decimals, tokenToApprove.token_precision),
+			bigNumberToString(amount, tokenToApprove.decimal, tokenToApprove.precision),
 			tokenToApprove.symbol
 		);
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.APPROVED(
-			bigNumberToString(amount, tokenToApprove.token_decimals, tokenToApprove.token_precision),
+			bigNumberToString(amount, tokenToApprove.decimal, tokenToApprove.precision),
 			tokenToApprove.symbol
 		);
 		const errorTxnMessage = 'Unable to approve staking token';

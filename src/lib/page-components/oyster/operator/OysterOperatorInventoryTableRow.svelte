@@ -16,7 +16,7 @@
 	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
 	import { handleClaimAmountFromOysterJob } from '$lib/utils/services/oysterServices';
-	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -30,9 +30,6 @@
 	};
 
 	$: ({ owner, id, instance, region, createdAt, status, durationRun, amountToBeSettled } = rowData);
-	$: oysterToken = $chainConfigStore.oyster_token;
-	$: oysterTokenMetadata =
-		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
@@ -64,15 +61,15 @@
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		<Tooltip
-			tooltipText={`${oysterTokenMetadata.symbol}${bigNumberToString(
+			tooltipText={`${$oysterTokenMetadataStore.symbol}${bigNumberToString(
 				amountToBeSettled,
-				oysterTokenMetadata.decimal,
-				oysterTokenMetadata.precision
+				$oysterTokenMetadataStore.decimal,
+				$oysterTokenMetadataStore.precision
 			)}`}
 		>
-			{oysterTokenMetadata.symbol}{bigNumberToString(
+			{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 				amountToBeSettled,
-				oysterTokenMetadata.decimal
+				$oysterTokenMetadataStore.decimal
 			)}
 		</Tooltip>
 	</td>

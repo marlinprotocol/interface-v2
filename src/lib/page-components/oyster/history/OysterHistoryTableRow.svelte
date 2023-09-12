@@ -12,14 +12,11 @@
 	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
 	import PastJobDetailsModal from '$lib/page-components/oyster/inventory/modals/PastJobDetailsModal.svelte';
 	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
-	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
 
-	$: oysterToken = $chainConfigStore.oyster_token;
-	$: oysterTokenMetadata =
-		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: ({
 		provider: { name, address },
 		instance,
@@ -52,13 +49,19 @@
 		{region ?? 'N/A'}
 	</TableGridDataCell>
 	<TableGridDataCell>
-		{oysterTokenMetadata.symbol}{bigNumberToString(totalDeposit, oysterTokenMetadata.decimal)}
+		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+			totalDeposit,
+			$oysterTokenMetadataStore.decimal
+		)}
 	</TableGridDataCell>
 	<TableGridDataCell>
-		{oysterTokenMetadata.symbol}{bigNumberToString(amountUsed, oysterTokenMetadata.decimal)}
+		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+			amountUsed,
+			$oysterTokenMetadataStore.decimal
+		)}
 	</TableGridDataCell>
 	<TableGridDataCell>
-		{oysterTokenMetadata.symbol}{bigNumberToString(refund, oysterTokenMetadata.decimal)}
+		{$oysterTokenMetadataStore.symbol}{bigNumberToString(refund, $oysterTokenMetadataStore.decimal)}
 	</TableGridDataCell>
 	<TableGridDataCell>
 		<Tooltip tooltipText={epochToDurationString(endEpochTime - createdAt)}>

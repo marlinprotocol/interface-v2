@@ -1,6 +1,6 @@
 <script lang="ts">
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
-	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { bigNumberToString, epochToDurationString } from '$lib/utils/helpers/conversionHelper';
 
@@ -10,9 +10,6 @@
 		textPrimary: 'text-primary'
 	};
 
-	$: oysterToken = $chainConfigStore.oyster_token;
-	$: oysterTokenMetadata =
-		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: ({ balance, durationLeft } = jobData);
 </script>
 
@@ -21,8 +18,8 @@
 		<div class="w-full">
 			<TextInputCard
 				title={'Current Balance'}
-				value={`${bigNumberToString(balance, oysterTokenMetadata.decimal)} ${
-					oysterTokenMetadata.currency
+				value={`${bigNumberToString(balance, $oysterTokenMetadataStore.decimal)} ${
+					$oysterTokenMetadataStore.currency
 				}`}
 				centered
 				textStyle={styles.textPrimary}

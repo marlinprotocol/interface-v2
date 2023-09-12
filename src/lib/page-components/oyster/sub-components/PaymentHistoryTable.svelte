@@ -7,7 +7,7 @@
 	import { OYSTER_PAYMENT_HISTORY_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, epochSecToString } from '$lib/utils/helpers/conversionHelper';
 	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
-	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let tableData: OysterDepositHistoryDataModel[] = [];
 
@@ -15,10 +15,6 @@
 		docButton: 'text-primary font-medium',
 		tableCell: tableCellClasses.rowNormal
 	};
-
-	$: oysterToken = $chainConfigStore.oyster_token;
-	$: oysterTokenMetadata =
-		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 </script>
 
 <InputCardWithEndButton title={'Transaction History'}>
@@ -34,9 +30,9 @@
 					<tr>
 						<td class={styles.tableCell}>{epochSecToString(rowData.timestamp)}</td>
 						<td class={styles.tableCell}
-							>{oysterTokenMetadata.symbol}{bigNumberToString(
+							>{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 								rowData.amount,
-								oysterTokenMetadata.decimal
+								$oysterTokenMetadataStore.decimal
 							)}</td
 						>
 						<td class={styles.tableCell}>

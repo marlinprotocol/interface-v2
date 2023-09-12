@@ -13,7 +13,7 @@
 	} from '$lib/utils/helpers/conversionHelper';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
 	import PaymentHistoryTable from '$lib/page-components/oyster/sub-components/PaymentHistoryTable.svelte';
-	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let modalFor: string;
 	export let rowIndex: number;
@@ -42,10 +42,6 @@
 		modalWidth: 'w-11/12 sm:max-w-[700px]',
 		textPrimary: 'text-primary'
 	};
-
-	$: oysterToken = $chainConfigStore.oyster_token;
-	$: oysterTokenMetadata =
-		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 </script>
 
 <Modal {modalFor} modalWidth={styles.modalWidth} padding={false}>
@@ -87,9 +83,9 @@
 				/>
 				<TextInputCard
 					title={'Hourly Rate'}
-					value={`${oysterTokenMetadata.symbol}${convertRateToPerHourString(
+					value={`${$oysterTokenMetadataStore.symbol}${convertRateToPerHourString(
 						rate,
-						oysterTokenMetadata.decimal
+						$oysterTokenMetadataStore.decimal
 					)}`}
 					centered
 					textStyle={styles.textPrimary}
@@ -110,16 +106,16 @@
 				/>
 				<TextInputCard
 					title={'Amount Used'}
-					value={`${oysterTokenMetadata.symbol}${bigNumberToCommaString(
+					value={`${$oysterTokenMetadataStore.symbol}${bigNumberToCommaString(
 						amountUsed,
-						oysterTokenMetadata.decimal
+						$oysterTokenMetadataStore.decimal
 					)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
 					title={'Duration Run'}
-					value={`${oysterTokenMetadata.symbol}${epochToDurationString(durationRun, true)}`}
+					value={`${$oysterTokenMetadataStore.symbol}${epochToDurationString(durationRun, true)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>

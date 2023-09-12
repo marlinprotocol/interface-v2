@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import { oysterStore, oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
@@ -15,7 +15,6 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { getInstanceCostString } from '$lib/utils/helpers/oysterHelpers';
-	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 
 	export let modalFor: string;
@@ -63,9 +62,6 @@
 	};
 
 	$: ({ rate } = jobData);
-	$: oysterToken = $chainConfigStore.oyster_token;
-	$: oysterTokenMetadata =
-		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: approved =
 		connected &&
 		Boolean(instanceCost) &&
@@ -100,9 +96,9 @@
 				styleClass="text-gray-400"
 				fontWeight="font-normal"
 				text={'Approved amount: ' +
-					bigNumberToString($oysterStore.allowance, oysterTokenMetadata.decimal, 4) +
+					bigNumberToString($oysterStore.allowance, $oysterTokenMetadataStore.decimal, 4) +
 					' ' +
-					oysterTokenMetadata.currency}
+					$oysterTokenMetadataStore.currency}
 			/>
 		</div>
 	</svelte:fragment>

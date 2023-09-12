@@ -19,8 +19,8 @@
 		handleFinaliseRateRevise,
 		handleInitiateRateRevise
 	} from '$lib/utils/services/oysterServices';
-	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
+	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -62,12 +62,9 @@
 			: rateStatus === 'completed'
 			? 'CONFIRM RATE REVISE'
 			: 'INITIATED RATE REVISE';
-	$: oysterToken = $chainConfigStore.oyster_token;
-	$: oysterTokenMetadata =
-		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: inputRate = isInputAmountValid(inputAmountString)
 		? convertHourlyRateToSecondlyRate(
-				stringToBigNumber(inputAmountString, oysterTokenMetadata.decimal) *
+				stringToBigNumber(inputAmountString, $oysterTokenMetadataStore.decimal) *
 					OYSTER_RATE_SCALING_FACTOR
 		  )
 		: 0n;
@@ -94,25 +91,25 @@
 					title={`Current Hourly Rate`}
 					inputAmountString={convertRateToPerHourString(
 						downScaledRate,
-						oysterTokenMetadata.decimal
+						$oysterTokenMetadataStore.decimal
 					)}
 					disabled
-					prefix={oysterTokenMetadata.symbol}
+					prefix={$oysterTokenMetadataStore.symbol}
 				/>
 				{#if rateStatus === ''}
 					<AmountInputWithTitle
 						title="New Hourly Rate"
 						bind:inputAmountString
-						prefix={oysterTokenMetadata.symbol}
+						prefix={$oysterTokenMetadataStore.symbol}
 					/>
 				{:else}
 					<AmountInputWithTitle
 						title="New Hourly Rate"
 						inputAmountString={convertRateToPerHourString(
 							newRate + (OYSTER_RATE_SCALING_FACTOR - BigInt(1)) / OYSTER_RATE_SCALING_FACTOR,
-							oysterTokenMetadata.decimal
+							$oysterTokenMetadataStore.decimal
 						)}
-						prefix={oysterTokenMetadata.symbol}
+						prefix={$oysterTokenMetadataStore.symbol}
 						disabled
 					/>
 				{/if}
@@ -139,7 +136,7 @@
 		</div>
 		<ErrorTextCard
 			styleClass={'mt-4'}
-			showError={convertRateToPerHourString(downScaledRate, oysterTokenMetadata.decimal) ===
+			showError={convertRateToPerHourString(downScaledRate, $oysterTokenMetadataStore.decimal) ===
 				inputAmountString}
 			errorMessage={'New rate cannot be same as current rate.'}
 		/>

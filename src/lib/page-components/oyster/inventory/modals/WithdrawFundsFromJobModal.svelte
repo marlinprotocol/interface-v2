@@ -18,7 +18,7 @@
 	} from '$lib/utils/helpers/commonHelper';
 	import { handleFundsWithdrawFromJob } from '$lib/utils/services/oysterServices';
 	import { DEFAULT_PRECISION } from '$lib/utils/constants/constants';
-	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -53,7 +53,7 @@
 		if (maxAmount) {
 			inputAmountString = bigNumberToString(
 				maxAmount,
-				oysterTokenMetadata.decimal,
+				$oysterTokenMetadataStore.decimal,
 				DEFAULT_PRECISION,
 				false
 			);
@@ -83,11 +83,8 @@
 	}
 
 	$: ({ rate, balance, downScaledRate } = jobData);
-	$: oysterToken = $chainConfigStore.oyster_token;
-	$: oysterTokenMetadata =
-		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: inputAmount = isInputAmountValid(inputAmountString)
-		? stringToBigNumber(inputAmountString, oysterTokenMetadata.decimal)
+		? stringToBigNumber(inputAmountString, $oysterTokenMetadataStore.decimal)
 		: 0n;
 	$: maxDisabedText =
 		updatedAmountInputDirty && inputAmount && inputAmount > maxAmount ? 'Insufficient balance' : '';
@@ -110,9 +107,9 @@
 			{handleUpdatedAmount}
 			inputCardVariant={'none'}
 			maxAmountText={'Available balance: ' +
-				bigNumberToString(maxAmount, oysterTokenMetadata.decimal) +
+				bigNumberToString(maxAmount, $oysterTokenMetadataStore.decimal) +
 				' ' +
-				oysterTokenMetadata.currency}
+				$oysterTokenMetadataStore.currency}
 		>
 			<Text slot="input-end-button" text="Amount" fontWeight="font-medium" />
 			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />

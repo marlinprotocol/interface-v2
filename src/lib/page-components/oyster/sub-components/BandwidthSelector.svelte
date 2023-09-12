@@ -7,7 +7,7 @@
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
-	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let region: any;
 	export let bandwidthRateForRegion = 0n;
@@ -36,9 +36,6 @@
 		return finalBandwidthRate * BigInt(duration);
 	}
 
-	$: oysterToken = $chainConfigStore.oyster_token;
-	$: oysterTokenMetadata =
-		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: bandwidthRateForRegion = getBandwidthRateForRegion(region.value);
 	$: bandwidthCost =
 		bandwidth !== ''
@@ -48,7 +45,7 @@
 		bandwidth !== ''
 			? bigNumberToString(
 					bandwidthCost / OYSTER_RATE_SCALING_FACTOR,
-					oysterTokenMetadata.decimal,
+					$oysterTokenMetadataStore.decimal,
 					4
 			  )
 			: '';
@@ -56,7 +53,7 @@
 	$: totalCost = bandwidthCost + instanceCost;
 	$: downScaledTotalCost = totalCost / OYSTER_RATE_SCALING_FACTOR;
 	$: totalAmountString = !(downScaledTotalCost === 0n)
-		? bigNumberToString(downScaledTotalCost, oysterTokenMetadata.decimal, 4)
+		? bigNumberToString(downScaledTotalCost, $oysterTokenMetadataStore.decimal, 4)
 		: '';
 </script>
 
@@ -75,13 +72,13 @@
 	<AmountInputWithTitle
 		title={'Bandwidth Cost'}
 		bind:inputAmountString={bandwidthCostString}
-		suffix={oysterTokenMetadata.currency}
+		suffix={$oysterTokenMetadataStore.currency}
 		disabled={true}
 	/>
 	<AmountInputWithTitle
 		title={'Total Cost'}
 		bind:inputAmountString={totalAmountString}
-		suffix={oysterTokenMetadata.currency}
+		suffix={$oysterTokenMetadataStore.currency}
 		disabled={true}
 	/>
 </div>

@@ -21,8 +21,8 @@
 		getDurationInSecondsForUnit,
 		getInstanceCostString
 	} from '$lib/utils/helpers/oysterHelpers';
-	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import type { WalletBalanceStore } from '$lib/types/storeTypes';
+	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 
 	const durationUnitList = OYSTER_DURATION_UNITS_LIST.map((unit) => unit.label);
 	let durationUnit = 'Days';
@@ -41,7 +41,7 @@
 			instanceRateString = _instanceRate
 				? convertRateToPerHourString(
 						_instanceRate / OYSTER_RATE_SCALING_FACTOR,
-						oysterTokenMetadata.decimal,
+						$oysterTokenMetadataStore.decimal,
 						4
 				  )
 				: '';
@@ -109,7 +109,7 @@
 		}
 		if (_instanceCost && instanceRate) {
 			try {
-				let _instanceRate = Number(instanceRate) / 10 ** oysterTokenMetadata.decimal;
+				let _instanceRate = Number(instanceRate) / 10 ** $oysterTokenMetadataStore.decimal;
 				duration = Math.floor(_instanceCost / _instanceRate);
 				instanceCostString = value;
 			} catch (error) {
@@ -120,25 +120,26 @@
 		}
 	};
 
-	$: oysterToken = $chainConfigStore.oyster_token;
-	$: oysterTokenMetadata =
-		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: updateRateString(instanceRate);
 	$: durationString = computeDurationString(duration, durationUnitInSec);
 	$: instanceCost = computeCost(duration || 0, instanceRate);
 	$: invalidCost =
 		!instanceCost ||
 		!(
-			$walletBalanceStore[oysterToken.toLowerCase() as keyof WalletBalanceStore] >=
+			$walletBalanceStore[
+				$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
+			] >=
 			instanceCost / OYSTER_RATE_SCALING_FACTOR
 		);
 	$: inValidMessage = !instanceCost
 		? ''
 		: invalidCost
 		? `Insufficient balance. Your current wallet has ${bigNumberToString(
-				$walletBalanceStore[oysterToken.toLowerCase() as keyof WalletBalanceStore],
-				oysterTokenMetadata.decimal
-		  )} ${oysterTokenMetadata.currency}.`
+				$walletBalanceStore[
+					$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
+				],
+				$oysterTokenMetadataStore.decimal
+		  )} ${$oysterTokenMetadataStore.currency}.`
 		: '';
 </script>
 
@@ -146,7 +147,7 @@
 	<AmountInputWithTitle
 		title={'Hourly Rate'}
 		bind:inputAmountString={instanceRateString}
-		prefix={oysterTokenMetadata.symbol}
+		prefix={$oysterTokenMetadataStore.symbol}
 		handleUpdatedAmount={handleRateChange}
 		disabled={true}
 	/>
@@ -171,7 +172,7 @@
 		title={isTotalRate ? 'Total Cost' : 'Instance Cost'}
 		bind:inputAmountString={instanceCostString}
 		handleUpdatedAmount={handleCostChange}
-		suffix={oysterTokenMetadata.currency}
+		suffix={$oysterTokenMetadataStore.currency}
 		disabled={!instanceRate}
 	/>
 </div>

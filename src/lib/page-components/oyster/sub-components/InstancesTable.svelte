@@ -4,7 +4,7 @@
 	import CollapseButton from '$lib/components/buttons/CollapseButton.svelte';
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
-	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
 	import {
@@ -22,10 +22,6 @@
 		docButton: 'text-primary font-medium',
 		tableCell: tableCellClasses.rowMini
 	};
-
-	$: oysterToken = $chainConfigStore.oyster_token;
-	$: oysterTokenMetadata =
-		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 </script>
 
 <InputCardWithEndButton styleClass={'mt-4 p'} title={'Details'}>
@@ -51,9 +47,9 @@
 								<td class={styles.tableCell}>{row.instance}</td>
 								<td class={styles.tableCell}>{row.region}</td>
 								<td class={styles.tableCell}>
-									{oysterTokenMetadata.symbol}{convertRateToPerHourString(
+									{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
 										row.rate / OYSTER_RATE_SCALING_FACTOR,
-										oysterTokenMetadata.decimal
+										$oysterTokenMetadataStore.decimal
 									)}
 								</td>
 							</tr>

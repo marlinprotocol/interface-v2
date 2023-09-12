@@ -11,9 +11,14 @@ import {
 import { DEFAULT_OYSTER_STORE } from '$lib/utils/constants/storeDefaults';
 import { parseMetadata } from '$lib/utils/data-modifiers/oysterModifiers';
 import type { BytesLike } from 'ethers';
-import { writable, type Writable } from 'svelte/store';
+import { derived, writable, type Writable } from 'svelte/store';
+import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 
 export const oysterStore: Writable<OysterStore> = writable(DEFAULT_OYSTER_STORE);
+export const oysterTokenMetadataStore = derived([chainConfigStore], ([$chainConfigStore]) => {
+	const oysterToken = $chainConfigStore.oyster_token;
+	return $chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
+});
 
 // we keep the marketplace data untouched as it does not depend on the wallet address and is loaded
 // regardless of whether the user is connected or not.

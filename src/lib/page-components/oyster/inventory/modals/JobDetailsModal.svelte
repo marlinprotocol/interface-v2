@@ -2,7 +2,7 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import { oysterStore, oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import {
@@ -16,7 +16,6 @@
 		getRateForProviderAndFilters
 	} from '$lib/utils/helpers/oysterHelpers';
 	import PaymentHistoryTable from '$lib/page-components/oyster/sub-components/PaymentHistoryTable.svelte';
-	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -43,9 +42,6 @@
 		depositHistory,
 		downScaledRate
 	} = jobData);
-	$: oysterToken = $chainConfigStore.oyster_token;
-	$: oysterTokenMetadata =
-		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: instanceRate = getRateForProviderAndFilters(
 		address,
 		instance,
@@ -95,9 +91,9 @@
 				/>
 				<TextInputCard
 					title={'Hourly Rate'}
-					value={`${oysterTokenMetadata.symbol}${convertRateToPerHourString(
+					value={`${$oysterTokenMetadataStore.symbol}${convertRateToPerHourString(
 						downScaledRate,
-						oysterTokenMetadata.decimal
+						$oysterTokenMetadataStore.decimal
 					)}`}
 					centered
 					textStyle={styles.textPrimary}
@@ -112,18 +108,18 @@
 				/>
 				<TextInputCard
 					title={'Total Paid'}
-					value={`${oysterTokenMetadata.symbol}${bigNumberToString(
+					value={`${$oysterTokenMetadataStore.symbol}${bigNumberToString(
 						totalDeposit,
-						oysterTokenMetadata.decimal
+						$oysterTokenMetadataStore.decimal
 					)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
 					title={'Amount Used'}
-					value={`${oysterTokenMetadata.symbol}${bigNumberToString(
+					value={`${$oysterTokenMetadataStore.symbol}${bigNumberToString(
 						amountUsed,
-						oysterTokenMetadata.decimal
+						$oysterTokenMetadataStore.decimal
 					)}`}
 					centered
 					textStyle={styles.textPrimary}

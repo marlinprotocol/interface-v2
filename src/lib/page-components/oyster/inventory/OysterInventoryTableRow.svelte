@@ -23,11 +23,13 @@
 	import WithdrawFundsFromJobModal from '$lib/page-components/oyster/inventory/modals/WithdrawFundsFromJobModal.svelte';
 	import type { BytesLike } from 'ethers';
 	import { refreshJobStatusForJobId } from '$lib/controllers/httpController';
-	import { updateJobStatusByIdInOysterStore } from '$lib/data-stores/oysterStore';
+	import {
+		oysterTokenMetadataStore,
+		updateJobStatusByIdInOysterStore
+	} from '$lib/data-stores/oysterStore';
 	import refresh from 'svelte-awesome/icons/refresh';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
-	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -68,9 +70,6 @@
 		endEpochTime, // epoch time in seconds based on duration left,
 		reviseRate: { newRate = null, rateStatus = '', stopStatus = '' } = {}
 	} = rowData);
-	$: oysterToken = $chainConfigStore.oyster_token;
-	$: oysterTokenMetadata =
-		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: isJobFinished = !(Math.floor(endEpochTime - Date.now() / 1000) > 0);
 	$: isOpen = expandedRows.has(id.toString());
 	$: closeButtonText =
@@ -119,27 +118,30 @@
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		<Tooltip
-			tooltipText={`${oysterTokenMetadata.symbol}${convertRateToPerHourString(
+			tooltipText={`${$oysterTokenMetadataStore.symbol}${convertRateToPerHourString(
 				downScaledRate,
-				oysterTokenMetadata.decimal,
-				oysterTokenMetadata.precision
+				$oysterTokenMetadataStore.decimal,
+				$oysterTokenMetadataStore.precision
 			)}`}
 		>
-			{oysterTokenMetadata.symbol}{convertRateToPerHourString(
+			{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
 				downScaledRate,
-				oysterTokenMetadata.decimal
+				$oysterTokenMetadataStore.decimal
 			)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		<Tooltip
-			tooltipText={`${oysterTokenMetadata.symbol}${bigNumberToString(
+			tooltipText={`${$oysterTokenMetadataStore.symbol}${bigNumberToString(
 				balance,
-				oysterTokenMetadata.decimal,
-				oysterTokenMetadata.precision
+				$oysterTokenMetadataStore.decimal,
+				$oysterTokenMetadataStore.precision
 			)}`}
 		>
-			{oysterTokenMetadata.symbol}{bigNumberToString(balance, oysterTokenMetadata.decimal)}
+			{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+				balance,
+				$oysterTokenMetadataStore.decimal
+			)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>

@@ -7,17 +7,19 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, epochToDurationString } from '$lib/utils/helpers/conversionHelper';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
 	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
 	import PastJobDetailsModal from '$lib/page-components/oyster/inventory/modals/PastJobDetailsModal.svelte';
 	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
 
-	const { symbol, decimal } = OYSTER_RATE_METADATA;
+	$: oysterToken = $chainConfigStore.oyster_token;
+	$: oysterTokenMetadata =
+		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: ({
 		provider: { name, address },
 		instance,
@@ -50,13 +52,13 @@
 		{region ?? 'N/A'}
 	</TableGridDataCell>
 	<TableGridDataCell>
-		{symbol}{bigNumberToString(totalDeposit, decimal)}
+		{oysterTokenMetadata.symbol}{bigNumberToString(totalDeposit, oysterTokenMetadata.decimal)}
 	</TableGridDataCell>
 	<TableGridDataCell>
-		{symbol}{bigNumberToString(amountUsed, decimal)}
+		{oysterTokenMetadata.symbol}{bigNumberToString(amountUsed, oysterTokenMetadata.decimal)}
 	</TableGridDataCell>
 	<TableGridDataCell>
-		{symbol}{bigNumberToString(refund, decimal)}
+		{oysterTokenMetadata.symbol}{bigNumberToString(refund, oysterTokenMetadata.decimal)}
 	</TableGridDataCell>
 	<TableGridDataCell>
 		<Tooltip tooltipText={epochToDurationString(endEpochTime - createdAt)}>

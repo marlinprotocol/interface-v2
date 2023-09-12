@@ -17,6 +17,7 @@ export const OYSTER_RATE_METADATA = {
 	rateReviseWaitingTime: 5 * 60 // 5 minutes
 };
 
+// TODO: ask if this needs to be dynamic or can be hardcoded
 // scaling for rates in order to maintain precision while calculating cost
 export const OYSTER_RATE_SCALING_FACTOR =
 	BigInt(10) ** BigInt(DEFAULT_CURRENCY_DECIMALS - OYSTER_RATE_METADATA.decimal);

@@ -18,12 +18,10 @@
 	} from '$lib/utils/helpers/commonHelper';
 	import { handleFundsWithdrawFromJob } from '$lib/utils/services/oysterServices';
 	import { DEFAULT_PRECISION } from '$lib/utils/constants/constants';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
-
-	const { currency, decimal } = OYSTER_RATE_METADATA;
-	$: ({ rate, balance, downScaledRate } = jobData);
 
 	//initial states
 	let inputAmount: bigint;
@@ -32,10 +30,6 @@
 	let inputAmountIsValid = true;
 	let inValidMessage = '';
 	let updatedAmountInputDirty = false;
-
-	$: inputAmount = isInputAmountValid(inputAmountString)
-		? stringToBigNumber(inputAmountString, decimal)
-		: 0n;
 
 	//loading states
 	let submitLoading = false;
@@ -57,7 +51,12 @@
 
 	const handleMaxClick = () => {
 		if (maxAmount) {
-			inputAmountString = bigNumberToString(maxAmount, decimal, DEFAULT_PRECISION, false);
+			inputAmountString = bigNumberToString(
+				maxAmount,
+				oysterTokenMetadata.decimal,
+				DEFAULT_PRECISION,
+				false
+			);
 			//reset input error message
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
@@ -83,6 +82,13 @@
 		return 0n;
 	}
 
+	$: ({ rate, balance, downScaledRate } = jobData);
+	$: oysterToken = $chainConfigStore.oyster_token;
+	$: oysterTokenMetadata =
+		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
+	$: inputAmount = isInputAmountValid(inputAmountString)
+		? stringToBigNumber(inputAmountString, oysterTokenMetadata.decimal)
+		: 0n;
 	$: maxDisabedText =
 		updatedAmountInputDirty && inputAmount && inputAmount > maxAmount ? 'Insufficient balance' : '';
 	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;
@@ -103,7 +109,10 @@
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			inputCardVariant={'none'}
-			maxAmountText={'Available balance: ' + bigNumberToString(maxAmount, decimal) + ' ' + currency}
+			maxAmountText={'Available balance: ' +
+				bigNumberToString(maxAmount, oysterTokenMetadata.decimal) +
+				' ' +
+				oysterTokenMetadata.currency}
 		>
 			<Text slot="input-end-button" text="Amount" fontWeight="font-medium" />
 			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />

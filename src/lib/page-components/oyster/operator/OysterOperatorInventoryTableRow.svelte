@@ -8,7 +8,6 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
 		epochSecToString,
@@ -17,12 +16,12 @@
 	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
 	import { handleClaimAmountFromOysterJob } from '$lib/utils/services/oysterServices';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
-	let submitLoading = false;
 
-	const { symbol, decimal, precision } = OYSTER_RATE_METADATA;
+	let submitLoading = false;
 
 	const handleClaimClick = async () => {
 		submitLoading = true;
@@ -31,6 +30,9 @@
 	};
 
 	$: ({ owner, id, instance, region, createdAt, status, durationRun, amountToBeSettled } = rowData);
+	$: oysterToken = $chainConfigStore.oyster_token;
+	$: oysterTokenMetadata =
+		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
@@ -61,8 +63,17 @@
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={`${symbol}${bigNumberToString(amountToBeSettled, decimal, precision)}`}>
-			{symbol}{bigNumberToString(amountToBeSettled, decimal)}
+		<Tooltip
+			tooltipText={`${oysterTokenMetadata.symbol}${bigNumberToString(
+				amountToBeSettled,
+				oysterTokenMetadata.decimal,
+				oysterTokenMetadata.precision
+			)}`}
+		>
+			{oysterTokenMetadata.symbol}{bigNumberToString(
+				amountToBeSettled,
+				oysterTokenMetadata.decimal
+			)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>

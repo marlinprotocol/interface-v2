@@ -10,17 +10,14 @@
 		handleFundsAddToJob
 	} from '$lib/utils/services/oysterServices';
 	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
-	import {
-		OYSTER_RATE_METADATA,
-		OYSTER_RATE_SCALING_FACTOR
-	} from '$lib/utils/constants/oysterConstants';
 	import { dividerClasses } from '$lib/atoms/componentClasses';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { getInstanceCostString } from '$lib/utils/helpers/oysterHelpers';
-	const { decimal, currency } = OYSTER_RATE_METADATA;
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
+
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
@@ -66,6 +63,9 @@
 	};
 
 	$: ({ rate } = jobData);
+	$: oysterToken = $chainConfigStore.oyster_token;
+	$: oysterTokenMetadata =
+		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: approved =
 		connected &&
 		Boolean(instanceCost) &&
@@ -90,7 +90,6 @@
 			bind:instanceCostString
 			bind:durationUnitInSec
 			instanceRate={rate}
-			instanceRateEditable={false}
 			isTotalRate={true}
 		/>
 		<div class="flex gap-2 items-center mt-2">
@@ -101,9 +100,9 @@
 				styleClass="text-gray-400"
 				fontWeight="font-normal"
 				text={'Approved amount: ' +
-					bigNumberToString($oysterStore.allowance, decimal, 4) +
+					bigNumberToString($oysterStore.allowance, oysterTokenMetadata.decimal, 4) +
 					' ' +
-					currency}
+					oysterTokenMetadata.currency}
 			/>
 		</div>
 	</svelte:fragment>

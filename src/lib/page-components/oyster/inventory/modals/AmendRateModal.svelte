@@ -8,10 +8,6 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import {
-		OYSTER_RATE_SCALING_FACTOR,
-		OYSTER_RATE_METADATA
-	} from '$lib/utils/constants/oysterConstants';
-	import {
 		convertHourlyRateToSecondlyRate,
 		convertRateToPerHourString,
 		epochToDurationString,
@@ -23,13 +19,14 @@
 		handleFinaliseRateRevise,
 		handleInitiateRateRevise
 	} from '$lib/utils/services/oysterServices';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
 	$: ({ downScaledRate, reviseRate: { newRate = 0n, updatesAt = 0, rateStatus = '' } = {} } =
 		jobData);
-	const { symbol, decimal } = OYSTER_RATE_METADATA;
 
 	//initial states
 	let inputRate = 0n;
@@ -65,9 +62,13 @@
 			: rateStatus === 'completed'
 			? 'CONFIRM RATE REVISE'
 			: 'INITIATED RATE REVISE';
+	$: oysterToken = $chainConfigStore.oyster_token;
+	$: oysterTokenMetadata =
+		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: inputRate = isInputAmountValid(inputAmountString)
 		? convertHourlyRateToSecondlyRate(
-				stringToBigNumber(inputAmountString, decimal) * OYSTER_RATE_SCALING_FACTOR
+				stringToBigNumber(inputAmountString, oysterTokenMetadata.decimal) *
+					OYSTER_RATE_SCALING_FACTOR
 		  )
 		: 0n;
 	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
@@ -91,20 +92,27 @@
 			<div class="flex gap-4">
 				<AmountInputWithTitle
 					title={`Current Hourly Rate`}
-					inputAmountString={convertRateToPerHourString(downScaledRate, decimal)}
+					inputAmountString={convertRateToPerHourString(
+						downScaledRate,
+						oysterTokenMetadata.decimal
+					)}
 					disabled
-					prefix={symbol}
+					prefix={oysterTokenMetadata.symbol}
 				/>
 				{#if rateStatus === ''}
-					<AmountInputWithTitle title="New Hourly Rate" bind:inputAmountString prefix={symbol} />
+					<AmountInputWithTitle
+						title="New Hourly Rate"
+						bind:inputAmountString
+						prefix={oysterTokenMetadata.symbol}
+					/>
 				{:else}
 					<AmountInputWithTitle
 						title="New Hourly Rate"
 						inputAmountString={convertRateToPerHourString(
 							newRate + (OYSTER_RATE_SCALING_FACTOR - BigInt(1)) / OYSTER_RATE_SCALING_FACTOR,
-							decimal
+							oysterTokenMetadata.decimal
 						)}
-						prefix={symbol}
+						prefix={oysterTokenMetadata.symbol}
 						disabled
 					/>
 				{/if}
@@ -131,7 +139,8 @@
 		</div>
 		<ErrorTextCard
 			styleClass={'mt-4'}
-			showError={convertRateToPerHourString(downScaledRate, decimal) === inputAmountString}
+			showError={convertRateToPerHourString(downScaledRate, oysterTokenMetadata.decimal) ===
+				inputAmountString}
 			errorMessage={'New rate cannot be same as current rate.'}
 		/>
 	</svelte:fragment>

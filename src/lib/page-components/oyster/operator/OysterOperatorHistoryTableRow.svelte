@@ -4,8 +4,8 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
 		epochSecToString,
@@ -14,8 +14,6 @@
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
-
-	const { symbol, decimal } = OYSTER_RATE_METADATA;
 
 	$: ({
 		provider: { name, address },
@@ -26,6 +24,9 @@
 		amountToBeSettled,
 		endEpochTime
 	} = rowData);
+	$: oysterToken = $chainConfigStore.oyster_token;
+	$: oysterTokenMetadata =
+		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 </script>
 
 <div class="main-row flex gap-1 hover:bg-base-200 px-8 items-center h-16">
@@ -56,7 +57,7 @@
 		</Tooltip>
 	</TableGridDataCell>
 	<TableGridDataCell>
-		{symbol}{bigNumberToString(amountToBeSettled, decimal)}
+		{oysterTokenMetadata.symbol}{bigNumberToString(amountToBeSettled, oysterTokenMetadata.decimal)}
 	</TableGridDataCell>
 	<TableGridDataCell>
 		<!-- <Button onclick={async () => await settleOysterJob(id)} size="tiny" styleClass="w-full"

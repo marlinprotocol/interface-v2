@@ -10,17 +10,14 @@
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
-	import {
-		OYSTER_RATE_METADATA,
-		OYSTER_RATE_SCALING_FACTOR
-	} from '$lib/utils/constants/oysterConstants';
 	import { convertRateToPerHourString } from '$lib/utils/helpers/conversionHelper';
 	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 
 	export let rowData: OysterMarketplaceDataModel;
 	export let rowIndex: number;
 
-	const { symbol, decimal, precision } = OYSTER_RATE_METADATA;
 	$: ({
 		provider: { name, address },
 		instance,
@@ -29,6 +26,9 @@
 		memory,
 		rate
 	} = rowData);
+	$: oysterToken = $chainConfigStore.oyster_token;
+	$: oysterTokenMetadata =
+		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: downscaledInstanceRate = rate / OYSTER_RATE_SCALING_FACTOR;
 </script>
 
@@ -52,13 +52,16 @@
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		<Tooltip
-			tooltipText={`${symbol}${convertRateToPerHourString(
+			tooltipText={`${oysterTokenMetadata.symbol}${convertRateToPerHourString(
 				downscaledInstanceRate,
-				decimal,
-				precision
+				oysterTokenMetadata.decimal,
+				oysterTokenMetadata.precision
 			)}`}
 		>
-			{symbol}{convertRateToPerHourString(downscaledInstanceRate, decimal)}
+			{oysterTokenMetadata.symbol}{convertRateToPerHourString(
+				downscaledInstanceRate,
+				oysterTokenMetadata.decimal
+			)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>

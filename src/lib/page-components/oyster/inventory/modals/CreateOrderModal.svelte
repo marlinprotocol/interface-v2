@@ -230,7 +230,6 @@
 				bind:instanceCostString
 				bind:duration
 				bind:invalidCost
-				instanceRateEditable={!instanceRateDisabled}
 			/>
 			<BandwidthSelector
 				bind:region

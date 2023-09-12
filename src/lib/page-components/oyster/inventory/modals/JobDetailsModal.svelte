@@ -5,7 +5,6 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
-	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
 		convertRateToPerHourString,
@@ -17,9 +16,17 @@
 		getRateForProviderAndFilters
 	} from '$lib/utils/helpers/oysterHelpers';
 	import PaymentHistoryTable from '$lib/page-components/oyster/sub-components/PaymentHistoryTable.svelte';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
+
+	const nowTime = new Date().getTime() / 1000;
+	const styles = {
+		modalWidth: 'w-11/12 sm:max-w-[700px]',
+		textPrimary: 'text-primary truncate'
+	};
+
 	$: ({
 		provider: { name, address },
 		instance,
@@ -36,14 +43,9 @@
 		depositHistory,
 		downScaledRate
 	} = jobData);
-
-	const { symbol, decimal } = OYSTER_RATE_METADATA;
-	const nowTime = new Date().getTime() / 1000;
-	const styles = {
-		modalWidth: 'w-11/12 sm:max-w-[700px]',
-		textPrimary: 'text-primary truncate'
-	};
-
+	$: oysterToken = $chainConfigStore.oyster_token;
+	$: oysterTokenMetadata =
+		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: instanceRate = getRateForProviderAndFilters(
 		address,
 		instance,
@@ -93,7 +95,10 @@
 				/>
 				<TextInputCard
 					title={'Hourly Rate'}
-					value={`${symbol}${convertRateToPerHourString(downScaledRate, decimal)}`}
+					value={`${oysterTokenMetadata.symbol}${convertRateToPerHourString(
+						downScaledRate,
+						oysterTokenMetadata.decimal
+					)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
@@ -107,13 +112,19 @@
 				/>
 				<TextInputCard
 					title={'Total Paid'}
-					value={`${symbol}${bigNumberToString(totalDeposit, decimal)}`}
+					value={`${oysterTokenMetadata.symbol}${bigNumberToString(
+						totalDeposit,
+						oysterTokenMetadata.decimal
+					)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
 					title={'Amount Used'}
-					value={`${symbol}${bigNumberToString(amountUsed, decimal)}`}
+					value={`${oysterTokenMetadata.symbol}${bigNumberToString(
+						amountUsed,
+						oysterTokenMetadata.decimal
+					)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>

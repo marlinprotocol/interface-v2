@@ -55,7 +55,6 @@
 			: stopStatus === 'completed'
 			? 'CONFIRM STOP'
 			: 'INITIATED STOP';
-
 	$: submitButtonText =
 		stopStatus === '' || stopStatus === 'disabled' ? 'INITIATE STOP' : 'CONFIRM';
 	$: submitButtonAction =

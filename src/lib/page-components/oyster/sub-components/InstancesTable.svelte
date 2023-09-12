@@ -4,26 +4,28 @@
 	import CollapseButton from '$lib/components/buttons/CollapseButton.svelte';
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
 	import {
 		OYSTER_INSTANCES_TABLE_HEADER,
-		OYSTER_RATE_METADATA,
 		OYSTER_RATE_SCALING_FACTOR
 	} from '$lib/utils/constants/oysterConstants';
 	import { convertRateToPerHourString } from '$lib/utils/helpers/conversionHelper';
 	import { slide } from 'svelte/transition';
 
-	const { symbol, decimal } = OYSTER_RATE_METADATA;
+	export let tableData: Promise<CPUrlDataModel[]> = Promise.resolve([]);
+	export let isOpen = false;
+	export let validCPUrl = false;
 
 	const styles = {
 		docButton: 'text-primary font-medium',
 		tableCell: tableCellClasses.rowMini
 	};
 
-	export let tableData: Promise<CPUrlDataModel[]> = Promise.resolve([]);
-	export let isOpen = false;
-	export let validCPUrl = false;
+	$: oysterToken = $chainConfigStore.oyster_token;
+	$: oysterTokenMetadata =
+		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 </script>
 
 <InputCardWithEndButton styleClass={'mt-4 p'} title={'Details'}>
@@ -49,9 +51,9 @@
 								<td class={styles.tableCell}>{row.instance}</td>
 								<td class={styles.tableCell}>{row.region}</td>
 								<td class={styles.tableCell}>
-									{symbol}{convertRateToPerHourString(
+									{oysterTokenMetadata.symbol}{convertRateToPerHourString(
 										row.rate / OYSTER_RATE_SCALING_FACTOR,
-										decimal
+										oysterTokenMetadata.decimal
 									)}
 								</td>
 							</tr>

@@ -5,7 +5,6 @@
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
-	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToCommaString,
 		convertRateToPerHourString,
@@ -14,6 +13,7 @@
 	} from '$lib/utils/helpers/conversionHelper';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
 	import PaymentHistoryTable from '$lib/page-components/oyster/sub-components/PaymentHistoryTable.svelte';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 
 	export let modalFor: string;
 	export let rowIndex: number;
@@ -33,8 +33,6 @@
 		endEpochTime
 	} = jobData);
 
-	const { symbol, decimal } = OYSTER_RATE_METADATA;
-
 	const handleRedeploy = () => {
 		openModal(`create-order-modal-${rowIndex}`);
 		closeModal(modalFor);
@@ -44,6 +42,10 @@
 		modalWidth: 'w-11/12 sm:max-w-[700px]',
 		textPrimary: 'text-primary'
 	};
+
+	$: oysterToken = $chainConfigStore.oyster_token;
+	$: oysterTokenMetadata =
+		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 </script>
 
 <Modal {modalFor} modalWidth={styles.modalWidth} padding={false}>
@@ -85,7 +87,10 @@
 				/>
 				<TextInputCard
 					title={'Hourly Rate'}
-					value={`${symbol}${convertRateToPerHourString(rate, decimal)}`}
+					value={`${oysterTokenMetadata.symbol}${convertRateToPerHourString(
+						rate,
+						oysterTokenMetadata.decimal
+					)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
@@ -105,13 +110,16 @@
 				/>
 				<TextInputCard
 					title={'Amount Used'}
-					value={`${symbol}${bigNumberToCommaString(amountUsed, decimal)}`}
+					value={`${oysterTokenMetadata.symbol}${bigNumberToCommaString(
+						amountUsed,
+						oysterTokenMetadata.decimal
+					)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
 					title={'Duration Run'}
-					value={`${symbol}${epochToDurationString(durationRun, true)}`}
+					value={`${oysterTokenMetadata.symbol}${epochToDurationString(durationRun, true)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>

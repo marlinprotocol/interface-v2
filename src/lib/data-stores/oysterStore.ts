@@ -213,7 +213,6 @@ export function initiateRateReviseInOysterStore(
 	jobData: OysterInventoryDataModel,
 	newRate: bigint
 ) {
-	const { rateReviseWaitingTime } = OYSTER_RATE_METADATA;
 	const nowTime = Date.now() / 1000;
 	const modifiedJobData = {
 		...jobData,
@@ -221,7 +220,7 @@ export function initiateRateReviseInOysterStore(
 			newRate: newRate,
 			rateStatus: 'pending',
 			stopStatus: newRate > 0n ? 'disabled' : 'pending',
-			updatesAt: nowTime + rateReviseWaitingTime
+			updatesAt: nowTime + OYSTER_RATE_METADATA.rateReviseWaitingTime
 		}
 	};
 	oysterStore.update((value: OysterStore) => {

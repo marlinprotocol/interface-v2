@@ -2,12 +2,12 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
 	import {
-		OYSTER_RATE_SCALING_FACTOR,
 		OYSTER_BANDWIDTH_UNITS_LIST,
-		OYSTER_RATE_METADATA
+		OYSTER_RATE_SCALING_FACTOR
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 
 	export let region: any;
 	export let bandwidthRateForRegion = 0n;
@@ -21,7 +21,6 @@
 	let bandwidthUnit = 'KB/s';
 	let bandwidthCostString = '';
 
-	const { currency, decimal } = OYSTER_RATE_METADATA;
 	const bandwidthUnitList = OYSTER_BANDWIDTH_UNITS_LIST.map((unit) => unit.label);
 
 	function calculateBandwidthCost(
@@ -37,6 +36,9 @@
 		return finalBandwidthRate * BigInt(duration);
 	}
 
+	$: oysterToken = $chainConfigStore.oyster_token;
+	$: oysterTokenMetadata =
+		$chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
 	$: bandwidthRateForRegion = getBandwidthRateForRegion(region.value);
 	$: bandwidthCost =
 		bandwidth !== ''
@@ -44,13 +46,17 @@
 			: 0n;
 	$: bandwidthCostString =
 		bandwidth !== ''
-			? bigNumberToString(bandwidthCost / OYSTER_RATE_SCALING_FACTOR, decimal, 4)
+			? bigNumberToString(
+					bandwidthCost / OYSTER_RATE_SCALING_FACTOR,
+					oysterTokenMetadata.decimal,
+					4
+			  )
 			: '';
 
 	$: totalCost = bandwidthCost + instanceCost;
 	$: downScaledTotalCost = totalCost / OYSTER_RATE_SCALING_FACTOR;
 	$: totalAmountString = !(downScaledTotalCost === 0n)
-		? bigNumberToString(downScaledTotalCost, decimal, 4)
+		? bigNumberToString(downScaledTotalCost, oysterTokenMetadata.decimal, 4)
 		: '';
 </script>
 
@@ -69,13 +75,13 @@
 	<AmountInputWithTitle
 		title={'Bandwidth Cost'}
 		bind:inputAmountString={bandwidthCostString}
-		suffix={currency}
+		suffix={oysterTokenMetadata.currency}
 		disabled={true}
 	/>
 	<AmountInputWithTitle
 		title={'Total Cost'}
 		bind:inputAmountString={totalAmountString}
-		suffix={currency}
+		suffix={oysterTokenMetadata.currency}
 		disabled={true}
 	/>
 </div>

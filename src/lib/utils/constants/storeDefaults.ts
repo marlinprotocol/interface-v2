@@ -22,7 +22,7 @@ export const DEFAULT_WALLET_STORE: WalletStore = {
 // walletBalanceStore
 export const DEFAULT_WALLET_BALANCE_STORE: WalletBalanceStore = {
 	pond: 0n,
-	mPond: 0n,
+	mpond: 0n,
 	usdc: 0n
 };
 

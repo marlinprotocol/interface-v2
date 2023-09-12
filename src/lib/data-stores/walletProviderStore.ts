@@ -80,7 +80,7 @@ export function addMpondToWalletBalanceStore(amount: bigint) {
 	walletBalanceStore.update((walletBalanceStore) => {
 		return {
 			...walletBalanceStore,
-			mPond: walletBalanceStore.mPond + amount
+			mPond: walletBalanceStore.mpond + amount
 		};
 	});
 }
@@ -96,7 +96,7 @@ export function withdrawMpondFromWalletBalanceStore(amount: bigint) {
 	walletBalanceStore.update((walletBalanceStore) => {
 		return {
 			...walletBalanceStore,
-			mPond: walletBalanceStore.mPond - amount
+			mPond: walletBalanceStore.mpond - amount
 		};
 	});
 }
@@ -117,7 +117,7 @@ async function setWalletBalance(
 		]);
 		walletBalanceStore.set({
 			pond: balances[0],
-			mPond: balances[1],
+			mpond: balances[1],
 			usdc: balances[2]
 		});
 		console.log('Wallet balance updated');

@@ -116,7 +116,7 @@ export async function getMPondBalanceFromSubgraph(address: Address): Promise<big
 		if (result['data'] && balances?.length !== 0) {
 			return BigInt(balances[0]?.amount);
 		} else {
-			return DEFAULT_WALLET_BALANCE_STORE.mPond;
+			return DEFAULT_WALLET_BALANCE_STORE.mpond;
 		}
 	} catch (error: any) {
 		addToast({
@@ -125,7 +125,7 @@ export async function getMPondBalanceFromSubgraph(address: Address): Promise<big
 			timeout: 6000
 		});
 		console.log('Error fetching MPond balance', error);
-		return DEFAULT_WALLET_BALANCE_STORE.mPond;
+		return DEFAULT_WALLET_BALANCE_STORE.mpond;
 	}
 }
 // ----------------------------- receiver staking smart contract subgraph methods -----------------------------
@@ -144,7 +144,7 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 		}
 		if (result['data'] && receiverBalances?.length !== 0)
 			return BigInt(receiverBalances[0]?.balance);
-		else return DEFAULT_WALLET_BALANCE_STORE.mPond;
+		else return DEFAULT_WALLET_BALANCE_STORE.mpond;
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
@@ -152,7 +152,7 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 			timeout: 6000
 		});
 		console.log('Error fetching receiver Pond balance from subgraph', error);
-		return DEFAULT_WALLET_BALANCE_STORE.mPond;
+		return DEFAULT_WALLET_BALANCE_STORE.mpond;
 	}
 }
 

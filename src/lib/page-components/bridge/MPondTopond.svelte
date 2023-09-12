@@ -44,11 +44,11 @@
 	$: convertedAmountString =
 		inputAmount > 0 ? bigNumberToString(mPondToPond(inputAmount), 18, POND_PRECISIONS) : '';
 
-	let walletMPondBalance: bigint = DEFAULT_WALLET_BALANCE_STORE.mPond;
+	let walletMPondBalance: bigint = DEFAULT_WALLET_BALANCE_STORE.mpond;
 	let requestedMPond: bigint = 0n;
 
 	const unsubscribeWalletBalanceStore = walletBalanceStore.subscribe((value) => {
-		walletMPondBalance = value.mPond;
+		walletMPondBalance = value.mpond;
 	});
 	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
 		requestedMPond = value.requestedMPond;

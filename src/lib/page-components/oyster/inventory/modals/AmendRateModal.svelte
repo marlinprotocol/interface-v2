@@ -19,7 +19,6 @@
 		handleFinaliseRateRevise,
 		handleInitiateRateRevise
 	} from '$lib/utils/services/oysterServices';
-	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 	import { oysterRateMetadataStore, oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let modalFor: string;
@@ -69,7 +68,7 @@
 	$: inputRate = isInputAmountValid(inputAmountString)
 		? convertHourlyRateToSecondlyRate(
 				stringToBigNumber(inputAmountString, $oysterTokenMetadataStore.decimal) *
-					OYSTER_RATE_SCALING_FACTOR
+					$oysterRateMetadataStore.oysterRateScalingFactor
 		  )
 		: 0n;
 	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
@@ -110,7 +109,9 @@
 					<AmountInputWithTitle
 						title="New Hourly Rate"
 						inputAmountString={convertRateToPerHourString(
-							newRate + (OYSTER_RATE_SCALING_FACTOR - BigInt(1)) / OYSTER_RATE_SCALING_FACTOR,
+							newRate +
+								($oysterRateMetadataStore.oysterRateScalingFactor - BigInt(1)) /
+									$oysterRateMetadataStore.oysterRateScalingFactor,
 							$oysterTokenMetadataStore.decimal
 						)}
 						prefix={$oysterTokenMetadataStore.symbol}

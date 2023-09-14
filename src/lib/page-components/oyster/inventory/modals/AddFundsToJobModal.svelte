@@ -1,7 +1,11 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
-	import { oysterStore, oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
+	import {
+		oysterStore,
+		oysterTokenMetadataStore,
+		oysterRateMetadataStore
+	} from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
@@ -14,8 +18,6 @@
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
-	import { getInstanceCostString } from '$lib/utils/helpers/oysterHelpers';
-	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 
 	export let modalFor: string;
@@ -33,8 +35,12 @@
 	let instanceCostString = '';
 
 	function handleMaxClick() {
-		instanceCost = $oysterStore.allowance * OYSTER_RATE_SCALING_FACTOR;
-		instanceCostString = getInstanceCostString(instanceCost, $oysterTokenMetadataStore.decimal, 4);
+		instanceCost = $oysterStore.allowance * $oysterRateMetadataStore.oysterRateScalingFactor;
+		instanceCostString = bigNumberToString(
+			$oysterStore.allowance,
+			$oysterTokenMetadataStore.decimal,
+			4
+		);
 		// adding one as it always rounds down due to bigInt division
 		duration = Number(instanceCost / rate) + 1;
 	}
@@ -51,7 +57,7 @@
 	const handleApproveClick = async () => {
 		approvedLoading = true;
 		await handleApproveFundForOysterJob(
-			instanceCost / OYSTER_RATE_SCALING_FACTOR,
+			instanceCost / $oysterRateMetadataStore.oysterRateScalingFactor,
 			$oysterTokenMetadataStore,
 			$contractAddressStore.OYSTER
 		);
@@ -60,7 +66,11 @@
 
 	const handleSubmitClick = async () => {
 		submitLoading = true;
-		await handleFundsAddToJob(jobData, instanceCost / OYSTER_RATE_SCALING_FACTOR, duration ?? 0);
+		await handleFundsAddToJob(
+			jobData,
+			instanceCost / $oysterRateMetadataStore.oysterRateScalingFactor,
+			duration ?? 0
+		);
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
@@ -70,7 +80,8 @@
 	$: approved =
 		connected &&
 		Boolean(instanceCost) &&
-		$oysterStore.allowance >= instanceCost / BigInt(OYSTER_RATE_SCALING_FACTOR) &&
+		$oysterStore.allowance >=
+			instanceCost / BigInt($oysterRateMetadataStore.oysterRateScalingFactor) &&
 		instanceCost > 0n;
 	$: approveEnable = connected && !submitLoading && instanceCost > 0n && !invalidCost;
 	$: confirmEnable = approved && approveEnable;

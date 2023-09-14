@@ -4,13 +4,10 @@
 	import CollapseButton from '$lib/components/buttons/CollapseButton.svelte';
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
-	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
+	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
-	import {
-		OYSTER_INSTANCES_TABLE_HEADER,
-		OYSTER_RATE_SCALING_FACTOR
-	} from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_INSTANCES_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { convertRateToPerHourString } from '$lib/utils/helpers/conversionHelper';
 	import { slide } from 'svelte/transition';
 
@@ -48,7 +45,7 @@
 								<td class={styles.tableCell}>{row.region}</td>
 								<td class={styles.tableCell}>
 									{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
-										row.rate / OYSTER_RATE_SCALING_FACTOR,
+										row.rate / $oysterRateMetadataStore.oysterRateScalingFactor,
 										$oysterTokenMetadataStore.decimal
 									)}
 								</td>

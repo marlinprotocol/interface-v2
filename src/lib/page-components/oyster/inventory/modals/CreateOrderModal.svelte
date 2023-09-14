@@ -4,10 +4,13 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
-	import { oysterStore, oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
+	import {
+		oysterStore,
+		oysterTokenMetadataStore,
+		oysterRateMetadataStore
+	} from '$lib/data-stores/oysterStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { CreateOrderPreFilledModel } from '$lib/types/oysterComponentType';
-	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 	import { checkValidURL, closeModal } from '$lib/utils/helpers/commonHelper';
 	import { getRateForProviderAndFilters } from '$lib/utils/helpers/oysterHelpers';
 	import {
@@ -107,8 +110,9 @@
 			metadata,
 			provider,
 			totalRate,
-			totalCost / OYSTER_RATE_SCALING_FACTOR,
-			duration
+			totalCost / $oysterRateMetadataStore.oysterRateScalingFactor,
+			duration,
+			$oysterRateMetadataStore.oysterRateScalingFactor
 		);
 		submitLoading = false;
 		if (!success) {
@@ -125,7 +129,7 @@
 		}
 		submitLoading = true;
 		await handleApproveFundForOysterJob(
-			totalCost / OYSTER_RATE_SCALING_FACTOR,
+			totalCost / $oysterRateMetadataStore.oysterRateScalingFactor,
 			$oysterTokenMetadataStore,
 			$contractAddressStore.OYSTER
 		);
@@ -169,7 +173,7 @@
 
 	$: approved =
 		instanceCost > 0n &&
-		$oysterStore.allowance >= totalCost / OYSTER_RATE_SCALING_FACTOR &&
+		$oysterStore.allowance >= totalCost / $oysterRateMetadataStore.oysterRateScalingFactor &&
 		bandwidthCost > 0n &&
 		totalCost > 0n;
 

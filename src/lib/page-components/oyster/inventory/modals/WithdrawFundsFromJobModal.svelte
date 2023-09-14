@@ -6,7 +6,6 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import {
 		closeModal,
@@ -71,7 +70,7 @@
 
 	function getMaxAmountForJob(rate: bigint, balance: bigint) {
 		if (rate && balance) {
-			const downScaledRate = rate / OYSTER_RATE_SCALING_FACTOR;
+			const downScaledRate = rate / $oysterRateMetadataStore.oysterRateScalingFactor;
 			const amountForDownTime =
 				downScaledRate * BigInt($oysterRateMetadataStore.rateReviseWaitingTime);
 			const finalBalance = balance - amountForDownTime;

@@ -1,13 +1,8 @@
-import { DEFAULT_CURRENCY_DECIMALS, SECONDS_IN_DAY } from '$lib/utils/constants/constants';
-
+import { SECONDS_IN_DAY } from '$lib/utils/constants/constants';
 import type { TableModel } from '$lib/types/componentTypes';
 
 export const OYSTER_CAUTION_DURATION = SECONDS_IN_DAY;
 export const OYSTER_WARNING_DURATION = SECONDS_IN_DAY * 3; // 3 days
-
-// TODO: ask if this needs to be dynamic or can be hardcoded
-// scaling for rates in order to maintain precision while calculating cost
-export const OYSTER_RATE_SCALING_FACTOR = BigInt(10) ** BigInt(DEFAULT_CURRENCY_DECIMALS - 6);
 
 // make sure the id matches the id in Data Model
 export const OYSTER_INSTANCES_TABLE_HEADER: TableModel['header'][] = [

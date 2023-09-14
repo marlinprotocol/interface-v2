@@ -146,7 +146,8 @@ export async function handleCreateJob(
 	provider: { name?: string; address: string },
 	rate: bigint,
 	balance: bigint,
-	durationInSec: number
+	durationInSec: number,
+	scalingFactor: bigint
 ) {
 	try {
 		const { txn, approveReciept } = await createNewOysterJob(
@@ -163,7 +164,8 @@ export async function handleCreateJob(
 			provider,
 			rate,
 			balance,
-			durationInSec
+			durationInSec,
+			scalingFactor
 		);
 
 		return true;

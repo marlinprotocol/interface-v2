@@ -51,7 +51,10 @@
 				data.ip = jobStatusLookup[data.id.toString()];
 			}
 		});
-		const oysterJobs = await modifyOysterJobData(oysterJobsFromSubgraph);
+		const oysterJobs = await modifyOysterJobData(
+			oysterJobsFromSubgraph,
+			$oysterRateMetadataStore.oysterRateScalingFactor
+		);
 
 		initializeOysterStore(providerDetail, allowance, oysterJobs);
 	}

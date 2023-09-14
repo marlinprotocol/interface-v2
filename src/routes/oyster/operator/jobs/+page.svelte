@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { getJobStatuses } from '$lib/controllers/httpController';
 	import { getOysterMerchantJobsFromSubgraph } from '$lib/controllers/subgraphController';
-	import { updateMerchantJobsInOysterStore } from '$lib/data-stores/oysterStore';
+	import {
+		oysterRateMetadataStore,
+		updateMerchantJobsInOysterStore
+	} from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import OysterMerchantJobs from '$lib/page-components/oyster/operator/OysterOperatorJobs.svelte';
 	import { modifyOysterJobData } from '$lib/utils/data-modifiers/oysterModifiers';
@@ -23,7 +26,10 @@
 			}
 		});
 
-		const merchantJobs = await modifyOysterJobData(merchantJobsFromSubgraph);
+		const merchantJobs = await modifyOysterJobData(
+			merchantJobsFromSubgraph,
+			$oysterRateMetadataStore.oysterRateScalingFactor
+		);
 		// updating the oyster store with merchant jobs
 		if (merchantJobs !== null) {
 			updateMerchantJobsInOysterStore(merchantJobs);

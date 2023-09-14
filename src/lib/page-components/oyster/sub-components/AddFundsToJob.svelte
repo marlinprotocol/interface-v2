@@ -3,10 +3,7 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
 	import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
-	import {
-		OYSTER_DURATION_UNITS_LIST,
-		OYSTER_RATE_SCALING_FACTOR
-	} from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_DURATION_UNITS_LIST } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
 		convertHourlyRateToSecondlyRate,
@@ -18,11 +15,10 @@
 		computeCost,
 		computeDuration,
 		computeDurationString,
-		getDurationInSecondsForUnit,
-		getInstanceCostString
+		getDurationInSecondsForUnit
 	} from '$lib/utils/helpers/oysterHelpers';
 	import type { WalletBalanceStore } from '$lib/types/storeTypes';
-	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
+	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 
 	const durationUnitList = OYSTER_DURATION_UNITS_LIST.map((unit) => unit.label);
 	let durationUnit = 'Days';
@@ -40,7 +36,7 @@
 		if (_instanceRate) {
 			instanceRateString = _instanceRate
 				? convertRateToPerHourString(
-						_instanceRate / OYSTER_RATE_SCALING_FACTOR,
+						_instanceRate / $oysterRateMetadataStore.oysterRateScalingFactor,
 						$oysterTokenMetadataStore.decimal,
 						4
 				  )
@@ -66,8 +62,8 @@
 				const hourlyRate = stringToBigNumber(value);
 				instanceRate = convertHourlyRateToSecondlyRate(hourlyRate);
 				const _instanceCost = computeCost(duration || 0, instanceRate);
-				instanceCostString = getInstanceCostString(
-					_instanceCost,
+				instanceCostString = bigNumberToString(
+					_instanceCost / $oysterRateMetadataStore.oysterRateScalingFactor,
 					$oysterTokenMetadataStore.decimal,
 					4
 				);
@@ -84,8 +80,8 @@
 		try {
 			duration = computeDuration(value, durationUnitInSec);
 			const _instanceCost = computeCost(duration || 0, instanceRate);
-			instanceCostString = getInstanceCostString(
-				_instanceCost,
+			instanceCostString = bigNumberToString(
+				_instanceCost / $oysterRateMetadataStore.oysterRateScalingFactor,
 				$oysterTokenMetadataStore.decimal,
 				4
 			);
@@ -99,7 +95,11 @@
 		durationUnitInSec = getDurationInSecondsForUnit(unit);
 		duration = computeDuration(durationString, durationUnitInSec);
 		const _instanceCost = computeCost(duration || 0, instanceRate);
-		instanceCostString = getInstanceCostString(_instanceCost, $oysterTokenMetadataStore.decimal, 4);
+		instanceCostString = bigNumberToString(
+			_instanceCost / $oysterRateMetadataStore.oysterRateScalingFactor,
+			$oysterTokenMetadataStore.decimal,
+			4
+		);
 	};
 
 	const handleCostChange = (e: any) => {
@@ -137,7 +137,7 @@
 			$walletBalanceStore[
 				$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
 			] >=
-			instanceCost / OYSTER_RATE_SCALING_FACTOR
+			instanceCost / $oysterRateMetadataStore.oysterRateScalingFactor
 		);
 	$: inValidMessage = !instanceCost
 		? ''

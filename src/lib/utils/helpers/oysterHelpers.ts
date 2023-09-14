@@ -1,8 +1,6 @@
-import { DEFAULT_CURRENCY_DECIMALS, DEFAULT_PRECISION } from '$lib/utils/constants/constants';
 import {
 	OYSTER_CAUTION_DURATION,
 	OYSTER_DURATION_UNITS_LIST,
-	OYSTER_RATE_SCALING_FACTOR,
 	OYSTER_WARNING_DURATION
 } from '$lib/utils/constants/oysterConstants';
 import type {
@@ -13,7 +11,6 @@ import type {
 } from '$lib/types/oysterComponentType';
 
 import { addToast } from '$lib/data-stores/toastStore';
-import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 
@@ -481,14 +478,6 @@ export const computeDuration = (durationString: string, durationUnitInSec: numbe
 		: 0;
 };
 
-export const getInstanceCostString = (
-	cost: bigint,
-	tokenDecimal = DEFAULT_CURRENCY_DECIMALS,
-	tokenPrecision = DEFAULT_PRECISION
-) => {
-	return bigNumberToString(cost / OYSTER_RATE_SCALING_FACTOR, tokenDecimal, tokenPrecision);
-};
-
 export const computeDurationString = (duration: number | undefined, durationUnitInSec: number) => {
 	if (!duration || duration === 0 || durationUnitInSec === 0) return '';
 	return Math.floor(duration / durationUnitInSec).toString();
@@ -511,13 +500,17 @@ export const addRegionNameToMarketplaceData = (
 };
 
 // returns bandwidth rate in Kb/s
-export function getBandwidthFromRateAndRegion(bandwidthRate: bigint, region: string) {
+export function getBandwidthFromRateAndRegion(
+	bandwidthRate: bigint,
+	region: string,
+	scalingFactor: bigint
+) {
 	const rateForRegion = getBandwidthRateForRegion(region);
 	if (rateForRegion === undefined) return 0n;
 	// this is done to ceil the number since rateForRegion
-	// is essentially, actualRate * OYSTER_RATE_SCALING_FACTOR
+	// is essentially, actualRate * oysterRateScalingFactor
 	const bandwidthWithAllPrecision =
-		(bandwidthRate * BigInt(1024 * 1024) + OYSTER_RATE_SCALING_FACTOR - BigInt(1)) / rateForRegion;
+		(bandwidthRate * BigInt(1024 * 1024) + scalingFactor - BigInt(1)) / rateForRegion;
 
 	return bandwidthWithAllPrecision;
 }

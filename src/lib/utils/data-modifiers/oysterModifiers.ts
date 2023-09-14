@@ -7,7 +7,6 @@ import type {
 import { getProvidersInstancesJSON, getProvidersNameJSON } from '$lib/controllers/httpController';
 
 import { BANDWIDTH_RATES_LOOKUP } from '$lib/page-components/oyster/data/bandwidthRates';
-import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 import { SECONDS_IN_HUNDRED_YEARS } from '$lib/utils/constants/constants';
 import { instanceVcpuMemoryData } from '$lib/page-components/oyster/data/instanceVcpuMemoryData';
 
@@ -44,17 +43,17 @@ export const getBandwidthRateForRegion = (region: string) => {
 	return BigInt(bandwidthRate);
 };
 
-export async function modifyOysterJobData(jobs: any[]) {
+export async function modifyOysterJobData(jobs: any[], scalingFactor: bigint) {
 	if (!jobs?.length) return [];
 
 	const names = await getProvidersNameJSON();
 
 	return jobs.map((job: any) => {
-		return modifyJobData(job, names);
+		return modifyJobData(job, names, scalingFactor);
 	}) as OysterInventoryDataModel[];
 }
 
-const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
+const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInventoryDataModel => {
 	const {
 		metadata,
 		ip,
@@ -97,7 +96,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	const _balance = BigInt(balance);
 	const _rate = BigInt(rate); // in seconds
 	const _refund = BigInt(refund);
-	const _downScaledRate = _rate / OYSTER_RATE_SCALING_FACTOR;
+	const _downScaledRate = _rate / scalingFactor;
 
 	//job with all basic conversions
 	const modifiedJob = {
@@ -176,7 +175,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 
 	if (
 		_rate === 0n ||
-		((_balance * OYSTER_RATE_SCALING_FACTOR) / _rate > SECONDS_IN_HUNDRED_YEARS && _balance > 0n)
+		((_balance * scalingFactor) / _rate > SECONDS_IN_HUNDRED_YEARS && _balance > 0n)
 	) {
 		const time = Math.floor(nowTime - _lastSettled);
 		const _balanceUpdated = _balance - _downScaledRate * BigInt(time);
@@ -195,7 +194,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	}
 
 	//job is running or has completed
-	const _paidDuration = (_balance * OYSTER_RATE_SCALING_FACTOR) / _rate;
+	const _paidDuration = (_balance * scalingFactor) / _rate;
 	const endEpochTime = _lastSettled + Number(_paidDuration);
 
 	if (endEpochTime < nowTime) {
@@ -216,7 +215,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	let currentBalance = _balance;
 	//job is running
 	const time = Math.floor(nowTime - _lastSettled);
-	currentBalance = _balance - (_rate * BigInt(time)) / OYSTER_RATE_SCALING_FACTOR;
+	currentBalance = _balance - (_rate * BigInt(time)) / scalingFactor;
 
 	return {
 		...modifiedJob,

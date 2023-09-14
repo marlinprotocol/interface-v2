@@ -4,7 +4,6 @@ import type {
 	ProviderData
 } from '$lib/types/oysterComponentType';
 import type { Address, OysterStore } from '$lib/types/storeTypes';
-import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 import { DEFAULT_OYSTER_STORE } from '$lib/utils/constants/storeDefaults';
 import { parseMetadata } from '$lib/utils/data-modifiers/oysterModifiers';
 import type { BytesLike } from 'ethers';
@@ -355,7 +354,8 @@ export function createNewJobInOysterStore(
 	provider: { name?: string; address: string },
 	rate: bigint,
 	balance: bigint,
-	durationInSec: number
+	durationInSec: number,
+	scalingFactor: bigint
 ) {
 	const txHash = txn.hash;
 	const jobOpenEvent = approveReciept.events?.find((event: any) => event.event === 'JobOpened');
@@ -380,7 +380,7 @@ export function createNewJobInOysterStore(
 		amountUsed: 0n,
 		refund: 0n,
 		rate,
-		downScaledRate: rate / OYSTER_RATE_SCALING_FACTOR,
+		downScaledRate: rate / scalingFactor,
 		balance,
 		totalDeposit: balance,
 		live: true,

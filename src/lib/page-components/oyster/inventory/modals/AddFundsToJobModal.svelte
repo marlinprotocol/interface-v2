@@ -16,6 +16,7 @@
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { getInstanceCostString } from '$lib/utils/helpers/oysterHelpers';
 	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
+	import { contractAddressStore } from '$lib/data-stores/contractStore';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -33,7 +34,7 @@
 
 	function handleMaxClick() {
 		instanceCost = $oysterStore.allowance * OYSTER_RATE_SCALING_FACTOR;
-		instanceCostString = getInstanceCostString(instanceCost);
+		instanceCostString = getInstanceCostString(instanceCost, $oysterTokenMetadataStore.decimal, 4);
 		// adding one as it always rounds down due to bigInt division
 		duration = Number(instanceCost / rate) + 1;
 	}
@@ -49,7 +50,11 @@
 
 	const handleApproveClick = async () => {
 		approvedLoading = true;
-		await handleApproveFundForOysterJob(instanceCost / OYSTER_RATE_SCALING_FACTOR);
+		await handleApproveFundForOysterJob(
+			instanceCost / OYSTER_RATE_SCALING_FACTOR,
+			$oysterTokenMetadataStore,
+			$contractAddressStore.OYSTER
+		);
 		approvedLoading = false;
 	};
 

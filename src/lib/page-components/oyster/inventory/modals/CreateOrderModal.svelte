@@ -4,7 +4,7 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import { oysterStore, oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { CreateOrderPreFilledModel } from '$lib/types/oysterComponentType';
 	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
@@ -18,6 +18,7 @@
 	import MetadetailsForNewOrder from '$lib/page-components/oyster/sub-components/MetadetailsForNewOrder.svelte';
 	import BandwidthSelector from '$lib/page-components/oyster/sub-components/BandwidthSelector.svelte';
 	import { OYSTER_OWNER_INVENTORY_URL } from '$lib/utils/constants/urls';
+	import { contractAddressStore } from '$lib/data-stores/contractStore';
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
@@ -123,7 +124,11 @@
 			return;
 		}
 		submitLoading = true;
-		await handleApproveFundForOysterJob(totalCost / OYSTER_RATE_SCALING_FACTOR);
+		await handleApproveFundForOysterJob(
+			totalCost / OYSTER_RATE_SCALING_FACTOR,
+			$oysterTokenMetadataStore,
+			$contractAddressStore.OYSTER
+		);
 		submitLoading = false;
 	};
 

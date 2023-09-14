@@ -40,7 +40,7 @@ export type TokenMetadata = {
 	decimal: number;
 	precision: number;
 	symbol: string;
-	currency: string;
+	currency: keyof Tokens;
 };
 
 export type SubgraphUrls = {

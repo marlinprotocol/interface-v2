@@ -1,10 +1,10 @@
-import type { TokenMetadata, Tokens } from '$lib/types/environmentTypes';
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
 
 import type { Address } from '@web3-onboard/core/dist/types';
 import type { ContractAddress } from '$lib/types/storeTypes';
 import { ERC20_ABI } from '$lib/utils/abis/erc20';
 import { MESSAGES } from '$lib/utils/constants/messages';
+import type { TokenMetadata } from '$lib/types/environmentTypes';
 import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 import { contractAddressStore } from '$lib/data-stores/contractStore';
 
@@ -18,19 +18,16 @@ export async function approveToken(
 	amount: bigint,
 	toAddress: Address
 ) {
-	const tokenContract = createSignerContract(
-		contractAddresses[tokenToApprove.symbol as keyof Tokens],
-		ERC20_ABI
-	);
+	const tokenContract = createSignerContract(contractAddresses[tokenToApprove.currency], ERC20_ABI);
 
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.APPROVING(
 			bigNumberToString(amount, tokenToApprove.decimal, tokenToApprove.precision),
-			tokenToApprove.symbol
+			tokenToApprove.currency
 		);
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.APPROVED(
 			bigNumberToString(amount, tokenToApprove.decimal, tokenToApprove.precision),
-			tokenToApprove.symbol
+			tokenToApprove.currency
 		);
 		const errorTxnMessage = 'Unable to approve staking token';
 		const parentFunctionName = 'approveToken';

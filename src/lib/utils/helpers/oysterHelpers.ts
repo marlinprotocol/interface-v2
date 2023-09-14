@@ -1,7 +1,7 @@
+import { DEFAULT_CURRENCY_DECIMALS, DEFAULT_PRECISION } from '$lib/utils/constants/constants';
 import {
 	OYSTER_CAUTION_DURATION,
 	OYSTER_DURATION_UNITS_LIST,
-	OYSTER_RATE_METADATA,
 	OYSTER_RATE_SCALING_FACTOR,
 	OYSTER_WARNING_DURATION
 } from '$lib/utils/constants/oysterConstants';
@@ -481,8 +481,12 @@ export const computeDuration = (durationString: string, durationUnitInSec: numbe
 		: 0;
 };
 
-export const getInstanceCostString = (cost: bigint) => {
-	return bigNumberToString(cost / OYSTER_RATE_SCALING_FACTOR, OYSTER_RATE_METADATA.decimal, 4);
+export const getInstanceCostString = (
+	cost: bigint,
+	tokenDecimal = DEFAULT_CURRENCY_DECIMALS,
+	tokenPrecision = DEFAULT_PRECISION
+) => {
+	return bigNumberToString(cost / OYSTER_RATE_SCALING_FACTOR, tokenDecimal, tokenPrecision);
 };
 
 export const computeDurationString = (duration: number | undefined, durationUnitInSec: number) => {

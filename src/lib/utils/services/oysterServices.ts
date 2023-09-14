@@ -22,16 +22,9 @@ import {
 } from '$lib/controllers/contract/oyster';
 
 import type { BytesLike } from 'ethers';
-import type { ContractAddress } from '$lib/types/storeTypes';
-import { OYSTER_RATE_METADATA } from '../constants/oysterConstants';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+import type { TokenMetadata } from '$lib/types/environmentTypes';
 import { approveToken } from '$lib/controllers/contract/token';
-import { contractAddressStore } from '$lib/data-stores/contractStore';
-
-let contractAddress: ContractAddress;
-contractAddressStore.subscribe((value) => {
-	contractAddress = value;
-});
 
 export async function handleClaimAmountFromOysterJob(jobId: BytesLike) {
 	try {
@@ -42,17 +35,21 @@ export async function handleClaimAmountFromOysterJob(jobId: BytesLike) {
 	}
 }
 
-export async function handleApproveFundForOysterJob(amount: bigint) {
+export async function handleApproveFundForOysterJob(
+	amount: bigint,
+	oysterToken: TokenMetadata,
+	oysterContractAddress: string
+) {
 	try {
 		await approveToken(
 			{
-				symbol: OYSTER_RATE_METADATA.symbol as string,
-				decimal: OYSTER_RATE_METADATA.decimal,
-				precision: OYSTER_RATE_METADATA.precision,
-				currency: OYSTER_RATE_METADATA.currency
+				symbol: oysterToken.symbol,
+				decimal: oysterToken.decimal,
+				precision: oysterToken.precision,
+				currency: oysterToken.currency
 			},
 			amount,
-			contractAddress.OYSTER
+			oysterContractAddress
 		);
 		updateApprovedFundsInOysterStore(amount);
 	} catch (e) {

@@ -236,7 +236,6 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 
 export async function getOysterProvidersModified(providers: any[]) {
 	if (!providers?.length) return [];
-	const { rateCPUrlUnitInSeconds } = OYSTER_RATE_METADATA;
 	//fetch all providers name and instances
 	const [allNames, allInstances] = await Promise.all([
 		getProvidersNameJSON(),
@@ -251,7 +250,7 @@ export async function getOysterProvidersModified(providers: any[]) {
 			const rateFromCPUrl = instance.rate ? BigInt(instance.rate) : 0n;
 			ret.push({
 				...instance,
-				rate: rateFromCPUrl / BigInt(rateCPUrlUnitInSeconds),
+				rate: rateFromCPUrl / BigInt(OYSTER_RATE_METADATA.rateCPUrlUnitInSeconds),
 				provider: {
 					name: allNames[provider.id] ?? '',
 					address: provider.id

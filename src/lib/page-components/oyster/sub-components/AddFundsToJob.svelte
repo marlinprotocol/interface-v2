@@ -66,7 +66,11 @@
 				const hourlyRate = stringToBigNumber(value);
 				instanceRate = convertHourlyRateToSecondlyRate(hourlyRate);
 				const _instanceCost = computeCost(duration || 0, instanceRate);
-				instanceCostString = getInstanceCostString(_instanceCost);
+				instanceCostString = getInstanceCostString(
+					_instanceCost,
+					$oysterTokenMetadataStore.decimal,
+					4
+				);
 			}
 		} catch (error) {
 			instanceRate = undefined;
@@ -80,7 +84,11 @@
 		try {
 			duration = computeDuration(value, durationUnitInSec);
 			const _instanceCost = computeCost(duration || 0, instanceRate);
-			instanceCostString = getInstanceCostString(_instanceCost);
+			instanceCostString = getInstanceCostString(
+				_instanceCost,
+				$oysterTokenMetadataStore.decimal,
+				4
+			);
 		} catch (error) {
 			duration = 0;
 			console.log(error);
@@ -91,7 +99,7 @@
 		durationUnitInSec = getDurationInSecondsForUnit(unit);
 		duration = computeDuration(durationString, durationUnitInSec);
 		const _instanceCost = computeCost(duration || 0, instanceRate);
-		instanceCostString = getInstanceCostString(_instanceCost);
+		instanceCostString = getInstanceCostString(_instanceCost, $oysterTokenMetadataStore.decimal, 4);
 	};
 
 	const handleCostChange = (e: any) => {

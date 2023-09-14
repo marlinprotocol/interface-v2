@@ -16,6 +16,7 @@
 	import { environment } from '$lib/data-stores/environment';
 	import {
 		initializeOysterStore,
+		oysterRateMetadataStore,
 		setMarketplaceLoadedInOysterStore,
 		updateMarketplaceDataInOysterStore
 	} from '$lib/data-stores/oysterStore';
@@ -58,7 +59,10 @@
 	async function loadMarketplaceData() {
 		setMarketplaceLoadedInOysterStore(false);
 		const providersDataFromSubgraph = await getAllProvidersDetailsFromSubgraph();
-		const marketplaceData = await getOysterProvidersModified(providersDataFromSubgraph);
+		const marketplaceData = await getOysterProvidersModified(
+			providersDataFromSubgraph,
+			$oysterRateMetadataStore.rateCPUrlUnitInSeconds
+		);
 		const marketplaceDataWithRegionName = addRegionNameToMarketplaceData(
 			marketplaceData,
 			REGION_NAME_CONSTANTS

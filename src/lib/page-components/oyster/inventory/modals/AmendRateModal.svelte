@@ -20,7 +20,7 @@
 		handleInitiateRateRevise
 	} from '$lib/utils/services/oysterServices';
 	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
-	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
+	import { oysterRateMetadataStore, oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -37,7 +37,11 @@
 
 	const handleInitiateClick = async () => {
 		submitLoading = true;
-		await handleInitiateRateRevise(jobData, inputRate);
+		await handleInitiateRateRevise(
+			jobData,
+			inputRate,
+			$oysterRateMetadataStore.rateReviseWaitingTime
+		);
 		submitLoading = false;
 		closeModal(modalFor);
 	};

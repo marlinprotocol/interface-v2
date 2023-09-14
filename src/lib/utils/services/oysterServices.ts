@@ -87,11 +87,15 @@ export async function handleFundsWithdrawFromJob(
 	}
 }
 
-export async function handleInitiateRateRevise(jobData: OysterInventoryDataModel, newRate: bigint) {
+export async function handleInitiateRateRevise(
+	jobData: OysterInventoryDataModel,
+	newRate: bigint,
+	waitingTime: number
+) {
 	const { id } = jobData;
 	try {
 		await initiateRateReviseOysterJob(id, newRate);
-		initiateRateReviseInOysterStore(id, jobData, newRate);
+		initiateRateReviseInOysterStore(id, jobData, newRate, waitingTime);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}

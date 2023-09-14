@@ -6,10 +6,7 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import {
-		OYSTER_RATE_METADATA,
-		OYSTER_RATE_SCALING_FACTOR
-	} from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import {
 		closeModal,
@@ -18,7 +15,7 @@
 	} from '$lib/utils/helpers/commonHelper';
 	import { handleFundsWithdrawFromJob } from '$lib/utils/services/oysterServices';
 	import { DEFAULT_PRECISION } from '$lib/utils/constants/constants';
-	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
+	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -75,7 +72,8 @@
 	function getMaxAmountForJob(rate: bigint, balance: bigint) {
 		if (rate && balance) {
 			const downScaledRate = rate / OYSTER_RATE_SCALING_FACTOR;
-			const amountForDownTime = downScaledRate * BigInt(OYSTER_RATE_METADATA.rateReviseWaitingTime);
+			const amountForDownTime =
+				downScaledRate * BigInt($oysterRateMetadataStore.rateReviseWaitingTime);
 			const finalBalance = balance - amountForDownTime;
 			return finalBalance >= 0n ? finalBalance : 0n;
 		}

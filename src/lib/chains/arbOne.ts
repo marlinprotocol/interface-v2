@@ -34,6 +34,11 @@ export const ARB_ONE: ChainConfig = {
 		job_refresh_url: 'https://sk.arb1.marlin.org/operators/jobs/refresh/'
 	},
 	oyster_token: 'USDC',
+	oyster_rate_metadata: {
+		rateUnit: 'hour',
+		rateCPUrlUnitInSeconds: 1, // 1 hour
+		rateReviseWaitingTime: 5 * 60 // 5 minutes
+	},
 	tokens: {
 		POND: {
 			decimal: 18,

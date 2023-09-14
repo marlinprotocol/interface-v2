@@ -27,6 +27,11 @@ export type ChainConfig = {
 		job_refresh_url: string;
 	};
 	oyster_token: keyof Tokens;
+	oyster_rate_metadata: {
+		rateUnit: string;
+		rateCPUrlUnitInSeconds: number;
+		rateReviseWaitingTime: number;
+	};
 	tokens: Tokens;
 };
 

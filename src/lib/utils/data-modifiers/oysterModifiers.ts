@@ -4,13 +4,10 @@ import type {
 	OysterInventoryDataModel,
 	OysterMarketplaceDataModel
 } from '$lib/types/oysterComponentType';
-import {
-	OYSTER_RATE_METADATA,
-	OYSTER_RATE_SCALING_FACTOR
-} from '$lib/utils/constants/oysterConstants';
 import { getProvidersInstancesJSON, getProvidersNameJSON } from '$lib/controllers/httpController';
 
 import { BANDWIDTH_RATES_LOOKUP } from '$lib/page-components/oyster/data/bandwidthRates';
+import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 import { SECONDS_IN_HUNDRED_YEARS } from '$lib/utils/constants/constants';
 import { instanceVcpuMemoryData } from '$lib/page-components/oyster/data/instanceVcpuMemoryData';
 
@@ -234,7 +231,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	};
 };
 
-export async function getOysterProvidersModified(providers: any[]) {
+export async function getOysterProvidersModified(providers: any[], rateCPUrlUnitInSeconds: number) {
 	if (!providers?.length) return [];
 	//fetch all providers name and instances
 	const [allNames, allInstances] = await Promise.all([
@@ -250,7 +247,7 @@ export async function getOysterProvidersModified(providers: any[]) {
 			const rateFromCPUrl = instance.rate ? BigInt(instance.rate) : 0n;
 			ret.push({
 				...instance,
-				rate: rateFromCPUrl / BigInt(OYSTER_RATE_METADATA.rateCPUrlUnitInSeconds),
+				rate: rateFromCPUrl / BigInt(rateCPUrlUnitInSeconds),
 				provider: {
 					name: allNames[provider.id] ?? '',
 					address: provider.id

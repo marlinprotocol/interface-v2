@@ -62,7 +62,7 @@
 		provider: { name, address },
 		instance,
 		region,
-		downScaledRate,
+		rate,
 		id,
 		ip,
 		balance,
@@ -119,13 +119,13 @@
 	<td class={tableCellClasses.rowNormal}>
 		<Tooltip
 			tooltipText={`${$oysterTokenMetadataStore.symbol}${convertRateToPerHourString(
-				downScaledRate,
+				rate,
 				$oysterTokenMetadataStore.decimal,
 				$oysterTokenMetadataStore.precision
 			)}`}
 		>
 			{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
-				downScaledRate,
+				rate,
 				$oysterTokenMetadataStore.decimal
 			)}
 		</Tooltip>

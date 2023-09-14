@@ -37,14 +37,14 @@
 		vcpu,
 		memory,
 		enclaveUrl,
-		rate,
+		rateScaled,
 		ip,
 		totalDeposit,
 		amountUsed,
 		createdAt,
 		endEpochTime,
 		depositHistory,
-		downScaledRate
+		rate
 	} = jobData);
 	$: instanceRate = getRateForProviderAndFilters(
 		address,
@@ -52,7 +52,7 @@
 		region,
 		$oysterStore.allMarketplaceData
 	);
-	$: bandwidthRate = instanceRate !== undefined ? rate - instanceRate : 0n;
+	$: bandwidthRate = instanceRate !== undefined ? rateScaled - instanceRate : 0n;
 	$: bandwidth =
 		getBandwidthFromRateAndRegion(
 			bandwidthRate,
@@ -101,7 +101,7 @@
 				<TextInputCard
 					title={'Hourly Rate'}
 					value={`${$oysterTokenMetadataStore.symbol}${convertRateToPerHourString(
-						downScaledRate,
+						rate,
 						$oysterTokenMetadataStore.decimal
 					)}`}
 					centered

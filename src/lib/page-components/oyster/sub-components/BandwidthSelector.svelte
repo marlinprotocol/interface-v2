@@ -7,12 +7,12 @@
 	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let region: any;
-	export let bandwidthRateForRegion = 0n;
-	export let bandwidthCost = 0n;
+	export let bandwidthRateForRegionScaled = 0n;
+	export let bandwidthCostScaled = 0n;
 	export let duration = 0;
-	export let instanceCost = 0n;
-	export let finalBandwidthRate = 0n;
-	export let totalCost = 0n;
+	export let instanceCostScaled = 0n;
+	export let finalBandwidthRateScaled = 0n;
+	export let totalCostScaled = 0n;
 
 	let bandwidth = '';
 	let bandwidthUnit = 'KB/s';
@@ -23,34 +23,35 @@
 	function calculateBandwidthCost(
 		bandwidth: string | number,
 		bandwidthUnit: string,
-		rate: bigint,
+		bandwidthRateForRegionScaled: bigint,
 		duration: number // in seconds
 	) {
 		const unitConversionDivisor = BigInt(
 			OYSTER_BANDWIDTH_UNITS_LIST.find((unit) => unit.label === bandwidthUnit)?.value ?? 1
 		);
-		finalBandwidthRate = (BigInt(bandwidth) * rate) / (unitConversionDivisor || BigInt(1));
-		return finalBandwidthRate * BigInt(duration);
+		finalBandwidthRateScaled =
+			(BigInt(bandwidth) * bandwidthRateForRegionScaled) / (unitConversionDivisor || BigInt(1));
+		return finalBandwidthRateScaled * BigInt(duration);
 	}
 
-	$: bandwidthRateForRegion = getBandwidthRateForRegion(region.value);
-	$: bandwidthCost =
+	$: bandwidthRateForRegionScaled = getBandwidthRateForRegion(region.value);
+	$: bandwidthCostScaled =
 		bandwidth !== ''
-			? calculateBandwidthCost(bandwidth, bandwidthUnit, bandwidthRateForRegion, duration)
+			? calculateBandwidthCost(bandwidth, bandwidthUnit, bandwidthRateForRegionScaled, duration)
 			: 0n;
 	$: bandwidthCostString =
 		bandwidth !== ''
 			? bigNumberToString(
-					bandwidthCost / $oysterRateMetadataStore.oysterRateScalingFactor,
+					bandwidthCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
 					$oysterTokenMetadataStore.decimal,
 					4
 			  )
 			: '';
 
-	$: totalCost = bandwidthCost + instanceCost;
-	$: downScaledTotalCost = totalCost / $oysterRateMetadataStore.oysterRateScalingFactor;
-	$: totalAmountString = !(downScaledTotalCost === 0n)
-		? bigNumberToString(downScaledTotalCost, $oysterTokenMetadataStore.decimal, 4)
+	$: totalCostScaled = bandwidthCostScaled + instanceCostScaled;
+	$: totalCost = totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor;
+	$: totalAmountString = !(totalCost === 0n)
+		? bigNumberToString(totalCost, $oysterTokenMetadataStore.decimal, 4)
 		: '';
 </script>
 

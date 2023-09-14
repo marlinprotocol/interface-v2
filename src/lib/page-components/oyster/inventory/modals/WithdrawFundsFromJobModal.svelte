@@ -68,26 +68,25 @@
 		closeModal(modalFor);
 	};
 
-	function getMaxAmountForJob(rate: bigint, balance: bigint) {
-		if (rate && balance) {
-			const downScaledRate = rate / $oysterRateMetadataStore.oysterRateScalingFactor;
-			const amountForDownTime =
-				downScaledRate * BigInt($oysterRateMetadataStore.rateReviseWaitingTime);
+	function getMaxAmountForJob(rateScaled: bigint, balance: bigint) {
+		if (rateScaled && balance) {
+			const _rate = rateScaled / $oysterRateMetadataStore.oysterRateScalingFactor;
+			const amountForDownTime = _rate * BigInt($oysterRateMetadataStore.rateReviseWaitingTime);
 			const finalBalance = balance - amountForDownTime;
 			return finalBalance >= 0n ? finalBalance : 0n;
 		}
 		return 0n;
 	}
 
-	$: ({ rate, balance, downScaledRate } = jobData);
+	$: ({ rateScaled, balance, rate } = jobData);
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString, $oysterTokenMetadataStore.decimal)
 		: 0n;
 	$: maxDisabedText =
 		updatedAmountInputDirty && inputAmount && inputAmount > maxAmount ? 'Insufficient balance' : '';
 	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;
-	$: maxAmount = getMaxAmountForJob(rate, balance);
-	$: durationReduced = inputAmount > 0 ? inputAmount / downScaledRate : 0n;
+	$: maxAmount = getMaxAmountForJob(rateScaled, balance);
+	$: durationReduced = inputAmount > 0 ? inputAmount / rate : 0n;
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>

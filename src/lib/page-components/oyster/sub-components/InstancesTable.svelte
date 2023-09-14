@@ -45,7 +45,7 @@
 								<td class={styles.tableCell}>{row.region}</td>
 								<td class={styles.tableCell}>
 									{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
-										row.rate / $oysterRateMetadataStore.oysterRateScalingFactor,
+										row.rateScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
 										$oysterTokenMetadataStore.decimal
 									)}
 								</td>

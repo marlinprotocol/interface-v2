@@ -94,9 +94,9 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 	//convert to BigNumber
 	const _totalDeposit = BigInt(totalDeposit);
 	const _balance = BigInt(balance);
-	const _rate = BigInt(rate); // in seconds
+	const _rateScaled = BigInt(rate); // in seconds
 	const _refund = BigInt(refund);
-	const _downScaledRate = _rate / scalingFactor;
+	const _rate = _rateScaled / scalingFactor;
 
 	//job with all basic conversions
 	const modifiedJob = {
@@ -113,8 +113,8 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 		vcpu,
 		memory,
 		refund: _refund,
+		rateScaled: _rateScaled,
 		rate: _rate,
-		downScaledRate: _downScaledRate,
 		totalDeposit: _totalDeposit,
 		lastSettled: Number(lastSettled),
 		createdAt: Number(createdAt),
@@ -174,11 +174,11 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 	}
 
 	if (
-		_rate === 0n ||
-		((_balance * scalingFactor) / _rate > SECONDS_IN_HUNDRED_YEARS && _balance > 0n)
+		_rateScaled === 0n ||
+		((_balance * scalingFactor) / _rateScaled > SECONDS_IN_HUNDRED_YEARS && _balance > 0n)
 	) {
 		const time = Math.floor(nowTime - _lastSettled);
-		const _balanceUpdated = _balance - _downScaledRate * BigInt(time);
+		const _balanceUpdated = _balance - _rate * BigInt(time);
 		//job is running and will never end
 		return {
 			...modifiedJob,
@@ -194,7 +194,7 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 	}
 
 	//job is running or has completed
-	const _paidDuration = (_balance * scalingFactor) / _rate;
+	const _paidDuration = (_balance * scalingFactor) / _rateScaled;
 	const endEpochTime = _lastSettled + Number(_paidDuration);
 
 	if (endEpochTime < nowTime) {
@@ -215,7 +215,7 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 	let currentBalance = _balance;
 	//job is running
 	const time = Math.floor(nowTime - _lastSettled);
-	currentBalance = _balance - (_rate * BigInt(time)) / scalingFactor;
+	currentBalance = _balance - (_rateScaled * BigInt(time)) / scalingFactor;
 
 	return {
 		...modifiedJob,
@@ -268,7 +268,7 @@ export const getModifiedInstances = (instances?: CPInstances) => {
 			return {
 				instance: rate.instance,
 				region: region.region,
-				rate: BigInt(rate.min_rate),
+				rateScaled: BigInt(rate.min_rate),
 				vcpu,
 				memory
 			};

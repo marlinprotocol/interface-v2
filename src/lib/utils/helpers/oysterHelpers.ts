@@ -239,7 +239,7 @@ export const sortOysterMarketplace = (
 	if (!data) return [];
 
 	const ascendingSort = (a: OysterMarketplaceDataModel, b: OysterMarketplaceDataModel) => {
-		if (sort === 'rate') {
+		if (sort === 'rateScaled') {
 			const bnA = a[sort];
 			const bnB = b[sort];
 			return bnA > bnB ? 1 : -1;
@@ -366,9 +366,9 @@ export const getFilteredMarketplaceData = (
 		});
 	}
 
-	if (filterMap.rate) {
+	if (filterMap.rateScaled) {
 		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return item.rate === filterMap.rate;
+			return item.rateScaled === filterMap.rateScaled;
 		});
 	}
 
@@ -397,7 +397,7 @@ export function getAllFiltersListforMarketplaceData(
 		.map((item) => item.memory ?? 0)
 		.filter((item) => item !== 0)
 		.sort((a, b) => a - b);
-	const rates = filteredData.map((item) => item.rate).sort((a, b) => (a > b ? 1 : -1));
+	const rates = filteredData.map((item) => item.rateScaled).sort((a, b) => (a > b ? 1 : -1));
 
 	return {
 		allMarketplaceData: filteredData,
@@ -442,7 +442,7 @@ export const getRateForProviderAndFilters = (
 			_item.instance === instance &&
 			_item.region === region
 	);
-	return instanceSelected?.rate ?? undefined;
+	return instanceSelected?.rateScaled ?? undefined;
 };
 
 export const getCreateOrderInstanceRegionFilters = (

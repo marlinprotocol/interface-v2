@@ -23,9 +23,9 @@
 		region,
 		vcpu,
 		memory,
-		rate
+		rateScaled
 	} = rowData);
-	$: downscaledInstanceRate = rate / $oysterRateMetadataStore.oysterRateScalingFactor;
+	$: instanceRate = rateScaled / $oysterRateMetadataStore.oysterRateScalingFactor;
 </script>
 
 <tr class="main-row hover:bg-base-200">
@@ -49,13 +49,13 @@
 	<td class={tableCellClasses.rowNormal}>
 		<Tooltip
 			tooltipText={`${$oysterTokenMetadataStore.symbol}${convertRateToPerHourString(
-				downscaledInstanceRate,
+				instanceRate,
 				$oysterTokenMetadataStore.decimal,
 				$oysterTokenMetadataStore.precision
 			)}`}
 		>
 			{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
-				downscaledInstanceRate,
+				instanceRate,
 				$oysterTokenMetadataStore.decimal
 			)}
 		</Tooltip>

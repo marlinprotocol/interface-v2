@@ -27,12 +27,12 @@
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
 
 	let duration = 0; //durationInSecs
-	let instanceCost = 0n;
+	let instanceCostScaled = 0n;
 	let invalidCost = false;
 	let instanceCostString = '';
-	let bandwidthCost = 0n;
-	let finalBandwidthRate = 0n;
-	let totalCost = 0n;
+	let bandwidthCostScaled = 0n;
+	let finalBandwidthRateScaled = 0n;
+	let totalCostScaled = 0n;
 
 	//loading states
 	let submitLoading = false;
@@ -81,9 +81,9 @@
 	const handleSubmitClick = async () => {
 		if (
 			!instanceRate ||
-			!instanceCost ||
-			!finalBandwidthRate ||
-			!bandwidthCost ||
+			!instanceCostScaled ||
+			!finalBandwidthRateScaled ||
+			!bandwidthCostScaled ||
 			!instance.value ||
 			!region.value
 		) {
@@ -110,7 +110,7 @@
 			metadata,
 			provider,
 			totalRate,
-			totalCost / $oysterRateMetadataStore.oysterRateScalingFactor,
+			totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
 			duration,
 			$oysterRateMetadataStore.oysterRateScalingFactor
 		);
@@ -124,12 +124,12 @@
 	};
 
 	const handleApproveClick = async () => {
-		if (!instanceCost || !bandwidthCost) {
+		if (!instanceCostScaled || !bandwidthCostScaled) {
 			return;
 		}
 		submitLoading = true;
 		await handleApproveFundForOysterJob(
-			totalCost / $oysterRateMetadataStore.oysterRateScalingFactor,
+			totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
 			$oysterTokenMetadataStore,
 			$contractAddressStore.OYSTER
 		);
@@ -156,7 +156,7 @@
 
 	const handleMerchantChange = () => {
 		duration = 0;
-		instanceCost = 0n;
+		instanceCostScaled = 0n;
 		invalidCost = false;
 		instanceCostString = '';
 	};
@@ -172,10 +172,10 @@
 	let notServiceable = false;
 
 	$: approved =
-		instanceCost > 0n &&
-		$oysterStore.allowance >= totalCost / $oysterRateMetadataStore.oysterRateScalingFactor &&
-		bandwidthCost > 0n &&
-		totalCost > 0n;
+		instanceCostScaled > 0n &&
+		$oysterStore.allowance >= totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor &&
+		bandwidthCostScaled > 0n &&
+		totalCostScaled > 0n;
 
 	$: instanceRateDisabled =
 		notServiceable ||
@@ -188,8 +188,8 @@
 
 	$: submitEnable =
 		duration &&
-		instanceCost > 0n &&
-		bandwidthCost > 0n &&
+		instanceCostScaled > 0n &&
+		bandwidthCostScaled > 0n &&
 		instanceRate &&
 		totalRate &&
 		!invalidCost &&
@@ -202,7 +202,7 @@
 			? checkValidURL(enclaveImageUrl.value)
 			: true;
 
-	$: totalRate = finalBandwidthRate + (instanceRate || 0n);
+	$: totalRate = finalBandwidthRateScaled + (instanceRate || 0n);
 
 	const subtitle =
 		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';
@@ -235,18 +235,18 @@
 			/>
 			<AddFundsToJob
 				bind:instanceRate
-				bind:instanceCost
+				bind:instanceCostScaled
 				bind:instanceCostString
 				bind:duration
 				bind:invalidCost
 			/>
 			<BandwidthSelector
 				bind:region
-				bind:bandwidthCost
+				bind:bandwidthCostScaled
 				bind:duration
-				bind:instanceCost
-				bind:finalBandwidthRate
-				bind:totalCost
+				bind:instanceCostScaled
+				bind:finalBandwidthRateScaled
+				bind:totalCostScaled
 			/>
 			<TextInputWithEndButton
 				styleClass={styles.inputText}

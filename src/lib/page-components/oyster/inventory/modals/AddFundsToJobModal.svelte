@@ -24,7 +24,7 @@
 	export let jobData: OysterInventoryDataModel;
 
 	let duration: number | undefined = undefined; //durationInSecs
-	let instanceCost = 0n;
+	let instanceCostScaled = 0n;
 	let invalidCost = false;
 	let durationUnitInSec: number;
 
@@ -35,14 +35,14 @@
 	let instanceCostString = '';
 
 	function handleMaxClick() {
-		instanceCost = $oysterStore.allowance * $oysterRateMetadataStore.oysterRateScalingFactor;
+		instanceCostScaled = $oysterStore.allowance * $oysterRateMetadataStore.oysterRateScalingFactor;
 		instanceCostString = bigNumberToString(
 			$oysterStore.allowance,
 			$oysterTokenMetadataStore.decimal,
 			4
 		);
 		// adding one as it always rounds down due to bigInt division
-		duration = Number(instanceCost / rate) + 1;
+		duration = Number(instanceCostScaled / rateScaled) + 1;
 	}
 
 	//reset amount
@@ -57,7 +57,7 @@
 	const handleApproveClick = async () => {
 		approvedLoading = true;
 		await handleApproveFundForOysterJob(
-			instanceCost / $oysterRateMetadataStore.oysterRateScalingFactor,
+			instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
 			$oysterTokenMetadataStore,
 			$contractAddressStore.OYSTER
 		);
@@ -68,7 +68,7 @@
 		submitLoading = true;
 		await handleFundsAddToJob(
 			jobData,
-			instanceCost / $oysterRateMetadataStore.oysterRateScalingFactor,
+			instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
 			duration ?? 0
 		);
 		submitLoading = false;
@@ -76,14 +76,14 @@
 		closeModal(modalFor);
 	};
 
-	$: ({ rate } = jobData);
+	$: ({ rateScaled } = jobData);
 	$: approved =
 		connected &&
-		Boolean(instanceCost) &&
+		Boolean(instanceCostScaled) &&
 		$oysterStore.allowance >=
-			instanceCost / BigInt($oysterRateMetadataStore.oysterRateScalingFactor) &&
-		instanceCost > 0n;
-	$: approveEnable = connected && !submitLoading && instanceCost > 0n && !invalidCost;
+			instanceCostScaled / BigInt($oysterRateMetadataStore.oysterRateScalingFactor) &&
+		instanceCostScaled > 0n;
+	$: approveEnable = connected && !submitLoading && instanceCostScaled > 0n && !invalidCost;
 	$: confirmEnable = approved && approveEnable;
 </script>
 
@@ -98,10 +98,10 @@
 		<AddFundsToJob
 			bind:duration
 			bind:invalidCost
-			bind:instanceCost
+			bind:instanceCostScaled
 			bind:instanceCostString
 			bind:durationUnitInSec
-			instanceRate={rate}
+			instanceRate={rateScaled}
 			isTotalRate={true}
 		/>
 		<div class="flex gap-2 items-center mt-2">

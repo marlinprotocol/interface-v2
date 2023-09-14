@@ -24,7 +24,7 @@
 	let durationUnit = 'Days';
 	export let instanceRate: bigint | undefined;
 	export let duration: number | undefined;
-	export let instanceCost: bigint;
+	export let instanceCostScaled: bigint;
 	export let invalidCost = false;
 	export let instanceCostString = '';
 	export let isTotalRate = false;
@@ -61,9 +61,9 @@
 			if (isInputAmountValid(value)) {
 				const hourlyRate = stringToBigNumber(value);
 				instanceRate = convertHourlyRateToSecondlyRate(hourlyRate);
-				const _instanceCost = computeCost(duration || 0, instanceRate);
+				const _instanceCostScaled = computeCost(duration || 0, instanceRate);
 				instanceCostString = bigNumberToString(
-					_instanceCost / $oysterRateMetadataStore.oysterRateScalingFactor,
+					_instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
 					$oysterTokenMetadataStore.decimal,
 					4
 				);
@@ -79,9 +79,9 @@
 		const value = e.target.value;
 		try {
 			duration = computeDuration(value, durationUnitInSec);
-			const _instanceCost = computeCost(duration || 0, instanceRate);
+			const _instanceCostScaled = computeCost(duration || 0, instanceRate);
 			instanceCostString = bigNumberToString(
-				_instanceCost / $oysterRateMetadataStore.oysterRateScalingFactor,
+				_instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
 				$oysterTokenMetadataStore.decimal,
 				4
 			);
@@ -94,9 +94,9 @@
 	const handleDurationUnitChange = (unit: any) => {
 		durationUnitInSec = getDurationInSecondsForUnit(unit);
 		duration = computeDuration(durationString, durationUnitInSec);
-		const _instanceCost = computeCost(duration || 0, instanceRate);
+		const _instanceCostScaled = computeCost(duration || 0, instanceRate);
 		instanceCostString = bigNumberToString(
-			_instanceCost / $oysterRateMetadataStore.oysterRateScalingFactor,
+			_instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
 			$oysterTokenMetadataStore.decimal,
 			4
 		);
@@ -130,16 +130,16 @@
 
 	$: updateRateString(instanceRate);
 	$: durationString = computeDurationString(duration, durationUnitInSec);
-	$: instanceCost = computeCost(duration || 0, instanceRate);
+	$: instanceCostScaled = computeCost(duration || 0, instanceRate);
 	$: invalidCost =
-		!instanceCost ||
+		!instanceCostScaled ||
 		!(
 			$walletBalanceStore[
 				$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
 			] >=
-			instanceCost / $oysterRateMetadataStore.oysterRateScalingFactor
+			instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor
 		);
-	$: inValidMessage = !instanceCost
+	$: inValidMessage = !instanceCostScaled
 		? ''
 		: invalidCost
 		? `Insufficient balance. Your current wallet has ${bigNumberToString(

@@ -24,8 +24,7 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	$: ({ downScaledRate, reviseRate: { newRate = 0n, updatesAt = 0, rateStatus = '' } = {} } =
-		jobData);
+	$: ({ rate, reviseRate: { newRate = 0n, updatesAt = 0, rateStatus = '' } = {} } = jobData);
 
 	//initial states
 	let inputRate = 0n;
@@ -76,7 +75,7 @@
 	$: submitEnable =
 		(inputRate > 0n || newRate > 0n) &&
 		isInputAmountValid(inputAmountString) &&
-		!(inputRate === downScaledRate) &&
+		!(inputRate === rate) &&
 		rateStatus !== 'pending';
 </script>
 
@@ -92,10 +91,7 @@
 			<div class="flex gap-4">
 				<AmountInputWithTitle
 					title={`Current Hourly Rate`}
-					inputAmountString={convertRateToPerHourString(
-						downScaledRate,
-						$oysterTokenMetadataStore.decimal
-					)}
+					inputAmountString={convertRateToPerHourString(rate, $oysterTokenMetadataStore.decimal)}
 					disabled
 					prefix={$oysterTokenMetadataStore.symbol}
 				/>
@@ -141,7 +137,7 @@
 		</div>
 		<ErrorTextCard
 			styleClass={'mt-4'}
-			showError={convertRateToPerHourString(downScaledRate, $oysterTokenMetadataStore.decimal) ===
+			showError={convertRateToPerHourString(rate, $oysterTokenMetadataStore.decimal) ===
 				inputAmountString}
 			errorMessage={'New rate cannot be same as current rate.'}
 		/>

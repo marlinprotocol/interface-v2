@@ -26,7 +26,7 @@
 	};
 </script>
 
-<Modal bind:modalFor>
+<Modal {modalFor} isScrollable>
 	<svelte:fragment slot="title">
 		{'Conversion Cycle'}
 	</svelte:fragment>

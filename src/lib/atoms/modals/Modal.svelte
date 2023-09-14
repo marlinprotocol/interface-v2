@@ -8,6 +8,7 @@
 		doNothing();
 	};
 	export let padding = true;
+	export let isScrollable = false;
 
 	const styles = {
 		icon: 'mb-6',
@@ -23,7 +24,7 @@
 <div class="modal">
 	<div
 		class={`${modalWidth} modal-box rounded-lg bg-base-100 shadow-none py-0 px-0`}
-		style="overflow-y: visible;"
+		style={isScrollable ? '' : 'overflow-y: visible'}
 	>
 		<div class="modal-header flex items-center pt-8 pb-4 px-6">
 			<div class="flex flex-col w-full">

@@ -44,13 +44,13 @@ export const ARB_ONE: ChainConfig = {
 			decimal: 18,
 			precision: 2,
 			currency: 'POND',
-			symbol: 'POND'
+			symbol: '$'
 		},
 		MPOND: {
 			decimal: 18,
 			precision: 6,
 			currency: 'MPOND',
-			symbol: 'MPOND'
+			symbol: '$'
 		},
 		USDC: {
 			decimal: 6,

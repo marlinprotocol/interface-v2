@@ -4,16 +4,13 @@
 	import TxnIcon from '$lib/components/icons/TxnIcon.svelte';
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
 	import type { OysterDepositHistoryDataModel } from '$lib/types/oysterComponentType';
-	import {
-		OYSTER_PAYMENT_HISTORY_TABLE_HEADER,
-		OYSTER_RATE_METADATA
-	} from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_PAYMENT_HISTORY_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, epochSecToString } from '$lib/utils/helpers/conversionHelper';
 	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
+	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let tableData: OysterDepositHistoryDataModel[] = [];
 
-	const { symbol, decimal } = OYSTER_RATE_METADATA;
 	const styles = {
 		docButton: 'text-primary font-medium',
 		tableCell: tableCellClasses.rowNormal
@@ -32,7 +29,12 @@
 				{#each tableData as rowData}
 					<tr>
 						<td class={styles.tableCell}>{epochSecToString(rowData.timestamp)}</td>
-						<td class={styles.tableCell}>{symbol}{bigNumberToString(rowData.amount, decimal)}</td>
+						<td class={styles.tableCell}
+							>{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+								rowData.amount,
+								$oysterTokenMetadataStore.decimal
+							)}</td
+						>
 						<td class={styles.tableCell}>
 							<div class="flex justify-center items-center gap-2 capitalize">
 								{rowData.transactionStatus}

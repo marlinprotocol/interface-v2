@@ -1,5 +1,4 @@
 <script lang="ts">
-	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import { getReceiverRewardsDataFromSubgraph } from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { receiverRewardsStore } from '$lib/data-stores/receiverRewardsStore';
@@ -26,9 +25,5 @@
 </script>
 
 <div class="py-4">
-	{#if $chainStore.isValidChain}
-		<RewardsDashboard />
-	{:else}
-		<NetworkPrompt />
-	{/if}
+	<RewardsDashboard />
 </div>

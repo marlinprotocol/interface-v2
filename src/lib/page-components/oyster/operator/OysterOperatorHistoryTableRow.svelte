@@ -4,8 +4,8 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
+	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
 		epochSecToString,
@@ -14,8 +14,6 @@
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
-
-	const { symbol, decimal } = OYSTER_RATE_METADATA;
 
 	$: ({
 		provider: { name, address },
@@ -56,7 +54,10 @@
 		</Tooltip>
 	</TableGridDataCell>
 	<TableGridDataCell>
-		{symbol}{bigNumberToString(amountToBeSettled, decimal)}
+		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+			amountToBeSettled,
+			$oysterTokenMetadataStore.decimal
+		)}
 	</TableGridDataCell>
 	<TableGridDataCell>
 		<!-- <Button onclick={async () => await settleOysterJob(id)} size="tiny" styleClass="w-full"

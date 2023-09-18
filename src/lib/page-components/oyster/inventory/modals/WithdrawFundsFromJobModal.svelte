@@ -6,10 +6,6 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import {
-		OYSTER_RATE_METADATA,
-		OYSTER_RATE_SCALING_FACTOR
-	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import {
 		closeModal,
@@ -17,12 +13,11 @@
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
 	import { handleFundsWithdrawFromJob } from '$lib/utils/services/oysterServices';
+	import { DEFAULT_PRECISION } from '$lib/utils/constants/constants';
+	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
-
-	const { currency, decimal } = OYSTER_RATE_METADATA;
-	$: ({ rate, balance, downScaledRate } = jobData);
 
 	//initial states
 	let inputAmount: bigint;
@@ -31,10 +26,6 @@
 	let inputAmountIsValid = true;
 	let inValidMessage = '';
 	let updatedAmountInputDirty = false;
-
-	$: inputAmount = isInputAmountValid(inputAmountString)
-		? stringToBigNumber(inputAmountString, decimal)
-		: 0n;
 
 	//loading states
 	let submitLoading = false;
@@ -56,7 +47,12 @@
 
 	const handleMaxClick = () => {
 		if (maxAmount) {
-			inputAmountString = bigNumberToString(maxAmount, decimal);
+			inputAmountString = bigNumberToString(
+				maxAmount,
+				$oysterTokenMetadataStore.decimal,
+				DEFAULT_PRECISION,
+				false
+			);
 			//reset input error message
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
@@ -72,21 +68,25 @@
 		closeModal(modalFor);
 	};
 
-	function getMaxAmountForJob(rate: bigint, balance: bigint) {
-		if (rate && balance) {
-			const downScaledRate = rate / OYSTER_RATE_SCALING_FACTOR;
-			const amountForDownTime = downScaledRate * BigInt(OYSTER_RATE_METADATA.rateReviseWaitingTime);
+	function getMaxAmountForJob(rateScaled: bigint, balance: bigint) {
+		if (rateScaled && balance) {
+			const _rate = rateScaled / $oysterRateMetadataStore.oysterRateScalingFactor;
+			const amountForDownTime = _rate * BigInt($oysterRateMetadataStore.rateReviseWaitingTime);
 			const finalBalance = balance - amountForDownTime;
 			return finalBalance >= 0n ? finalBalance : 0n;
 		}
 		return 0n;
 	}
 
+	$: ({ rateScaled, balance, rate } = jobData);
+	$: inputAmount = isInputAmountValid(inputAmountString)
+		? stringToBigNumber(inputAmountString, $oysterTokenMetadataStore.decimal)
+		: 0n;
 	$: maxDisabedText =
 		updatedAmountInputDirty && inputAmount && inputAmount > maxAmount ? 'Insufficient balance' : '';
 	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;
-	$: maxAmount = getMaxAmountForJob(rate, balance);
-	$: durationReduced = inputAmount > 0 ? inputAmount / downScaledRate : 0n;
+	$: maxAmount = getMaxAmountForJob(rateScaled, balance);
+	$: durationReduced = inputAmount > 0 ? inputAmount / rate : 0n;
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
@@ -102,7 +102,10 @@
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			inputCardVariant={'none'}
-			maxAmountText={'Available balance: ' + bigNumberToString(maxAmount, decimal) + ' ' + currency}
+			maxAmountText={'Available balance: ' +
+				bigNumberToString(maxAmount, $oysterTokenMetadataStore.decimal) +
+				' ' +
+				$oysterTokenMetadataStore.currency}
 		>
 			<Text slot="input-end-button" text="Amount" fontWeight="font-medium" />
 			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />

@@ -8,6 +8,7 @@
 		doNothing();
 	};
 	export let padding = true;
+	export let isScrollable = false;
 
 	const styles = {
 		icon: 'mb-6',
@@ -21,7 +22,10 @@
 
 <input type="checkbox" id={modalFor} class="modal-toggle" />
 <div class="modal">
-	<div class={`${modalWidth} modal-box rounded-lg bg-base-100 shadow-none py-0 px-0`}>
+	<div
+		class={`${modalWidth} modal-box rounded-lg bg-base-100 shadow-none py-0 px-0`}
+		style={isScrollable ? '' : 'overflow-y: visible'}
+	>
 		<div class="modal-header flex items-center pt-8 pb-4 px-6">
 			<div class="flex flex-col w-full">
 				{#if $$slots.icon}
@@ -66,10 +70,6 @@
 </div>
 
 <style>
-	.modal-body {
-		overflow-y: auto;
-		overflow-x: hidden;
-	}
 	/* redesign scrollbar */
 	.modal-body::-webkit-scrollbar {
 		width: 0.5rem;

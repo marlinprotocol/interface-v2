@@ -5,7 +5,6 @@
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
-	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToCommaString,
 		convertRateToPerHourString,
@@ -14,6 +13,7 @@
 	} from '$lib/utils/helpers/conversionHelper';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
 	import PaymentHistoryTable from '$lib/page-components/oyster/sub-components/PaymentHistoryTable.svelte';
+	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let modalFor: string;
 	export let rowIndex: number;
@@ -32,8 +32,6 @@
 		depositHistory,
 		endEpochTime
 	} = jobData);
-
-	const { symbol, decimal } = OYSTER_RATE_METADATA;
 
 	const handleRedeploy = () => {
 		openModal(`create-order-modal-${rowIndex}`);
@@ -85,7 +83,10 @@
 				/>
 				<TextInputCard
 					title={'Hourly Rate'}
-					value={`${symbol}${convertRateToPerHourString(rate, decimal)}`}
+					value={`${$oysterTokenMetadataStore.symbol}${convertRateToPerHourString(
+						rate,
+						$oysterTokenMetadataStore.decimal
+					)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
@@ -105,13 +106,16 @@
 				/>
 				<TextInputCard
 					title={'Amount Used'}
-					value={`${symbol}${bigNumberToCommaString(amountUsed, decimal)}`}
+					value={`${$oysterTokenMetadataStore.symbol}${bigNumberToCommaString(
+						amountUsed,
+						$oysterTokenMetadataStore.decimal
+					)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
 					title={'Duration Run'}
-					value={`${symbol}${epochToDurationString(durationRun, true)}`}
+					value={`${$oysterTokenMetadataStore.symbol}${epochToDurationString(durationRun, true)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>

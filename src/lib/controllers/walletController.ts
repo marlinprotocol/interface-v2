@@ -1,6 +1,10 @@
 import type { EIP1193Provider, WalletState } from '@web3-onboard/core';
 import { getChainDisplayName, isValidChain } from '$lib/utils/helpers/networkHelper';
-import { initializeChainStore, resetChainStore } from '$lib/data-stores/chainProviderStore';
+import {
+	initializeChainStore,
+	resetAllowedChainsStore,
+	resetChainStore
+} from '$lib/data-stores/chainProviderStore';
 import {
 	initializeWalletStore,
 	resetWalletBalanceStore
@@ -80,4 +84,5 @@ export function disconnectWallet(wallets: WalletState[]) {
 	resetWalletProviderStore();
 	resetReceiverStakingStore();
 	resetOysterStore();
+	resetAllowedChainsStore();
 }

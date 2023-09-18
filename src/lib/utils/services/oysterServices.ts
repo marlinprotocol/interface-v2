@@ -22,16 +22,9 @@ import {
 } from '$lib/controllers/contract/oyster';
 
 import type { BytesLike } from 'ethers';
-import type { ContractAddress } from '$lib/types/storeTypes';
-import { OYSTER_RATE_METADATA } from '../constants/oysterConstants';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+import type { TokenMetadata } from '$lib/types/environmentTypes';
 import { approveToken } from '$lib/controllers/contract/token';
-import { contractAddressStore } from '$lib/data-stores/contractStore';
-
-let contractAddress: ContractAddress;
-contractAddressStore.subscribe((value) => {
-	contractAddress = value;
-});
 
 export async function handleClaimAmountFromOysterJob(jobId: BytesLike) {
 	try {
@@ -42,16 +35,21 @@ export async function handleClaimAmountFromOysterJob(jobId: BytesLike) {
 	}
 }
 
-export async function handleApproveFundForOysterJob(amount: bigint) {
+export async function handleApproveFundForOysterJob(
+	amount: bigint,
+	oysterToken: TokenMetadata,
+	oysterContractAddress: string
+) {
 	try {
 		await approveToken(
 			{
-				symbol: OYSTER_RATE_METADATA.currency as string,
-				token_decimals: OYSTER_RATE_METADATA.decimal,
-				token_precision: OYSTER_RATE_METADATA.precision
+				symbol: oysterToken.symbol,
+				decimal: oysterToken.decimal,
+				precision: oysterToken.precision,
+				currency: oysterToken.currency
 			},
 			amount,
-			contractAddress.OYSTER
+			oysterContractAddress
 		);
 		updateApprovedFundsInOysterStore(amount);
 	} catch (e) {
@@ -89,11 +87,15 @@ export async function handleFundsWithdrawFromJob(
 	}
 }
 
-export async function handleInitiateRateRevise(jobData: OysterInventoryDataModel, newRate: bigint) {
+export async function handleInitiateRateRevise(
+	jobData: OysterInventoryDataModel,
+	newRate: bigint,
+	waitingTime: number
+) {
 	const { id } = jobData;
 	try {
 		await initiateRateReviseOysterJob(id, newRate);
-		initiateRateReviseInOysterStore(id, jobData, newRate);
+		initiateRateReviseInOysterStore(id, jobData, newRate, waitingTime);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}
@@ -144,7 +146,8 @@ export async function handleCreateJob(
 	provider: { name?: string; address: string },
 	rate: bigint,
 	balance: bigint,
-	durationInSec: number
+	durationInSec: number,
+	scalingFactor: bigint
 ) {
 	try {
 		const { txn, approveReciept } = await createNewOysterJob(
@@ -161,7 +164,8 @@ export async function handleCreateJob(
 			provider,
 			rate,
 			balance,
-			durationInSec
+			durationInSec,
+			scalingFactor
 		);
 
 		return true;

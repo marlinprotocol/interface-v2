@@ -1,5 +1,9 @@
 <script lang="ts">
+	// importing global level stores to initialise them
 	import { environment } from '$lib/data-stores/environment';
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	import { chainStore } from '$lib/data-stores/chainProviderStore';
+
 	import Toast from '$lib/atoms/toast/Toast.svelte';
 	import Header from '$lib/components/header/Header.svelte';
 	import { onMount } from 'svelte';

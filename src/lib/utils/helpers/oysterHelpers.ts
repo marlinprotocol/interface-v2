@@ -1,7 +1,6 @@
 import {
 	OYSTER_CAUTION_DURATION,
 	OYSTER_DURATION_UNITS_LIST,
-	OYSTER_RATE_SCALING_FACTOR,
 	OYSTER_WARNING_DURATION
 } from '$lib/utils/constants/oysterConstants';
 import type {
@@ -10,7 +9,6 @@ import type {
 	OysterMarketplaceDataModel,
 	OysterMarketplaceFilterModel
 } from '$lib/types/oysterComponentType';
-
 
 import { addToast } from '$lib/data-stores/toastStore';
 import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
@@ -241,7 +239,7 @@ export const sortOysterMarketplace = (
 	if (!data) return [];
 
 	const ascendingSort = (a: OysterMarketplaceDataModel, b: OysterMarketplaceDataModel) => {
-		if (sort === 'rate') {
+		if (sort === 'rateScaled') {
 			const bnA = a[sort];
 			const bnB = b[sort];
 			return bnA > bnB ? 1 : -1;
@@ -368,9 +366,9 @@ export const getFilteredMarketplaceData = (
 		});
 	}
 
-	if (filterMap.rate) {
+	if (filterMap.rateScaled) {
 		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return item.rate === filterMap.rate;
+			return item.rateScaled === filterMap.rateScaled;
 		});
 	}
 
@@ -399,7 +397,7 @@ export function getAllFiltersListforMarketplaceData(
 		.map((item) => item.memory ?? 0)
 		.filter((item) => item !== 0)
 		.sort((a, b) => a - b);
-	const rates = filteredData.map((item) => item.rate).sort((a, b) => (a > b ? 1 : -1));
+	const rates = filteredData.map((item) => item.rateScaled).sort((a, b) => (a > b ? 1 : -1));
 
 	return {
 		allMarketplaceData: filteredData,
@@ -444,7 +442,7 @@ export const getRateForProviderAndFilters = (
 			_item.instance === instance &&
 			_item.region === region
 	);
-	return instanceSelected?.rate ?? undefined;
+	return instanceSelected?.rateScaled ?? undefined;
 };
 
 export const getCreateOrderInstanceRegionFilters = (
@@ -502,15 +500,17 @@ export const addRegionNameToMarketplaceData = (
 };
 
 // returns bandwidth rate in Kb/s
-export function getBandwidthFromRateAndRegion(bandwidthRate: bigint, region: string) {
+export function getBandwidthFromRateAndRegion(
+	bandwidthRate: bigint,
+	region: string,
+	scalingFactor: bigint
+) {
 	const rateForRegion = getBandwidthRateForRegion(region);
 	if (rateForRegion === undefined) return 0n;
+	// this is done to ceil the number since rateForRegion
+	// is essentially, actualRate * oysterRateScalingFactor
 	const bandwidthWithAllPrecision =
-		bandwidthRate * BigInt(1024 * 1024) +
-		// this is done to ceil the number since rateForRegion
-		// is essentially, actualRate * OYSTER_RATE_SCALING_FACTOR
-		OYSTER_RATE_SCALING_FACTOR -
-		BigInt(1) / rateForRegion;
+		(bandwidthRate * BigInt(1024 * 1024) + scalingFactor - BigInt(1)) / rateForRegion;
 
 	return bandwidthWithAllPrecision;
 }

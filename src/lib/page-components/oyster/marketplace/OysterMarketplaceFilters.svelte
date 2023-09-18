@@ -19,7 +19,6 @@
 	export let onFilterClick: () => void;
 
 	let filterIdOrders: string[] = [];
-	$: allFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
 
 	const handleFilterData = (
 		id: keyof OysterMarketplaceFilterModel,
@@ -53,6 +52,8 @@
 		filteredData = allMarketplaceData;
 		allFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
 	};
+
+	$: allFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
 </script>
 
 <div class="w-full flex flex-col md:flex-row gap-2 items-end mb-6">
@@ -67,7 +68,6 @@
 			cardVariant={'search'}
 			styleClass={'w-full'}
 			onSearchClick={onFilterClick}
-			selectId={'marketplace-provider-select'}
 			isTableFilter={true}
 		/>
 		<div class="flex gap-4 items-center mt-4 flex-col md:flex-row">
@@ -79,7 +79,6 @@
 				cardVariant={'search'}
 				title={'Instance'}
 				placeholder={'Select Instance'}
-				selectId={'marketplace-instance-select'}
 				isTableFilter={true}
 			/>
 			<SearchWithSelect
@@ -88,7 +87,6 @@
 				setSearchValue={(value, exactMatch) => handleFilterData('region', value, exactMatch)}
 				title={'Region'}
 				placeholder={'Filter by Region'}
-				selectId={'marketplace-region-select'}
 				showTitle={false}
 				cardVariant={'search'}
 				isTableFilter={true}
@@ -99,7 +97,6 @@
 				setSearchValue={(value, exactMatch) => handleFilterData('vcpu', value, exactMatch)}
 				title={'vCPU'}
 				placeholder={'Filter by vCPU'}
-				selectId={'marketplace-vCPU-select'}
 				showTitle={false}
 				cardVariant={'search'}
 				isTableFilter={true}
@@ -110,7 +107,6 @@
 				setSearchValue={(value, exactMatch) => handleFilterData('memory', value, exactMatch)}
 				title={'Memory'}
 				placeholder={'Filter by Memory'}
-				selectId={'marketplace-memory-select'}
 				showTitle={false}
 				cardVariant={'search'}
 				isTableFilter={true}

@@ -5,7 +5,7 @@ export type Environment = {
 	production: boolean;
 	valid_chains: Record<number, ChainConfig>;
 	default_chain_id: number;
-	supported_chains: Record<string, number[]>;
+	supported_chains: Record<RouteNames, number[]>;
 	dapp_url: string;
 	trezor_email: string;
 };
@@ -27,6 +27,11 @@ export type ChainConfig = {
 		job_refresh_url: string;
 	};
 	oyster_token: keyof Tokens;
+	oyster_rate_metadata: {
+		rateUnit: string;
+		rateCPUrlUnitInSeconds: number;
+		rateReviseWaitingTime: number;
+	};
 	tokens: Tokens;
 };
 
@@ -37,9 +42,10 @@ export type Tokens = {
 };
 
 export type TokenMetadata = {
-	token_decimals: number;
-	token_precision: number;
+	decimal: number;
+	precision: number;
 	symbol: string;
+	currency: keyof Tokens;
 };
 
 export type SubgraphUrls = {
@@ -49,3 +55,5 @@ export type SubgraphUrls = {
 	POND: string;
 	MPOND: string;
 };
+
+type RouteNames = 'bridge' | 'oyster' | 'receiver';

@@ -4,10 +4,6 @@ import type {
 	OysterInventoryDataModel,
 	OysterMarketplaceDataModel
 } from '$lib/types/oysterComponentType';
-import {
-	OYSTER_RATE_METADATA,
-	OYSTER_RATE_SCALING_FACTOR
-} from '$lib/utils/constants/oysterConstants';
 import { getProvidersInstancesJSON, getProvidersNameJSON } from '$lib/controllers/httpController';
 
 import { BANDWIDTH_RATES_LOOKUP } from '$lib/page-components/oyster/data/bandwidthRates';
@@ -47,17 +43,17 @@ export const getBandwidthRateForRegion = (region: string) => {
 	return BigInt(bandwidthRate);
 };
 
-export async function modifyOysterJobData(jobs: any[]) {
+export async function modifyOysterJobData(jobs: any[], scalingFactor: bigint) {
 	if (!jobs?.length) return [];
 
 	const names = await getProvidersNameJSON();
 
 	return jobs.map((job: any) => {
-		return modifyJobData(job, names);
+		return modifyJobData(job, names, scalingFactor);
 	}) as OysterInventoryDataModel[];
 }
 
-const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
+const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInventoryDataModel => {
 	const {
 		metadata,
 		ip,
@@ -98,9 +94,9 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	//convert to BigNumber
 	const _totalDeposit = BigInt(totalDeposit);
 	const _balance = BigInt(balance);
-	const _rate = BigInt(rate); // in seconds
+	const _rateScaled = BigInt(rate); // in seconds
 	const _refund = BigInt(refund);
-	const _downScaledRate = _rate / OYSTER_RATE_SCALING_FACTOR;
+	const _rate = _rateScaled / scalingFactor;
 
 	//job with all basic conversions
 	const modifiedJob = {
@@ -117,8 +113,8 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 		vcpu,
 		memory,
 		refund: _refund,
+		rateScaled: _rateScaled,
 		rate: _rate,
-		downScaledRate: _downScaledRate,
 		totalDeposit: _totalDeposit,
 		lastSettled: Number(lastSettled),
 		createdAt: Number(createdAt),
@@ -178,11 +174,11 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	}
 
 	if (
-		_rate === 0n ||
-		((_balance * OYSTER_RATE_SCALING_FACTOR) / _rate > SECONDS_IN_HUNDRED_YEARS && _balance > 0n)
+		_rateScaled === 0n ||
+		((_balance * scalingFactor) / _rateScaled > SECONDS_IN_HUNDRED_YEARS && _balance > 0n)
 	) {
 		const time = Math.floor(nowTime - _lastSettled);
-		const _balanceUpdated = _balance - _downScaledRate * BigInt(time);
+		const _balanceUpdated = _balance - _rate * BigInt(time);
 		//job is running and will never end
 		return {
 			...modifiedJob,
@@ -198,7 +194,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	}
 
 	//job is running or has completed
-	const _paidDuration = (_balance * OYSTER_RATE_SCALING_FACTOR) / _rate;
+	const _paidDuration = (_balance * scalingFactor) / _rateScaled;
 	const endEpochTime = _lastSettled + Number(_paidDuration);
 
 	if (endEpochTime < nowTime) {
@@ -219,7 +215,7 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	let currentBalance = _balance;
 	//job is running
 	const time = Math.floor(nowTime - _lastSettled);
-	currentBalance = _balance - (_rate * BigInt(time)) / OYSTER_RATE_SCALING_FACTOR;
+	currentBalance = _balance - (_rateScaled * BigInt(time)) / scalingFactor;
 
 	return {
 		...modifiedJob,
@@ -234,9 +230,8 @@ const modifyJobData = (job: any, names: any): OysterInventoryDataModel => {
 	};
 };
 
-export async function getOysterProvidersModified(providers: any[]) {
+export async function getOysterProvidersModified(providers: any[], rateCPUrlUnitInSeconds: number) {
 	if (!providers?.length) return [];
-	const { rateCPUrlUnitInSeconds } = OYSTER_RATE_METADATA;
 	//fetch all providers name and instances
 	const [allNames, allInstances] = await Promise.all([
 		getProvidersNameJSON(),
@@ -273,7 +268,7 @@ export const getModifiedInstances = (instances?: CPInstances) => {
 			return {
 				instance: rate.instance,
 				region: region.region,
-				rate: BigInt(rate.min_rate),
+				rateScaled: BigInt(rate.min_rate),
 				vcpu,
 				memory
 			};

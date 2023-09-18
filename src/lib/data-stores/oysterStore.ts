@@ -4,16 +4,28 @@ import type {
 	ProviderData
 } from '$lib/types/oysterComponentType';
 import type { Address, OysterStore } from '$lib/types/storeTypes';
-import {
-	OYSTER_RATE_METADATA,
-	OYSTER_RATE_SCALING_FACTOR
-} from '$lib/utils/constants/oysterConstants';
 import { DEFAULT_OYSTER_STORE } from '$lib/utils/constants/storeDefaults';
 import { parseMetadata } from '$lib/utils/data-modifiers/oysterModifiers';
 import type { BytesLike } from 'ethers';
-import { writable, type Writable } from 'svelte/store';
+import { derived, writable, type Writable } from 'svelte/store';
+import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+import { DEFAULT_CURRENCY_DECIMALS } from '$lib/utils/constants/constants';
 
 export const oysterStore: Writable<OysterStore> = writable(DEFAULT_OYSTER_STORE);
+export const oysterTokenMetadataStore = derived([chainConfigStore], ([$chainConfigStore]) => {
+	const oysterToken = $chainConfigStore.oyster_token;
+	return $chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
+});
+export const oysterRateMetadataStore = derived(
+	[chainConfigStore, oysterTokenMetadataStore],
+	([$chainConfigStore, $oysterTokenMetadataStore]) => {
+		return {
+			...$chainConfigStore.oyster_rate_metadata,
+			oysterRateScalingFactor:
+				10n ** BigInt(DEFAULT_CURRENCY_DECIMALS - $oysterTokenMetadataStore.decimal)
+		};
+	}
+);
 
 // we keep the marketplace data untouched as it does not depend on the wallet address and is loaded
 // regardless of whether the user is connected or not.
@@ -211,9 +223,9 @@ export function withdrawFundsFromJobInOysterStore(
 export function initiateRateReviseInOysterStore(
 	id: BytesLike,
 	jobData: OysterInventoryDataModel,
-	newRate: bigint
+	newRate: bigint,
+	waitingTime: number
 ) {
-	const { rateReviseWaitingTime } = OYSTER_RATE_METADATA;
 	const nowTime = Date.now() / 1000;
 	const modifiedJobData = {
 		...jobData,
@@ -221,7 +233,7 @@ export function initiateRateReviseInOysterStore(
 			newRate: newRate,
 			rateStatus: 'pending',
 			stopStatus: newRate > 0n ? 'disabled' : 'pending',
-			updatesAt: nowTime + rateReviseWaitingTime
+			updatesAt: nowTime + waitingTime
 		}
 	};
 	oysterStore.update((value: OysterStore) => {
@@ -340,9 +352,10 @@ export function createNewJobInOysterStore(
 	owner: string,
 	metadata: string,
 	provider: { name?: string; address: string },
-	rate: bigint,
+	rateScaled: bigint,
 	balance: bigint,
-	durationInSec: number
+	durationInSec: number,
+	scalingFactor: bigint
 ) {
 	const txHash = txn.hash;
 	const jobOpenEvent = approveReciept.events?.find((event: any) => event.event === 'JobOpened');
@@ -366,8 +379,8 @@ export function createNewJobInOysterStore(
 		memory,
 		amountUsed: 0n,
 		refund: 0n,
-		rate,
-		downScaledRate: rate / OYSTER_RATE_SCALING_FACTOR,
+		rateScaled,
+		rate: rateScaled / scalingFactor,
 		balance,
 		totalDeposit: balance,
 		live: true,

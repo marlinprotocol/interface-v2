@@ -7,10 +7,16 @@
 		getOysterJobsFromSubgraph,
 		getProviderDetailsFromSubgraph
 	} from '$lib/controllers/subgraphController';
-	import { chainConfigStore, chainStore } from '$lib/data-stores/chainProviderStore';
+	import {
+		chainConfigStore,
+		chainStore,
+		allowedChainsStore,
+		setAllowedChainsStore
+	} from '$lib/data-stores/chainProviderStore';
 	import { environment } from '$lib/data-stores/environment';
 	import {
 		initializeOysterStore,
+		oysterRateMetadataStore,
 		setMarketplaceLoadedInOysterStore,
 		updateMarketplaceDataInOysterStore
 	} from '$lib/data-stores/oysterStore';
@@ -21,6 +27,11 @@
 		modifyOysterJobData
 	} from '$lib/utils/data-modifiers/oysterModifiers';
 	import { addRegionNameToMarketplaceData } from '$lib/utils/helpers/oysterHelpers';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		setAllowedChainsStore(environment.supported_chains.oyster);
+	});
 
 	async function loadConnectedData() {
 		const [allowance, oysterJobsFromSubgraph, providerDetail, jobStatuses] = await Promise.all([
@@ -40,7 +51,10 @@
 				data.ip = jobStatusLookup[data.id.toString()];
 			}
 		});
-		const oysterJobs = await modifyOysterJobData(oysterJobsFromSubgraph);
+		const oysterJobs = await modifyOysterJobData(
+			oysterJobsFromSubgraph,
+			$oysterRateMetadataStore.oysterRateScalingFactor
+		);
 
 		initializeOysterStore(providerDetail, allowance, oysterJobs);
 	}
@@ -48,7 +62,10 @@
 	async function loadMarketplaceData() {
 		setMarketplaceLoadedInOysterStore(false);
 		const providersDataFromSubgraph = await getAllProvidersDetailsFromSubgraph();
-		const marketplaceData = await getOysterProvidersModified(providersDataFromSubgraph);
+		const marketplaceData = await getOysterProvidersModified(
+			providersDataFromSubgraph,
+			$oysterRateMetadataStore.rateCPUrlUnitInSeconds
+		);
 		const marketplaceDataWithRegionName = addRegionNameToMarketplaceData(
 			marketplaceData,
 			REGION_NAME_CONSTANTS
@@ -57,15 +74,15 @@
 		updateMarketplaceDataInOysterStore(marketplaceDataWithRegionName);
 	}
 
-	$: chainSupportedInOyster = $chainStore.chainId
-		? environment.supported_chains.oyster.includes($chainStore.chainId)
+	$: chainSupported = $chainStore.chainId
+		? $allowedChainsStore.includes($chainStore.chainId)
 		: true;
 
-	$: if ($chainConfigStore && chainSupportedInOyster) {
+	$: if ($chainConfigStore && chainSupported) {
 		loadMarketplaceData();
 	}
 
-	$: if ($connected && $chainStore.chainId && chainSupportedInOyster) {
+	$: if ($connected && $chainStore.chainId && chainSupported) {
 		loadConnectedData();
 	}
 </script>
@@ -74,7 +91,7 @@
 	<title>Marlin Oyster</title>
 </svelte:head>
 
-{#if $chainStore.isValidChain && chainSupportedInOyster}
+{#if $chainStore.isValidChain && chainSupported}
 	<slot />
 {:else}
 	<NetworkPrompt />

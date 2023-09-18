@@ -17,7 +17,6 @@
 	export let styleClass = '';
 	export let cardVariant: InputCardVariant | undefined = 'primary';
 	export let disabled = false;
-	export let selectId: string;
 	export let isTableFilter = false;
 	export let textSuffix = '';
 
@@ -68,7 +67,7 @@
 				value={searchValue ?? ''}
 				on:input={handleSearch}
 				disabled={onlyFilters || disabled}
-				on:click={(e) => onSearchClick?.()}
+				on:click={() => onSearchClick?.()}
 			/>
 			<Select
 				{title}
@@ -77,7 +76,6 @@
 				setValue={(value) => setSearchValue(value, true)}
 				bind:showSuggestions
 				bind:suggestions
-				id={selectId}
 				{textSuffix}
 			/>
 		</div>

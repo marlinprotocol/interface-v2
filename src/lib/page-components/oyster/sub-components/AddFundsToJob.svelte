@@ -3,11 +3,7 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
 	import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
-	import {
-		OYSTER_RATE_SCALING_FACTOR,
-		OYSTER_DURATION_UNITS_LIST,
-		OYSTER_RATE_METADATA
-	} from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_DURATION_UNITS_LIST } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
 		convertHourlyRateToSecondlyRate,
@@ -21,27 +17,29 @@
 		computeDurationString,
 		getDurationInSecondsForUnit
 	} from '$lib/utils/helpers/oysterHelpers';
+	import type { WalletBalanceStore } from '$lib/types/storeTypes';
+	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 
-	import { onDestroy } from 'svelte';
-
+	const durationUnitList = OYSTER_DURATION_UNITS_LIST.map((unit) => unit.label);
+	let durationUnit = 'Days';
 	export let instanceRate: bigint | undefined;
 	export let duration: number | undefined;
-	export let instanceCost: bigint;
-	export let selectId: string;
+	export let instanceCostScaled: bigint;
 	export let invalidCost = false;
 	export let instanceCostString = '';
 	export let isTotalRate = false;
-	// this is not being used currently as we are not allowing the user to edit the instance rate
-	export let instanceRateEditable = true;
-
-	const { symbol, decimal, currency } = OYSTER_RATE_METADATA;
+	export let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
 
 	let instanceRateString = '';
 
 	const updateRateString = (_instanceRate: bigint | undefined) => {
 		if (_instanceRate) {
 			instanceRateString = _instanceRate
-				? convertRateToPerHourString(_instanceRate / OYSTER_RATE_SCALING_FACTOR, decimal, 4)
+				? convertRateToPerHourString(
+						_instanceRate / $oysterRateMetadataStore.oysterRateScalingFactor,
+						$oysterTokenMetadataStore.decimal,
+						4
+				  )
 				: '';
 			return;
 		}
@@ -50,23 +48,6 @@
 			return;
 		}
 	};
-
-	$: updateRateString(instanceRate);
-
-	function getInstanceCostString(cost: bigint) {
-		return bigNumberToString(cost / OYSTER_RATE_SCALING_FACTOR, decimal, 4);
-	}
-
-	let maxBalance = 0n;
-	let durationUnit = 'Days';
-	let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
-
-	const durationUnitList = OYSTER_DURATION_UNITS_LIST.map((unit) => unit.label);
-
-	const unsubscribeWalletBalanceStore = walletBalanceStore.subscribe((value) => {
-		maxBalance = value.pond;
-	});
-	onDestroy(unsubscribeWalletBalanceStore);
 
 	const handleRateChange = (e: any) => {
 		const value = e.target.value;
@@ -80,8 +61,12 @@
 			if (isInputAmountValid(value)) {
 				const hourlyRate = stringToBigNumber(value);
 				instanceRate = convertHourlyRateToSecondlyRate(hourlyRate);
-				const _instanceCost = computeCost(duration || 0, instanceRate);
-				instanceCostString = getInstanceCostString(_instanceCost);
+				const _instanceCostScaled = computeCost(duration || 0, instanceRate);
+				instanceCostString = bigNumberToString(
+					_instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
+					$oysterTokenMetadataStore.decimal,
+					4
+				);
 			}
 		} catch (error) {
 			instanceRate = undefined;
@@ -94,8 +79,12 @@
 		const value = e.target.value;
 		try {
 			duration = computeDuration(value, durationUnitInSec);
-			const _instanceCost = computeCost(duration || 0, instanceRate);
-			instanceCostString = getInstanceCostString(_instanceCost);
+			const _instanceCostScaled = computeCost(duration || 0, instanceRate);
+			instanceCostString = bigNumberToString(
+				_instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
+				$oysterTokenMetadataStore.decimal,
+				4
+			);
 		} catch (error) {
 			duration = 0;
 			console.log(error);
@@ -105,8 +94,12 @@
 	const handleDurationUnitChange = (unit: any) => {
 		durationUnitInSec = getDurationInSecondsForUnit(unit);
 		duration = computeDuration(durationString, durationUnitInSec);
-		const _instanceCost = computeCost(duration || 0, instanceRate);
-		instanceCostString = getInstanceCostString(_instanceCost);
+		const _instanceCostScaled = computeCost(duration || 0, instanceRate);
+		instanceCostString = bigNumberToString(
+			_instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
+			$oysterTokenMetadataStore.decimal,
+			4
+		);
 	};
 
 	const handleCostChange = (e: any) => {
@@ -124,7 +117,7 @@
 		}
 		if (_instanceCost && instanceRate) {
 			try {
-				let _instanceRate = Number(instanceRate) / 10 ** decimal;
+				let _instanceRate = Number(instanceRate) / 10 ** $oysterTokenMetadataStore.decimal;
 				duration = Math.floor(_instanceCost / _instanceRate);
 				instanceCostString = value;
 			} catch (error) {
@@ -135,16 +128,26 @@
 		}
 	};
 
+	$: updateRateString(instanceRate);
 	$: durationString = computeDurationString(duration, durationUnitInSec);
-	$: instanceCost = computeCost(duration || 0, instanceRate);
-	$: invalidCost = !instanceCost || !(maxBalance >= instanceCost / OYSTER_RATE_SCALING_FACTOR);
-	$: inValidMessage = !instanceCost
+	$: instanceCostScaled = computeCost(duration || 0, instanceRate);
+	$: invalidCost =
+		!instanceCostScaled ||
+		!(
+			$walletBalanceStore[
+				$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
+			] >=
+			instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor
+		);
+	$: inValidMessage = !instanceCostScaled
 		? ''
 		: invalidCost
 		? `Insufficient balance. Your current wallet has ${bigNumberToString(
-				maxBalance,
-				decimal
-		  )} ${currency}.`
+				$walletBalanceStore[
+					$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
+				],
+				$oysterTokenMetadataStore.decimal
+		  )} ${$oysterTokenMetadataStore.currency}.`
 		: '';
 </script>
 
@@ -152,7 +155,7 @@
 	<AmountInputWithTitle
 		title={'Hourly Rate'}
 		bind:inputAmountString={instanceRateString}
-		prefix={symbol}
+		prefix={$oysterTokenMetadataStore.symbol}
 		handleUpdatedAmount={handleRateChange}
 		disabled={true}
 	/>
@@ -170,7 +173,6 @@
 				dataList={durationUnitList}
 				bind:value={durationUnit}
 				setValue={handleDurationUnitChange}
-				id={selectId}
 			/>
 		</div>
 	</AmountInputWithTitle>
@@ -178,7 +180,7 @@
 		title={isTotalRate ? 'Total Cost' : 'Instance Cost'}
 		bind:inputAmountString={instanceCostString}
 		handleUpdatedAmount={handleCostChange}
-		suffix={currency}
+		suffix={$oysterTokenMetadataStore.currency}
 		disabled={!instanceRate}
 	/>
 </div>

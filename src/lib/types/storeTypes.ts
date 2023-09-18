@@ -17,7 +17,7 @@ export type WalletStore = {
 // wallet balance store
 export type WalletBalanceStore = {
 	pond: bigint;
-	mPond: bigint;
+	mpond: bigint;
 	usdc: bigint;
 };
 

@@ -21,7 +21,7 @@ export type ProviderMetaDataModel = {
 export type CPUrlDataModel = {
 	instance: string;
 	region: string;
-	rate: bigint;
+	rateScaled: bigint;
 	vcpu?: number;
 	memory?: number;
 };
@@ -61,7 +61,7 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 	durationRun: number;
 	id: BytesLike;
 	amountToBeSettled: bigint;
-	downScaledRate: bigint;
+	rate: bigint;
 	reviseRate?: {
 		newRate: bigint;
 		updatesAt: number;

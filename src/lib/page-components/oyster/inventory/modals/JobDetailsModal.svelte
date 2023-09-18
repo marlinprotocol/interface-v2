@@ -2,10 +2,13 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import {
+		oysterRateMetadataStore,
+		oysterStore,
+		oysterTokenMetadataStore
+	} from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
-	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
 		convertRateToPerHourString,
@@ -20,6 +23,13 @@
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
+
+	const nowTime = new Date().getTime() / 1000;
+	const styles = {
+		modalWidth: 'w-11/12 sm:max-w-[700px]',
+		textPrimary: 'text-primary truncate'
+	};
+
 	$: ({
 		provider: { name, address },
 		instance,
@@ -27,31 +37,28 @@
 		vcpu,
 		memory,
 		enclaveUrl,
-		rate,
+		rateScaled,
 		ip,
 		totalDeposit,
 		amountUsed,
 		createdAt,
 		endEpochTime,
 		depositHistory,
-		downScaledRate
+		rate
 	} = jobData);
-
-	const { symbol, decimal } = OYSTER_RATE_METADATA;
-	const nowTime = new Date().getTime() / 1000;
-	const styles = {
-		modalWidth: 'w-11/12 sm:max-w-[700px]',
-		textPrimary: 'text-primary truncate'
-	};
-
 	$: instanceRate = getRateForProviderAndFilters(
 		address,
 		instance,
 		region,
 		$oysterStore.allMarketplaceData
 	);
-	$: bandwidthRate = instanceRate !== undefined ? rate - instanceRate : 0n;
-	$: bandwidth = getBandwidthFromRateAndRegion(bandwidthRate, region).toString() + 'KB/s';
+	$: bandwidthRate = instanceRate !== undefined ? rateScaled - instanceRate : 0n;
+	$: bandwidth =
+		getBandwidthFromRateAndRegion(
+			bandwidthRate,
+			region,
+			$oysterRateMetadataStore.oysterRateScalingFactor
+		).toString() + 'KB/s';
 </script>
 
 <Modal {modalFor} modalWidth={styles.modalWidth} padding={false}>
@@ -93,7 +100,10 @@
 				/>
 				<TextInputCard
 					title={'Hourly Rate'}
-					value={`${symbol}${convertRateToPerHourString(downScaledRate, decimal)}`}
+					value={`${$oysterTokenMetadataStore.symbol}${convertRateToPerHourString(
+						rate,
+						$oysterTokenMetadataStore.decimal
+					)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
@@ -107,13 +117,19 @@
 				/>
 				<TextInputCard
 					title={'Total Paid'}
-					value={`${symbol}${bigNumberToString(totalDeposit, decimal)}`}
+					value={`${$oysterTokenMetadataStore.symbol}${bigNumberToString(
+						totalDeposit,
+						$oysterTokenMetadataStore.decimal
+					)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
 					title={'Amount Used'}
-					value={`${symbol}${bigNumberToString(amountUsed, decimal)}`}
+					value={`${$oysterTokenMetadataStore.symbol}${bigNumberToString(
+						amountUsed,
+						$oysterTokenMetadataStore.decimal
+					)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>

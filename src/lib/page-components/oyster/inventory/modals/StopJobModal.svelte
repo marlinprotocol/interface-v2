@@ -14,6 +14,7 @@
 		handleJobStatusOnStopTimerEnd
 	} from '$lib/utils/services/oysterServices';
 	import StopModalContent from '$lib/page-components/oyster/sub-components/StopModalContent.svelte';
+	import { oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -25,7 +26,7 @@
 
 	const handleInitiateClick = async () => {
 		submitLoading = true;
-		await handleInitiateRateRevise(jobData, 0n);
+		await handleInitiateRateRevise(jobData, 0n, $oysterRateMetadataStore.rateReviseWaitingTime);
 		submitLoading = false;
 		closeModal(modalFor);
 	};
@@ -55,7 +56,6 @@
 			: stopStatus === 'completed'
 			? 'CONFIRM STOP'
 			: 'INITIATED STOP';
-
 	$: submitButtonText =
 		stopStatus === '' || stopStatus === 'disabled' ? 'INITIATE STOP' : 'CONFIRM';
 	$: submitButtonAction =

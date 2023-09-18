@@ -4,10 +4,13 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import {
+		oysterStore,
+		oysterTokenMetadataStore,
+		oysterRateMetadataStore
+	} from '$lib/data-stores/oysterStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { CreateOrderPreFilledModel } from '$lib/types/oysterComponentType';
-	import { OYSTER_RATE_SCALING_FACTOR } from '$lib/utils/constants/oysterConstants';
 	import { checkValidURL, closeModal } from '$lib/utils/helpers/commonHelper';
 	import { getRateForProviderAndFilters } from '$lib/utils/helpers/oysterHelpers';
 	import {
@@ -18,17 +21,18 @@
 	import MetadetailsForNewOrder from '$lib/page-components/oyster/sub-components/MetadetailsForNewOrder.svelte';
 	import BandwidthSelector from '$lib/page-components/oyster/sub-components/BandwidthSelector.svelte';
 	import { OYSTER_OWNER_INVENTORY_URL } from '$lib/utils/constants/urls';
+	import { contractAddressStore } from '$lib/data-stores/contractStore';
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
 
 	let duration = 0; //durationInSecs
-	let instanceCost = 0n;
+	let instanceCostScaled = 0n;
 	let invalidCost = false;
 	let instanceCostString = '';
-	let bandwidthCost = 0n;
-	let finalBandwidthRate = 0n;
-	let totalCost = 0n;
+	let bandwidthCostScaled = 0n;
+	let finalBandwidthRateScaled = 0n;
+	let totalCostScaled = 0n;
 
 	//loading states
 	let submitLoading = false;
@@ -77,9 +81,9 @@
 	const handleSubmitClick = async () => {
 		if (
 			!instanceRate ||
-			!instanceCost ||
-			!finalBandwidthRate ||
-			!bandwidthCost ||
+			!instanceCostScaled ||
+			!finalBandwidthRateScaled ||
+			!bandwidthCostScaled ||
 			!instance.value ||
 			!region.value
 		) {
@@ -106,8 +110,9 @@
 			metadata,
 			provider,
 			totalRate,
-			totalCost / OYSTER_RATE_SCALING_FACTOR,
-			duration
+			totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
+			duration,
+			$oysterRateMetadataStore.oysterRateScalingFactor
 		);
 		submitLoading = false;
 		if (!success) {
@@ -119,11 +124,15 @@
 	};
 
 	const handleApproveClick = async () => {
-		if (!instanceCost || !bandwidthCost) {
+		if (!instanceCostScaled || !bandwidthCostScaled) {
 			return;
 		}
 		submitLoading = true;
-		await handleApproveFundForOysterJob(totalCost / OYSTER_RATE_SCALING_FACTOR);
+		await handleApproveFundForOysterJob(
+			totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
+			$oysterTokenMetadataStore,
+			$contractAddressStore.OYSTER
+		);
 		submitLoading = false;
 	};
 
@@ -147,7 +156,7 @@
 
 	const handleMerchantChange = () => {
 		duration = 0;
-		instanceCost = 0n;
+		instanceCostScaled = 0n;
 		invalidCost = false;
 		instanceCostString = '';
 	};
@@ -163,10 +172,10 @@
 	let notServiceable = false;
 
 	$: approved =
-		instanceCost > 0n &&
-		$oysterStore.allowance >= totalCost / OYSTER_RATE_SCALING_FACTOR &&
-		bandwidthCost > 0n &&
-		totalCost > 0n;
+		instanceCostScaled > 0n &&
+		$oysterStore.allowance >= totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor &&
+		bandwidthCostScaled > 0n &&
+		totalCostScaled > 0n;
 
 	$: instanceRateDisabled =
 		notServiceable ||
@@ -179,8 +188,8 @@
 
 	$: submitEnable =
 		duration &&
-		instanceCost > 0n &&
-		bandwidthCost > 0n &&
+		instanceCostScaled > 0n &&
+		bandwidthCostScaled > 0n &&
 		instanceRate &&
 		totalRate &&
 		!invalidCost &&
@@ -193,7 +202,7 @@
 			? checkValidURL(enclaveImageUrl.value)
 			: true;
 
-	$: totalRate = finalBandwidthRate + (instanceRate || 0n);
+	$: totalRate = finalBandwidthRateScaled + (instanceRate || 0n);
 
 	const subtitle =
 		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';
@@ -226,20 +235,18 @@
 			/>
 			<AddFundsToJob
 				bind:instanceRate
-				bind:instanceCost
+				bind:instanceCostScaled
 				bind:instanceCostString
 				bind:duration
 				bind:invalidCost
-				selectId="create-order-duration-unit-select"
-				instanceRateEditable={!instanceRateDisabled}
 			/>
 			<BandwidthSelector
 				bind:region
-				bind:bandwidthCost
+				bind:bandwidthCostScaled
 				bind:duration
-				bind:instanceCost
-				bind:finalBandwidthRate
-				bind:totalCost
+				bind:instanceCostScaled
+				bind:finalBandwidthRateScaled
+				bind:totalCostScaled
 			/>
 			<TextInputWithEndButton
 				styleClass={styles.inputText}

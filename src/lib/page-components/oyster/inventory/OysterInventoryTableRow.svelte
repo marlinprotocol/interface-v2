@@ -8,7 +8,6 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { OYSTER_RATE_METADATA } from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
 		convertRateToPerHourString,
@@ -24,7 +23,10 @@
 	import WithdrawFundsFromJobModal from '$lib/page-components/oyster/inventory/modals/WithdrawFundsFromJobModal.svelte';
 	import type { BytesLike } from 'ethers';
 	import { refreshJobStatusForJobId } from '$lib/controllers/httpController';
-	import { updateJobStatusByIdInOysterStore } from '$lib/data-stores/oysterStore';
+	import {
+		oysterTokenMetadataStore,
+		updateJobStatusByIdInOysterStore
+	} from '$lib/data-stores/oysterStore';
 	import refresh from 'svelte-awesome/icons/refresh';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
@@ -33,20 +35,7 @@
 	export let rowIndex: number;
 	export let expandedRows: Set<string>;
 
-	const { symbol, decimal, precision } = OYSTER_RATE_METADATA;
 	let refreshLoading = false;
-	$: ({
-		provider: { name, address },
-		instance,
-		region,
-		downScaledRate,
-		id,
-		ip,
-		balance,
-		durationLeft,
-		endEpochTime, // epoch time in seconds based on duration left,
-		reviseRate: { newRate = null, rateStatus = '', stopStatus = '' } = {}
-	} = rowData);
 
 	// Handler function for toggling the expansion of a row
 	function toggleRowExpansion(rowId: string) {
@@ -69,6 +58,18 @@
 		refreshLoading = false;
 	}
 
+	$: ({
+		provider: { name, address },
+		instance,
+		region,
+		rate,
+		id,
+		ip,
+		balance,
+		durationLeft,
+		endEpochTime, // epoch time in seconds based on duration left,
+		reviseRate: { newRate = null, rateStatus = '', stopStatus = '' } = {}
+	} = rowData);
 	$: isJobFinished = !(Math.floor(endEpochTime - Date.now() / 1000) > 0);
 	$: isOpen = expandedRows.has(id.toString());
 	$: closeButtonText =
@@ -117,14 +118,30 @@
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		<Tooltip
-			tooltipText={`${symbol}${convertRateToPerHourString(downScaledRate, decimal, precision)}`}
+			tooltipText={`${$oysterTokenMetadataStore.symbol}${convertRateToPerHourString(
+				rate,
+				$oysterTokenMetadataStore.decimal,
+				$oysterTokenMetadataStore.precision
+			)}`}
 		>
-			{symbol}{convertRateToPerHourString(downScaledRate, decimal)}
+			{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
+				rate,
+				$oysterTokenMetadataStore.decimal
+			)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={`${symbol}${bigNumberToString(balance, decimal, precision)}`}>
-			{symbol}{bigNumberToString(balance, decimal)}
+		<Tooltip
+			tooltipText={`${$oysterTokenMetadataStore.symbol}${bigNumberToString(
+				balance,
+				$oysterTokenMetadataStore.decimal,
+				$oysterTokenMetadataStore.precision
+			)}`}
+		>
+			{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+				balance,
+				$oysterTokenMetadataStore.decimal
+			)}
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>

@@ -17,7 +17,7 @@
 	export let modalFor: string;
 </script>
 
-<Modal {modalFor}>
+<Modal {modalFor} isScrollable>
 	<svelte:fragment slot="title">
 		{'Conversion History'}
 	</svelte:fragment>

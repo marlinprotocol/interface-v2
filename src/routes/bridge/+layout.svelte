@@ -5,11 +5,20 @@
 		getRequestedMPondForConversionFromSubgraph
 	} from '$lib/controllers/subgraphController';
 	import { initializeBridgeStore } from '$lib/data-stores/bridgeStore';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
+	import {
+		chainStore,
+		setAllowedChainsStore,
+		allowedChainsStore
+	} from '$lib/data-stores/chainProviderStore';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { environment } from '$lib/data-stores/environment';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { modifyAllowancesData } from '$lib/utils/data-modifiers/subgraphModifier';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		setAllowedChainsStore(environment.supported_chains.bridge);
+	});
 
 	async function init() {
 		const [allowancesData, requestedMPond] = await Promise.all([
@@ -24,11 +33,11 @@
 		initializeBridgeStore(allowances, requestedMPond);
 	}
 
-	$: chainSupportedInBridge = $chainStore.chainId
-		? environment.supported_chains.bridge.includes($chainStore.chainId)
+	$: chainSupported = $chainStore.chainId
+		? $allowedChainsStore.includes($chainStore.chainId)
 		: true;
 
-	$: if ($connected && $chainStore.chainId && chainSupportedInBridge) {
+	$: if ($connected && $chainStore.chainId && chainSupported) {
 		init();
 	}
 </script>
@@ -37,7 +46,7 @@
 	<title>Marlin Bridge</title>
 </svelte:head>
 
-{#if $chainStore.isValidChain && chainSupportedInBridge}
+{#if $chainStore.isValidChain && chainSupported}
 	<slot />
 {:else}
 	<NetworkPrompt />

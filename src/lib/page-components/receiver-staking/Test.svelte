@@ -75,7 +75,7 @@
 	{#if $connected}
 		<div>Address: {wallet.address}</div>
 		<div>POND Balance: {balance.pond}</div>
-		<div>MPond Balance: {balance.mPond}</div>
+		<div>MPond Balance: {balance.mpond}</div>
 		<div>Chain ID: {chain.chainId}</div>
 		<br />
 	{:else}

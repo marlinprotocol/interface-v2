@@ -1,10 +1,19 @@
 <script lang="ts">
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
+	import {
+		allowedChainsStore,
+		chainStore,
+		setAllowedChainsStore
+	} from '$lib/data-stores/chainProviderStore';
 	import { environment } from '$lib/data-stores/environment';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		setAllowedChainsStore(environment.supported_chains.receiver);
+	});
 
 	$: chainSupported = $chainStore.chainId
-		? environment.supported_chains.receiver_portal.includes($chainStore.chainId)
+		? $allowedChainsStore.includes($chainStore.chainId)
 		: true;
 </script>
 

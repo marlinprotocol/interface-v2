@@ -1,56 +1,57 @@
 <script lang="ts">
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
-	import {
-		OYSTER_RATE_SCALING_FACTOR,
-		OYSTER_BANDWIDTH_UNITS_LIST,
-		OYSTER_RATE_METADATA
-	} from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_BANDWIDTH_UNITS_LIST } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
+	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let region: any;
-	export let bandwidthRateForRegion = 0n;
-	export let bandwidthCost = 0n;
+	export let bandwidthRateForRegionScaled = 0n;
+	export let bandwidthCostScaled = 0n;
 	export let duration = 0;
-	export let instanceCost = 0n;
-	export let finalBandwidthRate = 0n;
-	export let totalCost = 0n;
+	export let instanceCostScaled = 0n;
+	export let finalBandwidthRateScaled = 0n;
+	export let totalCostScaled = 0n;
 
 	let bandwidth = '';
 	let bandwidthUnit = 'KB/s';
 	let bandwidthCostString = '';
 
-	const { currency, decimal } = OYSTER_RATE_METADATA;
 	const bandwidthUnitList = OYSTER_BANDWIDTH_UNITS_LIST.map((unit) => unit.label);
 
 	function calculateBandwidthCost(
 		bandwidth: string | number,
 		bandwidthUnit: string,
-		rate: bigint,
+		bandwidthRateForRegionScaled: bigint,
 		duration: number // in seconds
 	) {
 		const unitConversionDivisor = BigInt(
 			OYSTER_BANDWIDTH_UNITS_LIST.find((unit) => unit.label === bandwidthUnit)?.value ?? 1
 		);
-		finalBandwidthRate = (BigInt(bandwidth) * rate) / (unitConversionDivisor || BigInt(1));
-		return finalBandwidthRate * BigInt(duration);
+		finalBandwidthRateScaled =
+			(BigInt(bandwidth) * bandwidthRateForRegionScaled) / (unitConversionDivisor || BigInt(1));
+		return finalBandwidthRateScaled * BigInt(duration);
 	}
 
-	$: bandwidthRateForRegion = getBandwidthRateForRegion(region.value);
-	$: bandwidthCost =
+	$: bandwidthRateForRegionScaled = getBandwidthRateForRegion(region.value);
+	$: bandwidthCostScaled =
 		bandwidth !== ''
-			? calculateBandwidthCost(bandwidth, bandwidthUnit, bandwidthRateForRegion, duration)
+			? calculateBandwidthCost(bandwidth, bandwidthUnit, bandwidthRateForRegionScaled, duration)
 			: 0n;
 	$: bandwidthCostString =
 		bandwidth !== ''
-			? bigNumberToString(bandwidthCost / OYSTER_RATE_SCALING_FACTOR, decimal, 4)
+			? bigNumberToString(
+					bandwidthCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
+					$oysterTokenMetadataStore.decimal,
+					4
+			  )
 			: '';
 
-	$: totalCost = bandwidthCost + instanceCost;
-	$: downScaledTotalCost = totalCost / OYSTER_RATE_SCALING_FACTOR;
-	$: totalAmountString = !(downScaledTotalCost === 0n)
-		? bigNumberToString(downScaledTotalCost, decimal, 4)
+	$: totalCostScaled = bandwidthCostScaled + instanceCostScaled;
+	$: totalCost = totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor;
+	$: totalAmountString = !(totalCost === 0n)
+		? bigNumberToString(totalCost, $oysterTokenMetadataStore.decimal, 4)
 		: '';
 </script>
 
@@ -63,24 +64,19 @@
 		disabled={!region}
 	>
 		<div slot="endButton">
-			<Select
-				title={'Bandwidth'}
-				dataList={bandwidthUnitList}
-				bind:value={bandwidthUnit}
-				id="create-order-bandwidth-unit-select"
-			/>
+			<Select title={'Bandwidth'} dataList={bandwidthUnitList} bind:value={bandwidthUnit} />
 		</div>
 	</AmountInputWithTitle>
 	<AmountInputWithTitle
 		title={'Bandwidth Cost'}
 		bind:inputAmountString={bandwidthCostString}
-		suffix={currency}
+		suffix={$oysterTokenMetadataStore.currency}
 		disabled={true}
 	/>
 	<AmountInputWithTitle
 		title={'Total Cost'}
 		bind:inputAmountString={totalAmountString}
-		suffix={currency}
+		suffix={$oysterTokenMetadataStore.currency}
 		disabled={true}
 	/>
 </div>

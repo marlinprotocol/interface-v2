@@ -10,8 +10,10 @@
 
 <ContainerCard>
 	<Text variant="h3" text="Unsupported Network" styleClass="text-center" />
-	<span class={styles.subtitle}>Please switch to one of the following chains to continue.</span>
+	<span class={styles.subtitle}
+		>Please switch to one of the chains in the dropdown to continue.</span
+	>
 	<div class="flex items-center justify-center">
-		<ChainSwitcher />
+		<ChainSwitcher isDark />
 	</div>
 </ContainerCard>

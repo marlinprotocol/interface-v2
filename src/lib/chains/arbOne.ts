@@ -34,21 +34,29 @@ export const ARB_ONE: ChainConfig = {
 		job_refresh_url: 'https://sk.arb1.marlin.org/operators/jobs/refresh/'
 	},
 	oyster_token: 'USDC',
+	oyster_rate_metadata: {
+		rateUnit: 'hour',
+		rateCPUrlUnitInSeconds: 1, // 1 hour
+		rateReviseWaitingTime: 5 * 60 // 5 minutes
+	},
 	tokens: {
 		POND: {
-			token_decimals: 18,
-			token_precision: 2,
-			symbol: 'POND'
+			decimal: 18,
+			precision: 2,
+			currency: 'POND',
+			symbol: '$'
 		},
 		MPOND: {
-			token_decimals: 18,
-			token_precision: 6,
-			symbol: 'MPOND'
+			decimal: 18,
+			precision: 6,
+			currency: 'MPOND',
+			symbol: '$'
 		},
 		USDC: {
-			token_decimals: 6,
-			token_precision: 6,
-			symbol: 'USDC'
+			decimal: 6,
+			precision: 6,
+			currency: 'USDC',
+			symbol: '$'
 		}
 	}
 };

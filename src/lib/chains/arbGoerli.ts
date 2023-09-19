@@ -4,6 +4,7 @@ export const ARB_GOERLI: ChainConfig = {
 	chain_id: '0x66eed',
 	chain_name: 'Arbitrum Görli',
 	chain_token: 'AGOR',
+	block_explorer_name: 'Arbiscan',
 	block_explorer_url: 'https://goerli.arbiscan.io',
 	rpc_url: 'https://goerli.arbiscan.io/rpc',
 	contract_addresses: {

@@ -4,6 +4,7 @@ export const ARB_ONE: ChainConfig = {
 	chain_id: '0xa4b1',
 	chain_name: 'Arbitrum One',
 	chain_token: 'ETH',
+	block_explorer_name: 'Arbiscan',
 	block_explorer_url: 'https://arbiscan.io',
 	rpc_url: 'https://arbiscan.io/rpc',
 	contract_addresses: {

@@ -45,7 +45,7 @@
 			<a href={blockChainExplorerLink} target="_blank" rel="noopener noreferrer">
 				<div class={`${buttonClasses.greyFilled} h-10 text-small font-medium gap-3`}>
 					<img src={staticImages.OpenInNew} alt="Open" />
-					View on Arbiscan
+					View on {$chainConfigStore.block_explorer_name}
 				</div></a
 			>
 		</div>

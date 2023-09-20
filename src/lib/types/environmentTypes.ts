@@ -14,25 +14,30 @@ export type ChainConfig = {
 	chain_id: string;
 	chain_name: string;
 	chain_token: string;
+	block_explorer_name: string;
 	block_explorer_url: string;
 	rpc_url: string;
 	contract_addresses: ContractAddress;
 	subgraph_urls: SubgraphUrls;
-	oyster_urls: {
-		instances_using_cp_url: string;
-		instances_using_operator_address: string;
-		provider_names_url: string;
-		provider_instances_url: string;
-		job_status_url: string;
-		job_refresh_url: string;
-	};
+	oyster_urls: OysterUrls;
 	oyster_token: keyof Tokens;
-	oyster_rate_metadata: {
-		rateUnit: string;
-		rateCPUrlUnitInSeconds: number;
-		rateReviseWaitingTime: number;
-	};
+	oyster_rate_metadata: OysterRateMetadata;
 	tokens: Tokens;
+};
+
+export type OysterUrls = {
+	instances_using_cp_url: string;
+	instances_using_operator_address: string;
+	provider_names_url: string;
+	provider_instances_url: string;
+	job_status_url: string;
+	job_refresh_url: string;
+};
+
+export type OysterRateMetadata = {
+	rateUnit: string;
+	rateCPUrlUnitInSeconds: number;
+	rateReviseWaitingTime: number;
 };
 
 export type Tokens = {

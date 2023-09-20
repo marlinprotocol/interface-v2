@@ -26,13 +26,12 @@
 		const amount = value.allowances.pond;
 		approved = amount >= pond || false;
 	});
-	onDestroy(unsubscribeBridgeStore);
-
-	$: mPond = pondToMPond(pond);
-	$: approved = $bridgeStore.allowances.pond >= pond || false;
 
 	const handleApproveClick = async () => {
 		try {
+			if (!$chainConfigStore.tokens.POND) {
+				throw new Error('POND token not found in chain config');
+			}
 			await approveToken($chainConfigStore.tokens.POND, pond, $contractAddressStore.BRIDGE);
 			updatePondAllowanceInBridgeStore(pond);
 			approved = true;
@@ -54,6 +53,10 @@
 			throw error;
 		}
 	};
+
+	$: mPond = pondToMPond(pond);
+	$: approved = $bridgeStore.allowances.pond >= pond || false;
+	onDestroy(unsubscribeBridgeStore);
 </script>
 
 <ApproveAndConfirmModal

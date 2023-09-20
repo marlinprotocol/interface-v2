@@ -1,4 +1,5 @@
 import type { Address, ContractAddress } from '$lib/types/storeTypes';
+import type { ChainConfig, TokenMetadata } from '$lib/types/environmentTypes';
 import {
 	addReceiverBalance,
 	initiateReceiverRewards,
@@ -11,7 +12,6 @@ import {
 	updateTicketRewardsInReceiverRewardsStore
 } from '$lib/data-stores/receiverRewardsStore';
 
-import type { ChainConfig } from '$lib/types/environmentTypes';
 import { approveToken } from '$lib/controllers/contract/token';
 import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 import { contractAddressStore } from '$lib/data-stores/contractStore';
@@ -28,6 +28,9 @@ contractAddressStore.subscribe((value) => {
 
 export async function handleRewardsPondApproval(amount: bigint) {
 	try {
+		if (chainConfig.tokens.POND === undefined) {
+			throw new Error('chain config or contract addresses not found');
+		}
 		await approveToken(chainConfig.tokens.POND, amount, contractAddresses.POND);
 		updateAmountApprovedInReceiverRewardsStore(amount);
 	} catch (e) {

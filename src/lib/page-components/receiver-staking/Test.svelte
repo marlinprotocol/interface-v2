@@ -17,6 +17,7 @@
 		withdrawStakingToken
 	} from '$lib/controllers/contract/receiverStaking';
 	import { approveToken } from '$lib/controllers/contract/token';
+	import { doNothing } from '$lib/utils/helpers/commonHelper';
 
 	let wallet: WalletStore;
 	let balance: WalletBalanceStore;
@@ -96,8 +97,9 @@
 	<button
 		class="btn btn-secondary"
 		on:click={() =>
-			approveToken($chainConfigStore.tokens.POND, BigInt(500), $contractAddressStore.POND)}
-		>Approve 50 pond from POND contract</button
+			$chainConfigStore.tokens?.POND
+				? approveToken($chainConfigStore.tokens.POND, BigInt(500), $contractAddressStore.POND)
+				: doNothing()}>Approve 50 pond from POND contract</button
 	>
 	<div>Check console for response</div>
 	<button class="btn btn-secondary" on:click={() => depositStakingToken(BigInt(5))}

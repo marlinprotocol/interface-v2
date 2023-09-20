@@ -130,6 +130,9 @@
 		}
 		approveLoading = true;
 		try {
+			if ($chainConfigStore.tokens.POND === undefined) {
+				throw new Error('POND token not found');
+			}
 			await approveToken(
 				$chainConfigStore.tokens.POND,
 				inputAmount,

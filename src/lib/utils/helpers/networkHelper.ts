@@ -33,6 +33,8 @@ export const getChainDisplayName = (chainId: number): string | undefined => {
 			return 'ARB Goerli';
 		case 59144:
 			return 'Linea';
+		case 59140:
+			return 'Linea Goerli';
 		default:
 			return undefined;
 	}
@@ -47,6 +49,8 @@ export const getImageForChain = (chainId: number | null) => {
 		case 421613:
 			return staticImages.ArbitrumLogo;
 		case 59144:
+			return staticImages.LineaLogo;
+		case 59140:
 			return staticImages.LineaLogo;
 		default:
 			return staticImages.ArbitrumLogo;

@@ -10,11 +10,14 @@ import type { BytesLike } from 'ethers';
 import { derived, writable, type Writable } from 'svelte/store';
 import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 import { DEFAULT_CURRENCY_DECIMALS } from '$lib/utils/constants/constants';
+import type { TokenMetadata } from '$lib/types/environmentTypes';
 
 export const oysterStore: Writable<OysterStore> = writable(DEFAULT_OYSTER_STORE);
 export const oysterTokenMetadataStore = derived([chainConfigStore], ([$chainConfigStore]) => {
 	const oysterToken = $chainConfigStore.oyster_token;
-	return $chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
+	return $chainConfigStore.tokens[
+		oysterToken as keyof typeof $chainConfigStore.tokens
+	] as TokenMetadata;
 });
 export const oysterRateMetadataStore = derived(
 	[chainConfigStore, oysterTokenMetadataStore],

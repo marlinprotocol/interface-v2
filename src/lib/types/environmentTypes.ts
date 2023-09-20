@@ -40,11 +40,7 @@ export type OysterRateMetadata = {
 	rateReviseWaitingTime: number;
 };
 
-export type Tokens = {
-	POND: TokenMetadata;
-	MPOND: TokenMetadata;
-	USDC: TokenMetadata;
-};
+export type Tokens = { POND?: TokenMetadata; MPOND?: TokenMetadata; USDC?: TokenMetadata };
 
 export type TokenMetadata = {
 	decimal: number;

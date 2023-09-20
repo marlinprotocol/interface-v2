@@ -24,7 +24,7 @@ const WalletConnect = '/images/walleticon.svg';
 const WalletConnected = '/images/wallet-connected.svg';
 const ArbitrumLogo = '/images/arbitrum.webp';
 const EthereumLogo = '/images/eth.webp';
-const LineaLogo = '/images/linea.webp'
+const LineaLogo = '/images/linea.webp';
 
 export const staticImages = {
 	Alert,

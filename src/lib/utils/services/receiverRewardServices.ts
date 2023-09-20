@@ -1,5 +1,4 @@
 import type { Address, ContractAddress } from '$lib/types/storeTypes';
-import type { ChainConfig, TokenMetadata } from '$lib/types/environmentTypes';
 import {
 	addReceiverBalance,
 	initiateReceiverRewards,
@@ -12,6 +11,7 @@ import {
 	updateTicketRewardsInReceiverRewardsStore
 } from '$lib/data-stores/receiverRewardsStore';
 
+import type { ChainConfig } from '$lib/types/environmentTypes';
 import { approveToken } from '$lib/controllers/contract/token';
 import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 import { contractAddressStore } from '$lib/data-stores/contractStore';

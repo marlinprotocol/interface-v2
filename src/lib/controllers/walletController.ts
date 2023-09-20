@@ -6,6 +6,7 @@ import {
 	resetChainStore
 } from '$lib/data-stores/chainProviderStore';
 import {
+	initializeWalletBalancesStore,
 	initializeWalletStore,
 	resetWalletBalanceStore
 } from '$lib/data-stores/walletProviderStore';
@@ -62,6 +63,7 @@ export async function setWalletAndChainStores(provider: EIP1193Provider) {
 			await getWalletAddressAndConnectedChain(ethersSigner, ethersProvider);
 		initializeWalletStore(ethersProvider, ethersSigner, walletHexAddress);
 		initializeChainStore(Number(chainId), chainName, chainDisplayName, isValidChain);
+		await initializeWalletBalancesStore(walletHexAddress, ethersProvider);
 
 		console.log('walletStore updated with address:', walletHexAddress);
 		console.log(

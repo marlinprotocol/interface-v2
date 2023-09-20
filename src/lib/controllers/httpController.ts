@@ -10,7 +10,6 @@ let chainConfig: ChainConfig;
 
 chainConfigStore.subscribe((value) => {
 	chainConfig = value;
-	console.log('chainConfigStore', chainConfig);
 });
 
 export async function getInstancesFromControlPlaneUsingCpUrl(controlPlaneUrl: string) {

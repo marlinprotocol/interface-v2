@@ -204,7 +204,7 @@ export const QUERY_TO_GET_JOBS_DATA = `query Jobs($address: String) {
   }
 }`;
 
-export const QUERY_TO_GET_PROVIDER_DATA = `query Providers($address: String) {
+export const QUERY_TO_GET_PROVIDER_DATA = `query Providers ($address: String) {
   providers(
     where: { id: $address }
   ) {

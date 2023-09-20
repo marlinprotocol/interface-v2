@@ -9,6 +9,7 @@ import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 import { contractAddressStore } from '$lib/data-stores/contractStore';
 
 let contractAddresses: ContractAddress;
+
 contractAddressStore.subscribe((value) => {
 	contractAddresses = value;
 });

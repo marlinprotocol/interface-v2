@@ -29,11 +29,11 @@ export const LINEA_GOERLI: ChainConfig = {
 	},
 	oyster_urls: {
 		instances_using_cp_url: 'https://api.aragog.live/operators/spec/cp/',
-		instances_using_operator_address: 'https://api.aragog.live/operators/spec/',
+		instances_using_operator_address: 'https://api.aragog.live/operators/spec/Linea/',
 		provider_names_url: 'https://api.aragog.live/operators/names',
-		provider_instances_url: 'https://api.aragog.live/operators/spec',
-		job_status_url: 'https://api.aragog.live/operators/jobs/',
-		job_refresh_url: 'https://api.aragog.live/operators/jobs/refresh/'
+		provider_instances_url: 'https://api.aragog.live/operators/spec/Linea',
+		job_status_url: 'https://api.aragog.live/operators/jobs/Linea/',
+		job_refresh_url: 'https://api.aragog.live/operators/jobs/refresh/Linea/'
 	},
 	oyster_token: 'POND',
 	oyster_rate_metadata: {

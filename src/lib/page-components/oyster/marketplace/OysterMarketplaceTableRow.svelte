@@ -50,8 +50,7 @@
 		<Tooltip
 			tooltipText={`${$oysterTokenMetadataStore.symbol}${convertRateToPerHourString(
 				instanceRate,
-				$oysterTokenMetadataStore.decimal,
-				$oysterTokenMetadataStore.precision
+				$oysterTokenMetadataStore.decimal
 			)}`}
 		>
 			{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(

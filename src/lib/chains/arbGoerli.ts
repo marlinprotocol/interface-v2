@@ -34,7 +34,7 @@ export const ARB_GOERLI: ChainConfig = {
 		job_status_url: 'https://api.aragog.live/operators/jobs/ArbOne/',
 		job_refresh_url: 'https://api.aragog.live/operators/jobs/refresh/ArbOne/'
 	},
-	oyster_token: 'USDC',
+	oyster_token: 'POND',
 	oyster_rate_metadata: {
 		rateUnit: 'hour',
 		rateCPUrlUnitInSeconds: 1, // 1 hour

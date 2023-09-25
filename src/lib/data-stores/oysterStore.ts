@@ -361,7 +361,9 @@ export function createNewJobInOysterStore(
 	scalingFactor: bigint
 ) {
 	const txHash = txn.hash;
-	const jobOpenEvent = approveReciept.events?.find((event: any) => event.event === 'JobOpened');
+	const jobOpenEvent = approveReciept.logs?.find(
+		(event: any) => event?.fragment?.name === 'JobOpened'
+	);
 	const jobId = jobOpenEvent?.args?.job;
 
 	const nowTime = Date.now() / 1000;

@@ -148,7 +148,12 @@
 
 	const handleMaxClick = () => {
 		if (maxPondBalance) {
-			inputAmountString = bigNumberToString(maxPondBalance);
+			inputAmountString = bigNumberToString(
+				maxPondBalance,
+				DEFAULT_CURRENCY_DECIMALS,
+				POND_PRECISIONS,
+				false
+			);
 			//reset input error message
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;

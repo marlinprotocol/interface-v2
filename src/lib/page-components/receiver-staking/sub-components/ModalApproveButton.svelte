@@ -12,14 +12,15 @@
 	$: approved = inputAmount > 0n && approvedAmount >= inputAmount;
 
 	$: styleClass = `${buttonClasses.text} h-10 text-xl font-semibold ${
-		disabled
-			? 'btn-disabled' + (approved ? ' text-primary' : ' text-primary text-opacity-30')
-			: 'text-primary'
-	} ${loading ? 'loading' : ''}`;
+		disabled ? (approved ? ' text-primary' : ' text-primary text-opacity-30') : 'text-primary'
+	}`;
 </script>
 
 <button class={styleClass} on:click={handleApproveClick}>
 	<div class="flex gap-1 items-center">
+		{#if loading}
+			<span class="loading loading-spinner"></span>
+		{/if}
 		{#if approved}
 			<img src={staticImages.Verified} alt="check-circle" />
 		{/if}

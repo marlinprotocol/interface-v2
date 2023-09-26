@@ -4,7 +4,7 @@
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import { web3WalletStore } from '$lib/data-stores/walletProviderStore';
 	import DisconnectWalletModal from '$lib/components/header/sub-components/DisconnectWalletModal.svelte';
-	import { disconnectWallet, setWalletAndChainStores } from '$lib/controllers/walletController';
+	import { disconnectWallet } from '$lib/controllers/walletController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import ChainSwitcher from '$lib/components/header/sub-components/ChainSwitcher.svelte';
 
@@ -23,13 +23,6 @@
 		$walletStore.address.slice().substring(0, 6) +
 		'...' +
 		$walletStore.address.slice().substring(38, 42);
-
-	// do not remove this line
-	$: provider = $walletStore.provider;
-	$: connectedAccount = $web3WalletStore?.[0];
-	$: if (connectedAccount) {
-		setWalletAndChainStores(connectedAccount.provider);
-	}
 </script>
 
 <div class="flex gap-1">

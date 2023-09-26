@@ -26,6 +26,11 @@
 		prevChainId = $chainStore.chainId;
 		getAndSetReceiverStakingData($walletStore.address);
 	}
+
+	$: if ($walletStore.address === '') {
+		prevWalletAddress = null;
+		prevChainId = null;
+	}
 </script>
 
 <svelte:head>

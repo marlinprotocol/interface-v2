@@ -159,3 +159,7 @@ export const goerliArbiUrl = (txnHash: string) => {
 export const doNothing = () => {
 	// do nothing
 };
+
+export const bigIntAbs = (n: bigint) => {
+	return n < 0n ? -n : n;
+};

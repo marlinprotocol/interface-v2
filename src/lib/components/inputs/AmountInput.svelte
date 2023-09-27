@@ -1,7 +1,8 @@
 <script lang="ts">
 	export let disabled = false;
 	export let value = '';
-	export let onChange: any = undefined;
+	export let onChange: (e: Event) => void = () => {};
+	export let onFocusOut = () => {};
 	export let styleClass = '';
 	export let onlyInteger = false;
 
@@ -32,6 +33,7 @@
 	{disabled}
 	bind:value
 	on:input={onChange}
+	on:focusout={onFocusOut}
 	id="pond-input-amount"
 	class={`hideInputNumberAppearance ${styleClass}`}
 	placeholder={onlyInteger ? '0' : '0.00'}

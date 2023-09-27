@@ -8,12 +8,13 @@
 	import { POND_TO_MPOND_TABLE_HEADER } from '$lib/utils/constants/bridgeConstants';
 	import { MPOND_PRECISIONS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/helpers/conversionHelper';
-	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import HistoryTableCommon from '$lib/page-components/bridge/history/HistoryTableCommon.svelte';
 	import { MPOND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
 	import { modifyPondToMpondConversionHistory } from '$lib/utils/data-modifiers/subgraphModifier';
+	import { getTxnUrl } from '$lib/utils/helpers/commonHelper';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 
 	let address: Address;
 	let historyData: PondToMPondHistoryDataModel[] | undefined;
@@ -63,7 +64,7 @@
 				<td class={tableCellClasses.row}>
 					<TxnHashText
 						txnHash={row.transactionHash}
-						txnHashUrl={goerliArbiUrl(row.transactionHash)}
+						txnHashUrl={getTxnUrl($chainConfigStore.block_explorer_url, row.transactionHash)}
 					/>
 				</td>
 			</tr>

@@ -17,13 +17,14 @@
 		mPondToPond,
 		pondToMPond
 	} from '$lib/utils/helpers/conversionHelper';
-	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 
 	import MPondConversionCycleButton from '$lib/page-components/bridge/buttons/MPondConversionCycleButton.svelte';
 	import MPondConversionHistoryButton from '$lib/page-components/bridge/buttons/MPondConversionHistoryButton.svelte';
 	import MPondEligibleConvertModal from '$lib/page-components/bridge/modals/MPondEligibleConvertModal.svelte';
 	import HistoryDataIconButton from '$lib/page-components/bridge/sub-components/HistoryDataIconButton.svelte';
 	import { cancelMPondConversionRequest } from '$lib/controllers/contract/bridge';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { getTxnUrl } from '$lib/utils/helpers/commonHelper';
 
 	export let rowData: MPondToPondHistoryDataModel;
 	export let rowIndex: number;
@@ -101,7 +102,10 @@
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			<TxnHashText txnHash={transactionHash} txnHashUrl={goerliArbiUrl(transactionHash)} />
+			<TxnHashText
+				txnHash={transactionHash}
+				txnHashUrl={getTxnUrl($chainConfigStore.block_explorer_url, transactionHash)}
+			/>
 		</svelte:fragment>
 	</TableDataWithButton>
 	<TableDataWithButton>

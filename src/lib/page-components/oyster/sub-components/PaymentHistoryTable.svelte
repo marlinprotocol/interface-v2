@@ -6,8 +6,9 @@
 	import type { OysterDepositHistoryDataModel } from '$lib/types/oysterComponentType';
 	import { OYSTER_PAYMENT_HISTORY_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString, epochSecToString } from '$lib/utils/helpers/conversionHelper';
-	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { getTxnUrl } from '$lib/utils/helpers/commonHelper';
 
 	export let tableData: OysterDepositHistoryDataModel[] = [];
 
@@ -38,7 +39,9 @@
 						<td class={styles.tableCell}>
 							<div class="flex justify-center items-center gap-2 capitalize">
 								{rowData.transactionStatus}
-								<TxnIcon txnHashUrl={goerliArbiUrl(rowData.txHash)} />
+								<TxnIcon
+									txnHashUrl={getTxnUrl($chainConfigStore.block_explorer_url, rowData.txHash)}
+								/>
 							</div>
 						</td>
 					</tr>

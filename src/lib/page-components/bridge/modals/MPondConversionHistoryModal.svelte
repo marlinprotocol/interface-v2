@@ -2,15 +2,16 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
 	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import { MPOND_CONVERSION_HISTORY_TABLE_HEADER } from '$lib/utils/constants/bridgeConstants';
 	import { POND_PRECISIONS } from '$lib/utils/constants/constants';
+	import { getTxnUrl } from '$lib/utils/helpers/commonHelper';
 	import {
 		bigNumberToCommaString,
 		epochSecToString,
 		mPondToPond
 	} from '$lib/utils/helpers/conversionHelper';
-	import { goerliArbiUrl } from '$lib/utils/helpers/commonHelper';
 
 	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];
 
@@ -47,7 +48,7 @@
 				<div class="flex-1">
 					<TxnHashText
 						txnHash={rowData.transactionHash}
-						txnHashUrl={goerliArbiUrl(rowData.transactionHash)}
+						txnHashUrl={getTxnUrl($chainConfigStore.block_explorer_url, rowData.transactionHash)}
 					/>
 				</div>
 			</div>

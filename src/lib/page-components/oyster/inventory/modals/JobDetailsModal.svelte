@@ -2,11 +2,7 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
-	import {
-		oysterRateMetadataStore,
-		oysterStore,
-		oysterTokenMetadataStore
-	} from '$lib/data-stores/oysterStore';
+	import { oysterStore, oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import {
@@ -53,12 +49,7 @@
 		$oysterStore.allMarketplaceData
 	);
 	$: bandwidthRate = instanceRate !== undefined ? rateScaled - instanceRate : 0n;
-	$: bandwidth =
-		getBandwidthFromRateAndRegion(
-			bandwidthRate,
-			region,
-			$oysterRateMetadataStore.oysterRateScalingFactor
-		).toString() + 'KB/s';
+	$: bandwidth = getBandwidthFromRateAndRegion(bandwidthRate, region).toString() + 'KB/s';
 </script>
 
 <Modal {modalFor} modalWidth={styles.modalWidth} padding={false}>

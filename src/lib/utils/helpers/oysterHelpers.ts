@@ -500,17 +500,11 @@ export const addRegionNameToMarketplaceData = (
 };
 
 // returns bandwidth rate in Kb/s
-export function getBandwidthFromRateAndRegion(
-	bandwidthRate: bigint,
-	region: string,
-	scalingFactor: bigint
-) {
+export function getBandwidthFromRateAndRegion(bandwidthRate: bigint, region: string) {
 	const rateForRegion = getBandwidthRateForRegion(region);
 	if (rateForRegion === undefined) return 0n;
-	// this is done to ceil the number since rateForRegion
-	// is essentially, actualRate * oysterRateScalingFactor
-	const bandwidthWithAllPrecision =
-		(bandwidthRate * BigInt(1024 * 1024) + scalingFactor - BigInt(1)) / rateForRegion;
+	// + 1n is done to ceil the number since in bigInt division we floor the number
+	const bandwidthWithAllPrecision = (bandwidthRate * BigInt(1024 * 1024)) / rateForRegion + 1n;
 
 	return bandwidthWithAllPrecision;
 }

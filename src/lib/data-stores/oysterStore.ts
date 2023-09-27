@@ -68,13 +68,17 @@ export function initializeProviderDataInOysterStore(providerDetails: ProviderDat
 
 export function updateProviderInOysterStore(cpUrl: string, walletAddress: Address) {
 	oysterStore.update((value) => {
-		value.providerData.registered = true;
-		if (value.providerData.data) {
-			value.providerData.data.cp = cpUrl;
-			value.providerData.data.id = walletAddress;
-			value.providerData.data.live = true;
-		}
-		return value;
+		return {
+			...value,
+			providerData: {
+				registered: true,
+				data: {
+					cp: cpUrl,
+					id: walletAddress,
+					live: true
+				}
+			}
+		};
 	});
 }
 

@@ -7,6 +7,7 @@ export const LINEA: ChainConfig = {
 	block_explorer_name: 'Lineascan',
 	block_explorer_url: 'https://lineascan.build',
 	rpc_url: 'https://rpc.linea.build',
+	backend_enum: 'Linea',
 	contract_addresses: {
 		BRIDGE: '',
 		CLUSTER_REGISTRY: '',
@@ -25,14 +26,6 @@ export const LINEA: ChainConfig = {
 		OYSTER: 'https://graph-query.linea.build/subgraphs/name/marlinprotocol/oyster-linea',
 		POND: '',
 		MPOND: ''
-	},
-	oyster_urls: {
-		instances_using_cp_url: 'https://sk.arb1.marlin.org/operators/spec/cp/',
-		instances_using_operator_address: 'https://sk.arb1.marlin.org/operators/spec/Linea/',
-		provider_names_url: 'https:/sk.arb1.marlin.org/operators/names',
-		provider_instances_url: 'https://sk.arb1.marlin.org/operators/spec/Linea',
-		job_status_url: 'https://sk.arb1.marlin.org/operators/jobs/Linea/',
-		job_refresh_url: 'https://sk.arb1.marlin.org/operators/jobs/refresh/Linea/'
 	},
 	oyster_token: 'USDC',
 	oyster_rate_metadata: {

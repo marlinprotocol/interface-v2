@@ -1,6 +1,15 @@
 import { SECONDS_IN_DAY } from '$lib/utils/constants/constants';
 import type { TableModel } from '$lib/types/componentTypes';
 
+export const OYSTER_URL_ENDPOINTS = {
+	instances_using_cp_url: 'operators/spec/cp/',
+	instances_using_operator_address: 'operators/spec/',
+	provider_names_url: 'operators/names',
+	provider_instances_url: 'operators/spec/',
+	job_status_url: 'operators/jobs/',
+	job_refresh_url: 'operators/jobs/refresh/'
+};
+
 export const OYSTER_CAUTION_DURATION = SECONDS_IN_DAY;
 export const OYSTER_WARNING_DURATION = SECONDS_IN_DAY * 3; // 3 days
 

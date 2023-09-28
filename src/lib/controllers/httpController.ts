@@ -5,6 +5,8 @@ import type { ChainConfig } from '$lib/types/environmentTypes';
 import { GET_OPTIONS } from '$lib/utils/constants/constants';
 import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
+import { environment } from '$lib/data-stores/environment';
+import { OYSTER_URL_ENDPOINTS } from '$lib/utils/constants/oysterConstants';
 
 let chainConfig: ChainConfig;
 
@@ -14,7 +16,9 @@ chainConfigStore.subscribe((value) => {
 
 export async function getInstancesFromControlPlaneUsingCpUrl(controlPlaneUrl: string) {
 	const controlPlaneDetailsEndpoint =
-		chainConfig.oyster_urls.instances_using_cp_url + encodeURIComponent(controlPlaneUrl.trim());
+		environment.backend_url +
+		OYSTER_URL_ENDPOINTS.instances_using_cp_url +
+		encodeURIComponent(controlPlaneUrl.trim());
 	const options = GET_OPTIONS;
 	const response: CPInstances = await fetchHttpData(controlPlaneDetailsEndpoint, options);
 
@@ -27,7 +31,11 @@ export async function getInstancesFromControlPlaneUsingCpUrl(controlPlaneUrl: st
 
 export async function getInstancesFromControlPlaneUsingOperatorAddress(operatorAddress: Address) {
 	const controlPlaneDetailsEndpoint =
-		chainConfig.oyster_urls.instances_using_operator_address + operatorAddress.trim();
+		environment.backend_url +
+		OYSTER_URL_ENDPOINTS.instances_using_operator_address +
+		chainConfig.backend_enum +
+		'/' +
+		operatorAddress.trim();
 	const options = GET_OPTIONS;
 	const response: CPInstances = await fetchHttpData(controlPlaneDetailsEndpoint, options);
 
@@ -39,7 +47,7 @@ export async function getInstancesFromControlPlaneUsingOperatorAddress(operatorA
 }
 
 export async function getProvidersNameJSON() {
-	const providerNameEndPoint = chainConfig.oyster_urls.provider_names_url;
+	const providerNameEndPoint = environment.backend_url + OYSTER_URL_ENDPOINTS.provider_names_url;
 	const options = GET_OPTIONS;
 	const response = await fetchHttpData(providerNameEndPoint, options);
 
@@ -51,7 +59,10 @@ export async function getProvidersNameJSON() {
 }
 
 export async function getProvidersInstancesJSON() {
-	const providerNameEndPoint = chainConfig.oyster_urls.provider_instances_url;
+	const providerNameEndPoint =
+		environment.backend_url +
+		OYSTER_URL_ENDPOINTS.provider_instances_url +
+		chainConfig.backend_enum;
 	const options = GET_OPTIONS;
 	const response: Record<string, CPInstances> = await fetchHttpData(providerNameEndPoint, options);
 	if (!response || response.error) {
@@ -62,7 +73,12 @@ export async function getProvidersInstancesJSON() {
 }
 
 export async function getJobStatuses(userAddress: Address) {
-	const jobStatusEndpoint = chainConfig.oyster_urls.job_status_url + userAddress;
+	const jobStatusEndpoint =
+		environment.backend_url +
+		OYSTER_URL_ENDPOINTS.job_status_url +
+		chainConfig.backend_enum +
+		'/' +
+		userAddress;
 	const options = GET_OPTIONS;
 	const response = await fetchHttpData(jobStatusEndpoint, options);
 	if (!response || response.error) {
@@ -73,7 +89,12 @@ export async function getJobStatuses(userAddress: Address) {
 }
 
 export async function refreshJobStatusForJobId(jobId: BytesLike) {
-	const refreshJobStatusEndpoint = chainConfig.oyster_urls.job_refresh_url + jobId;
+	const refreshJobStatusEndpoint =
+		environment.backend_url +
+		OYSTER_URL_ENDPOINTS.job_refresh_url +
+		chainConfig.backend_enum +
+		'/' +
+		jobId;
 	const options = GET_OPTIONS;
 	const response = await fetchHttpData(refreshJobStatusEndpoint, options);
 	if (!response || response.error) {

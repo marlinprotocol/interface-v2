@@ -7,6 +7,7 @@ export const LINEA_GOERLI: ChainConfig = {
 	block_explorer_name: 'Lineascan',
 	block_explorer_url: 'https://goerli.lineascan.build',
 	rpc_url: 'https://linea-goerli.infura.io/v3/',
+	backend_enum: 'Linea',
 	contract_addresses: {
 		BRIDGE: '',
 		CLUSTER_REGISTRY: '',
@@ -26,14 +27,6 @@ export const LINEA_GOERLI: ChainConfig = {
 			'https://graph-query.goerli.linea.build/subgraphs/name/marlinprotocol/oyster-linea-goerli',
 		POND: '',
 		MPOND: ''
-	},
-	oyster_urls: {
-		instances_using_cp_url: 'https://api.aragog.live/operators/spec/cp/',
-		instances_using_operator_address: 'https://api.aragog.live/operators/spec/Linea/',
-		provider_names_url: 'https://api.aragog.live/operators/names',
-		provider_instances_url: 'https://api.aragog.live/operators/spec/Linea',
-		job_status_url: 'https://api.aragog.live/operators/jobs/Linea/',
-		job_refresh_url: 'https://api.aragog.live/operators/jobs/refresh/Linea/'
 	},
 	oyster_token: 'POND',
 	oyster_rate_metadata: {

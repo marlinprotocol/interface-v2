@@ -7,6 +7,7 @@ export const ARB_ONE: ChainConfig = {
 	block_explorer_name: 'Arbiscan',
 	block_explorer_url: 'https://arbiscan.io',
 	rpc_url: 'https://arbiscan.io/rpc',
+	backend_enum: 'ArbOne',
 	contract_addresses: {
 		BRIDGE: '0x7cf89b836d1c647ef31a5eeb152b7addcf002a08',
 		CLUSTER_REGISTRY: '0x1f3Fe1E2a752cF6732C8be849a424482639EffC9',
@@ -25,14 +26,6 @@ export const ARB_ONE: ChainConfig = {
 		OYSTER: 'https://api.thegraph.com/subgraphs/name/marlin-staging/oyster-arb1',
 		POND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-arb1',
 		MPOND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-arb1'
-	},
-	oyster_urls: {
-		instances_using_cp_url: 'https://sk.arb1.marlin.org/operators/spec/cp/',
-		instances_using_operator_address: 'https://sk.arb1.marlin.org/operators/spec/ArbOne/',
-		provider_names_url: 'https://sk.arb1.marlin.org/operators/names',
-		provider_instances_url: 'https://sk.arb1.marlin.org/operators/spec/ArbOne',
-		job_status_url: 'https://sk.arb1.marlin.org/operators/jobs/ArbOne/',
-		job_refresh_url: 'https://sk.arb1.marlin.org/operators/jobs/refresh/ArbOne/'
 	},
 	oyster_token: 'USDC',
 	oyster_rate_metadata: {

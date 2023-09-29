@@ -8,10 +8,13 @@
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { bridgeStore } from '$lib/data-stores/bridgeStore';
 	import { connected, walletBalanceStore } from '$lib/data-stores/walletProviderStore';
-	import { MPOND_PRECISIONS, POND_PRECISIONS } from '$lib/utils/constants/constants';
+	import {
+		DEFAULT_CURRENCY_DECIMALS,
+		MPOND_PRECISIONS,
+		POND_PRECISIONS
+	} from '$lib/utils/constants/constants';
 	import { DEFAULT_WALLET_BALANCE_STORE } from '$lib/utils/constants/storeDefaults';
 	import {
-		bigNumberToCommaString,
 		bigNumberToString,
 		mPondToPond,
 		stringToBigNumber
@@ -56,10 +59,15 @@
 
 	$: unrequestedMPondBalance = walletMPondBalance - requestedMPond;
 	$: balanceText = $connected
-		? `Unrequested: ${bigNumberToCommaString(
+		? `Unrequested: ${bigNumberToString(
 				unrequestedMPondBalance,
+				DEFAULT_CURRENCY_DECIMALS,
 				MPOND_PRECISIONS
-		  )} | Requested: ${bigNumberToCommaString(requestedMPond, MPOND_PRECISIONS)}`
+		  )} | Requested: ${bigNumberToString(
+				requestedMPond,
+				DEFAULT_CURRENCY_DECIMALS,
+				MPOND_PRECISIONS
+		  )}`
 		: 'Unrequested: 0 | Requested: 0';
 
 	onDestroy(unsubscribeWalletBalanceStore);

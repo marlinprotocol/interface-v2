@@ -5,9 +5,9 @@
 	import LoadingAnimationModal from '$lib/components/loading/LoadingAnimationModal.svelte';
 	import type { MPondEligibleCyclesModel } from '$lib/types/bridgeComponentType';
 	import { MPOND_CONVERSION_CYCLE_TABLE_HEADER } from '$lib/utils/constants/bridgeConstants';
-	import { POND_PRECISIONS } from '$lib/utils/constants/constants';
+	import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import {
-		bigNumberToCommaString,
+		bigNumberToString,
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/helpers/conversionHelper';
@@ -64,10 +64,15 @@
 									<div class="h-full w-[0.1px] bg-grey-400" />
 								{/if}
 							</div>
-							{`${bigNumberToCommaString(
+							{`${bigNumberToString(
 								rowData?.totalEligible,
+								DEFAULT_CURRENCY_DECIMALS,
 								POND_PRECISIONS
-							)}/${bigNumberToCommaString(rowData?.netPending, POND_PRECISIONS)}`}
+							)}/${bigNumberToString(
+								rowData?.netPending,
+								DEFAULT_CURRENCY_DECIMALS,
+								POND_PRECISIONS
+							)}`}
 						</div>
 					{/each}
 				</div>

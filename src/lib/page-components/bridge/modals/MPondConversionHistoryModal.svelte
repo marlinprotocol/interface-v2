@@ -5,10 +5,10 @@
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import { MPOND_CONVERSION_HISTORY_TABLE_HEADER } from '$lib/utils/constants/bridgeConstants';
-	import { POND_PRECISIONS } from '$lib/utils/constants/constants';
+	import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { getTxnUrl } from '$lib/utils/helpers/commonHelper';
 	import {
-		bigNumberToCommaString,
+		bigNumberToString,
 		epochSecToString,
 		mPondToPond
 	} from '$lib/utils/helpers/conversionHelper';
@@ -43,7 +43,11 @@
 					{epochSecToString(rowData?.timestamp)}
 				</div>
 				<div class="flex-1">
-					{bigNumberToCommaString(mPondToPond(rowData?.mpondToConvert), POND_PRECISIONS)}
+					{bigNumberToString(
+						mPondToPond(rowData?.mpondToConvert),
+						DEFAULT_CURRENCY_DECIMALS,
+						POND_PRECISIONS
+					)}
 				</div>
 				<div class="flex-1">
 					<TxnHashText

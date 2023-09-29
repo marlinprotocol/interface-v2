@@ -8,13 +8,9 @@
 		withdrawStakedBalanceFromReceiverStakingStore
 	} from '$lib/data-stores/receiverStakingStore';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import { POND_PRECISIONS } from '$lib/utils/constants/constants';
+	import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
-	import {
-		bigNumberToCommaString,
-		bigNumberToString,
-		stringToBigNumber
-	} from '$lib/utils/helpers/conversionHelper';
+	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import {
 		closeModal,
 		inputAmountInValidMessage,
@@ -49,9 +45,14 @@
 		const { stakedBalance, queuedBalance } = value;
 		maxAmount = stakedBalance + queuedBalance;
 
-		balanceText = `Staked: ${bigNumberToCommaString(stakedBalance, POND_PRECISIONS)}${
+		balanceText = `Staked: ${bigNumberToString(
+			stakedBalance,
+			DEFAULT_CURRENCY_DECIMALS,
+			POND_PRECISIONS
+		)}${
 			!(queuedBalance === 0n)
-				? ' + Queued: ' + bigNumberToCommaString(queuedBalance, POND_PRECISIONS)
+				? ' + Queued: ' +
+				  bigNumberToString(queuedBalance, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
 				: ''
 		}`;
 	});

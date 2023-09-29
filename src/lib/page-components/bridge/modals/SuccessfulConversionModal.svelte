@@ -11,12 +11,7 @@
 		POND_PRECISIONS
 	} from '$lib/utils/constants/constants';
 	import { POND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
-	import {
-		bigNumberToCommaString,
-		bigNumberToString,
-		mPondToPond,
-		pondToMPond
-	} from '$lib/utils/helpers/conversionHelper';
+	import { bigNumberToString, mPondToPond, pondToMPond } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 
 	export let modalFor: string;
@@ -24,8 +19,9 @@
 	export let amountConverted = 0n;
 
 	$: conversionTo = conversionFrom === 'pond' ? 'mPond' : 'pond';
-	$: amountConvertedFrom = bigNumberToCommaString(
+	$: amountConvertedFrom = bigNumberToString(
 		amountConverted,
+		DEFAULT_CURRENCY_DECIMALS,
 		conversionFrom === 'pond' ? POND_PRECISIONS : MPOND_PRECISIONS
 	);
 	$: amountConvertedTo =

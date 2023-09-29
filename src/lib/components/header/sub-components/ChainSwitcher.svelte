@@ -28,9 +28,18 @@
 			);
 		}
 	}
+
+	function closeSwitcherWhenClickedOutside(event: MouseEvent) {
+		const dropdown = document.getElementById('chain-dropdown');
+		if (!dropdown?.contains(event.target as Node)) {
+			dropdown?.removeAttribute('open');
+		}
+	}
 </script>
 
-<details class="dropdown">
+<svelte:window on:click={(e) => closeSwitcherWhenClickedOutside(e)} />
+
+<details class="dropdown" id="chain-dropdown">
 	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 	<summary
 		tabindex="0"

@@ -34,6 +34,7 @@
 		'Update rewards balance for operators, so that you can increase per epoch spending and give out more rewards!';
 
 	function resetInputs() {
+		inputAmountString = '';
 		console.log('reset inputs for update rewards balance');
 	}
 

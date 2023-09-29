@@ -35,7 +35,6 @@
 
 	function resetInputs() {
 		inputAmountString = '';
-		console.log('reset inputs for update rewards balance');
 	}
 
 	function handleUpdatedAmount(event: Event) {

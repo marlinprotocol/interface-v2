@@ -7,6 +7,9 @@ export type CPInstances = {
 		rate_cards: {
 			instance: string;
 			min_rate: number;
+			cpu: number;
+			memory: number;
+			arch: string;
 		}[];
 	}[];
 	error?: string;
@@ -22,8 +25,9 @@ export type CPUrlDataModel = {
 	instance: string;
 	region: string;
 	rateScaled: bigint;
-	vcpu?: number;
-	memory?: number;
+	arch: string;
+	vcpu: number;
+	memory: number;
 };
 
 export interface OysterMarketplaceDataModel extends CPUrlDataModel {

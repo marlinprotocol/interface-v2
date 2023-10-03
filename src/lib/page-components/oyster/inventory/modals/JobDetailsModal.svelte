@@ -16,6 +16,7 @@
 		getRateForProviderAndFilters
 	} from '$lib/utils/helpers/oysterHelpers';
 	import PaymentHistoryTable from '$lib/page-components/oyster/sub-components/PaymentHistoryTable.svelte';
+	import { getInstanceMetadatDataForOperator } from '$lib/utils/data-modifiers/oysterModifiers';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -50,6 +51,9 @@
 	);
 	$: bandwidthRate = instanceRate !== undefined ? rateScaled - instanceRate : 0n;
 	$: bandwidth = getBandwidthFromRateAndRegion(bandwidthRate, region).toString() + 'KB/s';
+	$: arch =
+		getInstanceMetadatDataForOperator(address, instance, region, $oysterStore.allMarketplaceData)
+			?.arch ?? 'N/A';
 </script>
 
 <Modal {modalFor} modalWidth={styles.modalWidth} padding={false}>
@@ -68,33 +72,9 @@
 					centered
 					textStyle={styles.textPrimary}
 				/>
-				<TextInputCard title={'Region'} value={region} centered textStyle={styles.textPrimary} />
-			</div>
-			<div class="flex gap-4 flex-col sm:flex-row">
 				<TextInputCard
-					title={'Instance'}
-					value={instance}
-					centered
-					textStyle={styles.textPrimary}
-				/>
-				<TextInputCard
-					title={'vCPU'}
-					value={vcpu?.toString() ?? ''}
-					centered
-					textStyle={styles.textPrimary}
-				/>
-				<TextInputCard
-					title={'Memory'}
-					value={(memory?.toString() ?? '') + (memory ? MEMORY_SUFFIX : '')}
-					centered
-					textStyle={styles.textPrimary}
-				/>
-				<TextInputCard
-					title={'Hourly Rate'}
-					value={`${$oysterTokenMetadataStore.symbol}${convertRateToPerHourString(
-						rate,
-						$oysterTokenMetadataStore.decimal
-					)}`}
+					title={'Ip Address'}
+					value={ip ?? 'N/A'}
 					centered
 					textStyle={styles.textPrimary}
 				/>
@@ -107,9 +87,24 @@
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
-					title={'Total Paid'}
-					value={`${$oysterTokenMetadataStore.symbol}${bigNumberToString(
-						totalDeposit,
+					title={'Duration Left'}
+					value={nowTime > endEpochTime
+						? 'Ended'
+						: epochToDurationString(endEpochTime - nowTime, true)}
+					centered
+					textStyle={styles.textPrimary}
+				/>
+				<TextInputCard
+					title={'Enclave Image URL'}
+					value={enclaveUrl}
+					textStyle={styles.textPrimary}
+				/>
+			</div>
+			<div class="flex gap-4 flex-col sm:flex-row">
+				<TextInputCard
+					title={'Hourly Rate'}
+					value={`${$oysterTokenMetadataStore.symbol}${convertRateToPerHourString(
+						rate,
 						$oysterTokenMetadataStore.decimal
 					)}`}
 					centered
@@ -125,23 +120,35 @@
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
-					title={'Duration Left'}
-					value={nowTime > endEpochTime
-						? 'Ended'
-						: epochToDurationString(endEpochTime - nowTime, true)}
+					title={'Total Paid'}
+					value={`${$oysterTokenMetadataStore.symbol}${bigNumberToString(
+						totalDeposit,
+						$oysterTokenMetadataStore.decimal
+					)}`}
 					centered
 					textStyle={styles.textPrimary}
 				/>
 			</div>
 			<div class="flex gap-4 flex-col sm:flex-row">
 				<TextInputCard
-					title={'Enclave Image URL'}
-					value={enclaveUrl}
+					title={'Instance'}
+					value={instance}
+					centered
+					textStyle={styles.textPrimary}
+				/>
+				<TextInputCard title={'Region'} value={region} centered textStyle={styles.textPrimary} />
+				<TextInputCard title={'Arch'} value={arch} centered textStyle={styles.textPrimary} />
+			</div>
+			<div class="flex gap-4 flex-col sm:flex-row">
+				<TextInputCard
+					title={'vCPU'}
+					value={vcpu?.toString() ?? ''}
+					centered
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
-					title={'Ip Address'}
-					value={ip ?? 'N/A'}
+					title={'Memory'}
+					value={(memory?.toString() ?? '') + (memory ? MEMORY_SUFFIX : '')}
 					centered
 					textStyle={styles.textPrimary}
 				/>

@@ -61,6 +61,9 @@
 		},
 		enclaveImageUrl: {
 			value: preFilledData?.enclaveUrl || ''
+		},
+		arch: {
+			value: preFilledData?.arch || ''
 		}
 	};
 
@@ -76,6 +79,9 @@
 	};
 	let enclaveImageUrl = {
 		...initialStates.enclaveImageUrl
+	};
+	let arch = {
+		...initialStates.arch
 	};
 
 	const handleSubmitClick = async () => {
@@ -230,6 +236,7 @@
 				bind:vcpu
 				bind:memory
 				bind:notServiceable
+				bind:arch
 				allMarketplaceData={$oysterStore.allMarketplaceData}
 				handleChange={handleMerchantChange}
 			/>

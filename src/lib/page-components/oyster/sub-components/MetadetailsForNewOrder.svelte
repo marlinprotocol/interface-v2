@@ -7,7 +7,7 @@
 		OysterMarketplaceDataModel
 	} from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
-	import { getvCpuMemoryData } from '$lib/utils/data-modifiers/oysterModifiers';
+	import { getInstanceMetadatDataForOperator } from '$lib/utils/data-modifiers/oysterModifiers';
 	import { doNothing } from '$lib/utils/helpers/commonHelper';
 	import {
 		getCreateOrderInstanceRegionFilters,
@@ -18,6 +18,7 @@
 	export let merchant: any;
 	export let instance: any;
 	export let region: any;
+	export let arch: any;
 	export let instanceRate: bigint | undefined;
 	export let vcpu: string;
 	export let memory: string;
@@ -141,9 +142,22 @@
 		memory = val;
 	}
 
-	$: instanceData = getvCpuMemoryData(instance.value);
-	$: set_vcpu(!instance.value ? '' : instanceData.vcpu?.toString() ?? 'N/A');
-	$: set_memory(!instance.value ? '' : instanceData.memory?.toString() ?? 'N/A');
+	function set_arch(val: string) {
+		arch.value = val;
+	}
+
+	$: validInstanceParameters = !merchant.error && !instance.error && !region.error;
+	$: instanceData = validInstanceParameters
+		? getInstanceMetadatDataForOperator(
+				merchant.value,
+				instance.value,
+				region.value,
+				allMarketplaceData
+		  )
+		: undefined;
+	$: set_vcpu(!instance.value ? '' : instanceData?.vcpu?.toString() ?? 'N/A');
+	$: set_arch(!instance.value ? '' : instanceData?.arch?.toString() ?? 'N/A');
+	$: set_memory(!instance.value ? '' : instanceData?.memory?.toString() ?? 'N/A');
 </script>
 
 <SearchWithSelect
@@ -193,6 +207,14 @@
 <div class="flex gap-2">
 	<div class="w-full">
 		<TextInputWithEndButton title={'vCPU'} bind:input={vcpu} placeholder={'Select'} />
+	</div>
+	<div class="w-full">
+		<TextInputWithEndButton
+			title={'Architecture'}
+			bind:input={arch.value}
+			placeholder={'Select'}
+			disabled
+		/>
 	</div>
 	<div class="w-full">
 		<TextInputWithEndButton

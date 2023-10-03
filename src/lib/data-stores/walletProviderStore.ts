@@ -11,7 +11,7 @@ import {
 import onboard from '$lib/controllers/web3OnboardController';
 import type { WalletState } from '@web3-onboard/core';
 import type { BrowserProvider, ethers } from 'ethers';
-import { getBalanceOfToken, getUsdcBalanceFromProvider } from '$lib/controllers/contract/usdc';
+import { getBalanceOfToken } from '$lib/controllers/contract/usdc';
 import type { ChainConfig } from '$lib/types/environmentTypes';
 import { chainConfigStore } from './chainProviderStore';
 
@@ -134,7 +134,11 @@ export async function initializeWalletBalancesStore(
 			balances = { ...balances, mpond: mpondBalance };
 		}
 		if (tokens.includes('USDC')) {
-			const usdcBalance = await getUsdcBalanceFromProvider(walletAddress, walletProvider);
+			const usdcBalance = await getBalanceOfToken(
+				walletAddress,
+				chainConfig.contract_addresses.USDC,
+				walletProvider
+			);
 			balances = { ...balances, usdc: usdcBalance };
 		}
 		walletBalanceStore.set(balances);

@@ -30,8 +30,7 @@
 	const rewardToolTipText = 'Reward per ticket for operators.';
 
 	function resetInputs() {
-		// TODO: add reset logic here
-		console.log('reset inputs for update ticket rewards');
+		rewardString = '';
 	}
 
 	function handleRewardMaxClick() {

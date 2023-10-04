@@ -6,7 +6,7 @@
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import {
-		bigNumberToCommaString,
+		bigNumberToString,
 		convertRateToPerHourString,
 		epochSecToString,
 		epochToDurationString
@@ -106,7 +106,7 @@
 				/>
 				<TextInputCard
 					title={'Amount Used'}
-					value={`${$oysterTokenMetadataStore.symbol}${bigNumberToCommaString(
+					value={`${$oysterTokenMetadataStore.symbol}${bigNumberToString(
 						amountUsed,
 						$oysterTokenMetadataStore.decimal
 					)}`}

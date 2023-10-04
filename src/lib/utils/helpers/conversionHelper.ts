@@ -54,51 +54,12 @@ export const epochToDurationString = (epoch: number, mini = false, uptoHoursOnly
 	return durationString;
 };
 
-function roundNumberString(numString: string, decimals = DEFAULT_PRECISION) {
-	const num = Number(numString);
-	const roundedNum = num.toFixed(decimals);
-	return roundedNum;
-}
-
-// TODO: remove this function and use bigNumberToString instead
 /**
- * Returns comma separated string with set of decimals for a big number
- * @param value big number
- * @param decimals decimals of the fractional part
- * @returns string
- */
-export const bigNumberToCommaString = (value: bigint, decimals = DEFAULT_PRECISION) => {
-	let result = ethers.formatEther(value);
-
-	// Replace 0.0 by an empty value
-	if (result === '0.0') return '0';
-
-	let compareNum = 0n;
-
-	try {
-		compareNum = BigInt(10) ** BigInt(DEFAULT_CURRENCY_DECIMALS - decimals);
-	} catch (e) {
-		console.log('e :>> ', e);
-	}
-
-	if (value > compareNum) {
-		result = roundNumberString(result, decimals).toLocaleString();
-		//add 0 to the end if decimal count is less than 2
-		if (result.split('.')[1]?.length < 2) {
-			result = result + '0';
-		}
-		return result;
-	} else {
-		return '0' + '.' + '0'.repeat(decimals);
-	}
-};
-
-/**
- * Returns string for a big number
- * @param value: big number
- * @param bigNumberDecimal: decimal of the big number, default set to 18
+ * Returns string for a bigInt
+ * @param value: bigInt
+ * @param bigNumberDecimal: decimal of the token, default set to 18
  * @param precision: number of digits after the decimal point, default set to 2
- * @param commify: boolean, default set to true
+ * @param commify: default set to true
  * @returns string
  */
 export const bigNumberToString = (

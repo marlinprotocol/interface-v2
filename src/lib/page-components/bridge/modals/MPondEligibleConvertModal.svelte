@@ -5,12 +5,8 @@
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import { MPOND_PRECISIONS } from '$lib/utils/constants/constants';
-	import {
-		bigNumberToCommaString,
-		bigNumberToString,
-		stringToBigNumber
-	} from '$lib/utils/helpers/conversionHelper';
+	import { DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS } from '$lib/utils/constants/constants';
+	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import {
 		closeModal,
 		inputAmountInValidMessage,
@@ -25,7 +21,11 @@
 	export let rowIndex: number;
 	export let handleOnSuccess: (convertedMPond: bigint, txnHash: string) => void;
 
-	$: balanceText = `Eligible Balance: ${bigNumberToCommaString(maxAmount, MPOND_PRECISIONS)}`;
+	$: balanceText = `Eligible Balance: ${bigNumberToString(
+		maxAmount,
+		DEFAULT_CURRENCY_DECIMALS,
+		MPOND_PRECISIONS
+	)}`;
 
 	//initial amount states
 	let inputAmount: bigint;

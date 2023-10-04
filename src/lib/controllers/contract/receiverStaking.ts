@@ -2,9 +2,9 @@ import { createSignerContract, createTransaction } from '$lib/utils/helpers/cont
 
 import type { ContractAddress } from '$lib/types/storeTypes';
 import { MESSAGES } from '$lib/utils/constants/messages';
-import { POND_PRECISIONS } from '$lib/utils/constants/constants';
+import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 import { RECEIVER_STAKING_ABI } from '$lib/utils/abis/receiverStaking';
-import { bigNumberToCommaString } from '$lib/utils/helpers/conversionHelper';
+import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 import { contractAddressStore } from '$lib/data-stores/contractStore';
 import { minifyAddress } from '$lib/utils/helpers/commonHelper';
 
@@ -46,10 +46,10 @@ export async function depositStakingToken(amount: bigint) {
 	);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.DEPOSIT.POND(
-			bigNumberToCommaString(amount, POND_PRECISIONS)
+			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
 		);
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.DEPOSIT.POND_DEPOSITED(
-			bigNumberToCommaString(amount, POND_PRECISIONS)
+			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
 		);
 		const errorTxnMessage = 'Unable to deposit staking token';
 		const parentFunctionName = 'depositStakingToken';
@@ -73,10 +73,10 @@ export async function depositStakingTokenAndSetSigner(amount: bigint, signerAddr
 	);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.DEPOSIT.POND(
-			bigNumberToCommaString(amount, POND_PRECISIONS)
+			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
 		);
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.DEPOSIT.POND_DEPOSITED(
-			bigNumberToCommaString(amount, POND_PRECISIONS)
+			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
 		);
 		const errorTxnMessage = 'Unable to deposit staking token and set signer';
 		const parentFunctionName = 'depositStakingTokenAndSetSigner';
@@ -101,10 +101,10 @@ export async function withdrawStakingToken(amount: bigint) {
 	);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.WITHDRAW.POND(
-			bigNumberToCommaString(amount, POND_PRECISIONS)
+			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
 		);
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.WITHDRAW.POND_WITHDREW(
-			bigNumberToCommaString(amount, POND_PRECISIONS)
+			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
 		);
 		const errorTxnMessage = 'Unable to withdraw staking token';
 		const parentFunctionName = 'withdrawStakingToken';

@@ -9,9 +9,13 @@
 		MPondEligibleCyclesModel,
 		MPondToPondHistoryDataModel
 	} from '$lib/types/bridgeComponentType';
-	import { MPOND_PRECISIONS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import {
-		bigNumberToCommaString,
+		DEFAULT_CURRENCY_DECIMALS,
+		MPOND_PRECISIONS,
+		POND_PRECISIONS
+	} from '$lib/utils/constants/constants';
+	import {
+		bigNumberToString,
 		epochSecToString,
 		epochToDurationString,
 		mPondToPond,
@@ -110,17 +114,17 @@
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			{bigNumberToCommaString(mpondAmount, MPOND_PRECISIONS)}
+			{bigNumberToString(mpondAmount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)}
 		</svelte:fragment>
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			{bigNumberToCommaString(pondAmount, POND_PRECISIONS)}
+			{bigNumberToString(pondAmount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
 		</svelte:fragment>
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			{bigNumberToCommaString(pondPending, POND_PRECISIONS)}
+			{bigNumberToString(pondPending, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
 		</svelte:fragment>
 		<svelte:fragment slot="line2">
 			<MPondConversionCycleButton
@@ -133,8 +137,7 @@
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			{bigNumberToCommaString(pondInProcess, POND_PRECISIONS)}
-			<!-- <button on:click={handleOnTimerEnd}>HI</button> -->
+			{bigNumberToString(pondInProcess, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
 		</svelte:fragment>
 		<Timer
 			timerId={`timer-for-mpond-table-${rowIndex}`}
@@ -155,7 +158,7 @@
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			{bigNumberToCommaString(pondEligible, POND_PRECISIONS)}
+			{bigNumberToString(pondEligible, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
 		</svelte:fragment>
 		<svelte:fragment slot="line2">
 			<MPondConversionHistoryButton

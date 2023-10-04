@@ -6,8 +6,12 @@
 	import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import type { Address, WalletStore } from '$lib/types/storeTypes';
 	import { POND_TO_MPOND_TABLE_HEADER } from '$lib/utils/constants/bridgeConstants';
-	import { MPOND_PRECISIONS, POND_PRECISIONS } from '$lib/utils/constants/constants';
-	import { bigNumberToCommaString, epochSecToString } from '$lib/utils/helpers/conversionHelper';
+	import {
+		DEFAULT_CURRENCY_DECIMALS,
+		MPOND_PRECISIONS,
+		POND_PRECISIONS
+	} from '$lib/utils/constants/constants';
+	import { bigNumberToString, epochSecToString } from '$lib/utils/helpers/conversionHelper';
 	import { onDestroy } from 'svelte';
 	import type { Unsubscriber } from 'svelte/store';
 	import HistoryTableCommon from '$lib/page-components/bridge/history/HistoryTableCommon.svelte';
@@ -56,10 +60,10 @@
 			<tr>
 				<td class={tableCellClasses.row}>{epochSecToString(row.timestamp)}</td>
 				<td class={tableCellClasses.row}
-					>{bigNumberToCommaString(row.pondConverted, POND_PRECISIONS)}</td
+					>{bigNumberToString(row.pondConverted, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}</td
 				>
 				<td class={tableCellClasses.row}
-					>{bigNumberToCommaString(row.mpondReceived, MPOND_PRECISIONS)}</td
+					>{bigNumberToString(row.mpondReceived, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)}</td
 				>
 				<td class={tableCellClasses.row}>
 					<TxnHashText

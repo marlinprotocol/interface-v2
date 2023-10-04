@@ -8,6 +8,7 @@ export type Environment = {
 	supported_chains: Record<RouteNames, number[]>;
 	dapp_url: string;
 	trezor_email: string;
+	backend_url: string;
 };
 
 export type ChainConfig = {
@@ -17,9 +18,9 @@ export type ChainConfig = {
 	block_explorer_name: string;
 	block_explorer_url: string;
 	rpc_url: string;
+	backend_network_id: string;
 	contract_addresses: ContractAddress;
 	subgraph_urls: SubgraphUrls;
-	oyster_urls: OysterUrls;
 	oyster_token: keyof Tokens;
 	oyster_rate_metadata: OysterRateMetadata;
 	tokens: Tokens;

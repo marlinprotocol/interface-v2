@@ -7,6 +7,7 @@ export const ARB_GOERLI: ChainConfig = {
 	block_explorer_name: 'Arbiscan',
 	block_explorer_url: 'https://goerli.arbiscan.io',
 	rpc_url: 'https://goerli-rollup.arbitrum.io/rpc',
+	backend_network_id: 'ArbOne',
 	contract_addresses: {
 		BRIDGE: '0xfeEa9a34e51e4E90b8B62F38120A345650164110',
 		CLUSTER_REGISTRY: '0x1fe9f98C4c0eC29a012f8B8fFDe962a13fCECe1E',
@@ -25,14 +26,6 @@ export const ARB_GOERLI: ChainConfig = {
 		OYSTER: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/enclaves-arb-goerli',
 		POND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-dev',
 		MPOND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-dev'
-	},
-	oyster_urls: {
-		instances_using_cp_url: 'https://api.aragog.live/operators/spec/cp/',
-		instances_using_operator_address: 'https://api.aragog.live/operators/spec/ArbOne/',
-		provider_names_url: 'https://api.aragog.live/operators/names',
-		provider_instances_url: 'https://api.aragog.live/operators/spec/ArbOne',
-		job_status_url: 'https://api.aragog.live/operators/jobs/ArbOne/',
-		job_refresh_url: 'https://api.aragog.live/operators/jobs/refresh/ArbOne/'
 	},
 	oyster_token: 'POND',
 	oyster_rate_metadata: {

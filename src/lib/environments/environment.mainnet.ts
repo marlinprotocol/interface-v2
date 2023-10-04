@@ -13,5 +13,6 @@ export const ENVIRONMENT_MAINNET: Environment = {
 		receiver: [42161]
 	},
 	dapp_url: 'https://arb1.marlin.org',
-	trezor_email: 'security@marlin.org'
+	trezor_email: 'security@marlin.org',
+	backend_url: 'https://sk.arb1.marlin.org/'
 };

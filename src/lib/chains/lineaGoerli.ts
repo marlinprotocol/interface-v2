@@ -7,7 +7,7 @@ export const LINEA_GOERLI: ChainConfig = {
 	block_explorer_name: 'Lineascan',
 	block_explorer_url: 'https://goerli.lineascan.build',
 	rpc_url: 'https://linea-goerli.infura.io/v3/',
-	backend_enum: 'Linea',
+	backend_network_id: 'Linea',
 	contract_addresses: {
 		BRIDGE: '',
 		CLUSTER_REGISTRY: '',

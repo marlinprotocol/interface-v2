@@ -8,34 +8,46 @@ import { getProvidersInstancesJSON, getProvidersNameJSON } from '$lib/controller
 
 import { BANDWIDTH_RATES_LOOKUP } from '$lib/page-components/oyster/data/bandwidthRates';
 import { SECONDS_IN_HUNDRED_YEARS } from '$lib/utils/constants/constants';
-import { instanceVcpuMemoryData } from '$lib/page-components/oyster/data/instanceVcpuMemoryData';
+import type { Address } from '$lib/types/storeTypes';
 
 export const parseMetadata = (metadata: string) => {
-	//remove unwanted single quote and \
 	metadata = metadata.replaceAll("'", '');
 	metadata = metadata.replaceAll('\\', '');
 
 	const metadataParsed = metadata ? JSON.parse(metadata) : {};
-	const { url, instance, region } = metadataParsed ?? {};
-	const { vcpu, memory } = getvCpuMemoryData(instance);
+	const { url, instance, region, vcpu, memory, arch } = metadataParsed ?? {};
 
 	return {
 		enclaveUrl: url,
 		instance,
 		region,
 		vcpu,
-		memory
+		memory,
+		arch
 	};
 };
 
-export const getvCpuMemoryData = (instance: string) => {
-	const vcpuMemoryData = instanceVcpuMemoryData.find((item) => item[0] === instance);
-	const memory = vcpuMemoryData?.[1];
-	const vcpu = vcpuMemoryData?.[2];
-	return {
-		vcpu,
-		memory
-	};
+export const getInstanceMetadatDataForOperator = (
+	operator: Address,
+	instance: string,
+	region: string,
+	allInstances: OysterMarketplaceDataModel[]
+) => {
+	if (operator !== '' && instance !== '' && region !== '') {
+		const operatorInstance = allInstances.filter((instanceData) => {
+			return (
+				instanceData.provider.address === operator &&
+				instanceData.instance === instance &&
+				instanceData.region === region
+			);
+		});
+		if (!operatorInstance) return undefined;
+		return {
+			vcpu: operatorInstance[0].vcpu,
+			memory: operatorInstance[0].memory,
+			arch: operatorInstance[0].arch
+		};
+	}
 };
 
 export const getBandwidthRateForRegion = (region: string) => {
@@ -89,7 +101,7 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 		};
 	}
 
-	const { enclaveUrl, instance, region, vcpu, memory } = parseMetadata(metadata);
+	const { enclaveUrl, instance, region, vcpu, memory, arch } = parseMetadata(metadata);
 
 	//convert to BigNumber
 	const _totalDeposit = BigInt(totalDeposit);
@@ -111,6 +123,7 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 		instance,
 		region,
 		vcpu,
+		arch,
 		memory,
 		refund: _refund,
 		rateScaled: _rateScaled,
@@ -264,13 +277,13 @@ export const getModifiedInstances = (instances?: CPInstances) => {
 	// corresponds to a row in the table
 	const ret: CPUrlDataModel[] = min_rates?.flatMap((region) => {
 		return region.rate_cards.map((rate) => {
-			const { vcpu, memory } = getvCpuMemoryData(rate.instance);
 			return {
 				instance: rate.instance,
 				region: region.region,
 				rateScaled: BigInt(rate.min_rate),
-				vcpu,
-				memory
+				arch: rate.arch,
+				vcpu: rate.cpu,
+				memory: rate.memory
 			};
 		});
 	});

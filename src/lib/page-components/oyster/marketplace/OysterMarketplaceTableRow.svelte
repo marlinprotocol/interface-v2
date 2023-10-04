@@ -23,6 +23,7 @@
 		region,
 		vcpu,
 		memory,
+		arch,
 		rateScaled
 	} = rowData);
 	$: instanceRate = rateScaled / $oysterRateMetadataStore.oysterRateScalingFactor;
@@ -61,6 +62,9 @@
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		{vcpu ? vcpu : 'N/A'}
+	</td>
+	<td class={tableCellClasses.rowNormal}>
+		{arch ? arch : 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		{memory ? `${memory}${MEMORY_SUFFIX}` : 'N/A'}

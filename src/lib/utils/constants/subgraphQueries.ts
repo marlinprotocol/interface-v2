@@ -273,6 +273,7 @@ export const QUERY_TO_GET_MERCHANT_JOBS_DATA = `query Jobs($address: String) {
   }
 }`;
 
+// TODO: change this query to match the entities of the new subgraph
 export const QUERY_TO_GET_RECEIVER_REWARDS_DATA = `query ReceiverRewards($address: String, $contractAddress: String) {
   receiverRewards(
     where: { id: $address}

@@ -71,14 +71,11 @@ export const bigNumberToString = (
 	if (value === undefined || value === null) {
 		throw new Error('Invalid value');
 	}
-
-	const formattedValue = ethers.formatUnits(value, bigNumberDecimal);
-
-	if (!formattedValue.includes('.')) {
-		// Integer value, no decimal part
-		return BigInt(formattedValue).toLocaleString('en-US') + '.' + '0'.repeat(precision);
+	if (value === 0n) {
+		return '0.00';
 	}
 
+	const formattedValue = ethers.formatUnits(value, bigNumberDecimal);
 	const [integerPart, decimalPart] = formattedValue.split('.');
 	const commifiedIntegerPart = commify ? BigInt(integerPart).toLocaleString() : integerPart;
 	const truncatedDecimalPart = decimalPart.slice(0, precision).padEnd(precision, '0');

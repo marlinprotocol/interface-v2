@@ -2,10 +2,11 @@ import type { ChainConfig } from '$lib/types/environmentTypes';
 
 export const ARB_GOERLI: ChainConfig = {
 	chain_id: '0x66eed',
-	chain_name: 'Arbitrum Görli',
+	chain_name: 'Arbitrum Goerli',
 	chain_token: 'AGOR',
+	block_explorer_name: 'Arbiscan',
 	block_explorer_url: 'https://goerli.arbiscan.io',
-	rpc_url: 'https://goerli.arbiscan.io/rpc',
+	rpc_url: 'https://goerli-rollup.arbitrum.io/rpc',
 	contract_addresses: {
 		BRIDGE: '0xfeEa9a34e51e4E90b8B62F38120A345650164110',
 		CLUSTER_REGISTRY: '0x1fe9f98C4c0eC29a012f8B8fFDe962a13fCECe1E',
@@ -27,13 +28,13 @@ export const ARB_GOERLI: ChainConfig = {
 	},
 	oyster_urls: {
 		instances_using_cp_url: 'https://api.aragog.live/operators/spec/cp/',
-		instances_using_operator_address: 'https://api.aragog.live/operators/spec/',
+		instances_using_operator_address: 'https://api.aragog.live/operators/spec/ArbOne/',
 		provider_names_url: 'https://api.aragog.live/operators/names',
-		provider_instances_url: 'https://api.aragog.live/operators/spec',
-		job_status_url: 'https://api.aragog.live/operators/jobs/',
-		job_refresh_url: 'https://api.aragog.live/operators/jobs/refresh/'
+		provider_instances_url: 'https://api.aragog.live/operators/spec/ArbOne',
+		job_status_url: 'https://api.aragog.live/operators/jobs/ArbOne/',
+		job_refresh_url: 'https://api.aragog.live/operators/jobs/refresh/ArbOne/'
 	},
-	oyster_token: 'USDC',
+	oyster_token: 'POND',
 	oyster_rate_metadata: {
 		rateUnit: 'hour',
 		rateCPUrlUnitInSeconds: 1, // 1 hour

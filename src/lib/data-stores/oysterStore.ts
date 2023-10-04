@@ -10,11 +10,14 @@ import type { BytesLike } from 'ethers';
 import { derived, writable, type Writable } from 'svelte/store';
 import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 import { DEFAULT_CURRENCY_DECIMALS } from '$lib/utils/constants/constants';
+import type { TokenMetadata } from '$lib/types/environmentTypes';
 
 export const oysterStore: Writable<OysterStore> = writable(DEFAULT_OYSTER_STORE);
 export const oysterTokenMetadataStore = derived([chainConfigStore], ([$chainConfigStore]) => {
 	const oysterToken = $chainConfigStore.oyster_token;
-	return $chainConfigStore.tokens[oysterToken as keyof typeof $chainConfigStore.tokens];
+	return $chainConfigStore.tokens[
+		oysterToken as keyof typeof $chainConfigStore.tokens
+	] as TokenMetadata;
 });
 export const oysterRateMetadataStore = derived(
 	[chainConfigStore, oysterTokenMetadataStore],
@@ -65,13 +68,17 @@ export function initializeProviderDataInOysterStore(providerDetails: ProviderDat
 
 export function updateProviderInOysterStore(cpUrl: string, walletAddress: Address) {
 	oysterStore.update((value) => {
-		value.providerData.registered = true;
-		if (value.providerData.data) {
-			value.providerData.data.cp = cpUrl;
-			value.providerData.data.id = walletAddress;
-			value.providerData.data.live = true;
-		}
-		return value;
+		return {
+			...value,
+			providerData: {
+				registered: true,
+				data: {
+					cp: cpUrl,
+					id: walletAddress,
+					live: true
+				}
+			}
+		};
 	});
 }
 
@@ -358,7 +365,9 @@ export function createNewJobInOysterStore(
 	scalingFactor: bigint
 ) {
 	const txHash = txn.hash;
-	const jobOpenEvent = approveReciept.events?.find((event: any) => event.event === 'JobOpened');
+	const jobOpenEvent = approveReciept.logs?.find(
+		(event: any) => event?.fragment?.name === 'JobOpened'
+	);
 	const jobId = jobOpenEvent?.args?.job;
 
 	const nowTime = Date.now() / 1000;

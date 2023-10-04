@@ -48,6 +48,9 @@
 	let registeredCpURL = '';
 	let registered = false;
 	let disableCpURL = true;
+	let unregisterLoading = false;
+	let registerLoading = false;
+	let updateLoading = false;
 
 	let openInstanceTable = false;
 
@@ -71,16 +74,28 @@
 
 	const handleOnRegister = async () => {
 		if (connected) {
-			if (registered) {
-				await updateOysterInfrastructureProvider(updatedCpURL);
-			} else {
-				await registerOysterInfrastructureProvider(updatedCpURL);
-			}
-
+			registerLoading = true;
+			await registerOysterInfrastructureProvider(updatedCpURL);
 			updateProviderInOysterStore(updatedCpURL, $walletStore.address);
 			registeredCpURL = updatedCpURL;
 			registered = true;
 			disableCpURL = true;
+			registerLoading = false;
+		} else {
+			addToast({
+				variant: 'error',
+				message: 'Please connect your wallet'
+			});
+		}
+	};
+
+	const handleOnUpdate = async () => {
+		if (connected) {
+			updateLoading = true;
+			await updateOysterInfrastructureProvider(updatedCpURL);
+			updateProviderInOysterStore(updatedCpURL, $walletStore.address);
+			registeredCpURL = updatedCpURL;
+			updateLoading = false;
 		} else {
 			addToast({
 				variant: 'error',
@@ -90,8 +105,10 @@
 	};
 
 	const handleOnUnregister = async () => {
+		unregisterLoading = true;
 		await removeOysterInfrastructureProvider();
 		removeProviderFromOysterStore();
+		unregisterLoading = false;
 	};
 
 	async function getInstances(useUpdatedCpURL: boolean) {
@@ -254,7 +271,8 @@
 						size="large"
 						styleClass="w-full"
 						disabled={!validCPUrl || registeredCpURL === updatedCpURL || !enableRegisterButton}
-						onclick={handleOnRegister}
+						onclick={handleOnUpdate}
+						loading={updateLoading}
 					>
 						UPDATE
 					</Button>
@@ -266,6 +284,7 @@
 						styleClass="w-full"
 						disabled={!validCPUrl || registeredCpURL !== updatedCpURL}
 						onclick={handleOnUnregister}
+						loading={unregisterLoading}
 					>
 						UNREGISTER
 					</Button>
@@ -278,6 +297,7 @@
 				styleClass="w-full"
 				disabled={!validCPUrl || !enableRegisterButton}
 				onclick={handleOnRegister}
+				loading={registerLoading}
 			>
 				REGISTER
 			</Button>

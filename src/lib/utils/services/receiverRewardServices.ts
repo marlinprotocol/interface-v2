@@ -28,6 +28,9 @@ contractAddressStore.subscribe((value) => {
 
 export async function handleRewardsPondApproval(amount: bigint) {
 	try {
+		if (chainConfig.tokens.POND === undefined) {
+			throw new Error('chain config or contract addresses not found');
+		}
 		await approveToken(chainConfig.tokens.POND, amount, contractAddresses.POND);
 		updateAmountApprovedInReceiverRewardsStore(amount);
 	} catch (e) {

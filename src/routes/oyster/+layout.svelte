@@ -1,5 +1,6 @@
 <script lang="ts">
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
+	import { getAllowance } from '$lib/controllers/contract/usdc';
 	import { getJobStatuses } from '$lib/controllers/httpController';
 	import {
 		getAllProvidersDetailsFromSubgraph,
@@ -13,10 +14,12 @@
 		allowedChainsStore,
 		setAllowedChainsStore
 	} from '$lib/data-stores/chainProviderStore';
+	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { environment } from '$lib/data-stores/environment';
 	import {
 		initializeOysterStore,
 		oysterRateMetadataStore,
+		oysterTokenMetadataStore,
 		setMarketplaceLoadedInOysterStore,
 		updateMarketplaceDataInOysterStore
 	} from '$lib/data-stores/oysterStore';
@@ -27,6 +30,7 @@
 		modifyOysterJobData
 	} from '$lib/utils/data-modifiers/oysterModifiers';
 	import { addRegionNameToMarketplaceData } from '$lib/utils/helpers/oysterHelpers';
+	import type { BrowserProvider } from 'ethers';
 	import { onMount } from 'svelte';
 
 	onMount(() => {
@@ -35,7 +39,14 @@
 
 	async function loadConnectedData() {
 		const [allowance, oysterJobsFromSubgraph, providerDetail, jobStatuses] = await Promise.all([
-			getApprovedOysterAllowancesFromSubgraph($walletStore.address),
+			$chainConfigStore.oyster_token === 'POND' && $chainConfigStore.subgraph_urls.POND !== ''
+				? getApprovedOysterAllowancesFromSubgraph($walletStore.address)
+				: getAllowance(
+						$walletStore.address,
+						$contractAddressStore.OYSTER,
+						$oysterTokenMetadataStore,
+						$walletStore.provider as BrowserProvider
+				  ),
 			getOysterJobsFromSubgraph($walletStore.address),
 			getProviderDetailsFromSubgraph($walletStore.address),
 			getJobStatuses($walletStore.address)

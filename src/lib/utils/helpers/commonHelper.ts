@@ -152,10 +152,14 @@ export function checkValidURL(url: string) {
 	return true;
 }
 
-export const goerliArbiUrl = (txnHash: string) => {
-	return `https://goerli.arbiscan.io/tx/${txnHash}`;
+export const getTxnUrl = (blockExplorerUrl: string, txnHash: string): string => {
+	return `${blockExplorerUrl}/tx/${txnHash}`;
 };
 
 export const doNothing = () => {
 	// do nothing
+};
+
+export const bigIntAbs = (n: bigint) => {
+	return n < 0n ? -n : n;
 };

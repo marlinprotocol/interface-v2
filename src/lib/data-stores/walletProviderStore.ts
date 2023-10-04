@@ -11,7 +11,9 @@ import {
 import onboard from '$lib/controllers/web3OnboardController';
 import type { WalletState } from '@web3-onboard/core';
 import type { BrowserProvider, ethers } from 'ethers';
-import { getUsdcBalanceFromProvider } from '$lib/controllers/contract/usdc';
+import { getBalanceOfToken } from '$lib/controllers/contract/usdc';
+import type { ChainConfig } from '$lib/types/environmentTypes';
+import { chainConfigStore } from './chainProviderStore';
 
 // web3-onboard stores
 const wallets$ = onboard.state.select('wallets');
@@ -20,9 +22,10 @@ export const web3WalletStore = writable<WalletState[]>([]);
 wallets$.subscribe((wallets) => {
 	web3WalletStore.set(wallets);
 });
-
-let walletAddress: Address = DEFAULT_WALLET_STORE.address;
-let walletProvider: BrowserProvider | undefined = undefined;
+let chainConfig: ChainConfig;
+chainConfigStore.subscribe((value) => {
+	chainConfig = value;
+});
 
 // local svelte stores
 /**
@@ -105,34 +108,44 @@ export function withdrawMpondFromWalletBalanceStore(amount: bigint) {
  * wallet address and sets the walletBalanceStore store.
  * @param walletAddress should be a Hex Address i.e. all lowercase
  */
-async function setWalletBalance(
+export async function initializeWalletBalancesStore(
 	walletAddress: Address,
 	walletProvider: BrowserProvider
 ): Promise<void> {
 	try {
-		const balances = await Promise.all([
-			getPondBalanceFromSubgraph(walletAddress),
-			getMPondBalanceFromSubgraph(walletAddress),
-			getUsdcBalanceFromProvider(walletAddress, walletProvider)
-		]);
-		walletBalanceStore.set({
-			pond: balances[0],
-			mpond: balances[1],
-			usdc: balances[2]
-		});
+		// get all the tokens for current chain
+		const tokens = Object.keys(chainConfig.tokens);
+		let balances = DEFAULT_WALLET_BALANCE_STORE;
+
+		// get balance from subgaph if subgraph url is provided else get it from contract
+		if (tokens.includes('POND') && chainConfig.subgraph_urls.POND !== '') {
+			const pondBalance = await getPondBalanceFromSubgraph(walletAddress);
+			balances = { ...balances, pond: pondBalance };
+		} else {
+			const pondBalance = await getBalanceOfToken(
+				walletAddress,
+				chainConfig.contract_addresses.POND,
+				walletProvider
+			);
+			balances = { ...balances, pond: pondBalance };
+		}
+		if (tokens.includes('MPOND')) {
+			const mpondBalance = await getMPondBalanceFromSubgraph(walletAddress);
+			balances = { ...balances, mpond: mpondBalance };
+		}
+		if (tokens.includes('USDC')) {
+			const usdcBalance = await getBalanceOfToken(
+				walletAddress,
+				chainConfig.contract_addresses.USDC,
+				walletProvider
+			);
+			balances = { ...balances, usdc: usdcBalance };
+		}
+		walletBalanceStore.set(balances);
+		console.log('balances set', balances);
 		console.log('Wallet balance updated');
 	} catch (error) {
 		console.log('error while setting wallet balance');
 		console.log(error);
 	}
 }
-
-// subscription to walletStore allows us to fetch wallet balance
-// when the user has a valid wallet address
-walletStore.subscribe((value) => {
-	walletAddress = value.address;
-	walletProvider = value.provider;
-	if (walletAddress !== DEFAULT_WALLET_STORE.address && walletProvider !== undefined) {
-		setWalletBalance(walletAddress, walletProvider);
-	}
-});

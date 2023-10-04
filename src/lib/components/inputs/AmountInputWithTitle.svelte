@@ -6,7 +6,8 @@
 	export let title: string;
 	export let disabled = false;
 	export let inputAmountString = '';
-	export let handleUpdatedAmount: any = undefined;
+	export let handleUpdatedAmount = (e: Event) => {};
+	export let onFocusOut = () => {};
 	export let prefix = '';
 	export let suffix = '';
 	export let onlyInteger = false;
@@ -31,6 +32,7 @@
 			{disabled}
 			bind:value={inputAmountString}
 			onChange={handleUpdatedAmount}
+			{onFocusOut}
 			{onlyInteger}
 		/>
 		<Text text={suffix} styleClass={styles.suffix} />

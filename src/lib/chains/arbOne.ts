@@ -4,6 +4,7 @@ export const ARB_ONE: ChainConfig = {
 	chain_id: '0xa4b1',
 	chain_name: 'Arbitrum One',
 	chain_token: 'ETH',
+	block_explorer_name: 'Arbiscan',
 	block_explorer_url: 'https://arbiscan.io',
 	rpc_url: 'https://arbiscan.io/rpc',
 	contract_addresses: {
@@ -27,11 +28,11 @@ export const ARB_ONE: ChainConfig = {
 	},
 	oyster_urls: {
 		instances_using_cp_url: 'https://sk.arb1.marlin.org/operators/spec/cp/',
-		instances_using_operator_address: 'https://sk.arb1.marlin.org/operators/spec/',
+		instances_using_operator_address: 'https://sk.arb1.marlin.org/operators/spec/ArbOne/',
 		provider_names_url: 'https://sk.arb1.marlin.org/operators/names',
-		provider_instances_url: 'https://sk.arb1.marlin.org/operators/spec',
-		job_status_url: 'https://sk.arb1.marlin.org/operators/jobs/',
-		job_refresh_url: 'https://sk.arb1.marlin.org/operators/jobs/refresh/'
+		provider_instances_url: 'https://sk.arb1.marlin.org/operators/spec/ArbOne',
+		job_status_url: 'https://sk.arb1.marlin.org/operators/jobs/ArbOne/',
+		job_refresh_url: 'https://sk.arb1.marlin.org/operators/jobs/refresh/ArbOne/'
 	},
 	oyster_token: 'USDC',
 	oyster_rate_metadata: {

@@ -14,7 +14,7 @@ const valid_chain_ids = Object.keys(environment.valid_chains).map((chainId) => p
 const valid_chains_metadata = Object.entries(environment.valid_chains).map(
 	([chainId, chainConfig]) => ({
 		id: parseInt(chainId),
-		token: chainConfig.tokens[chainConfig.oyster_token].symbol,
+		token: chainConfig.chain_token,
 		label: chainConfig.chain_name,
 		rpcUrl: chainConfig.rpc_url
 	})

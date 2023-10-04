@@ -130,6 +130,9 @@
 		}
 		approveLoading = true;
 		try {
+			if ($chainConfigStore.tokens.POND === undefined) {
+				throw new Error('POND token not found');
+			}
 			await approveToken(
 				$chainConfigStore.tokens.POND,
 				inputAmount,
@@ -145,7 +148,12 @@
 
 	const handleMaxClick = () => {
 		if (maxPondBalance) {
-			inputAmountString = bigNumberToString(maxPondBalance);
+			inputAmountString = bigNumberToString(
+				maxPondBalance,
+				DEFAULT_CURRENCY_DECIMALS,
+				POND_PRECISIONS,
+				false
+			);
 			//reset input error message
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;

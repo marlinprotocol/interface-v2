@@ -13,7 +13,7 @@
 		epochToDurationString,
 		stringToBigNumber
 	} from '$lib/utils/helpers/conversionHelper';
-	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import { bigIntAbs, closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleCancelRateRevise,
 		handleFinaliseRateRevise,
@@ -32,6 +32,7 @@
 
 	let submitLoading = false;
 	let cancelLoading = false;
+	let showPrecisionError = false;
 
 	const handleInitiateClick = async () => {
 		submitLoading = true;
@@ -58,6 +59,14 @@
 		closeModal(modalFor);
 	};
 
+	const onFocusOut = () => {
+		if (inputAmountString !== '' && difference < 3600n && inputRate >= rate) {
+			showPrecisionError = true;
+		} else {
+			showPrecisionError = false;
+		}
+	};
+
 	$: modalTitle =
 		rateStatus === ''
 			? 'INITIATE RATE REVISE'
@@ -70,10 +79,12 @@
 					$oysterRateMetadataStore.oysterRateScalingFactor
 		  )
 		: 0n;
+	$: difference = bigIntAbs(rate - inputRate);
 	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
 	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
 	$: submitEnable =
 		(inputRate > 0n || newRate > 0n) &&
+		!showPrecisionError &&
 		isInputAmountValid(inputAmountString) &&
 		!(inputRate === rate) &&
 		rateStatus !== 'pending';
@@ -100,6 +111,7 @@
 						title="New Hourly Rate"
 						bind:inputAmountString
 						prefix={$oysterTokenMetadataStore.symbol}
+						{onFocusOut}
 					/>
 				{:else}
 					<AmountInputWithTitle
@@ -137,9 +149,8 @@
 		</div>
 		<ErrorTextCard
 			styleClass={'mt-4'}
-			showError={convertRateToPerHourString(rate, $oysterTokenMetadataStore.decimal) ===
-				inputAmountString}
-			errorMessage={'New rate cannot be same as current rate.'}
+			showError={showPrecisionError}
+			errorMessage={'Please change the rate by a minimum of 0.001 USDC'}
 		/>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">

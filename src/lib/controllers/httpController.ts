@@ -33,7 +33,7 @@ export async function getInstancesFromControlPlaneUsingOperatorAddress(operatorA
 	const controlPlaneDetailsEndpoint =
 		environment.backend_url +
 		OYSTER_URL_ENDPOINTS.instances_using_operator_address +
-		chainConfig.backend_enum +
+		chainConfig.backend_network_id +
 		'/' +
 		operatorAddress.trim();
 	const options = GET_OPTIONS;
@@ -62,7 +62,7 @@ export async function getProvidersInstancesJSON() {
 	const providerNameEndPoint =
 		environment.backend_url +
 		OYSTER_URL_ENDPOINTS.provider_instances_url +
-		chainConfig.backend_enum;
+		chainConfig.backend_network_id;
 	const options = GET_OPTIONS;
 	const response: Record<string, CPInstances> = await fetchHttpData(providerNameEndPoint, options);
 	if (!response || response.error) {
@@ -76,7 +76,7 @@ export async function getJobStatuses(userAddress: Address) {
 	const jobStatusEndpoint =
 		environment.backend_url +
 		OYSTER_URL_ENDPOINTS.job_status_url +
-		chainConfig.backend_enum +
+		chainConfig.backend_network_id +
 		'/' +
 		userAddress;
 	const options = GET_OPTIONS;
@@ -92,7 +92,7 @@ export async function refreshJobStatusForJobId(jobId: BytesLike) {
 	const refreshJobStatusEndpoint =
 		environment.backend_url +
 		OYSTER_URL_ENDPOINTS.job_refresh_url +
-		chainConfig.backend_enum +
+		chainConfig.backend_network_id +
 		'/' +
 		jobId;
 	const options = GET_OPTIONS;

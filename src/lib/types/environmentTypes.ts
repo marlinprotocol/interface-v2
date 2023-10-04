@@ -18,7 +18,7 @@ export type ChainConfig = {
 	block_explorer_name: string;
 	block_explorer_url: string;
 	rpc_url: string;
-	backend_enum: string;
+	backend_network_id: string;
 	contract_addresses: ContractAddress;
 	subgraph_urls: SubgraphUrls;
 	oyster_token: keyof Tokens;

@@ -7,7 +7,7 @@ export const LINEA: ChainConfig = {
 	block_explorer_name: 'Lineascan',
 	block_explorer_url: 'https://lineascan.build',
 	rpc_url: 'https://rpc.linea.build',
-	backend_enum: 'Linea',
+	backend_network_id: 'Linea',
 	contract_addresses: {
 		BRIDGE: '',
 		CLUSTER_REGISTRY: '',

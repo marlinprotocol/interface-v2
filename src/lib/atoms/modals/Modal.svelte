@@ -26,7 +26,7 @@
 		class={`${modalWidth} modal-box rounded-lg bg-base-100 shadow-none py-0 px-0`}
 		style={isScrollable ? '' : 'overflow-y: visible'}
 	>
-		<div class="modal-header flex items-center pt-8 pb-4 px-6">
+		<div class="modal-header sticky top-0 bg-white z-10 flex items-center pt-8 pb-4 px-6">
 			<div class="flex flex-col w-full">
 				{#if $$slots.icon}
 					<div class={styles.icon}>
@@ -54,15 +54,14 @@
 			</button>
 		</div>
 		<div
-			class={`modal-body ${padding ? 'pt-2 pb-4 px-6' : ''}`}
-			style={`max-height: ${
-				$$slots.actionButtons ? 'calc(100vh - 280px)' : 'calc(100vh - 200px)'
-			};`}
+			class={`modal-body ${isScrollable ? 'overflow-y-auto overflow-x-hidden' : ''} ${
+				padding ? 'pt-2 pb-4 px-6' : ''
+			}`}
 		>
 			<slot name="content" />
 		</div>
 		{#if $$slots.actionButtons}
-			<div class={`modal-footer ${padding ? 'mt-4 px-6 mb-6' : ''}`}>
+			<div class={`modal-footer sticky bottom-0 bg-white ${padding ? 'mt-4 px-6 mb-6' : ''}`}>
 				<slot name="actionButtons" />
 			</div>
 		{/if}

@@ -218,7 +218,7 @@
 	};
 </script>
 
-<Modal {modalFor} onClose={resetInputs} padding={false}>
+<Modal {modalFor} onClose={resetInputs} padding={false} isScrollable={true}>
 	<svelte:fragment slot="title">
 		{`CREATE ORDER`}
 	</svelte:fragment>

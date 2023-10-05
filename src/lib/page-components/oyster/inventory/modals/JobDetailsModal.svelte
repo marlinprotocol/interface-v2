@@ -56,7 +56,7 @@
 			?.arch ?? 'N/A';
 </script>
 
-<Modal {modalFor} modalWidth={styles.modalWidth} padding={false}>
+<Modal {modalFor} modalWidth={styles.modalWidth} padding={false} isScrollable={true}>
 	<svelte:fragment slot="title">
 		{'ORDER DETAILS'}
 	</svelte:fragment>

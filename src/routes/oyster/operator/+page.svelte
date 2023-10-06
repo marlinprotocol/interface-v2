@@ -22,6 +22,4 @@
 	}
 </script>
 
-<div class="py-4">
-	<OysterDashboard />
-</div>
+<OysterDashboard />

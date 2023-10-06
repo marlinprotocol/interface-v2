@@ -1,5 +1,6 @@
 <script lang="ts">
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
+	import PageWrapper from '$lib/components/wrapper/PageWrapper.svelte';
 	import { getAllowance } from '$lib/controllers/contract/usdc';
 	import { getJobStatuses } from '$lib/controllers/httpController';
 	import {
@@ -103,7 +104,9 @@
 </svelte:head>
 
 {#if $chainStore.isValidChain && chainSupported}
-	<slot />
+	<PageWrapper>
+		<slot />
+	</PageWrapper>
 {:else}
 	<NetworkPrompt />
 {/if}

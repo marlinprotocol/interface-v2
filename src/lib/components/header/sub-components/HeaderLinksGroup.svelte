@@ -1,51 +1,111 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import type { NavLinkModel } from '$lib/types/headerTypes';
-	import HeaderNavLinkItem from '$lib/components/header/sub-components/HeaderNavLinkItem.svelte';
 	import {
 		BRIDGE_URL,
 		OYSTER_MARKETPLACE_URL,
 		OYSTER_OPERATOR_URL,
 		OYSTER_OWNER_INVENTORY_URL,
 		RELAY_OPERATOR_LINK,
+		RELAY_RECEIVER_REWARDS_URL,
 		RELAY_RECEIVER_STAKING_URL
 	} from '$lib/utils/constants/urls';
 
-	const navLinks: NavLinkModel[] = [
+	let openDropdown: HTMLDetailsElement | null = null;
+
+	let links: NavLinkModel[] = [
+		{ label: 'Relay', href: RELAY_OPERATOR_LINK, openInNewTab: true },
+		{ label: 'Bridge', href: BRIDGE_URL },
 		{
-			title: 'Relay',
-			href: RELAY_OPERATOR_LINK,
-			openInNewTab: true
+			label: 'Oyster',
+			children: [
+				{ label: 'Marketplace', href: OYSTER_MARKETPLACE_URL },
+				{ label: 'Operator', href: OYSTER_OPERATOR_URL },
+				{ label: 'Inventory', href: OYSTER_OWNER_INVENTORY_URL }
+			]
 		},
 		{
-			title: 'Bridge',
-			href: BRIDGE_URL,
-			openInNewTab: false
-		},
-		{
-			title: 'Marketplace',
-			href: OYSTER_MARKETPLACE_URL,
-			openInNewTab: false
-		},
-		{
-			title: 'Operator',
-			href: OYSTER_OPERATOR_URL,
-			openInNewTab: false
-		},
-		{
-			title: 'Inventory',
-			href: OYSTER_OWNER_INVENTORY_URL,
-			openInNewTab: false
-		},
-		{
-			title: 'Receiver Portal',
-			href: RELAY_RECEIVER_STAKING_URL,
-			openInNewTab: false
+			label: 'Receiver Portal',
+			children: [
+				{ label: 'Receiver Staking', href: RELAY_RECEIVER_STAKING_URL },
+				{ label: 'Receiver Rewards', href: RELAY_RECEIVER_REWARDS_URL }
+			]
 		}
 	];
+
+	function closeDropdown(event: MouseEvent) {
+		const isInsideDetails = (event?.target as HTMLElement)?.closest('details');
+		if (!isInsideDetails) {
+			if (openDropdown) {
+				openDropdown.removeAttribute('open');
+				openDropdown = null;
+			}
+		} else {
+			if (openDropdown && openDropdown !== isInsideDetails) {
+				openDropdown.removeAttribute('open');
+			}
+			openDropdown = isInsideDetails;
+		}
+	}
+
+	function setLinkActive(pathname: string) {
+		// remove all active properties from the links and their children
+		links.forEach((link) => {
+			link.active = false;
+			if (link.children) {
+				link.children.forEach((child) => {
+					child.active = false;
+				});
+			}
+		});
+		// check the links and their children's href to see if it includes the pathname
+		// if it does, set the active property to true
+		links.forEach((link) => {
+			if (link.href && pathname.includes(link.href)) {
+				link.active = true;
+			} else if (link.children) {
+				link.children.forEach((child) => {
+					if (child.href && pathname.includes(child.href)) {
+						child.active = true;
+					}
+				});
+			}
+		});
+		// reassign the links to the links variable for the DOM to update, svelte thing
+		links = links;
+	}
+
+	$: setLinkActive($page.url.pathname);
 </script>
 
-<div class={`flex gap-5 md:gap-10 nav-links flex-wrap flex-row`}>
-	{#each navLinks as navItem (navItem.title)}
-		<HeaderNavLinkItem {navItem} />
-	{/each}
-</div>
+<svelte:window on:click={(e) => closeDropdown(e)} />
+{#each links as link (link.label)}
+	{#if link.children}
+		<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+		<li tabindex="0" class="px-1">
+			<details>
+				<summary class="font-semibold">{link.label}</summary>
+				<ul class="p-2">
+					{#each link.children as child (child.label)}
+						<li>
+							<a href={child.href} class={child.active ? 'bg-primary text-white' : ''}
+								>{child.label}</a
+							>
+						</li>
+					{/each}
+				</ul>
+			</details>
+		</li>
+	{:else}
+		<li
+			class="nav-links px-1
+		"
+		>
+			<a
+				href={link.href}
+				class="{link.active ? 'bg-primary text-white' : ''} font-semibold"
+				target={link?.openInNewTab ? '_blank' : ''}>{link.label}</a
+			>
+		</li>
+	{/if}
+{/each}

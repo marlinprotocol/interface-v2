@@ -22,10 +22,7 @@
 
 <input type="checkbox" id={modalFor} class="modal-toggle" />
 <div class="modal">
-	<div
-		class={`${modalWidth} modal-box rounded-lg bg-base-100 shadow-none py-0 px-0`}
-		style={isScrollable ? '' : 'overflow-y: visible'}
-	>
+	<div class={`${modalWidth} modal-box rounded-lg bg-base-100 shadow-none py-0 px-0`}>
 		<div class="modal-header sticky top-0 bg-white z-10 flex items-center pt-8 pb-4 px-6">
 			<div class="flex flex-col w-full">
 				{#if $$slots.icon}

@@ -32,13 +32,13 @@
 		Connect Wallet
 	</Button>
 {:else}
-	<div class="flex gap-1 items-center">
+	<div class="flex gap-2 items-center">
 		<ChainSwitcher />
 		<Button
 			onclick={connect}
 			size="small"
 			variant="outlined"
-			styleClass={`${connectWalletStyles} w-fit text-sm h-11 flex items-center`}
+			styleClass={`${connectWalletStyles} w-fit text-sm h-12 flex items-center`}
 		>
 			<img src="/images/lockicon.svg" alt="Connect" />
 			{connectButtonText}

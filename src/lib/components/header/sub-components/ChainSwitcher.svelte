@@ -39,10 +39,13 @@
 
 <svelte:window on:click={(e) => closeSwitcherWhenClickedOutside(e)} />
 
-<details class="dropdown" id="chain-dropdown">
+<details
+	class={$allowedChainsStore.length === 0 ? 'pointer-events-none opacity-60 focus' : 'dropdown'}
+	id="chain-dropdown"
+>
 	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 	<summary
-		tabindex="0"
+		tabindex={$allowedChainsStore.length === 0 ? -1 : 0}
 		class="{isDark
 			? buttonClasses.greyFilled
 			: buttonClasses.whiteFilled} border border-sky-500 h-[50px] shadow-sm"

@@ -5,7 +5,7 @@
 </script>
 
 <div
-	class="sm:navbar sm:py-7 py-[32px] flex sm:justify-normal justify-between md:px-0 px-4 min-h-16 border-b border-black/[0.07]"
+	class="sm:navbar sm:py-7 py-[32px] flex sm:justify-normal justify-between lg:px-0 sm:px-4 px-4 min-h-16 border-b border-black/[0.07]"
 >
 	<div class="sm:navbar-start width-full justify-start items-center flex">
 		<div class="dropdown">

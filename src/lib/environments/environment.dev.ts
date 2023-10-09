@@ -10,7 +10,8 @@ export const ENVIRONMENT_DEV: Environment = {
 	supported_chains: {
 		bridge: [421613],
 		oyster: [421613, 59140],
-		receiver: [421613]
+		receiver_staking: [421613],
+		receiver_rewards: [421613]
 	},
 	dapp_url: 'https://adummy.site',
 	trezor_email: 'arandomsupportemail@xyz.com',

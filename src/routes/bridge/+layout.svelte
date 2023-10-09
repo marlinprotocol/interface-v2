@@ -7,7 +7,7 @@
 		allowedChainsStore
 	} from '$lib/data-stores/chainProviderStore';
 	import { environment } from '$lib/data-stores/environment';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	onMount(() => {
 		setAllowedChainsStore(environment.supported_chains.bridge);
@@ -16,6 +16,10 @@
 	$: chainSupported = $chainStore.chainId
 		? $allowedChainsStore.includes($chainStore.chainId)
 		: true;
+
+	onDestroy(() => {
+		setAllowedChainsStore([]);
+	});
 </script>
 
 <svelte:head>
@@ -27,5 +31,7 @@
 		<slot />
 	</PageWrapper>
 {:else}
-	<NetworkPrompt />
+	<PageWrapper>
+		<NetworkPrompt />
+	</PageWrapper>
 {/if}

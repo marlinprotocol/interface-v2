@@ -58,4 +58,4 @@ export type SubgraphUrls = {
 	MPOND: string;
 };
 
-type RouteNames = 'bridge' | 'oyster' | 'receiver';
+type RouteNames = 'bridge' | 'oyster' | 'receiver_staking' | 'receiver_rewards';

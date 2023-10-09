@@ -10,7 +10,8 @@ export const ENVIRONMENT_MAINNET: Environment = {
 	supported_chains: {
 		bridge: [42161],
 		oyster: [42161, 59272],
-		receiver: [42161]
+		receiver_staking: [42161],
+		receiver_rewards: []
 	},
 	dapp_url: 'https://arb1.marlin.org',
 	trezor_email: 'security@marlin.org',

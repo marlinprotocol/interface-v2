@@ -4,6 +4,8 @@ import checkCircle from 'svelte-awesome/icons/checkCircle';
 import warning from 'svelte-awesome/icons/warning';
 import timesCircle from 'svelte-awesome/icons/timesCircle';
 import { staticImages } from '$lib/components/images/staticImages';
+import { copyTextToClipboard } from './commonHelper';
+import { addToast } from '$lib/data-stores/toastStore';
 
 export const getIconbyVariant = (variant: CommonVariant | undefined) => {
 	switch (variant) {
@@ -137,5 +139,12 @@ export const getColorHexForTableRow = (index: number) => {
 			return '#3DAE56';
 		case 9:
 			return '#D8D013';
+	}
+};
+
+export const handleCopyClick = (text: string | undefined, successMessage: string) => {
+	if (text) {
+		copyTextToClipboard(text);
+		addToast({ message: successMessage, variant: 'success' });
 	}
 };

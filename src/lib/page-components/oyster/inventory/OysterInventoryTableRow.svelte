@@ -29,7 +29,7 @@
 	} from '$lib/data-stores/oysterStore';
 	import refresh from 'svelte-awesome/icons/refresh';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
-	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
+	import { getColorHexByVariant, handleCopyClick } from '$lib/utils/helpers/componentHelper';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -108,6 +108,16 @@
 				<Icon data={refresh} size={12} />
 			</button>
 			{ip ?? 'N/A'}
+			{#if ip}
+				<!-- svelte-ignore a11y-no-static-element-interactions -->
+				<div
+					class="cursor-pointer"
+					on:keypress={() => handleCopyClick(ip, 'IP Address copied to clipboard')}
+					on:click={() => handleCopyClick(ip, 'IP Address copied to clipboard')}
+				>
+					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
+				</div>
+			{/if}
 		</div>
 	</td>
 	<td class={tableCellClasses.rowNormal}>

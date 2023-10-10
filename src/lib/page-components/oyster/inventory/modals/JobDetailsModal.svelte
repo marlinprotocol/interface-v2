@@ -73,8 +73,9 @@
 					textStyle={styles.textPrimary}
 				/>
 				<TextInputCard
-					title={'Ip Address'}
+					title={'IP Address'}
 					value={ip ?? 'N/A'}
+					cliboardContent={ip}
 					centered
 					textStyle={styles.textPrimary}
 				/>

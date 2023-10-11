@@ -35,14 +35,12 @@
 	<div class={styles.value}>
 		<Text variant="small" text={value} fontWeight="font-medium" styleClass={styles.value} />
 		{#if cliboardContent !== '' && cliboardContent !== undefined}
-			<!-- svelte-ignore a11y-no-static-element-interactions -->
-			<div
+			<button
 				class="cursor-pointer ml-2"
-				on:keypress={() => handleCopyClick(cliboardContent, successMessage)}
 				on:click={() => handleCopyClick(cliboardContent, successMessage)}
 			>
 				<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
-			</div>
+			</button>
 		{/if}
 	</div>
 </InputCard>

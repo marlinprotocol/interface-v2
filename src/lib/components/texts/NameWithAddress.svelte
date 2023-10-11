@@ -53,9 +53,9 @@
 				fontWeight={name ? 'font-normal' : 'font-medium'}
 				text={shortenText(address, 6, 6)}
 			/>
-			<div on:keypress={onCopyAddress} on:click={onCopyAddress}>
+			<button on:keypress={onCopyAddress} on:click={onCopyAddress}>
 				<slot name="copyIcon" />
-			</div>
+			</button>
 		</div>
 	</div>
 </div>

@@ -59,21 +59,17 @@
 			</div>
 		</div>
 	</summary>
+
 	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 	<ul tabindex="0" class="dropdown-content mt-4 z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		{#each $allowedChainsStore as chain (chain)}
-			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-			<li
-				class="flex {$chainStore.chainId === chain ? 'bg-primary text-white rounded-lg' : ''}"
-				on:click={() => handleChainSwitch(chain)}
-			>
-				<div>
+			<li class="flex {$chainStore.chainId === chain ? 'bg-primary text-white rounded-lg' : ''}">
+				<button on:click={() => handleChainSwitch(chain)}>
 					<div class="h-6 w-6 rounded-full ring-1 ring-white">
 						<img src={getImageForChain(chain)} alt="" />
 					</div>
 					{getChainDisplayName(chain)}
-				</div>
+				</button>
 			</li>
 		{/each}
 	</ul>

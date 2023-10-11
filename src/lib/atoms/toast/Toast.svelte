@@ -10,18 +10,17 @@
 {#if $toastsStore.length > 0}
 	<div class="toast toast-top toast-end items-end z-[9999]">
 		{#each $toastsStore as toast (toast.id)}
-			<div
+			<button
 				in:slide
 				out:fade
 				on:click={() => dismissToast(toast.id)}
-				on:keydown={() => dismissToast(toast.id)}
 				class={`${toast.className} ${baseClass}`}
 			>
 				<div class={'h-5 flex items-center justify-center w-5'}>
 					<Icon iconColorClass={toast.iconColor} data={toast.iconData} size={18} />
 				</div>
 				<span class="grow text-sm max-w-[330px] text-left">{toast.message}</span>
-			</div>
+			</button>
 		{/each}
 	</div>
 {/if}

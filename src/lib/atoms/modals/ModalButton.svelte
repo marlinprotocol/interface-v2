@@ -65,7 +65,10 @@
 	$: disabledClass = disabled ? 'pointer-events-none opacity-60' : '';
 </script>
 
+<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <label
+	tabindex="0"
 	on:click={onClick}
 	on:keydown={keydownHandler}
 	for={modalFor}

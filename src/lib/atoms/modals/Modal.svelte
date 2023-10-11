@@ -20,7 +20,8 @@
 	};
 </script>
 
-<input type="checkbox" id={modalFor} class="modal-toggle" />
+<!-- removing input from tabbing order since its open and close behaviour is being controlled by label and close button respectively  -->
+<input type="checkbox" id={modalFor} class="modal-toggle" tabindex="-1" />
 <div class="modal">
 	<div class={`${modalWidth} modal-box rounded-lg bg-base-100 shadow-none py-0 px-0`}>
 		<div class="modal-header sticky top-0 bg-white z-10 flex items-center pt-8 pb-4 px-6">

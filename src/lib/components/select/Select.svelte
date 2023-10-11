@@ -60,27 +60,23 @@
 							? 'bg-blue-50'
 							: 'bg-white'
 					}`}
-					on:click={() => handleSuggestionClick(suggestion)}
-					on:keydown={(event) => {
-						if (event.key === 'Enter') {
-							handleSuggestionClick(suggestion);
-						}
-					}}
 				>
-					<!-- if the suggestion list has an array/object for displaying suggestions. Eg. region select-->
-					{#if Array.isArray(suggestion)}
-						<label
-							for="checkbox-item-12"
-							class={`w-full flex justify-between items-baseline text-sm font-medium min-w-[320px]`}
-						>
-							<span>{suggestion[0]}</span>
-							<span class="text-xs font-normal">{suggestion[1]}</span>
-						</label>
-					{:else}
-						<label for="checkbox-item-12" class={`w-full text-sm font-medium`}>
-							{suggestion + (suggestion !== 'All' ? textSuffix : '')}
-						</label>
-					{/if}
+					<button on:click={() => handleSuggestionClick(suggestion)}>
+						<!-- if the suggestion list has an array/object for displaying suggestions. Eg. region select-->
+						{#if Array.isArray(suggestion)}
+							<label
+								for="checkbox-item-12"
+								class={`w-full flex justify-between items-baseline text-sm font-medium min-w-[320px]`}
+							>
+								<span>{suggestion[0]}</span>
+								<span class="text-xs font-normal">{suggestion[1]}</span>
+							</label>
+						{:else}
+							<label for="checkbox-item-12" class={`w-full text-sm font-medium`}>
+								{suggestion + (suggestion !== 'All' ? textSuffix : '')}
+							</label>
+						{/if}
+					</button>
 				</li>
 			{/each}
 		</ul>

@@ -81,16 +81,20 @@
 <svelte:window on:click={(e) => closeDropdown(e)} />
 {#each links as link (link.label)}
 	{#if link.children}
-		<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-		<li tabindex="0" class="px-1">
+		<li class="px-1">
 			<details>
 				<summary class="font-semibold">{link.label}</summary>
 				<ul class="p-2">
 					{#each link.children as child (child.label)}
-						<li>
-							<a href={child.href} class={child.active ? 'bg-primary text-white' : ''}
-								>{child.label}</a
+						<li class="w-full">
+							<a
+								href={child.href}
+								class="{child.active ? 'bg-primary text-white' : ''} w-full p-0 flex items-start"
 							>
+								<button class="px-4 py-2 w-full text-left">
+									{child.label}
+								</button>
+							</a>
 						</li>
 					{/each}
 				</ul>
@@ -103,9 +107,13 @@
 		>
 			<a
 				href={link.href}
-				class="{link.active ? 'bg-primary text-white' : ''} font-semibold"
-				target={link?.openInNewTab ? '_blank' : ''}>{link.label}</a
+				class="{link.active ? 'bg-primary text-white' : ''} font-semibold p-0"
+				target={link?.openInNewTab ? '_blank' : ''}
 			>
+				<button class="px-4 py-2 w-full text-left">
+					{link.label}
+				</button>
+			</a>
 		</li>
 	{/if}
 {/each}

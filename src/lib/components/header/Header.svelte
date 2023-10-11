@@ -9,9 +9,9 @@
 >
 	<div class="sm:navbar-start width-full justify-start items-center flex">
 		<div class="dropdown">
-			<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<label tabindex="0" class="btn btn-sm btn-ghost lg:hidden mr-2">
+			<button
+				class="btn btn-sm btn-ghost lg:hidden mr-2 focus:bg-base-content/10 focus:ring-2 focus:ring-offset-2 focus:ring-black"
+			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					class="h-5 w-5"
@@ -25,12 +25,9 @@
 						d="M4 6h16M4 12h16M4 18h16"
 					/></svg
 				>
-			</label>
-			<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-			<ul
-				tabindex="0"
-				class="menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-			>
+			</button>
+
+			<ul class="menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
 				<HeaderLinksGroup />
 			</ul>
 		</div>

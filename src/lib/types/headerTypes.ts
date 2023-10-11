@@ -1,5 +1,7 @@
 export type NavLinkModel = {
-	title: string;
-	href: string;
+	label: string;
+	href?: string;
 	openInNewTab?: boolean;
+	active?: boolean;
+	children?: NavLinkModel[];
 };

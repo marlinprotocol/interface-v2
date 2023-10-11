@@ -37,6 +37,4 @@
 	<title>Marlin Receiver Portal</title>
 </svelte:head>
 
-<div class="py-4">
-	<StakeDashboard />
-</div>
+<StakeDashboard />

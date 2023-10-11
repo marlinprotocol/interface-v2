@@ -25,7 +25,7 @@
 		$walletStore.address.slice().substring(38, 42);
 </script>
 
-<div class="flex gap-1">
+<div class="flex gap-2">
 	<ChainSwitcher />
 	<ModalButton
 		{modalFor}
@@ -38,5 +38,5 @@
 			<p class={styles.address}>{shortAddress}</p>
 		</div>
 	</ModalButton>
-	<DisconnectWalletModal {modalFor} {disconnect} />
 </div>
+<DisconnectWalletModal {modalFor} {disconnect} />

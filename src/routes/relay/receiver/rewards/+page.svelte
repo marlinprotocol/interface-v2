@@ -24,6 +24,4 @@
 	}
 </script>
 
-<div class="py-4">
-	<RewardsDashboard />
-</div>
+<RewardsDashboard />

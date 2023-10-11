@@ -1,6 +1,9 @@
 // _LINK: complete url
 // _URL: internal app routing url
 
+// general links
+export const DISCORD_LINK = 'https://discord.gg/xqJfSGY6gR';
+
 //bridge links
 export const BRIDGE_LEARN_MORE_DOC_LINK = 'https://docs.marlin.org/docs/Learn/Bridges/';
 
@@ -11,7 +14,6 @@ export const MPOND_HISTORY_PAGE_URL = '/bridge/mPondToPondHistory';
 
 //oyster links
 export const OYSTER_DOC_LINK = 'https://docs.marlin.org/docs/User%20Guides/Oyster/';
-export const OYSTER_SUPPORT_LINK = 'https://discord.gg/xqJfSGY6gR';
 
 //oyster pages
 export const OYSTER_MARKETPLACE_URL = '/oyster/marketplace';

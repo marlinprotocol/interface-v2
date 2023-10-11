@@ -32,7 +32,7 @@
 	} from '$lib/utils/data-modifiers/oysterModifiers';
 	import { addRegionNameToMarketplaceData } from '$lib/utils/helpers/oysterHelpers';
 	import type { BrowserProvider } from 'ethers';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	onMount(() => {
 		setAllowedChainsStore(environment.supported_chains.oyster);
@@ -97,6 +97,10 @@
 	$: if ($connected && $chainStore.chainId && chainSupported) {
 		loadConnectedData();
 	}
+
+	onDestroy(() => {
+		setAllowedChainsStore([]);
+	});
 </script>
 
 <svelte:head>
@@ -108,5 +112,7 @@
 		<slot />
 	</PageWrapper>
 {:else}
-	<NetworkPrompt />
+	<PageWrapper>
+		<NetworkPrompt />
+	</PageWrapper>
 {/if}

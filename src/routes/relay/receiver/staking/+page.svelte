@@ -1,10 +1,21 @@
 <script lang="ts">
+	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import { getReceiverStakingDataFromSubgraph } from '$lib/controllers/subgraphController';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
+	import {
+		allowedChainsStore,
+		chainStore,
+		setAllowedChainsStore
+	} from '$lib/data-stores/chainProviderStore';
+	import { environment } from '$lib/data-stores/environment';
 	import { initializeReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import StakeDashboard from '$lib/page-components/receiver-staking/StakeDashboard.svelte';
 	import { modifyReceiverStakingData } from '$lib/utils/data-modifiers/subgraphModifier';
+	import { onDestroy, onMount } from 'svelte';
+
+	onMount(() => {
+		setAllowedChainsStore(environment.supported_chains.receiver_staking);
+	});
 
 	let prevWalletAddress: string | null = null;
 	let prevChainId: number | null = null;
@@ -31,10 +42,22 @@
 		prevWalletAddress = null;
 		prevChainId = null;
 	}
+
+	$: chainSupported = $chainStore.chainId
+		? $allowedChainsStore.includes($chainStore.chainId)
+		: true;
+
+	onDestroy(() => {
+		setAllowedChainsStore([]);
+	});
 </script>
 
 <svelte:head>
 	<title>Marlin Receiver Portal</title>
 </svelte:head>
 
-<StakeDashboard />
+{#if chainSupported}
+	<StakeDashboard />
+{:else}
+	<NetworkPrompt />
+{/if}

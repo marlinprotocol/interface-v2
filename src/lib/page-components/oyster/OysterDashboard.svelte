@@ -26,7 +26,7 @@
 	import {
 		OYSTER_OPERATOR_JOBS_URL,
 		OYSTER_DOC_LINK,
-		OYSTER_SUPPORT_LINK
+		DISCORD_LINK
 	} from '$lib/utils/constants/urls';
 
 	import { getModifiedInstances } from '$lib/utils/data-modifiers/oysterModifiers';
@@ -203,7 +203,7 @@
 					<Text styleClass={styles.docButton} fontWeight="font-medium" text="Documentation" />
 				</a>
 				<div class={dividerClasses.vertical} />
-				<a href={OYSTER_SUPPORT_LINK} target="_blank">
+				<a href={DISCORD_LINK} target="_blank">
 					<Text styleClass={styles.docButton} fontWeight="font-medium" text="Support" />
 				</a>
 			</div>

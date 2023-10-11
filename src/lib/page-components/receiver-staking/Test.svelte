@@ -6,11 +6,7 @@
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { environment } from '$lib/data-stores/environment';
-	import type { ChainStore, WalletBalanceStore, WalletStore } from '$lib/types/storeTypes';
 	import { MESSAGES } from '$lib/utils/constants/messages';
-
-	import { onDestroy } from 'svelte';
-	import type { Unsubscriber } from 'svelte/store';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import {
 		depositStakingToken,
@@ -19,30 +15,7 @@
 	import { approveToken } from '$lib/controllers/contract/token';
 	import { doNothing } from '$lib/utils/helpers/commonHelper';
 
-	let wallet: WalletStore;
-	let balance: WalletBalanceStore;
-	let chain: ChainStore;
-	let contractAbiDetails = {};
-	let contractAddressDetails = {};
 	let pageTitle = 'Marlin Receiver Staking Portal (Ignore this part)';
-
-	const unsubscribeWalletProviderStore: Unsubscriber = walletStore.subscribe(
-		(value: WalletStore) => {
-			wallet = value;
-		}
-	);
-	const unsubscribeWalletBalanceStore: Unsubscriber = walletBalanceStore.subscribe(
-		(value: WalletBalanceStore) => {
-			balance = value;
-		}
-	);
-	const unsubscribeChainProviderStore: Unsubscriber = chainStore.subscribe((value: ChainStore) => {
-		chain = value;
-	});
-
-	const unsubscribeContractAddressStore: Unsubscriber = contractAddressStore.subscribe((value) => {
-		contractAddressDetails = value;
-	});
 
 	function onClickHandlerForToastError() {
 		addToast({
@@ -63,34 +36,24 @@
 			dismissible: false
 		});
 	}
-
-	onDestroy(unsubscribeWalletProviderStore);
-	onDestroy(unsubscribeWalletBalanceStore);
-	onDestroy(unsubscribeChainProviderStore);
-	onDestroy(unsubscribeContractAddressStore);
 </script>
 
 <div>
 	<h2 class="text-primary text-2xl font-bold my-5">{pageTitle}</h2>
 	<div>Environment: {environment.environment_name}</div>
 	{#if $connected}
-		<div>Address: {wallet.address}</div>
-		<div>POND Balance: {balance.pond}</div>
-		<div>MPond Balance: {balance.mpond}</div>
-		<div>Chain ID: {chain.chainId}</div>
-		<br />
+		<div>Address: {$walletStore.address}</div>
+		<div>POND Balance: {$walletBalanceStore.pond}</div>
+		<div>MPond Balance: {$walletBalanceStore.mpond}</div>
+		<div>Chain ID: {$chainStore.chainId}</div>
 	{:else}
 		The wallet is not connected.
 	{/if}
-	<br />
-	<br />
-	<div>Contract ABI Details</div>
-	<pre>{JSON.stringify(contractAbiDetails)}</pre>
 	<div>Contract Address Details</div>
-	<pre>{JSON.stringify(contractAddressDetails)}</pre>
+	<p class="break-words">{JSON.stringify($contractAddressStore)}</p>
 	<button
 		class="btn btn-secondary"
-		on:click={() => getReceiverPondBalanceFromSubgraph(wallet.address)}
+		on:click={() => getReceiverPondBalanceFromSubgraph($walletStore.address)}
 		>Fetch receiver pond balance</button
 	>
 	<div>Check console for response</div>

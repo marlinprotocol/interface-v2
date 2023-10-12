@@ -14,7 +14,7 @@
 		icon: 'mb-6',
 		header: 'text-[15px] text-[#0a0e3099] text-left font-medium',
 		title: 'text-2xl font-bold text-left',
-		subtitle: 'text-[15px] font-medium text-left mt-1 text-black/50',
+		subtitle: 'text-[15px] font-medium text-left mt-1 text-[#767676]',
 		closeButton:
 			'self-start text-sm font-bold text-gray-300 cursor-pointer min-w-[3rem] h-12 flex items-center justify-center'
 	};

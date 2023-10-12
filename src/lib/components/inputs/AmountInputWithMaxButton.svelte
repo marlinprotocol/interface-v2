@@ -54,7 +54,7 @@
 				<div class="flex gap-1">
 					<Text
 						variant="small"
-						styleClass="text-gray-400"
+						styleClass="text-[#657183]"
 						fontWeight="font-normal"
 						text={maxAmountText}
 					/>

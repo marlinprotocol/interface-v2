@@ -13,7 +13,7 @@
 
 			case 'secondary':
 			default:
-				return 'bg-grey-200 text-grey-500';
+				return 'bg-grey-200 text-[#6f6f71]';
 		}
 	};
 </script>

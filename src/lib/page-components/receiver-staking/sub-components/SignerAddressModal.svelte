@@ -159,7 +159,9 @@
 			loading={submitLoading}
 			onclick={handleSubmitClick}
 			size="large"
-			styleClass={'btn-block w-full'}>UPDATE</Button
+			styleClass="w-full"
 		>
+			UPDATE
+		</Button>
 	</svelte:fragment>
 </Modal>

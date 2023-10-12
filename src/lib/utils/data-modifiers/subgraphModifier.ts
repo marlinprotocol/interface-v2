@@ -8,10 +8,11 @@ import type {
 	PondToMPondHistoryDataModel
 } from '$lib/types/bridgeComponentType';
 
-import { BigNumberUtils } from '$lib/utils/helpers/bigNumberUtils';
 import type { ReceiverStakingData } from '$lib/types/storeTypes';
 import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
 import { mPondToPond } from '$lib/utils/helpers/conversionHelper';
+import { ethers } from 'ethers';
+import { DEFAULT_CURRENCY_DECIMALS } from '../constants/constants';
 
 export function modifyReceiverStakingData(data: any) {
 	const balance = data?.receiverBalance?.balance;
@@ -197,8 +198,9 @@ export function modifyMPondToPondConversionHistory(mpondToPondHistoryData: any) 
 		const pondAmountBN = mPondToPond(mpondAmountBN);
 		// const pondInitiallyPending = mPondToPond(mPondInitallyPending);
 
-		const bigNumberUtils = new BigNumberUtils();
-		const pondProcessInACycle = bigNumberUtils.multiply(pondAmountBN, _liquidityBP);
+		const pondProcessInACycle =
+			(pondAmountBN * ethers.parseUnits(_liquidityBP.toString(), DEFAULT_CURRENCY_DECIMALS)) /
+			BigInt(10 ** DEFAULT_CURRENCY_DECIMALS);
 
 		// strat time of the first cycle
 		const _releaseStartTime = _releaseTime - _liqudityReleaseEpochs;

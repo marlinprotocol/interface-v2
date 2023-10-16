@@ -15,7 +15,7 @@
 	};
 
 	const styles = {
-		address: 'text-2xs text-[#0498ad] font-medium',
+		address: 'text-2xs text-[#008295] font-medium',
 		network: 'font-bold text-sm text-[#07617d]'
 	};
 
@@ -34,7 +34,7 @@
 	>
 		<img src={staticImages.WalletConnected} alt="Metamask Logo" />
 		<div class={'flex flex-col text-left'}>
-			<h6 class={styles.network}>{$chainStore?.chainDisplayName?.toLocaleUpperCase()}</h6>
+			<span class={styles.network}>{$chainStore?.chainDisplayName?.toLocaleUpperCase()}</span>
 			<p class={styles.address}>{shortAddress}</p>
 		</div>
 	</ModalButton>

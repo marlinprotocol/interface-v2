@@ -6,7 +6,6 @@
 	import HistoryDataIconButton from '$lib/page-components/bridge/sub-components/HistoryDataIconButton.svelte';
 
 	export let conversionHistory: MPondToPondHistoryDataModel['conversionHistory'];
-
 	export let modalFor: string;
 </script>
 

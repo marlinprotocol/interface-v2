@@ -7,8 +7,6 @@
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { OYSTER_HISTORY_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { getSearchedInventoryData, sortOysterInventory } from '$lib/utils/helpers/oysterHelpers';
-	import { onDestroy } from 'svelte';
-	import type { Unsubscriber } from 'svelte/store';
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
 	import OysterHistoryTableRow from '$lib/page-components/oyster/history/OysterHistoryTableRow.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
@@ -16,16 +14,7 @@
 	let searchInput = '';
 	let activePage = 1;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
-
-	const itemsPerPage = TABLE_ITEMS_PER_PAGE;
-
 	let inventoryData: OysterInventoryDataModel[] | undefined;
-
-	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
-		inventoryData = value.jobsData;
-		inventoryData = inventoryData?.filter((data) => !data.live);
-	});
-	onDestroy(unsubscribeOysterStore);
 
 	const handleSortData = (id: string) => {
 		if (sortingMap[id]) {
@@ -48,16 +37,16 @@
 		activePage = 1;
 	};
 
+	// fiter inventory data based on live status
+	$: inventoryData = $oysterStore.jobsData?.filter((data) => !data.live);
 	// get searched data based on searchInput
 	$: searchedData = getSearchedInventoryData(searchInput, inventoryData);
-
 	// get page array based on inventory and itemsPerPage
-	$: pageCount = Math.ceil((searchedData?.length ?? 0) / itemsPerPage);
-
+	$: pageCount = Math.ceil((searchedData?.length ?? 0) / TABLE_ITEMS_PER_PAGE);
 	// get paginated data based on activePage
 	$: paginatedData = searchedData?.slice(
-		(activePage - 1) * itemsPerPage,
-		activePage * itemsPerPage
+		(activePage - 1) * TABLE_ITEMS_PER_PAGE,
+		activePage * TABLE_ITEMS_PER_PAGE
 	);
 </script>
 

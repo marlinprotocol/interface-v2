@@ -2,6 +2,7 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 
 	export let showSmallScreenPrompt = false;
+
 	let innerWidth: number;
 
 	$: if (innerWidth < 950) {

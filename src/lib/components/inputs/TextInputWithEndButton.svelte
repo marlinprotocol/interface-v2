@@ -7,7 +7,6 @@
 	export let title: string;
 	export let placeholder = '';
 	export let disabled = false;
-
 	export let input: string;
 
 	const styles = {

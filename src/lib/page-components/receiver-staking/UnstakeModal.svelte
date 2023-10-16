@@ -16,58 +16,29 @@
 		inputAmountInValidMessage,
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
-
-	import { onDestroy } from 'svelte';
 	import { addPondToWalletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import { withdrawStakingToken } from '$lib/controllers/contract/receiverStaking';
 
 	export let modalFor: string;
+
 	const subtitle =
 		'Enter the amount of POND to be unstaked from the receiver address. Unstaking POND is immediate and should reflect in your wallet after the transaction is confirmed.';
 	const toolTipText =
 		'Enter the amount of POND you would like to unstake from the receiver address.';
+
 	//initial amount states
 	let inputAmount: bigint;
 	let inputAmountString: string;
-
-	$: inputAmount = isInputAmountValid(inputAmountString)
-		? stringToBigNumber(inputAmountString)
-		: 0n;
-
-	//loading states
-	let submitLoading = false;
-
-	// staked pond amount
-	let maxAmount = DEFAULT_RECEIVER_STAKING_DATA.stakedBalance;
-
-	let balanceText = 'Staked POND: 0.00';
-	const unsubscribeReceiverStakedStore = receiverStakingStore.subscribe((value) => {
-		const { stakedBalance, queuedBalance } = value;
-		maxAmount = stakedBalance + queuedBalance;
-
-		balanceText = `Staked: ${bigNumberToString(
-			stakedBalance,
-			DEFAULT_CURRENCY_DECIMALS,
-			POND_PRECISIONS
-		)}${
-			!(queuedBalance === 0n)
-				? ' + Queued: ' +
-				  bigNumberToString(queuedBalance, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
-				: ''
-		}`;
-	});
-
-	onDestroy(unsubscribeReceiverStakedStore);
-
 	//input amount states
 	let inputAmountIsValid = true;
 	let updatedAmountInputDirty = false;
 	let inValidMessage = '';
+	//loading states
+	let submitLoading = false;
+	// staked pond amount
+	let maxAmount = DEFAULT_RECEIVER_STAKING_DATA.stakedBalance;
+	let balanceText = 'Staked POND: 0.00';
 
-	/**
-	 * checks if input amount is valid
-	 * @param event
-	 */
 	const handleUpdatedAmount = (event: Event) => {
 		updatedAmountInputDirty = true;
 		const target = event.target as HTMLInputElement;
@@ -75,13 +46,9 @@
 		inValidMessage = inputAmountInValidMessage(target.value);
 	};
 
-	$: pondDisabledText = inputAmount && inputAmount > maxAmount ? 'Insufficient POND' : '';
-	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;
-
 	const handleMaxClick = () => {
 		if (maxAmount) {
 			inputAmountString = bigNumberToString(maxAmount);
-			//reset input error message
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
 			inValidMessage = '';
@@ -92,10 +59,8 @@
 		try {
 			await withdrawStakingToken(inputAmount);
 			closeModal(modalFor);
-			//substract input amount first from queued amount and then from staked amount
 			withdrawStakedBalanceFromReceiverStakingStore(inputAmount);
 			addPondToWalletBalanceStore(inputAmount);
-			//reset input
 			resetInputs();
 		} catch (e) {
 			console.log('error submitting', e);
@@ -104,13 +69,33 @@
 		}
 	};
 
-	//reset input
 	const resetInputs = () => {
 		inputAmountString = '';
 		inputAmountIsValid = true;
 		updatedAmountInputDirty = false;
 		inValidMessage = '';
 	};
+
+	$: inputAmount = isInputAmountValid(inputAmountString)
+		? stringToBigNumber(inputAmountString)
+		: 0n;
+	$: pondDisabledText = inputAmount && inputAmount > maxAmount ? 'Insufficient POND' : '';
+	$: maxAmount = $receiverStakingStore.stakedBalance + $receiverStakingStore.queuedBalance;
+	$: balanceText = `Staked: ${bigNumberToString(
+		$receiverStakingStore.stakedBalance,
+		DEFAULT_CURRENCY_DECIMALS,
+		POND_PRECISIONS
+	)}${
+		!($receiverStakingStore.queuedBalance === 0n)
+			? ' + Queued: ' +
+			  bigNumberToString(
+					$receiverStakingStore.queuedBalance,
+					DEFAULT_CURRENCY_DECIMALS,
+					POND_PRECISIONS
+			  )
+			: ''
+	}`;
+	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>

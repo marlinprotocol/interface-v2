@@ -13,10 +13,12 @@
 	import ConversionHistoryButton from '$lib/page-components/bridge/sub-components/ConversionHistoryButton.svelte';
 	import TabPondMPond from '$lib/page-components/bridge/sub-components/TabPondMPond.svelte';
 
+	let activeTabValue = 'pond';
+
 	const styles = {
 		conversionHistory: 'flex flex-col w-full sm:w-130 mx-auto mt-4'
 	};
-	$: activeTabValue = 'pond';
+
 	const handleClick = (tabValue: string) => () => {
 		activeTabValue = tabValue;
 	};

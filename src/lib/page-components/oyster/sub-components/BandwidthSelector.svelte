@@ -1,7 +1,10 @@
 <script lang="ts">
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
-	import { OYSTER_BANDWIDTH_UNITS_LIST } from '$lib/utils/constants/oysterConstants';
+	import {
+		DEFAULT_BANDWIDTH_UNIT,
+		OYSTER_BANDWIDTH_UNITS_LIST
+	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
@@ -15,7 +18,7 @@
 	export let totalCostScaled = 0n;
 
 	let bandwidth = '';
-	let bandwidthUnit = 'KB/s';
+	let bandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
 	let bandwidthCostString = '';
 
 	const bandwidthUnitList = OYSTER_BANDWIDTH_UNITS_LIST.map((unit) => unit.label);
@@ -47,7 +50,6 @@
 					4
 			  )
 			: '';
-
 	$: totalCostScaled = bandwidthCostScaled + instanceCostScaled;
 	$: totalCost = totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor;
 	$: totalAmountString = !(totalCost === 0n)

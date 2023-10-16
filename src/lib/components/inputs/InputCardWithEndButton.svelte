@@ -11,6 +11,7 @@
 		rowWrapper: 'flex items-center justify-between',
 		titleIcon: 'flex items-center gap-1'
 	};
+
 	let innerWidth = 0;
 </script>
 

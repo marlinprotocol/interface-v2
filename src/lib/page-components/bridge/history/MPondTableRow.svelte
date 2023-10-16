@@ -33,6 +33,9 @@
 	export let rowData: MPondToPondHistoryDataModel;
 	export let rowIndex: number;
 
+	const cancelTooltipText =
+		'Cancel current MPond conversion requests in process. Users who want the updated MPond conversion parameters to take immediate effect may cancel the current conversion request and place a new conversion request.';
+
 	const getTimerEpoch = (
 		currentCycle: number,
 		eligibleCycles: MPondEligibleCyclesModel[] | undefined
@@ -41,26 +44,6 @@
 		return eligibleCycles[currentCycle].endTimestamp;
 	};
 
-	$: ({
-		timestamp,
-		transactionHash,
-		mpondAmount,
-		pondAmount,
-		pondPending,
-		eligibleCycles,
-		currentCycle,
-		pondInProcess,
-		pondEligible,
-		conversionHistory,
-		requestEpoch,
-		mpondConverted
-	} = rowData);
-
-	$: cancelDisabled =
-		(!pondEligible || pondEligible === 0n) &&
-		(!pondPending || pondPending === 0n) &&
-		(!pondInProcess || pondInProcess === 0n);
-	$: endEpochTime = getTimerEpoch(currentCycle, eligibleCycles);
 	const handleCancelConversionRequest = async (requestEpoch: bigint) => {
 		//not working yet
 		await cancelMPondConversionRequest(requestEpoch);
@@ -94,8 +77,26 @@
 		};
 	};
 
-	const cancelTooltipText =
-		'Cancel current MPond conversion requests in process. Users who want the updated MPond conversion parameters to take immediate effect may cancel the current conversion request and place a new conversion request.';
+	$: ({
+		timestamp,
+		transactionHash,
+		mpondAmount,
+		pondAmount,
+		pondPending,
+		eligibleCycles,
+		currentCycle,
+		pondInProcess,
+		pondEligible,
+		conversionHistory,
+		requestEpoch,
+		mpondConverted
+	} = rowData);
+
+	$: cancelDisabled =
+		(!pondEligible || pondEligible === 0n) &&
+		(!pondPending || pondPending === 0n) &&
+		(!pondInProcess || pondInProcess === 0n);
+	$: endEpochTime = getTimerEpoch(currentCycle, eligibleCycles);
 </script>
 
 <tr>

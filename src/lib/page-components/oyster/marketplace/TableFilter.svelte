@@ -6,7 +6,6 @@
 	export let dataList: (string | number)[] = [];
 	export let value: string | number | undefined = '';
 	export let setValue: (value: string | number) => any;
-
 	export let title: string;
 
 	let suggestions: (string | number)[] = [];

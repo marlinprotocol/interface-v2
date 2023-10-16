@@ -28,7 +28,6 @@
 		createdAt,
 		endEpochTime
 	} = rowData);
-
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 

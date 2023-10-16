@@ -26,7 +26,6 @@
 	let inputAmountIsValid = true;
 	let inValidMessage = '';
 	let updatedAmountInputDirty = false;
-
 	//loading states
 	let submitLoading = false;
 

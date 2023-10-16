@@ -10,12 +10,13 @@
 	export let isLarge = false;
 	export let connectButtonText = 'Connect Wallet';
 
+	const connectWalletStyles = 'flex gap-[10.3px] ';
+
 	const connect = async () => {
 		console.log('connecting to the wallet...');
 		const connection = await onboard.connectWallet();
 		console.log('connection', connection);
 	};
-	const connectWalletStyles = 'flex gap-[10.3px] ';
 
 	$: connectedAccount = $web3WalletStore?.[0];
 	$: if (connectedAccount) {

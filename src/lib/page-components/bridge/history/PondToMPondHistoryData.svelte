@@ -4,7 +4,7 @@
 	import { getPondToMPondConversionHistoryFromSubgraph } from '$lib/controllers/subgraphController';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
-	import type { Address, WalletStore } from '$lib/types/storeTypes';
+	import type { Address } from '$lib/types/storeTypes';
 	import { POND_TO_MPOND_TABLE_HEADER } from '$lib/utils/constants/bridgeConstants';
 	import {
 		DEFAULT_CURRENCY_DECIMALS,
@@ -12,32 +12,30 @@
 		POND_PRECISIONS
 	} from '$lib/utils/constants/constants';
 	import { bigNumberToString, epochSecToString } from '$lib/utils/helpers/conversionHelper';
-	import { onDestroy } from 'svelte';
-	import type { Unsubscriber } from 'svelte/store';
 	import HistoryTableCommon from '$lib/page-components/bridge/history/HistoryTableCommon.svelte';
 	import { MPOND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
 	import { modifyPondToMpondConversionHistory } from '$lib/utils/data-modifiers/subgraphModifier';
 	import { getTxnUrl } from '$lib/utils/helpers/commonHelper';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 
-	let address: Address;
 	let historyData: PondToMPondHistoryDataModel[] | undefined;
 	let loading = true;
-	const unsubscribeWalletStore: Unsubscriber = walletStore.subscribe(async (value: WalletStore) => {
-		address = value.address;
-		if (address) {
-			loading = true;
-			const historyDataFromSubgraph = await getPondToMPondConversionHistoryFromSubgraph(address);
-			historyData = modifyPondToMpondConversionHistory(historyDataFromSubgraph);
-			loading = false;
-		}
-	});
-	onDestroy(unsubscribeWalletStore);
 
 	// reverse the order of sortedData
 	const handleSortData = (id: string) => {
 		historyData = historyData?.reverse();
 	};
+
+	async function getHistoryData(address: Address) {
+		loading = true;
+		const historyDataFromSubgraph = await getPondToMPondConversionHistoryFromSubgraph(address);
+		historyData = modifyPondToMpondConversionHistory(historyDataFromSubgraph);
+		loading = false;
+	}
+
+	$: if ($walletStore.address) {
+		getHistoryData($walletStore.address);
+	}
 </script>
 
 <HistoryTableCommon

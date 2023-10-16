@@ -11,8 +11,6 @@
 	} from '$lib/data-stores/walletProviderStore';
 	import { pondToMPond } from '$lib/utils/helpers/conversionHelper';
 	import { doNothing } from '$lib/utils/helpers/commonHelper';
-
-	import { onDestroy } from 'svelte';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { convertPondToMPond } from '$lib/controllers/contract/bridge';
@@ -22,10 +20,6 @@
 	export let modalFor: string;
 
 	let approved = false;
-	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
-		const amount = value.allowances.pond;
-		approved = amount >= pond || false;
-	});
 
 	const handleApproveClick = async () => {
 		try {
@@ -56,7 +50,6 @@
 
 	$: mPond = pondToMPond(pond);
 	$: approved = $bridgeStore.allowances.pond >= pond || false;
-	onDestroy(unsubscribeBridgeStore);
 </script>
 
 <ApproveAndConfirmModal

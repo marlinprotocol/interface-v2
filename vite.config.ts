@@ -1,15 +1,12 @@
 import { sveltekit } from '@sveltejs/kit/vite';
+import { defineConfig } from 'vitest/config';
 import inject from '@rollup/plugin-inject';
-
-import type { UserConfig } from 'vite';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 
 const MODE: 'prod' | 'development' = 'prod'; // change mode to development if using npm run preview for checking the build locally
 const development: boolean = (MODE as string) === 'development';
 
-/** @type {import('@sveltejs/kit').Config} */
-
-const config: UserConfig = {
+export default defineConfig({
 	plugins: [
 		sveltekit(),
 		development &&
@@ -47,7 +44,8 @@ const config: UserConfig = {
 				global: 'globalThis'
 			}
 		}
+	},
+	test: {
+		include: ['src/**/*.{test,spec}.{js,ts}']
 	}
-};
-
-export default config;
+});

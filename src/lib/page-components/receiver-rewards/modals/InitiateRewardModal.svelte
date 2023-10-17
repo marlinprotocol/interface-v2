@@ -142,15 +142,13 @@
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
-	<svelte:fragment slot="title">
-		{'ADD REWARDS FOR OPERATORS'}
-	</svelte:fragment>
+	<svelte:fragment slot="title">ADD REWARDS FOR OPERATORS</svelte:fragment>
 	<svelte:fragment slot="subtitle">
 		{subtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
-			title={'POND'}
+			title="POND"
 			tooltipText={toolTipText}
 			bind:inputAmountString
 			{handleUpdatedAmount}
@@ -196,7 +194,7 @@
 			loading={confirmLoading}
 			onclick={handleConfirmClick}
 			size="large"
-			styleClass={'btn-block w-full'}>CONFIRM</Button
+			styleClass="btn-block w-full">CONFIRM</Button
 		>
 	</svelte:fragment>
 </Modal>

@@ -11,7 +11,7 @@
 	{disabled}
 	variant="tableConvertButton"
 	{modalFor}
-	styleClass={`${styleClass} ${loading ? 'loading' : ''}`}
+	styleClass="{styleClass} {loading ? 'loading' : ''}"
 >
 	{text}
 </ModalButton>

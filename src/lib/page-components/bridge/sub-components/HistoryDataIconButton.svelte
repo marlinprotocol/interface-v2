@@ -14,11 +14,14 @@
 	export let tooltipText = '';
 	export let fontWeight: TextModel['fontWeight'] = 'font-semibold';
 
-	const baseClass = 'flex justify-center text-xs gap-1 align-center';
 	const textColor = getTextColorClassByVariant(variant);
 </script>
 
-<div class={`${baseClass} ${textColor} ${disabled ? 'cursor-auto' : 'cursor-pointer'}`}>
+<div
+	class="align-center flex justify-center gap-1 text-xs {textColor} {disabled
+		? 'cursor-auto'
+		: 'cursor-pointer'}"
+>
 	{#if src}
 		<ImageColored {src} {variant} width={imgWidth} />
 	{/if}
@@ -27,7 +30,7 @@
 	{/if}
 	{#if tooltipText}
 		<Tooltip tooltipDirection="tooltip-left" {tooltipText} styleClass="text-left">
-			<img src={staticImages.BlueAlert} alt={'tooltip'} />
+			<img src={staticImages.BlueAlert} alt="tooltip" />
 		</Tooltip>
 	{/if}
 </div>

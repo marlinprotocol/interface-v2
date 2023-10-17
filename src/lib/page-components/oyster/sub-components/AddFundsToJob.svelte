@@ -157,14 +157,14 @@
 
 <div class="flex gap-2">
 	<AmountInputWithTitle
-		title={'Hourly Rate'}
+		title="Hourly Rate"
 		bind:inputAmountString={instanceRateString}
 		prefix={$oysterTokenMetadataStore.symbol}
 		handleUpdatedAmount={handleRateChange}
 		disabled={true}
 	/>
 	<AmountInputWithTitle
-		title={'Duration'}
+		title="Duration"
 		bind:inputAmountString={durationString}
 		suffix={durationUnit}
 		handleUpdatedAmount={handleDurationChange}
@@ -173,7 +173,7 @@
 	>
 		<div slot="endButton">
 			<Select
-				title={'Duration'}
+				title="Duration"
 				dataList={durationUnitList}
 				bind:value={durationUnit}
 				setValue={handleDurationUnitChange}

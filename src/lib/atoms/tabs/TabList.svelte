@@ -1,10 +1,9 @@
 <script>
 	export let divClass = '';
-	export let ulClass = 'flex flex-wrap -mb-px gap-1 items-center justify-center';
 </script>
 
 <div class={divClass}>
-	<ul class={ulClass} role="tablist">
+	<ul class="-mb-px flex flex-wrap items-center justify-center gap-1" role="tablist">
 		<slot />
 	</ul>
 </div>

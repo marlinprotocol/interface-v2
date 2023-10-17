@@ -21,22 +21,22 @@
 	};
 </script>
 
-<InputCardWithEndButton styleClass={'mt-4 p'} title={'Details'}>
+<InputCardWithEndButton styleClass="mt-4" title="Details">
 	{#if isOpen && $connected}
 		<div
 			transition:slide={{ duration: 400 }}
-			class="bg-white rounded mt-4 w-full max-h-40 overflow-y-auto overflow-x-hidden"
+			class="mt-4 max-h-40 w-full overflow-y-auto overflow-x-hidden rounded bg-white"
 		>
 			{#await tableData}
-				<div class={'text-center flex justify-center my-4'}>
+				<div class="my-4 flex justify-center text-center">
 					<LoadingAnimatedPing />
 				</div>
 			{:then value}
 				<Table
 					tableHeading={OYSTER_INSTANCES_TABLE_HEADER}
-					headingStyleClass={'text-sm'}
-					tablePadding={'py-4'}
-					iconWidth={'13px'}
+					headingStyleClass="text-sm"
+					tablePadding="py-4"
+					iconWidth="13px"
 				>
 					<tbody slot="tableBody">
 						{#each value as row}
@@ -54,7 +54,7 @@
 					</tbody>
 				</Table>
 			{:catch error}
-				<div class={'text-center flex justify-center m-4 text-sm'}>
+				<div class="m-4 flex justify-center text-center text-sm">
 					There seems to be an error. Make sure that the entered URL is correct and check again.
 				</div>
 			{/await}

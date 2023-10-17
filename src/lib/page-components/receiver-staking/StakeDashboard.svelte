@@ -5,17 +5,10 @@
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import { receiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
-
 	import StakedData from '$lib/page-components/receiver-staking/StakedData.svelte';
 	import StakeButton from '$lib/page-components/receiver-staking/buttons/StakeButton.svelte';
 	import UnstakeButton from '$lib/page-components/receiver-staking/buttons/UnstakeButton.svelte';
 	import ReceiverTabToggle from '$lib/page-components/receiver-portal/ReceiverTabToggle.svelte';
-
-	const styles = {
-		buttonsGroup: 'flex gap-4 items-center justify-center w-full',
-		buttonWrapper: 'w-1/2',
-		buttonLarge: 'h-14 text-base font-semibold'
-	};
 
 	$: validBalance = $receiverStakingStore.queuedBalance + $receiverStakingStore.stakedBalance > 0;
 </script>
@@ -25,12 +18,12 @@
 	<ReceiverTabToggle />
 	<StakedData />
 	{#if $connected}
-		<div class={styles.buttonsGroup}>
-			<div class={styles.buttonWrapper}>
+		<div class="flex w-full items-center justify-center gap-4">
+			<div class="w-1/2">
 				<StakeButton />
 			</div>
 
-			<div class={styles.buttonWrapper}>
+			<div class="w-1/2">
 				<UnstakeButton disabled={!validBalance} />
 			</div>
 		</div>

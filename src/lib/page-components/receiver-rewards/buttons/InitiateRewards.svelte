@@ -3,10 +3,7 @@
 	import InitiateRewardModal from '$lib/page-components/receiver-rewards/modals/InitiateRewardModal.svelte';
 
 	const modalFor = 'initiate-reward-modal';
-	const styles = {
-		buttonLarge: 'h-14 text-base font-semibold w-full'
-	};
 </script>
 
-<ModalButton {modalFor} styleClass={`${styles.buttonLarge}`}>GIVE REWARDS</ModalButton>
+<ModalButton {modalFor} styleClass="h-14 text-base font-semibold w-full">GIVE REWARDS</ModalButton>
 <InitiateRewardModal {modalFor} />

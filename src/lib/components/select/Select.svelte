@@ -35,7 +35,7 @@
 
 <svelte:window on:click={handleClickOutside} bind:innerWidth={windowWidth} />
 
-<div bind:this={searchContainer} class="w-fit search-container relative">
+<div bind:this={searchContainer} class="search-container relative w-fit">
 	<CollapseButton
 		isOpen={showSuggestions}
 		onclick={handleToggleShowAllSuggestions}
@@ -44,35 +44,33 @@
 	/>
 	{#if showSuggestions && suggestions.length > 0}
 		<ul
-			class={`absolute right-[-17px] z-10 min-w-[150px] w-fit mt-3.5 text-base bg-white rounded-md border border-gray-300 shadow-lg max-h-72 overflow-y-auto focus:outline-none sm:text-sm`}
+			class="absolute right-[-17px] z-10 mt-3.5 max-h-72 w-fit min-w-[150px] overflow-y-auto rounded-md border border-gray-300 bg-white text-base shadow-lg focus:outline-none sm:text-sm"
 		>
-			<div class="flex justify-between px-8 py-4 items-center">
-				<Text variant="small" styleClass="" fontWeight="font-semibold" text={title ?? 'Select'} />
+			<div class="flex items-center justify-between px-8 py-4">
+				<Text variant="small" fontWeight="font-semibold" text={title ?? 'Select'} />
 			</div>
 			{#each suggestions as suggestion}
 				<li
-					class={`px-8 py-3 cursor-pointer hover:bg-gray-100 text-left  ${
-						Array.isArray(suggestion)
-							? suggestion[1] === value
-								? 'bg-blue-50'
-								: 'bg-white'
-							: suggestion === value
+					class="cursor-pointer px-8 py-3 text-left hover:bg-gray-100 {Array.isArray(suggestion)
+						? suggestion[1] === value
 							? 'bg-blue-50'
 							: 'bg-white'
-					}`}
+						: suggestion === value
+						? 'bg-blue-50'
+						: 'bg-white'}"
 				>
 					<button on:click={() => handleSuggestionClick(suggestion)}>
 						<!-- if the suggestion list has an array/object for displaying suggestions. Eg. region select-->
 						{#if Array.isArray(suggestion)}
 							<label
 								for="checkbox-item-12"
-								class={`w-full flex justify-between items-baseline text-sm font-medium min-w-[320px]`}
+								class="flex w-full min-w-[320px] items-baseline justify-between text-sm font-medium"
 							>
 								<span>{suggestion[0]}</span>
 								<span class="text-xs font-normal">{suggestion[1]}</span>
 							</label>
 						{:else}
-							<label for="checkbox-item-12" class={`w-full text-sm font-medium`}>
+							<label for="checkbox-item-12" class="w-full text-sm font-medium">
 								{suggestion + (suggestion !== 'All' ? textSuffix : '')}
 							</label>
 						{/if}

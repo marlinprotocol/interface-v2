@@ -30,9 +30,7 @@
 
 <Modal {modalFor}>
 	<img slot="icon" src={staticImages.Sheild} alt="" width="38px" />
-	<svelte:fragment slot="title">
-		{'Conversion Successful'}
-	</svelte:fragment>
+	<svelte:fragment slot="title">Conversion Successful</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="text-left text-base font-medium text-gray-600">
 			<div>You have converted</div>

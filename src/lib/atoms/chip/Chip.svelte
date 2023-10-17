@@ -3,8 +3,6 @@
 
 	export let variant: AppVariant = 'primary';
 	export let styles = '';
-	const chipStyle =
-		'rounded-3xl px-[20px] py-[9px] flex items-center gap-1.5 text-sm tracking-widest';
 
 	const getClassFromVariant = (variant: AppVariant) => {
 		switch (variant) {
@@ -18,6 +16,10 @@
 	};
 </script>
 
-<div class={`${chipStyle} ${styles} ${getClassFromVariant(variant)}`}>
+<div
+	class="flex items-center gap-1.5 rounded-3xl px-[20px] py-[9px] text-sm tracking-widest {styles} {getClassFromVariant(
+		variant
+	)}"
+>
 	<slot />
 </div>

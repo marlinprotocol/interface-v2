@@ -7,18 +7,13 @@
 	export let tooltipText = '';
 	export let title: string;
 
-	const styles = {
-		rowWrapper: 'flex items-center justify-between',
-		titleIcon: 'flex items-center gap-1'
-	};
-
 	let innerWidth = 0;
 </script>
 
 <svelte:window bind:innerWidth />
 <InputCard {styleClass}>
-	<div class={styles.rowWrapper}>
-		<div class={styles.titleIcon}>
+	<div class="flex items-center justify-between">
+		<div class="flex items-center gap-1">
 			<Text variant="small" text={title} />
 			{#if !!tooltipText}
 				<TooltipIcon {tooltipText} />
@@ -26,7 +21,7 @@
 		</div>
 		<slot name="titleEndButton" />
 	</div>
-	<div class={styles.rowWrapper}>
+	<div class="flex items-center justify-between">
 		<slot />
 		<slot name="endButton" />
 	</div>

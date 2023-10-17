@@ -6,10 +6,6 @@
 
 	export let jobData: OysterInventoryDataModel;
 
-	const styles = {
-		textPrimary: 'text-primary'
-	};
-
 	$: ({ balance, durationLeft } = jobData);
 </script>
 
@@ -17,20 +13,21 @@
 	<div class="flex gap-4">
 		<div class="w-full">
 			<TextInputCard
-				title={'Current Balance'}
-				value={`${bigNumberToString(balance, $oysterTokenMetadataStore.decimal)} ${
-					$oysterTokenMetadataStore.currency
-				}`}
+				title="Current Balance"
+				value="{bigNumberToString(
+					balance,
+					$oysterTokenMetadataStore.decimal
+				)} {$oysterTokenMetadataStore.currency}"
 				centered
-				textStyle={styles.textPrimary}
+				textStyle="text-primary"
 			/>
 		</div>
 		<div class="w-full">
 			<TextInputCard
-				title={'Duration Left'}
+				title="Duration Left"
 				value={durationLeft === 0 ? 'Ended' : epochToDurationString(durationLeft, false, false)}
 				centered
-				textStyle={styles.textPrimary}
+				textStyle="text-primary"
 			/>
 		</div>
 	</div>

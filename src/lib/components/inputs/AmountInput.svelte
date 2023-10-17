@@ -31,13 +31,13 @@
 
 <input
 	{disabled}
+	id="pond-input-amount"
 	bind:value
 	on:input={onChange}
 	on:focusout={onFocusOut}
-	id="pond-input-amount"
-	class={`hideInputNumberAppearance ${styleClass}`}
-	placeholder={onlyInteger ? '0' : '0.00'}
-	autocomplete="off"
 	on:keydown={validateInput}
 	on:keyup={validateInput}
+	class="hideInputNumberAppearance {styleClass}"
+	placeholder={onlyInteger ? '0' : '0.00'}
+	autocomplete="off"
 />

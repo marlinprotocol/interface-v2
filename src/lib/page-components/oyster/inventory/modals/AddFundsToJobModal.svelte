@@ -87,11 +87,9 @@
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
-	<svelte:fragment slot="title">
-		{'ADD FUNDS'}
-	</svelte:fragment>
+	<svelte:fragment slot="title">ADD FUNDS</svelte:fragment>
 	<svelte:fragment slot="subtitle">
-		{'Add funds by approving and depositing tokens for the job'}
+		Add funds by approving and depositing tokens for the job
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AddFundsToJob
@@ -103,17 +101,16 @@
 			instanceRate={rateScaled}
 			isTotalRate={true}
 		/>
-		<div class="flex gap-2 items-center mt-2">
+		<div class="mt-2 flex items-center gap-2">
 			<MaxButton onclick={handleMaxClick} />
 			<div class={dividerClasses.vertical} />
 			<Text
 				variant="small"
 				styleClass="text-gray-400"
 				fontWeight="font-normal"
-				text={'Approved amount: ' +
-					bigNumberToString($oysterStore.allowance, $oysterTokenMetadataStore.decimal, 4) +
-					' ' +
-					$oysterTokenMetadataStore.currency}
+				text="Approved amount:
+					{bigNumberToString($oysterStore.allowance, $oysterTokenMetadataStore.decimal, 4)}
+					{$oysterTokenMetadataStore.currency}"
 			/>
 		</div>
 	</svelte:fragment>
@@ -125,7 +122,7 @@
 				loading={approvedLoading}
 				onclick={handleApproveClick}
 				size="large"
-				styleClass={'btn-block w-full my-0'}>APPROVE</Button
+				styleClass="btn-block w-full my-0">APPROVE</Button
 			>
 		{:else}
 			<Button
@@ -134,7 +131,7 @@
 				loading={submitLoading}
 				onclick={handleSubmitClick}
 				size="large"
-				styleClass={'btn-block w-full my-0'}>CONFIRM</Button
+				styleClass="btn-block w-full my-0">CONFIRM</Button
 			>
 		{/if}
 	</svelte:fragment>

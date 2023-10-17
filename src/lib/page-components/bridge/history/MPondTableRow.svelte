@@ -99,7 +99,7 @@
 	$: endEpochTime = getTimerEpoch(currentCycle, eligibleCycles);
 </script>
 
-<tr>
+<tr class="border-b border-[#e5e5e5] last:border-b-0">
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
 			{epochSecToString(timestamp)}
@@ -132,7 +132,7 @@
 				{eligibleCycles}
 				{endEpochTime}
 				{currentCycle}
-				modalFor={`mpond-conversion-cycle-modal-${rowIndex}`}
+				modalFor="mpond-conversion-cycle-modal-{rowIndex}"
 			/>
 		</svelte:fragment>
 	</TableDataWithButton>
@@ -141,7 +141,7 @@
 			{bigNumberToString(pondInProcess, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
 		</svelte:fragment>
 		<Timer
-			timerId={`timer-for-mpond-table-${rowIndex}`}
+			timerId="timer-for-mpond-table-{rowIndex}"
 			slot="line2"
 			{endEpochTime}
 			onTimerEnd={handleOnTimerEnd}
@@ -150,7 +150,7 @@
 				<HistoryDataIconButton
 					disabled={true}
 					src={staticImages.Timer}
-					fontWeight={'font-normal'}
+					fontWeight="font-normal"
 					variant="grey"
 					text={epochToDurationString(timer, true)}
 				/>
@@ -164,7 +164,7 @@
 		<svelte:fragment slot="line2">
 			<MPondConversionHistoryButton
 				{conversionHistory}
-				modalFor={`mpond-conversion-history-modal-${rowIndex}`}
+				modalFor="mpond-conversion-history-modal-{rowIndex}"
 			/>
 		</svelte:fragment>
 	</TableDataWithButton>
@@ -172,11 +172,11 @@
 		<svelte:fragment slot="line1">
 			<TableConvertButton
 				disabled={!(pondEligible > 0n)}
-				modalFor={`mpond-convert-modal-${rowIndex}`}
+				modalFor="mpond-convert-modal-{rowIndex}"
 			/>
 			<MPondEligibleConvertModal
 				maxAmount={pondToMPond(pondEligible)}
-				modalFor={`mpond-convert-modal-${rowIndex}`}
+				modalFor="mpond-convert-modal-{rowIndex}"
 				{requestEpoch}
 				handleOnSuccess={handleUpdateOnConvert}
 				{rowIndex}
@@ -186,35 +186,21 @@
 			{#if cancelDisabled}
 				<HistoryDataIconButton
 					disabled={true}
-					text={'Cancel'}
-					variant={'disabled'}
-					tooltipText={'Cancel'}
+					text="Cancel"
+					variant="disabled"
+					tooltipText="Cancel"
 				/>
 			{:else}
 				<Button
-					size={'tiny'}
-					variant={'text'}
+					size="tiny"
+					variant="text"
 					onclick={async () => {
 						await handleCancelConversionRequest(requestEpoch);
 					}}
 				>
-					<HistoryDataIconButton
-						text={'Cancel'}
-						variant={'primary'}
-						tooltipText={cancelTooltipText}
-					/>
+					<HistoryDataIconButton text="Cancel" variant="primary" tooltipText={cancelTooltipText} />
 				</Button>
 			{/if}
 		</svelte:fragment>
 	</TableDataWithButton>
 </tr>
-
-<style>
-	tr {
-		border-bottom: 1px solid #e5e5e5;
-	}
-	/* remove border on last tr */
-	tr:last-child {
-		border-bottom: none;
-	}
-</style>

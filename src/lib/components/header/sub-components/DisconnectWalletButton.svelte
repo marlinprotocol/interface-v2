@@ -14,11 +14,6 @@
 		disconnectWallet($web3WalletStore);
 	};
 
-	const styles = {
-		address: 'text-2xs text-[#008295] font-medium',
-		network: 'font-bold text-sm text-[#07617d]'
-	};
-
 	$: shortAddress =
 		$walletStore.address.slice().substring(0, 6) +
 		'...' +
@@ -34,8 +29,10 @@
 	>
 		<img src={staticImages.WalletConnected} alt="Metamask Logo" />
 		<div class={'flex flex-col text-left'}>
-			<span class={styles.network}>{$chainStore?.chainDisplayName?.toLocaleUpperCase()}</span>
-			<p class={styles.address}>{shortAddress}</p>
+			<span class="text-sm font-bold text-[#07617d]"
+				>{$chainStore?.chainDisplayName?.toLocaleUpperCase()}</span
+			>
+			<p class="text-2xs font-medium text-[#008295]">{shortAddress}</p>
 		</div>
 	</ModalButton>
 </div>

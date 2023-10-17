@@ -72,10 +72,10 @@
 	on:click={onClick}
 	on:keydown={keydownHandler}
 	for={modalFor}
-	class={`${labelStyleClass} ${labelSize} ${styleClass} ${disabledClass} gap-1.5`}
+	class="{labelStyleClass} {labelSize} {styleClass} {disabledClass} gap-1.5"
 >
 	{#if icon}
-		<Icon data={icon} size={14} iconColorClass={'icon-white'} />
+		<Icon data={icon} size={14} iconColorClass="icon-white" />
 	{/if}
 	{#if !!iconSrc}
 		<img src={iconSrc} alt="Icon" width={16} />

@@ -35,7 +35,7 @@
 			<svelte:fragment slot="copyIcon">
 				<div class="w-4">
 					<div class="copy-icon cursor-pointer">
-						<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
+						<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 					</div>
 				</div>
 			</svelte:fragment>
@@ -49,10 +49,10 @@
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		<Tooltip
-			tooltipText={`${$oysterTokenMetadataStore.symbol}${convertRateToPerHourString(
+			tooltipText="{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
 				instanceRate,
 				$oysterTokenMetadataStore.decimal
-			)}`}
+			)}"
 		>
 			{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
 				instanceRate,
@@ -73,7 +73,7 @@
 		{#if $connected}
 			<!-- content here -->
 			<TableConvertButton
-				modalFor={`create-order-modal-${rowIndex}`}
+				modalFor="create-order-modal-{rowIndex}"
 				text="DEPLOY"
 				styleClass="w-fit px-6 mr-4"
 			/>
@@ -83,16 +83,17 @@
 				variant="tableConvertButton"
 				onclick={() =>
 					addToast({
-						message: `Please connect your wallet to deploy.`,
+						message: 'Please connect your wallet to deploy.',
 						variant: 'info'
 					})}>DEPLOY</Button
 			>
 		{/if}
 	</td>
 </tr>
-<CreateOrderModal modalFor={`create-order-modal-${rowIndex}`} preFilledData={rowData} />
+<CreateOrderModal modalFor="create-order-modal-{rowIndex}" preFilledData={rowData} />
 
 <style>
+	/* TODO: migrate these classes to tailwind and then refactor the copy to clipboard functionality */
 	.main-row {
 		margin-left: 20px;
 		border-bottom: 1px solid #e5e5e5;

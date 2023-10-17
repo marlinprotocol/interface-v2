@@ -5,17 +5,11 @@
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 
 	export let data: { title: string; value: bigint };
-
-	const styles = {
-		itemCard: 'w-full',
-		dataRow: 'flex items-center justify-between',
-		titleIcon: 'flex items-center'
-	};
 </script>
 
-<div class={styles.itemCard}>
-	<div class={styles.dataRow}>
-		<div class={styles.titleIcon}>
+<div class="w-full">
+	<div class="flex items-center justify-between">
+		<div class="flex items-center">
 			<Text variant="body" styleClass="text-black" text={data.title} />
 			<slot name="icon" />
 		</div>
@@ -25,12 +19,12 @@
 			<Text
 				variant="body"
 				styleClass="font-semibold text-right"
-				text={`${bigNumberToString(
+				text="{bigNumberToString(
 					data.value,
 					DEFAULT_CURRENCY_DECIMALS,
 					POND_PRECISIONS,
 					false
-				)} POND`}
+				)} POND"
 			/>
 		</Tooltip>
 	</div>

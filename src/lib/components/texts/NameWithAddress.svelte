@@ -23,11 +23,11 @@
 	const bgColor = getColorHexForTableRow(rowIndex);
 </script>
 
-<div class="flex items-center justify-start ml-6 w-fit">
+<div class="ml-6 flex w-fit items-center justify-start">
 	<div>
 		{#if rowIndex > -1}
 			<div
-				class="w-[32px] h-[32px] mr-3 bg-primary rounded-md text-sm font-medium text-white flex flex-col justify-center items-center"
+				class="mr-3 flex h-[32px] w-[32px] flex-col items-center justify-center rounded-md bg-primary text-sm font-medium text-white"
 				style="background-color:{bgColor};"
 			>
 				{startLetters}
@@ -46,7 +46,7 @@
 			</Tooltip>
 		{/if}
 
-		<div class="flex gap-1 items-center w-fit">
+		<div class="flex w-fit items-center gap-1">
 			<Text
 				variant={name ? 'tiny' : 'body'}
 				styleClass={name ? 'text-grey' : ''}

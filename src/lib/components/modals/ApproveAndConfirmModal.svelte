@@ -21,13 +21,6 @@
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
 	export let modalForApproveConfirm: string;
 
-	const styles = {
-		baseText: 'grow text-left  font-normal',
-		text: 'text-grey-500 font-[15px]',
-		textBold: 'font-semibold text-black',
-		textDisabled: 'font-semibold text-grey-300'
-	};
-
 	let approveLoading: boolean;
 	let confirmLoading: boolean;
 
@@ -78,39 +71,42 @@
 		{!approved ? 'Approve Transaction' : 'Confirm Transaction'}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex gap-5 h-[50px]">
+		<div class="flex h-[50px] gap-5">
 			<div class="flex flex-col items-center">
 				{#if approved}
 					<img src={staticImages.Check} alt="Copy" width="20px" height="20px" />
 				{:else}
-					<LoadingAnimationModal loading={approveLoading}>
-						<Text variant="small" styleClass="font-semibold" text={'1'} />
+					<LoadingAnimationModal loading={true}>
+						<Text variant="small" styleClass="font-semibold" text="1" />
 					</LoadingAnimationModal>
 				{/if}
 				{#if approved}
 					<div class="h-full w-[0.1px] bg-grey-400" />
 				{/if}
 			</div>
-			<div class={`${styles.text} ${styles.baseText}`}>
-				<span>{'Approve'}</span>
-				<span class={styles.textBold}>
-					{`${amountConvertedFrom} ${conversionFromText}`}
+			<div class="grow text-left font-normal text-grey-500">
+				Approve
+				<span class="font-semibold text-black">
+					{amountConvertedFrom}
+					{conversionFromText}
 				</span>
-				<span>{'for conversion'}</span>
+				for conversion
 			</div>
 		</div>
-		<div class={`flex gap-5`}>
+		<div class="flex gap-5">
 			<LoadingAnimationModal loading={confirmLoading}>
-				<Text variant="small" styleClass="font-semibold" text={'2'} />
+				<Text variant="small" styleClass="font-semibold" text="2" />
 			</LoadingAnimationModal>
-			<div class={`${approved ? styles.text : 'text-grey-300'} ${styles.baseText}`}>
-				<span>{'Convert'}</span>
-				<span class={approved ? styles.textBold : styles.textDisabled}>
-					{`${amountConvertedFrom} ${conversionFromText}`}
+			<div class="grow text-left font-normal {approved ? 'text-grey-500' : 'text-grey-300'}">
+				Convert
+				<span class={approved ? 'font-semibold text-black' : 'font-semibold text-grey-300'}>
+					{amountConvertedFrom}
+					{conversionFromText}
 				</span>
-				<span>{'to'}</span>
-				<span class={approved ? styles.textBold : styles.textDisabled}>
-					{`${amountConvertedTo} ${conversionToText}`}
+				to
+				<span class={approved ? 'font-semibold text-black' : 'font-semibold text-grey-300'}>
+					{amountConvertedTo}
+					{conversionToText}
 				</span>
 			</div>
 		</div>
@@ -118,21 +114,21 @@
 	<svelte:fragment slot="actionButtons">
 		{#if !approved}
 			<Button
+				onclick={approveClick}
+				loading={approveLoading}
 				variant="filled"
 				size="large"
 				styleClass="w-full"
-				loading={approveLoading}
-				onclick={approveClick}
 			>
 				{approveButtonText}
 			</Button>
 		{:else}
 			<Button
-				size="large"
-				variant="filled"
-				styleClass="w-full"
 				onclick={confirmClick}
 				loading={confirmLoading}
+				variant="filled"
+				size="large"
+				styleClass="w-full"
 			>
 				{confirmButtonText}
 			</Button>

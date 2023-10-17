@@ -11,33 +11,28 @@
 	import { getTxnUrl } from '$lib/utils/helpers/commonHelper';
 
 	export let tableData: OysterDepositHistoryDataModel[] = [];
-
-	const styles = {
-		docButton: 'text-primary font-medium',
-		tableCell: tableCellClasses.rowNormal
-	};
 </script>
 
-<InputCardWithEndButton title={'Transaction History'}>
-	<div class="w-full max-h-40 overflow-y-auto overflow-x-hidden">
+<InputCardWithEndButton title="Transaction History">
+	<div class="max-h-40 w-full overflow-y-auto overflow-x-hidden">
 		<Table
 			tableHeading={OYSTER_PAYMENT_HISTORY_TABLE_HEADER}
-			headingStyleClass={'text-xs'}
-			iconWidth={'13px'}
-			tablePadding={'pt-2 px-0'}
+			headingStyleClass="text-xs"
+			iconWidth="13px"
+			tablePadding="pt-2 px-0"
 		>
 			<tbody slot="tableBody">
 				{#each tableData as rowData}
 					<tr>
-						<td class={styles.tableCell}>{epochSecToString(rowData.timestamp)}</td>
-						<td class={styles.tableCell}
+						<td class={tableCellClasses.rowNormal}>{epochSecToString(rowData.timestamp)}</td>
+						<td class={tableCellClasses.rowNormal}
 							>{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 								rowData.amount,
 								$oysterTokenMetadataStore.decimal
 							)}</td
 						>
-						<td class={styles.tableCell}>
-							<div class="flex justify-center items-center gap-2 capitalize">
+						<td class={tableCellClasses.rowNormal}>
+							<div class="flex items-center justify-center gap-2 capitalize">
 								{rowData.transactionStatus}
 								<TxnIcon
 									txnHashUrl={getTxnUrl($chainConfigStore.block_explorer_url, rowData.txHash)}

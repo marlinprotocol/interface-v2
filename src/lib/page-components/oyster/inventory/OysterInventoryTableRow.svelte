@@ -95,16 +95,16 @@
 			<svelte:fragment slot="copyIcon">
 				<div class="w-4">
 					<div class="copy-icon cursor-pointer">
-						<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
+						<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 					</div>
 				</div>
 			</svelte:fragment>
 		</NameWithAddress>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<div class="flex items-center gap-2 justify-center">
+		<div class="flex items-center justify-center gap-2">
 			<button
-				class={`${refreshLoading ? 'animate-spin' : ''} flex items-center`}
+				class="{refreshLoading ? 'animate-spin' : ''} flex items-center"
 				on:click={() => refreshJobStatus(id)}
 			>
 				<Icon data={refresh} size={12} />
@@ -115,7 +115,7 @@
 					class="cursor-pointer"
 					on:click={() => handleCopyClick(ip, 'IP Address copied to clipboard')}
 				>
-					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
+					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 				</button>
 			{/if}
 		</div>
@@ -128,10 +128,10 @@
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		<Tooltip
-			tooltipText={`${$oysterTokenMetadataStore.symbol}${convertRateToPerHourString(
+			tooltipText="{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
 				rate,
 				$oysterTokenMetadataStore.decimal
-			)}`}
+			)}"
 		>
 			{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
 				rate,
@@ -141,11 +141,11 @@
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		<Tooltip
-			tooltipText={`${$oysterTokenMetadataStore.symbol}${bigNumberToString(
+			tooltipText="{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 				balance,
 				$oysterTokenMetadataStore.decimal,
 				$oysterTokenMetadataStore.precision
-			)}`}
+			)}"
 		>
 			{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 				balance,
@@ -154,14 +154,14 @@
 		</Tooltip>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<Timer timerId={`timer-for-inventory-table-row-${id}`} {endEpochTime}>
+		<Timer timerId="timer-for-inventory-table-row-{id}" {endEpochTime}>
 			<div slot="active" class="mx-auto">
 				<Tooltip tooltipText={epochToDurationString(durationLeft)} tooltipDirection="tooltip-left">
 					<div
-						class="py-1 w-24 text-white rounded mx-auto text-sm text-center"
-						style={`background-color:${getColorHexByVariant(
+						class="mx-auto w-24 rounded py-1 text-center text-sm text-white"
+						style="background-color: {getColorHexByVariant(
 							getInventoryDurationVariant(durationLeft)
-						)}`}
+						)}"
 					>
 						{epochToDurationString(durationLeft, true)}
 					</div>
@@ -183,13 +183,13 @@
 <tr class="expanded-row">
 	{#if isOpen}
 		<td colspan="12">
-			<div transition:slide={{ duration: 400 }} class="flex gap-4 mt-4 mb-8 px-8">
+			<div transition:slide={{ duration: 400 }} class="mb-8 mt-4 flex gap-4 px-8">
 				{#if !isJobFinished}
 					<ModalButton
 						variant="filled"
 						size="small"
 						icon={plus}
-						modalFor={`job-add-funds-modal-${id}`}
+						modalFor="job-add-funds-modal-{id}"
 						disabled={isJobFinished}
 					>
 						ADD FUNDS
@@ -197,7 +197,7 @@
 					<ModalButton
 						variant="outlined"
 						size="small"
-						modalFor={`job-stop-modal-${id}`}
+						modalFor="job-stop-modal-{id}"
 						disabled={isJobFinished}
 					>
 						{closeButtonText}
@@ -205,7 +205,7 @@
 					<ModalButton
 						variant="outlined"
 						size="small"
-						modalFor={`job-withdraw-fund-modal-${id}`}
+						modalFor="job-withdraw-fund-modal-{id}"
 						disabled={isJobFinished}
 					>
 						WITHDRAW
@@ -213,13 +213,13 @@
 					<ModalButton
 						variant="outlined"
 						size="small"
-						modalFor={`job-amend-rate-modal-${id}`}
+						modalFor="job-amend-rate-modal-{id}"
 						disabled={isJobFinished}
 					>
 						{amendRateButtonText}
 					</ModalButton>
 				{/if}
-				<ModalButton variant="outlined" size="small" modalFor={`job-details-modal-${id}`}>
+				<ModalButton variant="outlined" size="small" modalFor="job-details-modal-{id}">
 					DETAILS
 				</ModalButton>
 			</div>
@@ -227,13 +227,14 @@
 	{/if}
 </tr>
 
-<InventoryJobDetailsModal bind:jobData={rowData} modalFor={`job-details-modal-${id}`} />
-<AddFundsToJobModal bind:jobData={rowData} modalFor={`job-add-funds-modal-${id}`} />
-<WithdrawFundsFromJobModal bind:jobData={rowData} modalFor={`job-withdraw-fund-modal-${id}`} />
-<StopJobModal bind:jobData={rowData} modalFor={`job-stop-modal-${id}`} />
-<AmendRateModal bind:jobData={rowData} modalFor={`job-amend-rate-modal-${id}`} />
+<InventoryJobDetailsModal bind:jobData={rowData} modalFor="job-details-modal-{id}" />
+<AddFundsToJobModal bind:jobData={rowData} modalFor="job-add-funds-modal-{id}" />
+<WithdrawFundsFromJobModal bind:jobData={rowData} modalFor="job-withdraw-fund-modal-{id}" />
+<StopJobModal bind:jobData={rowData} modalFor="job-stop-modal-{id}" />
+<AmendRateModal bind:jobData={rowData} modalFor="job-amend-rate-modal-{id}" />
 
 <style>
+	/* TODO: migrate these classes to tailwind and then refactor the copy to clipboard functionality */
 	.expanded-row {
 		border-bottom: 1px solid #e5e5e5;
 	}

@@ -55,19 +55,19 @@
 </script>
 
 <div class="mx-auto">
-	<PageTitle title={'My Active Orders'} />
-	<div class="flex gap-4 items-center mb-6">
+	<PageTitle title="My Active Orders" />
+	<div class="mb-6 flex items-center gap-4">
 		<SearchBar
 			{onSearchClick}
 			bind:input={searchInput}
-			placeholder={'Search for operator, instance or region'}
-			styleClass={'w-full'}
+			placeholder="Search for operator, instance or region"
+			styleClass="w-full"
 			disabled={!$connected}
 		/>
 		<!-- <a href={`/oyster/history`}>
 			<div class={`h-12 ${buttonClasses.outlined}`}>HISTORY</div>
 		</a> -->
-		<ModalButton variant="filled" modalFor={'create-new-order'} disabled={!$connected} icon={plus}>
+		<ModalButton variant="filled" modalFor="create-new-order" disabled={!$connected} icon={plus}>
 			ADD ORDER
 		</ModalButton>
 	</div>
@@ -76,7 +76,7 @@
 		tableHeading={OYSTER_INVENTORY_TABLE_HEADER}
 		loading={!$oysterStore.oysterStoreLoaded}
 		noDataFound={paginatedData?.length ? false : true}
-		emptyTableMessage={'You do not have any active orders.'}
+		emptyTableMessage="You do not have any active orders."
 	>
 		{#if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex (rowData.id)}

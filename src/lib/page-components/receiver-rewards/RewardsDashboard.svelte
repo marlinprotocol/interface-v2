@@ -9,12 +9,6 @@
 	import UpdateTicketRewards from './buttons/UpdateTicketRewards.svelte';
 	import AddRewardsBalance from './buttons/AddRewardsBalance.svelte';
 	import ReceiverTabToggle from '$lib/page-components/receiver-portal/ReceiverTabToggle.svelte';
-
-	const styles = {
-		buttonsGroup: 'flex gap-4 items-center justify-center w-full',
-		buttonsSubgroup: 'flex gap-4 items-center justify-center w-1/2',
-		buttonLarge: 'h-14 text-base font-semibold'
-	};
 </script>
 
 <ContainerCard>
@@ -22,9 +16,9 @@
 	<ReceiverTabToggle />
 	<RewardsData />
 	{#if $connected}
-		<div class={styles.buttonsGroup}>
+		<div class="flex w-full items-center justify-center gap-4">
 			{#if $receiverRewardsStore.rewardBalance > 0n}
-				<div class={styles.buttonsSubgroup}>
+				<div class="flex w-1/2 items-center justify-center gap-4">
 					<UpdateTicketRewards />
 					<AddRewardsBalance />
 				</div>

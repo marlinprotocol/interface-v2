@@ -9,40 +9,31 @@
 	};
 	export let padding = true;
 	export let isScrollable = false;
-
-	const styles = {
-		icon: 'mb-6',
-		header: 'text-[15px] text-[#0a0e3099] text-left font-medium',
-		title: 'text-2xl font-bold text-left',
-		subtitle: 'text-[15px] font-medium text-left mt-1 text-[#767676]',
-		closeButton:
-			'self-start text-sm font-bold text-gray-300 cursor-pointer min-w-[3rem] h-12 flex items-center justify-center'
-	};
 </script>
 
 <!-- removing input from tabbing order since its open and close behaviour is being controlled by label and close button respectively  -->
 <input type="checkbox" id={modalFor} class="modal-toggle" tabindex="-1" />
 <div class="modal">
-	<div class={`${modalWidth} modal-box rounded-lg bg-base-100 shadow-none py-0 px-0`}>
-		<div class="modal-header sticky top-0 bg-white z-10 flex items-center pt-8 pb-4 px-6">
-			<div class="flex flex-col w-full">
+	<div class="{modalWidth} modal-box rounded-lg bg-base-100 px-0 py-0 shadow-none">
+		<div class="modal-header sticky top-0 z-10 flex items-center bg-white px-6 pb-4 pt-8">
+			<div class="flex w-full flex-col">
 				{#if $$slots.icon}
-					<div class={styles.icon}>
+					<div class="mb-6">
 						<slot name="icon" />
 					</div>
 				{/if}
-				<div class={styles.header}>
+				<div class="text-left text-[15px] font-medium text-[#0a0e3099]">
 					<slot name="header" />
 				</div>
-				<div class={styles.title}>
+				<div class="text-left text-2xl font-bold">
 					<slot name="title" />
 				</div>
-				<div class={styles.subtitle}>
+				<div class="mt-1 text-left text-[15px] font-medium text-[#767676]">
 					<slot name="subtitle" />
 				</div>
 			</div>
 			<button
-				class={styles.closeButton}
+				class="flex h-12 min-w-[3rem] cursor-pointer items-center justify-center self-start text-sm font-bold text-gray-300"
 				on:click={() => {
 					closeModal(modalFor);
 					onClose();
@@ -52,14 +43,14 @@
 			</button>
 		</div>
 		<div
-			class={`modal-body ${isScrollable ? 'overflow-y-auto overflow-x-hidden' : ''} ${
-				padding ? 'pt-2 pb-4 px-6' : ''
-			}`}
+			class="modal-body {isScrollable ? 'overflow-y-auto overflow-x-hidden' : ''} {padding
+				? 'px-6 pb-4 pt-2'
+				: ''}"
 		>
 			<slot name="content" />
 		</div>
 		{#if $$slots.actionButtons}
-			<div class={`modal-footer sticky bottom-0 bg-white ${padding ? 'mt-4 px-6 mb-6' : ''}`}>
+			<div class="modal-footer sticky bottom-0 bg-white {padding ? 'mb-6 mt-4 px-6' : ''}">
 				<slot name="actionButtons" />
 			</div>
 		{/if}

@@ -97,16 +97,16 @@
 	$: enableConversion = inputAmount && inputAmount > 0 && unrequestedMPondBalance >= inputAmount;
 </script>
 
-<div class="my-2 mx-2">
+<div class="mx-2 my-2">
 	<AmountInputWithMaxButton
 		title="From"
 		bind:inputAmountString
 		{handleUpdatedAmount}
 		maxAmountText={balanceText}
-		inputCardVariant={'none'}
+		inputCardVariant="none"
 		{maxAmountTooltipText}
 	>
-		<Text slot="input-end-button" text="MPond" fontWeight={'font-medium'} />
+		<Text slot="input-end-button" text="MPond" fontWeight="font-medium" />
 		<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
 	</AmountInputWithMaxButton>
 	<ErrorTextCard
@@ -117,7 +117,7 @@
 	<Divider margin="mt-2 mb-3" />
 	<AmountInputWithMaxButton
 		title="To"
-		inputCardVariant={'none'}
+		inputCardVariant="none"
 		inputAmountString={convertedAmountString}
 	>
 		<Text slot="input-end-button" text="POND" fontWeight="font-medium" />

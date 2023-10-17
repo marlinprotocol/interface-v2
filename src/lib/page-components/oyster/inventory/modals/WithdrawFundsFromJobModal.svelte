@@ -89,22 +89,19 @@
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
-	<svelte:fragment slot="title">
-		{'WITHDRAW FUNDS'}
-	</svelte:fragment>
+	<svelte:fragment slot="title">WITHDRAW FUNDS</svelte:fragment>
 	<svelte:fragment slot="subtitle"
-		>{"Enter the amount you'd like to withdraw from this job."}</svelte:fragment
+		>Enter the amount you'd like to withdraw from this job.</svelte:fragment
 	>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
 			title="Amount"
 			bind:inputAmountString
 			{handleUpdatedAmount}
-			inputCardVariant={'none'}
-			maxAmountText={'Available balance: ' +
-				bigNumberToString(maxAmount, $oysterTokenMetadataStore.decimal) +
-				' ' +
-				$oysterTokenMetadataStore.currency}
+			inputCardVariant="none"
+			maxAmountText="Available balance:
+				{bigNumberToString(maxAmount, $oysterTokenMetadataStore.decimal)} 
+				{$oysterTokenMetadataStore.currency}"
 		>
 			<Text slot="input-end-button" text="Amount" fontWeight="font-medium" />
 			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
@@ -122,7 +119,7 @@
 			loading={submitLoading}
 			onclick={handleSubmitClick}
 			size="large"
-			styleClass={'btn-block w-full my-0'}>WITHDRAW</Button
+			styleClass="btn-block w-full my-0">WITHDRAW</Button
 		>
 	</svelte:fragment>
 </Modal>

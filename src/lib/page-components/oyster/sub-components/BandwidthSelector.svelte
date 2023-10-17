@@ -59,24 +59,24 @@
 
 <div class="flex gap-2">
 	<AmountInputWithTitle
-		title={'Bandwidth'}
+		title="Bandwidth"
 		bind:inputAmountString={bandwidth}
 		suffix={bandwidthUnit}
 		onlyInteger
 		disabled={!region}
 	>
 		<div slot="endButton">
-			<Select title={'Bandwidth'} dataList={bandwidthUnitList} bind:value={bandwidthUnit} />
+			<Select title="Bandwidth" dataList={bandwidthUnitList} bind:value={bandwidthUnit} />
 		</div>
 	</AmountInputWithTitle>
 	<AmountInputWithTitle
-		title={'Bandwidth Cost'}
+		title="Bandwidth Cost"
 		bind:inputAmountString={bandwidthCostString}
 		suffix={$oysterTokenMetadataStore.currency}
 		disabled={true}
 	/>
 	<AmountInputWithTitle
-		title={'Total Cost'}
+		title="Total Cost"
 		bind:inputAmountString={totalAmountString}
 		suffix={$oysterTokenMetadataStore.currency}
 		disabled={true}

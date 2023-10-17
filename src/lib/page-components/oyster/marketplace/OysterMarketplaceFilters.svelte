@@ -56,59 +56,59 @@
 	$: allFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
 </script>
 
-<div class="w-full flex flex-col md:flex-row gap-2 items-end mb-6">
+<div class="mb-6 flex w-full flex-col items-end gap-2 md:flex-row">
 	<div class="w-full">
 		<SearchWithSelect
 			dataList={allFilters?.provider}
 			searchValue={filterMap.provider}
 			setSearchValue={(value, exactMatch) => handleFilterData('provider', value, exactMatch)}
-			title={'Operator'}
+			title="Operator"
 			showTitle={false}
-			placeholder={'Enter operator name or address'}
-			cardVariant={'search'}
-			styleClass={'w-full'}
+			placeholder="Enter operator name or address"
+			cardVariant="search"
+			styleClass="w-full"
 			onSearchClick={onFilterClick}
 			isTableFilter={true}
 		/>
-		<div class="flex gap-4 items-center mt-4 flex-col md:flex-row">
+		<div class="mt-4 flex flex-col items-center gap-4 md:flex-row">
 			<SearchWithSelect
 				dataList={allFilters?.instance}
 				searchValue={filterMap.instance}
 				setSearchValue={(value, exactMatch) => handleFilterData('instance', value, exactMatch)}
 				showTitle={false}
-				cardVariant={'search'}
-				title={'Instance'}
-				placeholder={'Select Instance'}
+				cardVariant="search"
+				title="Instance"
+				placeholder="Select Instance"
 				isTableFilter={true}
 			/>
 			<SearchWithSelect
 				dataList={allFilters?.region}
 				searchValue={filterMap.region ?? ''}
 				setSearchValue={(value, exactMatch) => handleFilterData('region', value, exactMatch)}
-				title={'Region'}
-				placeholder={'Filter by Region'}
+				title="Region"
+				placeholder="Filter by Region"
 				showTitle={false}
-				cardVariant={'search'}
+				cardVariant="search"
 				isTableFilter={true}
 			/>
 			<SearchWithSelect
 				dataList={allFilters?.vcpu}
 				searchValue={filterMap.vcpu ?? ''}
 				setSearchValue={(value, exactMatch) => handleFilterData('vcpu', value, exactMatch)}
-				title={'vCPU'}
-				placeholder={'Filter by vCPU'}
+				title="vCPU"
+				placeholder="Filter by vCPU"
 				showTitle={false}
-				cardVariant={'search'}
+				cardVariant="search"
 				isTableFilter={true}
 			/>
 			<SearchWithSelect
 				dataList={allFilters?.memory}
 				searchValue={filterMap.memory ?? ''}
 				setSearchValue={(value, exactMatch) => handleFilterData('memory', value, exactMatch)}
-				title={'Memory'}
-				placeholder={'Filter by Memory'}
+				title="Memory"
+				placeholder="Filter by Memory"
 				showTitle={false}
-				cardVariant={'search'}
+				cardVariant="search"
 				isTableFilter={true}
 				textSuffix={MEMORY_SUFFIX}
 			/>

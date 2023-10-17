@@ -71,8 +71,8 @@
 		handleOnSuccess(txnHash);
 	}}
 	{approved}
-	conversionFrom={'mPond'}
+	conversionFrom="mPond"
 	amountConverted={mpondToConvert}
-	confirmButtonText={'CONVERT'}
+	confirmButtonText="CONVERT"
 	{rowIndex}
 />

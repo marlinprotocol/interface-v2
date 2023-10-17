@@ -11,14 +11,14 @@
 	export let onSearchClick: (() => void) | undefined = undefined;
 </script>
 
-<InputCard variant="search" styleClass={`${styleClass} flex gap-4 items-center`}>
-	<Icon styleClass="opacity: .2" data={search} size={18} iconColorClass={'icon-info'} />
+<InputCard variant="search" styleClass="{styleClass} flex gap-4 items-center">
+	<Icon styleClass="opacity: .2" data={search} size={18} iconColorClass="icon-info" />
 	<input
 		prefix="0x"
 		bind:value={input}
 		on:click={(e) => onSearchClick?.()}
 		id="address-display"
-		class={`hideInputNumberAppearanc ${inputClasses.searchInputText}`}
+		class="hideInputNumberAppearance {inputClasses.searchInputText}"
 		{placeholder}
 		{disabled}
 	/>

@@ -25,9 +25,9 @@
 
 <svelte:window bind:innerWidth />
 <TextInputWithEndButton
-	title={'Signer Address'}
-	tooltipText={'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.'}
-	placeholder={'Set signer address'}
+	title="Signer Address"
+	tooltipText="This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client."
+	placeholder="Set signer address"
 	bind:input={displayAddress}
 	disabled={true}
 >

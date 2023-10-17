@@ -13,6 +13,6 @@
 	$: chevronIcon = isOpen ? chevronUp : chevronDown;
 </script>
 
-<button on:click={onclick} {disabled} class={`${styleClass} ${buttonClasses.iconLightBlue}`} {id}>
+<button {id} on:click={onclick} class="{styleClass} {buttonClasses.iconLightBlue}" {disabled}>
 	<Icon data={chevronIcon} size={12} iconColorClass={disabled ? 'icon-disabled' : 'icon-primary'} />
 </button>

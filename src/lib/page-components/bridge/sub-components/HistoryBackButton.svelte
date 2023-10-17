@@ -8,12 +8,12 @@
 	export let href: string;
 </script>
 
-<div class="flex justify-start items-center gap-3 w-fit flex-wrap">
-	<BackButton text={'Back to the Bridge'} href={'/bridge'} />
-	<div class={`hidden sm:block ${dividerClasses.verticalPrimary}`} />
+<div class="flex w-fit flex-wrap items-center justify-start gap-3">
+	<BackButton text="Back to the Bridge" href="/bridge" />
+	<div class="hidden sm:block ${dividerClasses.verticalPrimary}" />
 	<a {href} class={buttonClasses.largeButton}>
-		{`Go to ${firstText}`}
+		Go to {firstText}
 		<img src={staticImages.ArrowLong} alt="arrow" />
-		{`${secondText} History`}
+		{secondText} History
 	</a>
 </div>

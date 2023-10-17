@@ -7,7 +7,7 @@
 	} from '$lib/utils/constants/urls';
 </script>
 
-<div class="w-full flex gap-4 justify-center mt-4">
+<div class="mt-4 flex w-full justify-center gap-4">
 	<a href={RELAY_RECEIVER_STAKING_URL}>
 		<Chip variant={$page.route.id === RELAY_RECEIVER_STAKING_URL ? 'primary' : 'secondary'}
 			>Receiver Staking</Chip

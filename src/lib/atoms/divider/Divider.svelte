@@ -17,4 +17,4 @@
 	const borderStyle = getDirectionBasedBorder(direction);
 </script>
 
-<div class={`${borderStyle} ${margin} ${height} w-full`} />
+<div class="{borderStyle} {margin} {height} w-full" />

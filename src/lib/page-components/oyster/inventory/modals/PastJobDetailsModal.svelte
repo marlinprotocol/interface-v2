@@ -19,11 +19,6 @@
 	export let rowIndex: number;
 	export let jobData: OysterInventoryDataModel;
 
-	const styles = {
-		modalWidth: 'w-11/12 sm:max-w-[700px]',
-		textPrimary: 'text-primary'
-	};
-
 	const handleRedeploy = () => {
 		openModal(`create-order-modal-${rowIndex}`);
 		closeModal(modalFor);
@@ -45,99 +40,81 @@
 	} = jobData);
 </script>
 
-<Modal {modalFor} modalWidth={styles.modalWidth} padding={false}>
-	<svelte:fragment slot="title">
-		{'PAST ORDER DETAILS'}
-	</svelte:fragment>
-	<svelte:fragment slot="subtitle">
-		{'View the details of your past order'}
-	</svelte:fragment>
+<Modal {modalFor} modalWidth="w-11/12 sm:max-w-[700px]" padding={false}>
+	<svelte:fragment slot="title">PAST ORDER DETAILS</svelte:fragment>
+	<svelte:fragment slot="subtitle">View the details of your past order</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4 px-4">
-			<div class="flex gap-4 flex-col sm:flex-row">
+			<div class="flex flex-col gap-4 sm:flex-row">
 				<TextInputCard
-					title={'Operator'}
+					title="Operator"
 					value={name !== '' ? name : address}
 					centered
-					textStyle={styles.textPrimary}
+					textStyle="text-primary"
 				/>
-				<TextInputCard title={'Region'} value={region} centered textStyle={styles.textPrimary} />
+				<TextInputCard title="Region" value={region} centered textStyle="text-primary" />
 			</div>
-			<div class="flex gap-4 flex-col sm:flex-row">
+			<div class="flex flex-col gap-4 sm:flex-row">
+				<TextInputCard title="Instance" value={instance} centered textStyle="text-primary" />
 				<TextInputCard
-					title={'Instance'}
-					value={instance}
-					centered
-					textStyle={styles.textPrimary}
-				/>
-				<TextInputCard
-					title={'vCPU'}
+					title="vCPU"
 					value={vcpu?.toString() ?? ''}
 					centered
-					textStyle={styles.textPrimary}
+					textStyle="text-primary"
 				/>
 				<TextInputCard
-					title={'Memory'}
+					title="Memory"
 					value={(memory?.toString() ?? '') + (memory ? MEMORY_SUFFIX : '')}
 					centered
-					textStyle={styles.textPrimary}
+					textStyle="text-primary"
 				/>
 				<TextInputCard
-					title={'Hourly Rate'}
-					value={`${$oysterTokenMetadataStore.symbol}${convertRateToPerHourString(
+					title="Hourly Rate"
+					value="{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
 						rate,
 						$oysterTokenMetadataStore.decimal
-					)}`}
+					)}"
 					centered
-					textStyle={styles.textPrimary}
+					textStyle="text-primary"
 				/>
 			</div>
-			<div class="flex gap-4 flex-col sm:flex-row">
+			<div class="flex flex-col gap-4 sm:flex-row">
 				<TextInputCard
-					title={'Start Date'}
+					title="Start Date"
 					value={epochSecToString(createdAt)}
 					centered
-					textStyle={styles.textPrimary}
+					textStyle="text-primary"
 				/>
 				<TextInputCard
-					title={'End Date'}
+					title="End Date"
 					value={epochSecToString(endEpochTime)}
 					centered
-					textStyle={styles.textPrimary}
+					textStyle="text-primary"
 				/>
 				<TextInputCard
-					title={'Amount Used'}
-					value={`${$oysterTokenMetadataStore.symbol}${bigNumberToString(
+					title="Amount Used"
+					value="{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 						amountUsed,
 						$oysterTokenMetadataStore.decimal
-					)}`}
+					)}"
 					centered
-					textStyle={styles.textPrimary}
+					textStyle="text-primary"
 				/>
 				<TextInputCard
-					title={'Duration Run'}
-					value={`${$oysterTokenMetadataStore.symbol}${epochToDurationString(durationRun, true)}`}
+					title="Duration Run"
+					value="{$oysterTokenMetadataStore.symbol}{epochToDurationString(durationRun, true)}"
 					centered
-					textStyle={styles.textPrimary}
+					textStyle="text-primary"
 				/>
 			</div>
-			<TextInputCard
-				title={'Enclave Image URL'}
-				value={enclaveUrl}
-				textStyle={styles.textPrimary}
-			/>
+			<TextInputCard title="Enclave Image URL" value={enclaveUrl} textStyle="text-primary" />
 			<PaymentHistoryTable tableData={depositHistory} />
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		<div class="flex gap-2 p-4">
 			<div class="w-full">
-				<ModalButton
-					variant="outlined"
-					size="large"
-					styleClass={'btn-block w-full my-0'}
-					{modalFor}
-				>
+				<ModalButton variant="outlined" size="large" styleClass="btn-block w-full my-0" {modalFor}>
 					CLOSE
 				</ModalButton>
 			</div>
@@ -145,10 +122,10 @@
 				<Button
 					variant="filled"
 					size="large"
-					styleClass={'btn-block w-full my-0'}
+					styleClass="btn-block w-full my-0"
 					onclick={handleRedeploy}
 				>
-					{'REDEPLOY'}
+					REDEPLOY
 				</Button>
 			</div>
 		</div>

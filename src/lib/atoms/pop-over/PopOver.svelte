@@ -1,16 +1,12 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/atoms/componentClasses';
-
-	const styles = {
-		dropdownContent: 'dropdown-content menu shadow rounded rounded-box w-64 bg-base-100'
-	};
 </script>
 
-<div class="dropdown dropdown-hover dropdown-top">
+<div class="dropdown dropdown-top dropdown-hover">
 	<button tabindex="0" class={buttonClasses.icon}>
 		<slot name="icon" />
 	</button>
-	<div class={styles.dropdownContent}>
+	<div class="menu dropdown-content w-64 rounded bg-base-100 shadow">
 		<slot name="content" />
 	</div>
 </div>

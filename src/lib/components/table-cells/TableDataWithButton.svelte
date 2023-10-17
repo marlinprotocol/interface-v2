@@ -3,29 +3,13 @@
 	export let styleClass = '';
 </script>
 
-<td class={`pt-6 pb-8 ${styleClass} ${tableCellClasses.row}`}>
+<td class="pb-8 pt-6 {styleClass} {tableCellClasses.row}">
 	<div class={tableCellClasses.rowWithIcon}>
-		<div class="line1">
+		<div class="m-auto flex h-[35px] items-center">
 			<slot name="line1" />
 		</div>
-		<div class="line2">
+		<div class="flex h-[18px] items-center pt-[10px]">
 			<slot name="line2" />
 		</div>
 	</div>
 </td>
-
-<style>
-	.line1 {
-		height: 35px;
-		margin: auto;
-		display: flex;
-		align-items: center;
-	}
-
-	.line2 {
-		padding-top: 10px;
-		height: 18px;
-		display: flex;
-		align-items: center;
-	}
-</style>

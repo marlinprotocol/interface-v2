@@ -37,8 +37,8 @@
 	);
 </script>
 
-<div class={`${styles.wrapper}`}>
-	<div class={`${styles.cardWrapper}`}>
+<div class="flex w-full flex-col items-center justify-center py-8">
+	<div class="mb-2 flex w-full px-2">
 		<DataRowCard
 			data={{
 				title: 'Reward per Ticket',
@@ -47,12 +47,12 @@
 		>
 			<TooltipIcon
 				slot="icon"
-				tooltipText={`Reward you choose to give the operator per successful ticket.`}
+				tooltipText="Reward you choose to give the operator per successful ticket."
 				styleClass="ml-1"
 			/>
 		</DataRowCard>
 	</div>
-	<div class={styles.cardWrapper}>
+	<div class="mb-2 flex w-full px-2">
 		<DataRowCard
 			data={{
 				title: 'Rewards Balance',
@@ -61,16 +61,16 @@
 		>
 			<TooltipIcon
 				slot="icon"
-				tooltipText={`Total amount that you currently have locked in for rewards.`}
+				tooltipText="Total amount that you currently have locked in for rewards"
 				styleClass="ml-1"
 			/>
 		</DataRowCard>
 	</div>
-	<div class={`${styles.cardWrapper} justify-between`}>
+	<div class="mb-2 flex w-full justify-between px-2">
 		<div class="flex items-center">
 			<span> Rewards End in </span>
 			<TooltipIcon
-				tooltipText={`Total amount that you currently have locked in for rewards.`}
+				tooltipText="Total amount that you currently have locked in for rewards."
 				styleClass="ml-1"
 			/>
 		</div>
@@ -79,8 +79,8 @@
 				<div slot="active" let:timer class="mx-auto">
 					<Tooltip tooltipText={epochToDurationString(timer)} tooltipDirection="tooltip-left">
 						<div
-							class="py-1 w-24 text-white rounded mx-auto text-sm text-center"
-							style={`background-color:${getColorHexByVariant(getInventoryDurationVariant(timer))}`}
+							class="mx-auto w-24 rounded py-1 text-center text-sm text-white"
+							style="background-color: {getColorHexByVariant(getInventoryDurationVariant(timer))}"
 						>
 							{epochToDurationString(timer, true)}
 						</div>

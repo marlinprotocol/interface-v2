@@ -17,21 +17,12 @@
 	export let endEpochTime: number;
 	export let currentCycle: number;
 	export let modalFor: string;
-
-	const styles = {
-		wrapper: 'flex flex-row gap-4 w-full mx-auto font-semibold text-sm sm:text-base',
-		column: 'flex flex-col align-center w-fit mx-auto',
-		conversionRow: 'flex flex-row gap-4 h-[50px]',
-		timerRow: 'flex flex-row gap-1.5 h-[50px] items-start justify-center'
-	};
 </script>
 
 <Modal {modalFor} isScrollable>
-	<svelte:fragment slot="title">
-		{'Conversion Cycle'}
-	</svelte:fragment>
+	<svelte:fragment slot="title">Conversion Cycle</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex flex-row w-full mb-8">
+		<div class="mb-8 flex w-full flex-row">
 			{#each MPOND_CONVERSION_CYCLE_TABLE_HEADER as headingData, i}
 				<div class="flex-1">
 					<TableHeadingText
@@ -45,11 +36,11 @@
 				</div>
 			{/each}
 		</div>
-		<div class={styles.wrapper}>
+		<div class="mx-auto flex w-full flex-row gap-4 text-sm font-semibold sm:text-base">
 			<div class="flex-1">
-				<div class={styles.column}>
+				<div class="align-center mx-auto flex w-fit flex-col">
 					{#each cycles as rowData, i}
-						<div class={`${currentCycle === i ? 'pl-0.5' : 'pl-1'} ${styles.conversionRow}`}>
+						<div class="{currentCycle === i ? 'pl-0.5' : 'pl-1'} flex h-[50px] flex-row gap-4">
 							<div class="flex flex-col items-center">
 								{#if currentCycle > i}
 									<img src={staticImages.Check} alt="Copy" width="20px" height="20px" />
@@ -64,33 +55,33 @@
 									<div class="h-full w-[0.1px] bg-grey-400" />
 								{/if}
 							</div>
-							{`${bigNumberToString(
+							{bigNumberToString(
 								rowData?.totalEligible,
 								DEFAULT_CURRENCY_DECIMALS,
 								POND_PRECISIONS
-							)}/${bigNumberToString(
+							)}/{bigNumberToString(
 								rowData?.netPending,
 								DEFAULT_CURRENCY_DECIMALS,
 								POND_PRECISIONS
-							)}`}
+							)}
 						</div>
 					{/each}
 				</div>
 			</div>
 			<div class="flex-1">
-				<div class={styles.column}>
+				<div class="align-center mx-auto flex w-fit flex-col">
 					{#each cycles as rowData, i}
-						<div class={styles.timerRow}>
+						<div class="flex h-[50px] flex-row items-start justify-center gap-1.5">
 							{#if currentCycle <= i}
 								<img src={staticImages.Timer} alt="Clock" width="15px" height="15px" class="mt-1" />
 							{/if}
 							{#if currentCycle === i}
-								<Timer timerId={`timer-for-mpond-conversion-${i}`} {endEpochTime}>
+								<Timer timerId="timer-for-mpond-conversion-{i}" {endEpochTime}>
 									<div slot="active" let:timer class="mx-auto">
 										{epochToDurationString(timer, true)}
 									</div>
 								</Timer>
-								<div class="w-1 h-1 bg-black rounded-2xl flex align-center mt-2.5" />
+								<div class="align-center mt-2.5 flex h-1 w-1 rounded-2xl bg-black" />
 							{/if}
 							{currentCycle > i ? 'Ready to claim' : epochSecToString(rowData?.timestamp)}
 						</div>

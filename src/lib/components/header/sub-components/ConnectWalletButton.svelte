@@ -10,8 +10,6 @@
 	export let isLarge = false;
 	export let connectButtonText = 'Connect Wallet';
 
-	const connectWalletStyles = 'flex gap-[10.3px] ';
-
 	const connect = async () => {
 		console.log('connecting to the wallet...');
 		const connection = await onboard.connectWallet();
@@ -25,21 +23,18 @@
 </script>
 
 {#if isLarge}
-	<Button
-		onclick={connect}
-		styleClass={`${connectWalletStyles} w-full h-14 text-base font-semibold`}
-	>
-		<Icon data={lock} size={20} iconColorClass={'icon-white'} />
+	<Button onclick={connect} styleClass="flex gap-[10.3px] w-full h-14 text-base font-semibold">
+		<Icon data={lock} size={20} iconColorClass="icon-white" />
 		Connect Wallet
 	</Button>
 {:else}
-	<div class="flex gap-2 items-center">
+	<div class="flex items-center gap-2">
 		<ChainSwitcher />
 		<Button
 			onclick={connect}
 			size="small"
 			variant="outlined"
-			styleClass={`${connectWalletStyles} w-fit text-sm h-12 flex items-center`}
+			styleClass="flex gap-[10.3px] w-fit text-sm h-12 flex items-center"
 		>
 			<img src="/images/lockicon.svg" alt="Connect" />
 			{connectButtonText}

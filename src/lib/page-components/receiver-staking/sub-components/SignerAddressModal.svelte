@@ -23,11 +23,6 @@
 
 	const subtitle =
 		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';
-	const styles = {
-		titleIcon: 'flex items-center gap-1',
-		inputNumber:
-			'input input-ghost h-[30px] w-full mt-1 p-0 font-semibold text-xl disabled:text-primary text-primary focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent'
-	};
 
 	async function handleSubmitClick() {
 		submitLoading = true;
@@ -78,9 +73,9 @@
 <Modal {modalFor} onClose={resetInputs}>
 	<svelte:fragment slot="title">
 		{#if $receiverStakingStore.signer !== DEFAULT_RECEIVER_STAKING_DATA.signer}
-			{'UPDATE SIGNER ADDRESS'}
+			UPDATE SIGNER ADDRESS
 		{:else}
-			{'SIGNER ADDRESS'}
+			SIGNER ADDRESS
 		{/if}
 	</svelte:fragment>
 	<svelte:fragment slot="subtitle">
@@ -89,16 +84,16 @@
 	<svelte:fragment slot="content">
 		{#if $receiverStakingStore.signer !== DEFAULT_RECEIVER_STAKING_DATA.signer}
 			<InputCard styleClass="mb-4">
-				<div class={styles.titleIcon}>
+				<div class="flex items-center gap-1">
 					<Text variant="small" text={'Current Signer Address'} />
 				</div>
 				<form>
-					<div class="flex gap-2 items-center">
+					<div class="flex items-center gap-2">
 						<input
 							bind:value={$receiverStakingStore.signer}
 							autocomplete="off"
 							id="currentSignerAddress"
-							class={`hideInputNumberAppearance ${styles.inputNumber}`}
+							class="hideInputNumberAppearance input input-ghost mt-1 h-[30px] w-full p-0 text-xl font-semibold text-primary placeholder:text-primary/[.2] focus-within:border-b-2 focus-within:text-primary focus:bg-transparent focus:outline-none disabled:text-primary"
 							disabled={true}
 						/>
 					</div>
@@ -106,17 +101,17 @@
 			</InputCard>
 		{/if}
 		<InputCard>
-			<div class={styles.titleIcon}>
-				<Text variant="small" text={'New Signer Address'} />
+			<div class="flex items-center gap-1">
+				<Text variant="small" text="New Signer Address" />
 			</div>
 			<form>
-				<div class="flex gap-2 items-center">
+				<div class="flex items-center gap-2">
 					<input
 						bind:value={updatedSignerAddress}
 						on:input={handleUpdatedSignerAddressInput}
 						autocomplete="off"
 						id="updatedSignerAddress"
-						class={`hideInputNumberAppearance ${styles.inputNumber}`}
+						class="hideInputNumberAppearance input input-ghost mt-1 h-[30px] w-full p-0 text-xl font-semibold text-primary placeholder:text-primary/[.2] focus-within:border-b-2 focus-within:text-primary focus:bg-transparent focus:outline-none disabled:text-primary"
 						placeholder="Enter Here"
 					/>
 				</div>

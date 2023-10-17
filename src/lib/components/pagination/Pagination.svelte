@@ -13,7 +13,7 @@
 	$: isFirstPage = activePage === 1;
 </script>
 
-<div class={`btn-group ${styleClass}`}>
+<div class="btn-group {styleClass}">
 	<button
 		disabled={isFirstPage}
 		class={buttonClasses.paginationButton}
@@ -33,7 +33,7 @@
 		{#if page > activePage - 4 && page < activePage + 4}
 			<button
 				disabled={page === activePage}
-				class={`${buttonClasses.paginationButton} ${page === activePage ? 'text-primary' : ''}`}
+				class="{buttonClasses.paginationButton} {page === activePage ? 'text-primary' : ''}"
 				on:click={() => handlePageChange(page)}
 			>
 				{page}

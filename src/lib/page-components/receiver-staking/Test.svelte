@@ -39,7 +39,7 @@
 </script>
 
 <div>
-	<h2 class="text-primary text-2xl font-bold my-5">{pageTitle}</h2>
+	<h2 class="my-5 text-2xl font-bold text-primary">{pageTitle}</h2>
 	<div>Environment: {environment.environment_name}</div>
 	{#if $connected}
 		<div>Address: {$walletStore.address}</div>

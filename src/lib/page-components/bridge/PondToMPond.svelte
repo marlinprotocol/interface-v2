@@ -21,12 +21,6 @@
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import PondApproveConfirmModal from '$lib/page-components/bridge/PondApproveConfirmModal.svelte';
 
-	const styles = {
-		wrapper: 'w-full flex flex-col items-center justify-center py-8',
-		cardWrapper: 'w-full flex px-2 mb-2',
-		buttonLarge: 'h-14 text-base font-semibold flex gap-1 w-full'
-	};
-
 	let modalFor = 'pond-approve-confirm-modal';
 	//initial amount states
 	let inputAmount: bigint;
@@ -72,13 +66,13 @@
 	$: enableConversion = inputAmount && inputAmount > 0 && $walletBalanceStore.pond >= inputAmount;
 </script>
 
-<div class="my-2 mx-2">
+<div class="mx-2 my-2">
 	<AmountInputWithMaxButton
 		title="From"
 		bind:inputAmountString
 		{handleUpdatedAmount}
 		maxAmountText={balanceText}
-		inputCardVariant={'none'}
+		inputCardVariant="none"
 	>
 		<Text slot="input-end-button" text="POND" fontWeight="font-medium" />
 		<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
@@ -91,7 +85,7 @@
 	<Divider margin="mt-2 mb-3" />
 	<AmountInputWithMaxButton
 		title="To"
-		inputCardVariant={'none'}
+		inputCardVariant="none"
 		inputAmountString={convertedAmountString}
 	>
 		<Text slot="input-end-button" text="MPond" fontWeight="font-medium" />
@@ -99,9 +93,13 @@
 </div>
 {#if $connected}
 	{#if !enableConversion}
-		<Button styleClass={styles.buttonLarge} disabled>PROCEED TO CONVERSION</Button>
+		<Button styleClass="h-14 text-base font-semibold flex gap-1 w-full" disabled
+			>PROCEED TO CONVERSION</Button
+		>
 	{:else}
-		<ModalButton {modalFor} styleClass={`${styles.buttonLarge}`}>PROCEED TO CONVERSION</ModalButton>
+		<ModalButton {modalFor} styleClass="h-14 text-base font-semibold flex gap-1 w-full"
+			>PROCEED TO CONVERSION</ModalButton
+		>
 	{/if}
 {:else}
 	<ConnectWalletButton isLarge={true} />

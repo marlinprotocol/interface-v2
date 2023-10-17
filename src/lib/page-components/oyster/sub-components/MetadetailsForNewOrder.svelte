@@ -161,13 +161,13 @@
 	dataList={merchantAddressList}
 	searchValue={merchant.value}
 	setSearchValue={handleMerchantChange}
-	title={'Operator'}
-	placeholder={'Enter operator name or address'}
+	title="Operator"
+	placeholder="Enter operator name or address"
 />
 <ErrorTextCard
 	showError={merchant.isDirty && merchant.error !== ''}
 	errorMessage={merchant.error}
-	styleClass={'mt-0'}
+	styleClass="mt-0"
 />
 <div class="flex gap-2">
 	<div class="w-full">
@@ -175,8 +175,8 @@
 			dataList={filters?.instance ?? []}
 			searchValue={instance.value}
 			setSearchValue={handleInstanceChange}
-			title={'Instance'}
-			placeholder={'Select instance'}
+			title="Instance"
+			placeholder="Select instance"
 			disabled={!merchant.value}
 		/>
 	</div>
@@ -185,8 +185,8 @@
 			dataList={filters?.region ?? []}
 			searchValue={region.value}
 			setSearchValue={handleRegionChange}
-			title={'Region'}
-			placeholder={'Select region'}
+			title="Region"
+			placeholder="Select region"
 			disabled={!merchant.value}
 		/>
 	</div>
@@ -194,30 +194,30 @@
 <ErrorTextCard
 	showError={instance.isDirty && instance.error !== ''}
 	errorMessage={instance.error}
-	styleClass={'mt-0'}
+	styleClass="mt-0"
 />
 <ErrorTextCard
 	showError={region.isDirty && region.error !== ''}
 	errorMessage={region.error}
-	styleClass={'mt-0'}
+	styleClass="mt-0"
 />
 <div class="flex gap-2">
 	<div class="w-full">
-		<TextInputWithEndButton title={'vCPU'} bind:input={vcpu} placeholder={'Select'} />
+		<TextInputWithEndButton title="vCPU" bind:input={vcpu} placeholder="Select" />
 	</div>
 	<div class="w-full">
 		<TextInputWithEndButton
-			title={'Architecture'}
+			title="Architecture"
 			bind:input={arch.value}
-			placeholder={'Select'}
+			placeholder="Select"
 			disabled
 		/>
 	</div>
 	<div class="w-full">
 		<TextInputWithEndButton
-			title={`Memory (${MEMORY_SUFFIX.trimStart()})`}
+			title="Memory ({MEMORY_SUFFIX.trimStart()})"
 			bind:input={memory}
-			placeholder={'Select'}
+			placeholder="Select"
 		/>
 	</div>
 </div>

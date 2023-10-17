@@ -45,7 +45,7 @@
 </script>
 
 <div class="mx-auto">
-	<PageTitle title={'Infrastructure Providers'} />
+	<PageTitle title="Infrastructure Providers" />
 	<OysterMarketplaceFilters
 		bind:filteredData
 		bind:filterMap
@@ -71,4 +71,3 @@
 		{/if}
 	</OysterTableCommon>
 </div>
-<CreateOrderModal modalFor="create-new-order-from-marketplace" />

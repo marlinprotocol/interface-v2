@@ -39,7 +39,7 @@
 			<svelte:fragment slot="copyIcon">
 				<div class="w-4">
 					<div class="copy-icon cursor-pointer">
-						<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
+						<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 					</div>
 				</div>
 			</svelte:fragment>
@@ -61,11 +61,11 @@
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		<Tooltip
-			tooltipText={`${$oysterTokenMetadataStore.symbol}${bigNumberToString(
+			tooltipText="{$oysterTokenMetadataStore.symbol}${bigNumberToString(
 				amountToBeSettled,
 				$oysterTokenMetadataStore.decimal,
 				$oysterTokenMetadataStore.precision
-			)}`}
+			)}"
 		>
 			{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 				amountToBeSettled,
@@ -75,8 +75,8 @@
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		<div
-			class="py-1 w-24 text-white rounded mx-auto text-sm capitalize"
-			style={`background-color:${statusColor}`}
+			class="mx-auto w-24 rounded py-1 text-sm capitalize text-white"
+			style="background-color:${statusColor}"
 		>
 			{status}
 		</div>
@@ -89,12 +89,13 @@
 			disabled={submitLoading || status === 'closed'}
 			styleClass="w-fit px-8 rounded text-xs mr-6"
 		>
-			{'CLAIM'}
+			CLAIM
 		</Button>
 	</td>
 </tr>
 
 <style>
+	/* TODO: migrate these classes to tailwind and then refactor the copy to clipboard functionality */
 	/* show icon only on hover on table-row */
 	.main-row:hover .copy-icon {
 		display: flex;

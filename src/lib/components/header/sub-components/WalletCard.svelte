@@ -3,13 +3,9 @@
 
 	export let imageSrc: string;
 	export let title: string;
-
-	const styles = {
-		card: 'bg-base-200 rounded-lg overflow-hidden p-4 w-1/2 flex flex-col items-center'
-	};
 </script>
 
-<div class={styles.card}>
+<div class="flex w-1/2 flex-col items-center overflow-hidden rounded-lg bg-base-200 p-4">
 	{#if imageSrc}
 		<img src={imageSrc} alt={title} width="64px" />
 	{/if}

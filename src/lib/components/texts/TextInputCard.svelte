@@ -13,16 +13,11 @@
 	export let centered = false;
 	export let cliboardContent: string | undefined = '';
 
-	const styles = {
-		titleIcon: `flex items-center gap-1 ${centered ? 'justify-center' : ''} mb-1`,
-		value: `${textStyle} flex  ${centered ? 'text-center justify-center items-center' : ''}`
-	};
-
 	$: successMessage = `${title} copied to clipboard`;
 </script>
 
 <InputCard variant={'primary'}>
-	<div class={styles.titleIcon}>
+	<div class="mb-1 flex items-center gap-1 {centered ? 'justify-center' : ''}">
 		<Text variant="small" text={title} />
 		{#if tooltipText}
 			<TooltipIcon
@@ -32,14 +27,19 @@
 			/>
 		{/if}
 	</div>
-	<div class={styles.value}>
-		<Text variant="small" text={value} fontWeight="font-medium" styleClass={styles.value} />
+	<div class="flex {textStyle} {centered ? 'items-center justify-center text-center' : ''}">
+		<Text
+			variant="small"
+			text={value}
+			fontWeight="font-medium"
+			styleClass="flex {textStyle} {centered ? 'items-center justify-center text-center' : ''}"
+		/>
 		{#if cliboardContent !== '' && cliboardContent !== undefined}
 			<button
-				class="cursor-pointer ml-2"
+				class="ml-2 cursor-pointer"
 				on:click={() => handleCopyClick(cliboardContent, successMessage)}
 			>
-				<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
+				<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 			</button>
 		{/if}
 	</div>

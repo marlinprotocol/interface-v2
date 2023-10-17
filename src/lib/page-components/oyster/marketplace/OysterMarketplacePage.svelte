@@ -2,7 +2,6 @@
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
 	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
 	import { OYSTER_MARKETPLACE_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { sortOysterMarketplace } from '$lib/utils/helpers/oysterHelpers';

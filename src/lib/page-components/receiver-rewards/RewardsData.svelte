@@ -8,11 +8,6 @@
 	import { epochToDurationString } from '$lib/utils/helpers/conversionHelper';
 	import { getInventoryDurationVariant } from '$lib/utils/helpers/oysterHelpers';
 
-	const styles = {
-		wrapper: 'w-full flex flex-col items-center justify-center py-8',
-		cardWrapper: 'w-full flex px-2 mb-2'
-	};
-
 	function getRewardTimeEnd(
 		startTime: number,
 		epochDuration: number,

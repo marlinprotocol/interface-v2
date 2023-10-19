@@ -42,10 +42,11 @@ export const getInstanceMetadatDataForOperator = (
 			);
 		});
 		if (!operatorInstance) return undefined;
+
 		return {
-			vcpu: operatorInstance[0].vcpu,
-			memory: operatorInstance[0].memory,
-			arch: operatorInstance[0].arch
+			vcpu: operatorInstance[0]?.vcpu ?? 'N/A',
+			memory: operatorInstance[0]?.memory ?? 'N/A',
+			arch: operatorInstance[0]?.arch ?? 'N/A'
 		};
 	}
 };

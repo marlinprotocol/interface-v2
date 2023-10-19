@@ -267,16 +267,15 @@ export const OYSTER_MARKETPLACE_TABLE_HEADER: TableModel['header'][] = [
 		tooltipText: 'Number of vCPUs in the instance'
 	},
 	{
-		title: 'ARCH',
-		id: 'arch',
-		sorting: true,
-		tooltipText: 'Architecture of the instance'
-	},
-	{
 		title: 'MEMORY',
 		id: 'memory',
 		sorting: true,
 		tooltipText: 'Memory allocated to the instance'
+	},
+	{
+		title: 'ARCH',
+		id: 'arch',
+		tooltipText: 'Architecture of the instance'
 	},
 	{
 		title: '',

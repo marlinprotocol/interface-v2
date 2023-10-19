@@ -45,12 +45,7 @@
 
 <div class="mx-auto">
 	<PageTitle title="Infrastructure Providers" />
-	<OysterMarketplaceFilters
-		bind:filteredData
-		bind:filterMap
-		allMarketplaceData={$oysterStore.allMarketplaceData}
-		{onFilterClick}
-	/>
+	<OysterMarketplaceFilters bind:filteredData bind:filterMap {onFilterClick} />
 	<OysterTableCommon
 		walletConnectionRequired={false}
 		{handleSortData}

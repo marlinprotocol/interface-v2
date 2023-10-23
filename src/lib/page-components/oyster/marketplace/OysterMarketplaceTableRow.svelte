@@ -64,10 +64,10 @@
 		{vcpu ? vcpu : 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		{arch ? arch : 'N/A'}
+		{memory ? `${memory}${MEMORY_SUFFIX}` : 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		{memory ? `${memory}${MEMORY_SUFFIX}` : 'N/A'}
+		{arch ? arch : 'N/A'}
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		{#if $connected}

@@ -9,9 +9,6 @@
 	$: tooltipClass = `${styleClass} ${tooltipVariant} ${tooltipDirection}`;
 </script>
 
-<div
-	class="tooltip flex shrink-0 items-center justify-center text-left font-normal {tooltipClass}"
-	data-tip={tooltipText}
->
+<div class="tooltip inline-flex text-left font-normal {tooltipClass}" data-tip={tooltipText}>
 	<slot />
 </div>

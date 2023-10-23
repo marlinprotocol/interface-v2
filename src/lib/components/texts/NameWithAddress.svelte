@@ -34,7 +34,7 @@
 			</div>
 		{/if}
 	</div>
-	<div>
+	<div class="flex flex-col items-start">
 		{#if name}
 			<Tooltip tooltipText={name}>
 				<Text
@@ -44,18 +44,24 @@
 					styleClass="truncate"
 				/>
 			</Tooltip>
+			<div class="flex w-fit items-center gap-1">
+				<Text
+					variant="tiny"
+					styleClass="text-grey"
+					fontWeight="font-normal"
+					text={shortenText(address, 6, 6)}
+				/>
+				<button on:keypress={onCopyAddress} on:click={onCopyAddress}>
+					<slot name="copyIcon" />
+				</button>
+			</div>
+		{:else}
+			<div class="my-2 flex w-fit items-center gap-1">
+				<Text variant="body" fontWeight="font-medium" text={shortenText(address, 6, 6)} />
+				<button on:keypress={onCopyAddress} on:click={onCopyAddress}>
+					<slot name="copyIcon" />
+				</button>
+			</div>
 		{/if}
-
-		<div class="flex w-fit items-center gap-1">
-			<Text
-				variant={name ? 'tiny' : 'body'}
-				styleClass={name ? 'text-grey' : ''}
-				fontWeight={name ? 'font-normal' : 'font-medium'}
-				text={shortenText(address, 6, 6)}
-			/>
-			<button on:keypress={onCopyAddress} on:click={onCopyAddress}>
-				<slot name="copyIcon" />
-			</button>
-		</div>
 	</div>
 </div>

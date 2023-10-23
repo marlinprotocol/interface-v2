@@ -29,7 +29,7 @@
 		showSuggestions = false;
 		value =
 			typeof suggestion === 'string' || typeof suggestion === 'number' ? suggestion : suggestion[1];
-		await setValue?.(value);
+		setValue?.(value);
 	};
 </script>
 
@@ -51,7 +51,7 @@
 			</div>
 			{#each suggestions as suggestion}
 				<li
-					class="cursor-pointer px-8 py-3 text-left hover:bg-gray-100 {Array.isArray(suggestion)
+					class="cursor-pointer text-left hover:bg-gray-100 {Array.isArray(suggestion)
 						? suggestion[1] === value
 							? 'bg-blue-50'
 							: 'bg-white'
@@ -59,7 +59,10 @@
 						? 'bg-blue-50'
 						: 'bg-white'}"
 				>
-					<button on:click={() => handleSuggestionClick(suggestion)}>
+					<button
+						class="w-full px-8 py-3 text-left"
+						on:click={() => handleSuggestionClick(suggestion)}
+					>
 						<!-- if the suggestion list has an array/object for displaying suggestions. Eg. region select-->
 						{#if Array.isArray(suggestion)}
 							<label

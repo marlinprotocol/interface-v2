@@ -320,6 +320,13 @@ export const getSearchAndFilteredMarketplaceData = (
 		});
 	}
 
+	if (filterMap.arch) {
+		const value = filterMap.arch.toString();
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return exactMatch ? item.arch?.toString() === value : item.arch?.toString()?.includes(value);
+		});
+	}
+
 	// if (filterMap.rate) {
 	// 	const value = filterMap.rate;
 	// 	allMarketplaceData = allMarketplaceData.filter((item) => {
@@ -389,6 +396,7 @@ export function getAllFiltersListforMarketplaceData(
 		(region, index, self) => index === self.findIndex((t) => t[1] === region[1])
 	);
 	const instances = filteredData.map((item) => item.instance);
+	const arch = filteredData.map((item) => item.arch);
 	const vcpus = filteredData
 		.map((item) => item.vcpu ?? 0)
 		.filter((item) => item !== 0)
@@ -405,7 +413,8 @@ export function getAllFiltersListforMarketplaceData(
 		instance: addAllToList(instances, addAllOption),
 		region: addAllToList(filteredRegions, addAllOption),
 		vcpu: addAllToList(vcpus, addAllOption),
-		memory: addAllToList(memories, addAllOption)
+		memory: addAllToList(memories, addAllOption),
+		arch: addAllToList(arch, addAllOption)
 		// rate: addAllToList(rates, addAllOption)
 	} as OysterFiltersModel;
 }

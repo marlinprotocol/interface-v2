@@ -17,7 +17,6 @@
 	let searchInput = '';
 	let activePage = 1;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
-	let inventoryData: OysterInventoryDataModel[] | undefined;
 
 	// Defining a Set to store the indices of the expanded rows
 	let expandedRows = new Set<string>();
@@ -28,8 +27,8 @@
 		} else {
 			sortingMap[id] = 'asc';
 		}
-		inventoryData = sortOysterInventory(
-			inventoryData,
+		searchedData = sortOysterInventory(
+			searchedData,
 			id as keyof OysterInventoryDataModel,
 			sortingMap[id]
 		);

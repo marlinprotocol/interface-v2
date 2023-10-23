@@ -11,8 +11,6 @@
 	} from '$lib/data-stores/walletProviderStore';
 	import { mPondToPond } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
-
-	import { onDestroy } from 'svelte';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { confirmMPondConversion } from '$lib/controllers/contract/bridge';
@@ -25,12 +23,8 @@
 	export let modalToClose: string;
 	export let handleOnSuccess: (txnHash: string) => void;
 
-	let amount = 0n;
 	let approved = false;
-	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
-		amount = value.allowances.mPond;
-	});
-	onDestroy(unsubscribeBridgeStore);
+	let txnHash = '';
 
 	const handleApproveClick = async () => {
 		try {
@@ -50,7 +44,6 @@
 		}
 	};
 
-	let txnHash = '';
 	const handleConfirmClick = async () => {
 		try {
 			const txn = await confirmMPondConversion(requestEpoch, mpondToConvert);
@@ -66,7 +59,8 @@
 			throw error;
 		}
 	};
-	$: approved = amount >= mpondToConvert || false;
+
+	$: approved = $bridgeStore.allowances.mPond >= mpondToConvert || false;
 </script>
 
 <ApproveAndConfirmModal

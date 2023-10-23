@@ -27,7 +27,6 @@
 	let instanceCostScaled = 0n;
 	let invalidCost = false;
 	let durationUnitInSec: number;
-
 	//loading states
 	let submitLoading = false;
 	let approvedLoading = false;

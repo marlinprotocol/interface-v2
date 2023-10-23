@@ -6,30 +6,15 @@
 	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
 	import { OYSTER_MARKETPLACE_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { sortOysterMarketplace } from '$lib/utils/helpers/oysterHelpers';
-	import { onDestroy } from 'svelte';
-	import type { Unsubscriber } from 'svelte/store';
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
 	import OysterMarketplaceFilters from '$lib/page-components/oyster/marketplace/OysterMarketplaceFilters.svelte';
 	import OysterMarketplaceTableRow from '$lib/page-components/oyster/marketplace/OysterMarketplaceTableRow.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 
 	let activePage = 1;
-	let loading = true;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
 	let filterMap: Record<string, string> = {};
-
-	const itemsPerPage = TABLE_ITEMS_PER_PAGE;
-
-	let allMarketplaceData: OysterMarketplaceDataModel[];
 	let filteredData: OysterMarketplaceDataModel[];
-
-	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
-		allMarketplaceData = value.allMarketplaceData;
-		filteredData =
-			filterMap && Object.keys(filterMap).length > 0 ? filteredData : allMarketplaceData;
-		loading = !value.marketplaceLoaded;
-	});
-	onDestroy(unsubscribeOysterStore);
 
 	const handleSortData = (id: string) => {
 		if (sortingMap[id]) {
@@ -48,25 +33,31 @@
 		activePage = 1;
 	};
 
+	$: filteredData =
+		filterMap && Object.keys(filterMap).length > 0 ? filteredData : $oysterStore.allMarketplaceData;
 	// get page array based on inventory and itemsPerPage
-	$: pageCount = Math.ceil((filteredData?.length ?? 0) / itemsPerPage);
-
+	$: pageCount = Math.ceil((filteredData?.length ?? 0) / TABLE_ITEMS_PER_PAGE);
 	// get paginated data based on activePage
 	$: paginatedData = filteredData?.slice(
-		(activePage - 1) * itemsPerPage,
-		activePage * itemsPerPage
+		(activePage - 1) * TABLE_ITEMS_PER_PAGE,
+		activePage * TABLE_ITEMS_PER_PAGE
 	);
 </script>
 
 <div class="mx-auto">
 	<PageTitle title={'Infrastructure Providers'} />
-	<OysterMarketplaceFilters bind:filteredData bind:filterMap {allMarketplaceData} {onFilterClick} />
+	<OysterMarketplaceFilters
+		bind:filteredData
+		bind:filterMap
+		allMarketplaceData={$oysterStore.allMarketplaceData}
+		{onFilterClick}
+	/>
 	<OysterTableCommon
 		walletConnectionRequired={false}
 		{handleSortData}
 		tableHeading={OYSTER_MARKETPLACE_TABLE_HEADER}
-		{loading}
-		noDataFound={paginatedData?.length ? false : true}
+		loading={!$oysterStore.marketplaceLoaded}
+		noDataFound={!paginatedData?.length}
 	>
 		{#if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex (rowData.id)}

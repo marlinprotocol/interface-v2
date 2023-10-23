@@ -19,8 +19,6 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	$: ({ reviseRate: { stopStatus = '', updatesAt = 0 } = {} } = jobData);
-
 	let submitLoading = false;
 	let cancelLoading = false;
 
@@ -50,6 +48,7 @@
 		handleJobStatusOnStopTimerEnd(jobData);
 	};
 
+	$: ({ reviseRate: { stopStatus = '', updatesAt = 0 } = {} } = jobData);
 	$: modalTitle =
 		stopStatus === '' || stopStatus === 'disabled'
 			? 'INITIATE STOP'

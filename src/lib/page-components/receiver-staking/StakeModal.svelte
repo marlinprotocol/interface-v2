@@ -22,10 +22,7 @@
 	import type { Address } from '$lib/types/storeTypes';
 	import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { MESSAGES } from '$lib/utils/constants/messages';
-	import {
-		DEFAULT_RECEIVER_STAKING_DATA,
-		DEFAULT_WALLET_BALANCE_STORE
-	} from '$lib/utils/constants/storeDefaults';
+	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import {
 		closeModal,
@@ -33,7 +30,6 @@
 		isAddressValid,
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
-	import { onDestroy } from 'svelte';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import {
@@ -44,56 +40,33 @@
 
 	export let modalFor: string;
 
-	//texts
 	const toolTipText = 'Enter the amount of POND you would like to stake to the receiver address.';
 	const addressToolTipText =
 		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';
+	const styles = {
+		titleIcon: 'flex items-center gap-1',
+		inputNumber:
+			'input input-ghost h-[30px] w-full mt-1 p-0 font-semibold text-xl disabled:text-primary text-primary focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent'
+	};
 
 	//initial amount states
 	let inputAmount: bigint;
 	let inputAmountString: string;
-	let approvedAmount: bigint;
-
-	$: inputAmount = isInputAmountValid(inputAmountString)
-		? stringToBigNumber(inputAmountString)
-		: 0n;
-
 	//loading states
 	let approveLoading = false;
 	let submitLoading = false;
-
 	//max amount in wallet
-	let maxPondBalance = DEFAULT_WALLET_BALANCE_STORE.pond;
 	let balanceText = 'Balance: 0.00';
-	const unsubscribeWalletBalanceStore = walletBalanceStore.subscribe((value) => {
-		maxPondBalance = value.pond;
-		balanceText = `Balance: ${bigNumberToString(
-			maxPondBalance,
-			DEFAULT_CURRENCY_DECIMALS,
-			POND_PRECISIONS
-		)}`;
-	});
-
-	//approve balance
-	const unsubscribeReceiverStakingStore = receiverStakingStore.subscribe((value) => {
-		approvedAmount = value.approvedBalance;
-	});
-
 	//signer address states
 	let signerAddressIsValid = false;
 	let signerAddressIsUnique = false;
 	let updatedSignerAddress: Address = '';
 	let updatedSignerAddressInputDirty = false;
-
 	//input amount states
 	let inputAmountIsValid = true;
 	let inValidMessage = '';
 	let updatedAmountInputDirty = false;
 
-	/**
-	 * checks if address is valid as user types input
-	 * @param event
-	 */
 	const handleUpdatedSignerAddressInput = async (event: Event) => {
 		updatedSignerAddressInputDirty = true;
 		const target = event.target as HTMLInputElement;
@@ -108,10 +81,6 @@
 		}
 	};
 
-	/**
-	 * checks if input amount is valid
-	 * @param event
-	 */
 	const handleUpdatedAmount = (event: Event) => {
 		updatedAmountInputDirty = true;
 		const target = event.target as HTMLInputElement;
@@ -147,9 +116,9 @@
 	};
 
 	const handleMaxClick = () => {
-		if (maxPondBalance) {
+		if ($walletBalanceStore.pond) {
 			inputAmountString = bigNumberToString(
-				maxPondBalance,
+				$walletBalanceStore.pond,
 				DEFAULT_CURRENCY_DECIMALS,
 				POND_PRECISIONS,
 				false
@@ -185,7 +154,6 @@
 		}
 	};
 
-	//reset amount and signer address
 	const resetInputs = () => {
 		inputAmountString = '';
 		signerAddressIsValid = false;
@@ -196,44 +164,44 @@
 		inValidMessage = '';
 	};
 
-	onDestroy(unsubscribeWalletBalanceStore);
-	onDestroy(unsubscribeReceiverStakingStore);
-
+	$: balanceText = `Balance: ${bigNumberToString(
+		$walletBalanceStore.pond,
+		DEFAULT_CURRENCY_DECIMALS,
+		POND_PRECISIONS
+	)}`;
+	$: inputAmount = isInputAmountValid(inputAmountString)
+		? stringToBigNumber(inputAmountString)
+		: 0n;
 	//button states
 	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount or approved amount is less than or equal to input amount, disable approve button
 	$: approveDisabled =
 		!inputAmount ||
 		!(inputAmount > 0n) ||
-		!(maxPondBalance >= inputAmount) ||
-		approvedAmount >= inputAmount;
+		!($walletBalanceStore.pond >= inputAmount) ||
+		$receiverStakingStore.approvedBalance >= inputAmount;
 
 	//if no input amount, no maxPondBalance, maxPondBalance is less than inputAmount, disable submit button
 	$: pondDisabledText =
-		inputAmount && inputAmount > 0 && !(maxPondBalance >= inputAmount) ? 'Insufficient POND' : '';
-
+		inputAmount && inputAmount > 0 && !($walletBalanceStore.pond >= inputAmount)
+			? 'Insufficient POND'
+			: '';
 	$: signerAddressNotAdded = $receiverStakingStore.signer === DEFAULT_RECEIVER_STAKING_DATA.signer;
 	//if signerAddress is already set then we consider only inputAmount else we also consider signerAddress to be set while disabling submit button
 	$: submitEnable = signerAddressNotAdded
 		? inputAmount &&
 		  inputAmount > 0 &&
-		  approvedAmount >= inputAmount &&
-		  maxPondBalance >= inputAmount &&
+		  $receiverStakingStore.approvedBalance >= inputAmount &&
+		  $walletBalanceStore.pond >= inputAmount &&
 		  updatedSignerAddress !== '' &&
 		  signerAddressIsValid &&
 		  signerAddressIsUnique
 		: inputAmount &&
 		  inputAmount > 0 &&
-		  approvedAmount >= inputAmount &&
-		  maxPondBalance >= inputAmount;
-
+		  $receiverStakingStore.approvedBalance >= inputAmount &&
+		  $walletBalanceStore.pond >= inputAmount;
 	$: subtitle = signerAddressNotAdded
 		? 'Staking POND requires users to approve the POND tokens. After approval, enter the signer address mentioned in the receiver client and confirm the transaction. There is no lock-in period for staking POND.'
 		: 'Staking POND requires users to approve the POND tokens first and then confirm the transaction. There is no lock-in period for staking POND.';
-	const styles = {
-		titleIcon: 'flex items-center gap-1',
-		inputNumber:
-			'input input-ghost h-[30px] w-full mt-1 p-0 font-semibold text-xl disabled:text-primary text-primary focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent'
-	};
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
@@ -273,7 +241,7 @@
 				disabled={approveDisabled}
 				loading={approveLoading}
 				bind:inputAmount
-				bind:approvedAmount
+				bind:approvedAmount={$receiverStakingStore.approvedBalance}
 				{handleApproveClick}
 			/>
 		</AmountInputWithMaxButton>

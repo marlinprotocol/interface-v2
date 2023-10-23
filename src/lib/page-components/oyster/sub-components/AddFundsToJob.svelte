@@ -3,7 +3,10 @@
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
 	import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
-	import { OYSTER_DURATION_UNITS_LIST } from '$lib/utils/constants/oysterConstants';
+	import {
+		DEFAULT_OYSTER_DURATION_UNIT,
+		OYSTER_DURATION_UNITS_LIST
+	} from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
 		convertHourlyRateToSecondlyRate,
@@ -21,15 +24,16 @@
 	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 
 	const durationUnitList = OYSTER_DURATION_UNITS_LIST.map((unit) => unit.label);
-	let durationUnit = 'Days';
+
 	export let instanceRate: bigint | undefined;
 	export let duration: number | undefined;
 	export let instanceCostScaled: bigint;
 	export let invalidCost = false;
 	export let instanceCostString = '';
 	export let isTotalRate = false;
-	export let durationUnitInSec = getDurationInSecondsForUnit(durationUnit);
+	export let durationUnitInSec = getDurationInSecondsForUnit(DEFAULT_OYSTER_DURATION_UNIT);
 
+	let durationUnit = DEFAULT_OYSTER_DURATION_UNIT;
 	let instanceRateString = '';
 
 	const updateRateString = (_instanceRate: bigint | undefined) => {

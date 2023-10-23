@@ -10,29 +10,17 @@
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { OYSTER_INVENTORY_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { getSearchedInventoryData, sortOysterInventory } from '$lib/utils/helpers/oysterHelpers';
-	import { onDestroy } from 'svelte';
 	import plus from 'svelte-awesome/icons/plus';
-	import type { Unsubscriber } from 'svelte/store';
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 
 	let searchInput = '';
 	let activePage = 1;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
-
-	const itemsPerPage = TABLE_ITEMS_PER_PAGE;
-
-	let loading = true;
 	let inventoryData: OysterInventoryDataModel[] | undefined;
 
 	// Defining a Set to store the indices of the expanded rows
 	let expandedRows = new Set<string>();
-
-	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
-		inventoryData = value.jobsData;
-		loading = !value.oysterStoreLoaded;
-	});
-	onDestroy(unsubscribeOysterStore);
 
 	const handleSortData = (id: string) => {
 		if (sortingMap[id]) {
@@ -56,15 +44,13 @@
 	};
 
 	// get searched data based on searchInput
-	$: searchedData = getSearchedInventoryData(searchInput, inventoryData);
-
+	$: searchedData = getSearchedInventoryData(searchInput, $oysterStore.jobsData);
 	// get page array based on inventory and itemsPerPage
-	$: pageCount = Math.ceil((searchedData?.length ?? 0) / itemsPerPage);
-
+	$: pageCount = Math.ceil((searchedData?.length ?? 0) / TABLE_ITEMS_PER_PAGE);
 	// get paginated data based on activePage
 	$: paginatedData = searchedData?.slice(
-		(activePage - 1) * itemsPerPage,
-		activePage * itemsPerPage
+		(activePage - 1) * TABLE_ITEMS_PER_PAGE,
+		activePage * TABLE_ITEMS_PER_PAGE
 	);
 </script>
 
@@ -88,7 +74,7 @@
 	<OysterTableCommon
 		{handleSortData}
 		tableHeading={OYSTER_INVENTORY_TABLE_HEADER}
-		{loading}
+		loading={!$oysterStore.oysterStoreLoaded}
 		noDataFound={paginatedData?.length ? false : true}
 		emptyTableMessage={'You do not have any active orders.'}
 	>

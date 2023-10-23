@@ -24,14 +24,13 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	$: ({ rate, reviseRate: { newRate = 0n, updatesAt = 0, rateStatus = '' } = {} } = jobData);
-
-	//initial states
+	// initial states
 	let inputRate = 0n;
 	let inputAmountString = '';
-
+	// loading states
 	let submitLoading = false;
 	let cancelLoading = false;
+	// error state
 	let showPrecisionError = false;
 
 	const handleInitiateClick = async () => {
@@ -67,6 +66,7 @@
 		}
 	};
 
+	$: ({ rate, reviseRate: { newRate = 0n, updatesAt = 0, rateStatus = '' } = {} } = jobData);
 	$: modalTitle =
 		rateStatus === ''
 			? 'INITIATE RATE REVISE'

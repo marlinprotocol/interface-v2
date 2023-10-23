@@ -13,9 +13,8 @@
 		mPondToPond
 	} from '$lib/utils/helpers/conversionHelper';
 
-	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];
-
 	export let modalFor: string;
+	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];
 </script>
 
 <Modal {modalFor} isScrollable>

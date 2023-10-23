@@ -52,10 +52,6 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Marlin Receiver Portal</title>
-</svelte:head>
-
 {#if chainSupported}
 	<StakeDashboard />
 {:else}

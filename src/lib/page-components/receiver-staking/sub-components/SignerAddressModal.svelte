@@ -13,13 +13,13 @@
 	import { DEFAULT_RECEIVER_STAKING_DATA } from '$lib/utils/constants/storeDefaults';
 	import { closeModal, isAddressValid } from '$lib/utils/helpers/commonHelper';
 
+	export let modalFor: string;
+
 	let updatedSignerAddress: Address = '';
 	let submitLoading = false;
 	let updatedSignerAddressInputDirty = false;
 	let signerAddressIsValid: boolean;
 	let signerAddressIsUnique = false;
-
-	export let modalFor: string;
 
 	const subtitle =
 		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';

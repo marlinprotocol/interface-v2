@@ -20,7 +20,6 @@
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { checkValidURL } from '$lib/utils/helpers/commonHelper';
-	import { onDestroy } from 'svelte';
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from '$lib/page-components/oyster/sub-components/InstancesTable.svelte';
 	import {
@@ -41,36 +40,16 @@
 		tableCell: tableCellClasses.rowMini
 	};
 
-	let displayAddress = '';
 	let enableRegisterButton = false;
-
 	let updatedCpURL = '';
 	let registeredCpURL = '';
 	let registered = false;
 	let disableCpURL = true;
+	let openInstanceTable = false;
+	// loading states
 	let unregisterLoading = false;
 	let registerLoading = false;
 	let updateLoading = false;
-
-	let openInstanceTable = false;
-
-	const unsubscribeWalletStore = walletStore.subscribe((value) => {
-		displayAddress = value.address;
-	});
-	onDestroy(unsubscribeWalletStore);
-
-	const unsubscribeOysterStore = oysterStore.subscribe((value) => {
-		if (value.providerData.data) {
-			registeredCpURL = value.providerData.data.cp;
-			updatedCpURL = value.providerData.data.cp;
-			registered = value.providerData.registered ?? false;
-		} else {
-			registeredCpURL = '';
-			updatedCpURL = '';
-			registered = false;
-		}
-	});
-	onDestroy(unsubscribeOysterStore);
 
 	const handleOnRegister = async () => {
 		if (connected) {
@@ -157,6 +136,9 @@
 	// Define the debounced version of getInstances
 	const debouncedGetInstances = debounce(getInstances, 4000);
 
+	$: registeredCpURL = $oysterStore.providerData.data?.cp ?? '';
+	$: updatedCpURL = $oysterStore.providerData.data?.cp ?? '';
+	$: registered = $oysterStore.providerData.registered ?? false;
 	$: if (updatedCpURL !== registeredCpURL) {
 		enableRegisterButton = false;
 	}
@@ -213,7 +195,7 @@
 		title={'Address'}
 		tooltipText={'Address of oyster operator'}
 		placeholder={'Enter your address here'}
-		bind:input={displayAddress}
+		bind:input={$walletStore.address}
 		disabled={true}
 	/>
 	<TextInputWithEndButton

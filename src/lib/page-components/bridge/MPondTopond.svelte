@@ -13,7 +13,6 @@
 		MPOND_PRECISIONS,
 		POND_PRECISIONS
 	} from '$lib/utils/constants/constants';
-	import { DEFAULT_WALLET_BALANCE_STORE } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToString,
 		mPondToPond,
@@ -21,7 +20,6 @@
 	} from '$lib/utils/helpers/conversionHelper';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 
-	import { onDestroy } from 'svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import { MPOND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
 	import { requestMPondConversion } from '$lib/controllers/contract/bridge';
@@ -36,42 +34,8 @@
 	let inputAmountIsValid = true;
 	let inValidMessage = '';
 	let updatedAmountInputDirty = false;
-
 	//loading states
 	let requestConversionLoading = false;
-
-	$: inputAmount = isInputAmountValid(inputAmountString)
-		? stringToBigNumber(inputAmountString)
-		: 0n;
-
-	$: convertedAmountString =
-		inputAmount > 0 ? bigNumberToString(mPondToPond(inputAmount), 18, POND_PRECISIONS) : '';
-
-	let walletMPondBalance: bigint = DEFAULT_WALLET_BALANCE_STORE.mpond;
-	let requestedMPond: bigint = 0n;
-
-	const unsubscribeWalletBalanceStore = walletBalanceStore.subscribe((value) => {
-		walletMPondBalance = value.mpond;
-	});
-	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
-		requestedMPond = value.requestedMPond;
-	});
-
-	$: unrequestedMPondBalance = walletMPondBalance - requestedMPond;
-	$: balanceText = $connected
-		? `Unrequested: ${bigNumberToString(
-				unrequestedMPondBalance,
-				DEFAULT_CURRENCY_DECIMALS,
-				MPOND_PRECISIONS
-		  )} | Requested: ${bigNumberToString(
-				requestedMPond,
-				DEFAULT_CURRENCY_DECIMALS,
-				MPOND_PRECISIONS
-		  )}`
-		: 'Unrequested: 0 | Requested: 0';
-
-	onDestroy(unsubscribeWalletBalanceStore);
-	onDestroy(unsubscribeBridgeStore);
 
 	const handleMaxClick = () => {
 		if (unrequestedMPondBalance) {
@@ -109,6 +73,23 @@
 		inValidMessage = '';
 	};
 
+	$: inputAmount = isInputAmountValid(inputAmountString)
+		? stringToBigNumber(inputAmountString)
+		: 0n;
+	$: convertedAmountString =
+		inputAmount > 0 ? bigNumberToString(mPondToPond(inputAmount), 18, POND_PRECISIONS) : '';
+	$: unrequestedMPondBalance = $walletBalanceStore.mpond - $bridgeStore.requestedMPond;
+	$: balanceText = $connected
+		? `Unrequested: ${bigNumberToString(
+				unrequestedMPondBalance,
+				DEFAULT_CURRENCY_DECIMALS,
+				MPOND_PRECISIONS
+		  )} | Requested: ${bigNumberToString(
+				$bridgeStore.requestedMPond,
+				DEFAULT_CURRENCY_DECIMALS,
+				MPOND_PRECISIONS
+		  )}`
+		: 'Unrequested: 0 | Requested: 0';
 	$: mPondDisabledText =
 		inputAmount && inputAmount > 0 && !(unrequestedMPondBalance >= inputAmount)
 			? 'Insufficient MPond'

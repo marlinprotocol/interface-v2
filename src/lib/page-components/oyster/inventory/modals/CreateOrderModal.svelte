@@ -26,6 +26,12 @@
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
 
+	const subtitle =
+		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';
+	const styles = {
+		inputText: 'px-4 py-2'
+	};
+
 	let duration = 0; //durationInSecs
 	let instanceCostScaled = 0n;
 	let invalidCost = false;
@@ -33,11 +39,12 @@
 	let bandwidthCostScaled = 0n;
 	let finalBandwidthRateScaled = 0n;
 	let totalCostScaled = 0n;
-
-	//loading states
-	let submitLoading = false;
 	let providerAddress: string | undefined = preFilledData.provider?.address;
-
+	let vcpu = '';
+	let memory = '';
+	let notServiceable = false;
+	//loading state
+	let submitLoading = false;
 	//initial states
 	let initialStates = {
 		merchant: {
@@ -173,9 +180,6 @@
 		region.value,
 		$oysterStore.allMarketplaceData
 	);
-	let vcpu = '';
-	let memory = '';
-	let notServiceable = false;
 
 	$: approved =
 		instanceCostScaled > 0n &&
@@ -209,13 +213,6 @@
 			: true;
 
 	$: totalRate = finalBandwidthRateScaled + (instanceRate || 0n);
-
-	const subtitle =
-		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';
-	const styles = {
-		inputText: 'px-4 py-2',
-		inputNumber: ''
-	};
 </script>
 
 <Modal {modalFor} onClose={resetInputs} padding={false} isScrollable={true}>

@@ -12,15 +12,12 @@
 		MPOND_PRECISIONS,
 		POND_PRECISIONS
 	} from '$lib/utils/constants/constants';
-	import { DEFAULT_WALLET_BALANCE_STORE } from '$lib/utils/constants/storeDefaults';
 	import {
 		bigNumberToString,
 		pondToMPond,
 		stringToBigNumber
 	} from '$lib/utils/helpers/conversionHelper';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
-
-	import { onDestroy } from 'svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import PondApproveConfirmModal from '$lib/page-components/bridge/PondApproveConfirmModal.svelte';
 
@@ -31,7 +28,6 @@
 	};
 
 	let modalFor = 'pond-approve-confirm-modal';
-
 	//initial amount states
 	let inputAmount: bigint;
 	let inputAmountString: string;
@@ -39,31 +35,12 @@
 	let inputAmountIsValid = true;
 	let inValidMessage = '';
 	let updatedAmountInputDirty = false;
-
 	let convertedAmountString: string;
-
-	$: inputAmount = isInputAmountValid(inputAmountString)
-		? stringToBigNumber(inputAmountString)
-		: 0n;
-
-	// convert pond to mPond by dividing by 10^6
-	$: convertedAmountString =
-		inputAmount > 0 ? bigNumberToString(pondToMPond(inputAmount), 18, MPOND_PRECISIONS) : '';
-	let maxPondBalance = DEFAULT_WALLET_BALANCE_STORE.pond;
 	let balanceText = 'Balance: 0.00';
-	const unsubscribeWalletBalanceStore = walletBalanceStore.subscribe((value) => {
-		maxPondBalance = value.pond;
-		balanceText = `Balance: ${bigNumberToString(
-			maxPondBalance,
-			DEFAULT_CURRENCY_DECIMALS,
-			POND_PRECISIONS
-		)}`;
-	});
-	onDestroy(unsubscribeWalletBalanceStore);
 
 	const handleMaxClick = () => {
-		if (maxPondBalance) {
-			inputAmountString = bigNumberToString(maxPondBalance, 18, 18, false);
+		if ($walletBalanceStore.pond) {
+			inputAmountString = bigNumberToString($walletBalanceStore.pond, 18, 18, false);
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
 			inValidMessage = '';
@@ -77,9 +54,22 @@
 		inValidMessage = inputAmountInValidMessage(target.value);
 	};
 
+	$: inputAmount = isInputAmountValid(inputAmountString)
+		? stringToBigNumber(inputAmountString)
+		: 0n;
+	// convert pond to mPond by dividing by 10^6
+	$: convertedAmountString =
+		inputAmount > 0 ? bigNumberToString(pondToMPond(inputAmount), 18, MPOND_PRECISIONS) : '';
+	$: balanceText = `Balance: ${bigNumberToString(
+		$walletBalanceStore.pond,
+		DEFAULT_CURRENCY_DECIMALS,
+		POND_PRECISIONS
+	)}`;
 	$: pondDisabledText =
-		inputAmount && inputAmount > 0 && !(maxPondBalance >= inputAmount) ? 'Insufficient POND' : '';
-	$: enableConversion = inputAmount && inputAmount > 0 && maxPondBalance >= inputAmount;
+		inputAmount && inputAmount > 0 && !($walletBalanceStore.pond >= inputAmount)
+			? 'Insufficient POND'
+			: '';
+	$: enableConversion = inputAmount && inputAmount > 0 && $walletBalanceStore.pond >= inputAmount;
 </script>
 
 <div class="my-2 mx-2">

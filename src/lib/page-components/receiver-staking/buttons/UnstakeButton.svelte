@@ -2,8 +2,10 @@
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import UnstakeModal from '$lib/page-components/receiver-staking/UnstakeModal.svelte';
 
-	let modalFor = 'unstake-modal';
 	export let disabled = false;
+
+	let modalFor = 'unstake-modal';
+
 	const styles = {
 		buttonLarge: 'h-14 text-base font-semibold w-full'
 	};

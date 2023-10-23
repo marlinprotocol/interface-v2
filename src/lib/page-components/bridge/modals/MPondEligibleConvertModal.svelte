@@ -12,7 +12,6 @@
 		inputAmountInValidMessage,
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
-
 	import MPondApproveConfirmModal from '$lib/page-components/bridge/modals/MPondApproveConfirmModal.svelte';
 
 	export let modalFor: string;
@@ -21,21 +20,10 @@
 	export let rowIndex: number;
 	export let handleOnSuccess: (convertedMPond: bigint, txnHash: string) => void;
 
-	$: balanceText = `Eligible Balance: ${bigNumberToString(
-		maxAmount,
-		DEFAULT_CURRENCY_DECIMALS,
-		MPOND_PRECISIONS
-	)}`;
-
 	//initial amount states
 	let inputAmount: bigint;
 	let inputAmountString: string;
 	let modalForMPondApproveConfirm = 'mpond-approve-confirm-modal';
-
-	$: inputAmount = isInputAmountValid(inputAmountString)
-		? stringToBigNumber(inputAmountString)
-		: 0n;
-
 	//input amount states
 	let inputAmountIsValid = true;
 	let updatedAmountInputDirty = false;
@@ -48,10 +36,6 @@
 		inputAmountIsValid = target.value ? isInputAmountValid(target.value) : true;
 		inValidMessage = inputAmountInValidMessage(target.value);
 	};
-
-	$: mPondDisabledText = inputAmount && inputAmount > maxAmount ? 'Insufficient balance' : '';
-	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;
-	$: modalIdWithRowIndex = `${modalForMPondApproveConfirm}-${rowIndex}`;
 
 	const handleMaxClick = () => {
 		if (maxAmount) {
@@ -76,6 +60,18 @@
 		closeModal(modalFor);
 		closeModal(modalIdWithRowIndex);
 	};
+
+	$: balanceText = `Eligible Balance: ${bigNumberToString(
+		maxAmount,
+		DEFAULT_CURRENCY_DECIMALS,
+		MPOND_PRECISIONS
+	)}`;
+	$: inputAmount = isInputAmountValid(inputAmountString)
+		? stringToBigNumber(inputAmountString)
+		: 0n;
+	$: mPondDisabledText = inputAmount && inputAmount > maxAmount ? 'Insufficient balance' : '';
+	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;
+	$: modalIdWithRowIndex = `${modalForMPondApproveConfirm}-${rowIndex}`;
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>

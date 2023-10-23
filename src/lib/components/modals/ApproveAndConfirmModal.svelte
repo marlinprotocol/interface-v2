@@ -6,7 +6,6 @@
 	import { DEFAULT_CURRENCY_DECIMALS } from '$lib/utils/constants/constants';
 	import { bigNumberToString, mPondToPond, pondToMPond } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
-
 	import { staticImages } from '$lib/components/images/staticImages';
 	import LoadingAnimationModal from '$lib/components/loading/LoadingAnimationModal.svelte';
 	import { getAmountPrecision } from '$lib/utils/helpers/bridgeHelpers';
@@ -20,22 +19,15 @@
 	export let confirmButtonText = 'CONFIRM';
 	export let amountConverted = 0n;
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
-
 	export let modalForApproveConfirm: string;
 
-	$: amountConvertedFrom = bigNumberToString(
-		amountConverted,
-		DEFAULT_CURRENCY_DECIMALS,
-		getAmountPrecision(conversionFrom)
-	);
-	$: amountConvertedTo = bigNumberToString(
-		conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted),
-		DEFAULT_CURRENCY_DECIMALS,
-		getAmountPrecision(conversionFrom === 'pond' ? 'mPond' : 'pond')
-	);
-	$: conversionFromText = conversionFrom === 'pond' ? 'POND' : 'MPond';
-	$: conversionToText = conversionFrom === 'pond' ? 'MPond' : 'POND';
-	$: modalForSuccessConversion = `success-conversion-modal-${rowIndex}`;
+	const styles = {
+		baseText: 'grow text-left  font-normal',
+		text: 'text-grey-500 font-[15px]',
+		textBold: 'font-semibold text-black',
+		textDisabled: 'font-semibold text-grey-300'
+	};
+
 	let approveLoading: boolean;
 	let confirmLoading: boolean;
 
@@ -66,12 +58,19 @@
 	};
 	// const modalWidth = 'max-w-[500px]';
 
-	const styles = {
-		baseText: 'grow text-left  font-normal',
-		text: 'text-grey-500 font-[15px]',
-		textBold: 'font-semibold text-black',
-		textDisabled: 'font-semibold text-grey-300'
-	};
+	$: amountConvertedFrom = bigNumberToString(
+		amountConverted,
+		DEFAULT_CURRENCY_DECIMALS,
+		getAmountPrecision(conversionFrom)
+	);
+	$: amountConvertedTo = bigNumberToString(
+		conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted),
+		DEFAULT_CURRENCY_DECIMALS,
+		getAmountPrecision(conversionFrom === 'pond' ? 'mPond' : 'pond')
+	);
+	$: conversionFromText = conversionFrom === 'pond' ? 'POND' : 'MPond';
+	$: conversionToText = conversionFrom === 'pond' ? 'MPond' : 'POND';
+	$: modalForSuccessConversion = `success-conversion-modal-${rowIndex}`;
 </script>
 
 <Modal modalFor={modalForApproveConfirm}>

@@ -10,6 +10,7 @@
 	import BridgeDashboard from '$lib/page-components/bridge/BridgeDashboard.svelte';
 	import { modifyAllowancesData } from '$lib/utils/data-modifiers/subgraphModifier';
 
+	// TODO: move this to +layout.ts and update the allowance function to fetch from correct subgraph
 	async function init() {
 		const [allowancesData, requestedMPond] = await Promise.all([
 			getPondAndMPondBridgeAllowancesFromSubgraph(

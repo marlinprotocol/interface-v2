@@ -302,6 +302,8 @@ export const OYSTER_DURATION_UNITS_LIST = [
 	}
 ];
 
+export const DEFAULT_OYSTER_DURATION_UNIT = 'Days';
+
 export const OYSTER_BANDWIDTH_UNITS_LIST = [
 	{
 		label: 'KB/s',
@@ -319,3 +321,5 @@ export const OYSTER_BANDWIDTH_UNITS_LIST = [
 		value: 1
 	}
 ];
+
+export const DEFAULT_BANDWIDTH_UNIT = 'KB/s';

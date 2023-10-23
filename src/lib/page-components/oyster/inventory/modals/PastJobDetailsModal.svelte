@@ -18,6 +18,17 @@
 	export let modalFor: string;
 	export let rowIndex: number;
 	export let jobData: OysterInventoryDataModel;
+
+	const styles = {
+		modalWidth: 'w-11/12 sm:max-w-[700px]',
+		textPrimary: 'text-primary'
+	};
+
+	const handleRedeploy = () => {
+		openModal(`create-order-modal-${rowIndex}`);
+		closeModal(modalFor);
+	};
+
 	$: ({
 		provider: { name, address },
 		instance,
@@ -32,16 +43,6 @@
 		depositHistory,
 		endEpochTime
 	} = jobData);
-
-	const handleRedeploy = () => {
-		openModal(`create-order-modal-${rowIndex}`);
-		closeModal(modalFor);
-	};
-
-	const styles = {
-		modalWidth: 'w-11/12 sm:max-w-[700px]',
-		textPrimary: 'text-primary'
-	};
 </script>
 
 <Modal {modalFor} modalWidth={styles.modalWidth} padding={false}>

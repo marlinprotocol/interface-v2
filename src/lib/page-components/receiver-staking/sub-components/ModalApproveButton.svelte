@@ -10,7 +10,6 @@
 
 	//approved if input amount is greater than 0 and approved amount is greater than input amount
 	$: approved = inputAmount > 0n && approvedAmount >= inputAmount;
-
 	$: styleClass = `${buttonClasses.text} h-10 text-xl font-semibold ${
 		disabled ? (approved ? ' text-primary' : ' text-primary text-opacity-30') : 'text-primary'
 	}`;

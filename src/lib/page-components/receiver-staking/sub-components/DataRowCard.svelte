@@ -5,6 +5,7 @@
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 
 	export let data: { title: string; value: bigint };
+
 	const styles = {
 		itemCard: 'w-full',
 		dataRow: 'flex items-center justify-between',

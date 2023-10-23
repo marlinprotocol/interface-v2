@@ -23,19 +23,13 @@
 	export let vcpu: string;
 	export let memory: string;
 	export let providerAddress: string | undefined;
-	export let handleChange = () => {
-		doNothing();
-	};
+	export let handleChange = () => doNothing();
 	export let notServiceable = false;
 
 	let filters: Partial<OysterFiltersModel> = getCreateOrderInstanceRegionFilters(
 		providerAddress,
 		allMarketplaceData
 	);
-
-	$: merchantAddressList = [
-		...new Set(allMarketplaceData.map((data) => data.provider.address) ?? [])
-	];
 
 	const handleInstanceChange = async (value: string | number) => {
 		instance.value = value as string;
@@ -146,6 +140,9 @@
 		arch.value = val;
 	}
 
+	$: merchantAddressList = [
+		...new Set(allMarketplaceData.map((data) => data.provider.address) ?? [])
+	];
 	$: validInstanceParameters = !merchant.error && !instance.error && !region.error;
 	$: instanceData = validInstanceParameters
 		? getInstanceMetadatDataForOperator(

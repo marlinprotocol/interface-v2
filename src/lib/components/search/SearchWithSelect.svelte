@@ -9,7 +9,6 @@
 	export let searchValue: string | number | undefined = '';
 	export let setSearchValue: (value: string | number, exactMatch?: boolean) => any;
 	export let onSearchClick: (() => void) | undefined = undefined;
-
 	export let title: string;
 	export let showTitle = true;
 	export let onlyFilters = false;
@@ -20,10 +19,17 @@
 	export let isTableFilter = false;
 	export let textSuffix = '';
 
+	const styles = {
+		rowWrapper: 'flex items-center justify-between',
+		titleIcon: 'flex items-center gap-1',
+		inputSearchBold: inputClasses.inputText,
+		inputSearch: inputClasses.searchInputText
+	};
+
 	let suggestions: (string | number)[] = [];
 	let showSuggestions = false;
 
-	const handleSearch = async (event: any) => {
+	const handleSearch = async (event: Event) => {
 		const input = event.target as HTMLInputElement;
 		searchValue = input.value;
 		// close suggestions if search is empty
@@ -41,13 +47,6 @@
 		);
 		showSuggestions = suggestions.length > 0;
 		await setSearchValue(searchValue, false);
-	};
-
-	const styles = {
-		rowWrapper: 'flex items-center justify-between',
-		titleIcon: 'flex items-center gap-1',
-		inputSearchBold: inputClasses.inputText,
-		inputSearch: inputClasses.searchInputText
 	};
 </script>
 

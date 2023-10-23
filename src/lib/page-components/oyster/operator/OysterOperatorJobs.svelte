@@ -10,24 +10,13 @@
 		getSearchedOysterJobsData,
 		sortOysterOperatorInventory
 	} from '$lib/utils/helpers/oysterHelpers';
-	import { onDestroy } from 'svelte';
-	import type { Unsubscriber } from 'svelte/store';
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 
 	let searchInput = '';
-	let loading = true;
 	let activePage = 1;
 	let merchantJobsData: OysterInventoryDataModel[] | undefined;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
-
-	const unsubscribeOysterStore: Unsubscriber = oysterStore.subscribe(async (value) => {
-		merchantJobsData = value.merchantJobsData;
-		merchantJobsData = merchantJobsData.filter((job) => job.live);
-		loading = !value.merchantJobsLoaded;
-	});
-
-	const itemsPerPage = TABLE_ITEMS_PER_PAGE;
 
 	const handleSortData = (id: string) => {
 		if (sortingMap[id]) {
@@ -50,18 +39,16 @@
 		activePage = 1;
 	};
 
+	$: merchantJobsData = $oysterStore.merchantJobsData?.filter((job) => job.live);
 	// get searched data based on searchInput
 	$: searchedData = getSearchedOysterJobsData(searchInput, merchantJobsData);
 
-	$: pageCount = Math.ceil((searchedData?.length ?? 0) / itemsPerPage);
+	$: pageCount = Math.ceil((searchedData?.length ?? 0) / TABLE_ITEMS_PER_PAGE);
 
 	$: paginatedData = searchedData?.slice(
-		(activePage - 1) * itemsPerPage,
-		activePage * itemsPerPage
+		(activePage - 1) * TABLE_ITEMS_PER_PAGE,
+		activePage * TABLE_ITEMS_PER_PAGE
 	);
-	onDestroy(() => {
-		unsubscribeOysterStore();
-	});
 </script>
 
 <PageTitle title={'My Job List'} backHref={'/oyster/operator'} />
@@ -80,7 +67,7 @@
 <OysterTableCommon
 	{handleSortData}
 	tableHeading={OYSTER_MERCHANT_JOB_TABLE_HEADER}
-	{loading}
+	loading={!$oysterStore.merchantJobsLoaded}
 	noDataFound={paginatedData?.length ? false : true}
 	emptyTableMessage={'No jobs found.'}
 >

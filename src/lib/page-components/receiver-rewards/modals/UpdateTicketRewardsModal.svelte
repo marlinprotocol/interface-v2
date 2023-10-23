@@ -88,9 +88,7 @@
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
-	<svelte:fragment slot="title">
-		{'UPDATE TICKET REWARDS'}
-	</svelte:fragment>
+	<svelte:fragment slot="title">'UPDATE TICKET REWARDS'</svelte:fragment>
 	<svelte:fragment slot="subtitle">
 		{subtitle}
 	</svelte:fragment>
@@ -101,7 +99,7 @@
 				bind:inputAmountString={rewardString}
 				handleUpdatedAmount={handleRewardChange}
 				maxAmountText={rewardsBalanceText}
-				inputCardVariant={'none'}
+				inputCardVariant="none"
 				tooltipText={rewardToolTipText}
 			>
 				<Text slot="input-end-button" text="POND" fontWeight="font-medium" />
@@ -120,7 +118,7 @@
 			loading={confirmLoading}
 			onclick={handleConfirmClick}
 			size="large"
-			styleClass={'btn-block w-full'}
+			styleClass="btn-block w-full"
 		>
 			CONFIRM</Button
 		>

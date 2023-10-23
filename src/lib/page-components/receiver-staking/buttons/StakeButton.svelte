@@ -3,10 +3,7 @@
 	import StakeModal from '$lib/page-components/receiver-staking/StakeModal.svelte';
 
 	const modalFor = 'stake-modal';
-	const styles = {
-		buttonLarge: 'h-14 text-base font-semibold w-full'
-	};
 </script>
 
-<ModalButton {modalFor} styleClass={`${styles.buttonLarge}`}>STAKE</ModalButton>
+<ModalButton {modalFor} styleClass="h-14 text-base font-semibold w-full">STAKE</ModalButton>
 <StakeModal {modalFor} />

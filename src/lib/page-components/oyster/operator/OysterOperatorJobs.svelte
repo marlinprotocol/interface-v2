@@ -51,14 +51,9 @@
 	);
 </script>
 
-<PageTitle title={'My Job List'} backHref={'/oyster/operator'} />
-<div class="flex gap-4 items-center mb-6">
-	<SearchBar
-		{onSearchClick}
-		bind:input={searchInput}
-		placeholder={'Search'}
-		styleClass={'w-full'}
-	/>
+<PageTitle title="My Job List" backHref="/oyster/operator" />
+<div class="mb-6 flex items-center gap-4">
+	<SearchBar {onSearchClick} bind:input={searchInput} placeholder="Search" styleClass="w-full" />
 	<!-- commenting the operator history page -->
 	<!-- <a href={kOperatorHistory}>
 		<div class={`h-12 ${buttonClasses.outlined}`}>HISTORY</div>
@@ -69,7 +64,7 @@
 	tableHeading={OYSTER_MERCHANT_JOB_TABLE_HEADER}
 	loading={!$oysterStore.merchantJobsLoaded}
 	noDataFound={paginatedData?.length ? false : true}
-	emptyTableMessage={'No jobs found.'}
+	emptyTableMessage="No jobs found."
 >
 	{#if paginatedData?.length}
 		{#each paginatedData as rowData, rowIndex (rowData.id)}

@@ -4,8 +4,6 @@
 	export let styleClass = '';
 	export let variant: InputCardVariant | undefined = 'primary';
 
-	const cardStyle = 'rounded-lg w-full';
-
 	const getClassFromVariant = () => {
 		switch (variant) {
 			case 'primary':
@@ -31,6 +29,6 @@
 	const variantClass = getClassFromVariant();
 </script>
 
-<div class={`${styleClass} ${cardStyle} ${variantClass}`}>
+<div class="{styleClass} w-full rounded-lg {variantClass}">
 	<slot />
 </div>

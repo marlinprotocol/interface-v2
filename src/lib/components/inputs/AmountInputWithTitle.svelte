@@ -11,31 +11,23 @@
 	export let prefix = '';
 	export let suffix = '';
 	export let onlyInteger = false;
-
-	const styles = {
-		titleIcon: 'flex items-center gap-1',
-		inputNumber:
-			'input input-ghost input-primary text-sm p-0 ml-0.5 placeholder:text-primary/[.2] h-[30px] mt-1',
-		prefix: 'text-sm text-primary mt-1',
-		suffix: 'text-sm text-primary ml-1 mt-1'
-	};
 </script>
 
 <InputCard>
-	<div class={styles.titleIcon}>
+	<div class="flex items-center gap-1">
 		<Text variant="small" text={title} />
 	</div>
 	<div class="flex items-center">
-		<Text text={prefix} styleClass={styles.prefix} />
+		<Text text={prefix} styleClass="text-sm text-primary mt-1" />
 		<AmountInput
-			styleClass={styles.inputNumber}
-			{disabled}
 			bind:value={inputAmountString}
 			onChange={handleUpdatedAmount}
+			styleClass="input input-ghost input-primary text-sm p-0 ml-0.5 placeholder:text-primary/[.2] h-[30px] mt-1"
 			{onFocusOut}
 			{onlyInteger}
+			{disabled}
 		/>
-		<Text text={suffix} styleClass={styles.suffix} />
+		<Text text={suffix} styleClass="text-sm text-primary ml-1 mt-1" />
 		<slot name="endButton" />
 	</div>
 </InputCard>

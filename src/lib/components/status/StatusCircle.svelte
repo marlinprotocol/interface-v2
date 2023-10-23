@@ -5,7 +5,10 @@
 	export let variant: CommonVariant = 'primary';
 	export let styleClass = '';
 
-	$: style = `${styleClass} w-5 h-5 rounded-full mx-auto`;
+	$: style = `${styleClass}`;
 </script>
 
-<div class={style} style={`background-color:${getColorHexByVariant(variant)}`} />
+<div
+	class="mx-auto h-5 w-5 rounded-full {style}"
+	style="background-color:${getColorHexByVariant(variant)}"
+/>

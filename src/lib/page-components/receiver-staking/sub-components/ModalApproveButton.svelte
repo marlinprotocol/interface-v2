@@ -16,7 +16,7 @@
 </script>
 
 <button class={styleClass} on:click={handleApproveClick}>
-	<div class="flex gap-1 items-center">
+	<div class="flex items-center gap-1">
 		{#if loading}
 			<span class="loading loading-spinner"></span>
 		{/if}

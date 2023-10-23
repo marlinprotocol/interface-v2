@@ -99,15 +99,13 @@
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
-	<svelte:fragment slot="title">
-		{'UNSTAKE POND'}
-	</svelte:fragment>
+	<svelte:fragment slot="title">UNSTAKE POND</svelte:fragment>
 	<svelte:fragment slot="subtitle">
 		{subtitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
-			title={'POND'}
+			title="POND"
 			tooltipText={toolTipText}
 			bind:inputAmountString
 			{handleUpdatedAmount}
@@ -128,7 +126,7 @@
 			loading={submitLoading}
 			onclick={handleSubmitClick}
 			size="large"
-			styleClass={'btn-block w-full'}
+			styleClass="btn-block w-full"
 		>
 			CONFIRM
 		</Button>

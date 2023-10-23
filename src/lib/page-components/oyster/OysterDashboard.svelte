@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
-	import { dividerClasses, tableCellClasses } from '$lib/atoms/componentClasses';
+	import { dividerClasses } from '$lib/atoms/componentClasses';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
@@ -34,11 +34,6 @@
 		registerOysterInfrastructureProvider,
 		removeOysterInfrastructureProvider
 	} from '$lib/controllers/contract/oyster';
-
-	const styles = {
-		docButton: 'text-primary',
-		tableCell: tableCellClasses.rowMini
-	};
 
 	let enableRegisterButton = false;
 	let updatedCpURL = '';
@@ -178,31 +173,31 @@
 <ContainerCard>
 	<svelte:fragment slot="header">
 		<Text variant="h2" text="Operator Registration" styleClass="text-left" />
-		<div class="text-left text-grey-700 flex flex-col gap-1 mt-2 mb-4">
-			<div class="flex gap-2 items-center">
+		<div class="mb-4 mt-2 flex flex-col gap-1 text-left text-grey-700">
+			<div class="flex items-center gap-2">
 				<Text variant="body" text="Quick access:" />
 				<a href={OYSTER_DOC_LINK} target="_blank">
-					<Text styleClass={styles.docButton} fontWeight="font-medium" text="Documentation" />
+					<Text styleClass="text-primary" fontWeight="font-medium" text="Documentation" />
 				</a>
 				<div class={dividerClasses.vertical} />
 				<a href={DISCORD_LINK} target="_blank">
-					<Text styleClass={styles.docButton} fontWeight="font-medium" text="Support" />
+					<Text styleClass="text-primary" fontWeight="font-medium" text="Support" />
 				</a>
 			</div>
 		</div>
 	</svelte:fragment>
 	<TextInputWithEndButton
-		title={'Address'}
-		tooltipText={'Address of oyster operator'}
-		placeholder={'Enter your address here'}
+		title="Address"
+		tooltipText="Address of oyster operator"
+		placeholder="Enter your address here"
 		bind:input={$walletStore.address}
 		disabled={true}
 	/>
 	<TextInputWithEndButton
 		styleClass="mt-4"
-		title={'Control Plane URL'}
-		tooltipText={'URL of the control plane which is used to provide pricing data'}
-		placeholder={'Paste URL here'}
+		title="Control Plane URL"
+		tooltipText="URL of the control plane which is used to provide pricing data"
+		placeholder="Paste URL here"
 		bind:input={updatedCpURL}
 		bind:disabled={disableCpURL}
 	>
@@ -233,12 +228,12 @@
 	</TextInputWithEndButton>
 	<ErrorTextCard
 		showError={!validCPUrl && updatedCpURL !== ''}
-		errorMessage={'Invalid control plane URL. Make sure to use the full URL along with http:// or https:// and remove any trailing slashes.'}
+		errorMessage="Invalid control plane URL. Make sure to use the full URL along with http:// or https:// and remove any trailing slashes."
 	/>
 	{#await instances catch error}
 		<ErrorTextCard
 			showError={error}
-			errorMessage={'Uh-oh seems like the url you entered is incorrect.'}
+			errorMessage="Uh-oh seems like the url you entered is incorrect."
 		/>
 	{/await}
 	<InstancesTable isOpen={openInstanceTable} {validCPUrl} bind:tableData={instances} />
@@ -290,9 +285,9 @@
 </ContainerCard>
 {#if $connected}
 	<a href={OYSTER_OPERATOR_JOBS_URL}>
-		<Button variant="whiteFilled" size={'large'} styleClass="w-full sm:w-130 mt-4 mx-auto">
-			<div class="flex justify-between w-full">
-				<div class="w-full flex justify-center">TRACK USAGE</div>
+		<Button variant="whiteFilled" size="large" styleClass="w-full sm:w-130 mt-4 mx-auto">
+			<div class="flex w-full justify-between">
+				<div class="flex w-full justify-center">TRACK USAGE</div>
 				<img src={staticImages.RightArrow} alt="Right Arrow" />
 			</div>
 		</Button>

@@ -14,9 +14,6 @@
 
 	const description = `The total amount of POND in queue to be staked to the receiver's address.`;
 	const subtitle = `Queued POND will be staked`;
-	const styles = {
-		subtitle: 'py-2 px-3 text-left bg-black text-white rounded'
-	};
 
 	const onTimerEnd = () => {
 		inQueue = false;
@@ -34,17 +31,17 @@
 <PopOver>
 	<img slot="icon" src={staticImages.Info} alt="Info" width={iconWidth} />
 	<svelte:fragment slot="content">
-		<div class={styles.subtitle}>
+		<div class="rounded bg-black px-3 py-2 text-left text-white">
 			{#if inQueue && $epochCycleStore > 0}
-				<Timer timerId={`timer-for-staking-in-queue`} {onTimerEnd} {endEpochTime}>
+				<Timer timerId="timer-for-staking-in-queue" {onTimerEnd} {endEpochTime}>
 					<div slot="active" let:timer>
 						<Text
-							variant={'small'}
-							text={`${description} ${subtitle} in ${epochToDurationString(timer)}.`}
+							variant="small"
+							text="{description} {subtitle} in {epochToDurationString(timer)}."
 						/>
 					</div>
 					<div slot="inactive">
-						<Text variant={'small'} text={`${description} ${subtitle} soon.`} />
+						<Text variant="small" text="{description} {subtitle} soon." />
 					</div>
 				</Timer>
 			{:else}

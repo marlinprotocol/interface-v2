@@ -6,6 +6,7 @@
 	export let disabled = false;
 	export let loading = false;
 	export let styleClass = '';
+
 	$: buttonClass = `${styleClass} ${buttonClasses.outlined}`;
 </script>
 

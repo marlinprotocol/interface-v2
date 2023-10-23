@@ -6,7 +6,7 @@
 	export let backHref = '';
 </script>
 
-<div class="flex gap-4 mb-8 items-center">
+<div class="mb-8 flex items-center gap-4">
 	{#if !!backHref}
 		<BackButton href={backHref} text="" />
 	{/if}

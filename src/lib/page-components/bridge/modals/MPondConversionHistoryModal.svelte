@@ -18,11 +18,9 @@
 </script>
 
 <Modal {modalFor} isScrollable>
-	<svelte:fragment slot="title">
-		{'Conversion History'}
-	</svelte:fragment>
+	<svelte:fragment slot="title">Conversion History</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex flex-row w-full mb-8">
+		<div class="mb-8 flex w-full flex-row">
 			{#each MPOND_CONVERSION_HISTORY_TABLE_HEADER as headingData, i}
 				<div class="flex-1">
 					<TableHeadingText
@@ -37,7 +35,7 @@
 			{/each}
 		</div>
 		{#each conversions as rowData}
-			<div class="flex flex-row gap-4 items-center justify-center mb-6 font-semibold">
+			<div class="mb-6 flex flex-row items-center justify-center gap-4 font-semibold">
 				<div class="flex-1">
 					{epochSecToString(rowData?.timestamp)}
 				</div>

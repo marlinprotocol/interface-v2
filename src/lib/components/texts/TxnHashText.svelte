@@ -7,7 +7,7 @@
 	export let endInt = 3;
 </script>
 
-<div class="flex justify-center items-center gap-2">
+<div class="flex items-center justify-center gap-2">
 	{shortenText(txnHash, startInt, endInt)}
 	<TxnIcon {txnHashUrl} />
 </div>

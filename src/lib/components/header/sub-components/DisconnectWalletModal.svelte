@@ -10,15 +10,13 @@
 
 	export let modalFor: string;
 	export let disconnect: () => void;
-
-	$: blockChainExplorerLink = `${$chainConfigStore.block_explorer_url}/address/${$walletStore.address}`;
 </script>
 
 <Modal {modalFor}>
 	<svelte:fragment slot="title">Your wallet</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="rounded-lg p-4 bg-base-200 text-left mb-4">
-			<div class="font-normal flex items-center text-sm">
+		<div class="mb-4 rounded-lg bg-base-200 p-4 text-left">
+			<div class="flex items-center text-sm font-normal">
 				My Address
 				<TooltipIcon
 					tooltipDirection="tooltip-right"
@@ -26,17 +24,21 @@
 					styleClass="ml-1"
 				/>
 			</div>
-			<div class="font-semibold text-xl mt-1">{$walletStore.address}</div>
+			<div class="mt-1 text-xl font-semibold">{$walletStore.address}</div>
 		</div>
 		<div class="flex gap-4">
 			<button
-				class={`${buttonClasses.greyFilled} h-10 text-small font-medium gap-3`}
+				class="{buttonClasses.greyFilled} text-small h-10 gap-3 font-medium"
 				on:click={() => handleCopyClick($walletStore.address, 'Address copied to clipboard')}
 			>
 				<img src={staticImages.Copy} alt="Copy" />
 				Copy Address
 			</button>
-			<a href={blockChainExplorerLink} target="_blank" rel="noopener noreferrer">
+			<a
+				href="{$chainConfigStore.block_explorer_url}/address/{$walletStore.address}"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
 				<Button variant="greyFilled" size="small" styleClass="font-medium gap-3">
 					<img src={staticImages.OpenInNew} alt="Open" />
 					View on {$chainConfigStore.block_explorer_name}
@@ -49,7 +51,7 @@
 			variant="filled"
 			size="large"
 			onclick={disconnect}
-			styleClass={'w-full font-semibold text-base'}
+			styleClass="w-full font-semibold text-base"
 		>
 			LOGOUT
 		</Button>

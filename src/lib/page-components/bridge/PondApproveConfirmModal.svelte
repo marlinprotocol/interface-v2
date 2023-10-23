@@ -61,7 +61,7 @@
 		doNothing();
 	}}
 	{approved}
-	conversionFrom={'pond'}
+	conversionFrom="pond"
 	amountConverted={pond}
-	confirmButtonText={'CONVERT'}
+	confirmButtonText="CONVERT"
 />

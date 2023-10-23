@@ -4,6 +4,6 @@
 	export let width = '';
 </script>
 
-<div class={`${styleClass} ${tableCellClasses.rowNormal}`} style={`width:${width}`}>
+<div class="{styleClass} {tableCellClasses.rowNormal}" style="width:${width}">
 	<slot />
 </div>

@@ -43,11 +43,6 @@
 	const toolTipText = 'Enter the amount of POND you would like to stake to the receiver address.';
 	const addressToolTipText =
 		'This is the address used by the receiver to give tickets to clusters. The signer address can be found in the receiver client.';
-	const styles = {
-		titleIcon: 'flex items-center gap-1',
-		inputNumber:
-			'input input-ghost h-[30px] w-full mt-1 p-0 font-semibold text-xl disabled:text-primary text-primary focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent'
-	};
 
 	//initial amount states
 	let inputAmount: bigint;
@@ -205,14 +200,13 @@
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
-	<svelte:fragment slot="title">
-		{'STAKE POND'}
-	</svelte:fragment>
+	<svelte:fragment slot="title">STAKE POND</svelte:fragment>
 	<svelte:fragment slot="subtitle">
 		{subtitle}
 		<p class="mt-2">
 			<span>
-				{`Note: There are no rewards for staking POND on the receiver staking portal. Users looking to delegate POND/MPond to clusters in the Marlin network need to go `}
+				Note: There are no rewards for staking POND on the receiver staking portal. Users looking to
+				delegate POND/MPond to clusters in the Marlin network need to go
 			</span>
 			<a
 				class="text-primary underline"
@@ -220,16 +214,14 @@
 				target="_blank"
 				rel="noreferrer"
 			>
-				{`here`}
+				here
 			</a>
-			<span class="ml-[-3px]">
-				{'.'}
-			</span>
+			<span class="ml-[-3px]"> . </span>
 		</p>
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
-			title={'POND'}
+			title="POND"
 			tooltipText={toolTipText}
 			bind:inputAmountString
 			{handleUpdatedAmount}
@@ -251,18 +243,18 @@
 		/>
 		{#if $receiverStakingStore.signer === DEFAULT_RECEIVER_STAKING_DATA.signer}
 			<InputCard styleClass="mt-4">
-				<div class={styles.titleIcon}>
-					<Text variant="small" text={'Signer Address'} />
+				<div class="flex items-center gap-1">
+					<Text variant="small" text="Signer Address" />
 					<TooltipIcon tooltipText={addressToolTipText} tooltipDirection="tooltip-right" />
 				</div>
 				<form>
-					<div class="flex gap-2 items-center">
+					<div class="flex items-center gap-2">
 						<input
 							bind:value={updatedSignerAddress}
 							on:input={handleUpdatedSignerAddressInput}
 							autocomplete="off"
 							id="updatedSignerAddress"
-							class={`hideInputNumberAppearance ${styles.inputNumber}`}
+							class="hideInputNumberAppearance input input-ghost mt-1 h-[30px] w-full p-0 text-xl font-semibold text-primary placeholder:text-primary/[.2] focus-within:border-b-2 focus-within:text-primary focus:bg-transparent focus:outline-none disabled:text-primary"
 							placeholder="Enter Here"
 						/>
 					</div>
@@ -287,7 +279,7 @@
 			loading={submitLoading}
 			onclick={handleSubmitClick}
 			size="large"
-			styleClass={'btn-block w-full'}>CONFIRM</Button
+			styleClass="btn-block w-full">CONFIRM</Button
 		>
 	</svelte:fragment>
 </Modal>

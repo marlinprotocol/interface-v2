@@ -66,21 +66,21 @@
 	<svelte:fragment slot="title">
 		{modalTitle}
 	</svelte:fragment>
-	<svelte:fragment slot="subtitle">{'You can stop your job here'}</svelte:fragment>
+	<svelte:fragment slot="subtitle">You can stop your job here</svelte:fragment>
 	<svelte:fragment slot="content">
 		<StopModalContent {jobData} />
 		{#if stopStatus === 'pending'}
 			<div class="w-full">
 				<Timer
-					timerId={`timer-for-${modalFor}`}
+					timerId="timer-for-{modalFor}"
 					endEpochTime={updatesAt}
 					onTimerEnd={() => handleOnTimerEnd()}
 				>
 					<div slot="active" let:timer class="w-full">
 						<InputCard variant="warning" styleClass="mt-4">
 							<Text
-								styleClass={'py-2'}
-								text={`Time left to confirm: ${epochToDurationString(timer)}`}
+								styleClass="py-2"
+								text="Time left to confirm: {epochToDurationString(timer)}"
 								variant="small"
 							/>
 						</InputCard>
@@ -91,8 +91,8 @@
 		{#if stopStatus === 'disabled'}
 			<InputCard variant="warning" styleClass="mt-4">
 				<Text
-					styleClass={'py-2'}
-					text={'A non zero rate revision has been initiated. Please wait for it to complete and confirmed or cancel it using CANCEL RATE AMEND button.'}
+					styleClass="py-2"
+					text="A non zero rate revision has been initiated. Please wait for it to complete and confirmed or cancel it using CANCEL RATE AMEND button."
 					variant="small"
 				/>
 			</InputCard>
@@ -107,9 +107,9 @@
 						loading={cancelLoading}
 						onclick={handleCancelInitiate}
 						size="large"
-						styleClass={'btn-block w-full my-0'}
+						styleClass="btn-block w-full my-0"
 					>
-						{'CANCEL'}
+						CANCEL
 					</Button>
 				</div>
 			{/if}
@@ -120,7 +120,7 @@
 					loading={submitLoading}
 					onclick={submitButtonAction}
 					size="large"
-					styleClass={'btn-block w-full my-0'}
+					styleClass="btn-block w-full my-0"
 				>
 					{submitButtonText}
 				</Button>

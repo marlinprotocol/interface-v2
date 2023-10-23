@@ -40,7 +40,7 @@
 <svelte:window on:click={(e) => closeSwitcherWhenClickedOutside(e)} />
 
 <details
-	class={$allowedChainsStore.length === 0 ? 'pointer-events-none opacity-60 focus' : 'dropdown'}
+	class={$allowedChainsStore.length === 0 ? 'focus pointer-events-none opacity-60' : 'dropdown'}
 	id="chain-dropdown"
 >
 	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
@@ -48,9 +48,9 @@
 		tabindex={$allowedChainsStore.length === 0 ? -1 : 0}
 		class="{isDark
 			? buttonClasses.greyFilled
-			: buttonClasses.whiteFilled} border border-sky-500 h-[50px] shadow-sm"
+			: buttonClasses.whiteFilled} h-[50px] border border-sky-500 shadow-sm"
 	>
-		<div class="h-8 w-fit flex items-center">
+		<div class="flex h-8 w-fit items-center">
 			<div class="h-8 w-8">
 				<img src={getImageForChain($chainStore.chainId)} alt="current chain" />
 			</div>
@@ -61,9 +61,9 @@
 	</summary>
 
 	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-	<ul tabindex="0" class="dropdown-content mt-4 z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+	<ul tabindex="0" class="menu dropdown-content rounded-box z-[1] mt-4 w-52 bg-base-100 p-2 shadow">
 		{#each $allowedChainsStore as chain (chain)}
-			<li class="flex {$chainStore.chainId === chain ? 'bg-primary text-white rounded-lg' : ''}">
+			<li class="flex {$chainStore.chainId === chain ? 'rounded-lg bg-primary text-white' : ''}">
 				<button on:click={() => handleChainSwitch(chain)}>
 					<div class="h-6 w-6 rounded-full ring-1 ring-white">
 						<img src={getImageForChain(chain)} alt="" />

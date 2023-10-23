@@ -12,14 +12,14 @@
 	onclick={() => {
 		doNothing();
 	}}
-	size={'large'}
+	size="large"
 	styleClass="w-full"
 >
-	<div class="flex justify-between w-full">
-		<div class="w-full flex justify-center gap-1">
+	<div class="flex w-full justify-between">
+		<div class="flex w-full justify-center gap-1">
 			{firstText}
 			<img src={staticImages.Arrow} alt="Copy" width="8px" />
-			{`${secondText} conversion History`}
+			{secondText} conversion History
 		</div>
 		<img src={staticImages.RightArrow} alt="Copy" />
 	</div>

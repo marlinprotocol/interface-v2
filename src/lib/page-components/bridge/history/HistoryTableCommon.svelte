@@ -30,16 +30,14 @@
 />
 <PageTitle title={tableTitle.title} />
 <div
-	class={`card ${
-		fullWidth ? 'max-w-full' : 'sm:max-w-full md:max-w-[66.66%]'
-	} bg-base-100 rounded-lg`}
+	class="card rounded-lg bg-base-100 {fullWidth ? 'max-w-full' : 'sm:max-w-full md:max-w-[66.66%]'}"
 >
 	{#if !$connected}
-		<div class={`text-center flex justify-center my-4`}>
+		<div class="my-4 flex justify-center text-center">
 			<HeaderConnectWallet />
 		</div>
 	{:else if loading}
-		<div class={'text-center flex justify-center my-4'}>
+		<div class="my-4 flex justify-center text-center">
 			<LoadingAnimatedPing />
 		</div>
 	{:else}
@@ -49,9 +47,7 @@
 			</tbody>
 		</Table>
 		{#if noDataFound}
-			<div class={tableCellClasses.empty}>
-				{'No data found!'}
-			</div>
+			<div class={tableCellClasses.empty}>No data found!</div>
 		{/if}
 	{/if}
 </div>

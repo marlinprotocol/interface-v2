@@ -19,13 +19,6 @@
 	export let isTableFilter = false;
 	export let textSuffix = '';
 
-	const styles = {
-		rowWrapper: 'flex items-center justify-between',
-		titleIcon: 'flex items-center gap-1',
-		inputSearchBold: inputClasses.inputText,
-		inputSearch: inputClasses.searchInputText
-	};
-
 	let suggestions: (string | number)[] = [];
 	let showSuggestions = false;
 
@@ -53,15 +46,15 @@
 <InputCard {styleClass} variant={cardVariant}>
 	<div class="search-container">
 		{#if showTitle}
-			<div class={styles.rowWrapper}>
-				<div class={styles.titleIcon}>
+			<div class="flex items-center justify-between">
+				<div class="flex items-center gap-1">
 					<Text variant="small" text={title} />
 				</div>
 			</div>
 		{/if}
 		<div class="flex items-center">
 			<input
-				class={isTableFilter ? styles.inputSearch : styles.inputSearchBold}
+				class={isTableFilter ? inputClasses.searchInputText : inputClasses.inputText}
 				{placeholder}
 				value={searchValue ?? ''}
 				on:input={handleSearch}

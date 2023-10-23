@@ -65,9 +65,9 @@
 </script>
 
 {#if ButtonType}
-	<ButtonType {onclick} {disabled} {loading} styleClass={`${styleClass} ${buttonSize} gap-1.5`}>
+	<ButtonType {onclick} {disabled} {loading} styleClass="{styleClass} {buttonSize} gap-1.5">
 		{#if icon}
-			<Icon data={icon} size={14} iconColorClass={'icon-white'} />
+			<Icon data={icon} size={14} iconColorClass="icon-white" />
 		{/if}
 		{#if !!iconSrc}
 			<img src={iconSrc} alt="Icon" width={16} />

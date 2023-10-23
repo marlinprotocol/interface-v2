@@ -10,9 +10,9 @@
 	export let tablePadding = 'px-8 py-6';
 </script>
 
-<div class={`${styleClass} overflow-x-auto overflow-y-hidden ${tablePadding}`}>
-	<table>
-		<thead>
+<div class="overflow-x-auto overflow-y-hidden {tablePadding} {styleClass}">
+	<table class="w-full text-center">
+		<thead class="w-full">
 			<tr>
 				{#each tableHeading as columnHeading, i}
 					<th>
@@ -34,14 +34,3 @@
 		<slot name="tableBody" />
 	</table>
 </div>
-
-<style>
-	table {
-		width: 100%;
-		text-align: center;
-	}
-
-	thead {
-		width: 100%;
-	}
-</style>

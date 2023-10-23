@@ -13,15 +13,15 @@
 </script>
 
 <div
-	class={`${styleClass} flex flex-nowrap gap-1 text-primary text-xs xl:text-sm justify-center items-center mt-0.5 text-center `}
+	class="mt-0.5 flex flex-nowrap items-center justify-center gap-1 text-center text-xs text-primary xl:text-sm {styleClass}"
 >
 	{#if sorting}
 		<button
-			class="flex items-center gap-0.5 relative"
+			class="relative flex items-center gap-0.5"
 			on:click={() => handleSortData?.(heading.id)}
 		>
-			<img class="mt-[2px] absolute" src={staticImages.Sort} alt="sort" width="16px" />
-			<span class="tracking-widest w-fit px-4">{title}</span>
+			<img class="absolute mt-[2px]" src={staticImages.Sort} alt="sort" width="16px" />
+			<span class="w-fit px-4 tracking-widest">{title}</span>
 			{#if !!tooltipText}
 				<TooltipIcon
 					styleClass="mt-[1px] absolute right-[-2px]"
@@ -32,8 +32,8 @@
 			{/if}
 		</button>
 	{:else}
-		<div class="flex items-start gap-1 relative">
-			<span class="tracking-widest w-fit">{title}</span>
+		<div class="relative flex items-start gap-1">
+			<span class="w-fit tracking-widest">{title}</span>
 			{#if !!tooltipText}
 				<TooltipIcon
 					styleClass="mt-[1px] absolute right-[-18px]"

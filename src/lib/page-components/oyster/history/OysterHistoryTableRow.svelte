@@ -31,12 +31,12 @@
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
-<div class="main-row flex gap-1 hover:bg-base-200 px-8 items-center h-16">
+<div class="main-row flex h-16 items-center gap-1 px-8 hover:bg-base-200">
 	<TableGridDataCell styleClass="flex gap-2 items-center">
 		<NameWithAddress {name} {address} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="copy-icon cursor-pointer">
-					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant={'grey'} />
+					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 				</div>
 			</svelte:fragment>
 		</NameWithAddress>
@@ -69,24 +69,25 @@
 	</TableGridDataCell>
 	<TableGridDataCell>
 		<div
-			class="py-1 w-24 text-white rounded mx-auto text-sm capitalize"
-			style={`background-color:${statusColor}`}
+			class="mx-auto w-24 rounded py-1 text-sm capitalize text-white"
+			style="background-color: {statusColor}"
 		>
 			{status}
 		</div>
 	</TableGridDataCell>
 	<TableGridDataCell>
 		<TableConvertButton
-			modalFor={`job-history-details-${rowIndex}`}
+			modalFor="job-history-details-{rowIndex}"
 			text="DETAILS"
 			styleClass="w-full"
 		/>
 	</TableGridDataCell>
 </div>
-<PastJobDetailsModal modalFor={`job-history-details-${rowIndex}`} jobData={rowData} {rowIndex} />
-<CreateOrderModal modalFor={`create-order-modal-${rowIndex}`} preFilledData={rowData} />
+<PastJobDetailsModal modalFor="job-history-details-{rowIndex}" jobData={rowData} {rowIndex} />
+<CreateOrderModal modalFor="create-order-modal-{rowIndex}" preFilledData={rowData} />
 
 <style>
+	/* TODO: migrate these classes to tailwind and then refactor the copy to clipboard functionality */
 	.main-row {
 		border-bottom: 1px solid #e5e5e5;
 	}

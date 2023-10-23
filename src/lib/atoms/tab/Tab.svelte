@@ -8,11 +8,11 @@
 	export let isActive = false;
 
 	//reactive value based on isActive and styleClass
-	$: buttonStyle = `rounded-2xl w-32 py-1 text-sm hover:font-medium ${
+	$: buttonStyle = `${
 		isActive ? 'bg-blue-100 text-primary font-medium' : 'bg-base-300 text-grey'
 	} ${styleClass}`;
 </script>
 
-<button on:click={onclick} class={buttonStyle}>
+<button on:click={onclick} class="w-32 rounded-2xl py-1 text-sm hover:font-medium {buttonStyle}">
 	<slot />
 </button>

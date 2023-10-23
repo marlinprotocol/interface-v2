@@ -14,28 +14,28 @@
 	export let emptyTableMessage = 'No data found!';
 </script>
 
-<div class={`card max-w-full bg-base-100 rounded-lg`}>
+<div class="card max-w-full rounded-lg bg-base-100">
 	{#if !$connected && walletConnectionRequired}
-		<div class={`text-center flex justify-center my-4`}>
+		<div class="my-4 flex justify-center text-center">
 			<HeaderConnectWallet />
 		</div>
 	{:else if loading}
-		<div class={'text-center flex justify-center my-4'}>
+		<div class="my-4 flex justify-center text-center">
 			<LoadingAnimatedPing />
 		</div>
 	{:else if noDataFound}
-		<Table {tableHeading} {handleSortData} tablePadding={'py-6'} headingStyleClass={'h-[32px]'} />
-		<div class={tableCellClasses.empty + ' mb-8'}>
+		<Table {tableHeading} {handleSortData} tablePadding="py-6" headingStyleClass="h-[32px]" />
+		<div class="mb-8 {tableCellClasses.empty}">
 			{emptyTableMessage}
 		</div>
 	{:else}
-		<Table {tableHeading} {handleSortData} tablePadding={'py-6'} headingStyleClass={'h-[32px]'}>
+		<Table {tableHeading} {handleSortData} tablePadding="py-6" headingStyleClass="h-[32px]">
 			<tbody slot="tableBody">
 				<slot />
 			</tbody>
 		</Table>
 		{#if $$slots.pagination}
-			<div class="flex justify-center items-center mb-4">
+			<div class="mb-4 flex items-center justify-center">
 				<slot name="pagination" />
 			</div>
 		{/if}

@@ -8,17 +8,13 @@
 	export let placeholder = '';
 	export let disabled = false;
 	export let input: string;
-
-	const styles = {
-		inputNumber: inputClasses.inputText
-	};
 </script>
 
 <InputCardWithEndButton {styleClass} {tooltipText} {title}>
 	<input
-		bind:value={input}
 		id="address-display"
-		class={`hideInputNumberAppearance ${styles.inputNumber}`}
+		bind:value={input}
+		class="hideInputNumberAppearance {inputClasses.inputText}"
 		{placeholder}
 		{disabled}
 	/>

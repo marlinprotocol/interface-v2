@@ -1,26 +1,29 @@
 <script lang="ts">
 	export let loading = false;
 	export let hasPadding = false;
-
-	const styles = {
-		baseStyle: `${hasPadding ? 'w-6 h-6' : 'w-5 h-5'}  rounded-3xl flex justify-center text-white`,
-		loadingBackground:
-			'animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75',
-		loadingText: `relative inline-flex rounded-full ${
-			hasPadding ? 'p-[2.5px] w-6 h-6' : 'w-5 h-5'
-		} bg-orange-400 text-center flex justify-center text-sm`
-	};
 </script>
 
 {#if loading}
-	<span class={`relative ${styles.baseStyle}`}>
-		<span class={styles.loadingBackground} />
-		<span class={styles.loadingText}>
+	<span
+		class="relative flex justify-center rounded-3xl text-white {hasPadding ? 'h-6 w-6' : 'h-5 w-5'}"
+	>
+		<span
+			class="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75"
+		/>
+		<span
+			class="relative inline-flex justify-center rounded-full bg-orange-400 text-center text-sm {hasPadding
+				? 'h-6 w-6 p-[2.5px]'
+				: 'h-5 w-5'}"
+		>
 			<slot />
 		</span>
 	</span>
 {:else}
-	<div class={`${styles.baseStyle} bg-grey-400`}>
+	<div
+		class="flex justify-center rounded-3xl bg-grey-400 text-white {hasPadding
+			? 'h-6 w-6'
+			: 'h-5 w-5'}"
+	>
 		<slot />
 	</div>
 {/if}

@@ -51,14 +51,14 @@
 </script>
 
 <div class="mx-auto">
-	<PageTitle title={'My Past Orders'} backHref={'/oyster/inventory'} />
-	<div class="flex gap-4 items-center mb-6">
+	<PageTitle title="My Past Orders" backHref="/oyster/inventory" />
+	<div class="mb-6 flex items-center gap-4">
 		<SearchBar
 			disabled={!$connected}
 			{onSearchClick}
 			bind:input={searchInput}
-			placeholder={'Search for operator, instance or region'}
-			styleClass={'w-full'}
+			placeholder="Search for operator, instance or region"
+			styleClass="w-full"
 		/>
 	</div>
 	<OysterTableCommon

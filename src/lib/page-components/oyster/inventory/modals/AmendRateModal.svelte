@@ -95,13 +95,13 @@
 		{modalTitle}
 	</svelte:fragment>
 	<svelte:fragment slot="subtitle">
-		{"You're about to revise the hourly rate for this job."}
+		You're about to revise the hourly rate for this job.
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4">
 			<div class="flex gap-4">
 				<AmountInputWithTitle
-					title={`Current Hourly Rate`}
+					title="Current Hourly Rate"
 					inputAmountString={convertRateToPerHourString(rate, $oysterTokenMetadataStore.decimal)}
 					disabled
 					prefix={$oysterTokenMetadataStore.symbol}
@@ -130,15 +130,15 @@
 			{#if rateStatus === 'pending'}
 				<div class="w-full">
 					<Timer
-						timerId={`timer-for-${modalFor}`}
+						timerId="timer-for-{modalFor}"
 						endEpochTime={updatesAt}
 						onTimerEnd={() => (submitEnable = true)}
 					>
 						<div slot="active" let:timer class="w-full">
 							<InputCard variant="warning">
 								<Text
-									styleClass={'py-2'}
-									text={`Time left to confirm: ${epochToDurationString(timer)}`}
+									styleClass="py-2"
+									text="Time left to confirm: {epochToDurationString(timer)}"
 									variant="small"
 								/>
 							</InputCard>
@@ -148,9 +148,9 @@
 			{/if}
 		</div>
 		<ErrorTextCard
-			styleClass={'mt-4'}
+			styleClass="mt-4"
 			showError={showPrecisionError}
-			errorMessage={'Please change the rate by a minimum of 0.001 USDC'}
+			errorMessage="Please change the rate by a minimum of 0.001 USDC"
 		/>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
@@ -162,9 +162,9 @@
 						loading={cancelLoading}
 						onclick={handleCancelInitiate}
 						size="large"
-						styleClass={'btn-block w-full my-0'}
+						styleClass="btn-block w-full my-0"
 					>
-						{'CANCEL'}
+						CANCEL
 					</Button>
 				</div>
 			{/if}
@@ -175,7 +175,7 @@
 					loading={submitLoading}
 					onclick={submitButtonAction}
 					size="large"
-					styleClass={'btn-block w-full my-0'}
+					styleClass="btn-block w-full my-0"
 				>
 					{submitButtonText}
 				</Button>

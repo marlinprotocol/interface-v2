@@ -9,9 +9,9 @@
 	export let tooltipVariant: TooltipVariant = 'tooltip-secondary';
 	export let tooltipDirection: TooltipDirection = 'tooltip-top';
 
-	$: tooltipClass = `tooltip text-left shrink-0 font-normal ${styleClass} ${tooltipVariant} ${tooltipDirection} flex`;
+	$: tooltipClass = `${styleClass} ${tooltipVariant} ${tooltipDirection}`;
 </script>
 
-<div class={tooltipClass} data-tip={tooltipText}>
+<div class="tooltip flex shrink-0 text-left font-normal {tooltipClass}" data-tip={tooltipText}>
 	<img src={iconSrc} alt="Info" width={iconWidth} />
 </div>

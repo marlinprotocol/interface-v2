@@ -12,6 +12,6 @@
 </script>
 
 <ModalButton size="tiniest" variant="text" {modalFor}>
-	<HistoryDataIconButton src={staticImages.Cycle} text={'See cycle'} />
+	<HistoryDataIconButton src={staticImages.Cycle} text="See cycle" />
 </ModalButton>
 <MPondConversionCycleModal {modalFor} {endEpochTime} {currentCycle} cycles={eligibleCycles} />

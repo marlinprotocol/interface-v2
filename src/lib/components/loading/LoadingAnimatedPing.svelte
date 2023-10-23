@@ -1,7 +1,7 @@
 <script lang="ts">
 </script>
 
-<div class={'marlin-loader'}>
+<div class="marlin-loader">
 	<div class="lds-ripple">
 		<div />
 		<div />

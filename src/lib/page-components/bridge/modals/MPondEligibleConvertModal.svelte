@@ -75,16 +75,14 @@
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
-	<svelte:fragment slot="title">
-		{'Enter an amount'}
-	</svelte:fragment>
+	<svelte:fragment slot="title">Enter an amount</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
 			title="From"
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			maxAmountText={balanceText}
-			inputCardVariant={'none'}
+			inputCardVariant="none"
 		>
 			<Text slot="input-end-button" text="MPond" fontWeight="font-medium" />
 			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />

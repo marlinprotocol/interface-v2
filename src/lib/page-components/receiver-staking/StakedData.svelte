@@ -5,15 +5,10 @@
 	import DataRowCard from '$lib/page-components/receiver-staking/sub-components/DataRowCard.svelte';
 	import InQueuedPopOver from '$lib/page-components/receiver-staking/sub-components/InQueuedPopOver.svelte';
 	import SignerAddress from '$lib/page-components/receiver-staking/sub-components/SignerAddress.svelte';
-
-	const styles = {
-		wrapper: 'w-full flex flex-col items-center justify-center pt-4 pb-8',
-		cardWrapper: 'w-full flex px-2 mb-2'
-	};
 </script>
 
-<div class={styles.wrapper}>
-	<div class={`${styles.cardWrapper}`}>
+<div class="flex w-full flex-col items-center justify-center pb-8 pt-4">
+	<div class="mb-2 flex w-full px-2">
 		<DataRowCard
 			data={{
 				title: 'Staked',
@@ -22,12 +17,12 @@
 		>
 			<TooltipIcon
 				slot="icon"
-				tooltipText={`The total amount of POND currently staked to the receivers address.`}
+				tooltipText="The total amount of POND currently staked to the receivers address."
 				styleClass="ml-1"
 			/>
 		</DataRowCard>
 	</div>
-	<div class={styles.cardWrapper}>
+	<div class="mb-2 flex w-full px-2">
 		<DataRowCard
 			data={{
 				title: 'Queued',

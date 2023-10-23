@@ -5,14 +5,9 @@
 	export let tabs: TabModel[];
 	export let tabIdSelected = '';
 	export let handleTabSwitch: (tabId: string) => void;
-
-	//styles
-	const styles = {
-		wrapper: 'tabs tabs-boxed justify-center bg-white gap-2'
-	};
 </script>
 
-<div class={styles.wrapper}>
+<div class="tabs-boxed tabs justify-center gap-2 bg-white">
 	{#if tabs?.length}
 		{#each tabs as tab (tab.id)}
 			<Tab onclick={() => handleTabSwitch(tab.id)} isActive={tabIdSelected === tab.id}>

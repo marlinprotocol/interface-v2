@@ -15,10 +15,6 @@
 
 	let activeTabValue = 'pond';
 
-	const styles = {
-		conversionHistory: 'flex flex-col w-full sm:w-130 mx-auto mt-4'
-	};
-
 	const handleClick = (tabValue: string) => () => {
 		activeTabValue = tabValue;
 	};
@@ -28,14 +24,14 @@
 	<Text variant="h3" text="Bridge" styleClass="text-center" />
 	<Tabs divClass="mt-4">
 		<TabList>
-			<Tab id={'pond'} on:click={handleClick('pond')}>
+			<Tab id="pond" on:click={handleClick('pond')}>
 				<TabPondMPond
 					firstText="POND"
 					secondText="MPond"
 					variant={activeTabValue === 'pond' ? 'primary' : 'secondary'}
 				/>
 			</Tab>
-			<Tab id={'mPond'} on:click={handleClick('mPond')}>
+			<Tab id="mPond" on:click={handleClick('mPond')}>
 				<TabPondMPond
 					firstText="MPond"
 					secondText="POND"
@@ -43,23 +39,23 @@
 				/>
 			</Tab>
 		</TabList>
-		<TabPanel id={'pond'} {activeTabValue}>
+		<TabPanel id="pond" {activeTabValue}>
 			<PondToMPond />
 		</TabPanel>
 
-		<TabPanel id={'mPond'} {activeTabValue}>
+		<TabPanel id="mPond" {activeTabValue}>
 			<MPondTopond />
 		</TabPanel>
 	</Tabs>
 </ContainerCard>
-<div class={styles.conversionHistory}>
-	<TabPanel id={'pond'} {activeTabValue}>
+<div class="mx-auto mt-4 flex w-full flex-col sm:w-130">
+	<TabPanel id="pond" {activeTabValue}>
 		<a href={POND_HISTORY_PAGE_URL}>
 			<ConversionHistoryButton firstText="POND" secondText="MPond" />
 		</a>
 	</TabPanel>
 
-	<TabPanel id={'mPond'} {activeTabValue}>
+	<TabPanel id="mPond" {activeTabValue}>
 		<a href={MPOND_HISTORY_PAGE_URL}>
 			<ConversionHistoryButton firstText="MPond" secondText="POND" />
 		</a>

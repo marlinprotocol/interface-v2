@@ -54,13 +54,13 @@
 </script>
 
 <div class="mx-auto">
-	<PageTitle title={'History of Claims'} backHref={OYSTER_OPERATOR_JOBS_URL} />
-	<div class="flex gap-4 items-center mb-6">
+	<PageTitle title="History of Claims" backHref={OYSTER_OPERATOR_JOBS_URL} />
+	<div class="mb-6 flex items-center gap-4">
 		<SearchBar
 			{onSearchClick}
 			bind:input={searchInput}
-			placeholder={'Search for user, instance or region'}
-			styleClass={'w-full'}
+			placeholder="Search for user, instance or region"
+			styleClass="w-full"
 		/>
 	</div>
 	<OysterTableCommon

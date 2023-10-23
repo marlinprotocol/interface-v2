@@ -89,9 +89,9 @@
 						<li class="w-full">
 							<a
 								href={child.href}
-								class="{child.active ? 'bg-primary text-white' : ''} w-full p-0 flex items-start"
+								class="{child.active ? 'bg-primary text-white' : ''} flex w-full items-start p-0"
 							>
-								<button class="px-4 py-2 w-full text-left">
+								<button class="w-full px-4 py-2 text-left">
 									{child.label}
 								</button>
 							</a>
@@ -107,10 +107,10 @@
 		>
 			<a
 				href={link.href}
-				class="{link.active ? 'bg-primary text-white' : ''} font-semibold p-0"
+				class="{link.active ? 'bg-primary text-white' : ''} p-0 font-semibold"
 				target={link?.openInNewTab ? '_blank' : ''}
 			>
-				<button class="px-4 py-2 w-full text-left">
+				<button class="w-full px-4 py-2 text-left">
 					{link.label}
 				</button>
 			</a>

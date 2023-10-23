@@ -28,9 +28,6 @@
 
 	const subtitle =
 		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';
-	const styles = {
-		inputText: 'px-4 py-2'
-	};
 
 	let duration = 0; //durationInSecs
 	let instanceCostScaled = 0n;
@@ -216,9 +213,7 @@
 </script>
 
 <Modal {modalFor} onClose={resetInputs} padding={false} isScrollable={true}>
-	<svelte:fragment slot="title">
-		{`CREATE ORDER`}
-	</svelte:fragment>
+	<svelte:fragment slot="title">CREATE ORDER</svelte:fragment>
 	<svelte:fragment slot="subtitle">
 		{subtitle}
 	</svelte:fragment>
@@ -253,15 +248,15 @@
 				bind:totalCostScaled
 			/>
 			<TextInputWithEndButton
-				styleClass={styles.inputText}
-				title={'Enclave Image URL'}
-				placeholder={'Paste URL here'}
+				styleClass="px-4 py-2"
+				title="Enclave Image URL"
+				placeholder="Paste URL here"
 				bind:input={enclaveImageUrl.value}
 			/>
 			<ErrorTextCard
 				styleClass="mt-0"
 				showError={!validEnclaveUrl}
-				errorMessage={'Invalid control plane URL. Make sure to use the full URL along with http:// or https:// and remove any trailing slashes.'}
+				errorMessage="Invalid control plane URL. Make sure to use the full URL along with http:// or https:// and remove any trailing slashes."
 			/>
 		</div>
 	</svelte:fragment>
@@ -273,7 +268,7 @@
 				loading={submitLoading}
 				onclick={approved ? handleSubmitClick : handleApproveClick}
 				size="large"
-				styleClass={'btn-block w-full'}
+				styleClass="btn-block w-full"
 			>
 				{approved ? 'DEPLOY' : 'APPROVE'}
 			</Button>

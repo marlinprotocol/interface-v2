@@ -5,12 +5,12 @@
 </script>
 
 <div
-	class="sm:navbar sm:py-7 py-[32px] flex sm:justify-normal justify-between lg:px-0 sm:px-4 px-4 min-h-16 border-b border-black/[0.07]"
+	class="min-h-16 flex justify-between border-b border-black/[0.07] px-4 py-[32px] sm:navbar sm:justify-normal sm:px-4 sm:py-7 lg:px-0"
 >
-	<div class="sm:navbar-start width-full justify-start items-center flex">
+	<div class="width-full flex items-center justify-start sm:navbar-start">
 		<div class="dropdown">
 			<button
-				class="btn btn-sm btn-ghost lg:hidden mr-2 focus:bg-base-content/10 focus:ring-2 focus:ring-offset-2 focus:ring-black"
+				class="btn btn-ghost btn-sm mr-2 focus:bg-base-content/10 focus:ring-2 focus:ring-black focus:ring-offset-2 lg:hidden"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -27,18 +27,18 @@
 				>
 			</button>
 
-			<ul class="menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+			<ul class="menu dropdown-content rounded-box menu-md z-[1] mt-3 w-52 bg-base-100 p-2 shadow">
 				<HeaderLinksGroup />
 			</ul>
 		</div>
 		<HeaderLogo />
 	</div>
-	<div class="navbar-center hidden lg:flex z-10">
+	<div class="navbar-center z-10 hidden lg:flex">
 		<ul class="menu menu-horizontal">
 			<HeaderLinksGroup />
 		</ul>
 	</div>
-	<div class="sm:navbar-end width-auto">
+	<div class="width-auto sm:navbar-end">
 		<HeaderConnectWallet />
 	</div>
 </div>

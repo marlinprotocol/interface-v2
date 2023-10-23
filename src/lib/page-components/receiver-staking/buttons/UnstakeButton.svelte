@@ -5,13 +5,12 @@
 	export let disabled = false;
 
 	let modalFor = 'unstake-modal';
-
-	const styles = {
-		buttonLarge: 'h-14 text-base font-semibold w-full'
-	};
 </script>
 
-<ModalButton {modalFor} {disabled} variant="outlined" styleClass={`${styles.buttonLarge}`}
-	>UNSTAKE</ModalButton
+<ModalButton
+	{modalFor}
+	{disabled}
+	variant="outlined"
+	styleClass="h-14 text-base font-semibold w-full">UNSTAKE</ModalButton
 >
 <UnstakeModal {modalFor} />

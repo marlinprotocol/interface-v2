@@ -15,16 +15,10 @@
 	export let maxAmountTooltipText: ModalInputModel['maxAmountTooltipText'] = '';
 	export let handleUpdatedAmount: any = undefined;
 	export let inputCardVariant: InputCardVariant = 'primary';
-
-	const styles = {
-		titleIcon: 'flex items-center gap-1',
-		inputNumber:
-			'input input-ghost input-primary text-[1.4rem] p-0 ml-0.5 placeholder:text-primary/[.2]'
-	};
 </script>
 
 <InputCard variant={inputCardVariant}>
-	<div class={styles.titleIcon}>
+	<div class="flex items-center gap-1">
 		<Text variant="small" text={title} />
 		{#if tooltipText}
 			<TooltipIcon
@@ -37,10 +31,10 @@
 	<form>
 		<div class="flex items-center gap-2">
 			<AmountInput
-				styleClass={styles.inputNumber}
-				disabled={!handleUpdatedAmount || !$connected}
 				bind:value={inputAmountString}
 				onChange={handleUpdatedAmount}
+				styleClass="input input-ghost input-primary text-[1.4rem] p-0 ml-0.5 placeholder:text-primary/[.2]"
+				disabled={!handleUpdatedAmount || !$connected}
 			/>
 			<slot name="input-end-button" />
 		</div>
@@ -53,15 +47,15 @@
 				<div class={dividerClasses.vertical} />
 				<div class="flex gap-1">
 					<Text
+						text={maxAmountText}
 						variant="small"
 						styleClass="text-[#657183]"
 						fontWeight="font-normal"
-						text={maxAmountText}
 					/>
 					{#if maxAmountTooltipText}
 						<TooltipIcon
-							iconWidth={'16px'}
 							tooltipText={maxAmountTooltipText}
+							iconWidth="16px"
 							tooltipVariant="tooltip-secondary"
 							tooltipDirection="tooltip-bottom"
 						/>

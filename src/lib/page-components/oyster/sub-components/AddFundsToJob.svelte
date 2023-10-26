@@ -166,7 +166,6 @@
 	<AmountInputWithTitle
 		title="Duration"
 		bind:inputAmountString={durationString}
-		suffix={durationUnit}
 		handleUpdatedAmount={handleDurationChange}
 		onlyInteger
 		disabled={!instanceRate}
@@ -177,6 +176,7 @@
 				dataList={durationUnitList}
 				bind:value={durationUnit}
 				setValue={handleDurationUnitChange}
+				showLabel
 			/>
 		</div>
 	</AmountInputWithTitle>

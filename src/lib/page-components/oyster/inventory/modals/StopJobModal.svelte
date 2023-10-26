@@ -92,7 +92,7 @@
 			<InputCard variant="warning" styleClass="mt-4">
 				<Text
 					styleClass="py-2"
-					text="A non zero rate revision has been initiated. Please wait for it to complete and confirmed or cancel it using CANCEL RATE AMEND button."
+					text="A non zero rate revision has been initiated. Please wait for it to be confirmed or cancel it using CANCEL RATE AMEND button."
 					variant="small"
 				/>
 			</InputCard>

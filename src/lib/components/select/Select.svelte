@@ -10,6 +10,7 @@
 	export let showSuggestions = false;
 	export let suggestions: (string | number)[] | string[][] = [];
 	export let textSuffix = '';
+	export let showLabel = false;
 
 	let windowWidth: number;
 	let searchContainer: HTMLDivElement;
@@ -35,16 +36,24 @@
 
 <svelte:window on:click={handleClickOutside} bind:innerWidth={windowWidth} />
 
-<div bind:this={searchContainer} class="search-container relative w-fit">
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div
+	bind:this={searchContainer}
+	on:click={handleToggleShowAllSuggestions}
+	class="search-container relative flex w-fit cursor-pointer items-baseline"
+>
+	{#if showLabel}
+		<span class="mr-2 text-sm text-primary">{value}</span>
+	{/if}
 	<CollapseButton
 		isOpen={showSuggestions}
-		onclick={handleToggleShowAllSuggestions}
 		disabled={dataList.length === 0}
 		styleClass={buttonClasses.dropdownIcon}
 	/>
 	{#if showSuggestions && suggestions.length > 0}
 		<ul
-			class="absolute right-[-17px] z-10 mt-3.5 max-h-72 w-fit min-w-[150px] overflow-y-auto rounded-md border border-gray-300 bg-white text-base shadow-lg focus:outline-none sm:text-sm"
+			class="absolute right-[-17px] top-10 z-10 max-h-72 w-fit min-w-[150px] overflow-y-auto rounded-md border border-gray-300 bg-white text-base shadow-lg focus:outline-none sm:text-sm"
 		>
 			<div class="flex items-center justify-between px-8 py-4">
 				<Text variant="small" fontWeight="font-semibold" text={title ?? 'Select'} />
@@ -65,17 +74,16 @@
 					>
 						<!-- if the suggestion list has an array/object for displaying suggestions. Eg. region select-->
 						{#if Array.isArray(suggestion)}
-							<label
-								for="checkbox-item-12"
+							<div
 								class="flex w-full min-w-[320px] items-baseline justify-between text-sm font-medium"
 							>
 								<span>{suggestion[0]}</span>
 								<span class="text-xs font-normal">{suggestion[1]}</span>
-							</label>
+							</div>
 						{:else}
-							<label for="checkbox-item-12" class="w-full text-sm font-medium">
+							<div class="w-full text-sm font-medium">
 								{suggestion + (suggestion !== 'All' ? textSuffix : '')}
-							</label>
+							</div>
 						{/if}
 					</button>
 				</li>

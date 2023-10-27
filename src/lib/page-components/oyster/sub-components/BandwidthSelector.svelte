@@ -61,12 +61,11 @@
 	<AmountInputWithTitle
 		title="Bandwidth"
 		bind:inputAmountString={bandwidth}
-		suffix={bandwidthUnit}
 		onlyInteger
 		disabled={!region}
 	>
 		<div slot="endButton">
-			<Select title="Bandwidth" dataList={bandwidthUnitList} bind:value={bandwidthUnit} />
+			<Select title="Bandwidth" dataList={bandwidthUnitList} bind:value={bandwidthUnit} showLabel />
 		</div>
 	</AmountInputWithTitle>
 	<AmountInputWithTitle

@@ -135,14 +135,13 @@
 	$: updateRateString(instanceRate);
 	$: durationString = computeDurationString(duration, durationUnitInSec);
 	$: instanceCostScaled = computeCost(duration || 0, instanceRate);
-	$: invalidCost =
-		!instanceCostScaled ||
-		!(
+	$: invalidCost = !(
+		instanceCostScaled &&
+		instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor <=
 			$walletBalanceStore[
 				$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
-			] >=
-			instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor
-		);
+			]
+	);
 	$: inValidMessage = !instanceCostScaled
 		? ''
 		: invalidCost

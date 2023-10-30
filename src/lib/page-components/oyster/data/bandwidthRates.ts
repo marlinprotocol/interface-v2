@@ -3,7 +3,7 @@ interface BandwidthRate {
 	region_code: string;
 	rate: bigint;
 }
-// rates are per gb in USDC i.e 10^6
+// rates are per gb per second in 10^18
 export const BANDWIDTH_RATES: BandwidthRate[] = [
 	{
 		region: 'US East (N. Virginia)',

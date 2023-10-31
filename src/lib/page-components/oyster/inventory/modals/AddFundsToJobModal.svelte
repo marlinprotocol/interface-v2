@@ -6,7 +6,7 @@
 		oysterTokenMetadataStore,
 		oysterRateMetadataStore
 	} from '$lib/data-stores/oysterStore';
-	import { connected } from '$lib/data-stores/walletProviderStore';
+	import { connected, walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import {
@@ -19,6 +19,7 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
+	import type { WalletBalanceStore } from '$lib/types/storeTypes';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -34,14 +35,15 @@
 	let instanceCostString = '';
 
 	function handleMaxClick() {
-		instanceCostScaled = $oysterStore.allowance * $oysterRateMetadataStore.oysterRateScalingFactor;
 		instanceCostString = bigNumberToString(
-			$oysterStore.allowance,
+			walletBalance,
 			$oysterTokenMetadataStore.decimal,
-			4
+			4,
+			false
 		);
-		// adding one as it always rounds down due to bigInt division
-		duration = Number(instanceCostScaled / rateScaled) + 1;
+		duration = Number(
+			(walletBalance * $oysterRateMetadataStore.oysterRateScalingFactor) / rateScaled
+		);
 	}
 
 	//reset amount
@@ -76,6 +78,10 @@
 	};
 
 	$: ({ rateScaled } = jobData);
+	$: walletBalance =
+		$walletBalanceStore[
+			$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
+		];
 	$: approved =
 		connected &&
 		Boolean(instanceCostScaled) &&
@@ -92,15 +98,17 @@
 		Add funds by approving and depositing tokens for the job
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<AddFundsToJob
-			bind:duration
-			bind:invalidCost
-			bind:instanceCostScaled
-			bind:instanceCostString
-			bind:durationUnitInSec
-			instanceRate={rateScaled}
-			isTotalRate={true}
-		/>
+		<div class="flex flex-col gap-2">
+			<AddFundsToJob
+				bind:duration
+				bind:invalidCost
+				bind:instanceCostScaled
+				bind:instanceCostString
+				bind:durationUnitInSec
+				instanceRate={rateScaled}
+				isTotalRate={true}
+			/>
+		</div>
 		<div class="mt-2 flex items-center gap-2">
 			<MaxButton onclick={handleMaxClick} />
 			<div class={dividerClasses.vertical} />
@@ -108,9 +116,12 @@
 				variant="small"
 				styleClass="text-gray-400"
 				fontWeight="font-normal"
-				text="Approved amount:
-					{bigNumberToString($oysterStore.allowance, $oysterTokenMetadataStore.decimal, 4)}
-					{$oysterTokenMetadataStore.currency}"
+				text="Balance:
+					{bigNumberToString(
+					walletBalance,
+					$oysterTokenMetadataStore.decimal,
+					4
+				)} {$oysterTokenMetadataStore.currency}"
 			/>
 		</div>
 	</svelte:fragment>

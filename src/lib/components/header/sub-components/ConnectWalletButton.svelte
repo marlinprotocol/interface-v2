@@ -36,7 +36,7 @@
 			variant="outlined"
 			styleClass="flex gap-[10.3px] w-fit text-sm h-12 flex items-center"
 		>
-			<img src="/images/lockicon.svg" alt="Connect" />
+			<img src="/_oysterstatic/images/lockicon.svg" alt="Connect" />
 			{connectButtonText}
 		</Button>
 	</div>

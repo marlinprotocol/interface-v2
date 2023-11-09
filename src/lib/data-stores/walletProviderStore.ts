@@ -33,7 +33,7 @@ chainConfigStore.subscribe((value) => {
  */
 export const walletStore: Writable<WalletStore> = writable(DEFAULT_WALLET_STORE);
 /**
- * Wallet balance store holds the balance of POND and MPond for the connected wallet
+ * Wallet balance store holds the balance of usdc, pond and mpond tokens for the connected wallet
  */
 export const walletBalanceStore: Writable<WalletBalanceStore> = writable(
 	DEFAULT_WALLET_BALANCE_STORE
@@ -104,7 +104,7 @@ export function withdrawMpondFromWalletBalanceStore(amount: bigint) {
 	});
 }
 /**
- * fetches the balance for POND and MPond based on
+ * fetches the balance for POND, MPond and USDC based on
  * wallet address and sets the walletBalanceStore store.
  * @param walletAddress should be a Hex Address i.e. all lowercase
  */

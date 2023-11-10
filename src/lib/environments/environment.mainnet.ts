@@ -5,11 +5,11 @@ import { LINEA } from '$lib/chains/linea';
 export const ENVIRONMENT_MAINNET: Environment = {
 	environment_name: 'mainnet',
 	production: true,
-	valid_chains: { 42161: ARB_ONE, 59272: LINEA },
+	valid_chains: { 42161: ARB_ONE, 59144: LINEA },
 	default_chain_id: 42161,
 	supported_chains: {
 		bridge: [42161],
-		oyster: [42161, 59272],
+		oyster: [42161, 59144],
 		receiver_staking: [42161],
 		receiver_rewards: []
 	},

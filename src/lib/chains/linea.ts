@@ -18,7 +18,7 @@ export const LINEA: ChainConfig = {
 		OYSTER: '0xdbc4779b69bdc0f657ba35648e434bae042a00e0',
 		POND: '',
 		MPOND: '',
-		USDC: '0x8FB1E3fC51F3b789dED7557E680551d93Ea9d892'
+		USDC: '0x176211869cA2b568f2A7D4EE941E073a821EE1ff'
 	},
 	subgraph_urls: {
 		RECEIVER_STAKING: '',

@@ -80,7 +80,7 @@
 			CLEAR
 		</Button>
 	</div>
-	<div class="mt-4 flex flex-col items-center gap-4 md:flex-row">
+	<div class="mt-4 flex w-full flex-col items-center gap-4 md:flex-row">
 		<SearchWithSelect
 			dataList={allFilters?.instance}
 			searchValue={filterMap.instance}

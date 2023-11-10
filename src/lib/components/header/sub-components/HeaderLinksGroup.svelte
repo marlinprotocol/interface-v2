@@ -2,35 +2,17 @@
 	import { page } from '$app/stores';
 	import type { NavLinkModel } from '$lib/types/headerTypes';
 	import {
-		BRIDGE_URL,
 		OYSTER_MARKETPLACE_URL,
 		OYSTER_OPERATOR_URL,
-		OYSTER_OWNER_INVENTORY_URL,
-		RELAY_OPERATOR_LINK,
-		RELAY_RECEIVER_REWARDS_URL,
-		RELAY_RECEIVER_STAKING_URL
+		OYSTER_OWNER_INVENTORY_URL
 	} from '$lib/utils/constants/urls';
 
 	let openDropdown: HTMLDetailsElement | null = null;
 
 	let links: NavLinkModel[] = [
-		{ label: 'Relay', href: RELAY_OPERATOR_LINK, openInNewTab: true },
-		{ label: 'Bridge', href: BRIDGE_URL },
-		{
-			label: 'Oyster',
-			children: [
-				{ label: 'Marketplace', href: OYSTER_MARKETPLACE_URL },
-				{ label: 'Operator', href: OYSTER_OPERATOR_URL },
-				{ label: 'Inventory', href: OYSTER_OWNER_INVENTORY_URL }
-			]
-		},
-		{
-			label: 'Receiver Portal',
-			children: [
-				{ label: 'Receiver Staking', href: RELAY_RECEIVER_STAKING_URL },
-				{ label: 'Receiver Rewards', href: RELAY_RECEIVER_REWARDS_URL }
-			]
-		}
+		{ label: 'Marketplace', href: OYSTER_MARKETPLACE_URL },
+		{ label: 'Operator', href: OYSTER_OPERATOR_URL },
+		{ label: 'Inventory', href: OYSTER_OWNER_INVENTORY_URL }
 	];
 
 	function closeDropdown(event: MouseEvent) {

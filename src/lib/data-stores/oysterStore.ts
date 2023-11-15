@@ -441,19 +441,19 @@ export function setMarketplaceLoadedInOysterStore(status: boolean) {
 	});
 }
 
-export function initializeOysterStore(
-	providerDetail: any,
-	allowance: bigint,
-	oysterJobs: OysterInventoryDataModel[]
-) {
+export function initializeAllowanceInOysterStore(allowance: bigint) {
 	oysterStore.update((value) => {
 		return {
 			...value,
-			providerData: {
-				data: providerDetail,
-				registered: providerDetail !== null
-			},
-			allowance: allowance,
+			allowance: allowance
+		};
+	});
+}
+
+export function initializeInventoryDataInOysterStore(oysterJobs: OysterInventoryDataModel[]) {
+	oysterStore.update((value) => {
+		return {
+			...value,
 			jobsData: oysterJobs,
 			oysterStoreLoaded: true
 		};

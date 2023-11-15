@@ -9,7 +9,8 @@
 	$: connectedAccount = $web3WalletStore?.[0];
 	$: provider = connectedAccount?.provider;
 	$: address = connectedAccount?.accounts?.[0].address;
-	$: if (address && address !== lastAddress) {
+
+	$: if (address !== undefined && provider !== undefined && address !== lastAddress) {
 		console.log('setting wallet and chain stores due to address change');
 		setWalletAndChainStores(provider);
 		lastAddress = address;

@@ -18,6 +18,7 @@ export async function switchChain(chainId: number, provider: EIP1193Provider) {
 	if (isValidChain(chainId)) {
 		const success = await onboard.setChain({ chainId: chainId });
 		if (success) {
+			console.log('setting wallet and chain stores due to chain switch');
 			setWalletAndChainStores(provider);
 		}
 	}

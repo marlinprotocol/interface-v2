@@ -11,6 +11,8 @@
 	import { getOysterProvidersModified } from '$lib/utils/data-modifiers/oysterModifiers';
 	import { addRegionNameToMarketplaceData } from '$lib/utils/helpers/oysterHelpers';
 
+	let prevChainId: number | null = null;
+
 	async function loadMarketplaceData() {
 		console.log('Loading marketplace data');
 		setMarketplaceLoadedInOysterStore(false);
@@ -28,8 +30,9 @@
 		console.log('marketplace data is loaded');
 	}
 
-	$: if ($chainStore.chainId) {
+	$: if ($chainStore.chainId !== prevChainId) {
 		loadMarketplaceData();
+		prevChainId = $chainStore.chainId;
 	}
 </script>
 

@@ -450,11 +450,11 @@ export function initializeAllowanceInOysterStore(allowance: bigint) {
 	});
 }
 
-export function initializeInventoryDataInOysterStore(oysterJobs: OysterInventoryDataModel[]) {
+export function updateInventoryDataInOysterStore(oysterJobs: OysterInventoryDataModel[]) {
 	oysterStore.update((value) => {
 		return {
 			...value,
-			jobsData: oysterJobs,
+			jobsData: [...oysterJobs, ...value.jobsData],
 			oysterStoreLoaded: true
 		};
 	});

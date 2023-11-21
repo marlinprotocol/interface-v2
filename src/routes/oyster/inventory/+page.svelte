@@ -3,7 +3,7 @@
 	import { getOysterJobsFromSubgraph } from '$lib/controllers/subgraphController';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import {
-		updateInventoryDataInOysterStore,
+		initializeInventoryDataInOysterStore,
 		oysterRateMetadataStore
 	} from '$lib/data-stores/oysterStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
@@ -32,7 +32,7 @@
 			$oysterRateMetadataStore.oysterRateScalingFactor
 		);
 
-		updateInventoryDataInOysterStore(oysterJobs);
+		initializeInventoryDataInOysterStore(oysterJobs);
 		console.log('Oyster inventory data is loaded');
 	}
 

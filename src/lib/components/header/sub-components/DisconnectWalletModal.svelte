@@ -27,13 +27,15 @@
 			<div class="mt-1 text-xl font-semibold">{$walletStore.address}</div>
 		</div>
 		<div class="flex gap-4">
-			<button
-				class="{buttonClasses.greyFilled} text-small h-10 gap-3 font-medium"
-				on:click={() => handleCopyClick($walletStore.address, 'Address copied to clipboard')}
+			<Button
+				variant="greyFilled"
+				size="small"
+				styleClass="font-medium gap-3"
+				onclick={() => handleCopyClick($walletStore.address, 'Address copied to clipboard')}
 			>
 				<img src={staticImages.Copy} alt="Copy" />
 				Copy Address
-			</button>
+			</Button>
 			<a
 				href="{$chainConfigStore.block_explorer_url}/address/{$walletStore.address}"
 				target="_blank"

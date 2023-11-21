@@ -1,6 +1,5 @@
 <script lang="ts">
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
-	import { dividerClasses } from '$lib/atoms/componentClasses';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
@@ -44,7 +43,7 @@
 			{/if}
 			<div class="flex items-center gap-2">
 				<slot name="inputMaxButton" />
-				<div class={dividerClasses.vertical} />
+				<Divider direction="divider-vertical" />
 				<div class="flex gap-1">
 					<Text
 						text={maxAmountText}

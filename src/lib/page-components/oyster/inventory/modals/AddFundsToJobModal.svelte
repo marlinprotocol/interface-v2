@@ -14,12 +14,12 @@
 		handleFundsAddToJob
 	} from '$lib/utils/services/oysterServices';
 	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
-	import { dividerClasses } from '$lib/atoms/componentClasses';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import type { WalletBalanceStore } from '$lib/types/storeTypes';
+	import Divider from '$lib/atoms/divider/Divider.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -111,7 +111,7 @@
 		</div>
 		<div class="mt-2 flex items-center gap-2">
 			<MaxButton onclick={handleMaxClick} />
-			<div class={dividerClasses.vertical} />
+			<Divider direction="divider-vertical" />
 			<Text
 				variant="small"
 				styleClass="text-gray-400"

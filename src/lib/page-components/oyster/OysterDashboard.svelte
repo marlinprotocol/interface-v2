@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
-	import { dividerClasses } from '$lib/atoms/componentClasses';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
@@ -34,6 +33,7 @@
 		registerOysterInfrastructureProvider,
 		removeOysterInfrastructureProvider
 	} from '$lib/controllers/contract/oyster';
+	import Divider from '$lib/atoms/divider/Divider.svelte';
 
 	let enableRegisterButton = false;
 	let updatedCpURL = '';
@@ -179,7 +179,7 @@
 				<a href={OYSTER_DOC_LINK} target="_blank">
 					<Text styleClass="text-primary" fontWeight="font-medium" text="Documentation" />
 				</a>
-				<div class={dividerClasses.vertical} />
+				<Divider direction="divider-vertical" />
 				<a href={DISCORD_LINK} target="_blank">
 					<Text styleClass="text-primary" fontWeight="font-medium" text="Support" />
 				</a>

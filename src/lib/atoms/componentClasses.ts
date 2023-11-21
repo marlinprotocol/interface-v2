@@ -26,12 +26,6 @@ export const buttonClasses = {
 		'btn btn-sm px-2 border-none bg-base-200 hover:bg-base-300 disabled:bg-base-200 disabled:text-primary disabled:curson-not-allowed disabled:cursor-not-allowed'
 };
 
-export const dividerClasses = {
-	vertical: 'w-[1px] bg-gray-500 h-4 rounded',
-	horizontal: 'h-0.5 bg-gray-200 w-full rounded',
-	verticalPrimary: 'w-[1px] bg-primary h-4 rounded'
-};
-
 export const tableCellClasses = {
 	heading: 'text-primary text-sm font-semibold px-2 pb-4',
 	row: 'font-semibold text-base py-6 whitespace-nowrap',

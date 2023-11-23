@@ -1,29 +1,29 @@
 import type { ContractAddress } from '$lib/types/storeTypes';
 
 export type Environment = {
-	environment_name: string;
-	production: boolean;
-	valid_chains: Record<number, ChainConfig>;
-	default_chain_id: number;
-	supported_chains: Record<RouteNames, number[]>;
-	dapp_url: string;
-	trezor_email: string;
-	backend_url: string;
+	environment_name: string; // we define environments based on what user base we are targetting for example: 'development' if its for dev purposes, 'mainnet' if we are live and 'testnet' if its for testing/qa purposes
+	production: boolean; // if true then we remove all the console logs for the client side
+	valid_chains: Record<number, ChainConfig>; // all the chains that we support for that environment
+	default_chain_id: number; // default chain id for that environment, this is done because we need to show oyster marketplace data whether the user has connected their wallet or not, so unless they connect their wallet we dont know which chain they are on, so we show them the data for the default chain
+	supported_chains: Record<RouteNames, number[]>; // all the chains that are supported for a particular route, we support different chains for different routes for example: we support only arb goerli for bridge, but we support both arb goerli and linea goerli for oyster in development environment
+	dapp_url: string; // this dapp url is used in config for trezor wallet
+	trezor_email: string; // this trezor email is used in config for trezor wallet
+	backend_url: string; // this is the backend url which we sometimes use as a proxy while sending requests as well
 };
 
 export type ChainConfig = {
-	chain_id: string;
-	chain_name: string;
-	chain_token: string;
-	block_explorer_name: string;
-	block_explorer_url: string;
-	rpc_url: string;
-	backend_network_id: string;
-	contract_addresses: ContractAddress;
-	subgraph_urls: SubgraphUrls;
-	oyster_token: keyof Tokens;
-	oyster_rate_metadata: OysterRateMetadata;
-	tokens: Tokens;
+	chain_id: string; // hex string i.e. for arbitrum goerli: '0x66eed'
+	chain_name: string; // chain name that you want to see in the UI
+	chain_token: string; // native token for that chain for example: 'AGOR' for arbitrum goerli
+	block_explorer_name: string; // block explorer name for that chain for example: 'Arbiscan' for arbitrum goerli
+	block_explorer_url: string; // block explorer url for that chain for example: 'https://goerli.arbiscan.io' for arbitrum goerli
+	rpc_url: string; // rpc url for that chain for example: 'https://goerli-rollup.arbitrum.io/rpc' for arbitrum goerli
+	backend_network_id: string; // currently we have a same backend for each chain so to diffentiate between them we use this field
+	contract_addresses: ContractAddress; // contract addresses for that chain (all keys are neccessary, but values can be empty strings)
+	subgraph_urls: SubgraphUrls; // subgraph urls for that chain (all keys are neccessary, but values can be empty strings)
+	oyster_token: keyof Tokens; // token that is used for oyster transactions should be one of the keys of tokens object
+	oyster_rate_metadata: OysterRateMetadata; // metadata related to oyster requests
+	tokens: Tokens; // tokens that are used in the dapp
 };
 
 export type OysterUrls = {

@@ -10,11 +10,11 @@
 </script>
 
 <a
-	class="text-small mx-auto mt-4 h-10 w-fit gap-3 font-medium {buttonClass} "
+	class="text-small mx-auto mt-4 h-10 w-fit gap-3 font-medium {buttonClass}"
 	{href}
 	target="_blank"
 	rel="noopener noreferrer"
 >
-	<img src={staticImages.OpenInNew} alt="Copy" />
+	<img src={staticImages.OpenInNew} alt="Open" />
 	{text}
 </a>

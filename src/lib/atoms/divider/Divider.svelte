@@ -1,20 +1,46 @@
 <script lang="ts">
 	export let direction: 'divider-horizontal' | 'divider-vertical' = 'divider-horizontal';
-	export let margin = 'my-1';
-	export let height = 'h-0.5';
+	export let margin = 'my-0';
+	export let color: string = '';
+	export let height: string = '';
+	export let width: string = '';
 
-	const getDirectionBasedBorder = (variant: string) => {
+	const getDividerColor = (variant: string) => {
 		switch (variant) {
 			case 'divider-horizontal':
-				return 'border-b border-b-black/[0.1]';
+				return 'bg-black/[0.1]';
 			case 'divider-vertical':
-				return 'border-r border-b-black';
+				return 'bg-grey-500';
 			default:
-				return 'border-b border-b-black';
+				return 'bg-black/[0.1]';
 		}
 	};
 
-	const borderStyle = getDirectionBasedBorder(direction);
+	const getDividerWidth = (variant: string) => {
+		switch (variant) {
+			case 'divider-horizontal':
+				return 'w-full';
+			case 'divider-vertical':
+				return 'w-[1px]';
+			default:
+				return 'w-full';
+		}
+	};
+
+	const getDividerHeight = (variant: string) => {
+		switch (variant) {
+			case 'divider-horizontal':
+				return 'h-[1px]';
+			case 'divider-vertical':
+				return 'h-4';
+			default:
+				return 'h-[1px]';
+		}
+	};
+
+	const dividerHeight = height !== '' ? height : getDividerHeight(direction);
+	const dividerWidth = width !== '' ? width : getDividerWidth(direction);
+	const dividerColor = color !== '' ? color : getDividerColor(direction);
 </script>
 
-<div class="{borderStyle} {margin} {height} w-full" />
+<div class="{dividerHeight} {dividerWidth} {dividerColor} {margin}" />

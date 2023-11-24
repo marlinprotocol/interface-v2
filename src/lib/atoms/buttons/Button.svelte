@@ -1,15 +1,6 @@
 <script lang="ts">
-	import ErrorButton from '$lib/atoms/buttons/ErrorButton.svelte';
-	import FilledButton from '$lib/atoms/buttons/FilledButton.svelte';
-	import OutlinedButton from '$lib/atoms/buttons/OutlinedButton.svelte';
 	import type { ButtonModel } from '$lib/types/componentTypes';
-	import type { IconData } from 'svelte-awesome/components/Icon.svelte';
-	import GreyFilledButton from '$lib/atoms/buttons/GreyFilledButton.svelte';
-	import InfoButton from '$lib/atoms/buttons/InfoButton.svelte';
-	import TextButton from '$lib/atoms/buttons/TextButton.svelte';
-	import WhiteFilledButton from '$lib/atoms/buttons/WhiteFilledButton.svelte';
-	import Icon from '$lib/atoms/icons/Icon.svelte';
-	import TableConvertButton from '$lib/atoms/buttons/TableConvertButton.svelte';
+	import { buttonClasses } from '../componentClasses';
 
 	export let variant: ButtonModel['variant'] = 'filled';
 	export let size: ButtonModel['size'] = 'medium';
@@ -17,29 +8,27 @@
 	export let onclick: ButtonModel['onclick'] = undefined;
 	export let disabled = false;
 	export let loading = false;
-	export let icon: Record<string, IconData> | undefined = undefined;
-	export let iconSrc: string | undefined = undefined;
 
-	const buttonClass = () => {
+	const getButtonStyles = () => {
 		switch (variant) {
 			case 'filled':
-				return FilledButton;
+				return buttonClasses.filled;
 			case 'outlined':
-				return OutlinedButton;
+				return buttonClasses.outlined;
 			case 'error':
-				return ErrorButton;
+				return buttonClasses.error;
 			case 'text':
-				return TextButton;
+				return buttonClasses.text;
 			case 'info':
-				return InfoButton;
+				return buttonClasses.lightblueFilled;
 			case 'greyFilled':
-				return GreyFilledButton;
+				return buttonClasses.greyFilled;
 			case 'whiteFilled':
-				return WhiteFilledButton;
+				return buttonClasses.whiteFilled;
 			case 'tableConvertButton':
-				return TableConvertButton;
+				return buttonClasses.tableConvertButton;
 			default:
-				return FilledButton;
+				return buttonClasses.filled;
 		}
 	};
 	const getButtonSize = () => {
@@ -60,18 +49,21 @@
 				return 'h-12';
 		}
 	};
-	const ButtonType = buttonClass();
+	const buttonStyles = getButtonStyles();
 	const buttonSize = getButtonSize();
+
+	$: buttonStyleClass = `${styleClass} ${buttonSize} ${buttonStyles} gap-1.5`;
 </script>
 
-{#if ButtonType}
-	<ButtonType {onclick} {disabled} {loading} styleClass="{styleClass} {buttonSize} gap-1.5">
-		{#if icon}
-			<Icon data={icon} size={14} iconColorClass="icon-white" />
-		{/if}
-		{#if !!iconSrc}
-			<img src={iconSrc} alt="Icon" width={16} />
-		{/if}
-		<slot />
-	</ButtonType>
-{/if}
+<button {disabled} on:click={onclick} class={buttonStyleClass}>
+	<!-- {#if icon}
+		<Icon data={icon} size={14} iconColorClass="icon-white" />
+	{/if}
+	{#if !!iconSrc}
+		<img src={iconSrc} alt="Icon" width={16} />
+	{/if} -->
+	{#if loading}
+		<span class="loading loading-spinner loading-sm" />
+	{/if}
+	<slot />
+</button>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import Table from '$lib/atoms/table/Table.svelte';
-	import HeaderConnectWallet from '$lib/components/header/sub-components/HeaderConnectWallet.svelte';
+	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { TableModel } from '$lib/types/componentTypes';
@@ -17,7 +17,7 @@
 <div class="card max-w-full rounded-lg bg-base-100">
 	{#if !$connected && walletConnectionRequired}
 		<div class="my-4 flex justify-center text-center">
-			<HeaderConnectWallet />
+			<ConnectWalletButton />
 		</div>
 	{:else if loading}
 		<div class="my-4 flex justify-center text-center">

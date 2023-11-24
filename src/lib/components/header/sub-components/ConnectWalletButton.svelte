@@ -3,8 +3,6 @@
 	import lock from 'svelte-awesome/icons/lock';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import onboard from '$lib/controllers/web3OnboardController';
-	import { setWalletAndChainStores } from '$lib/controllers/walletController';
-	import { web3WalletStore } from '$lib/data-stores/walletProviderStore';
 	import ChainSwitcher from '$lib/components/header/sub-components/ChainSwitcher.svelte';
 
 	export let isLarge = false;
@@ -15,11 +13,6 @@
 		const connection = await onboard.connectWallet();
 		console.log('connection', connection);
 	};
-
-	$: connectedAccount = $web3WalletStore?.[0];
-	$: if (connectedAccount) {
-		setWalletAndChainStores(connectedAccount.provider);
-	}
 </script>
 
 {#if isLarge}

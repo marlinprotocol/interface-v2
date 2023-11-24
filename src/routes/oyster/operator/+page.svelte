@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getProviderDetailsFromSubgraph } from '$lib/controllers/subgraphController';
+	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import {
 		initializeProviderDataInOysterStore,
 		resetOysterStore
@@ -7,7 +8,8 @@
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import OysterDashboard from '$lib/page-components/oyster/OysterDashboard.svelte';
 
-	async function fetchProviderDetails() {
+	async function loadProviderDetails() {
+		console.log('fetching operator details');
 		const providerDetails = await getProviderDetailsFromSubgraph($walletStore.address);
 		// updating the oyster store with provider details and registered
 		if (providerDetails !== undefined && providerDetails !== null) {
@@ -15,10 +17,11 @@
 		} else {
 			resetOysterStore();
 		}
+		console.log('operator details loaded');
 	}
 
-	$: if ($connected && $walletStore.address) {
-		fetchProviderDetails();
+	$: if ($connected && $walletStore.address && $chainStore.chainId) {
+		loadProviderDetails();
 	}
 </script>
 

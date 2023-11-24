@@ -120,17 +120,17 @@
 			metadata,
 			provider,
 			totalRate,
-			totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
-			duration,
-			$oysterRateMetadataStore.oysterRateScalingFactor
+			totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor
 		);
-		submitLoading = false;
-		if (!success) {
-			return;
-		}
-		resetInputs();
-		closeModal(modalFor);
-		goto(OYSTER_OWNER_INVENTORY_URL);
+		setTimeout(() => {
+			submitLoading = false;
+			if (!success) {
+				return;
+			}
+			resetInputs();
+			closeModal(modalFor);
+			goto(OYSTER_OWNER_INVENTORY_URL);
+		}, 4000);
 	};
 
 	const handleApproveClick = async () => {

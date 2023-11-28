@@ -14,8 +14,10 @@
 	} from '$lib/controllers/contract/receiverStaking';
 	import { approveToken } from '$lib/controllers/contract/token';
 	import { doNothing } from '$lib/utils/helpers/commonHelper';
+	import { epochToDurationString } from '$lib/utils/helpers/conversionHelper';
 
 	let pageTitle = 'Marlin Receiver Staking Portal (Ignore this part)';
+	let epochNumber = 0;
 
 	function onClickHandlerForToastError() {
 		addToast({
@@ -94,4 +96,7 @@
 			>this is a modal button</ModalButton
 		>
 	</div>
+	<input bind:value={epochNumber} type="number" />
+	<br />
+	{epochToDurationString(epochNumber)}
 </div>

@@ -8,10 +8,11 @@ export type Environment = {
 	supported_chains: Record<RouteNames, number[]>; // all the chains that are supported for a particular route, we support different chains for different routes for example: we support only arb goerli for bridge, but we support both arb goerli and linea goerli for oyster in development environment
 	dapp_url: string; // this dapp url is used in config for trezor wallet
 	trezor_email: string; // this trezor email is used in config for trezor wallet
-	backend_url: string; // this is the backend url which we sometimes use as a proxy while sending requests as well
+	backend_url: string; // this is the backend url which we use as a proxy while sending requests to control plane, and for other things like getting/refreshing oyster job statuses, getting provider names etc.
 };
 
 export type ChainConfig = {
+	// TODO: add a check for hex string
 	chain_id: string; // hex string i.e. for arbitrum goerli: '0x66eed'
 	chain_name: string; // chain name that you want to see in the UI
 	chain_token: string; // native token for that chain for example: 'AGOR' for arbitrum goerli

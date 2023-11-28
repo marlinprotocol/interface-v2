@@ -110,7 +110,7 @@ This is a top-level overview of how this project is structured.
 
 ## 📦 Dependencies
 
-Here are some of the main dependancies of the projects:
+Here are some of the main dependencies of the projects:
 
 - [ethers](https://docs.ethers.org/v6/): A complete and compact library for interacting with the Ethereum Blockchain and its ecosystem.
 - [daisyui](https://daisyui.com/docs/install/): A component library for tailwind css.

@@ -6,6 +6,7 @@
 - Create a [WalletConnect account](https://cloud.walletconnect.com) and copy the Project ID.
 - Create a `.env` file in the root of the project and add the above. You can use the `.env.example` file as a template.
   ```.env
+  # 'development' for dev or 'arb_mainnet' for mainnet
   PUBLIC_NODE_ENV='development'
   VITE_PROJECT_ID='<your_walletconnect_project_id>'
   ```

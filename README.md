@@ -100,7 +100,12 @@ This is a top-level overview of how this project is structured.
 - `tsconfig.json`: Configuration file containing typechecking rules for TypeScript.
 - `vite.config.ts`: Configuration file for vite.
 
-> Check out other `README.md`'s inside specific folders for more details.
+> Check out other `README.md`'s for more details.
+>
+> - [lib](/src/lib/README.md)
+> - [routes](/src/routes/README.md)
+> - [controllers](/src/lib/controllers/README.md)
+> - [utils](/src/lib/utils/README.md)
 
 ## 📦 Dependencies
 

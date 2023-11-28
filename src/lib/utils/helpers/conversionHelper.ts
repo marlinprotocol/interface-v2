@@ -26,24 +26,24 @@ export const epochToDurationString = (epoch: number, mini = false, uptoHoursOnly
 	let durationString = '';
 	if (years > 0) {
 		durationString += years + (years > 1 ? ' years ' : ' year ');
-		if (mini) return durationString;
+		if (mini) return durationString.trimEnd();
 	}
 	if (months > 0) {
 		durationString += months + (months > 1 ? ' months ' : ' month ');
-		if (mini) return durationString;
+		if (mini) return durationString.trimEnd();
 	}
 	if (days > 0) {
 		durationString += days + (days > 1 ? ' days ' : ' day ');
-		if (mini) return durationString;
+		if (mini) return durationString.trimEnd();
 	}
 	if (hours > 0) {
 		durationString += hours + (hours > 1 ? ' hours ' : ' hour ');
-		if (mini) return durationString;
+		if (mini) return durationString.trimEnd();
 	}
 	if (!uptoHoursOnly) {
 		if (minutes > 0) {
 			durationString += minutes + (minutes > 1 ? ' mins ' : ' min ');
-			if (mini) return durationString;
+			if (mini) return durationString.trimEnd();
 		}
 		if (seconds > 0) {
 			durationString += seconds.toFixed() + ' secs';
@@ -51,7 +51,7 @@ export const epochToDurationString = (epoch: number, mini = false, uptoHoursOnly
 		}
 	}
 
-	return durationString;
+	return durationString.trimEnd();
 };
 
 /**

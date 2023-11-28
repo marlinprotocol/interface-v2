@@ -6,7 +6,7 @@ export function copyTextToClipboard(text: string) {
 		navigator.clipboard.writeText(text);
 	}
 }
-
+// TODO: how can this be tested as this depends on the current time, assertion is difficult
 export function getCurrentEpochCycle(epochStartTime: number, epochLength: number): number {
 	const currentEpoch = new Date().getTime() / 1000;
 
@@ -17,6 +17,8 @@ export function getCurrentEpochCycle(epochStartTime: number, epochLength: number
 	const epochCycle = Math.floor((currentEpoch - epochStartTime) / epochLength) + 1;
 	return epochCycle;
 }
+
+// TODO: these can be moved to a seperate modal helper file
 /**
  * closes modal based on the id that is passed in <label for={modalId}> by setting the respective checkbox to true
  * @param modalId
@@ -40,8 +42,22 @@ export function closeModal(modalId: string) {
  */
 export function isInputAmountValid(amount: string): boolean {
 	if (!amount) return true;
-	// regex to check if the amount is a valid number which is greater than 0 and has 18 decimal places and has less than 50 digits
-	return /^(?!0\d)(?!.*(?:\..*){2})\d{1,50}(?:\.\d{1,18})?$/.test(amount);
+
+	const containsSpecialCharsOrAlphabets = /[^\d.]/.test(amount);
+	if (containsSpecialCharsOrAlphabets) return false;
+
+	const containsMoreThanOneDecimal = (amount.match(/\./g) || []).length > 1;
+	if (containsMoreThanOneDecimal) return false;
+
+	const integerPart = amount.split('.')[0];
+	const decimalPart = amount.split('.')[1];
+
+	if (integerPart.length > 50) return false;
+	if (decimalPart && decimalPart.length > 18) return false;
+	if (!decimalPart && BigInt(integerPart) === 0n) return false;
+	if (decimalPart && BigInt(decimalPart) === 0n && BigInt(decimalPart) === 0n) return false;
+
+	return true;
 }
 
 /**
@@ -52,6 +68,7 @@ export function inputAmountInValidMessage(amount: string): string {
 	if (isValid) return '';
 	let message = '';
 
+	// TODO: there should be a better way to create this message since we are comparing the same thing twice once in the isAmountValid function and then here again
 	if (amount === '0') {
 		message = 'Amount should be greater than 0.';
 	} else if (amount.split('.')[0].length > 50) {
@@ -67,6 +84,7 @@ export function inputAmountInValidMessage(amount: string): string {
 	return message;
 }
 
+// TODO: can be removed and use shortenText function
 /**
  * returns the minified address
  * @param address
@@ -81,9 +99,11 @@ export function minifyAddress(
 	first = 6,
 	last = 4
 ): string {
+	if (address === '') return '';
 	return shortenText(address, first, last);
 }
 
+// TODO:should this reside here? since this has a dependency on subgraph
 /**
  * checks and returns an array of booleans signifying all the validations that the address has passed
  */
@@ -99,7 +119,6 @@ export async function isAddressValid(address: string): Promise<boolean[]> {
 /**
  * capitalizes the first letter of the string
  * @param string
- * @returns
  * @example capitalizeFirstLetter('hello') => 'Hello'
  */
 export function capitalizeFirstLetter(string: string) {

@@ -7,7 +7,7 @@ export type Environment = {
 	default_chain_id: number; // default chain id for that environment, this is done because we need to show oyster marketplace data whether the user has connected their wallet or not, so unless they connect their wallet we dont know which chain they are on, so we show them the data for the default chain
 	supported_chains: Record<RouteNames, number[]>; // all the chains that are supported for a particular route, we support different chains for different routes for example: we support only arb goerli for bridge, but we support both arb goerli and linea goerli for oyster in development environment
 	dapp_url: string; // this dapp url is used in config for trezor wallet
-	trezor_email: string; // this trezor email is used in config for trezor wallet
+	trezor_email: string; // this trezor email is used in config for trezor manifest, refer: https://docs.trezor.io/trezor-suite/packages/connect/index.html?highlight=email#how-to-use
 	backend_url: string; // this is the backend url which we use as a proxy while sending requests to control plane, and for other things like getting/refreshing oyster job statuses, getting provider names etc.
 };
 

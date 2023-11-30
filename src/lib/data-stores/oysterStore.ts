@@ -319,7 +319,7 @@ export function updateJobRateInOysterStore(id: BytesLike, newRate: bigint) {
 
 export function stopJobInOysterStore(id: BytesLike, txn: any, jobData: OysterInventoryDataModel) {
 	const nowTime = Date.now() / 1000;
-	const modifiedJobData = {
+	const modifiedJobData: OysterInventoryDataModel = {
 		...jobData,
 		live: false,
 		refund: jobData.balance,

@@ -4,15 +4,20 @@ import {
 	OYSTER_WARNING_DURATION
 } from '$lib/utils/constants/oysterConstants';
 import type {
+	OysterDurationUnits,
 	OysterFiltersModel,
 	OysterInventoryDataModel,
+	OysterInventorySortKeys,
 	OysterMarketplaceDataModel,
-	OysterMarketplaceFilterModel
+	OysterMarketplaceFilterModel,
+	OysterMarketplaceSortKeys,
+	OysterOperatorInventorySortKeys
 } from '$lib/types/oysterComponentType';
 
 import { addToast } from '$lib/data-stores/toastStore';
 import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+import type { SortDirection } from '$lib/types/componentTypes';
 
 export const getSearchedInventoryData = (
 	searchInput: string,
@@ -105,8 +110,8 @@ export const getInventoryDurationVariant = (duration: number) => {
 
 export const sortOysterInventory = (
 	data: OysterInventoryDataModel[] | undefined,
-	sort: string,
-	order: 'asc' | 'desc'
+	sort: OysterInventorySortKeys,
+	order: SortDirection
 ) => {
 	if (!data) return [];
 
@@ -157,8 +162,8 @@ export const sortOysterInventory = (
 
 export const sortOysterOperatorInventory = (
 	data: OysterInventoryDataModel[] | undefined,
-	sort: string,
-	order: 'asc' | 'desc'
+	sort: OysterOperatorInventorySortKeys,
+	order: SortDirection
 ) => {
 	if (!data) return [];
 
@@ -175,7 +180,7 @@ export const sortOysterOperatorInventory = (
 			return nmA > nmB ? 1 : -1;
 		}
 
-		if (sort === 'instance' || sort === 'region' || sort === 'status' || sort === 'provider') {
+		if (sort === 'instance' || sort === 'region' || sort === 'status' || sort === 'owner') {
 			const stA = a[sort];
 			const stB = b[sort];
 			return stA > stB ? 1 : -1;
@@ -195,8 +200,8 @@ export const sortOysterOperatorInventory = (
 
 export const sortOysterOperatorHistory = (
 	data: OysterInventoryDataModel[] | undefined,
-	sort: string,
-	order: 'asc' | 'desc'
+	sort: OysterOperatorInventorySortKeys,
+	order: SortDirection
 ) => {
 	if (!data) return [];
 
@@ -213,7 +218,7 @@ export const sortOysterOperatorHistory = (
 			return nmA > nmB ? 1 : -1;
 		}
 
-		if (sort === 'instance' || sort === 'region' || sort === 'status' || sort === 'provider') {
+		if (sort === 'instance' || sort === 'region' || sort === 'status' || sort === 'owner') {
 			const stA = a[sort];
 			const stB = b[sort];
 			return stA > stB ? 1 : -1;
@@ -233,8 +238,8 @@ export const sortOysterOperatorHistory = (
 
 export const sortOysterMarketplace = (
 	data: OysterMarketplaceDataModel[] | undefined,
-	sort: string,
-	order: 'asc' | 'desc'
+	sort: OysterMarketplaceSortKeys,
+	order: SortDirection
 ) => {
 	if (!data) return [];
 
@@ -268,6 +273,7 @@ export const sortOysterMarketplace = (
 	});
 	return sortedData;
 };
+
 export const getSearchAndFilteredMarketplaceData = (
 	allMarketplaceData: OysterMarketplaceDataModel[],
 	filterMap: Partial<OysterMarketplaceFilterModel>,
@@ -419,7 +425,7 @@ export function getAllFiltersListforMarketplaceData(
 	} as OysterFiltersModel;
 }
 
-const addAllToList = (data: (string | number | string[])[], addAllOption: boolean) => {
+export const addAllToList = (data: (string | number | string[])[], addAllOption: boolean) => {
 	const setData = [...new Set(data)];
 	if (!addAllOption || setData.length === 0) return setData;
 	return ['All', ...setData];
@@ -518,6 +524,6 @@ export function getBandwidthFromRateAndRegion(bandwidthRate: bigint, region: str
 	return bandwidthWithAllPrecision;
 }
 
-export const getDurationInSecondsForUnit = (durationUnit: string) => {
+export const getDurationInSecondsForUnit = (durationUnit: OysterDurationUnits) => {
 	return OYSTER_DURATION_UNITS_LIST.find((unit) => unit.label === durationUnit)?.value ?? 1;
 };

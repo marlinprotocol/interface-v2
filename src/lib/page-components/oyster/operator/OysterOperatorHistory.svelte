@@ -4,7 +4,10 @@
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import type {
+		OysterInventoryDataModel,
+		OysterOperatorInventorySortKeys
+	} from '$lib/types/oysterComponentType';
 	import { OYSTER_OPERATOR_HISTORY_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import {
 		getSearchedInventoryData,
@@ -36,7 +39,7 @@
 		}
 		operatorHistoryData = sortOysterOperatorHistory(
 			operatorHistoryData,
-			id as keyof OysterInventoryDataModel,
+			id as OysterOperatorInventorySortKeys,
 			sortingMap[id]
 		);
 	};

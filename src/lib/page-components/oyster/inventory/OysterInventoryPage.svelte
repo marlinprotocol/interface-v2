@@ -7,7 +7,7 @@
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import OysterInventoryTableRow from '$lib/page-components/oyster/inventory/OysterInventoryTableRow.svelte';
 	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
-	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import type { OysterInventorySortKeys } from '$lib/types/oysterComponentType';
 	import { OYSTER_INVENTORY_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { getSearchedInventoryData, sortOysterInventory } from '$lib/utils/helpers/oysterHelpers';
 	import plus from 'svelte-awesome/icons/plus';
@@ -27,11 +27,7 @@
 		} else {
 			sortingMap[id] = 'asc';
 		}
-		searchedData = sortOysterInventory(
-			searchedData,
-			id as keyof OysterInventoryDataModel,
-			sortingMap[id]
-		);
+		searchedData = sortOysterInventory(searchedData, id as OysterInventorySortKeys, sortingMap[id]);
 	};
 
 	const handlePageChange = (page: number) => {

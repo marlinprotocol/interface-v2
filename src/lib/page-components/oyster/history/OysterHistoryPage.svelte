@@ -4,7 +4,10 @@
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
-	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import type {
+		OysterInventoryDataModel,
+		OysterInventorySortKeys
+	} from '$lib/types/oysterComponentType';
 	import { OYSTER_HISTORY_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { getSearchedInventoryData, sortOysterInventory } from '$lib/utils/helpers/oysterHelpers';
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
@@ -24,7 +27,7 @@
 		}
 		inventoryData = sortOysterInventory(
 			inventoryData,
-			id as keyof OysterInventoryDataModel,
+			id as OysterInventorySortKeys,
 			sortingMap[id]
 		);
 	};

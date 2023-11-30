@@ -2,7 +2,10 @@
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
+	import type {
+		OysterMarketplaceDataModel,
+		OysterMarketplaceSortKeys
+	} from '$lib/types/oysterComponentType';
 	import { OYSTER_MARKETPLACE_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { sortOysterMarketplace } from '$lib/utils/helpers/oysterHelpers';
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
@@ -21,7 +24,11 @@
 		} else {
 			sortingMap[id] = 'asc';
 		}
-		filteredData = sortOysterMarketplace(filteredData, id, sortingMap[id]);
+		filteredData = sortOysterMarketplace(
+			filteredData,
+			id as OysterMarketplaceSortKeys,
+			sortingMap[id]
+		);
 	};
 
 	const handlePageChange = (page: number) => {

@@ -86,5 +86,4 @@ export function disconnectWallet(wallets: WalletState[]) {
 	resetWalletProviderStore();
 	resetReceiverStakingStore();
 	resetOysterStore();
-	resetAllowedChainsStore();
 }

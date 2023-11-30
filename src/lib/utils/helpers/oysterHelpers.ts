@@ -18,6 +18,7 @@ import { addToast } from '$lib/data-stores/toastStore';
 import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 import type { SortDirection } from '$lib/types/componentTypes';
+import { REGION_NAME_CONSTANTS } from '../constants/regionNameConstants';
 
 export const getSearchedInventoryData = (
 	searchInput: string,
@@ -498,13 +499,10 @@ export const computeDurationString = (duration: number | undefined, durationUnit
 	return Math.floor(duration / durationUnitInSec).toString();
 };
 
-export const addRegionNameToMarketplaceData = (
-	objArray: OysterMarketplaceDataModel[],
-	mapping: Record<string, string>
-) => {
+export const addRegionNameToMarketplaceData = (objArray: OysterMarketplaceDataModel[]) => {
 	const newArray = objArray.map((obj) => {
 		const region = obj.region;
-		const regionName = mapping[region];
+		const regionName = REGION_NAME_CONSTANTS?.[region as keyof typeof REGION_NAME_CONSTANTS];
 		if (regionName) {
 			return { ...obj, regionName };
 		} else {
@@ -517,7 +515,7 @@ export const addRegionNameToMarketplaceData = (
 // returns bandwidth rate in Kb/s
 export function getBandwidthFromRateAndRegion(bandwidthRate: bigint, region: string) {
 	const rateForRegion = getBandwidthRateForRegion(region);
-	if (rateForRegion === undefined) return 0n;
+	if (rateForRegion === undefined || rateForRegion === 0n) return 0n;
 	// + 1n is done to ceil the number since in bigInt division we floor the number
 	const bandwidthWithAllPrecision = (bandwidthRate * BigInt(1024 * 1024)) / rateForRegion + 1n;
 

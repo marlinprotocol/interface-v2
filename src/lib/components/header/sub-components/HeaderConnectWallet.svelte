@@ -11,10 +11,10 @@
 	$: address = connectedAccount?.accounts?.[0].address;
 
 	$: if (address !== undefined && provider !== undefined && address !== lastAddress) {
-		console.log('setting wallet and chain stores due to address change');
 		setWalletAndChainStores(provider);
 		lastAddress = address;
 	}
+	$: lastAddress = $connected ? lastAddress : '';
 </script>
 
 {#if $connected}

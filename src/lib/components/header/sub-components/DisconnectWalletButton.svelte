@@ -8,10 +8,13 @@
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import ChainSwitcher from '$lib/components/header/sub-components/ChainSwitcher.svelte';
 
+	export let lastAddress: string | undefined = undefined;
+
 	let modalFor = 'disconnect-wallet-modal';
 
 	const disconnect = () => {
 		disconnectWallet($web3WalletStore);
+		lastAddress = undefined;
 	};
 
 	$: shortAddress =

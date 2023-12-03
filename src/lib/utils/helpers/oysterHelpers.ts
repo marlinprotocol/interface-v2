@@ -148,7 +148,6 @@ export const sortOysterInventory = (
 			const stB = b[sort];
 			return stA > stB ? 1 : -1;
 		}
-
 		return 1;
 	};
 	const sortedData = data.sort((a, b) => {
@@ -186,7 +185,6 @@ export const sortOysterOperatorInventory = (
 			const stB = b[sort];
 			return stA > stB ? 1 : -1;
 		}
-
 		return 1;
 	};
 	const sortedData = data.sort((a, b) => {
@@ -224,7 +222,6 @@ export const sortOysterOperatorHistory = (
 			const stB = b[sort];
 			return stA > stB ? 1 : -1;
 		}
-
 		return 1;
 	};
 	const sortedData = data.sort((a, b) => {
@@ -262,7 +259,6 @@ export const sortOysterMarketplace = (
 			const stB = b[sort];
 			return stA > stB ? 1 : -1;
 		}
-
 		return 1;
 	};
 	const sortedData = data.sort((a, b) => {

@@ -11,9 +11,12 @@ import {
 	getDurationInSecondsForUnit,
 	getInventoryDurationVariant,
 	getInventoryStatusVariant,
+	getRateForProviderAndFilters,
 	getSearchedInventoryData,
 	getSearchedMarketplaceData,
 	getSearchedOysterJobsData,
+	getUpdatedFiltersList,
+	getCreateOrderInstanceRegionFilters,
 	sortOysterInventory,
 	sortOysterMarketplace,
 	sortOysterOperatorHistory,
@@ -302,7 +305,7 @@ describe('getInventoryStatusVariant', () => {
 	});
 
 	test('should return primary variant if status is closed', () => {
-		expect(getInventoryStatusVariant('closes')).toBe('primary');
+		expect(getInventoryStatusVariant('closed')).toBe('primary');
 	});
 
 	test('should return primary variant if status is any other string', () => {
@@ -3534,6 +3537,216 @@ describe('addAllToList', () => {
 			'item2',
 			'item3'
 		]);
+	});
+});
+
+describe('getUpdatedFiltersList', () => {
+	test('should return the same filters when previousFilters and currentFilters are the same', () => {
+		const prevFilters = {
+			arch: ['All', 'x86_64'],
+			instance: ['All', 't2.micro'],
+			region: ['All', 'us-east-1'],
+			vcpu: ['All', '1'],
+			memory: ['All', '1'],
+			provider: ['All', 'kivous mirash']
+		};
+
+		const currentFilters = {
+			arch: ['All', 'x86_64'],
+			instance: ['All', 't2.micro'],
+			region: ['All', 'us-east-1'],
+			vcpu: ['All', '1'],
+			memory: ['All', '1'],
+			provider: ['All', 'kivous mirash']
+		};
+
+		expect(getUpdatedFiltersList(prevFilters, currentFilters, ['instance'])).toStrictEqual(
+			prevFilters
+		);
+	});
+
+	test('should return the current filter if filterIdOrders is an empty array', () => {
+		const prevFilters = {
+			arch: ['All', 'arch'],
+			instance: ['All', 't2.micro'],
+			region: ['All', 'us-east-1'],
+			vcpu: ['All', '1'],
+			memory: ['All', '1'],
+			provider: ['All', 'kivous mirash']
+		};
+
+		const currentFilters = {
+			arch: ['All', 'amd'],
+			instance: ['All', 't2.micro.2'],
+			region: ['All', 'us-east-2'],
+			vcpu: ['All', '4'],
+			memory: ['All', '8'],
+			provider: ['All', 'tensa zangetsu']
+		};
+
+		expect(getUpdatedFiltersList(prevFilters, currentFilters, [])).toStrictEqual(currentFilters);
+	});
+
+	test('should return object that matches prevFilters when prevFilters and currFilters are not same', () => {
+		const prevFilters = {
+			arch: ['All', 'arch', 'amd'],
+			instance: ['All', 't2.micro', 't2.micro.2'],
+			region: ['All', 'us-east-1', 'us-east-2'],
+			vcpu: ['All', '1', '2', '3'],
+			memory: ['All', '1', '2', '3'],
+			provider: ['All', 'kivous mirash', 'tensa zangetsu']
+		};
+
+		const currentFilters = {
+			arch: ['All', 'arch', 'amd'],
+			instance: ['All', 't2.micro', 't2.micro.2'],
+			region: ['All', 'us-east-1', 'us-east-2'],
+			vcpu: ['All', '1'],
+			memory: ['All', '1', '2', '3'],
+			provider: ['All', 'kivous mirash', 'tensa zangetsu']
+		};
+
+		expect(getUpdatedFiltersList(prevFilters, currentFilters, ['vcpu'])).toStrictEqual(prevFilters);
+	});
+});
+
+describe('getRateForProviderAndFilters', () => {
+	const mockData = [
+		{
+			instance: 'instanca',
+			region: 'regiona',
+			provider: {
+				name: 'provider1',
+				address: 'providerAddress1'
+			},
+			rateScaled: 100n
+		},
+		{
+			instance: 'instancb',
+			region: 'regionb',
+			provider: {
+				name: 'provider2',
+				address: 'providerAddress2'
+			},
+			rateScaled: 200n
+		},
+		{
+			instance: 'instancc',
+			region: 'regionc',
+			provider: {
+				name: 'provider3',
+				address: 'providerAddress3'
+			}
+		}
+	];
+
+	test('should return undefined if providerAddress, instance or region is falsy', () => {
+		expect(getRateForProviderAndFilters(undefined, 'instance', 'region', mockData)).toBe(undefined);
+		expect(getRateForProviderAndFilters('providerAddress', undefined, 'region', mockData)).toBe(
+			undefined
+		);
+		expect(getRateForProviderAndFilters('providerAddress', 'instance', undefined, mockData)).toBe(
+			undefined
+		);
+	});
+
+	test('should return the rateScaled of the desired region instance and provider', () => {
+		expect(getRateForProviderAndFilters('providerAddress1', 'instanca', 'regiona', mockData)).toBe(
+			100n
+		);
+	});
+
+	test('should return undefined if the instance exists but does not have the rateScaled key in its object', () => {
+		expect(getRateForProviderAndFilters('providerAddress3', 'instancc', 'regionc', mockData)).toBe(
+			undefined
+		);
+	});
+});
+
+describe('getCreateOrderInstanceRegionFilters', () => {
+	const mockData = [
+		{
+			provider: {
+				address: 'providerAddress1',
+				name: 'providerName1'
+			},
+			regionName: 'regionName1',
+			region: 'region1',
+			instance: 'instance1',
+			arch: 'arch1',
+			vcpu: 'vcpu1',
+			memories: 'memories1'
+		},
+		{
+			provider: {
+				address: 'providerAddress1',
+				name: 'providerName1'
+			},
+			regionName: 'regionName2',
+			region: 'region2',
+			instance: 'instance2',
+			arch: 'arch2',
+			vcpu: 'vcpu2',
+			memories: 'memories2'
+		},
+		{
+			provider: {
+				address: 'providerAddress3',
+				name: 'providerName3'
+			},
+			regionName: 'regionName3',
+			region: 'region3',
+			instance: 'instance3',
+			arch: 'arch2',
+			vcpu: 'vcpu2',
+			memories: 'memories3'
+		},
+		{
+			provider: {
+				address: 'providerAddress4',
+				name: 'providerName4'
+			},
+			regionName: 'regionName4',
+			region: 'region4',
+			instance: 'instance4',
+			arch: 'arch1',
+			vcpu: 'vcpu1',
+			memories: 'memories4'
+		},
+		{
+			provider: {
+				address: 'providerAddress5',
+				name: 'providerName5'
+			},
+			regionName: 'regionName5',
+			region: 'region5',
+			instance: 'instance5',
+			arch: 'arch1',
+			vcpu: 'vcpu1',
+			memories: 'memories5'
+		}
+	];
+
+	test('should return an empty object if providerAddress or marketplaceData is falsy', () => {
+		expect(getCreateOrderInstanceRegionFilters(undefined, mockData)).toStrictEqual({});
+		expect(
+			getCreateOrderInstanceRegionFilters('providerAddressDoesNotMatterSinceMockDataIsFalsy', [])
+		).toStrictEqual({});
+	});
+
+	test('should return instance and region filters if inputs are truthy', () => {
+		expect(getCreateOrderInstanceRegionFilters('providerAddress1', mockData)).toStrictEqual({
+			instance: ['instance1', 'instance2'],
+			region: [
+				['regionName1', 'region1'],
+				['regionName2', 'region2']
+			]
+		});
+
+		expect(getCreateOrderInstanceRegionFilters('providerAddress4', mockData)).toStrictEqual({
+			instance: ['instance4'],
+			region: [['regionName4', 'region4']]
+		});
 	});
 });
 

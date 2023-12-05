@@ -100,6 +100,8 @@
 			return;
 		}
 
+		submitLoading = true;
+
 		const metadata = JSON.stringify({
 			instance: instance.value,
 			region: region.value,
@@ -107,8 +109,6 @@
 			vcpu: Number(vcpu),
 			url: enclaveImageUrl.value
 		});
-
-		submitLoading = true;
 
 		const provider = {
 			address: merchant.value,
@@ -120,17 +120,18 @@
 			metadata,
 			provider,
 			totalRate,
-			totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor
+			totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
+			duration,
+			$oysterRateMetadataStore.oysterRateScalingFactor
 		);
-		setTimeout(() => {
-			submitLoading = false;
-			if (!success) {
-				return;
-			}
-			resetInputs();
-			closeModal(modalFor);
-			goto(OYSTER_OWNER_INVENTORY_URL);
-		}, 4000);
+
+		submitLoading = false;
+		if (!success) {
+			return;
+		}
+		resetInputs();
+		closeModal(modalFor);
+		goto(OYSTER_OWNER_INVENTORY_URL);
 	};
 
 	const handleApproveClick = async () => {

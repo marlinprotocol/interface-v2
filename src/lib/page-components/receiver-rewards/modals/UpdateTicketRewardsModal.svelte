@@ -88,7 +88,7 @@
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
-	<svelte:fragment slot="title">'UPDATE TICKET REWARDS'</svelte:fragment>
+	<svelte:fragment slot="title">UPDATE TICKET REWARDS</svelte:fragment>
 	<svelte:fragment slot="subtitle">
 		{subtitle}
 	</svelte:fragment>

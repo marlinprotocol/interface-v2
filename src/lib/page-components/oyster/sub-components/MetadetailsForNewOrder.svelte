@@ -140,18 +140,27 @@
 		arch.value = val;
 	}
 
+	function getInstanceMetadata(
+		validParams: boolean,
+		operator: string,
+		instance: string,
+		region: string
+	) {
+		return validParams
+			? getInstanceMetadatDataForOperator(operator, instance, region, allMarketplaceData)
+			: undefined;
+	}
+
 	$: merchantAddressList = [
 		...new Set(allMarketplaceData.map((data) => data.provider.address) ?? [])
 	];
 	$: validInstanceParameters = !merchant.error && !instance.error && !region.error;
-	$: instanceData = validInstanceParameters
-		? getInstanceMetadatDataForOperator(
-				merchant.value,
-				instance.value,
-				region.value,
-				allMarketplaceData
-		  )
-		: undefined;
+	$: instanceData = getInstanceMetadata(
+		validInstanceParameters,
+		merchant.value,
+		instance.value,
+		region.value
+	);
 	$: set_vcpu(!instance.value ? '' : instanceData?.vcpu?.toString() ?? 'N/A');
 	$: set_arch(!instance.value ? '' : instanceData?.arch?.toString() ?? 'N/A');
 	$: set_memory(!instance.value ? '' : instanceData?.memory?.toString() ?? 'N/A');

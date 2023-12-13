@@ -1,13 +1,55 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi, beforeEach, afterEach } from 'vitest';
 import {
 	bigIntAbs,
 	capitalizeFirstLetter,
 	checkValidURL,
+	getCurrentEpochCycle,
 	getTxnUrl,
 	inputAmountInValidMessage,
 	isInputAmountValid,
 	minifyAddress
 } from './commonHelper';
+
+describe('getCurrentEpochCycle', () => {
+	beforeEach(() => {
+		// tell vitest we use mocked time
+		vi.useFakeTimers();
+	});
+
+	afterEach(() => {
+		// restoring date after each test run
+		vi.useRealTimers();
+	});
+
+	test('should return 0 if epochLength is 0', () => {
+		expect(getCurrentEpochCycle(0, 0)).toBe(0);
+		expect(getCurrentEpochCycle(100000000000, 0)).toBe(0);
+		expect(getCurrentEpochCycle(512331, 0)).toBe(0);
+	});
+
+	test('should return 0 if epochStartTime is in future', () => {
+		// all dates for this test are now mocked to 1702453671, i.e. any Date.getTime() call is now set to 1702453.671
+		const mockDate = new Date(1702453671);
+		vi.setSystemTime(mockDate);
+
+		expect(getCurrentEpochCycle(1702453.672, 1)).toBe(0);
+		expect(getCurrentEpochCycle(1702453.681, 1)).toBe(0);
+		expect(getCurrentEpochCycle(1702453.691, 10)).toBe(0);
+		expect(getCurrentEpochCycle(1702953.691, 10)).toBe(0);
+		expect(getCurrentEpochCycle(1702953.691, 100)).toBe(0);
+		expect(getCurrentEpochCycle(1702953.691, 100)).toBe(0);
+	});
+
+	test('should return the epoch value when provided with legitimate values', () => {
+		// all dates for this test are now mocked to 1702453671, i.e. any Date.getTime() call is now set to 1702453.671
+		const currentEpochMock = new Date(1702453671);
+		vi.setSystemTime(currentEpochMock);
+
+		expect(getCurrentEpochCycle(1702353.77, 1)).toBe(100);
+		expect(getCurrentEpochCycle(1702353.77, 100)).toBe(1);
+		expect(getCurrentEpochCycle(1702453, 1)).toBe(1);
+	});
+});
 
 describe('minifyAddress', () => {
 	test('should return first 6 and last 4 characters of 0x0000000000000000 without any arguments', () => {

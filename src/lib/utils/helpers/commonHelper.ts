@@ -6,8 +6,10 @@ export function copyTextToClipboard(text: string) {
 		navigator.clipboard.writeText(text);
 	}
 }
-// TODO: how can this be tested as this depends on the current time, assertion is difficult
+
 export function getCurrentEpochCycle(epochStartTime: number, epochLength: number): number {
+	if (epochLength === 0) return 0;
+
 	const currentEpoch = new Date().getTime() / 1000;
 
 	//if epoch start time is in future, then epoch cycle is 0

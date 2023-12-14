@@ -1,10 +1,6 @@
 import type { EIP1193Provider, WalletState } from '@web3-onboard/core';
 import { getChainDisplayName, isValidChain } from '$lib/utils/helpers/networkHelper';
-import {
-	initializeChainStore,
-	resetAllowedChainsStore,
-	resetChainStore
-} from '$lib/data-stores/chainProviderStore';
+import { initializeChainStore, resetChainStore } from '$lib/data-stores/chainProviderStore';
 import {
 	initializeWalletBalancesStore,
 	initializeWalletStore,

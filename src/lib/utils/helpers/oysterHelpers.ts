@@ -340,51 +340,6 @@ export const getSearchAndFilteredMarketplaceData = (
 	return allMarketplaceData;
 };
 
-export const getFilteredMarketplaceData = (
-	allMarketplaceData: OysterMarketplaceDataModel[],
-	filterMap: Partial<OysterMarketplaceFilterModel>
-) => {
-	// for provider, we are checking substring match and need do check on both name and address
-	if (filterMap.provider) {
-		const value = filterMap.provider.toLowerCase();
-		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return item.provider.address.includes(value) || item.provider.name?.includes(value);
-		});
-	}
-
-	if (filterMap.region) {
-		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return item.region === filterMap.region;
-		});
-	}
-
-	if (filterMap.memory) {
-		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return item.memory === filterMap.memory;
-		});
-	}
-
-	if (filterMap.vcpu) {
-		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return item.vcpu === filterMap.vcpu;
-		});
-	}
-
-	if (filterMap.instance) {
-		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return item.instance === filterMap.instance;
-		});
-	}
-
-	if (filterMap.rateScaled) {
-		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return item.rateScaled === filterMap.rateScaled;
-		});
-	}
-
-	return allMarketplaceData;
-};
-
 export function getAllFiltersListforMarketplaceData(
 	filteredData: OysterMarketplaceDataModel[],
 	addAllOption = true

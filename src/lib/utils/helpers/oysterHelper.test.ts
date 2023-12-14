@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { describe, expect, test } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
 	addAllToList,
 	addRegionNameToMarketplaceData,
@@ -20,6 +20,8 @@ import {
 	sortOysterInventory,
 	sortOysterMarketplace,
 	sortOysterOperatorHistory,
+	getSearchAndFilteredMarketplaceData,
+	getAllFiltersListforMarketplaceData,
 	sortOysterOperatorInventory
 } from './oysterHelpers';
 import type {
@@ -54,17 +56,17 @@ describe('getSearchedInventoryData', () => {
 			}
 		}
 	];
-	test('should return empty array if no data is present', () => {
+	it('should return empty array if no data is present', () => {
 		expect(getSearchedInventoryData('randomsearchstring', [])).toStrictEqual([]);
 	});
 
-	test('should return all the data if searchInput is empty', () => {
+	it('should return all the data if searchInput is empty', () => {
 		expect(getSearchedInventoryData('', mockData as OysterInventoryDataModel[])).toStrictEqual(
 			mockData
 		);
 	});
 
-	test('should return filtered data if searchInput is present', () => {
+	it('should return filtered data if searchInput is present', () => {
 		expect(
 			getSearchedInventoryData('instancea', mockData as OysterInventoryDataModel[])
 		).toStrictEqual([mockData[0]]);
@@ -115,7 +117,7 @@ describe('getSearchedInventoryData', () => {
 		).toStrictEqual(mockData);
 	});
 
-	test('should return empty array if no match is found', () => {
+	it('should return empty array if no match is found', () => {
 		expect(
 			getSearchedInventoryData('instanced', mockData as OysterInventoryDataModel[])
 		).toStrictEqual([]);
@@ -144,17 +146,17 @@ describe('getSearchedOysterJobsData', () => {
 		}
 	];
 
-	test('should return empty array if no data is present', () => {
+	it('should return empty array if no data is present', () => {
 		expect(getSearchedOysterJobsData('randomsearchstring', [])).toStrictEqual([]);
 	});
 
-	test('should return all the data if searchInput is empty', () => {
+	it('should return all the data if searchInput is empty', () => {
 		expect(getSearchedOysterJobsData('', mockData as OysterInventoryDataModel[])).toStrictEqual(
 			mockData
 		);
 	});
 
-	test('should return filtered data if searchInput is present', () => {
+	it('should return filtered data if searchInput is present', () => {
 		expect(
 			getSearchedOysterJobsData('instancea', mockData as OysterInventoryDataModel[])
 		).toStrictEqual([mockData[0]]);
@@ -195,7 +197,7 @@ describe('getSearchedOysterJobsData', () => {
 		).toStrictEqual(mockData);
 	});
 
-	test('should return empty array if no match is found', () => {
+	it('should return empty array if no match is found', () => {
 		expect(
 			getSearchedOysterJobsData('instanced', mockData as OysterInventoryDataModel[])
 		).toStrictEqual([]);
@@ -232,17 +234,17 @@ describe('getSearchedMarketplaceData', () => {
 			}
 		}
 	];
-	test('should return empty array if no data is present', () => {
+	it('should return empty array if no data is present', () => {
 		expect(getSearchedMarketplaceData('randomsearchstring', [])).toStrictEqual([]);
 	});
 
-	test('should return all the data if searchInput is empty', () => {
+	it('should return all the data if searchInput is empty', () => {
 		expect(getSearchedMarketplaceData('', mockData as OysterMarketplaceDataModel[])).toStrictEqual(
 			mockData
 		);
 	});
 
-	test('should return filtered data if searchInput is present', () => {
+	it('should return filtered data if searchInput is present', () => {
 		expect(
 			getSearchedMarketplaceData('instancea', mockData as OysterMarketplaceDataModel[])
 		).toStrictEqual([mockData[0]]);
@@ -269,7 +271,7 @@ describe('getSearchedMarketplaceData', () => {
 		).toStrictEqual(mockData);
 	});
 
-	test('should return empty array if no match is found', () => {
+	it('should return empty array if no match is found', () => {
 		expect(
 			getSearchedMarketplaceData('instanced', mockData as OysterMarketplaceDataModel[])
 		).toStrictEqual([]);
@@ -280,49 +282,49 @@ describe('getSearchedMarketplaceData', () => {
 });
 
 describe('getInventoryStatusVariant', () => {
-	test('should return success variant if status is running', () => {
+	it('should return success variant if status is running', () => {
 		expect(getInventoryStatusVariant('running')).toBe('success');
 	});
 
-	test('should return success variant if status is active', () => {
+	it('should return success variant if status is active', () => {
 		expect(getInventoryStatusVariant('active')).toBe('success');
 	});
 
-	test('should return completed variant if status is active', () => {
+	it('should return completed variant if status is active', () => {
 		expect(getInventoryStatusVariant('completed')).toBe('success');
 	});
 
-	test('should return error variant if status is inactive', () => {
+	it('should return error variant if status is inactive', () => {
 		expect(getInventoryStatusVariant('inactive')).toBe('error');
 	});
 
-	test('should return error variant if status is stopped', () => {
+	it('should return error variant if status is stopped', () => {
 		expect(getInventoryStatusVariant('stopped')).toBe('error');
 	});
 
-	test('should return warning variant if status is pending', () => {
+	it('should return warning variant if status is pending', () => {
 		expect(getInventoryStatusVariant('pending')).toBe('warning');
 	});
 
-	test('should return primary variant if status is closed', () => {
+	it('should return primary variant if status is closed', () => {
 		expect(getInventoryStatusVariant('closed')).toBe('primary');
 	});
 
-	test('should return primary variant if status is any other string', () => {
+	it('should return primary variant if status is any other string', () => {
 		expect(getInventoryStatusVariant('anyotherstring')).toBe('primary');
 	});
 });
 
 describe('getInventoryDurationVariant', () => {
-	test('should return error variant if duration is less than OYSTER_CAUTION_DURATION', () => {
+	it('should return error variant if duration is less than OYSTER_CAUTION_DURATION', () => {
 		expect(getInventoryDurationVariant(1)).toBe('error');
 	});
 
-	test('should return warning variant if duration is less than OYSTER_WARNING_DURATION', () => {
+	it('should return warning variant if duration is less than OYSTER_WARNING_DURATION', () => {
 		expect(getInventoryDurationVariant(86401)).toBe('warning');
 	});
 
-	test('should return success variant if duration is greater than OYSTER_WARNING_DURATION', () => {
+	it('should return success variant if duration is greater than OYSTER_WARNING_DURATION', () => {
 		expect(getInventoryDurationVariant(259201)).toBe('success');
 	});
 });
@@ -382,11 +384,11 @@ describe('sortOysterInventory', () => {
 		}
 	];
 
-	test('should return empty array if no data is present', () => {
+	it('should return empty array if no data is present', () => {
 		expect(sortOysterInventory([], 'memory', 'asc')).toStrictEqual([]);
 	});
 
-	test('should return ascending sorted data when passed asc as third arg', () => {
+	it('should return ascending sorted data when passed asc as third arg', () => {
 		expect(
 			sortOysterInventory(mockData as OysterInventoryDataModel[], 'memory', 'asc')
 		).toStrictEqual([
@@ -1227,7 +1229,7 @@ describe('sortOysterInventory', () => {
 		]);
 	});
 
-	test('should return descending sorted data when passed desc as third arg', () => {
+	it('should return descending sorted data when passed desc as third arg', () => {
 		expect(
 			sortOysterInventory(mockData as OysterInventoryDataModel[], 'memory', 'desc')
 		).toStrictEqual([
@@ -2046,11 +2048,11 @@ describe('sortOysterOperatorInventory', () => {
 		}
 	];
 
-	test('should return an empty array if no data is present', () => {
+	it('should return an empty array when no data is present', () => {
 		expect(sortOysterOperatorInventory([], 'region', 'asc')).toStrictEqual([]);
 	});
 
-	test('should return ascending sorted data when passed asc as third arg', () => {
+	it('should return ascending sorted data when passed asc as third arg', () => {
 		expect(
 			sortOysterOperatorInventory(mockData as OysterInventoryDataModel[], 'region', 'asc')
 		).toStrictEqual([
@@ -2336,7 +2338,7 @@ describe('sortOysterOperatorInventory', () => {
 		]);
 	});
 
-	test('should return descending sorted data when passed desc as third arg', () => {
+	it('should return descending sorted data when passed desc as third arg', () => {
 		expect(
 			sortOysterOperatorInventory(mockData as OysterInventoryDataModel[], 'region', 'desc')
 		).toStrictEqual([
@@ -2657,11 +2659,11 @@ describe('sortOysterOperatorHistory', () => {
 		}
 	];
 
-	test('should return an empty array if no data is present', () => {
+	it('should return an empty array if no data is present', () => {
 		expect(sortOysterOperatorHistory([], 'region', 'asc')).toStrictEqual([]);
 	});
 
-	test('should return ascending sorted data when passed asc as third arg', () => {
+	it('should return ascending sorted data when passed asc as third arg', () => {
 		expect(
 			sortOysterOperatorHistory(mockData as OysterInventoryDataModel[], 'region', 'asc')
 		).toStrictEqual([
@@ -2943,7 +2945,7 @@ describe('sortOysterOperatorHistory', () => {
 		]);
 	});
 
-	test('should return descending sorted data when passed desc as third arg', () => {
+	it('should return descending sorted data when passed desc as third arg', () => {
 		expect(
 			sortOysterOperatorHistory(mockData as OysterInventoryDataModel[], 'region', 'desc')
 		).toStrictEqual([
@@ -3251,11 +3253,11 @@ describe('sortOysterMarketplace', () => {
 		}
 	];
 
-	test('should return empty array if no data is present', () => {
+	it('should return empty array if no data is present', () => {
 		expect(sortOysterMarketplace([], 'memory', 'asc')).toStrictEqual([]);
 	});
 
-	test('should return ascending sorted data when passed asc as third arg', () => {
+	it('should return ascending sorted data when passed asc as third arg', () => {
 		expect(
 			sortOysterMarketplace(mockData as OysterMarketplaceDataModel[], 'memory', 'asc')
 		).toStrictEqual([
@@ -3387,7 +3389,7 @@ describe('sortOysterMarketplace', () => {
 		]);
 	});
 
-	test('should return descending sorted data when passed desc as third arg', () => {
+	it('should return descending sorted data when passed desc as third arg', () => {
 		expect(
 			sortOysterMarketplace(mockData as OysterMarketplaceDataModel[], 'memory', 'desc')
 		).toStrictEqual([
@@ -3520,8 +3522,1153 @@ describe('sortOysterMarketplace', () => {
 	});
 });
 
+describe('getSearchAndFilteredMarketplaceData', () => {
+	const mockData = [
+		{
+			arch: 'amd64',
+			id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+			instance: 'm5a.16xlarge',
+			memory: 256,
+			provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+			rate: 0n,
+			rateScaled: 810833333333333n,
+			region: 'us-east-1',
+			regionName: 'US East (N. Virginia)',
+			vcpu: 64
+		},
+		{
+			arch: 'amd64',
+			id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+			instance: 'm5a.8xlarge',
+			memory: 128,
+			provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+			rate: 0n,
+			rateScaled: 810833333333333n,
+			region: 'us-east-1',
+			regionName: 'US East (N. Virginia)',
+			vcpu: 32
+		},
+		{
+			arch: 'arch64',
+			id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+			instance: 'm5a.16xlarge',
+			memory: 256,
+			provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+			rate: 0n,
+			rateScaled: 810833333333333n,
+			region: 'us-east-1',
+			regionName: 'US East (N. Virginia)',
+			vcpu: 64
+		},
+		{
+			arch: 'arch64',
+			id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+			instance: 'm5a.16xlarge',
+			memory: 256,
+			provider: { name: '', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+			rate: 0n,
+			rateScaled: 810833333333333n,
+			region: 'us-east-1',
+			regionName: 'US East (N. Virginia)',
+			vcpu: 64
+		},
+		{
+			arch: 'arch64',
+			id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+			instance: 'c6g.large',
+			memory: 4,
+			provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+			rate: 0n,
+			rateScaled: 810833333333333n,
+			region: 'us-east-1',
+			regionName: 'US East (N. Virginia)',
+			vcpu: 4
+		},
+		{
+			arch: 'arch64',
+			id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+			instance: 'c6g.large',
+			memory: 4,
+			provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+			rate: 0n,
+			rateScaled: 810833333333333n,
+			region: 'ap-southeast-1',
+			regionName: 'Asia Pacific (Singapore)',
+			vcpu: 4
+		},
+		{
+			arch: 'arch64',
+			id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+			instance: 'c6g.large',
+			memory: 41,
+			provider: { name: '', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+			rate: 0n,
+			rateScaled: 810833333333333n,
+			region: 'ap-southeast-2',
+			regionName: 'Asia Pacific (Singapore)',
+			vcpu: 8
+		},
+		{
+			arch: 'arch64',
+			id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+			instance: 'm5a.16xlarge',
+			memory: 256,
+			provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+			rate: 0n,
+			rateScaled: 810833333333333n,
+			region: 'us-east-1',
+			regionName: 'US East (N. Virginia)',
+			vcpu: 64
+		},
+		{
+			arch: 'arch64',
+			id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+			instance: 'm5a.16xlarge',
+			memory: 256,
+			provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+			rate: 0n,
+			rateScaled: 810833333333333n,
+			region: 'us-east-1',
+			regionName: 'US East (N. Virginia)',
+			vcpu: 64
+		}
+	];
+
+	it('should return all the mock data when filter map is an empty object', () => {
+		expect(getSearchAndFilteredMarketplaceData(mockData, {}, true)).toStrictEqual(mockData);
+		expect(getSearchAndFilteredMarketplaceData(mockData, {}, false)).toStrictEqual(mockData);
+	});
+
+	it('should return exact matched values when exactMatch is true', () => {
+		expect(getSearchAndFilteredMarketplaceData(mockData, { arch: 'amd64' }, true)).toStrictEqual([
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.8xlarge',
+				memory: 128,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 32
+			}
+		]);
+		expect(
+			getSearchAndFilteredMarketplaceData(mockData, { instance: 'c6g.large' }, true)
+		).toStrictEqual([
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'c6g.large',
+				memory: 4,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 4
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'c6g.large',
+				memory: 4,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'ap-southeast-1',
+				regionName: 'Asia Pacific (Singapore)',
+				vcpu: 4
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'c6g.large',
+				memory: 41,
+				provider: { name: '', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'ap-southeast-2',
+				regionName: 'Asia Pacific (Singapore)',
+				vcpu: 8
+			}
+		]);
+		expect(
+			getSearchAndFilteredMarketplaceData(mockData, { region: 'ap-southeast-1' }, true)
+		).toStrictEqual([
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'c6g.large',
+				memory: 4,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'ap-southeast-1',
+				regionName: 'Asia Pacific (Singapore)',
+				vcpu: 4
+			}
+		]);
+		expect(getSearchAndFilteredMarketplaceData(mockData, { vcpu: 32 }, true)).toStrictEqual([
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.8xlarge',
+				memory: 128,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 32
+			}
+		]);
+		expect(getSearchAndFilteredMarketplaceData(mockData, { memory: 128 }, true)).toStrictEqual([
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.8xlarge',
+				memory: 128,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 32
+			}
+		]);
+		expect(
+			getSearchAndFilteredMarketplaceData(mockData, { provider: 'Kivous Mirash' }, true)
+		).toStrictEqual([
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.8xlarge',
+				memory: 128,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 32
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'c6g.large',
+				memory: 4,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 4
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'c6g.large',
+				memory: 4,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'ap-southeast-1',
+				regionName: 'Asia Pacific (Singapore)',
+				vcpu: 4
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			}
+		]);
+	});
+
+	it('should return results which contain filter map value when exactMatch is false', () => {
+		expect(getSearchAndFilteredMarketplaceData(mockData, { arch: '64' }, false)).toStrictEqual([
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.8xlarge',
+				memory: 128,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 32
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: '', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'c6g.large',
+				memory: 4,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 4
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'c6g.large',
+				memory: 4,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'ap-southeast-1',
+				regionName: 'Asia Pacific (Singapore)',
+				vcpu: 4
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'c6g.large',
+				memory: 41,
+				provider: { name: '', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'ap-southeast-2',
+				regionName: 'Asia Pacific (Singapore)',
+				vcpu: 8
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			}
+		]);
+		expect(getSearchAndFilteredMarketplaceData(mockData, { instance: 'm5a' }, false)).toStrictEqual(
+			[
+				{
+					arch: 'amd64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.16xlarge',
+					memory: 256,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 64
+				},
+				{
+					arch: 'amd64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.8xlarge',
+					memory: 128,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 32
+				},
+				{
+					arch: 'arch64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.16xlarge',
+					memory: 256,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 64
+				},
+				{
+					arch: 'arch64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.16xlarge',
+					memory: 256,
+					provider: { name: '', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 64
+				},
+
+				{
+					arch: 'arch64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.16xlarge',
+					memory: 256,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 64
+				},
+				{
+					arch: 'arch64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.16xlarge',
+					memory: 256,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 64
+				}
+			]
+		);
+		expect(
+			getSearchAndFilteredMarketplaceData(mockData, { region: 'us-east' }, false)
+		).toStrictEqual([
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.8xlarge',
+				memory: 128,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 32
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: '', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'c6g.large',
+				memory: 4,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 4
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			}
+		]);
+		expect(getSearchAndFilteredMarketplaceData(mockData, { vcpu: '4' }, false)).toStrictEqual([
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: '', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'c6g.large',
+				memory: 4,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 4
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'c6g.large',
+				memory: 4,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'ap-southeast-1',
+				regionName: 'Asia Pacific (Singapore)',
+				vcpu: 4
+			},
+
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			}
+		]);
+		expect(getSearchAndFilteredMarketplaceData(mockData, { memory: '2' }, false)).toStrictEqual([
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.8xlarge',
+				memory: 128,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 32
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: '', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			}
+		]);
+		expect(getSearchAndFilteredMarketplaceData(mockData, { provider: 'kiv' }, false)).toStrictEqual(
+			[
+				{
+					arch: 'amd64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.16xlarge',
+					memory: 256,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 64
+				},
+				{
+					arch: 'amd64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.8xlarge',
+					memory: 128,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 32
+				},
+				{
+					arch: 'arch64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.16xlarge',
+					memory: 256,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 64
+				},
+				{
+					arch: 'arch64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'c6g.large',
+					memory: 4,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 4
+				},
+				{
+					arch: 'arch64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'c6g.large',
+					memory: 4,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'ap-southeast-1',
+					regionName: 'Asia Pacific (Singapore)',
+					vcpu: 4
+				},
+				{
+					arch: 'arch64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.16xlarge',
+					memory: 256,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 64
+				},
+				{
+					arch: 'arch64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.16xlarge',
+					memory: 256,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 64
+				}
+			]
+		);
+	});
+});
+
+describe('getAllFiltersListForMarketplaceData', () => {
+	const mockData = [
+		{
+			arch: 'amd64',
+			id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+			instance: 'm5a.16xlarge',
+			memory: 256,
+			provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+			rate: 0n,
+			rateScaled: 810833333333333n,
+			region: 'us-east-1',
+			regionName: 'US East (N. Virginia)',
+			vcpu: 64
+		},
+		{
+			arch: 'amd64',
+			id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+			instance: 'm5a.8xlarge',
+			memory: 128,
+			provider: { name: 'Kivous Mirash', address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946' },
+			rate: 0n,
+			rateScaled: 810833333333333n,
+			region: 'us-east-1',
+			regionName: 'US East (N. Virginia)',
+			vcpu: 32
+		},
+		{
+			arch: 'arch64',
+			id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+			instance: 'm5a.16xlarge',
+			memory: 256,
+			provider: { name: '', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+			rate: 0n,
+			rateScaled: 810833333333333n,
+			region: 'us-east-1',
+			regionName: 'US East (N. Virginia)',
+			vcpu: 64
+		},
+		{
+			arch: 'arch64',
+			id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+			instance: 'c6g.large',
+			memory: 4,
+			provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+			rate: 0n,
+			rateScaled: 810833333333333n,
+			region: 'us-east-1',
+			regionName: 'US East (N. Virginia)',
+			vcpu: 4
+		},
+		{
+			arch: 'arch64',
+			id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+			instance: 'c6g.large',
+			memory: 4,
+			provider: { name: 'Kivous Mirash', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+			rate: 0n,
+			rateScaled: 810833333333333n,
+			region: 'ap-southeast-1',
+			regionName: 'Asia Pacific (Singapore)',
+			vcpu: 4
+		}
+	];
+
+	it('should return the filter object without any values when length of filteredData is zero ', () => {
+		expect(getAllFiltersListforMarketplaceData([])).toStrictEqual({
+			allMarketplaceData: [],
+			provider: [],
+			instance: [],
+			region: [],
+			vcpu: [],
+			memory: [],
+			arch: []
+		});
+		expect(getAllFiltersListforMarketplaceData([], true)).toStrictEqual({
+			allMarketplaceData: [],
+			provider: [],
+			instance: [],
+			region: [],
+			vcpu: [],
+			memory: [],
+			arch: []
+		});
+	});
+
+	it('should return the list of unique items as filters with the All option by default', () => {
+		expect(getAllFiltersListforMarketplaceData(mockData)).toStrictEqual({
+			allMarketplaceData: [
+				{
+					arch: 'amd64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.16xlarge',
+					memory: 256,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 64
+				},
+				{
+					arch: 'amd64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.8xlarge',
+					memory: 128,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 32
+				},
+				{
+					arch: 'arch64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.16xlarge',
+					memory: 256,
+					provider: { name: '', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 64
+				},
+				{
+					arch: 'arch64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'c6g.large',
+					memory: 4,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 4
+				},
+				{
+					arch: 'arch64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'c6g.large',
+					memory: 4,
+					provider: {
+						address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8',
+						name: 'Kivous Mirash'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'ap-southeast-1',
+					regionName: 'Asia Pacific (Singapore)',
+					vcpu: 4
+				}
+			],
+			provider: ['All', 'Kivous Mirash', '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'],
+			instance: ['All', 'm5a.16xlarge', 'm5a.8xlarge', 'c6g.large'],
+			region: [
+				'All',
+				['US East (N. Virginia)', 'us-east-1'],
+				['Asia Pacific (Singapore)', 'ap-southeast-1']
+			],
+			vcpu: ['All', 4, 32, 64],
+			memory: ['All', 4, 128, 256],
+			arch: ['All', 'amd64', 'arch64']
+		});
+	});
+
+	it('should return the list of unique items as filters without the All option when second argument is false', () => {
+		expect(getAllFiltersListforMarketplaceData(mockData, false)).toStrictEqual({
+			allMarketplaceData: [
+				{
+					arch: 'amd64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.16xlarge',
+					memory: 256,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 64
+				},
+				{
+					arch: 'amd64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.8xlarge',
+					memory: 128,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 32
+				},
+				{
+					arch: 'arch64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'm5a.16xlarge',
+					memory: 256,
+					provider: { name: '', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 64
+				},
+				{
+					arch: 'arch64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'c6g.large',
+					memory: 4,
+					provider: {
+						name: 'Kivous Mirash',
+						address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'us-east-1',
+					regionName: 'US East (N. Virginia)',
+					vcpu: 4
+				},
+				{
+					arch: 'arch64',
+					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+					instance: 'c6g.large',
+					memory: 4,
+					provider: {
+						address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8',
+						name: 'Kivous Mirash'
+					},
+					rate: 0n,
+					rateScaled: 810833333333333n,
+					region: 'ap-southeast-1',
+					regionName: 'Asia Pacific (Singapore)',
+					vcpu: 4
+				}
+			],
+			provider: ['Kivous Mirash', '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'],
+			instance: ['m5a.16xlarge', 'm5a.8xlarge', 'c6g.large'],
+			region: [
+				['US East (N. Virginia)', 'us-east-1'],
+				['Asia Pacific (Singapore)', 'ap-southeast-1']
+			],
+			vcpu: [4, 32, 64],
+			memory: [4, 128, 256],
+			arch: ['amd64', 'arch64']
+		});
+	});
+});
+
 describe('addAllToList', () => {
-	test('should return back the original data with set() performed on it if data length is zero or second argument is false', () => {
+	it('should return back the original data with set() performed on it when data length is zero or second argument is false', () => {
 		expect(addAllToList([], true)).toStrictEqual([...new Set([])]);
 		expect(addAllToList(['item1', 'item1', 'item2', 'item3'], false)).toStrictEqual([
 			'item1',
@@ -3530,7 +4677,7 @@ describe('addAllToList', () => {
 		]);
 	});
 
-	test('should return all appended to set() of original data if arguments are truthy', () => {
+	it('should return all appended to set() of original data when arguments are truthy', () => {
 		expect(addAllToList(['item1', 'item1', 'item2', 'item3'], true)).toStrictEqual([
 			'All',
 			'item1',
@@ -3541,7 +4688,7 @@ describe('addAllToList', () => {
 });
 
 describe('getUpdatedFiltersList', () => {
-	test('should return the same filters when previousFilters and currentFilters are the same', () => {
+	it('should return the same filters when previousFilters and currentFilters are the same', () => {
 		const prevFilters = {
 			arch: ['All', 'x86_64'],
 			instance: ['All', 't2.micro'],
@@ -3565,7 +4712,7 @@ describe('getUpdatedFiltersList', () => {
 		);
 	});
 
-	test('should return the current filter if filterIdOrders is an empty array', () => {
+	it('should return the current filter if filterIdOrders is an empty array', () => {
 		const prevFilters = {
 			arch: ['All', 'arch'],
 			instance: ['All', 't2.micro'],
@@ -3587,7 +4734,7 @@ describe('getUpdatedFiltersList', () => {
 		expect(getUpdatedFiltersList(prevFilters, currentFilters, [])).toStrictEqual(currentFilters);
 	});
 
-	test('should return object that matches prevFilters when prevFilters and currFilters are not same', () => {
+	it('should return object that matches prevFilters when prevFilters and currFilters are not same', () => {
 		const prevFilters = {
 			arch: ['All', 'arch', 'amd'],
 			instance: ['All', 't2.micro', 't2.micro.2'],
@@ -3640,7 +4787,7 @@ describe('getRateForProviderAndFilters', () => {
 		}
 	];
 
-	test('should return undefined if providerAddress, instance or region is falsy', () => {
+	it('should return undefined if providerAddress, instance or region is falsy', () => {
 		expect(getRateForProviderAndFilters(undefined, 'instance', 'region', mockData)).toBe(undefined);
 		expect(getRateForProviderAndFilters('providerAddress', undefined, 'region', mockData)).toBe(
 			undefined
@@ -3650,13 +4797,13 @@ describe('getRateForProviderAndFilters', () => {
 		);
 	});
 
-	test('should return the rateScaled of the desired region instance and provider', () => {
+	it('should return the rateScaled of the desired region instance and provider', () => {
 		expect(getRateForProviderAndFilters('providerAddress1', 'instanca', 'regiona', mockData)).toBe(
 			100n
 		);
 	});
 
-	test('should return undefined if the instance exists but does not have the rateScaled key in its object', () => {
+	it('should return undefined when the instance exists but does not have the rateScaled key in its object', () => {
 		expect(getRateForProviderAndFilters('providerAddress3', 'instancc', 'regionc', mockData)).toBe(
 			undefined
 		);
@@ -3727,14 +4874,14 @@ describe('getCreateOrderInstanceRegionFilters', () => {
 		}
 	];
 
-	test('should return an empty object if providerAddress or marketplaceData is falsy', () => {
+	it('should return an empty object when providerAddress or marketplaceData is falsy', () => {
 		expect(getCreateOrderInstanceRegionFilters(undefined, mockData)).toStrictEqual({});
 		expect(
 			getCreateOrderInstanceRegionFilters('providerAddressDoesNotMatterSinceMockDataIsFalsy', [])
 		).toStrictEqual({});
 	});
 
-	test('should return instance and region filters if inputs are truthy', () => {
+	it('should return instance and region filters when inputs are truthy', () => {
 		expect(getCreateOrderInstanceRegionFilters('providerAddress1', mockData)).toStrictEqual({
 			instance: ['instance1', 'instance2'],
 			region: [
@@ -3751,26 +4898,26 @@ describe('getCreateOrderInstanceRegionFilters', () => {
 });
 
 describe('computeCost', () => {
-	test('should return 0n if rate or duration are falsy', () => {
+	it('should return 0n when rate or duration are falsy', () => {
 		expect(computeCost(0, 0n)).toBe(0n);
 		expect(computeCost(1, 0n)).toBe(0n);
 		expect(computeCost(0, 1n)).toBe(0n);
 		expect(computeCost(0)).toBe(0n);
 	});
 
-	test('should return the cost when duration and rate are truthy', () => {
+	it('should return the cost when duration and rate are truthy', () => {
 		expect(computeCost(1, 1n)).toBe(1n);
 	});
 });
 
 describe('computeDuration', () => {
-	test('should return 0 if the duration string is not a valid amount', () => {
+	it('should return 0 when the duration string is not a valid amount', () => {
 		expect(computeDuration('invalidString', 1)).toBe(0);
 		expect(computeDuration('1.!', 1)).toBe(0);
 		expect(computeDuration('1.1.', 1)).toBe(0);
 		expect(computeDuration('1. 1', 1)).toBe(0);
 	});
-	test('should return the duration when duration string is a valid amount', () => {
+	it('should return the duration when duration string is a valid amount', () => {
 		expect(computeDuration('1.1', 1)).toBe(1);
 		expect(computeDuration('1', 120)).toBe(120);
 		expect(computeDuration('500', 3600)).toBe(1800000);
@@ -3778,13 +4925,13 @@ describe('computeDuration', () => {
 });
 
 describe('computeDurationString', () => {
-	test('should return an empty string if duration is falsy or durationUnitInSec is zero', () => {
+	it('should return an empty string when duration is falsy or durationUnitInSec is zero', () => {
 		expect(computeDurationString(undefined, 1)).toBe('');
 		expect(computeDurationString(0, 1)).toBe('');
 		expect(computeDurationString(10, 0)).toBe('');
 	});
 
-	test('should return a duration string', () => {
+	it('should return a duration string when arguments are valid', () => {
 		expect(computeDurationString(10, 1)).toBe('10');
 		expect(computeDurationString(60, 60)).toBe('1');
 		expect(computeDurationString(3600, 60)).toBe('60');
@@ -3805,11 +4952,11 @@ describe('addRegionNameToMarketplaceData', () => {
 		}
 	];
 
-	test('should return empty array if marketplace data is falsy or has length zero', () => {
+	it('should return empty array when marketplace data is falsy or has length zero', () => {
 		expect(addRegionNameToMarketplaceData([])).toStrictEqual([]);
 	});
 
-	test('should return region mapped data if marketplace data is present', () => {
+	it('should return region mapped data when marketplace data is present', () => {
 		expect(addRegionNameToMarketplaceData(mockData as OysterMarketplaceDataModel[])).toStrictEqual([
 			{
 				region: 'us-east-1',
@@ -3828,19 +4975,19 @@ describe('addRegionNameToMarketplaceData', () => {
 });
 
 describe('getBandwidthFromRateAndRegion', () => {
-	test('should return 0n if bandwidth range for that region is not present', () => {
+	it('should return 0n when bandwidth range for that region is not present', () => {
 		expect(getBandwidthFromRateAndRegion(1029968261718n, 'some-random-region')).toBe(0n);
 		expect(getBandwidthFromRateAndRegion(0n, 'some-random-region')).toBe(0n);
 	});
 
-	test('should return the bandwidth ', () => {
+	it('should return the bandwidth when the bandwidth range for that region is present', () => {
 		expect(getBandwidthFromRateAndRegion(1029968261718n, 'us-east-1')).toBe(12n);
 		expect(getBandwidthFromRateAndRegion(2574920654296n, 'us-east-1')).toBe(30n);
 	});
 });
 
 describe('getDurationInSecondsForUnit', () => {
-	test('should return seconds for the unit', () => {
+	it('should return seconds for the unit', () => {
 		expect(getDurationInSecondsForUnit('Days')).toBe(86400);
 		expect(getDurationInSecondsForUnit('Hours')).toBe(3600);
 		expect(getDurationInSecondsForUnit('Minutes')).toBe(60);

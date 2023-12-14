@@ -11,6 +11,7 @@ import { ethers } from 'ethers';
  * Returns duration string for a epoch
  * @param epoch epoch
  * @param mini boolean optional default as false. if true, returns only months, days, hours, mins, secs
+ * @param uptoHoursOnly boolean optional default as false. if true, does not return mins and secs
  * @returns string
  * @example 12334422 => 4 months 22 days 18 hours 13 mins 42 secs
  */

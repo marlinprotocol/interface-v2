@@ -1,6 +1,6 @@
 import { addToast } from '$lib/data-stores/toastStore';
 
-export function fetchHttpData(url: string, options: RequestInit) {
+export async function fetchHttpData(url: string, options: RequestInit) {
 	return fetch(url, options)
 		.then((res) => res.json())
 		.then((res) => {

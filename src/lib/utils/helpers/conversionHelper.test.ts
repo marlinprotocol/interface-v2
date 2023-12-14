@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-import { describe, expect, test } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
 	bigNumberToString,
 	convertHourlyRateToSecondlyRate,
@@ -15,7 +15,7 @@ import {
 } from './conversionHelper';
 
 describe('epochToDurationString', () => {
-	test('default conversion of epoch', () => {
+	it('should return the default conversion of epoch when duration is less than 100 years and mini is false', () => {
 		expect(epochToDurationString(1)).toBe('1 secs');
 		expect(epochToDurationString(60)).toBe('1 min');
 		expect(epochToDurationString(3599)).toBe('59 mins 59 secs');
@@ -43,11 +43,11 @@ describe('epochToDurationString', () => {
 		expect(epochToDurationString(12334422)).toBe('4 months 22 days 18 hours 13 mins 42 secs');
 	});
 
-	test('duration greater than 100 years', () => {
+	it('should return 100+ years when duration greater than 100 years', () => {
 		expect(epochToDurationString(31104000000)).toBe('100+ years');
 	});
 
-	test('mini conversion of epoch', () => {
+	it('should return the minified version of epoch conversion when mini is true', () => {
 		expect(epochToDurationString(1, true)).toBe('1 secs');
 		expect(epochToDurationString(60, true)).toBe('1 min');
 		expect(epochToDurationString(3599, true)).toBe('59 mins');
@@ -71,7 +71,7 @@ describe('epochToDurationString', () => {
 		expect(epochToDurationString(31104000000, true)).toBe('100+ years');
 	});
 
-	test('mini conversion of epoch upto hours only', () => {
+	it('should return the minified version of epoch conversion when epoch is greater than or equal to an hour when mini and uptoHoursOnly both are true ', () => {
 		expect(epochToDurationString(1, true, true)).toBe('');
 		expect(epochToDurationString(60, true, true)).toBe('');
 		expect(epochToDurationString(3599, true, true)).toBe('');
@@ -95,7 +95,7 @@ describe('epochToDurationString', () => {
 		expect(epochToDurationString(31104000000, true, true)).toBe('100+ years');
 	});
 
-	test('conversion of epoch upto hours only', () => {
+	it('should return the conversion of epoch upto hours only', () => {
 		expect(epochToDurationString(1, false, true)).toBe('');
 		expect(epochToDurationString(60, false, true)).toBe('');
 		expect(epochToDurationString(3599, false, true)).toBe('');
@@ -125,16 +125,16 @@ describe('epochToDurationString', () => {
 });
 
 describe('bigNumberToString', () => {
-	test('should throw error when argument is undefined or null', () => {
+	it('should throw error when argument is undefined or null', () => {
 		expect(() => bigNumberToString(null)).toThrowError('Invalid value');
 		expect(() => bigNumberToString(undefined)).toThrowError('Invalid value');
 	});
 
-	test('should return 0.00 when argument is 0', () => {
+	it('should return 0.00 when argument is 0', () => {
 		expect(bigNumberToString(0n)).toBe('0.00');
 	});
 
-	test('should consider 18 decimals and 4 precision with default arguments with commification', () => {
+	it('should consider 18 decimals and 4 precision with default arguments with commification', () => {
 		expect(bigNumberToString(1000000000000000000000000n)).toBe('1,000,000.0000');
 		expect(bigNumberToString(1000000000000000000000n)).toBe('1,000.0000');
 		expect(bigNumberToString(100000000000000000000n)).toBe('100.0000');
@@ -147,17 +147,17 @@ describe('bigNumberToString', () => {
 		expect(bigNumberToString(10000000000000n)).toBe('0.0000');
 	});
 
-	test('should consider passed decimals and precisions arguments with commification', () => {
+	it('should consider passed decimals and precisions arguments with commification', () => {
 		expect(bigNumberToString(1000000000n, 6, 2)).toBe('1,000.00');
 	});
 });
 
 describe('stringToBigNumber', () => {
-	test('should return 0n for empty string', () => {
+	it('should return 0n for empty string', () => {
 		expect(stringToBigNumber('')).toBe(0n);
 	});
 
-	test('should return a bigInt with default decimals', () => {
+	it('should return a bigInt with default decimals', () => {
 		expect(stringToBigNumber('1')).toBe(1000000000000000000n);
 		expect(stringToBigNumber('0.1')).toBe(100000000000000000n);
 		expect(stringToBigNumber('1.0')).toBe(1000000000000000000n);
@@ -165,7 +165,7 @@ describe('stringToBigNumber', () => {
 		expect(stringToBigNumber('12.000000000000000001')).toBe(12000000000000000001n);
 	});
 
-	test('should return a bigInt with passed decimals', () => {
+	it('should return a bigInt with passed decimals', () => {
 		expect(stringToBigNumber('1', 6)).toBe(1000000n);
 		expect(stringToBigNumber('1.0', 6)).toBe(1000000n);
 		expect(stringToBigNumber('1.000001', 6)).toBe(1000001n);
@@ -179,19 +179,19 @@ describe('stringToBigNumber', () => {
 });
 
 describe('epochSecToString', () => {
-	test('should return a formatted date string when supplied with an unix time', () => {
+	it('should return a formatted date string when supplied with an unix time', () => {
 		expect(epochSecToString(1629753600)).toBe('Aug 24, 2021');
 	});
 });
 
 describe('dateToString', () => {
-	test('should return a formatted date string when supplied with a date object', () => {
+	it('should return a formatted date string when supplied with a date object', () => {
 		expect(dateToString(new Date('2021-08-24T00:00:00.000Z'))).toBe('Aug 24, 2021');
 	});
 });
 
 describe('shortenText', () => {
-	test('should return the same text when length of text is less than sum of second and third arguments', () => {
+	it('should return the same text when length of text is less than sum of second and third arguments', () => {
 		expect(shortenText('thisistext')).toBe('thisistext');
 		expect(shortenText('1234567890')).toBe('1234567890');
 		expect(shortenText('thisisanotherlongtextbutsumofargumentsisalsolarge', 50, 50)).toBe(
@@ -199,7 +199,7 @@ describe('shortenText', () => {
 		);
 	});
 
-	test('should return trimmed text when lenght of text is greater than sum of second and third arguments', () => {
+	it('should return trimmed text when lenght of text is greater than sum of second and third arguments', () => {
 		expect(shortenText('thisistext', 2, 3)).toBe('th...ext');
 		expect(shortenText('1234567890', 2, 2)).toBe('12...90');
 		expect(shortenText('thisisanotherlongtextbutsumofargumentsisalsolarge')).toBe('thisis...arge');
@@ -207,7 +207,7 @@ describe('shortenText', () => {
 });
 
 describe('mPondToPond', () => {
-	test('should return converted POND value', () => {
+	it('should return converted POND value', () => {
 		expect(mPondToPond(1000000000000000000n)).toBe(1000000000000000000000000n);
 		expect(mPondToPond(1000000000000n)).toBe(1000000000000000000n);
 		expect(mPondToPond(1n)).toBe(1000000n);
@@ -215,21 +215,21 @@ describe('mPondToPond', () => {
 });
 
 describe('pondToMPond', () => {
-	test('should return converted POND value', () => {
+	it('should return converted POND value', () => {
 		expect(mPondToPond(1000000000000000000n)).toBe(1000000000000000000000000n);
 		expect(mPondToPond(1000000000000n)).toBe(1000000000000000000n);
 		expect(mPondToPond(1n)).toBe(1000000n);
 	});
 });
 describe('convertRateToPerHourString', () => {
-	test('should convert the rate from bigInt to a string considering passed decimals and precisions', () => {
+	it('should convert the rate from bigInt to a string considering passed decimals and precisions', () => {
 		expect(convertRateToPerHourString(810833333333333n)).toBe('2.9189');
 		expect(convertRateToPerHourString(24083333333333n)).toBe('0.0866');
 		expect(convertRateToPerHourString(10000n)).toBe('0.0000');
 		expect(convertRateToPerHourString(1n)).toBe('0.0000');
 	});
 
-	test('should convert the rate from bigInt to a string considering passed decimals and default precisions when third argument is not passed', () => {
+	it('should convert the rate from bigInt to a string considering passed decimals and default precisions when third argument is not passed', () => {
 		expect(convertRateToPerHourString(810833333333333n, 6)).toBe('2,918,999,999,999.9988');
 		expect(convertRateToPerHourString(24083333333333n, 6)).toBe('86,699,999,999.9988');
 		expect(convertRateToPerHourString(10000n, 6)).toBe('36.0000');
@@ -238,7 +238,7 @@ describe('convertRateToPerHourString', () => {
 });
 
 describe('convertHourlyRateToSecondlyRate', () => {
-	test('should convert hourly rate to rate per second', () => {
+	it('should convert hourly rate to rate per second', () => {
 		expect(convertHourlyRateToSecondlyRate(810833333333333n)).toBe(225231481481n);
 		expect(convertHourlyRateToSecondlyRate(24083333333333n)).toBe(6689814814n);
 		expect(convertHourlyRateToSecondlyRate(10000n)).toBe(2n);

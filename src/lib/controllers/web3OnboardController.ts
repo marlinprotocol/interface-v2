@@ -35,11 +35,7 @@ const trezor = trezorModule({
 });
 const walletConnect = walletConnectModule({
 	projectId: import.meta.env.VITE_PROJECT_ID,
-	requiredChains: valid_chain_ids,
-	connectFirstChainId: true,
-	qrcodeModalOptions: {
-		mobileLinks: ['rainbow', 'metamask', 'argent', 'trust', 'imtoken', 'pillar']
-	}
+	requiredChains: valid_chain_ids
 });
 
 const wallets = [

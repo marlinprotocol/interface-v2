@@ -1,4 +1,3 @@
-import { describe, expect, it, afterEach, vi } from 'vitest';
 import { getChainDisplayName, getImageForChain, isValidChain, switchChain } from './networkHelper';
 import { PUBLIC_NODE_ENV } from '$env/static/public';
 import { staticImages } from '$lib/components/images/staticImages';

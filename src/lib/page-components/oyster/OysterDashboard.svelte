@@ -34,6 +34,7 @@
 		removeOysterInfrastructureProvider
 	} from '$lib/controllers/contract/oyster';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
+	import { chainStore } from '$lib/data-stores/chainProviderStore';
 
 	let enableRegisterButton = false;
 	let updatedCpURL = '';
@@ -128,12 +129,26 @@
 		} as F;
 	}
 
+	function updateCpUrls(
+		address: string,
+		chainId: number | null,
+		connected: boolean,
+		providerData: any
+	) {
+		if (connected && address !== '' && chainId !== null && providerData.data !== undefined) {
+			updatedCpURL = providerData.data?.cp;
+			registeredCpURL = providerData.data?.cp;
+			registered = providerData.registered;
+		} else {
+			updatedCpURL = '';
+			registeredCpURL = '';
+			registered = false;
+		}
+	}
+
 	// Define the debounced version of getInstances
 	const debouncedGetInstances = debounce(getInstances, 4000);
-
-	$: registeredCpURL = $oysterStore.providerData.data?.cp ?? '';
-	$: updatedCpURL = $oysterStore.providerData.data?.cp ?? '';
-	$: registered = $oysterStore.providerData.registered ?? false;
+	$: updateCpUrls($walletStore.address, $chainStore.chainId, $connected, $oysterStore.providerData);
 	$: if (updatedCpURL !== registeredCpURL) {
 		enableRegisterButton = false;
 	}
@@ -160,14 +175,7 @@
 			openInstanceTable = true;
 		});
 
-	$: if (registeredCpURL === '') {
-		disableCpURL = false;
-	} else {
-		disableCpURL = true;
-	}
-	$: if (!$connected) {
-		updatedCpURL = '';
-	}
+	$: disableCpURL = registeredCpURL === '' ? false : true;
 </script>
 
 <ContainerCard>

@@ -25,8 +25,7 @@
 
 	$: if (
 		$connected &&
-		$walletStore.address !== prevAddress &&
-		$chainStore.chainId !== prevChainId
+		($walletStore.address !== prevAddress || $chainStore.chainId !== prevChainId)
 	) {
 		prevChainId = $chainStore.chainId;
 		prevAddress = $walletStore.address;

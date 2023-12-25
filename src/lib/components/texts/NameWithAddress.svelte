@@ -41,7 +41,7 @@
 					variant="body"
 					fontWeight="font-medium"
 					text={name.length > 13 ? name.slice(0, 13).trim() + '...' : name}
-					styleClass="truncate"
+					styleClass="truncate min-w-[150px]"
 				/>
 			</Tooltip>
 			<div class="flex w-fit items-center gap-1">
@@ -56,7 +56,7 @@
 				</button>
 			</div>
 		{:else}
-			<div class="my-2 flex w-fit items-center gap-1">
+			<div class="my-2 flex w-fit min-w-[150px] items-center gap-1">
 				<Text variant="body" fontWeight="font-medium" text={shortenText(address, 6, 6)} />
 				<button on:keypress={onCopyAddress} on:click={onCopyAddress}>
 					<slot name="copyIcon" />

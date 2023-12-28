@@ -82,7 +82,7 @@ describe('isInputAmountValid', () => {
 		expect(isInputAmountValid('.00')).toBe(false);
 	});
 
-	it('should return true for 0 and positive integer strings', () => {
+	it('should return true positive integer strings', () => {
 		expect(isInputAmountValid('1')).toBe(true);
 		expect(isInputAmountValid('12345678901234567890')).toBe(true);
 	});

@@ -57,7 +57,7 @@ export function isInputAmountValid(amount: string): boolean {
 	if (integerPart.length > 50) return false;
 	if (decimalPart && decimalPart.length > 18) return false;
 	if (!decimalPart && BigInt(integerPart) === 0n) return false;
-	if (decimalPart && BigInt(decimalPart) === 0n && BigInt(decimalPart) === 0n) return false;
+	if (decimalPart && BigInt(integerPart) === 0n && BigInt(decimalPart) === 0n) return false;
 
 	return true;
 }

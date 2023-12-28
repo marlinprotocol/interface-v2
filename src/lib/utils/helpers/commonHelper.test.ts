@@ -88,7 +88,13 @@ describe('isInputAmountValid', () => {
 	});
 
 	it('should return true for valid amount with decimals upto 18 decimals', () => {
+		expect(isInputAmountValid('1.0')).toBe(true);
+		expect(isInputAmountValid('1.000000000000000000')).toBe(true);
 		expect(isInputAmountValid('1.1')).toBe(true);
+		expect(isInputAmountValid('1.000000001')).toBe(true);
+		expect(isInputAmountValid('1.000000000000000001')).toBe(true);
+		expect(isInputAmountValid('1.123456789')).toBe(true);
+		expect(isInputAmountValid('1.123456789012345678')).toBe(true);
 	});
 
 	it('should return true for valid amount with 18 decimals', () => {

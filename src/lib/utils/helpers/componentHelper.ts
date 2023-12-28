@@ -116,6 +116,7 @@ export const getColorHexByVariant = (variant: CommonVariant | undefined) => {
 	}
 };
 
+// these color codes are part of the design system, we assume number of rows to be 10 adding more rows would require adding more colors
 export const getColorHexForTableRow = (index: number) => {
 	const remainder = index % 10;
 	switch (remainder) {

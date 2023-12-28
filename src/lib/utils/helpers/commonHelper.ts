@@ -134,7 +134,7 @@ export function capitalizeFirstLetter(string: string) {
  * @example checkValidURL('https://google.com') => true
  * @example checkValidURL('http://3.108.237.212:8080') => true
  * @example checkValidURL('http://example.com/path') => true
- * @example checkValidURL('http://example.com/') => false as it has an ending slash at the end
+ * @example checkValidURL('http://example.com/') => false as it has an ending slash at the end, as we send it as a query param to the backend which doesn't accept it (routing issue)
  * @example checkValidURL('example.com') => false as it has no http:// or https:// at the start
  */
 export function checkValidURL(url: string) {

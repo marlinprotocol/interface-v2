@@ -119,7 +119,7 @@ export const shortenText = (text: string, first = 6, last = 4) => {
 	if (text.length <= first + last) {
 		return text;
 	}
-	return text.slice(0, first) + '...' + text.slice(-last);
+	return text.slice(0, first) + '...' + text.slice(text.length - last);
 };
 
 export const mPondToPond = (mPond: bigint) => {

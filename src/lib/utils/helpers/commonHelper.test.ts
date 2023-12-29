@@ -52,24 +52,40 @@ describe('getCurrentEpochCycle', () => {
 });
 
 describe('minifyAddress', () => {
-	it('should return first 6 and last 4 characters of 0x0000000000000000 without any arguments', () => {
-		expect(minifyAddress()).toBe('0x0000...0000');
+	it('should return first 6 (without considering 0x) and last 4 characters of 0x0000000000000000 without any arguments', () => {
+		expect(minifyAddress()).toBe('0x000000...0000');
 	});
 
-	it('should return first 6 and last 4 characters of the address provided as the argument', () => {
-		expect(minifyAddress('0x1234567890123456789012345678901234567890')).toBe('0x1234...7890');
+	it('should return first 6 (without considering 0x) and last 4 characters of the address provided as the argument', () => {
+		expect(minifyAddress('0x1234567890123456789012345678901234567890')).toBe('0x123456...7890');
 	});
 
-	it('with first argument', () => {
-		expect(minifyAddress('0x1234567890123456789012345678901234567890', 3)).toBe('0x1...7890');
+	it('should return first n number of characters (withouth considering 0x) and last 4 charaters when given the first argument', () => {
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 0)).toBe('0x...7890');
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 1)).toBe('0x1...7890');
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 5)).toBe('0x12345...7890');
 	});
 
-	it('with both arguments', () => {
-		expect(minifyAddress('0x1234567890123456789012345678901234567890', 3, 2)).toBe('0x1...90');
+	it('should return minified address according to both arguments', () => {
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 0, 0)).toBe('0x...');
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 3, 2)).toBe('0x123...90');
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 3, 2)).toBe('0x123...90');
+	});
+
+	it('should return an empty string when first argument or the second argument is less than 0', () => {
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', -1, 4)).toBe('');
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 4, -1)).toBe('');
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', -1, -1)).toBe('');
 	});
 
 	it('with argument sum greater than address length', () => {
 		expect(minifyAddress('0x1234567890123456789012345678901234567890', 41, 4)).toBe(
+			'0x1234567890123456789012345678901234567890'
+		);
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 4, 41)).toBe(
+			'0x1234567890123456789012345678901234567890'
+		);
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 41, 41)).toBe(
 			'0x1234567890123456789012345678901234567890'
 		);
 	});

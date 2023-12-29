@@ -92,8 +92,8 @@ export function inputAmountInValidMessage(amount: string): string {
  * @param address
  * @param first
  * @param last
- * @example minifyAddress('0x1234567890123456789012345678901234567890') => 0x1234...1234
- * @example minifyAddress('0x1234567890123456789012345678901234567890', 3, 2) => 0x1...34
+ * @example minifyAddress('0x1234567890123456789012345678901234567890') => 0x123456...1234
+ * @example minifyAddress('0x1234567890123456789012345678901234567890', 3, 2) => 0x123...34
  */
 
 export function minifyAddress(
@@ -101,8 +101,13 @@ export function minifyAddress(
 	first = 6,
 	last = 4
 ): string {
-	if (address === '') return '';
-	return shortenText(address, first, last);
+	if (address === '' || first < 0 || last < 0) return '';
+
+	const textWithoutPrefix = address.slice(2);
+	if (textWithoutPrefix.length <= 2) return '';
+
+	const shortenedText = address.slice(0, 2) + shortenText(textWithoutPrefix, first, last);
+	return shortenedText;
 }
 
 // TODO:should this reside here? since this has a dependency on subgraph

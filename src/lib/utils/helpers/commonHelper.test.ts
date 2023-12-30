@@ -196,6 +196,11 @@ describe('capitalizeFirstLetter', () => {
 	it('should return the string with first letter capitalized when argument is a string with multiple characters', () => {
 		expect(capitalizeFirstLetter('abc')).toBe('Abc');
 	});
+
+	it('should return the special characters as it is', () => {
+		expect(capitalizeFirstLetter('!@#$%^&*()')).toBe('!@#$%^&*()');
+		expect(capitalizeFirstLetter('1something')).toBe('1something');
+	});
 });
 
 describe('getTxnUrl', () => {

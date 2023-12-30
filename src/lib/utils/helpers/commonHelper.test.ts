@@ -104,6 +104,9 @@ describe('isInputAmountValid', () => {
 	});
 
 	it('should return true for valid amount with decimals upto 18 decimals', () => {
+		expect(isInputAmountValid('.1')).toBe(true);
+		expect(isInputAmountValid('.000001')).toBe(true);
+		expect(isInputAmountValid('.000000000000000001')).toBe(true);
 		expect(isInputAmountValid('1.0')).toBe(true);
 		expect(isInputAmountValid('1.000000000000000000')).toBe(true);
 		expect(isInputAmountValid('1.1')).toBe(true);
@@ -119,6 +122,10 @@ describe('isInputAmountValid', () => {
 
 	it('should return false for negative amount', () => {
 		expect(isInputAmountValid('-1')).toBe(false);
+		expect(isInputAmountValid('-1.1231')).toBe(false);
+		expect(isInputAmountValid('-0.000001')).toBe(false);
+		expect(isInputAmountValid('-0.000000000000000001')).toBe(false);
+		expect(isInputAmountValid('-.1231')).toBe(false);
 	});
 
 	it('should return false for amount having more than 18 decimals', () => {
@@ -133,6 +140,17 @@ describe('isInputAmountValid', () => {
 		expect(isInputAmountValid('1a')).toBe(false);
 		expect(isInputAmountValid('1$')).toBe(false);
 		expect(isInputAmountValid('1*')).toBe(false);
+		expect(isInputAmountValid('a*')).toBe(false);
+		expect(isInputAmountValid('*')).toBe(false);
+		expect(isInputAmountValid('*1')).toBe(false);
+		expect(isInputAmountValid('*1.1')).toBe(false);
+		expect(isInputAmountValid('@1.1')).toBe(false);
+		expect(isInputAmountValid('#1.1')).toBe(false);
+		expect(isInputAmountValid('$1.1')).toBe(false);
+		expect(isInputAmountValid('%1.1')).toBe(false);
+		expect(isInputAmountValid('^1.1')).toBe(false);
+		expect(isInputAmountValid('1.1.')).toBe(false);
+		expect(isInputAmountValid('&1.1')).toBe(false);
 	});
 });
 

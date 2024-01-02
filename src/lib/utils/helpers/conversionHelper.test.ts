@@ -150,6 +150,16 @@ describe('dateToString', () => {
 });
 
 describe('shortenText', () => {
+	it('should return the shortened text with default arguments when second and third arguments are not passed', () => {
+		expect(shortenText('thisisaverylongtextthatneedstobeshortened')).toBe('thisis...ened');
+		expect(shortenText('123456789012')).toBe('123456...9012');
+	});
+
+	it('should return the shortend text with first n letters when passed in as the second argument', () => {
+		expect(shortenText('thisisaverylongtextthatneedstobeshortened', 2)).toBe('th...ened');
+		expect(shortenText('123456789', 3)).toBe('123...6789');
+	});
+
 	it('should return the same text when length of text is less than sum of second and third arguments', () => {
 		expect(shortenText('thisistext')).toBe('thisistext');
 		expect(shortenText('1234567890')).toBe('1234567890');

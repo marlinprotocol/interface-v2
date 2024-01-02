@@ -15,7 +15,7 @@ import { ethers } from 'ethers';
  * @returns string
  * @example 12334422 => 4 months 22 days 18 hours 13 mins 42 secs
  */
-export const epochToDurationString = (epoch: number, mini = false, uptoHoursOnly = false) => {
+export const epochToDurationString = (epoch: number, mini = false) => {
 	if (epoch >= SECONDS_IN_HUNDRED_YEARS) return '100+ years';
 	const seconds = epoch % 60;
 	const minutes = Math.floor(epoch / 60) % 60;
@@ -41,15 +41,13 @@ export const epochToDurationString = (epoch: number, mini = false, uptoHoursOnly
 		durationString += hours + (hours > 1 ? ' hours ' : ' hour ');
 		if (mini) return durationString.trimEnd();
 	}
-	if (!uptoHoursOnly) {
-		if (minutes > 0) {
-			durationString += minutes + (minutes > 1 ? ' mins ' : ' min ');
-			if (mini) return durationString.trimEnd();
-		}
-		if (seconds > 0) {
-			durationString += seconds.toFixed() + ' secs';
-			if (mini) return durationString;
-		}
+	if (minutes > 0) {
+		durationString += minutes + (minutes > 1 ? ' mins ' : ' min ');
+		if (mini) return durationString.trimEnd();
+	}
+	if (seconds > 0) {
+		durationString += seconds.toFixed() + ' secs';
+		if (mini) return durationString;
 	}
 
 	return durationString.trimEnd();

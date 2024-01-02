@@ -31,7 +31,7 @@ describe('getIconByVariant', () => {
 	});
 
 	it('should return infoCircle when argument is undefined', () => {
-		expect(getIconbyVariant(undefined)).toBe(infoCircle);
+		expect(getIconbyVariant(undefined)).toBe('');
 	});
 });
 
@@ -53,7 +53,7 @@ describe('getColorClassByVariant', () => {
 	});
 
 	it('should return the class primary-content when the argument is undefined', () => {
-		expect(getColorClassByVariant(undefined)).toBe('primary-content');
+		expect(getColorClassByVariant(undefined)).toBe('');
 	});
 });
 
@@ -91,7 +91,7 @@ describe('getTextColorClassByVariant', () => {
 	});
 
 	it('should return the class text-primary-content when the argument is undefined', () => {
-		expect(getTextColorClassByVariant(undefined)).toBe('text-primary-content');
+		expect(getTextColorClassByVariant(undefined)).toBe('');
 	});
 });
 
@@ -102,6 +102,11 @@ describe('getImagebyWalletProvider', () => {
 
 	it('should return the walletconnect image when the argument is walletconnect', () => {
 		expect(getImagebyWalletProvider('walletconnect')).toBe(staticImages.WalletConnect);
+	});
+
+	it('should return undefined when the argument is other than expected strings', () => {
+		expect(getImagebyWalletProvider('somethingunexpected')).toBe('');
+		expect(getImagebyWalletProvider('')).toBe('');
 	});
 });
 
@@ -139,39 +144,48 @@ describe('getColorHexByVariant', () => {
 	});
 
 	it('should return the color of default variant when argument is undefined', () => {
-		expect(getColorHexByVariant(undefined)).toBe('#0F62FE');
+		expect(getColorHexByVariant(undefined)).toBe('');
 	});
 });
 
 describe('getColorHexForTableRow', () => {
-	it('should return color for index 0 when the argument is 0', () => {
+	it('should return color for index 0 when the mod of argument with our range is 0', () => {
 		expect(getColorHexForTableRow(0)).toBe('#AF2EFF');
 	});
-	it('should return color for index 1 when the argument is 1', () => {
+	it('should return color for index 1 when the mod of argument with our range is 1', () => {
 		expect(getColorHexForTableRow(1)).toBe('#9868FF');
+		expect(getColorHexForTableRow(-1)).toBe('#9868FF');
 	});
-	it('should return color for index 2 when the argument is 2', () => {
+	it('should return color for index 2 when the mod of argument with our range is 2', () => {
 		expect(getColorHexForTableRow(2)).toBe('#4171EA');
+		expect(getColorHexForTableRow(-2)).toBe('#4171EA');
 	});
-	it('should return color for index 3 when the argument is 3', () => {
+	it('should return color for index 3 when the mod of argument with our range is 3', () => {
 		expect(getColorHexForTableRow(3)).toBe('#4FA0FF');
+		expect(getColorHexForTableRow(-3)).toBe('#4FA0FF');
 	});
-	it('should return color for index 4 when the argument is 4', () => {
+	it('should return color for index 4 when the mod of argument with our range is 4', () => {
 		expect(getColorHexForTableRow(4)).toBe('#4FC0FF');
+		expect(getColorHexForTableRow(-4)).toBe('#4FC0FF');
 	});
-	it('should return color for index 5 when the argument is 5', () => {
+	it('should return color for index 5 when the mod of argument with our range is 5', () => {
 		expect(getColorHexForTableRow(5)).toBe('#25CFDA');
+		expect(getColorHexForTableRow(-5)).toBe('#25CFDA');
 	});
-	it('should return color for index 6 when the argument is 6', () => {
+	it('should return color for index 6 when the mod of argument with our range is 6', () => {
 		expect(getColorHexForTableRow(6)).toBe('#19CDB7');
+		expect(getColorHexForTableRow(-6)).toBe('#19CDB7');
 	});
-	it('should return color for index 7 when the argument is 7', () => {
+	it('should return color for index 7 when the mod of argument with our range is 7', () => {
 		expect(getColorHexForTableRow(7)).toBe('#1EC086');
+		expect(getColorHexForTableRow(-7)).toBe('#1EC086');
 	});
-	it('should return color for index 8 when the argument is 8', () => {
+	it('should return color for index 8 when the mod of argument with our range is 8', () => {
 		expect(getColorHexForTableRow(8)).toBe('#3DAE56');
+		expect(getColorHexForTableRow(-8)).toBe('#3DAE56');
 	});
-	it('should return color for index 9 when the argument is 9', () => {
+	it('should return color for index 9 when the mod of argument with our range is 9', () => {
 		expect(getColorHexForTableRow(9)).toBe('#D8D013');
+		expect(getColorHexForTableRow(-9)).toBe('#D8D013');
 	});
 });

@@ -16,8 +16,11 @@ import {
 
 describe('epochToDurationString', () => {
 	it('should return the default conversion of epoch when duration is less than 100 years and mini is false', () => {
+		expect(epochToDurationString(0)).toBe('');
 		expect(epochToDurationString(1)).toBe('1 secs');
+		expect(epochToDurationString(59)).toBe('59 secs');
 		expect(epochToDurationString(60)).toBe('1 min');
+		expect(epochToDurationString(61)).toBe('1 min 1 secs');
 		expect(epochToDurationString(3599)).toBe('59 mins 59 secs');
 		expect(epochToDurationString(3600)).toBe('1 hour');
 		expect(epochToDurationString(3601)).toBe('1 hour 1 secs');

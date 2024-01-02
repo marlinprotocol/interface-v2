@@ -6,6 +6,7 @@ import {
 } from '$lib/utils/constants/constants';
 
 import { ethers } from 'ethers';
+import { isInputAmountValid } from './commonHelper';
 
 /**
  * Returns duration string for a epoch
@@ -85,6 +86,7 @@ export const bigNumberToString = (
 //return bignumber from string with decimal
 export const stringToBigNumber = (value: string, bigNumberDecimal = DEFAULT_CURRENCY_DECIMALS) => {
 	if (!value) return 0n;
+	if (!isInputAmountValid(value)) return 0n;
 	let newValue = value;
 	// eslint-disable-next-line prefer-const
 	let [integer, fraction] = value.split('.');

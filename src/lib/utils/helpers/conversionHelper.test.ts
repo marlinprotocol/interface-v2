@@ -127,6 +127,14 @@ describe('stringToBigNumber', () => {
 		expect(stringToBigNumber('12.0', 0)).toBe(12n);
 		expect(stringToBigNumber('1.2', 0)).toBe(1n);
 	});
+
+	it('should return 0n if the string is a non-numeric/invalid value', () => {
+		expect(stringToBigNumber('abc')).toBe(0n);
+		expect(stringToBigNumber('12.^')).toBe(0n);
+		expect(stringToBigNumber('abc', 6)).toBe(0n);
+		expect(stringToBigNumber('1.1.1', 6)).toBe(0n);
+		expect(stringToBigNumber('1000.0 ')).toBe(0n);
+	});
 });
 
 describe('epochSecToString', () => {

@@ -178,7 +178,14 @@ export function checkValidURL(url: string) {
 	return true;
 }
 
+/**
+ * returns the url for the txnHash
+ * @param blockExplorerUrl (should come from $chainConfigStore.blockExplorerUrl)
+ * @param txnHash
+ * @example getTxnUrl('https://blockexplorer.com', '0x1234567890123456789012345678901234567890') => 'https://explorer.com/tx/0x1234567890123456789012345678901234567890'
+ */
 export const getTxnUrl = (blockExplorerUrl: string, txnHash: string): string => {
+	//   currently we are not accounting for the case where txnHash is empty or the blockExplorerUrl is empty
 	return `${blockExplorerUrl}/tx/${txnHash}`;
 };
 

@@ -18,7 +18,7 @@
 	} from '$lib/data-stores/oysterStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
-	import { checkValidURL } from '$lib/utils/helpers/commonHelper';
+	import { checkValidURL, sanitizeUrl } from '$lib/utils/helpers/commonHelper';
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from '$lib/page-components/oyster/sub-components/InstancesTable.svelte';
 	import {
@@ -49,7 +49,7 @@
 	const handleOnRegister = async () => {
 		if (connected) {
 			registerLoading = true;
-			await registerOysterInfrastructureProvider(updatedCpURL);
+			await registerOysterInfrastructureProvider(sanitizedUpdatedCpURL);
 			updateProviderInOysterStore(updatedCpURL, $walletStore.address);
 			registeredCpURL = updatedCpURL;
 			registered = true;
@@ -66,7 +66,7 @@
 	const handleOnUpdate = async () => {
 		if (connected) {
 			updateLoading = true;
-			await updateOysterInfrastructureProvider(updatedCpURL);
+			await updateOysterInfrastructureProvider(sanitizedUpdatedCpURL);
 			updateProviderInOysterStore(updatedCpURL, $walletStore.address);
 			registeredCpURL = updatedCpURL;
 			updateLoading = false;
@@ -88,7 +88,7 @@
 	async function getInstances(useUpdatedCpURL: boolean) {
 		try {
 			if (useUpdatedCpURL) {
-				const instances = await getInstancesFromControlPlaneUsingCpUrl(updatedCpURL);
+				const instances = await getInstancesFromControlPlaneUsingCpUrl(sanitizedUpdatedCpURL);
 				return getModifiedInstances(instances);
 			} else if (registeredCpURL !== '' && !useUpdatedCpURL) {
 				const instances = await getInstancesFromControlPlaneUsingOperatorAddress(
@@ -137,8 +137,9 @@
 	$: if (updatedCpURL !== registeredCpURL) {
 		enableRegisterButton = false;
 	}
+	$: sanitizedUpdatedCpURL = sanitizeUrl(updatedCpURL);
 	// using regex to validate CP URL
-	$: validCPUrl = checkValidURL(updatedCpURL);
+	$: validCPUrl = checkValidURL(sanitizedUpdatedCpURL);
 	$: instances =
 		(registeredCpURL === '' && updatedCpURL && validCPUrl) ||
 		(registeredCpURL !== updatedCpURL && validCPUrl)

@@ -11,7 +11,7 @@
 	} from '$lib/data-stores/oysterStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { CreateOrderPreFilledModel } from '$lib/types/oysterComponentType';
-	import { checkValidURL, closeModal } from '$lib/utils/helpers/commonHelper';
+	import { checkValidURL, closeModal, sanitizeUrl } from '$lib/utils/helpers/commonHelper';
 	import { getRateForProviderAndFilters } from '$lib/utils/helpers/oysterHelpers';
 	import {
 		handleApproveFundForOysterJob,
@@ -107,7 +107,7 @@
 			region: region.value,
 			memory: Number(memory.split(' ')[0]),
 			vcpu: Number(vcpu),
-			url: enclaveImageUrl.value
+			url: finalEnclaveUrl
 		});
 
 		const provider = {
@@ -205,9 +205,11 @@
 		!instanceRateDisabled &&
 		enclaveImageUrl.value !== '';
 
+	$: finalEnclaveUrl = sanitizeUrl(enclaveImageUrl.value);
+
 	$: validEnclaveUrl =
 		enclaveImageUrl.value !== undefined && enclaveImageUrl.value !== ''
-			? checkValidURL(enclaveImageUrl.value)
+			? checkValidURL(finalEnclaveUrl)
 			: true;
 
 	$: totalRate = finalBandwidthRateScaled + (instanceRate || 0n);

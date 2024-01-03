@@ -179,6 +179,27 @@ export function checkValidURL(url: string) {
 }
 
 /**
+ * returns url appended with http:// if it doesn't have it and removes traling slashes if it has any
+ * @param url
+ * @example sanitizeUrl('google.com') => 'http://google.com'
+ * @example sanitizeUrl('google.com/') => 'http://google.com'
+ * @example sanitizeUrl('https://google.com') => 'https://google.com'
+ */
+export function sanitizeUrl(url: string) {
+	let sanitizedUrl = url;
+	if (url === '') {
+		return sanitizedUrl;
+	}
+	if (!(url.startsWith('http://') || url.startsWith('https://'))) {
+		sanitizedUrl = 'http://' + url;
+	}
+	if (url.endsWith('/')) {
+		sanitizedUrl = sanitizedUrl.replace(/\/+$/, '');
+	}
+	return sanitizedUrl;
+}
+
+/**
  * returns the url for the txnHash
  * @param blockExplorerUrl (should come from $chainConfigStore.blockExplorerUrl)
  * @param txnHash

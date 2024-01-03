@@ -7,7 +7,8 @@ import {
 	getTxnUrl,
 	inputAmountInValidMessage,
 	isInputAmountValid,
-	minifyAddress
+	minifyAddress,
+	sanitizeUrl
 } from './commonHelper';
 
 describe('getCurrentEpochCycle', () => {
@@ -200,6 +201,28 @@ describe('capitalizeFirstLetter', () => {
 	it('should return the special characters as it is', () => {
 		expect(capitalizeFirstLetter('!@#$%^&*()')).toBe('!@#$%^&*()');
 		expect(capitalizeFirstLetter('1something')).toBe('1something');
+	});
+});
+
+describe('sanitizeUrl', () => {
+	it('should return the url without trailing slash', () => {
+		expect(sanitizeUrl('https://example.com/')).toBe('https://example.com');
+		expect(sanitizeUrl('https://example.com/path/')).toBe('https://example.com/path');
+		expect(sanitizeUrl('http://example.com///')).toBe('http://example.com');
+	});
+
+	it('should return the url appended with http:// if https:// or http:// is not present at the start of the url', () => {
+		expect(sanitizeUrl('example.com')).toBe('http://example.com');
+		expect(sanitizeUrl('example.com/path')).toBe('http://example.com/path');
+	});
+
+	it('should return the url as it is if https:// or http:// is present at the start of the url', () => {
+		expect(sanitizeUrl('https://example.com')).toBe('https://example.com');
+		expect(sanitizeUrl('http://example.com/path')).toBe('http://example.com/path');
+	});
+
+	it('should return an empty string if the url is an empty string', () => {
+		expect(sanitizeUrl('')).toBe('');
 	});
 });
 

@@ -54,6 +54,6 @@ export const getImageForChain = (chainId: number | null) => {
 		case 59140:
 			return staticImages.LineaLogo;
 		default:
-			return staticImages.ArbitrumLogo;
+			return undefined;
 	}
 };

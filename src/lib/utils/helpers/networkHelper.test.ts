@@ -71,6 +71,6 @@ describe('getImageForChain', () => {
 		expect(getImageForChain(59140)).toBe(staticImages.LineaLogo);
 	});
 	it('should return default chain image when the chain is not supported in our app', () => {
-		expect(getImageForChain(2)).toBe(staticImages.ArbitrumLogo);
+		expect(getImageForChain(2)).toBe(undefined);
 	});
 });

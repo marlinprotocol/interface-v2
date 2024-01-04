@@ -190,7 +190,7 @@ export function sanitizeUrl(url: string) {
 	if (url === '') {
 		return sanitizedUrl;
 	}
-	if (!(url.startsWith('http://') || url.startsWith('https://'))) {
+	if (!url.includes('://')) {
 		sanitizedUrl = 'http://' + url;
 	}
 	if (url.endsWith('/')) {

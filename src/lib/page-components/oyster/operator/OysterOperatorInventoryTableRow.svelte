@@ -76,7 +76,7 @@
 	<td class={tableCellClasses.rowNormal}>
 		<div
 			class="mx-auto w-24 rounded py-1 text-sm capitalize text-white"
-			style="background-color:${statusColor}"
+			style="background-color: {statusColor}"
 		>
 			{status}
 		</div>

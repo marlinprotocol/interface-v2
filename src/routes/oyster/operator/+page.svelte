@@ -8,6 +8,9 @@
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import OysterDashboard from '$lib/page-components/oyster/OysterDashboard.svelte';
 
+	let prevChainId: null | number = null;
+	let prevAddress = '';
+
 	async function loadProviderDetails() {
 		console.log('fetching operator details');
 		const providerDetails = await getProviderDetailsFromSubgraph($walletStore.address);
@@ -20,7 +23,13 @@
 		console.log('operator details loaded');
 	}
 
-	$: if ($connected && $walletStore.address && $chainStore.chainId) {
+	$: if (
+		$connected &&
+		$walletStore.address !== prevAddress &&
+		$chainStore.chainId !== prevChainId
+	) {
+		prevChainId = $chainStore.chainId;
+		prevAddress = $walletStore.address;
 		loadProviderDetails();
 	}
 </script>

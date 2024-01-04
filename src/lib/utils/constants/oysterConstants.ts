@@ -1,5 +1,6 @@
 import { SECONDS_IN_DAY } from '$lib/utils/constants/constants';
 import type { TableModel } from '$lib/types/componentTypes';
+import type { OysterDurationUnitList } from '$lib/types/oysterComponentType';
 
 export const OYSTER_URL_ENDPOINTS = {
 	instances_using_cp_url: 'operators/spec/cp/',
@@ -35,7 +36,7 @@ export const OYSTER_INSTANCES_TABLE_HEADER: TableModel['header'][] = [
 export const OYSTER_MERCHANT_JOB_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'USER',
-		id: 'provider',
+		id: 'owner',
 		sorting: true,
 		tooltipText: 'Address of user who created the job'
 	},
@@ -84,7 +85,7 @@ export const OYSTER_MERCHANT_JOB_TABLE_HEADER: TableModel['header'][] = [
 export const OYSTER_OPERATOR_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'USER',
-		id: 'provider',
+		id: 'owner',
 		sorting: true
 	},
 	{
@@ -283,7 +284,7 @@ export const OYSTER_MARKETPLACE_TABLE_HEADER: TableModel['header'][] = [
 	}
 ];
 
-export const OYSTER_DURATION_UNITS_LIST = [
+export const OYSTER_DURATION_UNITS_LIST: OysterDurationUnitList[] = [
 	{
 		label: 'Minutes',
 		id: 'minute',

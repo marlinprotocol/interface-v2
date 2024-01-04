@@ -1,5 +1,42 @@
 import type { BytesLike } from 'ethers';
 
+export type OysterOperatorInventorySortKeys =
+	| 'amountToBeSettled'
+	| 'durationLeft'
+	| 'durationRun'
+	| 'createdAt'
+	| 'instance'
+	| 'region'
+	| 'status'
+	| 'owner';
+
+export type OysterInventorySortKeys =
+	| 'balance'
+	| 'rate'
+	| 'totalDeposit'
+	| 'amountUsed'
+	| 'refund'
+	| 'durationLeft'
+	| 'memory'
+	| 'vcpu'
+	| 'durationRun'
+	| 'createdAt'
+	| 'lastSettled'
+	| 'endEpochTime'
+	| 'instance'
+	| 'region'
+	| 'status';
+
+export type OysterMarketplaceSortKeys = 'rateScaled' | 'vcpu' | 'memory' | 'instance' | 'region';
+
+export type OysterDurationUnits = 'Hours' | 'Days' | 'Minutes';
+
+export interface OysterDurationUnitList {
+	label: OysterDurationUnits;
+	id: string;
+	value: number;
+}
+
 export type CPInstances = {
 	allowed_regions: string[];
 	min_rates: {
@@ -42,6 +79,7 @@ export interface OysterMarketplaceDataModel extends CPUrlDataModel {
 export interface OysterMarketplaceFilterModel extends CPUrlDataModel {
 	provider: string;
 }
+
 export interface OysterInventoryDataModel extends CPUrlDataModel {
 	provider: {
 		name?: string;
@@ -59,7 +97,7 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 	durationLeft: number;
 	endEpochTime: number;
 	live: boolean;
-	status: string; //job status - running, stopped, completed
+	status: 'closed' | 'running' | 'pending' | 'completed' | 'stopped';
 	settlementHistory: OysterSettlementHistoryDataModel[];
 	depositHistory: OysterDepositHistoryDataModel[];
 	durationRun: number;

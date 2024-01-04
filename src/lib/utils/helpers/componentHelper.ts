@@ -18,7 +18,7 @@ export const getIconbyVariant = (variant: CommonVariant | undefined) => {
 		case 'error':
 			return timesCircle;
 		default:
-			return infoCircle;
+			return '';
 	}
 };
 
@@ -33,7 +33,7 @@ export const getColorClassByVariant = (variant: CommonVariant | undefined) => {
 		case 'error':
 			return 'error-content';
 		default:
-			return 'primary-content';
+			return '';
 	}
 };
 
@@ -56,7 +56,7 @@ export const getTextColorClassByVariant = (variant: CommonVariant | undefined) =
 		case 'grey':
 			return 'text-grey-500';
 		default:
-			return 'text-primary-content';
+			return '';
 	}
 };
 
@@ -78,7 +78,7 @@ export const getImageClassByVariant = (variant: CommonVariant | undefined) => {
 		case 'grey':
 			return 'grey-img';
 		default:
-			return 'primary-img';
+			return '';
 	}
 };
 
@@ -112,12 +112,13 @@ export const getColorHexByVariant = (variant: CommonVariant | undefined) => {
 		case 'grey':
 			return '#6F6F6F';
 		default:
-			return '#0F62FE';
+			return '';
 	}
 };
 
+// these color codes are part of the design system, we assume number of rows to be 10 adding more rows would require adding more colors
 export const getColorHexForTableRow = (index: number) => {
-	const remainder = index % 10;
+	const remainder = Math.abs(index) % 10;
 	switch (remainder) {
 		case 0:
 			return '#AF2EFF';

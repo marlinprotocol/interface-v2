@@ -11,7 +11,7 @@
 	} from '$lib/data-stores/oysterStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { CreateOrderPreFilledModel } from '$lib/types/oysterComponentType';
-	import { checkValidURL, closeModal } from '$lib/utils/helpers/commonHelper';
+	import { checkValidURL, closeModal, sanitizeUrl } from '$lib/utils/helpers/commonHelper';
 	import { getRateForProviderAndFilters } from '$lib/utils/helpers/oysterHelpers';
 	import {
 		handleApproveFundForOysterJob,
@@ -100,15 +100,15 @@
 			return;
 		}
 
+		submitLoading = true;
+
 		const metadata = JSON.stringify({
 			instance: instance.value,
 			region: region.value,
 			memory: Number(memory.split(' ')[0]),
 			vcpu: Number(vcpu),
-			url: enclaveImageUrl.value
+			url: finalEnclaveUrl
 		});
-
-		submitLoading = true;
 
 		const provider = {
 			address: merchant.value,
@@ -120,17 +120,18 @@
 			metadata,
 			provider,
 			totalRate,
-			totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor
+			totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
+			duration,
+			$oysterRateMetadataStore.oysterRateScalingFactor
 		);
-		setTimeout(() => {
-			submitLoading = false;
-			if (!success) {
-				return;
-			}
-			resetInputs();
-			closeModal(modalFor);
-			goto(OYSTER_OWNER_INVENTORY_URL);
-		}, 4000);
+
+		submitLoading = false;
+		if (!success) {
+			return;
+		}
+		resetInputs();
+		closeModal(modalFor);
+		goto(OYSTER_OWNER_INVENTORY_URL);
 	};
 
 	const handleApproveClick = async () => {
@@ -204,9 +205,11 @@
 		!instanceRateDisabled &&
 		enclaveImageUrl.value !== '';
 
+	$: finalEnclaveUrl = sanitizeUrl(enclaveImageUrl.value);
+
 	$: validEnclaveUrl =
 		enclaveImageUrl.value !== undefined && enclaveImageUrl.value !== ''
-			? checkValidURL(enclaveImageUrl.value)
+			? checkValidURL(finalEnclaveUrl)
 			: true;
 
 	$: totalRate = finalBandwidthRateScaled + (instanceRate || 0n);

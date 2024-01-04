@@ -94,3 +94,5 @@ export type ToastModel = {
 };
 
 export type InputCardVariant = 'primary' | 'warning' | 'none' | 'search' | 'primary-mini';
+
+export type SortDirection = 'asc' | 'desc';

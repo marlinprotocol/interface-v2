@@ -18,8 +18,8 @@
 		$receiverStakingStore.signer !== null &&
 		$receiverStakingStore.signer !== DEFAULT_RECEIVER_STAKING_DATA.signer
 			? innerWidth >= 640
-				? minifyAddress($receiverStakingStore.signer, 24, 10)
-				: minifyAddress($receiverStakingStore.signer, 8, 6)
+				? minifyAddress($receiverStakingStore.signer, 22, 10)
+				: minifyAddress($receiverStakingStore.signer, 6, 6)
 			: '';
 </script>
 

@@ -36,7 +36,7 @@
 		/>
 		{#if cliboardContent !== '' && cliboardContent !== undefined}
 			<button
-				class="ml-2 cursor-pointer"
+				class="ml-2 w-6 cursor-pointer"
 				on:click={() => handleCopyClick(cliboardContent, successMessage)}
 			>
 				<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />

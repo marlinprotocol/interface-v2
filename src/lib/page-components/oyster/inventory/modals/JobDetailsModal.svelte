@@ -59,6 +59,14 @@
 		<div class="flex flex-col gap-4 px-4">
 			<div class="flex flex-col gap-4 sm:flex-row">
 				<TextInputCard
+					title="Enclave Image URL"
+					value={enclaveUrl}
+					cliboardContent={enclaveUrl}
+					textStyle="text-primary truncate"
+				/>
+			</div>
+			<div class="flex flex-col gap-4 sm:flex-row">
+				<TextInputCard
 					title="Operator"
 					value={name !== '' ? name : address}
 					centered
@@ -85,11 +93,6 @@
 						? 'Ended'
 						: epochToDurationString(endEpochTime - nowTime, true)}
 					centered
-					textStyle="text-primary truncate"
-				/>
-				<TextInputCard
-					title="Enclave Image URL"
-					value={enclaveUrl}
 					textStyle="text-primary truncate"
 				/>
 			</div>

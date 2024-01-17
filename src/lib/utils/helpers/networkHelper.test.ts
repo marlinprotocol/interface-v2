@@ -51,8 +51,8 @@ describe('switchChain', () => {
 describe('getChainDisplayName', () => {
 	it('should return correct chain name if the chain is supported in our app', () => {
 		expect(getChainDisplayName(1)).toBe('Ethereum');
-		expect(getChainDisplayName(42161)).toBe('ARB One');
-		expect(getChainDisplayName(421613)).toBe('ARB Goerli');
+		expect(getChainDisplayName(42161)).toBe('Arbitrum One');
+		expect(getChainDisplayName(421613)).toBe('Arbitrum Goerli');
 		expect(getChainDisplayName(59144)).toBe('Linea');
 		expect(getChainDisplayName(59140)).toBe('Linea Goerli');
 	});
@@ -69,7 +69,7 @@ describe('getImageForChain', () => {
 		expect(getImageForChain(59144)).toBe(staticImages.LineaLogo);
 		expect(getImageForChain(59140)).toBe(staticImages.LineaLogo);
 	});
-	it('should return default chain image when the chain is not supported in our app', () => {
-		expect(getImageForChain(2)).toBe(staticImages.ArbitrumLogo);
+	it('should return undefined when the chain is not supported in our app', () => {
+		expect(getImageForChain(2)).toBe(undefined);
 	});
 });

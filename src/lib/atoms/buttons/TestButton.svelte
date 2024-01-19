@@ -1,5 +1,5 @@
-<script>
-	export let Component;
+<script lang="ts">
+	export let Component: any;
 </script>
 
 <svelte:component this={Component}>

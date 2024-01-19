@@ -16,14 +16,8 @@
 </script>
 
 <button {disabled} on:click={onclick} class={buttonStyleClass}>
-	<!-- {#if icon}
-		<Icon data={icon} size={14} iconColorClass="icon-white" />
-	{/if}
-	{#if !!iconSrc}
-		<img src={iconSrc} alt="Icon" width={16} />
-	{/if} -->
 	{#if loading}
-		<span class="loading loading-spinner loading-sm" />
+		<span data-testid="loading-spinner" class="loading loading-spinner loading-sm" />
 	{/if}
 	<slot />
 </button>

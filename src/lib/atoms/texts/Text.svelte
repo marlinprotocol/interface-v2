@@ -13,4 +13,4 @@
 	$: textClass = `${styleClass} ${fontSize} ${_fontWeight}`;
 </script>
 
-<div class="text-left {textClass}">{text}</div>
+<div class={textClass}>{text}</div>

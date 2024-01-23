@@ -15,8 +15,11 @@ import {
 
 describe('epochToDurationString', () => {
 	it('should return the default conversion of epoch when duration is less than 100 years and mini is false', () => {
+		expect(epochToDurationString(0)).toBe('');
 		expect(epochToDurationString(1)).toBe('1 secs');
+		expect(epochToDurationString(59)).toBe('59 secs');
 		expect(epochToDurationString(60)).toBe('1 min');
+		expect(epochToDurationString(61)).toBe('1 min 1 secs');
 		expect(epochToDurationString(3599)).toBe('59 mins 59 secs');
 		expect(epochToDurationString(3600)).toBe('1 hour');
 		expect(epochToDurationString(3601)).toBe('1 hour 1 secs');
@@ -68,58 +71,6 @@ describe('epochToDurationString', () => {
 		expect(epochToDurationString(3110400000, true)).toBe('100 years');
 		expect(epochToDurationString(3110400001, true)).toBe('100 years');
 		expect(epochToDurationString(31104000000, true)).toBe('100+ years');
-	});
-
-	it('should return the minified version of epoch conversion when epoch is greater than or equal to an hour when mini and uptoHoursOnly both are true ', () => {
-		expect(epochToDurationString(1, true, true)).toBe('');
-		expect(epochToDurationString(60, true, true)).toBe('');
-		expect(epochToDurationString(3599, true, true)).toBe('');
-		expect(epochToDurationString(3600, true, true)).toBe('1 hour');
-		expect(epochToDurationString(3601, true, true)).toBe('1 hour');
-		expect(epochToDurationString(86399, true, true)).toBe('23 hours');
-		expect(epochToDurationString(86400, true, true)).toBe('1 day');
-		expect(epochToDurationString(86401, true, true)).toBe('1 day');
-		expect(epochToDurationString(2591999, true, true)).toBe('29 days');
-		expect(epochToDurationString(2592000, true, true)).toBe('1 month');
-		expect(epochToDurationString(2592001, true, true)).toBe('1 month');
-		expect(epochToDurationString(31103999, true, true)).toBe('11 months');
-		expect(epochToDurationString(31104000, true, true)).toBe('1 year');
-		expect(epochToDurationString(31104001, true, true)).toBe('1 year');
-		expect(epochToDurationString(311039999, true, true)).toBe('9 years');
-		expect(epochToDurationString(311040000, true, true)).toBe('10 years');
-		expect(epochToDurationString(311040001, true, true)).toBe('10 years');
-		expect(epochToDurationString(3110399999, true, true)).toBe('99 years');
-		expect(epochToDurationString(3110400000, true, true)).toBe('100 years');
-		expect(epochToDurationString(3110400001, true, true)).toBe('100 years');
-		expect(epochToDurationString(31104000000, true, true)).toBe('100+ years');
-	});
-
-	it('should return the conversion of epoch upto hours only', () => {
-		expect(epochToDurationString(1, false, true)).toBe('');
-		expect(epochToDurationString(60, false, true)).toBe('');
-		expect(epochToDurationString(3599, false, true)).toBe('');
-		expect(epochToDurationString(3600, false, true)).toBe('1 hour');
-		expect(epochToDurationString(3601, false, true)).toBe('1 hour');
-		expect(epochToDurationString(86399, false, true)).toBe('23 hours');
-		expect(epochToDurationString(86400, false, true)).toBe('1 day');
-		expect(epochToDurationString(86401, false, true)).toBe('1 day');
-		expect(epochToDurationString(2591999, false, true)).toBe('29 days 23 hours');
-		expect(epochToDurationString(2592000, false, true)).toBe('1 month');
-		expect(epochToDurationString(2592001, false, true)).toBe('1 month');
-		expect(epochToDurationString(31103999, false, true)).toBe('11 months 29 days 23 hours');
-		expect(epochToDurationString(31104000, false, true)).toBe('1 year');
-		expect(epochToDurationString(31104001, false, true)).toBe('1 year');
-		expect(epochToDurationString(311039999, false, true)).toBe(
-			'9 years 11 months 29 days 23 hours'
-		);
-		expect(epochToDurationString(311040000, false, true)).toBe('10 years');
-		expect(epochToDurationString(311040001, false, true)).toBe('10 years');
-		expect(epochToDurationString(3110399999, false, true)).toBe(
-			'99 years 11 months 29 days 23 hours'
-		);
-		expect(epochToDurationString(3110400000, false, true)).toBe('100 years');
-		expect(epochToDurationString(3110400001, false, true)).toBe('100 years');
-		expect(epochToDurationString(31104000000, false, true)).toBe('100+ years');
 	});
 });
 
@@ -175,6 +126,14 @@ describe('stringToBigNumber', () => {
 		expect(stringToBigNumber('12.0', 0)).toBe(12n);
 		expect(stringToBigNumber('1.2', 0)).toBe(1n);
 	});
+
+	it('should return 0n if the string is a non-numeric/invalid value', () => {
+		expect(stringToBigNumber('abc')).toBe(0n);
+		expect(stringToBigNumber('12.^')).toBe(0n);
+		expect(stringToBigNumber('abc', 6)).toBe(0n);
+		expect(stringToBigNumber('1.1.1', 6)).toBe(0n);
+		expect(stringToBigNumber('1000.0 ')).toBe(0n);
+	});
 });
 
 describe('epochSecToString', () => {
@@ -190,6 +149,16 @@ describe('dateToString', () => {
 });
 
 describe('shortenText', () => {
+	it('should return the shortened text with default arguments when second and third arguments are not passed', () => {
+		expect(shortenText('thisisaverylongtextthatneedstobeshortened')).toBe('thisis...ened');
+		expect(shortenText('123456789012')).toBe('123456...9012');
+	});
+
+	it('should return the shortend text with first n letters when passed in as the second argument', () => {
+		expect(shortenText('thisisaverylongtextthatneedstobeshortened', 2)).toBe('th...ened');
+		expect(shortenText('123456789', 3)).toBe('123...6789');
+	});
+
 	it('should return the same text when length of text is less than sum of second and third arguments', () => {
 		expect(shortenText('thisistext')).toBe('thisistext');
 		expect(shortenText('1234567890')).toBe('1234567890');

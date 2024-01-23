@@ -57,7 +57,7 @@ export function isInputAmountValid(amount: string): boolean {
 	if (integerPart.length > 50) return false;
 	if (decimalPart && decimalPart.length > 18) return false;
 	if (!decimalPart && BigInt(integerPart) === 0n) return false;
-	if (decimalPart && BigInt(decimalPart) === 0n && BigInt(decimalPart) === 0n) return false;
+	if (decimalPart && BigInt(integerPart) === 0n && BigInt(decimalPart) === 0n) return false;
 
 	return true;
 }
@@ -92,8 +92,8 @@ export function inputAmountInValidMessage(amount: string): string {
  * @param address
  * @param first
  * @param last
- * @example minifyAddress('0x1234567890123456789012345678901234567890') => 0x1234...1234
- * @example minifyAddress('0x1234567890123456789012345678901234567890', 3, 2) => 0x1...34
+ * @example minifyAddress('0x1234567890123456789012345678901234567890') => 0x123456...1234
+ * @example minifyAddress('0x1234567890123456789012345678901234567890', 3, 2) => 0x123...34
  */
 
 export function minifyAddress(
@@ -101,8 +101,13 @@ export function minifyAddress(
 	first = 6,
 	last = 4
 ): string {
-	if (address === '') return '';
-	return shortenText(address, first, last);
+	if (address === '' || first < 0 || last < 0) return '';
+
+	const textWithoutPrefix = address.slice(2);
+	if (textWithoutPrefix.length <= 2) return '';
+
+	const shortenedText = address.slice(0, 2) + shortenText(textWithoutPrefix, first, last);
+	return shortenedText;
 }
 
 // TODO:should this reside here? since this has a dependency on subgraph
@@ -134,7 +139,7 @@ export function capitalizeFirstLetter(string: string) {
  * @example checkValidURL('https://google.com') => true
  * @example checkValidURL('http://3.108.237.212:8080') => true
  * @example checkValidURL('http://example.com/path') => true
- * @example checkValidURL('http://example.com/') => false as it has an ending slash at the end
+ * @example checkValidURL('http://example.com/') => false as it has an ending slash at the end, as we send it as a query param to the backend which doesn't accept it (routing issue)
  * @example checkValidURL('example.com') => false as it has no http:// or https:// at the start
  */
 export function checkValidURL(url: string) {
@@ -173,7 +178,35 @@ export function checkValidURL(url: string) {
 	return true;
 }
 
+/**
+ * returns url appended with http:// if it doesn't have it and removes traling slashes if it has any
+ * @param url
+ * @example sanitizeUrl('google.com') => 'http://google.com'
+ * @example sanitizeUrl('google.com/') => 'http://google.com'
+ * @example sanitizeUrl('https://google.com') => 'https://google.com'
+ */
+export function sanitizeUrl(url: string) {
+	let sanitizedUrl = url;
+	if (url === '') {
+		return sanitizedUrl;
+	}
+	if (!url.includes('://')) {
+		sanitizedUrl = 'http://' + url;
+	}
+	if (url.endsWith('/')) {
+		sanitizedUrl = sanitizedUrl.replace(/\/+$/, '');
+	}
+	return sanitizedUrl;
+}
+
+/**
+ * returns the url for the txnHash
+ * @param blockExplorerUrl (should come from $chainConfigStore.blockExplorerUrl)
+ * @param txnHash
+ * @example getTxnUrl('https://blockexplorer.com', '0x1234567890123456789012345678901234567890') => 'https://explorer.com/tx/0x1234567890123456789012345678901234567890'
+ */
 export const getTxnUrl = (blockExplorerUrl: string, txnHash: string): string => {
+	//   currently we are not accounting for the case where txnHash is empty or the blockExplorerUrl is empty
 	return `${blockExplorerUrl}/tx/${txnHash}`;
 };
 

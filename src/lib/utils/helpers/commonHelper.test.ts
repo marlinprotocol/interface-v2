@@ -6,7 +6,8 @@ import {
 	getTxnUrl,
 	inputAmountInValidMessage,
 	isInputAmountValid,
-	minifyAddress
+	minifyAddress,
+	sanitizeUrl
 } from './commonHelper';
 
 describe('getCurrentEpochCycle', () => {
@@ -51,24 +52,40 @@ describe('getCurrentEpochCycle', () => {
 });
 
 describe('minifyAddress', () => {
-	it('should return first 6 and last 4 characters of 0x0000000000000000 without any arguments', () => {
-		expect(minifyAddress()).toBe('0x0000...0000');
+	it('should return first 6 (without considering 0x) and last 4 characters of 0x0000000000000000 without any arguments', () => {
+		expect(minifyAddress()).toBe('0x000000...0000');
 	});
 
-	it('should return first 6 and last 4 characters of the address provided as the argument', () => {
-		expect(minifyAddress('0x1234567890123456789012345678901234567890')).toBe('0x1234...7890');
+	it('should return first 6 (without considering 0x) and last 4 characters of the address provided as the argument', () => {
+		expect(minifyAddress('0x1234567890123456789012345678901234567890')).toBe('0x123456...7890');
 	});
 
-	it('with first argument', () => {
-		expect(minifyAddress('0x1234567890123456789012345678901234567890', 3)).toBe('0x1...7890');
+	it('should return first n number of characters (withouth considering 0x) and last 4 charaters when given the first argument', () => {
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 0)).toBe('0x...7890');
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 1)).toBe('0x1...7890');
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 5)).toBe('0x12345...7890');
 	});
 
-	it('with both arguments', () => {
-		expect(minifyAddress('0x1234567890123456789012345678901234567890', 3, 2)).toBe('0x1...90');
+	it('should return minified address according to both arguments', () => {
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 0, 0)).toBe('0x...');
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 3, 2)).toBe('0x123...90');
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 3, 2)).toBe('0x123...90');
+	});
+
+	it('should return an empty string when first argument or the second argument is less than 0', () => {
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', -1, 4)).toBe('');
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 4, -1)).toBe('');
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', -1, -1)).toBe('');
 	});
 
 	it('with argument sum greater than address length', () => {
 		expect(minifyAddress('0x1234567890123456789012345678901234567890', 41, 4)).toBe(
+			'0x1234567890123456789012345678901234567890'
+		);
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 4, 41)).toBe(
+			'0x1234567890123456789012345678901234567890'
+		);
+		expect(minifyAddress('0x1234567890123456789012345678901234567890', 41, 41)).toBe(
 			'0x1234567890123456789012345678901234567890'
 		);
 	});
@@ -81,13 +98,22 @@ describe('isInputAmountValid', () => {
 		expect(isInputAmountValid('.00')).toBe(false);
 	});
 
-	it('should return true for 0 and positive integer strings', () => {
+	it('should return true positive integer strings', () => {
 		expect(isInputAmountValid('1')).toBe(true);
 		expect(isInputAmountValid('12345678901234567890')).toBe(true);
 	});
 
 	it('should return true for valid amount with decimals upto 18 decimals', () => {
+		expect(isInputAmountValid('.1')).toBe(true);
+		expect(isInputAmountValid('.000001')).toBe(true);
+		expect(isInputAmountValid('.000000000000000001')).toBe(true);
+		expect(isInputAmountValid('1.0')).toBe(true);
+		expect(isInputAmountValid('1.000000000000000000')).toBe(true);
 		expect(isInputAmountValid('1.1')).toBe(true);
+		expect(isInputAmountValid('1.000000001')).toBe(true);
+		expect(isInputAmountValid('1.000000000000000001')).toBe(true);
+		expect(isInputAmountValid('1.123456789')).toBe(true);
+		expect(isInputAmountValid('1.123456789012345678')).toBe(true);
 	});
 
 	it('should return true for valid amount with 18 decimals', () => {
@@ -96,6 +122,10 @@ describe('isInputAmountValid', () => {
 
 	it('should return false for negative amount', () => {
 		expect(isInputAmountValid('-1')).toBe(false);
+		expect(isInputAmountValid('-1.1231')).toBe(false);
+		expect(isInputAmountValid('-0.000001')).toBe(false);
+		expect(isInputAmountValid('-0.000000000000000001')).toBe(false);
+		expect(isInputAmountValid('-.1231')).toBe(false);
 	});
 
 	it('should return false for amount having more than 18 decimals', () => {
@@ -110,6 +140,17 @@ describe('isInputAmountValid', () => {
 		expect(isInputAmountValid('1a')).toBe(false);
 		expect(isInputAmountValid('1$')).toBe(false);
 		expect(isInputAmountValid('1*')).toBe(false);
+		expect(isInputAmountValid('a*')).toBe(false);
+		expect(isInputAmountValid('*')).toBe(false);
+		expect(isInputAmountValid('*1')).toBe(false);
+		expect(isInputAmountValid('*1.1')).toBe(false);
+		expect(isInputAmountValid('@1.1')).toBe(false);
+		expect(isInputAmountValid('#1.1')).toBe(false);
+		expect(isInputAmountValid('$1.1')).toBe(false);
+		expect(isInputAmountValid('%1.1')).toBe(false);
+		expect(isInputAmountValid('^1.1')).toBe(false);
+		expect(isInputAmountValid('1.1.')).toBe(false);
+		expect(isInputAmountValid('&1.1')).toBe(false);
 	});
 });
 
@@ -154,6 +195,33 @@ describe('capitalizeFirstLetter', () => {
 
 	it('should return the string with first letter capitalized when argument is a string with multiple characters', () => {
 		expect(capitalizeFirstLetter('abc')).toBe('Abc');
+	});
+
+	it('should return the special characters as it is', () => {
+		expect(capitalizeFirstLetter('!@#$%^&*()')).toBe('!@#$%^&*()');
+		expect(capitalizeFirstLetter('1something')).toBe('1something');
+	});
+});
+
+describe('sanitizeUrl', () => {
+	it('should return the url without trailing slash', () => {
+		expect(sanitizeUrl('https://example.com/')).toBe('https://example.com');
+		expect(sanitizeUrl('https://example.com/path/')).toBe('https://example.com/path');
+		expect(sanitizeUrl('http://example.com///')).toBe('http://example.com');
+	});
+
+	it('should return the url appended with http:// if https:// or http:// is not present at the start of the url', () => {
+		expect(sanitizeUrl('example.com')).toBe('http://example.com');
+		expect(sanitizeUrl('example.com/path')).toBe('http://example.com/path');
+	});
+
+	it('should return the url as it is if https:// or http:// is present at the start of the url', () => {
+		expect(sanitizeUrl('https://example.com')).toBe('https://example.com');
+		expect(sanitizeUrl('http://example.com/path')).toBe('http://example.com/path');
+	});
+
+	it('should return an empty string if the url is an empty string', () => {
+		expect(sanitizeUrl('')).toBe('');
 	});
 });
 

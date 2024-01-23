@@ -6,6 +6,7 @@ import {
 } from '$lib/utils/constants/constants';
 
 import { ethers } from 'ethers';
+import { isInputAmountValid } from './commonHelper';
 
 /**
  * Returns duration string for a epoch
@@ -15,7 +16,7 @@ import { ethers } from 'ethers';
  * @returns string
  * @example 12334422 => 4 months 22 days 18 hours 13 mins 42 secs
  */
-export const epochToDurationString = (epoch: number, mini = false, uptoHoursOnly = false) => {
+export const epochToDurationString = (epoch: number, mini = false) => {
 	if (epoch >= SECONDS_IN_HUNDRED_YEARS) return '100+ years';
 	const seconds = epoch % 60;
 	const minutes = Math.floor(epoch / 60) % 60;
@@ -41,15 +42,13 @@ export const epochToDurationString = (epoch: number, mini = false, uptoHoursOnly
 		durationString += hours + (hours > 1 ? ' hours ' : ' hour ');
 		if (mini) return durationString.trimEnd();
 	}
-	if (!uptoHoursOnly) {
-		if (minutes > 0) {
-			durationString += minutes + (minutes > 1 ? ' mins ' : ' min ');
-			if (mini) return durationString.trimEnd();
-		}
-		if (seconds > 0) {
-			durationString += seconds.toFixed() + ' secs';
-			if (mini) return durationString;
-		}
+	if (minutes > 0) {
+		durationString += minutes + (minutes > 1 ? ' mins ' : ' min ');
+		if (mini) return durationString.trimEnd();
+	}
+	if (seconds > 0) {
+		durationString += seconds.toFixed() + ' secs';
+		if (mini) return durationString;
 	}
 
 	return durationString.trimEnd();
@@ -87,6 +86,7 @@ export const bigNumberToString = (
 //return bignumber from string with decimal
 export const stringToBigNumber = (value: string, bigNumberDecimal = DEFAULT_CURRENCY_DECIMALS) => {
 	if (!value) return 0n;
+	if (!isInputAmountValid(value)) return 0n;
 	let newValue = value;
 	// eslint-disable-next-line prefer-const
 	let [integer, fraction] = value.split('.');
@@ -119,7 +119,7 @@ export const shortenText = (text: string, first = 6, last = 4) => {
 	if (text.length <= first + last) {
 		return text;
 	}
-	return text.slice(0, first) + '...' + text.slice(-last);
+	return text.slice(0, first) + '...' + text.slice(text.length - last);
 };
 
 export const mPondToPond = (mPond: bigint) => {

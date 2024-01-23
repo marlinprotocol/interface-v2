@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
-	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import TableDataWithButton from '$lib/components/table-cells/TableDataWithButton.svelte';
 	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
@@ -29,6 +28,7 @@
 	import { cancelMPondConversionRequest } from '$lib/controllers/contract/bridge';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { getTxnUrl } from '$lib/utils/helpers/commonHelper';
+	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 
 	export let rowData: MPondToPondHistoryDataModel;
 	export let rowIndex: number;
@@ -170,10 +170,11 @@
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
-			<TableConvertButton
+			<ModalButton
 				disabled={!(pondEligible > 0n)}
-				modalFor="mpond-convert-modal-{rowIndex}"
-			/>
+				variant="tableConvertButton"
+				modalFor="mpond-convert-modal-{rowIndex}">CONVERT</ModalButton
+			>
 			<MPondEligibleConvertModal
 				maxAmount={pondToMPond(pondEligible)}
 				modalFor="mpond-convert-modal-{rowIndex}"

@@ -31,11 +31,13 @@ export const getChainDisplayName = (chainId: number): string | undefined => {
 		case 42161:
 			return 'Arbitrum One';
 		case 421613:
-			return 'Arbitrum Goerli';
+			return 'Arb Goerli';
 		case 59144:
 			return 'Linea';
 		case 59140:
 			return 'Linea Goerli';
+		case 421614:
+			return 'Arb Sepolia';
 		default:
 			return undefined;
 	}
@@ -46,7 +48,7 @@ export const getImageForChain = (chainId: number | null) => {
 		case 1:
 			return staticImages.EthereumLogo;
 		case 42161:
-			return staticImages.ArbitrumLogo;
+		case 421614:
 		case 421613:
 			return staticImages.ArbitrumLogo;
 		case 59144:

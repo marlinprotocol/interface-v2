@@ -1,5 +1,5 @@
 import type { EIP1193Provider, WalletState } from '@web3-onboard/core';
-import { getChainDisplayName, isValidChain } from '$lib/utils/helpers/networkHelper';
+import { getChainInfo, isValidChain } from '$lib/utils/helpers/networkHelper';
 import { initializeChainStore, resetChainStore } from '$lib/data-stores/chainProviderStore';
 import {
 	initializeWalletBalancesStore,
@@ -38,7 +38,8 @@ async function getWalletAddressAndConnectedChain(
 	const walletHexAddress = walletChecksumAddress.toLowerCase() as Lowercase<string>;
 	const { chainId, name } = networkData;
 	const validChain = isValidChain(Number(chainId));
-	const chainDisplayName = getChainDisplayName(Number(chainId));
+	// const chainDisplayName = getChainDisplayName(Number(chainId));
+	const chainDisplayName = getChainInfo(Number(chainId)).displayName;
 
 	return {
 		walletHexAddress,

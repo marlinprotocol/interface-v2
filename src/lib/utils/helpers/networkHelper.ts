@@ -57,3 +57,44 @@ export const getImageForChain = (chainId: number | null) => {
 			return undefined;
 	}
 };
+
+export const getChainInfo = (chainId: number | null): { image: string, displayName: string } => {
+	switch (chainId) {
+		case 1:
+			return {
+				image: staticImages.EthereumLogo,
+				displayName: 'Ethereum',
+			}
+		case 42161:
+			return {
+				image: staticImages.ArbitrumLogo,
+				displayName: 'Arbitrum One',
+			}
+		case 421614:
+			return {
+				image: staticImages.ArbitrumLogo,
+				displayName: 'Arb Sepolia',
+			}
+		case 421613:
+			return {
+				image: staticImages.ArbitrumLogo,
+				displayName: 'Arb Goerli',
+			}
+		case 59144:
+			return {
+				image: staticImages.LineaLogo,
+				displayName: 'Linea',
+			}
+		case 59140:
+			return {
+				image: staticImages.LineaLogo,
+				displayName: 'Linea Goerli',
+			}
+		default:
+			return {
+				image: '',
+				displayName: ''
+			};
+	}
+};
+

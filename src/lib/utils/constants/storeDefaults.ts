@@ -31,6 +31,7 @@ export const DEFAULT_CHAIN_STORE: ChainStore = {
 	chainId: environment.default_chain_id,
 	chainName: environment.valid_chains[environment.default_chain_id].chain_name,
 	chainDisplayName: '',
+	chainImage: '',
 	isValidChain: true
 };
 

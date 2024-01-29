@@ -2,7 +2,6 @@ import type { EIP1193Provider } from '@web3-onboard/core';
 import { environment } from '$lib/data-stores/environment';
 import onboard from '$lib/controllers/web3OnboardController';
 import { setWalletAndChainStores } from '$lib/controllers/walletController';
-import { staticImages } from '$lib/components/images/staticImages';
 
 /**
  * Checks if current chain is supported by the app or not
@@ -23,78 +22,3 @@ export async function switchChain(chainId: number, provider: EIP1193Provider) {
 		}
 	}
 }
-
-export const getChainDisplayName = (chainId: number): string | undefined => {
-	switch (chainId) {
-		case 1:
-			return 'Ethereum';
-		case 42161:
-			return 'ARB One';
-		case 421613:
-			return 'ARB Goerli';
-		case 59144:
-			return 'Linea';
-		case 59140:
-			return 'Linea Goerli';
-		default:
-			return undefined;
-	}
-};
-
-export const getImageForChain = (chainId: number | null) => {
-	switch (chainId) {
-		case 1:
-			return staticImages.EthereumLogo;
-		case 42161:
-			return staticImages.ArbitrumLogo;
-		case 421613:
-			return staticImages.ArbitrumLogo;
-		case 59144:
-			return staticImages.LineaLogo;
-		case 59140:
-			return staticImages.LineaLogo;
-		default:
-			return undefined;
-	}
-};
-
-export const getChainInfo = (chainId: number | null): { image: string, displayName: string } => {
-	switch (chainId) {
-		case 1:
-			return {
-				image: staticImages.EthereumLogo,
-				displayName: 'Ethereum',
-			}
-		case 42161:
-			return {
-				image: staticImages.ArbitrumLogo,
-				displayName: 'Arbitrum One',
-			}
-		case 421614:
-			return {
-				image: staticImages.ArbitrumLogo,
-				displayName: 'Arb Sepolia',
-			}
-		case 421613:
-			return {
-				image: staticImages.ArbitrumLogo,
-				displayName: 'Arb Goerli',
-			}
-		case 59144:
-			return {
-				image: staticImages.LineaLogo,
-				displayName: 'Linea',
-			}
-		case 59140:
-			return {
-				image: staticImages.LineaLogo,
-				displayName: 'Linea Goerli',
-			}
-		default:
-			return {
-				image: '',
-				displayName: ''
-			};
-	}
-};
-

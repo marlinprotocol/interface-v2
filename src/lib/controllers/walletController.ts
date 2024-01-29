@@ -38,7 +38,6 @@ async function getWalletAddressAndConnectedChain(
 	const walletHexAddress = walletChecksumAddress.toLowerCase() as Lowercase<string>;
 	const { chainId, name } = networkData;
 	const validChain = isValidChain(Number(chainId));
-	// const chainDisplayName = getChainDisplayName(Number(chainId));
 	const chainDisplayName = getChainInfo(Number(chainId)).displayName;
 
 	return {

@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import {
-		getImageForChain,
-		getChainDisplayName,
 		switchChain,
 		getChainInfo
 	} from '$lib/utils/helpers/networkHelper';
@@ -25,7 +23,6 @@
 			updateChainStore(
 				chainId,
 				environment.valid_chains[chainId].chain_name,
-				// getChainDisplayName(chainId)
 				getChainInfo(chainId).displayName
 			);
 		}
@@ -54,7 +51,6 @@
 	>
 		<div class="flex h-8 w-fit items-center">
 			<div class="h-8 w-8">
-				<!-- <img src={getImageForChain($chainStore.chainId)} alt="current chain" /> -->
 				<img src={getChainInfo($chainStore.chainId).image} alt="current chain" />
 			</div>
 			<div class="ml-2">
@@ -69,10 +65,8 @@
 			<li class="flex {$chainStore.chainId === chain ? 'rounded-lg bg-primary text-white' : ''}">
 				<button on:click={() => handleChainSwitch(chain)}>
 					<div class="h-6 w-6 rounded-full ring-1 ring-white">
-						<!-- <img src={getImageForChain(chain)} alt="" /> -->
 						<img src={getChainInfo($chainStore.chainId).image} alt="" />
 					</div>
-					<!-- {getChainDisplayName(chain)} -->
 					{getChainInfo(chain).displayName}
 				</button>
 			</li>

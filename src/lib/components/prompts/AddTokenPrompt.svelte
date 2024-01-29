@@ -24,8 +24,8 @@
 							address: tokenData?.address,
 							symbol: tokenData?.currency,
 							decimals: tokenData?.decimal,
-							// TODO: this doesn't work, the image would need to be hosted somewhere ig?
 							image: staticImages.MarlinLogo
+
 						}
 					}
 				});

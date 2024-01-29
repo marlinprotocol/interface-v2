@@ -39,7 +39,8 @@ export const LINEA_GOERLI: ChainConfig = {
 			decimal: 18,
 			precision: 2,
 			currency: 'POND',
-			symbol: '$'
+			symbol: '$',
+			address: '0xDcD2846DCA523Db1C8F3c842a41A58099dE26A0A'
 		}
 	}
 };

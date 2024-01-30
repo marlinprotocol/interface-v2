@@ -30,8 +30,8 @@ export const DEFAULT_WALLET_BALANCE_STORE: WalletBalanceStore = {
 export const DEFAULT_CHAIN_STORE: ChainStore = {
 	chainId: environment.default_chain_id,
 	chainName: environment.valid_chains[environment.default_chain_id].chain_name,
-	chainDisplayName: '',
-	chainImage: '',
+	chainDisplayName: environment.valid_chains[environment.default_chain_id].chain_name,
+	chainImage: environment.valid_chains[environment.default_chain_id].chain_image,
 	isValidChain: true
 };
 

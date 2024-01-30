@@ -31,8 +31,8 @@ export function initializeChainStore(chainId: number, chainName: string, isValid
 	chainStore.set({
 		chainId: chainId,
 		chainName: chainName,
-		chainDisplayName: environment.valid_chains[chainId].chain_name ?? chainName,
-		chainImage: environment.valid_chains[chainId].chain_image,
+		chainDisplayName: environment.valid_chains[chainId]?.chain_name ?? chainName,
+		chainImage: environment.valid_chains[chainId]?.chain_image,
 		isValidChain: isValidChain
 	});
 	console.log(
@@ -41,7 +41,7 @@ export function initializeChainStore(chainId: number, chainName: string, isValid
 		'| chainName:',
 		chainName,
 		'| chainDisplayName:',
-		environment.valid_chains[chainId].chain_name,
+		environment.valid_chains[chainId]?.chain_name,
 		'| isValidChain:',
 		isValidChain
 	);

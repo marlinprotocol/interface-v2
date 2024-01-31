@@ -17,4 +17,4 @@
 	} ${styleClass}`;
 </script>
 
-<Icon {data} {flip} {spin} {style} class={iconColorClass} />
+<Icon {data} {flip} {spin} {style} class={iconColorClass} data-testid='icon' />

@@ -17,4 +17,4 @@
 	$: dividerColor = color !== '' ? color : getDividerColor(direction);
 </script>
 
-<div class="{dividerHeight} {dividerWidth} {dividerColor} {margin}" />
+<div class="{dividerHeight} {dividerWidth} {dividerColor} {margin}" data-testid="divider" />

@@ -10,6 +10,7 @@
 
 <div
 	class="flex items-center gap-1.5 rounded-3xl px-[20px] py-[9px] text-sm tracking-widest {styles} {variantClass}"
+	data-testid="chip-item"
 >
 	<slot />
 </div>

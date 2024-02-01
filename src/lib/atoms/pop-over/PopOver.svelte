@@ -3,7 +3,7 @@
 </script>
 
 <div class="dropdown dropdown-top dropdown-hover">
-	<button tabindex="0" class={buttonClasses.icon}>
+	<button data-testId='popover-button' tabindex="0" class={buttonClasses.icon}>
 		<slot name="icon" />
 	</button>
 	<div class="menu dropdown-content w-64 rounded bg-base-100 shadow">

@@ -1,0 +1,43 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`YourComponent > should render a button with the correct class from buttonClasses 1`] = `
+<body>
+  <div>
+    <div
+      class="dropdown dropdown-top dropdown-hover"
+    >
+      <button
+        class="btn btn-xs btn-ghost btn-circle p-0 bg-transparent hover:bg-transparent flex disabled:cursor-not-allowed"
+        data-testid="popover-button"
+        tabindex="0"
+      />
+       
+      <div
+        class="menu dropdown-content w-64 rounded bg-base-100 shadow"
+      />
+    </div>
+    <!--&lt;PopOver&gt;-->
+  </div>
+</body>
+`;
+
+exports[`YourComponent > should render popover correctly 1`] = `
+<body>
+  <div>
+    <div
+      class="dropdown dropdown-top dropdown-hover"
+    >
+      <button
+        class="btn btn-xs btn-ghost btn-circle p-0 bg-transparent hover:bg-transparent flex disabled:cursor-not-allowed"
+        data-testid="popover-button"
+        tabindex="0"
+      />
+       
+      <div
+        class="menu dropdown-content w-64 rounded bg-base-100 shadow"
+      />
+    </div>
+    <!--&lt;PopOver&gt;-->
+  </div>
+</body>
+`;

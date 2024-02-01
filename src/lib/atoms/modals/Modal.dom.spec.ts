@@ -34,8 +34,6 @@ describe('Modal Component', () => {
         expect(await findByText('action buttons')).toBeTruthy();
     });
 
-
-
     it('executes onClose function when close button is clicked', async () => {
         const onCloseMock = vi.fn();
         const { getByTestId } = render(Modal, {

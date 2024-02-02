@@ -4,7 +4,7 @@ import { render } from '@testing-library/svelte';
 import TxnIcon from './TxnIcon.svelte';
 import { staticImages } from '../images/staticImages';
 
-describe('LinkComponent', () => {
+describe('Txn Icon', () => {
     it('renders correctly with provided txnHashUrl', () => {
         const txnHashUrl = 'https://example.com/tx/1234';
         const { getByRole, getByAltText, container } = render(TxnIcon, {

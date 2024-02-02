@@ -1,0 +1,52 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ErrorTextCard > does not render when showError is false 1`] = `
+<body>
+  <div>
+    
+    <!--&lt;ErrorTextCard&gt;-->
+  </div>
+</body>
+`;
+
+exports[`ErrorTextCard > renders correctly with an error message when showError is true 1`] = `
+<body>
+  <div>
+    <div
+      class="mt-4 w-full rounded-lg bg-red-100 px-4 py-1"
+    >
+      <div
+        class="text-red-500 my-2 text-sm font-normal"
+        data-testid="text"
+      >
+        This is an error!
+      </div>
+      <!--&lt;Text&gt;-->
+    </div>
+    <!--&lt;InputCard&gt;-->
+    
+    <!--&lt;ErrorTextCard&gt;-->
+  </div>
+</body>
+`;
+
+exports[`ErrorTextCard > updates the snapshot when the error message changes 1`] = `
+<body>
+  <div>
+    <div
+      class="mt-4 w-full rounded-lg bg-red-100 px-4 py-1"
+    >
+      <div
+        class="text-red-500 my-2 text-sm font-normal"
+        data-testid="text"
+      >
+        A different error message!
+      </div>
+      <!--&lt;Text&gt;-->
+    </div>
+    <!--&lt;InputCard&gt;-->
+    
+    <!--&lt;ErrorTextCard&gt;-->
+  </div>
+</body>
+`;

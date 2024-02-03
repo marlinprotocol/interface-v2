@@ -14,17 +14,29 @@ export const parseMetadata = (metadata: string) => {
 	metadata = metadata.replaceAll("'", '');
 	metadata = metadata.replaceAll('\\', '');
 
-	const metadataParsed = metadata ? JSON.parse(metadata) : {};
-	const { url, instance, region, vcpu, memory, arch } = metadataParsed ?? {};
+	try {
+		const metadataParsed = metadata ? JSON.parse(metadata) : {};
+		const { url, instance, region, vcpu, memory, arch } = metadataParsed;
 
-	return {
-		enclaveUrl: url,
-		instance,
-		region,
-		vcpu,
-		memory,
-		arch
-	};
+		return {
+			enclaveUrl: url,
+			instance,
+			region,
+			vcpu,
+			memory,
+			arch
+		};
+	} catch (error) {
+		console.error('Error parsing metadata', error);
+		return {
+			enclaveUrl: 'N/A',
+			instance: 'N/A',
+			region: 'N/A',
+			vcpu: 0,
+			memory: 0,
+			arch: 'N/A'
+		};
+	}
 };
 
 export const getInstanceMetadatDataForOperator = (

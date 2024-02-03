@@ -16,5 +16,5 @@ export const ENVIRONMENT_DEV: Environment = {
 	},
 	dapp_url: 'https://adummy.site',
 	trezor_email: 'arandomsupportemail@xyz.com',
-	backend_url: 'https://api.aragog.live/'
+	backend_url: 'https://api.lagoon.build/'
 };

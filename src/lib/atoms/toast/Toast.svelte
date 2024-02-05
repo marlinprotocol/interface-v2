@@ -5,7 +5,7 @@
 </script>
 
 {#if $toastsStore.length > 0}
-	<div class="toast toast-end toast-top z-[9999] items-end">
+	<div class="toast toast-end toast-top z-[9999] items-end" data-testid="toast">
 		{#each $toastsStore as toast (toast.id)}
 			<button
 				in:slide

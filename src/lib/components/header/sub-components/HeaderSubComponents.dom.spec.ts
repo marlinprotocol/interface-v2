@@ -1,10 +1,83 @@
 
-import { cleanup, fireEvent, prettyDOM, render } from '@testing-library/svelte';
+import { render } from '@testing-library/svelte';
 import WalletCard from './WalletCard.svelte';
 import HeaderLogo from './HeaderLogo.svelte';
 import ConnectWalletButton from './ConnectWalletButton.svelte';
 import { describe, it, expect } from 'vitest';
 import html from 'svelte-htm';
+import ChainSwitcher from './ChainSwitcher.svelte';
+import DisconnectWalletButton from './DisconnectWalletButton.svelte';
+import DisconnectWalletModal from './DisconnectWalletModal.svelte';
+// import HeaderLinksGroup from './HeaderLinksGroup.svelte';
+
+describe('ChainSwitcher', () => {
+    test('renders the ChainSwitcher component properly', () => {
+        const { container } = render(ChainSwitcher);
+        expect(container).toMatchSnapshot();
+    });
+})
+
+describe('ConnectWalletButton', () => {
+
+    test('renders the ConnectWalletButton component properly', () => {
+        const { container } = render(HeaderLogo);
+        expect(container).toMatchSnapshot();
+    });
+
+    it('renders large button layout when isLarge is true', () => {
+        const { getByText } = render(ConnectWalletButton, {
+            isLarge: true,
+        });
+
+        expect(getByText('Connect Wallet')).toBeTruthy();
+    });
+
+    it('renders small button layout with chain switcher and custom text when isLarge is false', () => {
+        const { getByText } = render(ConnectWalletButton, {
+            isLarge: false,
+            connectButtonText: 'Custom Connect',
+        });
+        expect(getByText('Custom Connect')).toBeTruthy();
+    });
+
+});
+
+describe('DisconnectWalletButton', () => {
+    test('renders the DisconnectWalletButton component properly', () => {
+        const { container } = render(DisconnectWalletButton);
+        expect(container).toMatchSnapshot();
+    });
+})
+
+describe('Disconnect Wallet Modal', () => {
+    test('renders the Disconnect Wallet Modal component properly', () => {
+        const { container } = render(DisconnectWalletModal);
+        expect(container).toMatchSnapshot();
+    });
+})
+
+describe('HeaderLogo', () => {
+    test('renders the HeaderLogo component properly', () => {
+        const { container } = render(HeaderLogo);
+        expect(container).toMatchSnapshot();
+    });
+    it('renders both images with correct sources and one is initially hidden', () => {
+        const { getAllByAltText } = render(HeaderLogo);
+
+        const images = getAllByAltText('Marlin Logo');
+
+        // Expect two images to be found
+        expect(images.length).toBe(2);
+
+        // Check if the right logos have the right src
+        const largeScreenLogo = images.find((img) => img.getAttribute('class')?.includes('sm:block'));
+        const smallScreenLogo = images.find((img) => img.getAttribute('class')?.includes('sm:hidden'));
+
+        // Since we cannot test screen sizes here, we'll just check if the src is correct
+        expect(largeScreenLogo?.getAttribute('src')).toBe('/logo/logo-name.svg');
+        expect(smallScreenLogo?.getAttribute('src')).toBe('/logo/marlin-logo.svg');
+    });
+});
 
 describe('WalletCard', () => {
     test('renders the WalletCard component properly', () => {
@@ -64,50 +137,9 @@ describe('WalletCard', () => {
     });
 });
 
-describe('HeaderLogo', () => {
-    test('renders the HeaderLogo component properly', () => {
-        const { container } = render(HeaderLogo);
-        expect(container).toMatchSnapshot();
-    });
-    it('renders both images with correct sources and one is initially hidden', () => {
-        const { getAllByAltText } = render(HeaderLogo);
-
-        const images = getAllByAltText('Marlin Logo');
-
-        // Expect two images to be found
-        expect(images.length).toBe(2);
-
-        // Check if the right logos have the right src
-        const largeScreenLogo = images.find((img) => img.getAttribute('class')?.includes('sm:block'));
-        const smallScreenLogo = images.find((img) => img.getAttribute('class')?.includes('sm:hidden'));
-
-        // Since we cannot test screen sizes here, we'll just check if the src is correct
-        expect(largeScreenLogo?.getAttribute('src')).toBe('/logo/logo-name.svg');
-        expect(smallScreenLogo?.getAttribute('src')).toBe('/logo/marlin-logo.svg');
-    });
-});
-
-describe('ConnectWalletButton', () => {
-
-    test('renders the ConnectWalletButton component properly', () => {
-        const { container } = render(HeaderLogo);
-        expect(container).toMatchSnapshot();
-    });
-
-    it('renders large button layout when isLarge is true', () => {
-        const { getByText } = render(ConnectWalletButton, {
-            isLarge: true,
-        });
-
-        expect(getByText('Connect Wallet')).toBeTruthy();
-    });
-
-    it('renders small button layout with chain switcher and custom text when isLarge is false', () => {
-        const { getByText } = render(ConnectWalletButton, {
-            isLarge: false,
-            connectButtonText: 'Custom Connect',
-        });
-        expect(getByText('Custom Connect')).toBeTruthy();
-    });
-
-});
+// describe('Header Links Group', () => {
+//     test('renders the Header Links Group component properly', () => {
+//         const { container } = render(HeaderLinksGroup);
+//         expect(container).toMatchSnapshot();
+//     });
+// })

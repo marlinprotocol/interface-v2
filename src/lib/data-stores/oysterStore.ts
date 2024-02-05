@@ -372,7 +372,7 @@ export function createNewJobInOysterStore(
 
 	const nowTime = Date.now() / 1000;
 
-	const { enclaveUrl, instance, region, vcpu, memory, arch } = parseMetadata(metadata);
+	const { url, instance, region, vcpu, memory, arch } = parseMetadata(metadata, jobId);
 	const newJob: OysterInventoryDataModel = {
 		id: jobId,
 		provider: {
@@ -381,7 +381,7 @@ export function createNewJobInOysterStore(
 		},
 		owner,
 		metadata,
-		enclaveUrl,
+		enclaveUrl: url,
 		instance,
 		region,
 		vcpu,

@@ -1,0 +1,47 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`HeaderLogo > renders the HeaderLogo component properly 1`] = `
+<body>
+  <div>
+    <a
+      href="/"
+    >
+      <img
+        alt="Marlin Logo"
+        class="hidden sm:block"
+        src="/logo/logo-name.svg"
+        width="140"
+      />
+       
+      <img
+        alt="Marlin Logo"
+        class="block sm:hidden"
+        src="/logo/marlin-logo.svg"
+        width="40"
+      />
+    </a>
+    <!--&lt;HeaderLogo&gt;-->
+  </div>
+</body>
+`;
+
+exports[`WalletCard > renders the WalletCard component properly 1`] = `
+<body>
+  <div>
+    <div
+      class="flex w-1/2 flex-col items-center overflow-hidden rounded-lg bg-base-200 p-4"
+    >
+       
+      <div
+        class="mt-4 mb-6 font-semibold font-sans text-xl font-bold"
+        data-testid="text"
+      >
+        
+      </div>
+      <!--&lt;Text&gt;-->
+       
+    </div>
+    <!--&lt;WalletCard&gt;-->
+  </div>
+</body>
+`;

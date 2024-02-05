@@ -1,13 +1,14 @@
 
-import { render } from '@testing-library/svelte';
+import { cleanup, fireEvent, prettyDOM, render } from '@testing-library/svelte';
 import WalletCard from './WalletCard.svelte';
 import HeaderLogo from './HeaderLogo.svelte';
+import ConnectWalletButton from './ConnectWalletButton.svelte';
 import { describe, it, expect } from 'vitest';
 import html from 'svelte-htm';
 
 describe('WalletCard', () => {
     test('renders the WalletCard component properly', () => {
-        const { container } = render(WalletCard);
+        const { container } = render(WalletCard, { props: { imageSrc: 'example.png', title: 'small card' } });
         expect(container).toMatchSnapshot();
     });
 
@@ -84,4 +85,29 @@ describe('HeaderLogo', () => {
         expect(largeScreenLogo?.getAttribute('src')).toBe('/logo/logo-name.svg');
         expect(smallScreenLogo?.getAttribute('src')).toBe('/logo/marlin-logo.svg');
     });
+});
+
+describe('ConnectWalletButton', () => {
+
+    test('renders the ConnectWalletButton component properly', () => {
+        const { container } = render(HeaderLogo);
+        expect(container).toMatchSnapshot();
+    });
+
+    it('renders large button layout when isLarge is true', () => {
+        const { getByText } = render(ConnectWalletButton, {
+            isLarge: true,
+        });
+
+        expect(getByText('Connect Wallet')).toBeTruthy();
+    });
+
+    it('renders small button layout with chain switcher and custom text when isLarge is false', () => {
+        const { getByText } = render(ConnectWalletButton, {
+            isLarge: false,
+            connectButtonText: 'Custom Connect',
+        });
+        expect(getByText('Custom Connect')).toBeTruthy();
+    });
+
 });

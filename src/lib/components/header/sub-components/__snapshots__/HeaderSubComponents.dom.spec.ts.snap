@@ -1,7 +1,64 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`ConnectWalletButton > renders the ConnectWalletButton component properly 1`] = `
+<body>
+  <onboard-v2
+    style="all: initial;"
+  />
+  <style>
+    
+    
+@font-face {
+  font-family: 'Inter';
+  font-style:  normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
+}
+
+  
+  </style>
+  <div>
+    <a
+      href="/"
+    >
+      <img
+        alt="Marlin Logo"
+        class="hidden sm:block"
+        src="/logo/logo-name.svg"
+        width="140"
+      />
+       
+      <img
+        alt="Marlin Logo"
+        class="block sm:hidden"
+        src="/logo/marlin-logo.svg"
+        width="40"
+      />
+    </a>
+    <!--&lt;HeaderLogo&gt;-->
+  </div>
+</body>
+`;
+
 exports[`HeaderLogo > renders the HeaderLogo component properly 1`] = `
 <body>
+  <onboard-v2
+    style="all: initial;"
+  />
+  <style>
+    
+    
+@font-face {
+  font-family: 'Inter';
+  font-style:  normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
+}
+
+  
+  </style>
   <div>
     <a
       href="/"
@@ -27,16 +84,37 @@ exports[`HeaderLogo > renders the HeaderLogo component properly 1`] = `
 
 exports[`WalletCard > renders the WalletCard component properly 1`] = `
 <body>
+  <onboard-v2
+    style="all: initial;"
+  />
+  <style>
+    
+    
+@font-face {
+  font-family: 'Inter';
+  font-style:  normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
+}
+
+  
+  </style>
   <div>
     <div
       class="flex w-1/2 flex-col items-center overflow-hidden rounded-lg bg-base-200 p-4"
     >
+      <img
+        alt="small card"
+        src="example.png"
+        width="64px"
+      />
        
       <div
         class="mt-4 mb-6 font-semibold font-sans text-xl font-bold"
         data-testid="text"
       >
-        
+        small card
       </div>
       <!--&lt;Text&gt;-->
        

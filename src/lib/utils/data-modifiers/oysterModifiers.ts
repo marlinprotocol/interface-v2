@@ -12,7 +12,7 @@ import { SECONDS_IN_HUNDRED_YEARS } from '$lib/utils/constants/constants';
 import type { Address } from '$lib/types/storeTypes';
 import { DEFAULT_JOB_METADATA } from '$lib/utils/constants/oysterConstants';
 
-export const parseMetadata = (metadata: string, jobId: string) => {
+export const parseMetadata = (metadata: string) => {
 	metadata = metadata.replaceAll("'", '');
 	metadata = metadata.replaceAll('\\', '');
 
@@ -23,7 +23,7 @@ export const parseMetadata = (metadata: string, jobId: string) => {
 
 		return metadataParsed;
 	} catch (error) {
-		console.error(`Error parsing metadata for job ${jobId}: ${error}`);
+		console.error('Error parsing metadata', error);
 		return DEFAULT_JOB_METADATA;
 	}
 };
@@ -103,7 +103,7 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 		};
 	}
 
-	const { url, instance, region, vcpu, memory, arch } = parseMetadata(metadata, job?.id);
+	const { url, instance, region, vcpu, memory, arch } = parseMetadata(metadata);
 
 	//convert to BigNumber
 	const _totalDeposit = BigInt(totalDeposit);

@@ -93,7 +93,7 @@ describe('UnderConstructionPrompt', () => {
         const { getByRole, getByText } = render(UnderConstructionPrompt);
         const discordLinkElement = getByRole('link', { name: 'discord' });
         expect(discordLinkElement.getAttribute('href')).toBe(DISCORD_LINK);
-        expect(getByText('FISHY')).toBeTruthy(); // If 'FISHY' is not alone, use a regex or specify more context.
+        expect(getByText('FISHY')).toBeTruthy();
     });
 
     it('should display the strong tag within the paragraph', () => {

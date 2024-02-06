@@ -27,29 +27,38 @@ export function resetChainStore() {
 	chainStore.set(DEFAULT_CHAIN_STORE);
 }
 
-export function initializeChainStore(
-	chainId: number,
-	chainName: string,
-	chainDisplayName: string | undefined,
-	isValidChain: boolean
-) {
+export function initializeChainStore(chainId: number, chainName: string, isValidChain: boolean) {
 	chainStore.set({
 		chainId: chainId,
 		chainName: chainName,
-		chainDisplayName: chainDisplayName ?? chainName,
+		chainDisplayName: environment.valid_chains[chainId]?.chain_name ?? chainName,
+		chainImage: environment.valid_chains[chainId]?.chain_image,
 		isValidChain: isValidChain
 	});
+	console.log(
+		'chainStore set to chainId:',
+		chainId,
+		'| chainName:',
+		chainName,
+		'| chainDisplayName:',
+		environment.valid_chains[chainId]?.chain_name,
+		'| isValidChain:',
+		isValidChain
+	);
 }
 
-export function updateChainStore(
-	chainId: number,
-	chainName: string,
-	chainDisplayName: string | undefined
-) {
+export function updateChainStore(chainId: number) {
 	chainStore.update((chainStore) => {
 		chainStore.chainId = chainId;
-		chainStore.chainName = chainName;
-		chainStore.chainDisplayName = chainDisplayName ?? chainName;
+		chainStore.chainName = environment.valid_chains[chainId].chain_name;
+		chainStore.chainDisplayName = environment.valid_chains[chainId].chain_name;
+		chainStore.chainImage = environment.valid_chains[chainId].chain_image;
 		return chainStore;
 	});
+	console.log(
+		'chainStore updated to chainId:',
+		chainId,
+		'| chainDisplayName + chainName:',
+		environment.valid_chains[chainId].chain_name
+	);
 }

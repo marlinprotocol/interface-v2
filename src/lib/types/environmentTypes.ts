@@ -16,6 +16,7 @@ export type ChainConfig = {
 	chain_id: string; // hex string i.e. for arbitrum goerli: '0x66eed'
 	chain_name: string; // chain name that you want to see in the UI
 	chain_token: string; // native token for that chain for example: 'AGOR' for arbitrum goerli
+	chain_image: string; // path to static image
 	block_explorer_name: string; // block explorer name for that chain for example: 'Arbiscan' for arbitrum goerli
 	block_explorer_url: string; // block explorer url for that chain for example: 'https://goerli.arbiscan.io' for arbitrum goerli
 	rpc_url: string; // rpc url for that chain for example: 'https://goerli-rollup.arbitrum.io/rpc' for arbitrum goerli

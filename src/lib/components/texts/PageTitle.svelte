@@ -6,7 +6,7 @@
 	export let backHref = '';
 </script>
 
-<div class="mb-8 flex items-center gap-4">
+<div class="mb-8 flex items-center gap-4" data-testid="page-title">
 	{#if !!backHref}
 		<BackButton href={backHref} text="" />
 	{/if}

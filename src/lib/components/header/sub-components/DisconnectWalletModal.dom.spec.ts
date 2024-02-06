@@ -1,7 +1,7 @@
 import { render, fireEvent } from '@testing-library/svelte';
 import { tick } from 'svelte';
 import DisconnectWalletModal from './DisconnectWalletModal.svelte';
-const { chainConfigStore, walletStore, chainStore } = await vi.hoisted(() => import('$lib/data-stores/mock-data-stores/walletProviderStore'));
+const { chainConfigStore, walletStore, chainStore } = await vi.hoisted(() => import('$lib/data-stores/mock-data-stores/mockStores'));
 
 
 describe('DisconnectWalletModal', () => {

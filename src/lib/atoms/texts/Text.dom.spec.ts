@@ -16,8 +16,6 @@ describe('TextComponent', () => {
             const testText = `Test ${variant}`;
             const { container, getByTestId } = render(TextComponent, { variant, text: testText });
             expect(container).toMatchSnapshot();
-            console.log('x', { s: getByTestId('text').className })
-            console.log('v', getFontSize(variant))
             expect(getByTestId('text').className).toContain(getFontSize(variant));
             expect(getByTestId('text').className).toContain(getDefaultFontWeight(variant));
             expect(getByTestId('text').textContent).toBe(testText);

@@ -1,28 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Loader > renders loader with two child div elements 1`] = `
-<body>
-  <div>
-    <div
-      class="marlin-loader s-pih5pjlcIrgJ"
-    >
-      <div
-        class="lds-ripple s-pih5pjlcIrgJ"
-      >
-        <div
-          class="s-pih5pjlcIrgJ"
-        />
-         
-        <div
-          class="s-pih5pjlcIrgJ"
-        />
-      </div>
-    </div>
-    <!--&lt;LoadingAnimatedPing&gt;-->
-  </div>
-</body>
-`;
-
 exports[`Loader Animated Ping > displays content block with padding when not loading 1`] = `
 <body>
   <div>

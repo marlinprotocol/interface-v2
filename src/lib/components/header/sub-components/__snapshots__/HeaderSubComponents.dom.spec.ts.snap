@@ -1,0 +1,639 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ChainSwitcher > renders the ChainSwitcher component properly 1`] = `
+<body>
+  <onboard-v2
+    style="all: initial;"
+  />
+  <style>
+    
+    
+@font-face {
+  font-family: 'Inter';
+  font-style:  normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
+}
+
+  
+  </style>
+  <div>
+    <details
+      class="dropdown"
+      id="chain-dropdown"
+    >
+      <summary
+        class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-white text-primary border-none hover:bg-base-200 h-[50px] border border-sky-500 shadow-sm"
+        tabindex="0"
+      >
+        <div
+          class="flex h-8 w-fit items-center"
+        >
+          <div
+            class="h-8 w-8"
+          >
+            <img
+              alt="current chain"
+              src="/images/arbitrum.webp"
+            />
+          </div>
+           
+          <div
+            class="ml-2"
+          >
+            <svg
+              aria-label=""
+              class="fa-icon icon-primary s-T5YyQewRBd7n"
+              data-testid="icon"
+              height="16"
+              role="presentation"
+              style="width:12px; height:12px; cursor:pointer;  "
+              version="1.1"
+              viewBox="0 0 1792 1792"
+              width="16"
+            >
+              <path
+                d="M1683 808l-742 741q-19 19-45 19t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"
+              />
+               
+               
+              
+            </svg>
+            <!--&lt;Svg&gt;-->
+            <!--&lt;Icon&gt;-->
+            <!--&lt;Icon&gt;-->
+          </div>
+        </div>
+      </summary>
+       
+      <ul
+        class="menu dropdown-content rounded-box z-[1] mt-4 w-52 bg-base-100 p-2 shadow"
+        tabindex="0"
+      >
+        <li
+          class="flex rounded-lg bg-primary text-white"
+        >
+          <button>
+            <div
+              class="h-6 w-6 rounded-full ring-1 ring-white"
+            >
+              <img
+                alt=""
+                src="/images/arbitrum.webp"
+              />
+            </div>
+             
+            Arbitrum Goerli
+          </button>
+           
+        </li>
+      </ul>
+    </details>
+    <!--&lt;ChainSwitcher&gt;-->
+  </div>
+</body>
+`;
+
+exports[`ConnectWalletButton > renders the ConnectWalletButton component properly 1`] = `
+<body>
+  <onboard-v2
+    style="all: initial;"
+  />
+  <style>
+    
+    
+@font-face {
+  font-family: 'Inter';
+  font-style:  normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
+}
+
+  
+  </style>
+  <div>
+    <a
+      href="/"
+    >
+      <img
+        alt="Marlin Logo"
+        class="hidden sm:block"
+        src="/logo/logo-name.svg"
+        width="140"
+      />
+       
+      <img
+        alt="Marlin Logo"
+        class="block sm:hidden"
+        src="/logo/marlin-logo.svg"
+        width="40"
+      />
+    </a>
+    <!--&lt;HeaderLogo&gt;-->
+  </div>
+</body>
+`;
+
+exports[`Disconnect Wallet Modal > renders the Disconnect Wallet Modal component properly 1`] = `
+<body>
+  <onboard-v2
+    style="all: initial;"
+  />
+  <style>
+    
+    
+@font-face {
+  font-family: 'Inter';
+  font-style:  normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
+}
+
+  
+  </style>
+  <div>
+    <input
+      class="modal-toggle s-GZwqZrPaBy6h"
+      id=""
+      tabindex="-1"
+      type="checkbox"
+    />
+     
+    <div
+      class="modal s-GZwqZrPaBy6h"
+      data-testid="modal"
+    >
+      <div
+        class="w-11/12 sm:w-3/4 sm:max-w-[607px] modal-box rounded-lg bg-base-100 px-0 py-0 shadow-none s-GZwqZrPaBy6h"
+      >
+        <div
+          class="modal-header sticky top-0 z-10 flex items-center bg-white px-6 pb-4 pt-8 s-GZwqZrPaBy6h"
+        >
+          <div
+            class="flex w-full flex-col s-GZwqZrPaBy6h"
+          >
+             
+            <div
+              class="text-left text-[15px] font-medium text-[#0a0e3099] s-GZwqZrPaBy6h"
+            />
+             
+            <div
+              class="text-left text-2xl font-bold s-GZwqZrPaBy6h"
+            >
+              Your wallet
+            </div>
+             
+            <div
+              class="mt-1 text-left text-[15px] font-medium text-[#767676] s-GZwqZrPaBy6h"
+            />
+          </div>
+           
+          <button
+            class="flex h-12 min-w-[3rem] cursor-pointer items-center justify-center self-start text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+            data-testid="modal-close-button"
+          >
+            <img
+              alt="Close"
+              class="s-GZwqZrPaBy6h"
+              src="/images/close-circle-icon.svg"
+            />
+          </button>
+        </div>
+         
+        <div
+          class="modal-body  px-6 pb-4 pt-2 s-GZwqZrPaBy6h"
+        >
+          <div
+            class="mb-4 rounded-lg bg-base-200 p-4 text-left"
+          >
+            <div
+              class="flex items-center text-sm font-normal"
+            >
+              My Address
+				
+              <div
+                class="tooltip flex shrink-0 text-left font-normal ml-1 tooltip-secondary tooltip-right"
+                data-tip="Connected wallet address"
+              >
+                <img
+                  alt="Info"
+                  src="/images/alert.svg"
+                  width="14px"
+                />
+              </div>
+              <!--&lt;TooltipIcon&gt;-->
+            </div>
+             
+            <div
+              class="mt-1 text-xl font-semibold"
+            >
+              
+            </div>
+          </div>
+           
+          <div
+            class="flex gap-4"
+          >
+            <button
+              class="font-medium gap-3 h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
+            >
+               
+              <img
+                alt="Copy"
+                src="/images/copyicon.svg"
+              />
+              
+				Copy Address
+            </button>
+            <!--&lt;Button&gt;-->
+             
+            <a
+              href="https://goerli.arbiscan.io/address/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <button
+                class="font-medium gap-3 h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
+              >
+                 
+                <img
+                  alt="Open"
+                  src="/images/openinnew.svg"
+                />
+                
+					View on 
+                Arbiscan
+              </button>
+              <!--&lt;Button&gt;-->
+            </a>
+          </div>
+        </div>
+         
+        <div
+          class="modal-footer sticky bottom-0 bg-white mb-6 mt-4 px-6 s-GZwqZrPaBy6h"
+        >
+          <button
+            class="w-full font-semibold text-base h-14 text-base font-semibold btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white gap-1.5"
+          >
+             
+            LOGOUT
+          </button>
+          <!--&lt;Button&gt;-->
+        </div>
+      </div>
+    </div>
+    <!--&lt;Modal&gt;-->
+    <!--&lt;DisconnectWalletModal&gt;-->
+  </div>
+</body>
+`;
+
+exports[`DisconnectWalletButton > renders the DisconnectWalletButton component properly 1`] = `
+<body>
+  <onboard-v2
+    style="all: initial;"
+  />
+  <style>
+    
+    
+@font-face {
+  font-family: 'Inter';
+  font-style:  normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
+}
+
+  
+  </style>
+  <div>
+    <div
+      class="flex gap-2"
+      data-testid="disconnect-wallet-button"
+    >
+      <details
+        class="dropdown"
+        id="chain-dropdown"
+      >
+        <summary
+          class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-white text-primary border-none hover:bg-base-200 h-[50px] border border-sky-500 shadow-sm"
+          tabindex="0"
+        >
+          <div
+            class="flex h-8 w-fit items-center"
+          >
+            <div
+              class="h-8 w-8"
+            >
+              <img
+                alt="current chain"
+                src="/images/arbitrum.webp"
+              />
+            </div>
+             
+            <div
+              class="ml-2"
+            >
+              <svg
+                aria-label=""
+                class="fa-icon icon-primary s-T5YyQewRBd7n"
+                data-testid="icon"
+                height="16"
+                role="presentation"
+                style="width:12px; height:12px; cursor:pointer;  "
+                version="1.1"
+                viewBox="0 0 1792 1792"
+                width="16"
+              >
+                <path
+                  d="M1683 808l-742 741q-19 19-45 19t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"
+                />
+                 
+                 
+                
+              </svg>
+              <!--&lt;Svg&gt;-->
+              <!--&lt;Icon&gt;-->
+              <!--&lt;Icon&gt;-->
+            </div>
+          </div>
+        </summary>
+         
+        <ul
+          class="menu dropdown-content rounded-box z-[1] mt-4 w-52 bg-base-100 p-2 shadow"
+          tabindex="0"
+        >
+          <li
+            class="flex rounded-lg bg-primary text-white"
+          >
+            <button>
+              <div
+                class="h-6 w-6 rounded-full ring-1 ring-white"
+              >
+                <img
+                  alt=""
+                  src="/images/arbitrum.webp"
+                />
+              </div>
+               
+              Arbitrum Goerli
+            </button>
+             
+          </li>
+        </ul>
+      </details>
+      <!--&lt;ChainSwitcher&gt;-->
+       
+      <label
+        class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-white text-primary border-none hover:bg-base-200 h-12 bg-base-100 h-[50px] cursor-pointer text-primary rounded-lg shadow-sm flex gap-4 items-center  gap-1.5"
+        for="disconnect-wallet-modal"
+        tabindex="0"
+      >
+         
+         
+        <img
+          alt="Metamask Logo"
+          src="/images/wallet-connected.svg"
+        />
+         
+        <div
+          class="flex flex-col text-left"
+        >
+          <span
+            class="text-sm font-bold text-[#07617d]"
+          >
+            
+          </span>
+           
+          <p
+            class="text-2xs font-medium text-[#008295]"
+          >
+            ...
+          </p>
+        </div>
+      </label>
+      <!--&lt;ModalButton&gt;-->
+    </div>
+     
+    <input
+      class="modal-toggle s-GZwqZrPaBy6h"
+      id="disconnect-wallet-modal"
+      tabindex="-1"
+      type="checkbox"
+    />
+     
+    <div
+      class="modal s-GZwqZrPaBy6h"
+      data-testid="modal"
+    >
+      <div
+        class="w-11/12 sm:w-3/4 sm:max-w-[607px] modal-box rounded-lg bg-base-100 px-0 py-0 shadow-none s-GZwqZrPaBy6h"
+      >
+        <div
+          class="modal-header sticky top-0 z-10 flex items-center bg-white px-6 pb-4 pt-8 s-GZwqZrPaBy6h"
+        >
+          <div
+            class="flex w-full flex-col s-GZwqZrPaBy6h"
+          >
+             
+            <div
+              class="text-left text-[15px] font-medium text-[#0a0e3099] s-GZwqZrPaBy6h"
+            />
+             
+            <div
+              class="text-left text-2xl font-bold s-GZwqZrPaBy6h"
+            >
+              Your wallet
+            </div>
+             
+            <div
+              class="mt-1 text-left text-[15px] font-medium text-[#767676] s-GZwqZrPaBy6h"
+            />
+          </div>
+           
+          <button
+            class="flex h-12 min-w-[3rem] cursor-pointer items-center justify-center self-start text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+            data-testid="modal-close-button"
+          >
+            <img
+              alt="Close"
+              class="s-GZwqZrPaBy6h"
+              src="/images/close-circle-icon.svg"
+            />
+          </button>
+        </div>
+         
+        <div
+          class="modal-body  px-6 pb-4 pt-2 s-GZwqZrPaBy6h"
+        >
+          <div
+            class="mb-4 rounded-lg bg-base-200 p-4 text-left"
+          >
+            <div
+              class="flex items-center text-sm font-normal"
+            >
+              My Address
+				
+              <div
+                class="tooltip flex shrink-0 text-left font-normal ml-1 tooltip-secondary tooltip-right"
+                data-tip="Connected wallet address"
+              >
+                <img
+                  alt="Info"
+                  src="/images/alert.svg"
+                  width="14px"
+                />
+              </div>
+              <!--&lt;TooltipIcon&gt;-->
+            </div>
+             
+            <div
+              class="mt-1 text-xl font-semibold"
+            >
+              
+            </div>
+          </div>
+           
+          <div
+            class="flex gap-4"
+          >
+            <button
+              class="font-medium gap-3 h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
+            >
+               
+              <img
+                alt="Copy"
+                src="/images/copyicon.svg"
+              />
+              
+				Copy Address
+            </button>
+            <!--&lt;Button&gt;-->
+             
+            <a
+              href="https://goerli.arbiscan.io/address/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <button
+                class="font-medium gap-3 h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
+              >
+                 
+                <img
+                  alt="Open"
+                  src="/images/openinnew.svg"
+                />
+                
+					View on 
+                Arbiscan
+              </button>
+              <!--&lt;Button&gt;-->
+            </a>
+          </div>
+        </div>
+         
+        <div
+          class="modal-footer sticky bottom-0 bg-white mb-6 mt-4 px-6 s-GZwqZrPaBy6h"
+        >
+          <button
+            class="w-full font-semibold text-base h-14 text-base font-semibold btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white gap-1.5"
+          >
+             
+            LOGOUT
+          </button>
+          <!--&lt;Button&gt;-->
+        </div>
+      </div>
+    </div>
+    <!--&lt;Modal&gt;-->
+    <!--&lt;DisconnectWalletModal&gt;-->
+    <!--&lt;DisconnectWalletButton&gt;-->
+  </div>
+</body>
+`;
+
+exports[`HeaderLogo > renders the HeaderLogo component properly 1`] = `
+<body>
+  <onboard-v2
+    style="all: initial;"
+  />
+  <style>
+    
+    
+@font-face {
+  font-family: 'Inter';
+  font-style:  normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
+}
+
+  
+  </style>
+  <div>
+    <a
+      href="/"
+    >
+      <img
+        alt="Marlin Logo"
+        class="hidden sm:block"
+        src="/logo/logo-name.svg"
+        width="140"
+      />
+       
+      <img
+        alt="Marlin Logo"
+        class="block sm:hidden"
+        src="/logo/marlin-logo.svg"
+        width="40"
+      />
+    </a>
+    <!--&lt;HeaderLogo&gt;-->
+  </div>
+</body>
+`;
+
+exports[`WalletCard > renders the WalletCard component properly 1`] = `
+<body>
+  <onboard-v2
+    style="all: initial;"
+  />
+  <style>
+    
+    
+@font-face {
+  font-family: 'Inter';
+  font-style:  normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
+}
+
+  
+  </style>
+  <div>
+    <div
+      class="flex w-1/2 flex-col items-center overflow-hidden rounded-lg bg-base-200 p-4"
+    >
+      <img
+        alt="small card"
+        src="example.png"
+        width="64px"
+      />
+       
+      <div
+        class="mt-4 mb-6 font-semibold font-sans text-xl font-bold"
+        data-testid="text"
+      >
+        small card
+      </div>
+      <!--&lt;Text&gt;-->
+       
+    </div>
+    <!--&lt;WalletCard&gt;-->
+  </div>
+</body>
+`;

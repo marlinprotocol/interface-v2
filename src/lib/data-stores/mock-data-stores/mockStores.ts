@@ -3,14 +3,14 @@ import { DEFAULT_CHAIN_STORE, DEFAULT_WALLET_STORE } from '$lib/utils/constants/
 import type { WalletState } from '@web3-onboard/core';
 import { writable, type Writable } from 'svelte/store';
 
-const mockIsAnonymousWritable = writable<boolean>();
+const connectedValue = writable<boolean>();
 export const walletStoreValue: Writable<WalletStore> = writable(DEFAULT_WALLET_STORE);
 export const web3WalletStoreValue = writable<WalletState[]>([]);
 
-export const mockIsAnonymousStore = {
-    subscribe: mockIsAnonymousWritable.subscribe,
+export const connected = {
+    subscribe: connectedValue.subscribe,
     set: vi.fn(),
-    mockSetSubscribeValue: (value: boolean): void => mockIsAnonymousWritable.set(value)
+    mockSetSubscribeValue: (value: boolean): void => connectedValue.set(value)
 };
 
 

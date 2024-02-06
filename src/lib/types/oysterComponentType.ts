@@ -160,3 +160,12 @@ export interface ProviderData {
 	id: string;
 	live: boolean;
 }
+
+export type OysterJobMetadata = {
+	url: string;
+	instance: string;
+	region: string;
+	vcpu: number;
+	memory: number;
+	arch: string;
+};

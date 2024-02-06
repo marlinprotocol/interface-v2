@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, fireEvent } from '@testing-library/svelte';
 import Modal from './Modal.svelte';
-import html from 'svelte-htm';
+import html from '@playpilot/svelte-htm';
 
 describe('Modal Component', () => {
 

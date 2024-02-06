@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/svelte';
 import LoaderAnimatedPing from './LoadingAnimatedPing.svelte'; // Replace with the correct path to your component
 import LoaderAnimatedModal from './LoadingAnimationModal.svelte'; // Replace with the correct path to your component
-import html from 'svelte-htm';
+import html from '@playpilot/svelte-htm';
 
 describe('Loader Animated Ping', () => {
     it('renders loader with two child div elements', () => {

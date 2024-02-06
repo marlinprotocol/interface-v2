@@ -2,6 +2,7 @@ import type { ChainStore, WalletStore } from '$lib/types/storeTypes';
 import { DEFAULT_CHAIN_STORE, DEFAULT_WALLET_STORE } from '$lib/utils/constants/storeDefaults';
 import type { WalletState } from '@web3-onboard/core';
 import { writable, type Writable } from 'svelte/store';
+import { environment } from '../environment';
 
 const connectedValue = writable<boolean>();
 export const walletStoreValue: Writable<WalletStore> = writable(DEFAULT_WALLET_STORE);
@@ -37,4 +38,11 @@ export const chainStore = {
     subscribe: chainStoreValue.subscribe,
     set: vi.fn(),
     mockSetSubscribeValue: (value: ChainStore): void => chainStoreValue.set(value)
+};
+
+export const allowedChainsValue: Writable<number[]> = writable([environment.default_chain_id]);
+export const allowedChainsStore = {
+    subscribe: allowedChainsValue.subscribe,
+    set: vi.fn(),
+    mockSetSubscribeValue: (value: number[]): void => allowedChainsValue.set(value)
 };

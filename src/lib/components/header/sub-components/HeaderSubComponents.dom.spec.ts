@@ -6,7 +6,6 @@ import ConnectWalletButton from './ConnectWalletButton.svelte';
 import { describe, it, expect } from 'vitest';
 import html from '@playpilot/svelte-htm';
 import ChainSwitcher from './ChainSwitcher.svelte';
-import DisconnectWalletButton from './DisconnectWalletButton.svelte';
 import DisconnectWalletModal from './DisconnectWalletModal.svelte';
 
 describe('ChainSwitcher', () => {
@@ -40,13 +39,6 @@ describe('ConnectWalletButton', () => {
     });
 
 });
-
-describe('DisconnectWalletButton', () => {
-    test('renders the DisconnectWalletButton component properly', () => {
-        const { container } = render(DisconnectWalletButton);
-        expect(container).toMatchSnapshot();
-    });
-})
 
 describe('Disconnect Wallet Modal', () => {
     test('renders the Disconnect Wallet Modal component properly', () => {

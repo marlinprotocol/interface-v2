@@ -1,4 +1,4 @@
-import { describe, expect, vi, beforeAll } from 'vitest';
+import { describe, expect, vi } from 'vitest';
 import { cleanup, render } from '@testing-library/svelte';
 import Timer from './Timer.svelte';
 import TestTimer from './TestTimer.svelte';
@@ -7,12 +7,6 @@ const timerTestId = 'timer-test';
 const delay = (duration: number) => new Promise((resolve) => setTimeout(resolve, duration));
 
 describe('TimerComponent Component', () => {
-
-	beforeAll(() => {
-		const container = document.createElement('div');
-		document.body.appendChild(container);
-	});
-
 	afterEach(() => {
 		cleanup();
 		vi.resetAllMocks();

@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/svelte';
+import { cleanup, fireEvent, render } from '@testing-library/svelte';
 import Toast from './Toast.svelte';
 import { toastsStore, dismissToast } from '$lib/data-stores/toastStore';
 import type { CommonVariant } from '$lib/types/componentTypes';
@@ -26,7 +26,6 @@ describe('Toast', () => {
 		const { queryAllByTestId } = render(Toast);
 		expect(queryAllByTestId('toast')).toHaveLength(0);
 	});
-
 
 	test('renders a toast when added to the store', async () => {
 		const { getByTestId } = render(Toast);
@@ -57,5 +56,4 @@ describe('Toast', () => {
 		await toastsStore.set([data]);
 		expect(getByTestId('toast').classList.contains('toast-top')).toBe(true);
 	});
-
 });

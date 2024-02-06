@@ -9,12 +9,12 @@ describe('Tooltip Icon', () => {
 	});
 
 	test('tooltipIcon renders with default attribute', () => {
-		const { getByTestId } = render(TooltipIcon, { props: { tooltipText: '' } });
+		const { getByTestId } = render(TooltipIcon, { props: { tooltipText: 'Render Tooltip Icon' } });
 		const tooltipElement = getByTestId('tooltip-icon');
 		const tooltipClasslist = tooltipElement.classList;
 		expect(tooltipElement.firstElementChild?.getAttribute('src')).toEqual(staticImages.Alert);
 		expect(tooltipElement.firstElementChild?.getAttribute('width')).toEqual('14px');
-		expect(tooltipElement.getAttribute('data-tip')).toEqual('');
+		expect(tooltipElement.getAttribute('data-tip')).toEqual('Render Tooltip Icon');
 		expect(tooltipClasslist.contains('tooltip-secondary')).toBe(true);
 		expect(tooltipClasslist.contains('tooltip-top')).toBe(true);
 	});
@@ -31,7 +31,7 @@ describe('Tooltip Icon', () => {
 		expect(tooltipElement.getAttribute('data-tip')).toEqual('iconSrc Attribute Test');
 	});
 
-    test('applies tooltipDirection to the tooltipIcon', () => {
+	test('applies tooltipDirection to the tooltipIcon', () => {
 		const { getByTestId } = render(TooltipIcon, {
 			props: {
 				tooltipText: 'tooltipDirection Test',

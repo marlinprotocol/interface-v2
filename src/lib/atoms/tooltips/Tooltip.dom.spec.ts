@@ -8,17 +8,12 @@ describe('Tooltip', () => {
 	});
 
 	test('tooltip renders with default attribute', () => {
-		const { getByTestId } = render(Tooltip, { props: { tooltipText: '' } });
+		const { getByTestId } = render(Tooltip, { props: { tooltipText: 'Render Tooltip' } });
 		const tooltipElement = getByTestId('tooltip');
 		const tooltipClasslist = tooltipElement.classList;
-		expect(tooltipElement.getAttribute('data-tip')).toEqual('');
+		expect(tooltipElement.getAttribute('data-tip')).toEqual('Render Tooltip');
 		expect(tooltipClasslist.contains('tooltip-secondary')).toBe(true);
 		expect(tooltipClasslist.contains('tooltip-top')).toBe(true);
-	});
-
-	test('tooltip renders with data-tip attribute', () => {
-		const { getByTestId } = render(Tooltip, { props: { tooltipText: 'Render Tooltip' } });
-		expect(getByTestId('tooltip').getAttribute('data-tip')).toEqual('Render Tooltip');
 	});
 
 	test('applies styleClass to the tooltip', () => {
@@ -71,7 +66,7 @@ describe('Tooltip', () => {
 		const tooltipElement = getByTestId('tooltip');
 		const tooltipClasslist = tooltipElement.classList;
 
-		expect(tooltipElement.getAttribute('data-tip')).toEqual('tooltipDirection Test');
+		expect(tooltipElement.getAttribute('data-tip')).toEqual('tooltip Direction Test');
 		expect(tooltipClasslist.contains('tooltip-bottom')).toBe(true);
 	});
 

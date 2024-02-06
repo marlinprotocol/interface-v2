@@ -38,19 +38,22 @@ export const ARB_SEPOLIA: ChainConfig = {
 			decimal: 18,
 			precision: 2,
 			currency: 'POND',
-			symbol: '$'
+			symbol: '$',
+			address: '0x8995673cef56d4cBAE3cE96157a8fc977D4f8525'
 		},
 		MPOND: {
 			decimal: 18,
 			precision: 6,
 			currency: 'MPOND',
-			symbol: '$'
+			symbol: '$',
+			address: '0x071BaFF53B0Ca54E4aec59Cda64f9cC5a7205e2c'
 		},
 		USDC: {
 			decimal: 6,
 			precision: 6,
 			currency: 'USDC',
-			symbol: '$'
+			symbol: '$',
+			address: '0xf3C3351D6Bd0098EEb33ca8f830FAf2a141Ea2E1'
 		}
 	}
 };

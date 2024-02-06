@@ -38,19 +38,22 @@ export const ARB_ONE: ChainConfig = {
 			decimal: 18,
 			precision: 2,
 			currency: 'POND',
-			symbol: '$'
+			symbol: '$',
+			address: '0xdA0a57B710768ae17941a9Fa33f8B720c8bD9ddD'
 		},
 		MPOND: {
 			decimal: 18,
 			precision: 6,
 			currency: 'MPOND',
-			symbol: '$'
+			symbol: '$',
+			address: '0xC606157CdBEb8e0BDB273E40D6Ee96e151083194'
 		},
 		USDC: {
 			decimal: 6,
 			precision: 6,
 			currency: 'USDC',
-			symbol: '$'
+			symbol: '$',
+			address: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'
 		}
 	}
 };

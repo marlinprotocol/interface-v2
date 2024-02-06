@@ -38,7 +38,8 @@ export const LINEA: ChainConfig = {
 			decimal: 6,
 			precision: 6,
 			currency: 'USDC',
-			symbol: '$'
+			symbol: '$',
+			address: '0x8FB1E3fC51F3b789dED7557E680551d93Ea9d892'
 		}
 	}
 };

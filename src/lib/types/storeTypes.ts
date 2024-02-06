@@ -26,6 +26,7 @@ export type ChainStore = {
 	chainId: number | null;
 	chainName: string;
 	chainDisplayName: string;
+	chainImage: string;
 	isValidChain: boolean;
 };
 

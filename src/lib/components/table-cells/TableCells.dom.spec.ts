@@ -1,9 +1,8 @@
 import { cleanup, render } from '@testing-library/svelte';
 import TableDataCell from './TableDataCell.svelte';
-import TestTableCell from './TestTableCell.svelte';
+import html from 'svelte-htm';
 import TableGridDataCell from './TableGridDataCell.svelte';
 import TableDataWithButton from './TableDataWithButton.svelte';
-import TestTableDataWithButton from './TestTableDataWithButton.svelte';
 
 describe('Table Cells', () => {
 	afterEach(() => {
@@ -21,7 +20,9 @@ describe('Table Cells', () => {
 	});
 
 	test('TableDataCell component renders with slot ', () => {
-		const { getByTestId, getByLabelText } = render(TestTableCell, { Component: TableDataCell });
+		const { getByTestId, getByLabelText } = render(
+			html`<${TableDataCell}><div aria-label="test-component-chidren">Test Component Chidren</div></${TableDataCell}>`
+		);
 		expect(getByTestId('table-data-cell')).toBeTruthy();
 		expect(
 			getByTestId('table-data-cell').contains(getByLabelText('test-component-chidren'))
@@ -44,7 +45,9 @@ describe('Table Cells', () => {
 	});
 
 	test('TableGridDataCell component renders with slot ', () => {
-		const { getByTestId, getByLabelText } = render(TestTableCell, { Component: TableGridDataCell });
+		const { getByTestId, getByLabelText } = render(
+			html`<${TableGridDataCell}><div aria-label="test-component-chidren">Test Component Chidren</div></${TableGridDataCell}>`
+		);
 		expect(getByTestId('table-grid-data-cell')).toBeTruthy();
 		expect(
 			getByTestId('table-grid-data-cell').contains(getByLabelText('test-component-chidren'))
@@ -67,11 +70,14 @@ describe('Table Cells', () => {
 	});
 
 	test('TableDataWithButton component renders with slots', () => {
-		const { getByTestId, getAllByRole } = render(TestTableDataWithButton, {
-			Component: TableDataWithButton
-		});
+		const { getByTestId, findByText } = render(
+			html`<${TableDataWithButton}>
+            <button slot='line1'>Test Component First Chidren</button>
+            <button slot='line2'>Test Component Second Chidren</button>
+            </${TableDataWithButton}>`
+		);
 		expect(getByTestId('table-data-with-button')).toBeTruthy();
-		expect(getAllByRole('button')[0].getAttribute('slot') === 'line1').toBeTruthy();
-		expect(getAllByRole('button')[1].getAttribute('slot') === 'line2').toBeTruthy();
+		expect(findByText('Test Component First Chidren')).toBeTruthy();
+		expect(findByText('Test Component Second Chidren')).toBeTruthy();
 	});
 });

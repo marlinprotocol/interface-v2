@@ -1,9 +1,11 @@
+import { staticImages } from '$lib/components/images/staticImages';
 import type { ChainConfig } from '$lib/types/environmentTypes';
 
 export const ARB_GOERLI: ChainConfig = {
 	chain_id: '0x66eed',
-	chain_name: 'Arbitrum Goerli',
+	chain_name: 'Arb Goerli',
 	chain_token: 'AGOR',
+	chain_image: staticImages.ArbitrumLogo,
 	block_explorer_name: 'Arbiscan',
 	block_explorer_url: 'https://goerli.arbiscan.io',
 	rpc_url: 'https://goerli-rollup.arbitrum.io/rpc',

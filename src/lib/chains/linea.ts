@@ -1,9 +1,11 @@
+import { staticImages } from '$lib/components/images/staticImages';
 import type { ChainConfig } from '$lib/types/environmentTypes';
 
 export const LINEA: ChainConfig = {
 	chain_id: '0xe708',
 	chain_name: 'Linea',
 	chain_token: 'ETH',
+	chain_image: staticImages.LineaLogo,
 	block_explorer_name: 'Lineascan',
 	block_explorer_url: 'https://lineascan.build',
 	rpc_url: 'https://rpc.linea.build',

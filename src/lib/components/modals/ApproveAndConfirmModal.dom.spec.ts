@@ -4,8 +4,8 @@ import ApproveAndConfirmModal from './ApproveAndConfirmModal.svelte';
 import { tick } from 'svelte';
 
 
-describe('Component', () => {
-    it(`render's the component properly`, () => {
+describe('ApproveAndConfirmModal', () => {
+    it(`render's the ApproveAndConfirmModal properly`, () => {
         const handleApproveClick = vi.fn().mockImplementation(() => Promise.resolve());
         const handleConfirmClick = vi.fn().mockImplementation(() => Promise.resolve());
         const { container } = render(ApproveAndConfirmModal, {
@@ -42,7 +42,6 @@ describe('Component', () => {
         await tick();
         expect(handleApproveClick).toHaveBeenCalledOnce();
     });
-
     it('should call handleConfirmClick when confirm button is clicked and render relevant elements', async () => {
         const handleConfirmClick = vi.fn().mockImplementation(() => Promise.resolve());
         const handleSuccessFinishClick = vi.fn();
@@ -82,5 +81,4 @@ describe('Component', () => {
         await tick()
         expect(handleSuccessFinishClick).toHaveBeenCalled();
     });
-
 });

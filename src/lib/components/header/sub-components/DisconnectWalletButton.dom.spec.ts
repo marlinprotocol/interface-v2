@@ -33,7 +33,7 @@ describe('DisconnectWalletButton', () => {
         const { getByAltText, getByText } = render(DisconnectWalletButton, { props: { lastAddress: '0x123...' } });
         const image = getByAltText('Metamask Logo');
         walletStore.mockSetSubscribeValue({ address: testAddress, provider: undefined, signer: undefined });
-        chainStore.mockSetSubscribeValue({ chainDisplayName: 'display-name', chainId: 39, chainName: '', isValidChain: true });
+        chainStore.mockSetSubscribeValue({ chainDisplayName: 'display-name', chainId: 39, chainName: '', isValidChain: true, chainImage: '' });
         const shortenAddress = testAddress.slice(0, 6) + '...' + testAddress.slice(38);
         await tick();
         expect(getByText(testAddress)).toBeTruthy();

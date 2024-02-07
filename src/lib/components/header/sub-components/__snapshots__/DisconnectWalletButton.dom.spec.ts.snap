@@ -85,12 +85,12 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
                 class="h-6 w-6 rounded-full ring-1 ring-white"
               >
                 <img
-                  alt=""
+                  alt="Chain Logo"
                   src="/images/arbitrum.webp"
                 />
               </div>
                
-              Arbitrum Goerli
+              Arb Goerli
             </button>
              
           </li>
@@ -116,7 +116,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
           <span
             class="text-sm font-bold text-[#07617d]"
           >
-            
+            ARB GOERLI
           </span>
            
           <p

@@ -85,12 +85,12 @@ exports[`HeaderConnectWallet > render's ConnectWalletButton if wallet is not con
                 class="h-6 w-6 rounded-full ring-1 ring-white"
               >
                 <img
-                  alt=""
+                  alt="Chain Logo"
                   src="/images/arbitrum.webp"
                 />
               </div>
                
-              Arbitrum Goerli
+              Arb Goerli
             </button>
              
           </li>
@@ -204,12 +204,12 @@ exports[`HeaderConnectWallet > render's DisconnectWalletButton if wallet is not 
                 class="h-6 w-6 rounded-full ring-1 ring-white"
               >
                 <img
-                  alt=""
+                  alt="Chain Logo"
                   src="/images/arbitrum.webp"
                 />
               </div>
                
-              Arbitrum Goerli
+              Arb Goerli
             </button>
              
           </li>
@@ -235,7 +235,7 @@ exports[`HeaderConnectWallet > render's DisconnectWalletButton if wallet is not 
           <span
             class="text-sm font-bold text-[#07617d]"
           >
-            
+            ARB GOERLI
           </span>
            
           <p
@@ -472,12 +472,12 @@ exports[`HeaderConnectWallet > renders the Header Links Group component properly
                 class="h-6 w-6 rounded-full ring-1 ring-white"
               >
                 <img
-                  alt=""
+                  alt="Chain Logo"
                   src="/images/arbitrum.webp"
                 />
               </div>
                
-              Arbitrum Goerli
+              Arb Goerli
             </button>
              
           </li>

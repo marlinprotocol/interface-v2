@@ -14,6 +14,7 @@ exports[`ErrorTextCard > renders correctly with an error message when showError 
   <div>
     <div
       class="mt-4 w-full rounded-lg bg-red-100 px-4 py-1"
+      data-testid="input-card"
     >
       <div
         class="text-red-500 my-2 text-sm font-normal"
@@ -35,6 +36,7 @@ exports[`ErrorTextCard > updates the snapshot when the error message changes 1`]
   <div>
     <div
       class="mt-4 w-full rounded-lg bg-red-100 px-4 py-1"
+      data-testid="input-card"
     >
       <div
         class="text-red-500 my-2 text-sm font-normal"

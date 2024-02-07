@@ -1,0 +1,55 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TextInputWithEndButton > render's the component properly 1`] = `
+<body>
+  <div>
+    <div
+      class="test-style w-full rounded-lg bg-base-200 p-4"
+      data-testid="input-card"
+    >
+      <div
+        class="flex items-center justify-between"
+      >
+        <div
+          class="flex items-center gap-1"
+        >
+          <div
+            class=" text-sm font-normal"
+            data-testid="text"
+          >
+            Test Title
+          </div>
+          <!--&lt;Text&gt;-->
+           
+          <div
+            class="tooltip flex shrink-0 text-left font-normal  tooltip-secondary tooltip-top"
+            data-tip="Test Tooltip"
+          >
+            <img
+              alt="Info"
+              src="/images/alert.svg"
+              width="14px"
+            />
+          </div>
+          <!--&lt;TooltipIcon&gt;-->
+        </div>
+         
+      </div>
+       
+      <div
+        class="flex items-center justify-between"
+      >
+        <input
+          class="hideInputNumberAppearance input input-ghost h-[30px] w-full text-lg mt-1 p-0 font-semibold text-primary disabled:opacity-70 disabled:text-primary disabled:placeholder:text-primary/[.2] focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent"
+          id="address-display"
+          placeholder="Enter something..."
+        />
+         
+      </div>
+    </div>
+    <!--&lt;InputCard&gt;-->
+    <!--&lt;InputCardWithEndButton&gt;-->
+    <!--&lt;TextInputWithEndButton&gt;-->
+  </div>
+</body>
+`;

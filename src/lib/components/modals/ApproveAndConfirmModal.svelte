@@ -138,5 +138,6 @@
 <SuccessfulConversionModal
 	modalFor={modalForSuccessConversion}
 	{amountConverted}
-	{conversionFrom}
+	{conversionFrom}  
 />
+

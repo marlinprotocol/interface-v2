@@ -1,6 +1,6 @@
 import { render } from '@testing-library/svelte';
 import TableComponent from './Table.svelte';
-import html from 'svelte-htm';
+import html from '@playpilot/svelte-htm';
 
 describe('TableComponent', () => {
     const tableHeadingMock = [

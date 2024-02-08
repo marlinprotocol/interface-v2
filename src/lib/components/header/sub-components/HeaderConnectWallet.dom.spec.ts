@@ -3,15 +3,15 @@ import { render } from '@testing-library/svelte';
 import HeaderConnectWallet from './HeaderConnectWallet.svelte';
 import { tick } from 'svelte';
 
-const { mockIsAnonymousStore, web3WalletStore, walletStore } = await vi.hoisted(() => import('$lib/data-stores/mock-data-stores/walletProviderStore'));
+const { connected, web3WalletStore, walletStore } = await vi.hoisted(() => import('$lib/data-stores/mock-data-stores/mockStores'));
 
 
 beforeAll(() => {
     vi.mock('$lib/data-stores/walletProviderStore', async () => {
         return {
-            connected: mockIsAnonymousStore,
+            connected,
             web3WalletStore,
-            walletStore: walletStore,
+            walletStore,
         }
     });
 });
@@ -24,24 +24,24 @@ describe('HeaderConnectWallet', () => {
     });
 
     it(`render's ConnectWalletButton if wallet is not connected`, () => {
-        mockIsAnonymousStore.mockSetSubscribeValue(false);
+        connected.mockSetSubscribeValue(false);
         const { container, getByTestId } = render(HeaderConnectWallet);
         expect(container).toMatchSnapshot();
         expect(getByTestId('connect-wallet-button')).toBeTruthy();
     })
 
     it(`render's DisconnectWalletButton if wallet is not connected`, () => {
-        mockIsAnonymousStore.mockSetSubscribeValue(true);
+        connected.mockSetSubscribeValue(true);
         const { container, getByTestId } = render(HeaderConnectWallet);
         expect(container).toMatchSnapshot();
         expect(getByTestId('disconnect-wallet-button')).toBeTruthy();
     })
 
     it(`toggle between connected and disconnect state and render proper components.`, async () => {
-        mockIsAnonymousStore.mockSetSubscribeValue(true);
+        connected.mockSetSubscribeValue(true);
         const { getByTestId } = render(HeaderConnectWallet);
         expect(getByTestId('disconnect-wallet-button')).toBeTruthy();
-        mockIsAnonymousStore.mockSetSubscribeValue(false);
+        connected.mockSetSubscribeValue(false);
         await tick();
         expect(getByTestId('connect-wallet-button')).toBeTruthy();
 

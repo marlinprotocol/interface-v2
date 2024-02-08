@@ -1,7 +1,7 @@
 import { describe, expect, vi } from 'vitest';
 import { cleanup, render } from '@testing-library/svelte';
 import Timer from './Timer.svelte';
-import html from 'svelte-htm';
+import html from '@playpilot/svelte-htm';
 
 const timerTestId = 'timer-test';
 const delay = (duration: number) => new Promise((resolve) => setTimeout(resolve, duration));

@@ -1,0 +1,8 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TimerComponent Component > renders without crashing 1`] = `
+<div
+  class="flex items-center gap-1"
+  data-testid="timer"
+/>
+`;

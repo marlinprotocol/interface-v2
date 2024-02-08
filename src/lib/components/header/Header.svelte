@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import HeaderConnectWallet from '$lib/components/header/sub-components/HeaderConnectWallet.svelte';
 	import HeaderLinksGroup from '$lib/components/header/sub-components/HeaderLinksGroup.svelte';
 	import HeaderLogo from '$lib/components/header/sub-components/HeaderLogo.svelte';
@@ -28,14 +29,14 @@
 			</button>
 
 			<ul class="menu dropdown-content rounded-box menu-md z-[1] mt-3 w-52 bg-base-100 p-2 shadow">
-				<HeaderLinksGroup />
+				<HeaderLinksGroup activeLink={$page.url.pathname} />
 			</ul>
 		</div>
 		<HeaderLogo />
 	</div>
 	<div class="navbar-center z-10 hidden lg:flex">
 		<ul class="menu menu-horizontal">
-			<HeaderLinksGroup />
+			<HeaderLinksGroup activeLink={$page.url.pathname} />
 		</ul>
 	</div>
 	<div class="width-auto sm:navbar-end">

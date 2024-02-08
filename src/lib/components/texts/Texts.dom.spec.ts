@@ -89,8 +89,8 @@ describe('Text', () => {
 		const { getByTestId, getAllByTestId, container } = render(TextInputCard, {
 			props: { title: '' }
 		});
-		expect(getByTestId('text-input-card').contains(getAllByTestId('text')[0])).toBeTruthy();
-		expect(getByTestId('text-input-card').contains(getAllByTestId('text')[1])).toBeTruthy();
+		expect(getByTestId('input-card').contains(getAllByTestId('text')[0])).toBeTruthy();
+		expect(getByTestId('input-card').contains(getAllByTestId('text')[1])).toBeTruthy();
 		expect(getAllByTestId('text')[0].innerHTML).toBeFalsy();
 		expect(getAllByTestId('text')[1].innerHTML).toBeFalsy();
 		expect(container).toMatchSnapshot();
@@ -104,16 +104,16 @@ describe('Text', () => {
 				centered: true
 			}
 		});
-		expect(getByTestId('text-input-card').contains(getAllByTestId('text')[0])).toBeTruthy();
-		expect(getByTestId('text-input-card').contains(getAllByTestId('text')[1])).toBeTruthy();
+		expect(getByTestId('input-card').contains(getAllByTestId('text')[0])).toBeTruthy();
+		expect(getByTestId('input-card').contains(getAllByTestId('text')[1])).toBeTruthy();
 		expect(getAllByTestId('text')[0].innerHTML === 'Text input card title').toBeTruthy();
 		expect(getAllByTestId('text')[1].innerHTML === 'Text input card value').toBeTruthy();
-		expect(
-			getByTestId('text-input-card').firstElementChild?.classList.contains('justify-center')
-		).toBe(true);
-		expect(
-			getByTestId('text-input-card').lastElementChild?.classList.contains('justify-center')
-		).toBe(true);
+		expect(getByTestId('input-card').firstElementChild?.classList.contains('justify-center')).toBe(
+			true
+		);
+		expect(getByTestId('input-card').lastElementChild?.classList.contains('justify-center')).toBe(
+			true
+		);
 	});
 
 	test('TextInputCard Component render with cliboardContent props', async () => {
@@ -123,7 +123,7 @@ describe('Text', () => {
 				cliboardContent: 'copy clipbard content'
 			}
 		});
-		expect(getByTestId('text-input-card').contains(getAllByTestId('text')[0])).toBeTruthy();
+		expect(getByTestId('input-card').contains(getAllByTestId('text')[0])).toBeTruthy();
 		expect(getAllByTestId('text')[0].innerHTML === 'Text input card title').toBeTruthy();
 		const button = getByAltText('Copy').parentElement as Element;
 		expect(button.id).toBeFalsy();

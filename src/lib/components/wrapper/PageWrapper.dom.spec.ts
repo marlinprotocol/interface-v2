@@ -1,6 +1,6 @@
 import { cleanup, render } from '@testing-library/svelte';
 import PageWrapper from './PageWrapper.svelte';
-import html from 'svelte-htm';
+import html from '@playpilot/svelte-htm';
 
 describe('PageWrapper', () => {
 	afterEach(() => {

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import type { NavLinkModel } from '$lib/types/headerTypes';
 	import {
 		BRIDGE_URL,
@@ -10,6 +9,8 @@
 		RELAY_RECEIVER_REWARDS_URL,
 		RELAY_RECEIVER_STAKING_URL
 	} from '$lib/utils/constants/urls';
+
+	export let activeLink: string = '';
 
 	let openDropdown: HTMLDetailsElement | null = null;
 
@@ -80,13 +81,13 @@
 		links = links;
 	}
 
-	$: setLinkActive($page.url.pathname);
+	$: setLinkActive(activeLink);
 </script>
 
 <svelte:window on:click={(e) => closeDropdown(e)} />
 {#each links as link (link.label)}
 	{#if link.children}
-		<li class="px-1">
+		<li class="px-1" data-testid="header-links-group">
 			<details>
 				<summary class="font-semibold">{link.label}</summary>
 				<ul class="p-2">
@@ -107,10 +108,7 @@
 			</details>
 		</li>
 	{:else}
-		<li
-			class="nav-links px-1
-		"
-		>
+		<li class="nav-links px-1" data-testid="header-links-group">
 			<a
 				href={link.href}
 				class="{link.active ? 'bg-primary text-white' : ''} p-0 font-semibold"

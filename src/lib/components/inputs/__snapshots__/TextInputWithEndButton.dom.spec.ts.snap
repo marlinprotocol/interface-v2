@@ -23,6 +23,7 @@ exports[`TextInputWithEndButton > render's the component properly 1`] = `
            
           <div
             class="tooltip flex shrink-0 text-left font-normal  tooltip-secondary tooltip-top"
+            data-testid="tooltip-icon"
             data-tip="Test Tooltip"
           >
             <img

@@ -1,6 +1,6 @@
 import { cleanup, render } from '@testing-library/svelte';
 import TableDataCell from './TableDataCell.svelte';
-import html from 'svelte-htm';
+import html from '@playpilot/svelte-htm';
 import TableGridDataCell from './TableGridDataCell.svelte';
 import TableDataWithButton from './TableDataWithButton.svelte';
 

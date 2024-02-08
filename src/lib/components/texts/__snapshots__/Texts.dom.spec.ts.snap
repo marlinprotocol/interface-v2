@@ -1,0 +1,107 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Text > NameWithAdress Component render with default props 1`] = `
+<body>
+  <div>
+    <div
+      class="ml-6 flex w-fit items-center justify-start"
+      data-testid="name-with-address"
+      id="name-with-address"
+    >
+      <div />
+       
+      <div
+        class="flex flex-col items-start"
+      >
+        <div
+          class="my-2 flex w-fit min-w-[150px] items-center gap-1"
+        >
+          <div
+            class=" text-base font-medium"
+            data-testid="text"
+          >
+            
+          </div>
+          <!--&lt;Text&gt;-->
+           
+          <button />
+        </div>
+      </div>
+    </div>
+    <!--&lt;NameWithAddress&gt;-->
+  </div>
+</body>
+`;
+
+exports[`Text > PageTitle Component render with default props 1`] = `
+<body>
+  <div>
+    <div
+      class="mb-8 flex items-center gap-4"
+      data-testid="page-title"
+    >
+       
+      <div
+        class=" text-3xl font-bold"
+        data-testid="text"
+      >
+        
+      </div>
+      <!--&lt;Text&gt;-->
+       
+    </div>
+    <!--&lt;PageTitle&gt;-->
+  </div>
+</body>
+`;
+
+exports[`Text > TableHeadingText Component render with default props 1`] = `
+<body>
+  <div>
+    <div
+      class="mt-0.5 flex flex-nowrap items-center justify-center gap-1 text-center text-xs text-primary xl:text-sm "
+      data-testid="table-heading-text"
+    >
+      <div
+        class="relative flex items-start gap-1"
+      >
+        <span
+          class="w-fit tracking-widest"
+        >
+          
+        </span>
+         
+      </div>
+    </div>
+    <!--&lt;TableHeadingText&gt;-->
+  </div>
+</body>
+`;
+
+exports[`Text > TxnHashText Component render with default props 1`] = `
+<body>
+  <div>
+    <div
+      class="flex items-center justify-center gap-2"
+      data-testid="txn-hash-text"
+    >
+      
+       
+      <a
+        class="shrink-0"
+        href=""
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img
+          alt="txn link"
+          src="/images/openinnew.svg"
+          width="13px"
+        />
+      </a>
+      <!--&lt;TxnIcon&gt;-->
+    </div>
+    <!--&lt;TxnHashText&gt;-->
+  </div>
+</body>
+`;

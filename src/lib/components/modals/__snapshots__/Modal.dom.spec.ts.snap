@@ -1,0 +1,301 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Modal > ApproveAndConfirmModal render with required props 1`] = `
+<body>
+  <onboard-v2
+    style="all: initial;"
+  />
+  <style>
+    
+    
+@font-face {
+  font-family: 'Inter';
+  font-style:  normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
+}
+
+  
+  </style>
+  <div>
+    <input
+      class="modal-toggle s-GZwqZrPaBy6h"
+      id="Approve And Confirm Modal"
+      tabindex="-1"
+      type="checkbox"
+    />
+     
+    <div
+      class="modal s-GZwqZrPaBy6h"
+      data-testid="modal"
+    >
+      <div
+        class="w-11/12 sm:w-3/4 sm:max-w-[607px] modal-box rounded-lg bg-base-100 px-0 py-0 shadow-none s-GZwqZrPaBy6h"
+      >
+        <div
+          class="modal-header sticky top-0 z-10 flex items-center bg-white px-6 pb-4 pt-8 s-GZwqZrPaBy6h"
+        >
+          <div
+            class="flex w-full flex-col s-GZwqZrPaBy6h"
+          >
+             
+            <div
+              class="text-left text-[15px] font-medium text-[#0a0e3099] s-GZwqZrPaBy6h"
+            />
+             
+            <div
+              class="text-left text-2xl font-bold s-GZwqZrPaBy6h"
+            >
+              Confirm Transaction
+            </div>
+             
+            <div
+              class="mt-1 text-left text-[15px] font-medium text-[#767676] s-GZwqZrPaBy6h"
+            />
+          </div>
+           
+          <button
+            class="flex h-12 min-w-[3rem] cursor-pointer items-center justify-center self-start text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+            data-testid="modal-close-button"
+          >
+            <img
+              alt="Close"
+              class="s-GZwqZrPaBy6h"
+              src="/images/close-circle-icon.svg"
+            />
+          </button>
+        </div>
+         
+        <div
+          class="modal-body  px-6 pb-4 pt-2 s-GZwqZrPaBy6h"
+        >
+          <div
+            class="flex h-[50px] gap-5"
+          >
+            <div
+              class="flex flex-col items-center"
+            >
+              <img
+                alt="Copy"
+                height="20px"
+                src="/images/vectorcheck.svg"
+                width="20px"
+              />
+               
+              <div
+                class="h-full w-[0.1px] bg-grey-400"
+              />
+            </div>
+             
+            <div
+              class="grow text-left font-normal text-grey-500"
+            >
+              Approve
+				
+              <span
+                class="font-semibold text-black"
+              >
+                0.00
+                 
+                POND
+              </span>
+              
+				for conversion
+            </div>
+          </div>
+           
+          <div
+            class="flex gap-5"
+          >
+            <div
+              class="flex justify-center rounded-3xl bg-grey-400 text-white h-5 w-5"
+            >
+              <div
+                class="font-semibold text-sm font-normal"
+                data-testid="text"
+              >
+                2
+              </div>
+              <!--&lt;Text&gt;-->
+            </div>
+            
+            <!--&lt;LoadingAnimationModal&gt;-->
+             
+            <div
+              class="grow text-left font-normal text-grey-500"
+            >
+              Convert
+				
+              <span
+                class="font-semibold text-black"
+              >
+                0.00
+                 
+                POND
+              </span>
+              
+				to
+				
+              <span
+                class="font-semibold text-black"
+              >
+                0.00
+                 
+                MPond
+              </span>
+            </div>
+          </div>
+        </div>
+         
+        <div
+          class="modal-footer sticky bottom-0 bg-white mb-6 mt-4 px-6 s-GZwqZrPaBy6h"
+        >
+          <button
+            class="w-full h-14 text-base font-semibold btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white gap-1.5"
+          >
+             
+            CONFIRM
+          </button>
+          <!--&lt;Button&gt;-->
+          
+        </div>
+      </div>
+    </div>
+    <!--&lt;Modal&gt;-->
+     
+    <input
+      class="modal-toggle s-GZwqZrPaBy6h"
+      id="success-conversion-modal-2"
+      tabindex="-1"
+      type="checkbox"
+    />
+     
+    <div
+      class="modal s-GZwqZrPaBy6h"
+      data-testid="modal"
+    >
+      <div
+        class="w-11/12 sm:w-3/4 sm:max-w-[607px] modal-box rounded-lg bg-base-100 px-0 py-0 shadow-none s-GZwqZrPaBy6h"
+      >
+        <div
+          class="modal-header sticky top-0 z-10 flex items-center bg-white px-6 pb-4 pt-8 s-GZwqZrPaBy6h"
+        >
+          <div
+            class="flex w-full flex-col s-GZwqZrPaBy6h"
+          >
+            <div
+              class="mb-6 s-GZwqZrPaBy6h"
+            >
+              <img
+                alt=""
+                slot="icon"
+                src="/images/shield.svg"
+                width="38px"
+              />
+            </div>
+             
+            <div
+              class="text-left text-[15px] font-medium text-[#0a0e3099] s-GZwqZrPaBy6h"
+            />
+             
+            <div
+              class="text-left text-2xl font-bold s-GZwqZrPaBy6h"
+            >
+              Conversion Successful
+            </div>
+             
+            <div
+              class="mt-1 text-left text-[15px] font-medium text-[#767676] s-GZwqZrPaBy6h"
+            />
+          </div>
+           
+          <button
+            class="flex h-12 min-w-[3rem] cursor-pointer items-center justify-center self-start text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+            data-testid="modal-close-button"
+          >
+            <img
+              alt="Close"
+              class="s-GZwqZrPaBy6h"
+              src="/images/close-circle-icon.svg"
+            />
+          </button>
+        </div>
+         
+        <div
+          class="modal-body  px-6 pb-4 pt-2 s-GZwqZrPaBy6h"
+        >
+          <div
+            class="text-left text-base font-medium text-gray-600"
+          >
+            <div>
+              You have converted
+            </div>
+             
+            <div>
+              <span
+                class="font-bold text-black"
+              >
+                0.00
+                 
+                POND
+              </span>
+              
+				to
+				
+              <span
+                class="font-bold text-black"
+              >
+                0.00
+                 
+                MPOND
+              </span>
+            </div>
+             
+            <div
+              class="h-[1px] w-full bg-black/[0.1] my-6"
+              data-testid="divider"
+            />
+            <!--&lt;Divider&gt;-->
+             
+            <div>
+              Updated Wallet Balance
+            </div>
+             
+            <span
+              class="font-bold text-black"
+            >
+              0.00
+               POND
+			
+            </span>
+            |
+			
+            <span
+              class="font-bold text-black"
+            >
+              0.00
+               MPOND
+            </span>
+          </div>
+        </div>
+         
+        <div
+          class="modal-footer sticky bottom-0 bg-white mb-6 mt-4 px-6 s-GZwqZrPaBy6h"
+        >
+          <button
+            class="w-full h-14 text-base font-semibold btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white gap-1.5"
+          >
+             
+            FINISH
+          </button>
+          <!--&lt;Button&gt;-->
+        </div>
+      </div>
+    </div>
+    <!--&lt;Modal&gt;-->
+    <!--&lt;SuccessfulConversionModal&gt;-->
+    <!--&lt;ApproveAndConfirmModal&gt;-->
+  </div>
+</body>
+`;

@@ -39,6 +39,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
+	data-testid="select"
 	bind:this={searchContainer}
 	on:click={handleToggleShowAllSuggestions}
 	class="search-container relative flex w-fit cursor-pointer items-baseline"

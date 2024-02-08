@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Status Circle > StatusCircle component renders with default porps 1`] = `
+<body>
+  <div>
+    <div
+      class="mx-auto h-5 w-5 rounded-full "
+      data-testid="status-circle-test"
+    />
+    <!--&lt;StatusCircle&gt;-->
+  </div>
+</body>
+`;

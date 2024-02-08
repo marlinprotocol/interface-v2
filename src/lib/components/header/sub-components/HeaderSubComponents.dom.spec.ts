@@ -4,11 +4,9 @@ import WalletCard from './WalletCard.svelte';
 import HeaderLogo from './HeaderLogo.svelte';
 import ConnectWalletButton from './ConnectWalletButton.svelte';
 import { describe, it, expect } from 'vitest';
-import html from 'svelte-htm';
+import html from '@playpilot/svelte-htm';
 import ChainSwitcher from './ChainSwitcher.svelte';
-import DisconnectWalletButton from './DisconnectWalletButton.svelte';
 import DisconnectWalletModal from './DisconnectWalletModal.svelte';
-// import HeaderLinksGroup from './HeaderLinksGroup.svelte';
 
 describe('ChainSwitcher', () => {
     test('renders the ChainSwitcher component properly', () => {
@@ -41,13 +39,6 @@ describe('ConnectWalletButton', () => {
     });
 
 });
-
-describe('DisconnectWalletButton', () => {
-    test('renders the DisconnectWalletButton component properly', () => {
-        const { container } = render(DisconnectWalletButton);
-        expect(container).toMatchSnapshot();
-    });
-})
 
 describe('Disconnect Wallet Modal', () => {
     test('renders the Disconnect Wallet Modal component properly', () => {
@@ -137,9 +128,3 @@ describe('WalletCard', () => {
     });
 });
 
-// describe('Header Links Group', () => {
-//     test('renders the Header Links Group component properly', () => {
-//         const { container } = render(HeaderLinksGroup);
-//         expect(container).toMatchSnapshot();
-//     });
-// })

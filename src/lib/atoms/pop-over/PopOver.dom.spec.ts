@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { render } from '@testing-library/svelte';
 import Popover from './PopOver.svelte';
 import { buttonClasses } from '../componentClasses';
-import html from 'svelte-htm';
+import html from '@playpilot/svelte-htm';
 
 
 describe('YourComponent', () => {

@@ -15,6 +15,7 @@ describe('TimerComponent Component', () => {
 	test('renders without crashing', () => {
 		const { getByTestId } = render(Timer);
 		expect(getByTestId('timer')).toBeTruthy();
+		expect(getByTestId('timer')).toMatchSnapshot();
 	});
 
 	test('does not invoke onTimerEnd callback when countdown is inactive', () => {

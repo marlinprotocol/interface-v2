@@ -14,6 +14,7 @@ describe('Tooltip', () => {
 		expect(tooltipElement.getAttribute('data-tip')).toEqual('Render Tooltip');
 		expect(tooltipClasslist.contains('tooltip-secondary')).toBe(true);
 		expect(tooltipClasslist.contains('tooltip-top')).toBe(true);
+		expect(tooltipElement).toMatchSnapshot();
 	});
 
 	test('applies styleClass to the tooltip', () => {
@@ -66,7 +67,7 @@ describe('Tooltip', () => {
 		const tooltipElement = getByTestId('tooltip');
 		const tooltipClasslist = tooltipElement.classList;
 
-		expect(tooltipElement.getAttribute('data-tip')).toEqual('tooltip Direction Test');
+		expect(tooltipElement.getAttribute('data-tip')).toEqual('tooltipDirection Test');
 		expect(tooltipClasslist.contains('tooltip-bottom')).toBe(true);
 	});
 

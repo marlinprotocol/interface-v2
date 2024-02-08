@@ -13,6 +13,7 @@ describe('Tabs', () => {
 		const tabElement = getByTestId('tab');
 		expect(tabElement.childNodes).toHaveLength(1);
 		expect((tabElement.firstChild as Element)?.id === 'tab_test-tabhead').toBe(true);
+		expect(tabElement).toMatchSnapshot();
 	});
 
 	test('tab Render check using getByTestId & getByRole ', () => {
@@ -45,6 +46,7 @@ describe('Tabs', () => {
 		const { getByTestId, getByRole } = render(TabList);
 		const tabListElement = getByTestId('tab-list');
 		expect(tabListElement.contains(getByRole('tablist'))).toBe(true);
+		expect(tabListElement).toMatchSnapshot();
 	});
 
 	test('tablist render divClass', () => {
@@ -61,6 +63,7 @@ describe('Tabs', () => {
 	test('TabPanel render', () => {
 		const { getByTestId } = render(TabPanel, { props: { activeTabValue: '10', id: '10' } });
 		expect(getByTestId('tab-panel').id === '10-tabitem').toBeTruthy();
+		expect(getByTestId('tab-panel')).toMatchSnapshot();
 	});
 
 	test('TabPanel render using getByRole ', () => {

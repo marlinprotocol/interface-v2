@@ -34,6 +34,7 @@ describe('Toast', () => {
 		const toastClasslist = toastElement.classList;
 		expect(toastElement).toBeTruthy();
 		expect(toastClasslist.contains('toast')).toBe(true);
+		expect(toastElement).toMatchSnapshot();
 	});
 
 	test('it should fire the onClick event when clicked toast Icon', async () => {

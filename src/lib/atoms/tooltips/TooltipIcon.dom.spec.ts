@@ -17,6 +17,7 @@ describe('Tooltip Icon', () => {
 		expect(tooltipElement.getAttribute('data-tip')).toEqual('Render Tooltip Icon');
 		expect(tooltipClasslist.contains('tooltip-secondary')).toBe(true);
 		expect(tooltipClasslist.contains('tooltip-top')).toBe(true);
+		expect(tooltipElement).toMatchSnapshot();
 	});
 
 	test('applies iconSrc attribute to the tooltip Icon', () => {

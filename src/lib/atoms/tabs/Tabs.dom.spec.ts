@@ -1,4 +1,5 @@
 import { cleanup, render } from '@testing-library/svelte';
+import html from '@playpilot/svelte-htm';
 import Tab from './Tab.svelte';
 import { TabList, TabPanel, Tabs } from './tabs';
 
@@ -14,6 +15,16 @@ describe('Tabs', () => {
 		expect(tabElement.childNodes).toHaveLength(1);
 		expect((tabElement.firstChild as Element)?.id === 'tab_test-tabhead').toBe(true);
 		expect(tabElement).toMatchSnapshot();
+	});
+
+	test('tab Render with slot', () => {
+		const { getByTestId, getByText } = render(
+			html`<${Tab} id="tab_test" ><div id="tab-slot">Tab</div></${Tab}>`
+		);
+		const tabElement = getByTestId('tab');
+		expect(tabElement.childNodes).toHaveLength(1);
+		expect((tabElement.firstChild as Element)?.id === 'tab_test-tabhead').toBe(true);
+		expect(getByText('Tab').id === 'tab-slot').toBeTruthy();
 	});
 
 	test('tab Render check using getByTestId & getByRole ', () => {
@@ -36,7 +47,16 @@ describe('Tabs', () => {
 		expect(tabElement.classList.contains('w-full')).toBe(true);
 	});
 
-	test(' tabs render with divClass', () => {
+	test('tabs render with slot', () => {
+		const { getByTestId, getByText } = render(
+			html`<${Tabs}><div id="tabs-slot">Tabs</div></${Tabs}>`
+		);
+		const tabElement = getByTestId('tabs');
+		expect(tabElement.classList.contains('w-full')).toBe(true);
+		expect(getByText('Tabs').id).toEqual('tabs-slot');
+	});
+
+	test('tabs render with divClass', () => {
 		const { getByTestId } = render(Tabs, { props: { divClass: 'tabs-primary' } });
 		const tabElement = getByTestId('tabs');
 		expect(tabElement.classList.contains('tabs-primary')).toBe(true);
@@ -55,6 +75,15 @@ describe('Tabs', () => {
 		expect(tabListElement.classList.contains('tablist-divclass')).toBe(true);
 	});
 
+	test('tablist render with slot', () => {
+		const { getByTestId, getByText } = render(
+			html`<${TabList} divClass='tablist-divclass' ><div id="tablist-slot">Tablist</div></${TabList}>`
+		);
+		const tabListElement = getByTestId('tab-list');
+		expect(tabListElement.classList.contains('tablist-divclass')).toBe(true);
+		expect(getByText('Tablist').id === 'tablist-slot').toBe(true);
+	});
+
 	test('TabPanel not render', () => {
 		const { queryAllByTestId } = render(TabPanel, { props: { activeTabValue: '10', id: '20' } });
 		expect(queryAllByTestId('tab-panel')).toHaveLength(0);
@@ -64,6 +93,14 @@ describe('Tabs', () => {
 		const { getByTestId } = render(TabPanel, { props: { activeTabValue: '10', id: '10' } });
 		expect(getByTestId('tab-panel').id === '10-tabitem').toBeTruthy();
 		expect(getByTestId('tab-panel')).toMatchSnapshot();
+	});
+
+	test('TabPanel render with slot', () => {
+		const { getByTestId, getByText } = render(
+			html`<${TabPanel} id="10" activeTabValue='10'><div id="tab-panel-slot">TabPanel</div></${TabPanel}>`
+		);
+		expect(getByTestId('tab-panel').id === '10-tabitem').toBeTruthy();
+		expect(getByText('TabPanel').id === 'tab-panel-slot').toBe(true);
 	});
 
 	test('TabPanel render using getByRole ', () => {

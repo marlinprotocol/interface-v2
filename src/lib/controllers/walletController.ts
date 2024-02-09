@@ -1,5 +1,5 @@
 import type { EIP1193Provider, WalletState } from '@web3-onboard/core';
-import { getChainDisplayName, isValidChain } from '$lib/utils/helpers/networkHelper';
+import { isValidChain } from '$lib/utils/helpers/networkHelper';
 import { initializeChainStore, resetChainStore } from '$lib/data-stores/chainProviderStore';
 import {
 	initializeWalletBalancesStore,
@@ -38,13 +38,11 @@ async function getWalletAddressAndConnectedChain(
 	const walletHexAddress = walletChecksumAddress.toLowerCase() as Lowercase<string>;
 	const { chainId, name } = networkData;
 	const validChain = isValidChain(Number(chainId));
-	const chainDisplayName = getChainDisplayName(Number(chainId));
 
 	return {
 		walletHexAddress,
 		chainId,
 		chainName: name,
-		chainDisplayName: chainDisplayName ?? name,
 		isValidChain: validChain
 	};
 }
@@ -55,21 +53,13 @@ export async function setWalletAndChainStores(provider: EIP1193Provider) {
 	const ethersProviderIsValid = ethersProvider !== undefined && ethersSigner !== undefined;
 
 	if (ethersProviderIsValid) {
-		const { walletHexAddress, chainId, chainName, chainDisplayName, isValidChain } =
+		const { walletHexAddress, chainId, chainName, isValidChain } =
 			await getWalletAddressAndConnectedChain(ethersSigner, ethersProvider);
 		initializeWalletStore(ethersProvider, ethersSigner, walletHexAddress);
-		initializeChainStore(Number(chainId), chainName, chainDisplayName, isValidChain);
+		initializeChainStore(Number(chainId), chainName, isValidChain);
 		await initializeWalletBalancesStore(walletHexAddress, ethersProvider);
 
 		console.log('walletStore updated with address:', walletHexAddress);
-		console.log(
-			'chainStore updated to chainId:',
-			chainId,
-			'| chainName:',
-			chainName,
-			'| isValidChain:',
-			isValidChain
-		);
 	}
 }
 

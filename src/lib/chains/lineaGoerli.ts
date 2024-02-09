@@ -1,9 +1,11 @@
+import { staticImages } from '$lib/components/images/staticImages';
 import type { ChainConfig } from '$lib/types/environmentTypes';
 
 export const LINEA_GOERLI: ChainConfig = {
 	chain_id: '0xe704',
 	chain_name: 'Linea Goerli',
 	chain_token: 'LineaETH',
+	chain_image: staticImages.LineaLogo,
 	block_explorer_name: 'Lineascan',
 	block_explorer_url: 'https://goerli.lineascan.build',
 	rpc_url: 'https://linea-goerli.infura.io/v3/',

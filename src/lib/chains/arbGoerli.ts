@@ -40,19 +40,22 @@ export const ARB_GOERLI: ChainConfig = {
 			decimal: 18,
 			precision: 2,
 			currency: 'POND',
-			symbol: '$'
+			symbol: '$',
+			address: '0xa9472a9C135Cb33221de441a4DEd393FD515a69C'
 		},
 		MPOND: {
 			decimal: 18,
 			precision: 6,
 			currency: 'MPOND',
-			symbol: '$'
+			symbol: '$',
+			address: '0x0B3d9b224496C2A2Fa1a4096D8EB4D350eFd9079'
 		},
 		USDC: {
 			decimal: 6,
 			precision: 6,
 			currency: 'USDC',
-			symbol: '$'
+			symbol: '$',
+			address: '0x8FB1E3fC51F3b789dED7557E680551d93Ea9d892'
 		}
 	}
 };

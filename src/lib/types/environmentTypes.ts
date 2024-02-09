@@ -49,6 +49,7 @@ export type TokenMetadata = {
 	decimal: number;
 	precision: number;
 	symbol: string;
+	address: string;
 	currency: keyof Tokens;
 };
 

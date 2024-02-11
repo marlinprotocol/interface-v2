@@ -17,7 +17,7 @@ export const LINEA: ChainConfig = {
 		RECEIVER_STAKING: '',
 		REWARD_DELEGATORS: '',
 		STAKE_MANAGER: '',
-		OYSTER: '0xdbc4779b69bdc0f657ba35648e434bae042a00e0',
+		OYSTER: '0xdD78e7F31B98dD8BD1F44F8FFCCeb4EdA6abdc5B',
 		POND: '',
 		MPOND: '',
 		USDC: '0x8FB1E3fC51F3b789dED7557E680551d93Ea9d892'
@@ -40,7 +40,8 @@ export const LINEA: ChainConfig = {
 			decimal: 6,
 			precision: 6,
 			currency: 'USDC',
-			symbol: '$'
+			symbol: '$',
+			address: '0x8FB1E3fC51F3b789dED7557E680551d93Ea9d892'
 		}
 	}
 };

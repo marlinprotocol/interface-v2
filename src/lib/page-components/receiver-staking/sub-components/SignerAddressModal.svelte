@@ -48,15 +48,16 @@
 	};
 
 	const handleUpdatedSignerAddressInput = async (event: Event) => {
-		updatedSignerAddressInputDirty = true;
 		const target = event.target as HTMLInputElement;
 
 		if (target.value && target.value !== $receiverStakingStore.signer) {
 			submitLoading = true;
 
 			[signerAddressIsValid, signerAddressIsUnique] = await isAddressValid(target.value);
+			updatedSignerAddressInputDirty = true;
 			submitLoading = false;
 		} else {
+			updatedSignerAddressInputDirty = true;
 			signerAddressIsValid = false;
 			signerAddressIsUnique = false;
 		}

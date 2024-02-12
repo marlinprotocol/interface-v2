@@ -309,6 +309,7 @@ exports[`HeaderConnectWallet > render's DisconnectWalletButton if wallet is not 
 				
               <div
                 class="tooltip flex shrink-0 text-left font-normal ml-1 tooltip-secondary tooltip-right"
+                data-testid="tooltip-icon"
                 data-tip="Connected wallet address"
               >
                 <img

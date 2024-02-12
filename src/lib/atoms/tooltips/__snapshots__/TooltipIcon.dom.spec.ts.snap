@@ -1,0 +1,15 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Tooltip Icon > tooltipIcon renders with default attribute 1`] = `
+<div
+  class="tooltip flex shrink-0 text-left font-normal  tooltip-secondary tooltip-top"
+  data-testid="tooltip-icon"
+  data-tip="Render Tooltip Icon"
+>
+  <img
+    alt="Info"
+    src="/images/alert.svg"
+    width="14px"
+  />
+</div>
+`;

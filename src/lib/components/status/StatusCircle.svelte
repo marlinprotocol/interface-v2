@@ -9,6 +9,7 @@
 </script>
 
 <div
+	data-testid="status-circle-test"
 	class="mx-auto h-5 w-5 rounded-full {style}"
 	style="background-color:${getColorHexByVariant(variant)}"
 />

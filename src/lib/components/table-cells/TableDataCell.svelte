@@ -3,6 +3,6 @@
 	export let styleClass = '';
 </script>
 
-<td class="{styleClass} {tableCellClasses.rowNormal}">
+<td class="{styleClass} {tableCellClasses.rowNormal}" data-testid="table-data-cell">
 	<slot />
 </td>

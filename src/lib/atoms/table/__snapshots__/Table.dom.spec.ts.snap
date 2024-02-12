@@ -17,6 +17,7 @@ exports[`TableComponent > render's table correctly 1`] = `
             <th>
               <div
                 class="mt-0.5 flex flex-nowrap items-center justify-center gap-1 text-center text-xs text-primary xl:text-sm custom-heading-style"
+                data-testid="table-heading-text"
               >
                 <div
                   class="relative flex items-start gap-1"
@@ -35,6 +36,7 @@ exports[`TableComponent > render's table correctly 1`] = `
             <th>
               <div
                 class="mt-0.5 flex flex-nowrap items-center justify-center gap-1 text-center text-xs text-primary xl:text-sm custom-heading-style"
+                data-testid="table-heading-text"
               >
                 <div
                   class="relative flex items-start gap-1"
@@ -53,6 +55,7 @@ exports[`TableComponent > render's table correctly 1`] = `
             <th>
               <div
                 class="mt-0.5 flex flex-nowrap items-center justify-center gap-1 text-center text-xs text-primary xl:text-sm custom-heading-style"
+                data-testid="table-heading-text"
               >
                 <div
                   class="relative flex items-start gap-1"

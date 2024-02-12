@@ -20,6 +20,7 @@ exports[`AmountInputWithMaxButton > render's the component properly 1`] = `
          
         <div
           class="tooltip flex shrink-0 text-left font-normal  tooltip-secondary tooltip-right"
+          data-testid="tooltip-icon"
           data-tip="Info Tooltip"
         >
           <img

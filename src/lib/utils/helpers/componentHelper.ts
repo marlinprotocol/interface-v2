@@ -1,4 +1,11 @@
-import type { CommonVariant } from '$lib/types/componentTypes';
+import type {
+	AppVariant,
+	ButtonModel,
+	CommonVariant,
+	DividerDirection,
+	InputCardVariant,
+	TextModel
+} from '$lib/types/componentTypes';
 import infoCircle from 'svelte-awesome/icons/infoCircle';
 import checkCircle from 'svelte-awesome/icons/checkCircle';
 import warning from 'svelte-awesome/icons/warning';
@@ -6,7 +13,9 @@ import timesCircle from 'svelte-awesome/icons/timesCircle';
 import { staticImages } from '$lib/components/images/staticImages';
 import { copyTextToClipboard } from './commonHelper';
 import { addToast } from '$lib/data-stores/toastStore';
+import { buttonClasses } from '$lib/atoms/componentClasses';
 
+// -------------------------------------------- IMAGE HELPERS --------------------------------------
 export const getIconbyVariant = (variant: CommonVariant | undefined) => {
 	switch (variant) {
 		case 'success':
@@ -22,6 +31,18 @@ export const getIconbyVariant = (variant: CommonVariant | undefined) => {
 	}
 };
 
+export const getImagebyWalletProvider = (walletProvider: string) => {
+	switch (walletProvider?.toLowerCase()) {
+		case 'metamask':
+			return staticImages.Metamask;
+		case 'walletconnect':
+			return staticImages.WalletConnect;
+		default:
+			return '';
+	}
+};
+
+// -------------------------------------------- CLASS HELPERS --------------------------------------
 export const getColorClassByVariant = (variant: CommonVariant | undefined) => {
 	switch (variant) {
 		case 'success':
@@ -34,6 +55,28 @@ export const getColorClassByVariant = (variant: CommonVariant | undefined) => {
 			return 'error-content';
 		default:
 			return '';
+	}
+};
+
+export const getImageClassByVariant = (variant: CommonVariant | undefined) => {
+	switch (variant) {
+		case 'primary':
+			return 'primary-img';
+		case 'info':
+		case 'secondary':
+			return 'secondary-img';
+		case 'warning':
+			return 'warning-img';
+		case 'error':
+			return 'error-img';
+		case 'success':
+			return 'success-img';
+		case 'disabled':
+			return 'disabled-img';
+		case 'grey':
+			return 'grey-img';
+		default:
+			return 'primary-img';
 	}
 };
 
@@ -60,39 +103,7 @@ export const getTextColorClassByVariant = (variant: CommonVariant | undefined) =
 	}
 };
 
-export const getImageClassByVariant = (variant: CommonVariant | undefined) => {
-	switch (variant) {
-		case 'primary':
-			return 'primary-img';
-		case 'info':
-		case 'secondary':
-			return 'secondary-img';
-		case 'warning':
-			return 'warning-img';
-		case 'error':
-			return 'error-img';
-		case 'success':
-			return 'success-img';
-		case 'disabled':
-			return 'disabled-img';
-		case 'grey':
-			return 'grey-img';
-		default:
-			return '';
-	}
-};
-
-export const getImagebyWalletProvider = (walletProvider: string) => {
-	switch (walletProvider?.toLowerCase()) {
-		case 'metamask':
-			return staticImages.Metamask;
-		case 'walletconnect':
-			return staticImages.WalletConnect;
-		default:
-			return '';
-	}
-};
-
+// -------------------------------------------- COLOR HELPERS --------------------------------------
 export const getColorHexByVariant = (variant: CommonVariant | undefined) => {
 	switch (variant) {
 		case 'primary':
@@ -143,6 +154,158 @@ export const getColorHexForTableRow = (index: number) => {
 	}
 };
 
+// -------------------------------------------- BUTTON HELPERS --------------------------------------
+export const getButtonStyles = (variant: ButtonModel['variant']) => {
+	switch (variant) {
+		case 'filled':
+			return buttonClasses.filled;
+		case 'outlined':
+			return buttonClasses.outlined;
+		case 'error':
+			return buttonClasses.error;
+		case 'text':
+			return buttonClasses.text;
+		case 'info':
+			return buttonClasses.lightblueFilled;
+		case 'greyFilled':
+			return buttonClasses.greyFilled;
+		case 'whiteFilled':
+			return buttonClasses.whiteFilled;
+		case 'tableConvertButton':
+			return buttonClasses.tableConvertButton;
+		default:
+			return buttonClasses.filled;
+	}
+};
+
+export const getButtonSize = (size: ButtonModel['size']) => {
+	switch (size) {
+		case 'tiniest':
+			return '';
+		case 'tiny':
+			return 'h-8';
+		case 'smaller':
+			return 'h-9';
+		case 'small':
+			return 'h-10';
+		case 'medium':
+			return 'h-12';
+		case 'large':
+			return 'h-14 text-base font-semibold';
+		default:
+			return undefined;
+	}
+};
+
+// -------------------------------------------- INPUT CARD HELPERS ----------------------------------
+export const getInputCardVariant = (variant: InputCardVariant | undefined) => {
+	switch (variant) {
+		case 'primary':
+			return 'bg-base-200 p-4';
+
+		case 'primary-mini':
+			return 'bg-base-200 py-2 px-4';
+
+		case 'warning':
+			return 'bg-red-100 px-4 py-1';
+
+		case 'none':
+			return '';
+
+		case 'search':
+			return 'bg-[#dfedf9] px-4 py-2.5';
+
+		default:
+			return 'bg-base-200 p-4';
+	}
+};
+
+// -------------------------------------------- CHIP HELPERS -----------------------------------------
+export const getChipVariant = (variant: AppVariant) => {
+	switch (variant) {
+		case 'primary':
+			return 'bg-base-200 text-primary font-semibold';
+
+		case 'secondary':
+			return 'bg-grey-200 text-[#6f6f71]';
+	}
+};
+
+// -------------------------------------------- DIVIDER HELPERS --------------------------------------
+export const getDividerColor = (variant: DividerDirection) => {
+	switch (variant) {
+		case 'divider-horizontal':
+			return 'bg-black/[0.1]';
+		case 'divider-vertical':
+			return 'bg-grey-500';
+	}
+};
+
+export const getDividerWidth = (variant: DividerDirection) => {
+	switch (variant) {
+		case 'divider-horizontal':
+			return 'w-full';
+		case 'divider-vertical':
+			return 'w-[1px]';
+	}
+};
+
+export const getDividerHeight = (variant: DividerDirection) => {
+	switch (variant) {
+		case 'divider-horizontal':
+			return 'h-[1px]';
+		case 'divider-vertical':
+			return 'h-4';
+	}
+};
+
+// -------------------------------------------- FONT HELPERS ----------------------------------------
+export const getFontSize = (variant: TextModel['variant']) => {
+	switch (variant) {
+		case 'h1':
+			return 'text-4xl';
+		case 'h2':
+			return 'text-3xl';
+		case 'h3':
+			return 'text-2xl';
+		case 'h4':
+			return 'text-xl';
+		case 'h5':
+			return 'text-lg';
+		case 'h6':
+		case 'body':
+			return 'text-base';
+		case 'small':
+			return 'text-sm';
+		case 'tiny':
+			return 'text-xs';
+		case 'nav':
+			return 'text-sm';
+	}
+};
+
+export const getDefaultFontWeight = (variant: TextModel['variant'] | undefined) => {
+	switch (variant) {
+		case 'h1':
+		case 'h2':
+		case 'h3':
+		case 'h4':
+		case 'h5':
+			return 'font-bold';
+		case 'h6':
+			return 'font-semibold';
+		case 'body':
+		case 'small':
+		case 'tiny':
+			return 'font-normal';
+		case 'nav':
+			return 'font-semibold';
+		default:
+			return 'font-normal';
+	}
+};
+
+// -------------------------------------------- USER INTERACTION HELPERS ----------------------------------------
 export const handleCopyClick = (text: string | undefined, successMessage: string) => {
 	if (text) {
 		copyTextToClipboard(text);

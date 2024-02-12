@@ -1,7 +1,6 @@
 <script lang="ts">
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
-	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
@@ -13,6 +12,7 @@
 	import PastJobDetailsModal from '$lib/page-components/oyster/inventory/modals/PastJobDetailsModal.svelte';
 	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
+	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -76,11 +76,11 @@
 		</div>
 	</TableGridDataCell>
 	<TableGridDataCell>
-		<TableConvertButton
-			modalFor="job-history-details-{rowIndex}"
-			text="DETAILS"
+		<ModalButton
+			variant="tableConvertButton"
 			styleClass="w-full"
-		/>
+			modalFor="job-history-details-{rowIndex}">DETAILS</ModalButton
+		>
 	</TableGridDataCell>
 </div>
 <PastJobDetailsModal modalFor="job-history-details-{rowIndex}" jobData={rowData} {rowIndex} />

@@ -1,0 +1,25 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Chip > it should render the chip item 1`] = `
+<body>
+  <div>
+    <div
+      class="flex items-center gap-1.5 rounded-3xl px-[20px] py-[9px] text-sm tracking-widest  bg-base-200 text-primary font-semibold"
+      data-testid="chip-item"
+    />
+    <!--&lt;Chip&gt;-->
+  </div>
+</body>
+`;
+
+exports[`Chip > it should render the chip item with variant 1`] = `
+<body>
+  <div>
+    <div
+      class="flex items-center gap-1.5 rounded-3xl px-[20px] py-[9px] text-sm tracking-widest  bg-grey-200 text-[#6f6f71]"
+      data-testid="chip-item"
+    />
+    <!--&lt;Chip&gt;-->
+  </div>
+</body>
+`;

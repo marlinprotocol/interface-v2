@@ -97,7 +97,7 @@
 								on:click={(e) => closeDropdownOnClick(e)}
 								class="{child.active ? 'bg-primary text-white' : ''} flex w-full items-start p-0"
 							>
-								<button class="w-full px-4 py-2 text-left">
+								<button class="w-full whitespace-nowrap px-4 py-2 text-left">
 									{child.label}
 								</button>
 							</a>

@@ -3,7 +3,6 @@
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
-	import TableConvertButton from '$lib/components/buttons/TableConvertButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import { addToast } from '$lib/data-stores/toastStore';
@@ -13,6 +12,7 @@
 	import { convertRateToPerHourString } from '$lib/utils/helpers/conversionHelper';
 	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
 	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
+	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 
 	export let rowData: OysterMarketplaceDataModel;
 	export let rowIndex: number;
@@ -71,12 +71,11 @@
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		{#if $connected}
-			<!-- content here -->
-			<TableConvertButton
-				modalFor="create-order-modal-{rowIndex}"
-				text="DEPLOY"
+			<ModalButton
+				variant="tableConvertButton"
 				styleClass="w-fit px-6 mr-4"
-			/>
+				modalFor="create-order-modal-{rowIndex}">DEPLOY</ModalButton
+			>
 		{:else}
 			<Button
 				styleClass="w-fit px-6 mr-4"

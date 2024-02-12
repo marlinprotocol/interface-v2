@@ -95,4 +95,6 @@ export type ToastModel = {
 
 export type InputCardVariant = 'primary' | 'warning' | 'none' | 'search' | 'primary-mini';
 
+export type DividerDirection = 'divider-horizontal' | 'divider-vertical';
+
 export type SortDirection = 'asc' | 'desc';

@@ -45,7 +45,7 @@
 						$contractAddressStore.OYSTER,
 						$oysterTokenMetadataStore,
 						$walletStore.provider as BrowserProvider
-				  );
+					);
 		initializeAllowanceInOysterStore(allowance);
 		console.log('Oyster allowances data is loaded');
 	}
@@ -75,8 +75,7 @@
 
 	$: if (
 		$connected &&
-		$walletStore.address !== prevAddress &&
-		$chainStore.chainId !== prevChainIdCdata
+		($walletStore.address !== prevAddress || $chainStore.chainId !== prevChainIdCdata)
 	) {
 		prevChainIdCdata = $chainStore.chainId;
 		prevAddress = $walletStore.address;

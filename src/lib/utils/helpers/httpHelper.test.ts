@@ -1,5 +1,4 @@
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
-import { describe, it, expect, vi, afterEach } from 'vitest';
 import * as toastStore from '$lib/data-stores/toastStore';
 
 describe('fetchHttpData', () => {

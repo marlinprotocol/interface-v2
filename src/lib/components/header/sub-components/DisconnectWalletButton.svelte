@@ -23,7 +23,7 @@
 		$walletStore.address.slice().substring(38, 42);
 </script>
 
-<div class="flex gap-2">
+<div data-testid='disconnect-wallet-button' class="flex gap-2">
 	<ChainSwitcher />
 	<ModalButton
 		{modalFor}

@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Txn Icon > renders correctly with provided txnHashUrl 1`] = `
+<body>
+  <div>
+    <a
+      class="shrink-0"
+      href="https://example.com/tx/1234"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <img
+        alt="txn link"
+        src="/images/openinnew.svg"
+        width="13px"
+      />
+    </a>
+    <!--&lt;TxnIcon&gt;-->
+  </div>
+</body>
+`;

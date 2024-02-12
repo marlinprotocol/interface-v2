@@ -1,0 +1,61 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Modal Component > render's modal correctly 1`] = `
+<body>
+  <div>
+    <input
+      class="modal-toggle s-GZwqZrPaBy6h"
+      id="test-modal"
+      tabindex="-1"
+      type="checkbox"
+    />
+     
+    <div
+      class="modal s-GZwqZrPaBy6h"
+      data-testid="modal"
+    >
+      <div
+        class="w-11/12 sm:w-3/4 sm:max-w-[607px] modal-box rounded-lg bg-base-100 px-0 py-0 shadow-none s-GZwqZrPaBy6h"
+      >
+        <div
+          class="modal-header sticky top-0 z-10 flex items-center bg-white px-6 pb-4 pt-8 s-GZwqZrPaBy6h"
+        >
+          <div
+            class="flex w-full flex-col s-GZwqZrPaBy6h"
+          >
+             
+            <div
+              class="text-left text-[15px] font-medium text-[#0a0e3099] s-GZwqZrPaBy6h"
+            />
+             
+            <div
+              class="text-left text-2xl font-bold s-GZwqZrPaBy6h"
+            />
+             
+            <div
+              class="mt-1 text-left text-[15px] font-medium text-[#767676] s-GZwqZrPaBy6h"
+            />
+          </div>
+           
+          <button
+            class="flex h-12 min-w-[3rem] cursor-pointer items-center justify-center self-start text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+            data-testid="modal-close-button"
+          >
+            <img
+              alt="Close"
+              class="s-GZwqZrPaBy6h"
+              src="/images/close-circle-icon.svg"
+            />
+          </button>
+        </div>
+         
+        <div
+          class="modal-body  px-6 pb-4 pt-2 s-GZwqZrPaBy6h"
+        />
+         
+      </div>
+    </div>
+    <!--&lt;Modal&gt;-->
+  </div>
+</body>
+`;

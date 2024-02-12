@@ -6,7 +6,7 @@
 	export let href: string;
 </script>
 
-<a {href} class={buttonClasses.largeButton}>
+<a data-testid='back-button' {href} class={buttonClasses.largeButton}>
 	<img src={staticImages.LeftBlueArrow} alt="Back" width="12" />
 	{text}
 </a>

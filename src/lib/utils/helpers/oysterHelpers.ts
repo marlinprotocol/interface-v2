@@ -282,9 +282,9 @@ export const getSearchAndFilteredMarketplaceData = (
 		allMarketplaceData = allMarketplaceData.filter((item) => {
 			return exactMatch
 				? item.provider.address.toLowerCase() === value ||
-						item.provider.name?.toLowerCase() === value
+				item.provider.name?.toLowerCase() === value
 				: item.provider.address.toLowerCase().includes(value) ||
-						item.provider.name?.toLowerCase()?.includes(value);
+				item.provider.name?.toLowerCase()?.includes(value);
 		});
 	}
 
@@ -294,7 +294,7 @@ export const getSearchAndFilteredMarketplaceData = (
 			return exactMatch
 				? item.region.toLowerCase() === value || item.regionName.toLowerCase() === value
 				: item.region.toLowerCase().includes(value) ||
-						item.regionName.toLowerCase().includes(value);
+				item.regionName.toLowerCase().includes(value);
 		});
 	}
 
@@ -476,3 +476,19 @@ export function getBandwidthFromRateAndRegion(bandwidthRate: bigint, region: str
 export const getDurationInSecondsForUnit = (durationUnit: OysterDurationUnits) => {
 	return OYSTER_DURATION_UNITS_LIST.find((unit) => unit.label === durationUnit)?.value ?? 1;
 };
+
+export const combineAndDeduplicateJobs = (jobsArray1: OysterInventoryDataModel[], jobsArray2: OysterInventoryDataModel[]) => {
+	const combinedUniqueObjectsMap = new Map();
+
+	// Helper function to add objects to the map, avoiding duplicates
+	const addObjectsToMap = (jobs: OysterInventoryDataModel[]) => {
+		jobs.forEach(job => combinedUniqueObjectsMap.set(job.id, job));
+	};
+
+	// Add objects from both arrays to the map
+	addObjectsToMap(jobsArray1);
+	addObjectsToMap(jobsArray2);
+
+	// Convert the map values back to an array
+	return Array.from(combinedUniqueObjectsMap.values()).sort((job1, job2) => job2.createdAt - job1.createdAt);
+}

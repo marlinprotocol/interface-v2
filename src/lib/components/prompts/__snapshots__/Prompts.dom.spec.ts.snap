@@ -1,5 +1,42 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`AddTokenPrompt > renders the AddTokenPrompt properly 1`] = `
+<body>
+  <onboard-v2
+    style="all: initial;"
+  />
+  <style>
+    
+    
+@font-face {
+  font-family: 'Inter';
+  font-style:  normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
+}
+
+  
+  </style>
+  <div>
+    <button
+      class="font-medium gap-3 h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
+    >
+       
+      <span
+        class="text-2xl font-light"
+      >
+        +
+      </span>
+       Add 
+      POND
+    </button>
+    <!--&lt;Button&gt;-->
+    <!--&lt;AddTokenPrompt&gt;-->
+  </div>
+</body>
+`;
+
 exports[`NetworkPrompt > render's the Network Prompt properly 1`] = `
 <body>
   <onboard-v2

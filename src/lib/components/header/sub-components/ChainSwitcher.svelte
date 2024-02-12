@@ -44,7 +44,17 @@
 	>
 		<div class="flex h-8 w-fit items-center">
 			<div class="h-8 w-8">
-				<img src={$chainStore.chainImage} alt="current chain" />
+				{#if $chainStore.chainImage}
+					<img src={$chainStore.chainImage} alt="current chain" />
+				{:else}
+					<div
+						class="flex h-full items-center justify-center rounded-full {isDark
+							? 'bg-white'
+							: 'bg-[#e9f2f5]'}"
+					>
+						<span>{$chainStore.chainDisplayName[0].toLocaleUpperCase()}</span>
+					</div>
+				{/if}
 			</div>
 			<div class="ml-2">
 				<Icon data={chevronDown} size={12} iconColorClass="icon-primary" />

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { doNothing } from '$lib/utils/helpers/commonHelper';
+	import { onDestroy } from 'svelte';
 
 	export let endEpochTime: number;
 	export let onTimerEnd: () => void = () => {
@@ -19,7 +20,7 @@
 	}, 1000);
 </script>
 
-<div id={timerId} class="flex items-center gap-1">
+<div id={timerId} data-testId='timer' class="flex items-center gap-1">
 	{#if original > 0}
 		<slot name="active" timer={original} />
 	{:else}

@@ -10,7 +10,7 @@
 	export let tablePadding = 'px-8 py-6';
 </script>
 
-<div class="overflow-x-auto overflow-y-hidden {tablePadding} {styleClass}">
+<div data-testid='table-container' class="overflow-x-auto overflow-y-hidden {tablePadding} {styleClass}">
 	<table class="w-full text-center">
 		<thead class="w-full">
 			<tr>

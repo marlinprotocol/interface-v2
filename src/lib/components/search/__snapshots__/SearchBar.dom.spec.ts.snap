@@ -1,0 +1,45 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SearchBar > render's the component properly 1`] = `
+<body>
+  <div>
+    <div
+      class=" flex gap-4 items-center w-full rounded-lg bg-[#dfedf9] px-4 py-2.5"
+      data-testid="input-card"
+    >
+      <svg
+        aria-label=""
+        class="fa-icon icon-info s-T5YyQewRBd7n"
+        data-testid="icon"
+        height="16"
+        role="presentation"
+        style="width:18px; height:18px; cursor:pointer;  opacity: .2"
+        version="1.1"
+        viewBox="0 0 1664 1792"
+        width="14.857142857142858"
+      >
+        <path
+          d="M1152 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zM1664 1664q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z"
+        />
+        
+         
+         
+        
+        
+      </svg>
+      <!--&lt;Svg&gt;-->
+      <!--&lt;Icon&gt;-->
+      <!--&lt;Icon&gt;-->
+       
+      <input
+        class="hideInputNumberAppearance input input-ghost h-[30px] w-full text-[15px] p-0 font-normal text-primary focus:outline-none focus-within:border-b-2 focus-within:text-primary focus:bg-transparent disabled:text-blue-500 placeholder:text-black/[.2]"
+        id="address-display"
+        placeholder="Search..."
+        prefix="0x"
+      />
+    </div>
+    <!--&lt;InputCard&gt;-->
+    <!--&lt;SearchBar&gt;-->
+  </div>
+</body>
+`;

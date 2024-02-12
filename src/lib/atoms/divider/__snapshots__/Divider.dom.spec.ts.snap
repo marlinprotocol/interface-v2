@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Divider > renders the divider component 1`] = `
+<div>
+  <div
+    class="h-[1px] w-full bg-black/[0.1] my-0"
+    data-testid="divider"
+  />
+  <!--&lt;Divider&gt;-->
+</div>
+`;

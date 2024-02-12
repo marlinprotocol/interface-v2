@@ -16,6 +16,7 @@
 <div class="btn-group {styleClass}">
 	<button
 		disabled={isFirstPage}
+		data-testid='pagination-prev-button'
 		class={buttonClasses.paginationButton}
 		on:click={() => {
 			if (activePage > 1) {
@@ -42,6 +43,7 @@
 	{/each}
 	<button
 		disabled={isLastPage}
+		data-testid='pagination-next-button'
 		class={buttonClasses.paginationButton}
 		on:click={() => {
 			if (activePage < pageArray.length) {

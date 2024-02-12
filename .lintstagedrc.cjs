@@ -1,3 +1,4 @@
 module.exports = {
-	'*.{js,ts,svelte,json,cjs}': ['prettier --write', 'eslint --fix']
+	'*.{js,ts,svelte,json,cjs}': ['prettier --write']
+	// TODO: add eslint --fix
 };

@@ -1,9 +1,11 @@
+import { staticImages } from '$lib/components/images/staticImages';
 import type { ChainConfig } from '$lib/types/environmentTypes';
 
 export const ARB_SEPOLIA: ChainConfig = {
 	chain_id: '0x66eee',
 	chain_name: 'Arbitrum Sepolia',
 	chain_token: 'ETH',
+	chain_image: staticImages.ArbitrumLogo,
 	block_explorer_name: 'Arbiscan',
 	block_explorer_url: 'https://sepolia.arbiscan.io',
 	rpc_url: 'https://arbitrum-sepolia.blockpi.network/v1/rpc/public',

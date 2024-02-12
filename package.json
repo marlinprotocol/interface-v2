@@ -13,9 +13,10 @@
 		"test:unit:watch": "vitest",
 		"test:unit": "vitest run",
 		"testcoverage:unit": "vitest run --coverage",
-		"lint": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss --check . && eslint .",
-		"format": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss --write .",
-		"update": "ncu -u && npm i"
+		"lint": "prettier --check . && eslint .",
+		"format": "prettier --write .",
+		"update": "ncu -u && npm i",
+		"prepare": "node .husky/install.mjs"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.37.1",
@@ -29,6 +30,8 @@
 		"eslint": "^8.48.0",
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-svelte": "^2.33.0",
+		"husky": "^9.0.10",
+		"lint-staged": "^15.2.2",
 		"jsdom": "^23.0.1",
 		"npm-check-updates": "^16.13.2",
 		"postcss": "^8.4.29",

@@ -65,8 +65,8 @@
 							? 'bg-blue-50'
 							: 'bg-white'
 						: suggestion === value
-						? 'bg-blue-50'
-						: 'bg-white'}"
+							? 'bg-blue-50'
+							: 'bg-white'}"
 				>
 					<button
 						class="w-full px-8 py-3 text-left"
@@ -75,13 +75,13 @@
 						<!-- if the suggestion list has an array/object for displaying suggestions. Eg. region select-->
 						{#if Array.isArray(suggestion)}
 							<div
-								class="flex w-full min-w-[320px] items-baseline justify-between text-sm font-medium"
+								class="flex w-full min-w-[320px] items-baseline justify-between whitespace-nowrap text-sm font-medium"
 							>
 								<span>{suggestion[0]}</span>
 								<span class="text-xs font-normal">{suggestion[1]}</span>
 							</div>
 						{:else}
-							<div class="w-full text-sm font-medium">
+							<div class="w-full whitespace-nowrap text-sm font-medium">
 								{suggestion + (suggestion !== 'All' ? textSuffix : '')}
 							</div>
 						{/if}

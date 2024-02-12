@@ -15,6 +15,7 @@
 	import { approveToken } from '$lib/controllers/contract/token';
 	import { doNothing } from '$lib/utils/helpers/commonHelper';
 	import { epochToDurationString } from '$lib/utils/helpers/conversionHelper';
+	import AddTokenPrompt from '$lib/components/prompts/AddTokenPrompt.svelte';
 
 	let pageTitle = 'Marlin Receiver Staking Portal (Ignore this part)';
 	let epochNumber = 0;
@@ -99,4 +100,7 @@
 	<input bind:value={epochNumber} type="number" />
 	<br />
 	{epochToDurationString(epochNumber)}
+	<div class="mb-28 flex justify-center gap-3">
+		<AddTokenPrompt />
+	</div>
 </div>

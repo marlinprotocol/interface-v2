@@ -59,6 +59,14 @@
 		<div class="flex flex-col gap-4 px-4">
 			<div class="flex flex-col gap-4 sm:flex-row">
 				<TextInputCard
+					title="Enclave Image URL"
+					value={enclaveUrl}
+					cliboardContent={enclaveUrl}
+					textStyle="text-primary truncate"
+				/>
+			</div>
+			<div class="flex flex-col gap-4 sm:flex-row">
+				<TextInputCard
 					title="Operator"
 					value={name !== '' ? name : address}
 					centered
@@ -85,11 +93,6 @@
 						? 'Ended'
 						: epochToDurationString(endEpochTime - nowTime, true)}
 					centered
-					textStyle="text-primary truncate"
-				/>
-				<TextInputCard
-					title="Enclave Image URL"
-					value={enclaveUrl}
 					textStyle="text-primary truncate"
 				/>
 			</div>
@@ -156,7 +159,7 @@
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<div class="p-4">
+		<div class="w-full p-4">
 			<ModalButton variant="filled" {modalFor} size="large" styleClass="btn-block my-0">
 				OK
 			</ModalButton>

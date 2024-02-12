@@ -7,6 +7,9 @@ export const chainStore: Writable<ChainStore> = writable(DEFAULT_CHAIN_STORE);
 
 export const allowedChainsStore: Writable<number[]> = writable([environment.default_chain_id]);
 
+/**
+ * this defaults to the default chain if the chain is not valid
+ */
 export const chainConfigStore = derived([chainStore], ([$chainStore]) => {
 	const isChainValid =
 		$chainStore.chainId !== null && environment.valid_chains[$chainStore.chainId];

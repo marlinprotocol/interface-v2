@@ -25,6 +25,7 @@ const WalletConnected = '/images/wallet-connected.svg';
 const ArbitrumLogo = '/images/arbitrum.webp';
 const EthereumLogo = '/images/eth.webp';
 const LineaLogo = '/images/linea.webp';
+const MarlinLogo = 'https://blog.marlin.org/wp-content/uploads/2024/01/200x200.png';
 
 export const staticImages = {
 	Alert,
@@ -53,5 +54,6 @@ export const staticImages = {
 	WalletConnected,
 	ArbitrumLogo,
 	EthereumLogo,
-	LineaLogo
+	LineaLogo,
+	MarlinLogo
 };

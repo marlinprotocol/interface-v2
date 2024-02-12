@@ -23,7 +23,11 @@
 	const bgColor = getColorHexForTableRow(rowIndex);
 </script>
 
-<div class="ml-6 flex w-fit items-center justify-start">
+<div
+	class="ml-6 flex w-fit items-center justify-start"
+	data-testid="name-with-address"
+	id="name-with-address"
+>
 	<div>
 		{#if rowIndex > -1}
 			<div

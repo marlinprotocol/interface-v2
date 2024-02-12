@@ -14,6 +14,7 @@
 
 <div
 	class="mt-0.5 flex flex-nowrap items-center justify-center gap-1 text-center text-xs text-primary xl:text-sm {styleClass}"
+	data-testid="table-heading-text"
 >
 	{#if sorting}
 		<button

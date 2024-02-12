@@ -12,6 +12,10 @@
 	$: tooltipClass = `${styleClass} ${tooltipVariant} ${tooltipDirection}`;
 </script>
 
-<div class="tooltip flex shrink-0 text-left font-normal {tooltipClass}" data-tip={tooltipText}>
+<div
+	data-testid="tooltip-icon"
+	class="tooltip flex shrink-0 text-left font-normal {tooltipClass}"
+	data-tip={tooltipText}
+>
 	<img src={iconSrc} alt="Info" width={iconWidth} />
 </div>

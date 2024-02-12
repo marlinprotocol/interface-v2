@@ -36,6 +36,7 @@ exports[`SearchWithSelect > render's component properly 1`] = `
            
           <div
             class="search-container relative flex w-fit cursor-pointer items-baseline s-Q2GksoR5hVxS"
+            data-testid="select"
           >
              
             <button

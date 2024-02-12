@@ -19,6 +19,7 @@ import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModif
 import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 import type { SortDirection } from '$lib/types/componentTypes';
 import { REGION_NAME_CONSTANTS } from '../constants/regionNameConstants';
+import type { BytesLike } from 'ethers';
 
 export const getSearchedInventoryData = (
 	searchInput: string,
@@ -477,18 +478,18 @@ export const getDurationInSecondsForUnit = (durationUnit: OysterDurationUnits) =
 	return OYSTER_DURATION_UNITS_LIST.find((unit) => unit.label === durationUnit)?.value ?? 1;
 };
 
+const addJobsToMap = (jobs: OysterInventoryDataModel[], map: Map<BytesLike, OysterInventoryDataModel>) => {
+	jobs.forEach(job => map.set(job.id, job));
+};
+
 export const combineAndDeduplicateJobs = (earlierJobs: OysterInventoryDataModel[], newJobs: OysterInventoryDataModel[]) => {
 	const combinedUniqueObjectsMap = new Map();
 
-	// Helper function to add objects to the map, avoiding duplicates
-	const addObjectsToMap = (jobs: OysterInventoryDataModel[]) => {
-		jobs.forEach(job => combinedUniqueObjectsMap.set(job.id, job));
-	};
-
 	// Add objects from both arrays to the map
-	addObjectsToMap(earlierJobs);
-	addObjectsToMap(newJobs);
+	addJobsToMap(earlierJobs, combinedUniqueObjectsMap);
+	addJobsToMap(newJobs, combinedUniqueObjectsMap);
 
 	// Convert the map values back to an array
 	return Array.from(combinedUniqueObjectsMap.values()).sort((job1, job2) => job2.createdAt - job1.createdAt);
 }
+

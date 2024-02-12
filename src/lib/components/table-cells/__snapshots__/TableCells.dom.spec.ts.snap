@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Table Cells > TableDataCell component renders  1`] = `
+exports[`Table Cells > renders TableDataCell successfully 1`] = `
 <body>
   <div>
     <td
@@ -12,7 +12,7 @@ exports[`Table Cells > TableDataCell component renders  1`] = `
 </body>
 `;
 
-exports[`Table Cells > TableDataWithButton component renders  1`] = `
+exports[`Table Cells > renders TableDataWithButton successfully 1`] = `
 <body>
   <div>
     <td
@@ -36,7 +36,7 @@ exports[`Table Cells > TableDataWithButton component renders  1`] = `
 </body>
 `;
 
-exports[`Table Cells > TableGridDataCell component renders  1`] = `
+exports[`Table Cells > renders TableGridDataCell successfully 1`] = `
 <body>
   <div>
     <div

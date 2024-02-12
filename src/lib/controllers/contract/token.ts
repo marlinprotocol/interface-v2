@@ -15,7 +15,7 @@ contractAddressStore.subscribe((value) => {
 });
 
 export async function approveToken(
-	tokenToApprove: TokenMetadata,
+	tokenToApprove: Omit<TokenMetadata, 'address'>,
 	amount: bigint,
 	toAddress: Address
 ) {

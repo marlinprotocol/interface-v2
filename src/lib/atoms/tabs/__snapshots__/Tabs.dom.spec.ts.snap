@@ -1,6 +1,15 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Tabs > Default tablist render 1`] = `
+exports[`Tabs > renders TabPanel 1`] = `
+<div
+  aria-labelledby="10-tab"
+  data-testid="tab-panel"
+  id="10-tabitem"
+  role="tabpanel"
+/>
+`;
+
+exports[`Tabs > renders the default tablist 1`] = `
 <div
   class=""
   data-testid="tab-list"
@@ -12,16 +21,7 @@ exports[`Tabs > Default tablist render 1`] = `
 </div>
 `;
 
-exports[`Tabs > TabPanel render 1`] = `
-<div
-  aria-labelledby="10-tab"
-  data-testid="tab-panel"
-  id="10-tabitem"
-  role="tabpanel"
-/>
-`;
-
-exports[`Tabs > tab Render 1`] = `
+exports[`Tabs > renders the tab 1`] = `
 <li
   class="mr-2"
   data-testid="tab"

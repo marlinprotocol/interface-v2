@@ -7,7 +7,7 @@ import { DISCORD_LINK } from '$lib/utils/constants/urls';
 import AddTokenPrompt from './AddTokenPrompt.svelte';
 
 describe('NetworkPrompt', () => {
-	it(`render's the Network Prompt properly`, async () => {
+	it("render's the Network Prompt properly", async () => {
 		const { container } = render(NetworkPrompt, { props: {} });
 		expect(container).toMatchSnapshot();
 	});

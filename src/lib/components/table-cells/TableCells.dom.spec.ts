@@ -10,7 +10,7 @@ describe('Table Cells', () => {
 		vi.resetAllMocks();
 	});
 
-	test('TableDataCell component renders ', () => {
+	it('renders TableDataCell successfully', () => {
 		const { getByTestId, container } = render(TableDataCell, {
 			styleClass: 'table-data-test-class'
 		});
@@ -19,7 +19,7 @@ describe('Table Cells', () => {
 		expect(container).toMatchSnapshot();
 	});
 
-	test('TableDataCell component renders with slot ', () => {
+	it('renders with slot ', () => {
 		const { getByTestId, getByLabelText } = render(
 			html`<${TableDataCell}><div aria-label="test-component-chidren">Test Component Chidren</div></${TableDataCell}>`
 		);
@@ -33,7 +33,7 @@ describe('Table Cells', () => {
 		).toBeTruthy();
 	});
 
-	test('TableGridDataCell component renders ', () => {
+	it('renders TableGridDataCell successfully', () => {
 		const { getByTestId, container } = render(TableGridDataCell, {
 			styleClass: 'table-grid-data-test-class'
 		});
@@ -44,7 +44,7 @@ describe('Table Cells', () => {
 		expect(container).toMatchSnapshot();
 	});
 
-	test('TableGridDataCell component renders with slot ', () => {
+	it('renders TableGridDataCell with slot ', () => {
 		const { getByTestId, getByLabelText } = render(
 			html`<${TableGridDataCell}><div aria-label="test-component-chidren">Test Component Chidren</div></${TableGridDataCell}>`
 		);
@@ -58,7 +58,7 @@ describe('Table Cells', () => {
 		).toBeTruthy();
 	});
 
-	test('TableDataWithButton component renders ', () => {
+	it('renders TableDataWithButton successfully', () => {
 		const { getByTestId, container } = render(TableDataWithButton, {
 			styleClass: 'table-data-with-button-test-class'
 		});
@@ -69,7 +69,7 @@ describe('Table Cells', () => {
 		expect(container).toMatchSnapshot();
 	});
 
-	test('TableDataWithButton component renders with slots', () => {
+	it('renders TableDataWithButton  with slots', () => {
 		const { getByTestId, findByText } = render(
 			html`<${TableDataWithButton}>
             <button slot='line1'>Test Component First Chidren</button>

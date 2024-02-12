@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Status Circle > StatusCircle component renders with default porps 1`] = `
+exports[`Status Circle > renders with default props 1`] = `
 <body>
   <div>
     <div

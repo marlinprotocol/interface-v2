@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Tooltip > tooltip renders with default attribute 1`] = `
+exports[`Tooltip > renders with default attribute 1`] = `
 <div
   class="tooltip inline-flex text-left font-normal  tooltip-secondary tooltip-top"
   data-testid="tooltip"

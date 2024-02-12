@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`HeaderLinksGroup > HeaderLinksGroup intially render 1`] = `
+exports[`HeaderLinksGroup > renders HeaderLinksGroup correctly 1`] = `
 [
   <li
     class="nav-links px-1"

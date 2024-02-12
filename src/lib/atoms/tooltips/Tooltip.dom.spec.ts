@@ -7,7 +7,7 @@ describe('Tooltip', () => {
 		vi.resetAllMocks();
 	});
 
-	test('tooltip renders with default attribute', () => {
+	it('renders with default attribute', () => {
 		const { getByTestId } = render(Tooltip, { props: { tooltipText: 'Render Tooltip' } });
 		const tooltipElement = getByTestId('tooltip');
 		const tooltipClasslist = tooltipElement.classList;
@@ -17,7 +17,7 @@ describe('Tooltip', () => {
 		expect(tooltipElement).toMatchSnapshot();
 	});
 
-	test('applies styleClass to the tooltip', () => {
+	it('applies styleClass to the tooltip', () => {
 		const { getByTestId } = render(Tooltip, {
 			props: { tooltipText: 'StyleClass Test', styleClass: 'custom-class' }
 		});
@@ -28,7 +28,7 @@ describe('Tooltip', () => {
 		expect(tooltipClasslist.contains('custom-class')).toBe(true);
 	});
 
-	test('applies styleClass with multiple class to the tooltip', () => {
+	it('applies styleClass with multiple class to the tooltip', () => {
 		const { getByTestId } = render(Tooltip, {
 			props: {
 				tooltipText: 'StyleClass Test',
@@ -43,7 +43,7 @@ describe('Tooltip', () => {
 		expect(tooltipClasslist.contains('secondary-class')).toBe(true);
 	});
 
-	test('applies tooltipVariant to the tooltip', () => {
+	it('applies tooltipVariant to the tooltip', () => {
 		const { getByTestId } = render(Tooltip, {
 			props: {
 				tooltipText: 'tooltipVariant Test',
@@ -57,7 +57,7 @@ describe('Tooltip', () => {
 		expect(tooltipClasslist.contains('tooltip-accent')).toBe(true);
 	});
 
-	test('applies tooltipDirection to the tooltip', () => {
+	it('applies tooltipDirection to the tooltip', () => {
 		const { getByTestId } = render(Tooltip, {
 			props: {
 				tooltipText: 'tooltipDirection Test',
@@ -71,7 +71,7 @@ describe('Tooltip', () => {
 		expect(tooltipClasslist.contains('tooltip-bottom')).toBe(true);
 	});
 
-	test('applies tooltipDirection & tooltipVariant to the tooltip', () => {
+	it('applies tooltipDirection & tooltipVariant to the tooltip', () => {
 		const { getByTestId } = render(Tooltip, {
 			props: {
 				tooltipText: 'tooltipDirection and tooltipVariant Test',
@@ -89,7 +89,7 @@ describe('Tooltip', () => {
 		expect(tooltipClasslist.contains('tooltip-info')).toBe(true);
 	});
 
-	test('applies tooltipDirection & tooltipVariant & styleClass to the tooltip', () => {
+	it('applies tooltipDirection & tooltipVariant & styleClass to the tooltip', () => {
 		const { getByTestId } = render(Tooltip, {
 			props: {
 				tooltipText: 'tooltipDirection,styleClass and tooltipVariant Test',
@@ -109,7 +109,7 @@ describe('Tooltip', () => {
 		expect(tooltipClasslist.contains('tooltip-mode')).toBe(true);
 	});
 
-	test('applies tooltipVariant & styleClass to the tooltip', () => {
+	it('applies tooltipVariant & styleClass to the tooltip', () => {
 		const { getByTestId } = render(Tooltip, {
 			props: {
 				tooltipText: 'styleClass and tooltipVariant Test',
@@ -125,7 +125,7 @@ describe('Tooltip', () => {
 		expect(tooltipClasslist.contains('tooltip-default')).toBe(true);
 	});
 
-	test('applies all attribute to the tooltip', () => {
+	it('applies all attribute to the tooltip', () => {
 		const { getByTestId } = render(Tooltip, {
 			props: {
 				tooltipText: 'All Attribute Test',

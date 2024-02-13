@@ -108,7 +108,7 @@
 				/>
 				<TextInputCard
 					title="Duration Run"
-					value="{$oysterTokenMetadataStore.symbol}{epochToDurationString(durationRun, true)}"
+					value={epochToDurationString(durationRun, true)}
 					centered
 					textStyle="text-primary"
 				/>

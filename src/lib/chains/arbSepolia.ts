@@ -20,7 +20,7 @@ export const ARB_SEPOLIA: ChainConfig = {
 		OYSTER: '0xDcD2846DCA523Db1C8F3c842a41A58099dE26A0A',
 		POND: '0x8995673cef56d4cBAE3cE96157a8fc977D4f8525',
 		MPOND: '0x071BaFF53B0Ca54E4aec59Cda64f9cC5a7205e2c',
-		USDC: '0xf3C3351D6Bd0098EEb33ca8f830FAf2a141Ea2E1'
+		USDC: '0xf4137957B53668800CEAb1Eb71ACb91aDdD1D8fe'
 	},
 	subgraph_urls: {
 		RECEIVER_STAKING: 'https://api.thegraph.com/subgraphs/name/marlin-staging/staking-arb1-dev',
@@ -29,7 +29,7 @@ export const ARB_SEPOLIA: ChainConfig = {
 		POND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-dev',
 		MPOND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-dev'
 	},
-	oyster_token: 'POND',
+	oyster_token: 'USDC',
 	oyster_rate_metadata: {
 		rateUnit: 'hour',
 		rateCPUrlUnitInSeconds: 1, // 1 hour
@@ -55,7 +55,7 @@ export const ARB_SEPOLIA: ChainConfig = {
 			precision: 6,
 			currency: 'USDC',
 			symbol: '$',
-			address: '0xf3C3351D6Bd0098EEb33ca8f830FAf2a141Ea2E1'
+			address: '0xf4137957B53668800CEAb1Eb71ACb91aDdD1D8fe'
 		}
 	}
 };

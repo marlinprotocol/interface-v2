@@ -10,6 +10,7 @@
 			<button
 				in:slide
 				out:fade
+				data-testid="toast-btn"
 				on:click={() => dismissToast(toast.id)}
 				class="alert flex w-fit flex-row items-start justify-start gap-1 whitespace-normal rounded px-4 py-2 font-medium shadow-lg {toast.className}"
 			>

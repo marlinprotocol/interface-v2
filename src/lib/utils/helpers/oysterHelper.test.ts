@@ -4997,16 +4997,10 @@ describe('getDurationInSecondsForUnit', () => {
 });
 
 
-// Mock OysterInventoryDataModel
-type OysterInventoryDataModel = {
-	id: string;
-	createdAt: number;
-};
-
 describe('addJobsToMap', () => {
 	it('should add jobs to the map with the correct id', () => {
 		const map = new Map();
-		const jobs: OysterInventoryDataModel[] = [
+		const jobs: Pick<OysterInventoryDataModel, 'id' | 'createdAt'>[] = [
 			{ id: 'job1', createdAt: Date.now() },
 			{ id: 'job2', createdAt: Date.now() },
 		];
@@ -5020,11 +5014,11 @@ describe('addJobsToMap', () => {
 
 describe('combineAndDeduplicateJobs', () => {
 	it('should combine and deduplicate jobs based on id and sort by createdAt descending', () => {
-		const earlierJobs: OysterInventoryDataModel[] = [
+		const earlierJobs: Pick<OysterInventoryDataModel, 'id' | 'createdAt'>[] = [
 			{ id: 'job1', createdAt: 1000 },
 			{ id: 'job2', createdAt: 2000 },
 		];
-		const newJobs: OysterInventoryDataModel[] = [
+		const newJobs: Pick<OysterInventoryDataModel, 'id' | 'createdAt'>[] = [
 			{ id: 'job2', createdAt: 3000 },
 			{ id: 'job3', createdAt: 4000 },
 		];

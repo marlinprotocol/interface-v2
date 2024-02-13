@@ -478,7 +478,7 @@ export const getDurationInSecondsForUnit = (durationUnit: OysterDurationUnits) =
 	return OYSTER_DURATION_UNITS_LIST.find((unit) => unit.label === durationUnit)?.value ?? 1;
 };
 
-const addJobsToMap = (jobs: OysterInventoryDataModel[], map: Map<BytesLike, OysterInventoryDataModel>) => {
+export const addJobsToMap = (jobs: OysterInventoryDataModel[], map: Map<BytesLike, OysterInventoryDataModel>) => {
 	jobs.forEach(job => map.set(job.id, job));
 };
 

@@ -22,14 +22,14 @@ describe('Toast', () => {
 		dismissToast(298429842984);
 	});
 
-	test('renders no toasts initially', () => {
+	it('renders no toasts initially', () => {
 		const { queryAllByTestId } = render(Toast);
 		expect(queryAllByTestId('toast')).toHaveLength(0);
 	});
 
-	test('renders a toast when added to the store', async () => {
+	it('renders a toast when added to the store', () => {
+		toastsStore.set([data]);
 		const { getByTestId } = render(Toast);
-		await toastsStore.set([data]);
 		const toastElement = getByTestId('toast');
 		const toastClasslist = toastElement.classList;
 		expect(toastElement).toBeTruthy();
@@ -37,24 +37,24 @@ describe('Toast', () => {
 		expect(toastElement).toMatchSnapshot();
 	});
 
-	test('it should fire the onClick event when clicked toast Icon', async () => {
+	it('fires the onClick event when clicked toast Icon', async () => {
+		toastsStore.set([data]);
 		const { getByTestId, queryAllByTestId } = render(Toast);
-		await toastsStore.set([data]);
 		const toastElement = getByTestId('toast');
 		const button = toastElement.firstChild as Element;
 		await fireEvent.click(button);
 		expect(queryAllByTestId('toast')).toHaveLength(0);
 	});
 
-	test('toast class exits', async () => {
+	it('renders with toast class', () => {
+		toastsStore.set([data]);
 		const { getByTestId } = render(Toast);
-		await toastsStore.set([data]);
 		expect(getByTestId('toast').classList.contains('toast')).toBe(true);
 	});
 
-	test('toast postion top', async () => {
+	it('renders with toast position top', () => {
+		toastsStore.set([data]);
 		const { getByTestId } = render(Toast);
-		await toastsStore.set([data]);
 		expect(getByTestId('toast').classList.contains('toast-top')).toBe(true);
 	});
 });

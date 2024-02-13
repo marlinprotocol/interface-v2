@@ -8,7 +8,7 @@ describe('Tooltip Icon', () => {
 		vi.resetAllMocks();
 	});
 
-	test('tooltipIcon renders with default attribute', () => {
+	it('tooltipIcon renders with default attribute', () => {
 		const { getByTestId } = render(TooltipIcon, { props: { tooltipText: 'Render Tooltip Icon' } });
 		const tooltipElement = getByTestId('tooltip-icon');
 		const tooltipClasslist = tooltipElement.classList;
@@ -20,7 +20,7 @@ describe('Tooltip Icon', () => {
 		expect(tooltipElement).toMatchSnapshot();
 	});
 
-	test('applies iconSrc attribute to the tooltip Icon', () => {
+	it('applies iconSrc attribute to the tooltip Icon', () => {
 		const { getByTestId } = render(TooltipIcon, {
 			props: {
 				tooltipText: 'iconSrc Attribute Test',
@@ -32,7 +32,7 @@ describe('Tooltip Icon', () => {
 		expect(tooltipElement.getAttribute('data-tip')).toEqual('iconSrc Attribute Test');
 	});
 
-	test('applies tooltipDirection to the tooltipIcon', () => {
+	it('applies tooltipDirection to the tooltipIcon', () => {
 		const { getByTestId } = render(TooltipIcon, {
 			props: {
 				tooltipText: 'tooltipDirection Test',
@@ -46,7 +46,7 @@ describe('Tooltip Icon', () => {
 		expect(tooltipClasslist.contains('tooltip-bottom')).toBe(true);
 	});
 
-	test('applies Icon attribute to the tooltip Icon', () => {
+	it('applies Icon attribute to the tooltip Icon', () => {
 		const { getByTestId } = render(TooltipIcon, {
 			props: {
 				tooltipText: 'Icon Attribute Test',
@@ -65,7 +65,7 @@ describe('Tooltip Icon', () => {
 		expect(tooltipClasslist.contains('tooltip-warning')).toBe(true);
 	});
 
-	test('applies all attribute to the tooltip Icon', () => {
+	it('applies all attribute to the tooltip Icon', () => {
 		const { getByTestId } = render(TooltipIcon, {
 			props: {
 				tooltipText: 'All Attribute Test',

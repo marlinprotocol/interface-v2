@@ -9,7 +9,7 @@ describe('Select', () => {
 		vi.resetAllMocks();
 	});
 
-	test('Select component renders with default props', () => {
+	it('renders with default props', () => {
 		const { getByTestId, container } = render(Select);
 		expect(getByTestId('select')).toBeTruthy();
 		expect(getByTestId('select').classList.contains('search-container')).toBeTruthy();
@@ -17,14 +17,14 @@ describe('Select', () => {
 		expect(container).toMatchSnapshot();
 	});
 
-	test('Select component renders with label & datalist props', () => {
+	it('renders with label & datalist props', () => {
 		const { getByTestId } = render(Select, { props: { showLabel: true, dataList } });
 		expect(getByTestId('select')).toBeTruthy();
 		expect(getByTestId('select').contains(getByTestId('collapse-button'))).toBeTruthy();
 		expect(getByTestId('select').firstElementChild?.innerHTML).toBeFalsy();
 	});
 
-	test('Select component render with List Toggle', async () => {
+	it('renders with List Toggle', async () => {
 		const { getByTestId } = render(Select, { props: { dataList } });
 		expect(getByTestId('select')).toBeTruthy();
 		expect(getByTestId('select').contains(getByTestId('collapse-button'))).toBeTruthy();
@@ -35,7 +35,7 @@ describe('Select', () => {
 		expect(getByTestId('select').lastElementChild?.classList.contains('absolute')).toBeFalsy();
 	});
 
-	test('select item in Select Component', async () => {
+	it('fires an event to select item in Select Component when clicked on an item', async () => {
 		const { getByTestId } = render(Select, { props: { dataList, showLabel: true } });
 		expect(getByTestId('select')).toBeTruthy();
 		expect(getByTestId('select').contains(getByTestId('collapse-button'))).toBeTruthy();
@@ -48,7 +48,7 @@ describe('Select', () => {
 		expect(getByTestId('select').firstElementChild?.innerHTML === 'test1').toBeTruthy();
 	});
 
-	test('default open select and use setValue props', async () => {
+	it('default open select and use setValue props', async () => {
 		let selectedItem = '';
 		const { getByTestId } = render(Select, {
 			props: {
@@ -71,7 +71,7 @@ describe('Select', () => {
 		expect(getByTestId('select').firstElementChild?.innerHTML === selectedItem).toBeTruthy();
 	});
 
-	test('outside click select list item close', async () => {
+	it('closes the select list when clicked outside', async () => {
 		const { getByTestId, container } = render(Select, {
 			props: {
 				dataList,

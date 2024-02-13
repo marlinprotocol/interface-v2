@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Modal > ApproveAndConfirmModal render with required props 1`] = `
+exports[`Modal > renders with required props 1`] = `
 <body>
   <onboard-v2
     style="all: initial;"

@@ -8,20 +8,20 @@ describe('PageWrapper', () => {
 		vi.resetAllMocks();
 	});
 
-	test('PageWrapper render', () => {
+	it('renders component successfully', () => {
 		const { getByTestId, container } = render(PageWrapper);
 		expect(getByTestId('page-wrapper')).toBeTruthy();
 		expect(container).toMatchSnapshot();
 	});
 
-	test('PageWrapper render with slot', () => {
+	it('renders with slot', () => {
 		const { getByTestId } = render(
 			html`<${PageWrapper}><div data-testid="test-page-wrapper">Test Page Wrapper</div></${PageWrapper}>`
 		);
 		expect(getByTestId('page-wrapper').contains(getByTestId('test-page-wrapper'))).toBe(true);
 	});
 
-	test('PageWrapper render with correct slot', () => {
+	it('renders with correct slot', () => {
 		const { getByTestId } = render(
 			html`<${PageWrapper}><div data-testid="test-page-wrapper">Test Page Wrapper</div></${PageWrapper}>`
 		);

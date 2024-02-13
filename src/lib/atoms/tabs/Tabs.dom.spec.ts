@@ -9,7 +9,7 @@ describe('Tabs', () => {
 		vi.resetAllMocks();
 	});
 
-	test('tab Render', () => {
+	it('renders the tab', () => {
 		const { getByTestId } = render(Tab, { props: { id: 'tab_test' } });
 		const tabElement = getByTestId('tab');
 		expect(tabElement.childNodes).toHaveLength(1);
@@ -17,7 +17,7 @@ describe('Tabs', () => {
 		expect(tabElement).toMatchSnapshot();
 	});
 
-	test('tab Render with slot', () => {
+	it('renders the tab with slot', () => {
 		const { getByTestId, getByText } = render(
 			html`<${Tab} id="tab_test" ><div id="tab-slot">Tab</div></${Tab}>`
 		);
@@ -27,12 +27,12 @@ describe('Tabs', () => {
 		expect(getByText('Tab').id === 'tab-slot').toBeTruthy();
 	});
 
-	test('tab Render check using getByTestId & getByRole ', () => {
+	it('renders the tab and verifies it using getByTestId & getByRole ', () => {
 		const { getByTestId, getByRole } = render(Tab, { props: { id: 'tab_test' } });
 		expect(getByTestId('tab')).toEqual(getByRole('presentation'));
 	});
 
-	test('tab Render with all atributes', () => {
+	it('renders the tab with all atributes', () => {
 		const { getByTestId } = render(Tab, {
 			props: { buttonClass: 'primary-class', liClass: 'list', id: 'tab_test' }
 		});
@@ -41,13 +41,13 @@ describe('Tabs', () => {
 		expect((tabElement.firstChild as Element)?.classList.contains('primary-class')).toBe(true);
 	});
 
-	test('Default tabs Render', () => {
+	it('renders the default tabs', () => {
 		const { getByTestId } = render(Tabs);
 		const tabElement = getByTestId('tabs');
 		expect(tabElement.classList.contains('w-full')).toBe(true);
 	});
 
-	test('tabs render with slot', () => {
+	it('renders the tabs with slot', () => {
 		const { getByTestId, getByText } = render(
 			html`<${Tabs}><div id="tabs-slot">Tabs</div></${Tabs}>`
 		);
@@ -56,26 +56,26 @@ describe('Tabs', () => {
 		expect(getByText('Tabs').id).toEqual('tabs-slot');
 	});
 
-	test('tabs render with divClass', () => {
+	it('renders the tabs with divClass', () => {
 		const { getByTestId } = render(Tabs, { props: { divClass: 'tabs-primary' } });
 		const tabElement = getByTestId('tabs');
 		expect(tabElement.classList.contains('tabs-primary')).toBe(true);
 	});
 
-	test('Default tablist render', () => {
+	it('renders the default tablist', () => {
 		const { getByTestId, getByRole } = render(TabList);
 		const tabListElement = getByTestId('tab-list');
 		expect(tabListElement.contains(getByRole('tablist'))).toBe(true);
 		expect(tabListElement).toMatchSnapshot();
 	});
 
-	test('tablist render divClass', () => {
+	it('renders tablist with divClass', () => {
 		const { getByTestId } = render(TabList, { props: { divClass: 'tablist-divclass' } });
 		const tabListElement = getByTestId('tab-list');
 		expect(tabListElement.classList.contains('tablist-divclass')).toBe(true);
 	});
 
-	test('tablist render with slot', () => {
+	it('renders tablist with slot', () => {
 		const { getByTestId, getByText } = render(
 			html`<${TabList} divClass='tablist-divclass' ><div id="tablist-slot">Tablist</div></${TabList}>`
 		);
@@ -84,18 +84,18 @@ describe('Tabs', () => {
 		expect(getByText('Tablist').id === 'tablist-slot').toBe(true);
 	});
 
-	test('TabPanel not render', () => {
+	it('does not render TabPanel', () => {
 		const { queryAllByTestId } = render(TabPanel, { props: { activeTabValue: '10', id: '20' } });
 		expect(queryAllByTestId('tab-panel')).toHaveLength(0);
 	});
 
-	test('TabPanel render', () => {
+	it('renders TabPanel', () => {
 		const { getByTestId } = render(TabPanel, { props: { activeTabValue: '10', id: '10' } });
 		expect(getByTestId('tab-panel').id === '10-tabitem').toBeTruthy();
 		expect(getByTestId('tab-panel')).toMatchSnapshot();
 	});
 
-	test('TabPanel render with slot', () => {
+	it('renders TabPanel with slot', () => {
 		const { getByTestId, getByText } = render(
 			html`<${TabPanel} id="10" activeTabValue='10'><div id="tab-panel-slot">TabPanel</div></${TabPanel}>`
 		);
@@ -103,7 +103,7 @@ describe('Tabs', () => {
 		expect(getByText('TabPanel').id === 'tab-panel-slot').toBe(true);
 	});
 
-	test('TabPanel render using getByRole ', () => {
+	it('renders TabPanel using getByRole', () => {
 		const { getByRole } = render(TabPanel, { props: { activeTabValue: '50', id: '50' } });
 		expect(getByRole('tabpanel').getAttribute('data-testid') === 'tab-panel').toBe(true);
 	});

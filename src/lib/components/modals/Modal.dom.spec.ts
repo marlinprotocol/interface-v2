@@ -7,7 +7,7 @@ describe('Modal', () => {
 		vi.resetAllMocks();
 	});
 
-	test('ApproveAndConfirmModal render with required props', () => {
+	it('renders with required props', () => {
 		const { getAllByTestId, container, getByText, getByAltText } = render(ApproveAndConfirmModal, {
 			props: {
 				approved: true,
@@ -26,7 +26,7 @@ describe('Modal', () => {
 		expect(container).toMatchSnapshot();
 	});
 
-	test('Approve button click', async () => {
+	it('fires an event to call handleApproveClick on clicking Approve Button', async () => {
 		const { getAllByTestId, getByText } = render(ApproveAndConfirmModal, {
 			props: {
 				approved: false,
@@ -49,7 +49,7 @@ describe('Modal', () => {
 		expect(approvedButton.id === 'approve-button-click').toBe(true);
 	});
 
-	test('Confirm button click', async () => {
+	it('fires an event to call handleConfirmClick on clicking Confirm Button', async () => {
 		const { getAllByTestId, getByText } = render(ApproveAndConfirmModal, {
 			props: {
 				approved: true,
@@ -72,7 +72,7 @@ describe('Modal', () => {
 		expect(confirmButton.id === 'confirm-button-click').toBe(true);
 	});
 
-	test('handleSuccessFinishClick function call', async () => {
+	it('fire an event to call handleSuccessFinishClick if confirm is successful', async () => {
 		const { getAllByTestId, getByText } = render(ApproveAndConfirmModal, {
 			props: {
 				approved: true,
@@ -95,7 +95,7 @@ describe('Modal', () => {
 		expect(confirmButton.id === 'success-finish-click').toBe(true);
 	});
 
-	test('SuccessfulConversionModal correctly renders', async () => {
+	it('renders SuccessfulConversionModal correctly', async () => {
 		const { getAllByTestId } = render(ApproveAndConfirmModal, {
 			props: {
 				approved: true,

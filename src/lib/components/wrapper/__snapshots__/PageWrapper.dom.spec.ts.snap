@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`PageWrapper > PageWrapper render 1`] = `
+exports[`PageWrapper > renders component successfully 1`] = `
 <body>
   <div>
     <div

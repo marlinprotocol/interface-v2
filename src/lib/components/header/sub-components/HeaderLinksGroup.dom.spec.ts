@@ -8,14 +8,14 @@ describe('HeaderLinksGroup', () => {
 		vi.resetAllMocks();
 	});
 
-	test('HeaderLinksGroup intially render', async () => {
+	it('renders HeaderLinksGroup correctly', async () => {
 		const { getAllByTestId } = render(HeaderLinksGroup);
 		const headerLinkElementList = getAllByTestId('header-links-group');
 		expect(headerLinkElementList.length).toEqual(4);
 		expect(headerLinkElementList).toMatchSnapshot();
 	});
 
-	test('HeaderLinksGroup render with activeLink and no children', async () => {
+	it('renders with activeLink and no children', async () => {
 		const { getAllByTestId } = render(HeaderLinksGroup, { props: { activeLink: BRIDGE_URL } });
 		const headerLinkElementList = getAllByTestId('header-links-group');
 		expect(headerLinkElementList.length).toEqual(4);
@@ -24,7 +24,7 @@ describe('HeaderLinksGroup', () => {
 		);
 	});
 
-	test('HeaderLinksGroup render with activeLink with children links', async () => {
+	it('renders with activeLink with children links', async () => {
 		const { getAllByTestId } = render(HeaderLinksGroup, {
 			props: { activeLink: OYSTER_MARKETPLACE_URL }
 		});
@@ -37,7 +37,7 @@ describe('HeaderLinksGroup', () => {
 		).toBeTruthy();
 	});
 
-	test('HeaderLinksGroup render with activeLink with children & check style correct apply', async () => {
+	it('renders with activeLink with children & check style correct apply', async () => {
 		const { getAllByTestId } = render(HeaderLinksGroup, {
 			props: { activeLink: OYSTER_MARKETPLACE_URL }
 		});
@@ -51,7 +51,7 @@ describe('HeaderLinksGroup', () => {
 		expect(activeLinkHeaderLinkElement?.classList.contains('bg-primary')).toBe(true);
 	});
 
-	test('check HeaderLinksGroup render with activeLink with no chidren & Label & openInNewTab is same', async () => {
+	it('renders and checks with activeLink with no chidren & Label & openInNewTab is same', async () => {
 		const { getAllByTestId, getAllByRole } = render(HeaderLinksGroup, {
 			props: { activeLink: RELAY_OPERATOR_LINK }
 		});
@@ -64,7 +64,7 @@ describe('HeaderLinksGroup', () => {
 		expect(getAllByRole('button')[0].innerHTML).toEqual('Relay');
 	});
 
-	test('check HeaderLinksGroup render with activeLink with chidren & Label & openInNewTab is correct', async () => {
+	it('renders and checks with activeLink with chidren & Label & openInNewTab is correct', async () => {
 		const { getAllByTestId, getAllByRole } = render(HeaderLinksGroup, {
 			props: { activeLink: OYSTER_MARKETPLACE_URL }
 		});

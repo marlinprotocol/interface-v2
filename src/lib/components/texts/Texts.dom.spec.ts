@@ -12,14 +12,14 @@ describe('Text', () => {
 		vi.resetAllMocks();
 	});
 
-	test('NameWithAdress Component render with default props', () => {
+	it('renders NameWithAddress with default props', () => {
 		const { getByTestId, container } = render(NameWithAddress);
 		expect(getByTestId('name-with-address').firstElementChild?.innerHTML).toBeFalsy();
 		expect(getByTestId('name-with-address').id === 'name-with-address').toBe(true);
 		expect(container).toMatchSnapshot();
 	});
 
-	test('NameWithAdress Component render with props', () => {
+	it('renders NameWithAddress with custom props', () => {
 		const { getByTestId } = render(NameWithAddress, {
 			props: { address: 'xyz street , city:abc', name: 'Robert', rowIndex: 2 }
 		});
@@ -34,14 +34,14 @@ describe('Text', () => {
 		).toBe(true);
 	});
 
-	test('PageTitle Component render with default props', () => {
+	it('renders PageTitle with default props', () => {
 		const { getByTestId, container } = render(PageTitle, { props: { title: '' } });
 		expect(getByTestId('page-title').contains(getByTestId('text'))).toBe(true);
 		expect(getByTestId('text').innerHTML).toBeFalsy();
 		expect(container).toMatchSnapshot();
 	});
 
-	test('PageTitle Component render with props', () => {
+	it('renders PageTitle with props', () => {
 		const { getByTestId } = render(PageTitle, {
 			props: { title: 'Test Page', backHref: 'https://test.com' }
 		});
@@ -50,7 +50,7 @@ describe('Text', () => {
 		expect(getByTestId('text').innerHTML === 'Test Page').toBeTruthy();
 	});
 
-	test('TableHeadingText Component render with default props', () => {
+	it('renders TableHeadingText with default props', () => {
 		const { getByTestId, container } = render(TableHeadingText, {
 			props: { heading: { id: '', title: '' } }
 		});
@@ -65,7 +65,7 @@ describe('Text', () => {
 		expect(container).toMatchSnapshot();
 	});
 
-	test('TableHeadingText Component render with custom props', () => {
+	it('renders TableHeadingText with custom props', () => {
 		const { getByTestId, getByAltText } = render(TableHeadingText, {
 			props: {
 				heading: {
@@ -85,7 +85,7 @@ describe('Text', () => {
 		expect(getByAltText('Info').getAttribute('src') === staticImages.Alert).toBeTruthy();
 	});
 
-	test('TextInputCard Component render with default props', () => {
+	it('renders TextInputCard with default props', () => {
 		const { getByTestId, getAllByTestId, container } = render(TextInputCard, {
 			props: { title: '' }
 		});
@@ -96,7 +96,7 @@ describe('Text', () => {
 		expect(container).toMatchSnapshot();
 	});
 
-	test('TextInputCard Component render with custom props', () => {
+	it('renders TextInputCard with custom props', () => {
 		const { getByTestId, getAllByTestId } = render(TextInputCard, {
 			props: {
 				title: 'Text input card title',
@@ -116,7 +116,7 @@ describe('Text', () => {
 		);
 	});
 
-	test('TextInputCard Component render with cliboardContent props', async () => {
+	it('renders TextInputCard with cliboardContent props', async () => {
 		const { getByTestId, getAllByTestId, getByAltText } = render(TextInputCard, {
 			props: {
 				title: 'Text input card title',
@@ -131,7 +131,7 @@ describe('Text', () => {
 		expect(button.id === 'text-input-card-button').toBeTruthy();
 	});
 
-	test('TxnHashText Component render with default props', () => {
+	it('renders TxnHashText with default props', () => {
 		const { getByTestId, getByAltText, container } = render(TxnHashText, {
 			props: { txnHash: '', txnHashUrl: '' }
 		});
@@ -141,7 +141,7 @@ describe('Text', () => {
 		expect(container).toMatchSnapshot();
 	});
 
-	test('TxnHashText Component render with custom props', () => {
+	it('renders TxnHashText with custom props', () => {
 		const { getByTestId, getByAltText } = render(TxnHashText, {
 			props: {
 				txnHash: 'Text txnHash',

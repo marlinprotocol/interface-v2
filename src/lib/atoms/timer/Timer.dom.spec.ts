@@ -12,13 +12,13 @@ describe('TimerComponent Component', () => {
 		vi.resetAllMocks();
 	});
 
-	test('renders without crashing', () => {
+	it('renders without crashing', () => {
 		const { getByTestId } = render(Timer);
 		expect(getByTestId('timer')).toBeTruthy();
 		expect(getByTestId('timer')).toMatchSnapshot();
 	});
 
-	test('does not invoke onTimerEnd callback when countdown is inactive', () => {
+	it('does not invoke onTimerEnd callback when countdown is inactive', () => {
 		const onTimerEnd = vi.fn();
 		render(Timer, {
 			props: { onTimerEnd, endEpochTime: Date.now() - 1000, timerId: timerTestId }
@@ -29,7 +29,7 @@ describe('TimerComponent Component', () => {
 		}, 500);
 	});
 
-	test('does not invoke onTimerEnd callback when countdown is inactive', async () => {
+	it('does not invoke onTimerEnd callback when countdown is inactive', async () => {
 		const onTimerEnd = vi.fn();
 		render(Timer, {
 			props: { timerId: timerTestId, endEpochTime: Date.now() / 1000 + 10, onTimerEnd }
@@ -40,14 +40,14 @@ describe('TimerComponent Component', () => {
 		expect(onTimerEnd()).toBeFalsy();
 	});
 
-	test('timer render with required props', () => {
+	it('renders with required props', () => {
 		const { getByTestId } = render(Timer, {
 			props: { timerId: timerTestId, endEpochTime: Date.now() / 1000 + 10 }
 		});
 		expect(getByTestId('timer')?.id === timerTestId).toBe(true);
 	});
 
-	test('timer render with Active slot ', async () => {
+	it('renders with Active slot ', async () => {
 		const { getByTestId } = render(
 			html`<${Timer} timerId=${timerTestId} endEpochTime=${
 				Date.now() / 1000 + 10
@@ -59,7 +59,7 @@ describe('TimerComponent Component', () => {
 		expect(activeSlotId === 'active-slot-timer').toBeTruthy();
 	});
 
-	test('timer render with Inactive slot ', () => {
+	it('renders with Inactive slot ', () => {
 		const { getByTestId } = render(html`<${Timer} timerId=${timerTestId} endEpochTime=${
 			Date.now() / 1000 - 10
 		}><div slot="active" id="active-slot-timer" let:timer>{timer}</div>
@@ -69,7 +69,7 @@ describe('TimerComponent Component', () => {
 		expect(inActiveSlotId === 'inactive-slot-timer').toBeTruthy();
 	});
 
-	test('timer render with onTimerEnd function ', async () => {
+	it('invokes onTimerEnd function when the timer ends', async () => {
 		const { getByTestId } = render(Timer, {
 			props: {
 				timerId: timerTestId,

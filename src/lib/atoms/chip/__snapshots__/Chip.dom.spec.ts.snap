@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Chip > it should render the chip item 1`] = `
+exports[`Chip > renders the chip item 1`] = `
 <body>
   <div>
     <div
@@ -12,7 +12,7 @@ exports[`Chip > it should render the chip item 1`] = `
 </body>
 `;
 
-exports[`Chip > it should render the chip item with variant 1`] = `
+exports[`Chip > renders the chip item with variant 1`] = `
 <body>
   <div>
     <div

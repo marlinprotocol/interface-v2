@@ -7,13 +7,13 @@ describe('Status Circle', () => {
 		vi.resetAllMocks();
 	});
 
-	test('StatusCircle component renders with default porps', () => {
+	it('renders with default props', () => {
 		const { getByTestId, container } = render(StatusCircle);
 		expect(getByTestId('status-circle-test')).toBeTruthy();
 		expect(container).toMatchSnapshot();
 	});
 
-	test('StatusCircle component renders with custom porps', () => {
+	it('renders with custom props', () => {
 		const { getByTestId } = render(StatusCircle, { props: { styleClass: 'status-circle-class' } });
 		expect(getByTestId('status-circle-test')).toBeTruthy();
 		expect(getByTestId('status-circle-test').classList.contains('status-circle-class')).toBe(true);

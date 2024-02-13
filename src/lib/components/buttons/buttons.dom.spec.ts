@@ -6,150 +6,149 @@ import CollapseButton from './CollapseButton.svelte';
 import { buttonClasses } from '$lib/atoms/componentClasses';
 
 describe('Back button', () => {
+	it('renders the back button component properly', () => {
+		const { container } = render(BackButton);
+		expect(container).toMatchSnapshot();
+	});
 
-    test('renders the back button component properly', () => {
-        const { container } = render(BackButton);
-        expect(container).toMatchSnapshot();
-    });
+	it('renders correctly with initial props', () => {
+		const { getByText, getByRole } = render(BackButton, {
+			props: {
+				href: '#',
+				text: 'Back'
+			}
+		});
+		expect(getByText('Back')).toBeTruthy();
+		const anchor = getByRole('link');
+		expect(anchor.getAttribute('href')).toBe('#');
+	});
 
-    it('renders correctly with initial props', () => {
-        const { getByText, getByRole } = render(BackButton, {
-            props: {
-                href: '#',
-                text: 'Back',
-            },
-        });
-        expect(getByText('Back')).toBeTruthy();
-        const anchor = getByRole('link');
-        expect(anchor.getAttribute('href')).toBe('#')
-    });
+	it('renders the correct image', () => {
+		const { getByAltText } = render(BackButton, {
+			props: {
+				href: '#',
+				text: 'Back'
+			}
+		});
 
-    it('renders the correct image', () => {
-        const { getByAltText } = render(BackButton, {
-            props: {
-                href: '#',
-                text: 'Back',
-            },
-        });
+		const image = getByAltText('Back');
+		const staticImagesImported = { LeftBlueArrow: '/images/left-blue-arrow.svg' };
+		expect(image.getAttribute('src')).toBe(staticImagesImported.LeftBlueArrow);
+	});
 
-        const image = getByAltText('Back');
-        const staticImagesImported = { LeftBlueArrow: '/images/left-blue-arrow.svg' };
-        expect(image.getAttribute('src')).toBe(staticImagesImported.LeftBlueArrow);
-    });
+	it('renders with correct classes', () => {
+		const { getByTestId } = render(BackButton, {
+			props: {
+				href: '#',
+				text: 'Back'
+			}
+		});
 
-    it('renders with correct classes', () => {
-        const { getByTestId } = render(BackButton, {
-            props: {
-                href: '#',
-                text: 'Back',
-            },
-        });
-
-        const anchorButton = getByTestId('back-button');
-        expect(anchorButton.className).toBe(buttonClasses.largeButton);
-    });
+		const anchorButton = getByTestId('back-button');
+		expect(anchorButton.className).toBe(buttonClasses.largeButton);
+	});
 });
 
 describe('CollapseButton', () => {
-    test('renders the collapse button component properly', () => {
-        const { container } = render(CollapseButton);
-        expect(container).toMatchSnapshot();
-    });
+	it('renders the collapse button component properly', () => {
+		const { container } = render(CollapseButton);
+		expect(container).toMatchSnapshot();
+	});
 
-    it('renders correctly with initial props', async () => {
-        const mockFn = vi.fn(() => { })
-        const testingId = 'testing-collapse-button'
-        const { getByTestId } = render(CollapseButton, {
-            props: {
-                disabled: false,
-                onclick: mockFn,
-                id: testingId
-            },
-        });
-        const button = getByTestId('collapse-button') as HTMLButtonElement;
-        expect(button).toBeTruthy();
-        expect(button.className).contain(buttonClasses.iconLightBlue);
-        expect(button.id).contain(testingId);
-        expect((button).disabled).toBe(false);
-    });
+	it('renders correctly with initial props', async () => {
+		const mockFn = vi.fn(() => {});
+		const testingId = 'testing-collapse-button';
+		const { getByTestId } = render(CollapseButton, {
+			props: {
+				disabled: false,
+				onclick: mockFn,
+				id: testingId
+			}
+		});
+		const button = getByTestId('collapse-button') as HTMLButtonElement;
+		expect(button).toBeTruthy();
+		expect(button.className).contain(buttonClasses.iconLightBlue);
+		expect(button.id).contain(testingId);
+		expect(button.disabled).toBe(false);
+	});
 
-    it('onClick works if disabled false', async () => {
-        const mockFn = vi.fn(() => { })
-        const testingId = 'testing-collapse-button'
-        const { getByTestId } = render(CollapseButton, {
-            props: {
-                disabled: false,
-                onclick: mockFn,
-                id: testingId
-            },
-        });
+	it('fires an onClick event if disabled false', async () => {
+		const mockFn = vi.fn(() => {});
+		const testingId = 'testing-collapse-button';
+		const { getByTestId } = render(CollapseButton, {
+			props: {
+				disabled: false,
+				onclick: mockFn,
+				id: testingId
+			}
+		});
 
-        // Simulate a click event on the button.
-        const button = getByTestId('collapse-button');
-        await fireEvent.click(button);
+		// Simulate a click event on the button.
+		const button = getByTestId('collapse-button');
+		await fireEvent.click(button);
 
-        // Check if the mock function was called.
-        expect(mockFn).toHaveBeenCalledTimes(1)
-    });
+		// Check if the mock function was called.
+		expect(mockFn).toHaveBeenCalledTimes(1);
+	});
 
-    it(`onClick doesn't work if disabled true`, async () => {
-        const mockFn = vi.fn(() => { })
-        const testingId = 'testing-collapse-button'
-        const { getByTestId } = render(CollapseButton, {
-            props: {
-                disabled: true,
-                onclick: mockFn,
-                id: testingId
-            },
-        });
+	it("onClick doesn't work if disabled true", async () => {
+		const mockFn = vi.fn(() => {});
+		const testingId = 'testing-collapse-button';
+		const { getByTestId } = render(CollapseButton, {
+			props: {
+				disabled: true,
+				onclick: mockFn,
+				id: testingId
+			}
+		});
 
-        // Simulate a click event on the button.
-        const button = getByTestId('collapse-button');
-        button.click();
+		// Simulate a click event on the button.
+		const button = getByTestId('collapse-button');
+		button.click();
 
-        // Check if the mock function was called.
-        expect(mockFn).toHaveBeenCalledTimes(0)
-    });
+		// Check if the mock function was called.
+		expect(mockFn).toHaveBeenCalledTimes(0);
+	});
 });
 
 describe('Max Button', () => {
-    test('renders the max button component properly', () => {
-        const { container } = render(MaxButton);
-        expect(container).toMatchSnapshot();
-    });
+	it('renders the max button component properly', () => {
+		const { container } = render(MaxButton);
+		expect(container).toMatchSnapshot();
+	});
 
-    it('renders with correct text and class', () => {
-        const { getByText } = render(MaxButton);
+	it('renders with correct text and class', () => {
+		const { getByText } = render(MaxButton);
 
-        const button = getByText('MAX');
-        expect(button).toBeTruthy(); // Button renders with text 'MAX'
-        expect(button.className).toBe(buttonClasses.maxButton); // Button has correct class
-    });
+		const button = getByText('MAX');
+		expect(button).toBeTruthy(); // Button renders with text 'MAX'
+		expect(button.className).toBe(buttonClasses.maxButton); // Button has correct class
+	});
 
-    it('is disabled when the disabled prop is true', () => {
-        const { getByText } = render(MaxButton, { props: { disabled: true } });
+	it('is disabled when the disabled prop is true', () => {
+		const { getByText } = render(MaxButton, { props: { disabled: true } });
 
-        const button = getByText('MAX') as HTMLButtonElement;
-        expect(button.disabled).toBe(true); // Button is disabled
-    });
+		const button = getByText('MAX') as HTMLButtonElement;
+		expect(button.disabled).toBe(true); // Button is disabled
+	});
 
-    it('calls the onclick function when clicked', async () => {
-        const mockFn = vi.fn();
-        const { getByText } = render(MaxButton, { props: { onclick: mockFn } });
+	it('calls the onclick function when clicked', async () => {
+		const mockFn = vi.fn();
+		const { getByText } = render(MaxButton, { props: { onclick: mockFn } });
 
-        const button = getByText('MAX');
-        button.click();
+		const button = getByText('MAX');
+		button.click();
 
-        expect(mockFn).toHaveBeenCalledTimes(1); // onclick mock function is called once
-    });
+		expect(mockFn).toHaveBeenCalledTimes(1); // onclick mock function is called once
+	});
 
-    it('does not call onclick function when disabled', async () => {
-        const mockFn = vi.fn();
-        const { getByText } = render(MaxButton, { props: { disabled: true, onclick: mockFn } });
+	it('does not call onclick function when disabled', async () => {
+		const mockFn = vi.fn();
+		const { getByText } = render(MaxButton, { props: { disabled: true, onclick: mockFn } });
 
-        const button = getByText('MAX');
-        button.click();
+		const button = getByText('MAX');
+		button.click();
 
-        expect(mockFn).toHaveBeenCalledTimes(0); // onclick mock function is not called
-    });
+		expect(mockFn).toHaveBeenCalledTimes(0); // onclick mock function is not called
+	});
 });

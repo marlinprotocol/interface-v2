@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`HeaderConnectWallet > render's ConnectWalletButton if wallet is not connected 1`] = `
+exports[`HeaderConnectWallet > renders ConnectWalletButton if wallet is not connected 1`] = `
 <body>
   <onboard-v2
     style="all: initial;"
@@ -119,7 +119,7 @@ exports[`HeaderConnectWallet > render's ConnectWalletButton if wallet is not con
 </body>
 `;
 
-exports[`HeaderConnectWallet > render's DisconnectWalletButton if wallet is not connected 1`] = `
+exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not connected 1`] = `
 <body>
   <onboard-v2
     style="all: initial;"

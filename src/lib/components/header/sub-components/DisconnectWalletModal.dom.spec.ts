@@ -22,7 +22,7 @@ beforeAll(() => {
 });
 describe('DisconnectWalletModal', () => {
 	const mockFn = vi.fn();
-	it(`render's properly`, () => {
+	it('renders properly', () => {
 		const { container } = render(DisconnectWalletModal, {
 			props: {
 				modalFor: 'id-testing',
@@ -31,7 +31,7 @@ describe('DisconnectWalletModal', () => {
 		});
 		expect(container).toMatchSnapshot();
 	});
-	it(`on logout disconnect is being called.`, async () => {
+	it('calls disconnect function on logout', async () => {
 		const { getByText } = render(DisconnectWalletModal, {
 			props: {
 				modalFor: 'id-testing',
@@ -43,7 +43,7 @@ describe('DisconnectWalletModal', () => {
 		await tick(); // Wait for any store updates if needed
 		expect(mockFn).toHaveBeenCalledOnce();
 	});
-	it('has the correct "View on <Block Explorer>" link', () => {
+	it('has the correct block explorer', () => {
 		const { getByText } = render(DisconnectWalletModal, { modalFor: 'wallet', disconnect: mockFn });
 		const viewLink = getByText('Block Explorer').closest('a');
 		expect(viewLink?.getAttribute('href')).toBe('https://blockexplorer.com/address/0x123');

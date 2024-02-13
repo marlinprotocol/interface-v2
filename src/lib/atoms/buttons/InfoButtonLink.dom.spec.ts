@@ -1,4 +1,4 @@
-import { describe, test, afterEach } from 'vitest';
+import { describe, it, afterEach } from 'vitest';
 import { cleanup, render } from '@testing-library/svelte';
 import InfoButtonLink from './InfoButtonLink.svelte';
 
@@ -8,7 +8,7 @@ describe('InfoButtonLink', () => {
 		vi.resetAllMocks();
 	});
 
-	test('it should render a link', () => {
+	it('renders a link', () => {
 		const { getByRole } = render(InfoButtonLink, { text: 'test text for infobutton' });
 
 		expect(() => getByRole('link')).not.toThrow();
@@ -18,7 +18,7 @@ describe('InfoButtonLink', () => {
 		expect(getByRole('link').textContent).toBe(' test text for infobutton');
 	});
 
-	test('it should render a img with alt open withing the link', () => {
+	it('renders an img with alt open within the link', () => {
 		const { getByAltText, getByRole } = render(InfoButtonLink, { text: 'Test Text' });
 
 		expect(() => getByRole('link')).not.toThrow();

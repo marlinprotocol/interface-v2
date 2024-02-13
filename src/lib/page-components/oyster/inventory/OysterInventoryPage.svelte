@@ -1,18 +1,17 @@
 <script lang="ts">
-	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import SearchBar from '$lib/components/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import OysterInventoryTableRow from '$lib/page-components/oyster/inventory/OysterInventoryTableRow.svelte';
-	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
 	import type { OysterInventorySortKeys } from '$lib/types/oysterComponentType';
 	import { OYSTER_INVENTORY_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { getSearchedInventoryData, sortOysterInventory } from '$lib/utils/helpers/oysterHelpers';
-	import plus from 'svelte-awesome/icons/plus';
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
+	import { OYSTER_OWNER_HISTORY_URL } from '$lib/utils/constants/urls';
+	import { buttonClasses } from '$lib/atoms/componentClasses';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -59,12 +58,9 @@
 			styleClass="w-full"
 			disabled={!$connected}
 		/>
-		<!-- <a href={`/oyster/history`}>
-			<div class={`h-12 ${buttonClasses.outlined}`}>HISTORY</div>
-		</a> -->
-		<ModalButton variant="filled" modalFor="create-new-order" disabled={!$connected} icon={plus}>
-			ADD ORDER
-		</ModalButton>
+		<a href={OYSTER_OWNER_HISTORY_URL}>
+			<div class="{buttonClasses.outlined} h-12 whitespace-nowrap">ORDER HISTORY</div>
+		</a>
 	</div>
 	<OysterTableCommon
 		{handleSortData}
@@ -81,4 +77,3 @@
 		<Pagination slot="pagination" {pageCount} {activePage} {handlePageChange} />
 	</OysterTableCommon>
 </div>
-<CreateOrderModal modalFor="create-new-order" />

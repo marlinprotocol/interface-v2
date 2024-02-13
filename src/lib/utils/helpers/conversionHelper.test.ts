@@ -85,7 +85,7 @@ describe('bigNumberToString', () => {
 	});
 
 	it('should consider 18 decimals and 4 precision with default arguments with commification', () => {
-		expect(bigNumberToString(1000000000000000000000000n)).toBe('10,00,000.0000');
+		expect(bigNumberToString(1000000000000000000000000n)).toBe('1,000,000.0000');
 		expect(bigNumberToString(1000000000000000000000n)).toBe('1,000.0000');
 		expect(bigNumberToString(100000000000000000000n)).toBe('100.0000');
 		expect(bigNumberToString(10000000000000000000n)).toBe('10.0000');
@@ -198,8 +198,8 @@ describe('convertRateToPerHourString', () => {
 	});
 
 	it('should convert the rate from bigInt to a string considering passed decimals and default precisions when third argument is not passed', () => {
-		expect(convertRateToPerHourString(810833333333333n, 6)).toBe('29,18,99,99,99,999.9988');
-		expect(convertRateToPerHourString(24083333333333n, 6)).toBe('86,69,99,99,999.9988');
+		expect(convertRateToPerHourString(810833333333333n, 6)).toBe('2,918,999,999,999.9988');
+		expect(convertRateToPerHourString(24083333333333n, 6)).toBe('86,699,999,999.9988');
 		expect(convertRateToPerHourString(10000n, 6)).toBe('36.0000');
 		expect(convertRateToPerHourString(1n, 6)).toBe('0.0036');
 	});

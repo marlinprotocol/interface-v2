@@ -45,6 +45,12 @@
 	<svelte:fragment slot="subtitle">View the details of your past order</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4 px-4">
+			<TextInputCard
+				title="Enclave Image URL"
+				value={enclaveUrl}
+				cliboardContent={enclaveUrl}
+				textStyle="text-primary truncate"
+			/>
 			<div class="flex flex-col gap-4 sm:flex-row">
 				<TextInputCard
 					title="Operator"
@@ -107,7 +113,7 @@
 					textStyle="text-primary"
 				/>
 			</div>
-			<TextInputCard title="Enclave Image URL" value={enclaveUrl} textStyle="text-primary" />
+
 			<PaymentHistoryTable tableData={depositHistory} />
 		</div>
 	</svelte:fragment>

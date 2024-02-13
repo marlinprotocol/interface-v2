@@ -40,8 +40,8 @@
 		activePage = 1;
 	};
 
-	// fiter inventory data based on live status
-	$: inventoryData = $oysterStore.jobsData?.filter((data) => !data.live);
+	// fiter inventory data based on job status
+	$: inventoryData = $oysterStore.jobsData?.filter((data) => data.status === 'completed');
 	// get searched data based on searchInput
 	$: searchedData = getSearchedInventoryData(searchInput, inventoryData);
 	// get page array based on inventory and itemsPerPage

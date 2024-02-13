@@ -11,6 +11,7 @@ import { derived, writable, type Writable } from 'svelte/store';
 import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 import { DEFAULT_CURRENCY_DECIMALS } from '$lib/utils/constants/constants';
 import type { TokenMetadata } from '$lib/types/environmentTypes';
+import { combineAndDeduplicateJobs } from '$lib/utils/helpers/oysterHelpers';
 
 export const oysterStore: Writable<OysterStore> = writable(DEFAULT_OYSTER_STORE);
 export const oysterTokenMetadataStore = derived([chainConfigStore], ([$chainConfigStore]) => {
@@ -454,8 +455,9 @@ export function initializeInventoryDataInOysterStore(oysterJobs: OysterInventory
 	oysterStore.update((value) => {
 		return {
 			...value,
-			jobsData: [...oysterJobs],
+			jobsData: [...combineAndDeduplicateJobs(oysterJobs, value.jobsData)],
 			oysterStoreLoaded: true
 		};
 	});
 }
+

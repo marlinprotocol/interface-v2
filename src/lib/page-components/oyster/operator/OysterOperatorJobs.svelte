@@ -15,6 +15,7 @@
 	} from '$lib/utils/helpers/oysterHelpers';
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
+	import { OYSTER_OPERATOR_URL } from '$lib/utils/constants/urls';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -54,7 +55,7 @@
 	);
 </script>
 
-<PageTitle title="My Job List" backHref="/oyster/operator" />
+<PageTitle title="My Job List" backHref={OYSTER_OPERATOR_URL} />
 <div class="mb-6 flex items-center gap-4">
 	<SearchBar {onSearchClick} bind:input={searchInput} placeholder="Search" styleClass="w-full" />
 	<!-- commenting the operator history page -->

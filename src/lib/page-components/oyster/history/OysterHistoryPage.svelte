@@ -13,6 +13,7 @@
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
 	import OysterHistoryTableRow from '$lib/page-components/oyster/history/OysterHistoryTableRow.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
+	import { OYSTER_OWNER_INVENTORY_URL } from '$lib/utils/constants/urls';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -54,7 +55,7 @@
 </script>
 
 <div class="mx-auto">
-	<PageTitle title="My Past Orders" backHref="/oyster/inventory" />
+	<PageTitle title="My Past Orders" backHref={OYSTER_OWNER_INVENTORY_URL} />
 	<div class="mb-6 flex items-center gap-4">
 		<SearchBar
 			disabled={!$connected}

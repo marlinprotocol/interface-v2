@@ -322,27 +322,60 @@ exports[`HeaderConnectWallet > render's DisconnectWalletButton if wallet is not 
             </div>
              
             <div
-              class="mt-1 text-xl font-semibold"
+              class="flex items-center"
             >
-              
+              <div
+                class="mt-1 w-[98%] overflow-hidden overflow-ellipsis text-xl font-semibold"
+              >
+                
+              </div>
+               
+              <button
+                class="shrink-0 cursor-pointer"
+              >
+                <img
+                  alt="Copy"
+                  class="grey-img s-jqivLxfXFImT"
+                  src="/images/copy-btn.svg"
+                  width="14"
+                />
+                <!--&lt;ImageColored&gt;-->
+              </button>
             </div>
           </div>
            
           <div
-            class="flex gap-4"
+            class="flex flex-wrap gap-4"
           >
             <button
               class="font-medium gap-3 h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
             >
                
-              <img
-                alt="Copy"
-                src="/images/copyicon.svg"
-              />
-              
-				Copy Address
+              <span
+                class="text-2xl font-light"
+              >
+                +
+              </span>
+               Add 
+              POND
             </button>
             <!--&lt;Button&gt;-->
+            <!--&lt;AddTokenPrompt&gt;-->
+             
+            <button
+              class="font-medium gap-3 h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
+            >
+               
+              <span
+                class="text-2xl font-light"
+              >
+                +
+              </span>
+               Add 
+              MPOND
+            </button>
+            <!--&lt;Button&gt;-->
+            <!--&lt;AddTokenPrompt&gt;-->
              
             <a
               href="https://goerli.arbiscan.io/address/"
@@ -350,15 +383,14 @@ exports[`HeaderConnectWallet > render's DisconnectWalletButton if wallet is not 
               target="_blank"
             >
               <button
-                class="font-medium gap-3 h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
+                class="font-medium gap-3  flex-nowrap h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
               >
                  
                 <img
                   alt="Open"
                   src="/images/openinnew.svg"
                 />
-                
-					View on 
+                 
                 Arbiscan
               </button>
               <!--&lt;Button&gt;-->

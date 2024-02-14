@@ -134,17 +134,26 @@ describe('getSearchedOysterJobsData', () => {
 		{
 			instance: 'instancea',
 			region: 'regiona',
-			owner: 'ownera'
+			owner: {
+				address: 'addressa',
+				name: 'namea'
+			}
 		},
 		{
 			instance: 'instanceb',
 			region: 'regionb',
-			owner: 'ownerb'
+			owner: {
+				address: 'addressb',
+				name: 'nameb'
+			}
 		},
 		{
 			instance: 'instancec',
 			region: 'regionc',
-			owner: 'ownerc'
+			owner: {
+				address: 'addressc',
+				name: 'namec'
+			}
 		}
 	];
 
@@ -173,11 +182,17 @@ describe('getSearchedOysterJobsData', () => {
 		).toStrictEqual([mockData[0]]);
 
 		expect(
-			getSearchedOysterJobsData('ownera', mockData as OysterInventoryDataModel[])
+			getSearchedOysterJobsData('addressa', mockData as OysterInventoryDataModel[])
 		).toStrictEqual([mockData[0]]);
 		expect(
-			getSearchedOysterJobsData('OWNERA', mockData as OysterInventoryDataModel[])
+			getSearchedOysterJobsData('ADDRESSA', mockData as OysterInventoryDataModel[])
 		).toStrictEqual([mockData[0]]);
+		expect(
+			getSearchedOysterJobsData('nameb', mockData as OysterInventoryDataModel[])
+		).toStrictEqual([mockData[1]]);
+		expect(
+			getSearchedOysterJobsData('NAMEB', mockData as OysterInventoryDataModel[])
+		).toStrictEqual([mockData[1]]);
 		expect(
 			getSearchedOysterJobsData('instance', mockData as OysterInventoryDataModel[])
 		).toStrictEqual(mockData);
@@ -192,11 +207,17 @@ describe('getSearchedOysterJobsData', () => {
 		).toStrictEqual(mockData);
 
 		expect(
-			getSearchedOysterJobsData('owner', mockData as OysterInventoryDataModel[])
+			getSearchedOysterJobsData('address', mockData as OysterInventoryDataModel[])
 		).toStrictEqual(mockData);
 		expect(
-			getSearchedOysterJobsData('OWNER', mockData as OysterInventoryDataModel[])
+			getSearchedOysterJobsData('ADDRESS', mockData as OysterInventoryDataModel[])
 		).toStrictEqual(mockData);
+		expect(getSearchedOysterJobsData('name', mockData as OysterInventoryDataModel[])).toStrictEqual(
+			mockData
+		);
+		expect(getSearchedOysterJobsData('NAME', mockData as OysterInventoryDataModel[])).toStrictEqual(
+			mockData
+		);
 	});
 
 	it('should return empty array if no match is found', () => {
@@ -4996,13 +5017,12 @@ describe('getDurationInSecondsForUnit', () => {
 	});
 });
 
-
 describe('addJobsToMap', () => {
 	it('should add jobs to the map with the correct id', () => {
 		const map = new Map();
 		const jobs: Pick<OysterInventoryDataModel, 'id' | 'createdAt'>[] = [
 			{ id: 'job1', createdAt: Date.now() },
-			{ id: 'job2', createdAt: Date.now() },
+			{ id: 'job2', createdAt: Date.now() }
 		];
 
 		addJobsToMap(jobs, map);
@@ -5016,11 +5036,11 @@ describe('combineAndDeduplicateJobs', () => {
 	it('should combine and deduplicate jobs based on id and sort by createdAt descending', () => {
 		const earlierJobs: Pick<OysterInventoryDataModel, 'id' | 'createdAt'>[] = [
 			{ id: 'job1', createdAt: 1000 },
-			{ id: 'job2', createdAt: 2000 },
+			{ id: 'job2', createdAt: 2000 }
 		];
 		const newJobs: Pick<OysterInventoryDataModel, 'id' | 'createdAt'>[] = [
 			{ id: 'job2', createdAt: 3000 },
-			{ id: 'job3', createdAt: 4000 },
+			{ id: 'job3', createdAt: 4000 }
 		];
 
 		const combinedJobs = combineAndDeduplicateJobs(earlierJobs, newJobs);

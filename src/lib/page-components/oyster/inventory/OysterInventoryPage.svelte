@@ -37,8 +37,12 @@
 		activePage = 1;
 	};
 
+	// fiter inventory data based on job status
+	$: inventoryData = $oysterStore.jobsData?.filter(
+		(data) => data.status !== 'completed' && data.status !== 'closed'
+	);
 	// get searched data based on searchInput
-	$: searchedData = getSearchedInventoryData(searchInput, $oysterStore.jobsData);
+	$: searchedData = getSearchedInventoryData(searchInput, inventoryData);
 	// get page array based on inventory and itemsPerPage
 	$: pageCount = Math.ceil((searchedData?.length ?? 0) / TABLE_ITEMS_PER_PAGE);
 	// get paginated data based on activePage

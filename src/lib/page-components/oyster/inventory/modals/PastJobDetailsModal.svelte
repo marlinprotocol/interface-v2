@@ -118,12 +118,7 @@
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<div class="flex gap-2 p-4">
-			<div class="w-full">
-				<ModalButton variant="outlined" size="large" styleClass="btn-block w-full my-0" {modalFor}>
-					CLOSE
-				</ModalButton>
-			</div>
+		<div class="p-4">
 			<div class="w-full">
 				<Button
 					variant="filled"

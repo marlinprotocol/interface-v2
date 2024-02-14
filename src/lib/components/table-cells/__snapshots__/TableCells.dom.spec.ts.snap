@@ -35,15 +35,3 @@ exports[`Table Cells > renders TableDataWithButton successfully 1`] = `
   </div>
 </body>
 `;
-
-exports[`Table Cells > renders TableGridDataCell successfully 1`] = `
-<body>
-  <div>
-    <div
-      class="table-grid-data-test-class font-normal text-sm py-3 whitespace-nowrap"
-      data-testid="table-grid-data-cell"
-    />
-    <!--&lt;TableGridDataCell&gt;-->
-  </div>
-</body>
-`;

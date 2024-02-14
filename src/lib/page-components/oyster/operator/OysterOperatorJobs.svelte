@@ -3,7 +3,7 @@
 	import SearchBar from '$lib/components/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import OysterOperatorInventoryTableRow from '$lib/page-components/oyster/operator/OysterOperatorInventoryTableRow.svelte';
+	import OysterOperatorJobsTableRow from '$lib/page-components/oyster/operator/OysterOperatorJobsTableRow.svelte';
 	import type {
 		OysterInventoryDataModel,
 		OysterOperatorInventorySortKeys
@@ -72,7 +72,7 @@
 >
 	{#if paginatedData?.length}
 		{#each paginatedData as rowData, rowIndex (rowData.id)}
-			<OysterOperatorInventoryTableRow {rowData} {rowIndex} />
+			<OysterOperatorJobsTableRow {rowData} {rowIndex} />
 		{/each}
 		<tr>
 			<td colspan="12">

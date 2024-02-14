@@ -1,5 +1,5 @@
 <script lang="ts">
-	import OysterHistoryPage from '$lib/page-components/oyster/history/OysterHistoryPage.svelte';
+	import OysterInventoryHistoryPage from '$lib/page-components/oyster/inventory/OysterInventoryHistoryPage.svelte';
 </script>
 
-<OysterHistoryPage />
+<OysterInventoryHistoryPage />

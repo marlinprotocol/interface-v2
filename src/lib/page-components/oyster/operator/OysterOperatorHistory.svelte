@@ -10,7 +10,7 @@
 	} from '$lib/types/oysterComponentType';
 	import { OYSTER_OPERATOR_HISTORY_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import {
-		getSearchedInventoryData,
+		getSearchedOysterJobsData,
 		sortOysterOperatorHistory
 	} from '$lib/utils/helpers/oysterHelpers';
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
@@ -48,7 +48,7 @@
 		(data) => data.status === 'closed'
 	);
 	// get searched data based on searchInput
-	$: searchedData = getSearchedInventoryData(searchInput, operatorHistoryData);
+	$: searchedData = getSearchedOysterJobsData(searchInput, operatorHistoryData);
 	// get page array based on inventory and itemsPerPage
 	$: pageCount = Math.ceil((searchedData?.length ?? 0) / TABLE_ITEMS_PER_PAGE);
 	// get paginated data based on activePage

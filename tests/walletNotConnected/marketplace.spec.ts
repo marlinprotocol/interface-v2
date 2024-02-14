@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { extractMemoryColumnData, extractRateColumnData, extractVcpuColumnData, isSortedNumerically } from './helpers/marketplace';
+import { extractMemoryColumnData, extractRateColumnData, extractVcpuColumnData, isSortedNumerically } from '../helpers/marketplace';
 
 test('navigating to /oyster/marketplace/', async ({ page }) => {
     await page.goto('/oyster/marketplace/');

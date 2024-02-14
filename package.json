@@ -16,7 +16,8 @@
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
     "update": "ncu -u && npm i",
-    "prepare": "node .husky/install.mjs"
+    "prepare": "node .husky/install.mjs",
+    "test:e2e": "npx playwright test --ui"
   },
   "devDependencies": {
     "@playpilot/svelte-htm": "^1.0.1",

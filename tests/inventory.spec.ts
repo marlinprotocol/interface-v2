@@ -17,3 +17,11 @@ test('show connect wallet and no table', async ({ page }) => {
     expect(hasHeaderText).toBeTruthy();
     expect(hasTwoConnectWalletButtons).toBeTruthy();
 });
+
+test('inputs disabled when wallet connected', async ({ page }) => {
+    await page.goto('/oyster/inventory/', { waitUntil: 'networkidle' });
+
+    const searchInput = page.getByPlaceholder('Search for operator, instance or region');
+
+    expect(searchInput).toBeDisabled();
+});

@@ -44,7 +44,9 @@
 		);
 	};
 
-	$: operatorHistoryData = $oysterStore.jobsData?.filter((data) => !data.live);
+	$: operatorHistoryData = $oysterStore.merchantJobsData?.filter(
+		(data) => data.status === 'closed' || data.status === 'completed'
+	);
 	// get searched data based on searchInput
 	$: searchedData = getSearchedInventoryData(searchInput, operatorHistoryData);
 	// get page array based on inventory and itemsPerPage

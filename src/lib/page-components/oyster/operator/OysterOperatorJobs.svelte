@@ -15,7 +15,8 @@
 	} from '$lib/utils/helpers/oysterHelpers';
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
-	import { OYSTER_OPERATOR_URL } from '$lib/utils/constants/urls';
+	import { OYSTER_OPERATOR_HISTORY_URL, OYSTER_OPERATOR_URL } from '$lib/utils/constants/urls';
+	import { buttonClasses } from '$lib/atoms/componentClasses';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -58,10 +59,9 @@
 <PageTitle title="My Job List" backHref={OYSTER_OPERATOR_URL} />
 <div class="mb-6 flex items-center gap-4">
 	<SearchBar {onSearchClick} bind:input={searchInput} placeholder="Search" styleClass="w-full" />
-	<!-- commenting the operator history page -->
-	<!-- <a href={kOperatorHistory}>
-		<div class={`h-12 ${buttonClasses.outlined}`}>HISTORY</div>
-	</a> -->
+	<a href={OYSTER_OPERATOR_HISTORY_URL}>
+		<div class="{buttonClasses.outlined} h-12 whitespace-nowrap">ORDER HISTORY</div>
+	</a>
 </div>
 <OysterTableCommon
 	{handleSortData}

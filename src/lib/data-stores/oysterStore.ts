@@ -357,9 +357,9 @@ export function stopJobInOysterStore(id: BytesLike, txn: any, jobData: OysterInv
 export function createNewJobInOysterStore(
 	txn: any,
 	approveReciept: any,
-	owner: string,
+	owner: { name?: string; address: Address },
 	metadata: string,
-	provider: { name?: string; address: string },
+	provider: { name?: string; address: Address },
 	rateScaled: bigint,
 	balance: bigint,
 	durationInSec: number,
@@ -380,7 +380,10 @@ export function createNewJobInOysterStore(
 			name: provider?.name || '',
 			address: provider.address
 		},
-		owner,
+		owner: {
+			name: owner?.name || '',
+			address: owner.address
+		},
 		metadata,
 		enclaveUrl: url,
 		instance,
@@ -460,4 +463,3 @@ export function initializeInventoryDataInOysterStore(oysterJobs: OysterInventory
 		};
 	});
 }
-

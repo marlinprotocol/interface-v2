@@ -29,13 +29,22 @@
 		submitLoading = false;
 	};
 
-	$: ({ owner, id, instance, region, createdAt, status, durationRun, amountToBeSettled } = rowData);
+	$: ({
+		owner: { address, name },
+		id,
+		instance,
+		region,
+		createdAt,
+		status,
+		durationRun,
+		amountToBeSettled
+	} = rowData);
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
 <tr class="main-row hover:bg-base-200">
 	<td class={tableCellClasses.row}>
-		<NameWithAddress address={owner} {rowIndex}>
+		<NameWithAddress {address} {name} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="w-4">
 					<div class="copy-icon cursor-pointer">

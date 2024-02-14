@@ -15,12 +15,20 @@
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
 
-	$: ({ owner, instance, region, createdAt, durationRun, totalDeposit, endEpochTime } = rowData);
+	$: ({
+		owner: { name, address },
+		instance,
+		region,
+		createdAt,
+		durationRun,
+		totalDeposit,
+		endEpochTime
+	} = rowData);
 </script>
 
 <tr class="main-row hover:bg-base-200">
 	<td class={tableCellClasses.row}>
-		<NameWithAddress address={owner} {rowIndex}>
+		<NameWithAddress {address} {name} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="copy-icon cursor-pointer">
 					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />

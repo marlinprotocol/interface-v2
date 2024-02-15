@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { extractMemoryColumnData, extractRateColumnData, extractVcpuColumnData, isSortedNumerically } from '../helpers/marketplace';
+import { extractMemoryColumnData, extractRateColumnData, extractVcpuColumnData, isSortedNumerically } from '../../helpers/marketplace';
 
 test('navigating to /oyster/marketplace/', async ({ page }) => {
     await page.goto('/oyster/marketplace/');
@@ -160,8 +160,8 @@ test(`Deploy and check if toast for connect wallet shows.`, async ({ page }) => 
 
     await page.waitForTimeout(1000)
 
-    const connectWalletText = page.getByText('Please connect your wallet to deploy').innerHTML();
-    console.log(connectWalletText)
+    const connectWalletText = await page.getByText('Please connect your wallet to deploy').innerHTML();
+    expect(connectWalletText).toBeTruthy();
 })
 
 test(`Copy button on row is working`, async ({ page, context }) => {

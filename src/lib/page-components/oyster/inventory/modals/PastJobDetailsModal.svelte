@@ -45,6 +45,12 @@
 	<svelte:fragment slot="subtitle">View the details of your past order</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4 px-4">
+			<TextInputCard
+				title="Enclave Image URL"
+				value={enclaveUrl}
+				cliboardContent={enclaveUrl}
+				textStyle="text-primary truncate"
+			/>
 			<div class="flex flex-col gap-4 sm:flex-row">
 				<TextInputCard
 					title="Operator"
@@ -102,22 +108,17 @@
 				/>
 				<TextInputCard
 					title="Duration Run"
-					value="{$oysterTokenMetadataStore.symbol}{epochToDurationString(durationRun, true)}"
+					value={epochToDurationString(durationRun, true)}
 					centered
 					textStyle="text-primary"
 				/>
 			</div>
-			<TextInputCard title="Enclave Image URL" value={enclaveUrl} textStyle="text-primary" />
+
 			<PaymentHistoryTable tableData={depositHistory} />
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<div class="flex gap-2 p-4">
-			<div class="w-full">
-				<ModalButton variant="outlined" size="large" styleClass="btn-block w-full my-0" {modalFor}>
-					CLOSE
-				</ModalButton>
-			</div>
+		<div class="p-4">
 			<div class="w-full">
 				<Button
 					variant="filled"

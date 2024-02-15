@@ -29,13 +29,22 @@
 		submitLoading = false;
 	};
 
-	$: ({ owner, id, instance, region, createdAt, status, durationRun, amountToBeSettled } = rowData);
+	$: ({
+		owner: { address, name },
+		id,
+		instance,
+		region,
+		createdAt,
+		status,
+		durationRun,
+		amountToBeSettled
+	} = rowData);
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
 <tr class="main-row hover:bg-base-200">
 	<td class={tableCellClasses.row}>
-		<NameWithAddress address={owner} {rowIndex}>
+		<NameWithAddress {address} {name} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="w-4">
 					<div class="copy-icon cursor-pointer">
@@ -97,6 +106,14 @@
 <style>
 	/* TODO: migrate these classes to tailwind and then refactor the copy to clipboard functionality */
 	/* show icon only on hover on table-row */
+	.main-row {
+		border-bottom: 1px solid #e5e5e5;
+	}
+
+	.main-row:last-child {
+		border-bottom: none;
+	}
+
 	.main-row:hover .copy-icon {
 		display: flex;
 	}

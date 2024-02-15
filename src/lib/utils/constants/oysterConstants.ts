@@ -127,10 +127,6 @@ export const OYSTER_OPERATOR_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 		title: 'CLAIMED',
 		id: 'amountToBeSettled',
 		sorting: true
-	},
-	{
-		title: '',
-		id: 'action'
 	}
 ];
 

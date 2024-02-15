@@ -18,10 +18,10 @@ export const OYSTER_DOC_LINK = 'https://docs.marlin.org/docs/User%20Guides/Oyste
 //oyster pages
 export const OYSTER_MARKETPLACE_URL = '/oyster/marketplace';
 export const OYSTER_OWNER_INVENTORY_URL = '/oyster/inventory';
-export const OYSTER_OWNER_HISTORY_URL = '/oyster/history';
+export const OYSTER_OWNER_HISTORY_URL = '/oyster/inventory/history';
 export const OYSTER_OPERATOR_URL = '/oyster/operator';
 export const OYSTER_OPERATOR_JOBS_URL = '/oyster/operator/jobs';
-export const OYSTER_OPERATOR_HISTORY_URL = '/oyster/operator/history';
+export const OYSTER_OPERATOR_HISTORY_URL = '/oyster/operator/jobs/history';
 
 //relay links
 export const RELAY_OPERATOR_LINK = 'https://arb1.marlin.org/relay/operator/';

@@ -119,7 +119,10 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 			address: provider
 		},
 		ip,
-		owner,
+		owner: {
+			name: names[owner] ?? '',
+			address: owner
+		},
 		metadata,
 		enclaveUrl: url,
 		instance,

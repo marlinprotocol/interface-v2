@@ -115,8 +115,12 @@
 			name: merchant?.name || ''
 		};
 
+		const owner = {
+			address: $walletStore.address
+		};
+
 		const success = await handleCreateJob(
-			$walletStore.address,
+			owner,
 			metadata,
 			provider,
 			totalRate,

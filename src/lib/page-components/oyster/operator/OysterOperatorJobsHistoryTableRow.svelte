@@ -1,8 +1,8 @@
 <script lang="ts">
+	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
@@ -16,60 +16,62 @@
 	export let rowIndex: number;
 
 	$: ({
-		provider: { name, address },
+		owner: { name, address },
 		instance,
 		region,
 		createdAt,
 		durationRun,
-		amountToBeSettled,
+		totalDeposit,
 		endEpochTime
 	} = rowData);
 </script>
 
-<div class="main-row flex h-16 items-center gap-1 px-8 hover:bg-base-200">
-	<TableGridDataCell styleClass="flex gap-2 items-center">
-		<NameWithAddress {name} {address} {rowIndex}>
+<tr class="main-row hover:bg-base-200">
+	<td class={tableCellClasses.row}>
+		<NameWithAddress {address} {name} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="copy-icon cursor-pointer">
 					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 				</div>
 			</svelte:fragment>
 		</NameWithAddress>
-	</TableGridDataCell>
-	<TableGridDataCell>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		{instance ?? 'N/A'}
-	</TableGridDataCell>
-	<TableGridDataCell>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		{region ?? 'N/A'}
-	</TableGridDataCell>
-	<TableGridDataCell>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		{epochSecToString(createdAt)}
-	</TableGridDataCell>
-	<TableGridDataCell>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		{epochSecToString(endEpochTime)}
-	</TableGridDataCell>
-	<TableGridDataCell>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		<Tooltip tooltipText={epochToDurationString(durationRun)}>
 			{epochToDurationString(durationRun, true)}
 		</Tooltip>
-	</TableGridDataCell>
-	<TableGridDataCell>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
-			amountToBeSettled,
+			totalDeposit,
 			$oysterTokenMetadataStore.decimal
 		)}
-	</TableGridDataCell>
-	<TableGridDataCell>
-		<!-- <Button onclick={async () => await settleOysterJob(id)} size="tiny" styleClass="w-full"
-			>CLAIM</Button
-		> -->mellow
-		yellow
-	</TableGridDataCell>
-</div>
+	</td>
+</tr>
 
 <style>
-	/* show icon only on hover on table-row */
 	/* TODO: migrate these classes to tailwind and then refactor the copy to clipboard functionality */
+	/* show icon only on hover on table-row */
+	.main-row {
+		border-bottom: 1px solid #e5e5e5;
+	}
+
+	.main-row:last-child {
+		border-bottom: none;
+	}
+
 	.main-row:hover .copy-icon {
 		display: flex;
 	}

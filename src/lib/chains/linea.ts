@@ -20,14 +20,16 @@ export const LINEA: ChainConfig = {
 		OYSTER: '0xdD78e7F31B98dD8BD1F44F8FFCCeb4EdA6abdc5B',
 		POND: '',
 		MPOND: '',
-		USDC: '0x8FB1E3fC51F3b789dED7557E680551d93Ea9d892'
+		USDC: '0x8FB1E3fC51F3b789dED7557E680551d93Ea9d892',
+		OYSTER_CREDIT: ''
 	},
 	subgraph_urls: {
 		RECEIVER_STAKING: '',
 		BRIDGE: '',
 		OYSTER: 'https://graph-query.linea.build/subgraphs/name/marlinprotocol/oyster-linea',
 		POND: '',
-		MPOND: ''
+		MPOND: '',
+		OYSTER_CREDIT: ''
 	},
 	oyster_token: 'USDC',
 	oyster_rate_metadata: {

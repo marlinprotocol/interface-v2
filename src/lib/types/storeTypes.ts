@@ -54,6 +54,7 @@ export type ContractAddress = {
 	POND: Address;
 	MPOND: Address;
 	USDC: Address;
+	OYSTER_CREDIT: Address;
 };
 
 // receiver staking store

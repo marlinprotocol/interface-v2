@@ -147,7 +147,7 @@ exports[`NetworkPrompt > render's the Network Prompt properly 1`] = `
                     />
                   </div>
                    
-                  Arb Goerli
+                  Arbitrum Sepolia
                 </button>
                  
               </li>

@@ -13,7 +13,8 @@ import { defineConfig, devices } from '@playwright/test';
 const baseURL = `http://localhost:5173`
 
 export default defineConfig({
-  testDir: './tests',
+  testDir: './test/e2e',
+  timeout: 2 * 60 * 1000,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */

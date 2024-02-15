@@ -1,7 +1,6 @@
 import { cleanup, render } from '@testing-library/svelte';
 import TableDataCell from './TableDataCell.svelte';
 import html from '@playpilot/svelte-htm';
-import TableGridDataCell from './TableGridDataCell.svelte';
 import TableDataWithButton from './TableDataWithButton.svelte';
 
 describe('Table Cells', () => {
@@ -26,31 +25,6 @@ describe('Table Cells', () => {
 		expect(getByTestId('table-data-cell')).toBeTruthy();
 		expect(
 			getByTestId('table-data-cell').contains(getByLabelText('test-component-chidren'))
-		).toBeTruthy();
-
-		expect(
-			getByLabelText('test-component-chidren').innerHTML === 'Test Component Chidren'
-		).toBeTruthy();
-	});
-
-	it('renders TableGridDataCell successfully', () => {
-		const { getByTestId, container } = render(TableGridDataCell, {
-			styleClass: 'table-grid-data-test-class'
-		});
-		expect(getByTestId('table-grid-data-cell')).toBeTruthy();
-		expect(
-			getByTestId('table-grid-data-cell').classList.contains('table-grid-data-test-class')
-		).toBeTruthy();
-		expect(container).toMatchSnapshot();
-	});
-
-	it('renders TableGridDataCell with slot ', () => {
-		const { getByTestId, getByLabelText } = render(
-			html`<${TableGridDataCell}><div aria-label="test-component-chidren">Test Component Chidren</div></${TableGridDataCell}>`
-		);
-		expect(getByTestId('table-grid-data-cell')).toBeTruthy();
-		expect(
-			getByTestId('table-grid-data-cell').contains(getByLabelText('test-component-chidren'))
 		).toBeTruthy();
 
 		expect(

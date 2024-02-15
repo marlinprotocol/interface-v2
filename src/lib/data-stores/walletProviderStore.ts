@@ -55,7 +55,7 @@ export function resetWalletProviderStore(): void {
 export function initializeWalletStore(
 	provider: ethers.BrowserProvider,
 	signer: ethers.JsonRpcSigner,
-	address: Lowercase<string>
+	address: Lowercase<Address>
 ) {
 	walletStore.set({
 		provider,

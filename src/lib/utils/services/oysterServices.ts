@@ -25,6 +25,7 @@ import type { BytesLike } from 'ethers';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 import type { TokenMetadata } from '$lib/types/environmentTypes';
 import { approveToken } from '$lib/controllers/contract/token';
+import type { Address } from '$lib/types/storeTypes';
 
 export async function handleClaimAmountFromOysterJob(jobId: BytesLike) {
 	try {
@@ -141,9 +142,9 @@ export async function handleConfirmJobStop(jobData: OysterInventoryDataModel) {
 }
 
 export async function handleCreateJob(
-	owner: string,
+	owner: { name?: string; address: Address },
 	metadata: string,
-	provider: { name?: string; address: string },
+	provider: { name?: string; address: Address },
 	rate: bigint,
 	balance: bigint,
 	durationInSec: number,

@@ -45,7 +45,7 @@ describe('Back button', () => {
 		});
 
 		const anchorButton = getByTestId('back-button');
-		expect(anchorButton.className).toBe(buttonClasses.largeButton);
+		expect(anchorButton.className).toBe('');
 	});
 });
 

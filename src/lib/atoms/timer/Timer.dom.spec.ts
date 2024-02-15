@@ -74,8 +74,8 @@ describe('TimerComponent Component', () => {
 			props: {
 				timerId: timerTestId,
 				endEpochTime: Date.now() / 1000 + 1,
-				onTimerEnd: async () => {
-					await getByTestId('timer').classList.add('on-time-end');
+				onTimerEnd: () => {
+					getByTestId('timer').classList.add('on-time-end');
 				}
 			}
 		});

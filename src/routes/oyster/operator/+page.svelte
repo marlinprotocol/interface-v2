@@ -6,7 +6,7 @@
 		resetOysterStore
 	} from '$lib/data-stores/oysterStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
-	import OysterDashboard from '$lib/page-components/oyster/OysterDashboard.svelte';
+	import OysterOperatorRegisterPage from '$lib/page-components/oyster/operator/OysterOperatorRegisterPage.svelte';
 
 	let prevChainId: null | number = null;
 	let prevAddress = '';
@@ -33,4 +33,4 @@
 	}
 </script>
 
-<OysterDashboard />
+<OysterOperatorRegisterPage />

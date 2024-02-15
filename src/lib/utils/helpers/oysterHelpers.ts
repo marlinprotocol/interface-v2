@@ -55,7 +55,8 @@ export const getSearchedOysterJobsData = (
 		return (
 			instance.toLowerCase().includes(searchInputLowerCase) ||
 			region.toLowerCase().includes(searchInputLowerCase) ||
-			owner.toLowerCase().includes(searchInputLowerCase)
+			owner.address.toLowerCase().includes(searchInputLowerCase) ||
+			owner.name?.toLowerCase().includes(searchInputLowerCase)
 		);
 	});
 };
@@ -283,9 +284,9 @@ export const getSearchAndFilteredMarketplaceData = (
 		allMarketplaceData = allMarketplaceData.filter((item) => {
 			return exactMatch
 				? item.provider.address.toLowerCase() === value ||
-				item.provider.name?.toLowerCase() === value
+						item.provider.name?.toLowerCase() === value
 				: item.provider.address.toLowerCase().includes(value) ||
-				item.provider.name?.toLowerCase()?.includes(value);
+						item.provider.name?.toLowerCase()?.includes(value);
 		});
 	}
 
@@ -295,7 +296,7 @@ export const getSearchAndFilteredMarketplaceData = (
 			return exactMatch
 				? item.region.toLowerCase() === value || item.regionName.toLowerCase() === value
 				: item.region.toLowerCase().includes(value) ||
-				item.regionName.toLowerCase().includes(value);
+						item.regionName.toLowerCase().includes(value);
 		});
 	}
 
@@ -478,11 +479,17 @@ export const getDurationInSecondsForUnit = (durationUnit: OysterDurationUnits) =
 	return OYSTER_DURATION_UNITS_LIST.find((unit) => unit.label === durationUnit)?.value ?? 1;
 };
 
-export const addJobsToMap = (jobs: OysterInventoryDataModel[], map: Map<BytesLike, OysterInventoryDataModel>) => {
-	jobs.forEach(job => map.set(job.id, job));
+export const addJobsToMap = (
+	jobs: OysterInventoryDataModel[],
+	map: Map<BytesLike, OysterInventoryDataModel>
+) => {
+	jobs.forEach((job) => map.set(job.id, job));
 };
 
-export const combineAndDeduplicateJobs = (earlierJobs: OysterInventoryDataModel[], newJobs: OysterInventoryDataModel[]) => {
+export const combineAndDeduplicateJobs = (
+	earlierJobs: OysterInventoryDataModel[],
+	newJobs: OysterInventoryDataModel[]
+) => {
 	const combinedUniqueObjectsMap = new Map();
 
 	// Add objects from both arrays to the map
@@ -490,6 +497,7 @@ export const combineAndDeduplicateJobs = (earlierJobs: OysterInventoryDataModel[
 	addJobsToMap(newJobs, combinedUniqueObjectsMap);
 
 	// Convert the map values back to an array
-	return Array.from(combinedUniqueObjectsMap.values()).sort((job1, job2) => job2.createdAt - job1.createdAt);
-}
-
+	return Array.from(combinedUniqueObjectsMap.values()).sort(
+		(job1, job2) => job2.createdAt - job1.createdAt
+	);
+};

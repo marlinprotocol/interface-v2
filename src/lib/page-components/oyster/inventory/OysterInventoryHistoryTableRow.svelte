@@ -2,7 +2,6 @@
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import TableGridDataCell from '$lib/components/table-cells/TableGridDataCell.svelte';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
@@ -13,6 +12,7 @@
 	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import { tableCellClasses } from '$lib/atoms/componentClasses';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -31,8 +31,8 @@
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
-<div class="main-row flex h-16 items-center gap-1 px-8 hover:bg-base-200">
-	<TableGridDataCell styleClass="flex gap-2 items-center">
+<tr class="main-row hover:bg-base-200">
+	<td class={tableCellClasses.row}>
 		<NameWithAddress {name} {address} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="copy-icon cursor-pointer">
@@ -40,49 +40,49 @@
 				</div>
 			</svelte:fragment>
 		</NameWithAddress>
-	</TableGridDataCell>
-	<TableGridDataCell>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		{instance ?? 'N/A'}
-	</TableGridDataCell>
-	<TableGridDataCell>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		{region ?? 'N/A'}
-	</TableGridDataCell>
-	<TableGridDataCell>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 			totalDeposit,
 			$oysterTokenMetadataStore.decimal
 		)}
-	</TableGridDataCell>
-	<TableGridDataCell>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 			amountUsed,
 			$oysterTokenMetadataStore.decimal
 		)}
-	</TableGridDataCell>
-	<TableGridDataCell>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		{$oysterTokenMetadataStore.symbol}{bigNumberToString(refund, $oysterTokenMetadataStore.decimal)}
-	</TableGridDataCell>
-	<TableGridDataCell>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		<Tooltip tooltipText={epochToDurationString(endEpochTime - createdAt)}>
 			{epochToDurationString(endEpochTime - createdAt, true)}
 		</Tooltip>
-	</TableGridDataCell>
-	<TableGridDataCell>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		<div
 			class="mx-auto w-24 rounded py-1 text-sm capitalize text-white"
 			style="background-color: {statusColor}"
 		>
 			{status}
 		</div>
-	</TableGridDataCell>
-	<TableGridDataCell>
+	</td>
+	<td class={tableCellClasses.rowNormal}>
 		<ModalButton
 			variant="tableConvertButton"
-			styleClass="w-full"
+			styleClass="w-fit ml-4 mr-6"
 			modalFor="job-history-details-{rowIndex}">DETAILS</ModalButton
 		>
-	</TableGridDataCell>
-</div>
+	</td>
+</tr>
 <PastJobDetailsModal modalFor="job-history-details-{rowIndex}" jobData={rowData} {rowIndex} />
 <CreateOrderModal modalFor="create-order-modal-{rowIndex}" preFilledData={rowData} />
 

@@ -18,12 +18,9 @@
     "update": "ncu -u && npm i",
     "prepare": "node .husky/install.mjs",
     "test:e2e": "synpress && playwright test --ui",
-    "serve:test-dapp": "serve node_modules/@metamask/test-dapp/dist -p 9999",
-    "build:cache": "synpress",
     "synpress-test": "rm -rf .cache-synpress && synpress && playwright test --ui"
   },
   "devDependencies": {
-    "@metamask/test-dapp": "^8.1.0",
     "@playpilot/svelte-htm": "^1.0.1",
     "@playwright/test": "^1.41.2",
     "@sveltejs/adapter-static": "^2.0.3",
@@ -35,6 +32,7 @@
     "@typescript-eslint/parser": "^6.5.0",
     "autoprefixer": "^10.4.15",
     "browser": "^0.2.6",
+    "dotenv": "^16.4.4",
     "eslint": "^8.48.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-svelte": "^2.33.0",
@@ -56,8 +54,7 @@
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
     "vite": "^4.4.9",
-    "vitest": "^0.34.3",
-    "dotenv": "^16.4.4"
+    "vitest": "^0.34.3"
   },
   "type": "module",
   "dependencies": {

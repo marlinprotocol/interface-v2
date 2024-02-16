@@ -65,3 +65,10 @@ export function updateChainStore(chainId: number) {
 		environment.valid_chains[chainId].chain_name
 	);
 }
+
+export function chainIdHasChanged(currentChainId: number | null, previousChainId: number | null) {
+	if (currentChainId !== null) {
+		return previousChainId !== currentChainId;
+	}
+	return false;
+}

@@ -149,3 +149,13 @@ export async function initializeWalletBalancesStore(
 		console.log(error);
 	}
 }
+
+export function walletAddressHasChanged(
+	currentWalletAddress: Address,
+	previousWalletAddress: Address
+) {
+	if (currentWalletAddress !== '') {
+		return previousWalletAddress !== currentWalletAddress;
+	}
+	return false;
+}

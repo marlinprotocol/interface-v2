@@ -1,30 +1,17 @@
 import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress'
 import BasicSetup from '../../wallet-setup/basic.setup'
+import { OYSTER_MARKETPLACE_URL, OYSTER_OWNER_INVENTORY_URL } from '../../../src/lib/utils/constants/urls';
+import { loginToMetamask } from '../../helpers/metamask';
 
 
 const test = testWithSynpress(BasicSetup, unlockForFixture)
 const { expect } = test
 
 test('connect wallet -> deploy a job -> check if it navigated to inventory', async ({ context, page, metamaskPage, extensionId }) => {
-    await page.goto('/oyster/marketplace/', { waitUntil: 'networkidle' });
+    await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
     const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId)
-
-    const connectWalletButtons = await page.$$('button:has-text("Connect Wallet")');
-    await connectWalletButtons[0].click();
-
-    const metamaskButton = page.getByRole('button', { name: 'MetaMask' });
-    await metamaskButton.click();
-
-    await metamask.connectToDapp()
-    await metamask.addNetwork({
-        name: 'Arbitrum Sepolia',
-        rpcUrl: 'https://arbitrum-sepolia.blockpi.network/v1/rpc/public',
-        chainId: 421614,
-        symbol: 'ETH',
-        blockExplorerUrl: 'https://testnet.arbiscan.io',
-    })
-    await metamask.switchNetwork('Arbitrum Sepolia');
+    await loginToMetamask(metamask, page)
 
 
     const hasText = await page.textContent('text=Infrastructure Providers');
@@ -72,6 +59,6 @@ test('connect wallet -> deploy a job -> check if it navigated to inventory', asy
         await metamask.notificationPage.confirmTransactionAndWaitForMining(extensionId);
     }
 
-    await page.waitForURL('/oyster/inventory/');
+    await page.waitForURL(OYSTER_OWNER_INVENTORY_URL + '/');
 
 })

@@ -11,9 +11,6 @@ test('show connect wallet and no table', async ({ page }) => {
     // Check if there are two "Connect Wallet" buttons
     const hasTwoConnectWalletButtons = connectWalletButtons.length === 2;
 
-    console.log('Has two "Connect Wallet" buttons:', hasTwoConnectWalletButtons);
-
-
     expect(hasHeaderText).toBeTruthy();
     expect(hasTwoConnectWalletButtons).toBeTruthy();
 });

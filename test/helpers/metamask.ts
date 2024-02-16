@@ -1,5 +1,6 @@
-import { Page } from "@playwright/test";
-import { MetaMask } from "@synthetixio/synpress";
+import type { Page } from "@playwright/test";
+import type { MetaMask } from "@synthetixio/synpress";
+import { ARB_SEPOLIA } from '../../src/lib/chains/arbSepolia';
 
 export const loginToMetamask = async (metamask: MetaMask, page: Page) => {
     const connectWalletButtons = await page.$$('button:has-text("Connect Wallet")');
@@ -10,11 +11,11 @@ export const loginToMetamask = async (metamask: MetaMask, page: Page) => {
 
     await metamask.connectToDapp()
     await metamask.addNetwork({
-        name: 'Arbitrum Sepolia',
-        rpcUrl: 'https://arbitrum-sepolia.blockpi.network/v1/rpc/public',
+        name: ARB_SEPOLIA.chain_name,
+        rpcUrl: ARB_SEPOLIA.rpc_url,
         chainId: 421614,
-        symbol: 'ETH',
+        symbol: ARB_SEPOLIA.chain_token,
         blockExplorerUrl: 'https://testnet.arbiscan.io',
     })
-    await metamask.switchNetwork('Arbitrum Sepolia');
+    await metamask.switchNetwork(ARB_SEPOLIA.chain_name);
 }

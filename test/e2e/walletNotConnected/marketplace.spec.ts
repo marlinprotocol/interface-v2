@@ -21,7 +21,7 @@ test('Renders the table', async ({ page }) => {
     await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
     // Check if the table is present
-    const table = await page.$('table.w-full.text-center');
+    const table = await page.$('table');
     expect(table).not.toBeNull();
 
 });

@@ -97,6 +97,7 @@ export type OysterStore = {
 	oysterStoreLoaded: boolean;
 	merchantJobsLoaded: boolean;
 	providerDetailsLoaded: boolean;
+	credits: undefined | bigint;
 };
 
 // receiver rewards store

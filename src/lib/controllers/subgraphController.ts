@@ -551,24 +551,24 @@ export async function getOysterCreditFromSubgraph(address: Address) {
 		// console.log(url, query, queryVariables);
 		const result = await subgraphQueryWrapper(url, query, queryVariables);
 		// console.log('credits', result);
-		const jobs = result['data']?.userCredits?.[0]?.userBudget;
-		console.log('user credits from subgraph', jobs);
+		const userCreditsBudget = result['data']?.userCredits?.[0]?.userBudget;
+		console.log('user credits from subgraph', userCreditsBudget);
 
 		if (result['errors']) {
 			throw new Error(result['errors'][0].message);
 		}
-		if (result['data'] && jobs?.length) {
-			return jobs;
+		if (userCreditsBudget) {
+			return BigInt(userCreditsBudget);
 		} else {
-			return [];
+			return undefined;
 		}
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error getting oyster credit jobs from subgraph. ${error.message}`,
+			message: `Error getting oyster user credit from subgraph. ${error.message}`,
 			timeout: 6000
 		});
-		console.error('Error getting oyster credit jobs from subgraph', error);
-		return [];
+		console.error('Error getting oyster user credit from subgraph', error);
+		return undefined;
 	}
 }

@@ -96,7 +96,8 @@ export const DEFAULT_OYSTER_STORE: OysterStore = {
 	marketplaceLoaded: false,
 	oysterStoreLoaded: false,
 	merchantJobsLoaded: false,
-	providerDetailsLoaded: false
+	providerDetailsLoaded: false,
+	credits: undefined
 };
 
 // receiverRewardsStore

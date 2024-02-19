@@ -463,6 +463,15 @@ export function initializeAllowanceInOysterStore(allowance: bigint) {
 	});
 }
 
+export function initializeMarlinCreditsInOysterStore(credits: bigint | undefined) {
+	oysterStore.update((value) => {
+		return {
+			...value,
+			credits
+		};
+	});
+}
+
 export function initializeInventoryDataInOysterStore(oysterJobs: OysterInventoryDataModel[]) {
 	oysterStore.update((value) => {
 		return {

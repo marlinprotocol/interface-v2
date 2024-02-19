@@ -299,3 +299,11 @@ export const QUERY_TO_GET_RECEIVER_REWARDS_DATA = `query ReceiverRewards($addres
     value
   }   
 }`;
+
+export const QUERY_TO_CHECK_OYSTER_CREDIT_BALANCE = `query OysterCreditBalance($address: String) {
+  userCredits(
+    where: { id: $address }
+  ) {
+    userBudget
+  }
+}`;

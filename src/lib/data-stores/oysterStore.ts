@@ -140,6 +140,15 @@ export function updateMerchantJobsInOysterStore(merchantJobs: OysterInventoryDat
 	});
 }
 
+export function setMerchantJobsLoadedInOysterStore(status: boolean) {
+	oysterStore.update((value) => {
+		return {
+			...value,
+			merchantJobsLoaded: status
+		};
+	});
+}
+
 export function updateApprovedFundsInOysterStore(updatedAmount: bigint) {
 	oysterStore.update((value) => {
 		return {
@@ -460,6 +469,15 @@ export function initializeInventoryDataInOysterStore(oysterJobs: OysterInventory
 			...value,
 			jobsData: [...combineAndDeduplicateJobs(oysterJobs, value.jobsData)],
 			oysterStoreLoaded: true
+		};
+	});
+}
+
+export function setInventoryDataLoadedInOysterStore(status: boolean) {
+	oysterStore.update((value) => {
+		return {
+			...value,
+			oysterStoreLoaded: status
 		};
 	});
 }

@@ -84,7 +84,7 @@ exports[`ChainSwitcher > renders the ChainSwitcher component properly 1`] = `
               />
             </div>
              
-            Arb Goerli
+            Arbitrum Sepolia
           </button>
            
         </li>
@@ -285,7 +285,7 @@ exports[`Disconnect Wallet Modal > renders the Disconnect Wallet Modal component
             <!--&lt;AddTokenPrompt&gt;-->
              
             <a
-              href="https://goerli.arbiscan.io/address/"
+              href="https://sepolia.arbiscan.io/address/"
               rel="noopener noreferrer"
               target="_blank"
             >

@@ -84,7 +84,7 @@ exports[`ChainSwitcher > render's the component properly 1`] = `
               />
             </div>
              
-            Arb Goerli
+            Arbitrum Sepolia
           </button>
            
         </li>
@@ -179,7 +179,7 @@ exports[`ChainSwitcher > render's the dark mode classes 1`] = `
               />
             </div>
              
-            Arb Goerli
+            Arbitrum Sepolia
           </button>
            
         </li>

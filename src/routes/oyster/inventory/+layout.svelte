@@ -1,16 +1,26 @@
 <script lang="ts">
 	import { getJobStatuses } from '$lib/controllers/httpController';
 	import { getOysterJobsFromSubgraph } from '$lib/controllers/subgraphController';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
+	import { chainIdHasChanged, chainStore } from '$lib/data-stores/chainProviderStore';
 	import {
 		initializeInventoryDataInOysterStore,
-		oysterRateMetadataStore
+		oysterRateMetadataStore,
+		setInventoryDataLoadedInOysterStore
 	} from '$lib/data-stores/oysterStore';
-	import { walletStore } from '$lib/data-stores/walletProviderStore';
+	import {
+		connected,
+		walletAddressHasChanged,
+		walletStore
+	} from '$lib/data-stores/walletProviderStore';
+	import type { Address } from '$lib/types/storeTypes';
 	import { modifyOysterJobData } from '$lib/utils/data-modifiers/oysterModifiers';
+
+	let previousChainId: number | null = null;
+	let previousWalletAddress: Address = '';
 
 	async function loadOysterInventoryData() {
 		console.log('Loading oyster inventory data');
+		setInventoryDataLoadedInOysterStore(false);
 		const [oysterJobsFromSubgraph, jobStatuses] = await Promise.all([
 			getOysterJobsFromSubgraph($walletStore.address),
 			getJobStatuses($walletStore.address)
@@ -35,7 +45,13 @@
 		console.log('Oyster inventory data is loaded');
 	}
 
-	$: if ($walletStore.address !== '' && $walletStore.address !== undefined && $chainStore.chainId) {
+	$: if (
+		$connected &&
+		(walletAddressHasChanged($walletStore.address, previousWalletAddress) ||
+			chainIdHasChanged($chainStore.chainId, previousChainId))
+	) {
+		previousChainId = $chainStore.chainId;
+		previousWalletAddress = $walletStore.address;
 		loadOysterInventoryData();
 	}
 </script>

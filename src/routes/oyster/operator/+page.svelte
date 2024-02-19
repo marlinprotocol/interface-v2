@@ -1,15 +1,20 @@
 <script lang="ts">
 	import { getProviderDetailsFromSubgraph } from '$lib/controllers/subgraphController';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
+	import { chainIdHasChanged, chainStore } from '$lib/data-stores/chainProviderStore';
 	import {
 		initializeProviderDataInOysterStore,
 		resetOysterStore
 	} from '$lib/data-stores/oysterStore';
-	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
+	import {
+		connected,
+		walletAddressHasChanged,
+		walletStore
+	} from '$lib/data-stores/walletProviderStore';
 	import OysterOperatorRegisterPage from '$lib/page-components/oyster/operator/OysterOperatorRegisterPage.svelte';
+	import type { Address } from '$lib/types/storeTypes';
 
-	let prevChainId: null | number = null;
-	let prevAddress = '';
+	let previousChainId: number | null = null;
+	let previousWalletAddress: Address = '';
 
 	async function loadProviderDetails() {
 		console.log('fetching operator details');
@@ -25,10 +30,11 @@
 
 	$: if (
 		$connected &&
-		($walletStore.address !== prevAddress || $chainStore.chainId !== prevChainId)
+		(chainIdHasChanged($chainStore.chainId, previousChainId) ||
+			walletAddressHasChanged($walletStore.address, previousWalletAddress))
 	) {
-		prevChainId = $chainStore.chainId;
-		prevAddress = $walletStore.address;
+		previousChainId = $chainStore.chainId;
+		previousWalletAddress = $walletStore.address;
 		loadProviderDetails();
 	}
 </script>

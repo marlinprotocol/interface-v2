@@ -29,7 +29,7 @@ export const ARB_SEPOLIA: ChainConfig = {
 		OYSTER: 'https://api.thegraph.com/subgraphs/name/marlin-staging/enclaves-arb-dev',
 		POND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-dev',
 		MPOND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-dev',
-		OYSTER_CREDIT: 'https://api.thegraph.com/subgraph/name/rajatlko13/oyster-credits-arb-sepolia'
+		OYSTER_CREDIT: 'https://api.thegraph.com/subgraphs/name/rajatlko13/oyster-credits-arb-sepolia'
 	},
 	oyster_token: 'USDC',
 	oyster_rate_metadata: {

@@ -468,7 +468,7 @@ export function initializeMarlinCreditsInOysterStore(credits: bigint) {
 		return {
 			...value,
 			credits: {
-				isWhiteListed: credits !== undefined,
+				isWhitelisted: credits !== undefined,
 				balance: credits
 			}
 		};

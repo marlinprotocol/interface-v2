@@ -13,7 +13,7 @@
 
 <!-- removing input from tabbing order since its open and close behaviour is being controlled by label and close button respectively  -->
 <input type="checkbox" id={modalFor} class="modal-toggle" tabindex="-1" />
-<div data-testId='modal' class="modal">
+<div data-testId="modal" class="modal">
 	<div class="{modalWidth} modal-box rounded-lg bg-base-100 px-0 py-0 shadow-none">
 		<div class="modal-header sticky top-0 z-10 flex items-center bg-white px-6 pb-4 pt-8">
 			<div class="flex w-full flex-col">
@@ -33,7 +33,7 @@
 				</div>
 			</div>
 			<button
-				data-testId='modal-close-button'
+				data-testId="modal-close-button"
 				class="flex h-12 min-w-[3rem] cursor-pointer items-center justify-center self-start text-sm font-bold text-gray-300"
 				on:click={() => {
 					closeModal(modalFor);

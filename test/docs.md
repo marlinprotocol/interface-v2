@@ -13,3 +13,6 @@ VITE_SEED_PHRASE= YOUR_SEED_PHRASE
 By default playwright tests runs on Chromium.
 to configure/install more browser refer to [Playwright Docs](https://playwright.dev/docs/browsers)
 
+### Learn more about playwright and synpress
+https://synpress.io/
+https://playwright.dev/

@@ -22,6 +22,11 @@
 	import BandwidthSelector from '$lib/page-components/oyster/sub-components/BandwidthSelector.svelte';
 	import { OYSTER_OWNER_INVENTORY_URL } from '$lib/utils/constants/urls';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
+	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
+	import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
+	import type { WalletBalanceStore } from '$lib/types/storeTypes';
+	import Text from '$lib/atoms/texts/Text.svelte';
+	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
@@ -39,6 +44,7 @@
 	let providerAddress: string | undefined = preFilledData.provider?.address;
 	let vcpu = '';
 	let memory = '';
+	let useMarlinCredits: boolean = false;
 	let notServiceable = false;
 	//loading state
 	let submitLoading = false;
@@ -182,7 +188,28 @@
 		region.value,
 		$oysterStore.allMarketplaceData
 	);
+	$: walletBalance =
+		$oysterStore.credits.isWhitelisted && useMarlinCredits
+			? $oysterStore.credits.balance
+			: $walletBalanceStore[
+					$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
+				];
 
+	$: walletBalanceText = useMarlinCredits
+		? bigNumberToString(
+				walletBalance,
+				OYSTER_MARLIN_CREDIT_METADATA.decimal,
+				OYSTER_MARLIN_CREDIT_METADATA.precision
+			) +
+			' ' +
+			'Credits'
+		: bigNumberToString(
+				walletBalance,
+				$oysterTokenMetadataStore.decimal,
+				$oysterTokenMetadataStore.precision
+			) +
+			' ' +
+			$oysterTokenMetadataStore.currency;
 	$: approved =
 		instanceCostScaled > 0n &&
 		$oysterStore.allowance >= totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor &&
@@ -268,7 +295,26 @@
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<div class="p-4">
+		<div class="flex items-center justify-between px-4 pt-2">
+			<Text
+				variant="small"
+				styleClass="text-black ml-1"
+				fontWeight="font-normal"
+				text="Balance: {walletBalanceText}"
+			/>
+			<div class="form-control">
+				<label class="label cursor-pointer">
+					<span class="label-text mr-3">Use Marlin Credits</span>
+					<input
+						bind:checked={useMarlinCredits}
+						type="checkbox"
+						class="checkbox-primary checkbox checkbox-md"
+					/>
+				</label>
+			</div>
+		</div>
+
+		<div class="px-4 py-2 pb-4">
 			<Button
 				variant="filled"
 				disabled={!submitEnable}

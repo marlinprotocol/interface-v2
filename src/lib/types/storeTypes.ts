@@ -97,7 +97,10 @@ export type OysterStore = {
 	oysterStoreLoaded: boolean;
 	merchantJobsLoaded: boolean;
 	providerDetailsLoaded: boolean;
-	credits: undefined | bigint;
+	credits: {
+		isWhitelisted: boolean;
+		balance: bigint;
+	};
 };
 
 // receiver rewards store

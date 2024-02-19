@@ -1,6 +1,7 @@
 import { SECONDS_IN_DAY } from '$lib/utils/constants/constants';
 import type { TableModel } from '$lib/types/componentTypes';
 import type { OysterDurationUnitList, OysterJobMetadata } from '$lib/types/oysterComponentType';
+import type { TokenMetadata } from '$lib/types/environmentTypes';
 
 export const OYSTER_URL_ENDPOINTS = {
 	instances_using_cp_url: 'operators/spec/cp/',
@@ -9,6 +10,11 @@ export const OYSTER_URL_ENDPOINTS = {
 	provider_instances_url: 'operators/spec/',
 	job_status_url: 'operators/jobs/',
 	job_refresh_url: 'operators/jobs/refresh/'
+};
+
+export const OYSTER_MARLIN_CREDIT_METADATA: Pick<TokenMetadata, 'precision' | 'decimal'> = {
+	precision: 6,
+	decimal: 6
 };
 
 export const OYSTER_CAUTION_DURATION = SECONDS_IN_DAY;

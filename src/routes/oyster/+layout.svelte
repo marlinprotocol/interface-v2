@@ -4,7 +4,8 @@
 	import { getAllowance } from '$lib/controllers/contract/usdc';
 	import {
 		getAllProvidersDetailsFromSubgraph,
-		getApprovedOysterAllowancesFromSubgraph
+		getApprovedOysterAllowancesFromSubgraph,
+		getOysterCreditFromSubgraph
 	} from '$lib/controllers/subgraphController';
 	import {
 		chainConfigStore,
@@ -20,7 +21,8 @@
 		oysterTokenMetadataStore,
 		oysterRateMetadataStore,
 		setMarketplaceLoadedInOysterStore,
-		updateMarketplaceDataInOysterStore
+		updateMarketplaceDataInOysterStore,
+		initializeMarlinCreditsInOysterStore
 	} from '$lib/data-stores/oysterStore';
 	import {
 		connected,
@@ -53,6 +55,10 @@
 					);
 		initializeAllowanceInOysterStore(allowance);
 		console.log('Oyster allowances data is loaded');
+
+		const marlinCredits = await getOysterCreditFromSubgraph($walletStore.address);
+		initializeMarlinCreditsInOysterStore(marlinCredits);
+		console.log('Marlin credits data is loaded');
 	}
 
 	async function loadMarketplaceData() {

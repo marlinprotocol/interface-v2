@@ -560,7 +560,7 @@ export async function getOysterCreditFromSubgraph(address: Address) {
 		if (userCreditsBudget) {
 			return BigInt(userCreditsBudget);
 		} else {
-			return undefined;
+			return 0n;
 		}
 	} catch (error: any) {
 		addToast({
@@ -569,6 +569,6 @@ export async function getOysterCreditFromSubgraph(address: Address) {
 			timeout: 6000
 		});
 		console.error('Error getting oyster user credit from subgraph', error);
-		return undefined;
+		return 0n;
 	}
 }

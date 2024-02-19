@@ -26,6 +26,7 @@ import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 import type { TokenMetadata } from '$lib/types/environmentTypes';
 import { approveToken } from '$lib/controllers/contract/token';
 import type { Address } from '$lib/types/storeTypes';
+import { createNewOysterJobWithCredits } from '$lib/controllers/contract/oysterCredit';
 
 export async function handleClaimAmountFromOysterJob(jobId: BytesLike) {
 	try {
@@ -152,6 +153,40 @@ export async function handleCreateJob(
 ) {
 	try {
 		const { txn, approveReciept } = await createNewOysterJob(
+			metadata,
+			provider.address,
+			rate,
+			balance
+		);
+		createNewJobInOysterStore(
+			txn,
+			approveReciept,
+			owner,
+			metadata,
+			provider,
+			rate,
+			balance,
+			durationInSec,
+			scalingFactor
+		);
+		return true;
+	} catch (e) {
+		console.log('e :>> ', e);
+		return false;
+	}
+}
+
+export async function handleCreateJobWithCredits(
+	owner: { name?: string; address: Address },
+	metadata: string,
+	provider: { name?: string; address: Address },
+	rate: bigint,
+	balance: bigint,
+	durationInSec: number,
+	scalingFactor: bigint
+) {
+	try {
+		const { txn, approveReciept } = await createNewOysterJobWithCredits(
 			metadata,
 			provider.address,
 			rate,

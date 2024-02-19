@@ -12,9 +12,11 @@ export const OYSTER_URL_ENDPOINTS = {
 	job_refresh_url: 'operators/jobs/refresh/'
 };
 
-export const OYSTER_MARLIN_CREDIT_METADATA: Pick<TokenMetadata, 'precision' | 'decimal'> = {
+export const OYSTER_MARLIN_CREDIT_METADATA: Omit<TokenMetadata, 'address'> = {
+	symbol: '$',
 	precision: 6,
-	decimal: 6
+	decimal: 6,
+	currency: 'OYSTER_CREDIT'
 };
 
 export const OYSTER_CAUTION_DURATION = SECONDS_IN_DAY;

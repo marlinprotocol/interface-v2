@@ -49,7 +49,11 @@ export function resetOysterStore() {
 			jobsData: [],
 			allowance: 0n,
 			merchantJobsData: [],
-			marketplaceLoaded: true
+			marketplaceLoaded: true,
+			credits: {
+				isWhitelisted: false,
+				balance: 0n
+			}
 		};
 	});
 }

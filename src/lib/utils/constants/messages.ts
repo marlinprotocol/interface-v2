@@ -156,6 +156,10 @@ export const MESSAGES = {
 				CREATING: 'Creating a new job.',
 				CREATED: 'Created a new job.'
 			},
+			CREATE_JOB_WITH_CREDIT: {
+				CREATING: 'Creating a new job using credits.',
+				CREATED: 'Created a new job using credits.'
+			},
 			STOP_JOB: {
 				INITIATING: 'Initiating job stop.',
 				INITIATED: 'Initiated job stop.',

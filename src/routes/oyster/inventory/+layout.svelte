@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { getJobStatuses } from '$lib/controllers/httpController';
-	import { getOysterJobsFromSubgraph } from '$lib/controllers/subgraphController';
+	import {
+		getOysterCreditJobsFromSubgraph,
+		getOysterJobsFromSubgraph,
+		getOysterJobsFromSubgraphById
+	} from '$lib/controllers/subgraphController';
 	import { chainIdHasChanged, chainStore } from '$lib/data-stores/chainProviderStore';
 	import {
 		initializeInventoryDataInOysterStore,
@@ -21,23 +25,36 @@
 	async function loadOysterInventoryData() {
 		console.log('Loading oyster inventory data');
 		setInventoryDataLoadedInOysterStore(false);
-		const [oysterJobsFromSubgraph, jobStatuses] = await Promise.all([
+		// get job ids of credit jobs for this wallet from the subgraph
+		const oysterCreditJobsFromSubgraph = await getOysterCreditJobsFromSubgraph(
+			$walletStore.address
+		);
+		const creditJobIdsFromSubgraph = oysterCreditJobsFromSubgraph.map((job: any) => job.jobId);
+
+		// get oyster jobs by wallet address, and using the job ids from the credit jobs
+		const [oysterJobsFromSubgraph, jobStatuses, oysterJobsByIdFromSubgraph] = await Promise.all([
 			getOysterJobsFromSubgraph($walletStore.address),
-			getJobStatuses($walletStore.address)
+			getJobStatuses($walletStore.address),
+			getOysterJobsFromSubgraphById(creditJobIdsFromSubgraph)
 		]);
+
+		// combine the two arrays of oyster jobs
+		const allOysterJobsFromSubgraph = oysterJobsFromSubgraph.concat(oysterJobsByIdFromSubgraph);
+
 		// Create a lookup object based on jobStatuses
 		let jobStatusLookup: Record<string, string> = {};
 		jobStatuses.forEach((status: any) => {
 			jobStatusLookup[status.jobId] = status.ip;
 		});
 		// Assign IP addresses from jobStatus to jobData
-		oysterJobsFromSubgraph.forEach((data: any) => {
+		allOysterJobsFromSubgraph.forEach((data: any) => {
 			if (Object.prototype.hasOwnProperty.call(jobStatusLookup, data.id.toString())) {
 				data.ip = jobStatusLookup[data.id.toString()];
 			}
 		});
+
 		const oysterJobs = await modifyOysterJobData(
-			oysterJobsFromSubgraph,
+			allOysterJobsFromSubgraph,
 			$oysterRateMetadataStore.oysterRateScalingFactor
 		);
 

@@ -9,11 +9,9 @@ import { loginToMetamask } from '../../helpers/metamask';
 const test = testWithSynpress(BasicSetup, unlockForFixture)
 const { expect } = test;
 
-const constants = {
-    demoCPUrl: 'http://3.108.237.212:8080',
-}
 
 test('Operator Registation an Unregistration', async ({ context, page, metamaskPage, extensionId }) => {
+    const CP_URL = process.env.VITE_DEMO_CP_URL || '';
     await page.goto(OYSTER_OPERATOR_URL, { waitUntil: 'networkidle' });
 
     const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId)
@@ -43,7 +41,7 @@ test('Operator Registation an Unregistration', async ({ context, page, metamaskP
     expect(cpURLInput).toHaveValue('');
     expect(cpURLInput).toBeEnabled();
 
-    await cpURLInput.fill(constants.demoCPUrl);
+    await cpURLInput.fill(CP_URL);
 
     await page.waitForSelector('text=Instance Type');
 

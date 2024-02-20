@@ -59,3 +59,36 @@ test('Initiate Stop', async ({ context, page, metamaskPage, extensionId }) => {
     }
 
 })
+
+test('Copy Operator Address', async ({ page, context, metamaskPage, extensionId }) => {
+    // Grant permissions for clipboard-read
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+
+    await page.goto('/oyster/inventory/', { waitUntil: 'networkidle' });
+
+    const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId)
+    await loginToMetamask(metamask, page);
+
+    const firstRowSelector = 'tbody tr:first-child';
+    await page.hover(firstRowSelector);
+
+    const copyButtonSelector = 'tbody tr:first-child button img[alt="Copy"]';
+    await page.click(copyButtonSelector);
+
+    const addressSelector = 'tbody tr:first-child .text-grey.text-xs.font-normal';
+
+    // Get the text content from the element
+    const address = await page.textContent(addressSelector);
+
+    const expectedAddressArray = (address || '').split('.');
+    const expectedAddressStart = expectedAddressArray[0];
+    const expectedAddressEnd = expectedAddressArray[expectedAddressArray.length - 1];
+
+    // Read the clipboard content
+    const clipboardContent = await page.evaluate(() => navigator.clipboard.readText());
+    await page.waitForSelector('text=Address copied to clipboard');
+
+    // Check if the clipboard content matches the expected data
+    expect(clipboardContent.startsWith(expectedAddressStart)).toBeTruthy()
+    expect(clipboardContent.endsWith(expectedAddressEnd)).toBeTruthy()
+});

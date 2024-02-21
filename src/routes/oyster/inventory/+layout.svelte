@@ -38,8 +38,14 @@
 			getOysterJobsFromSubgraphById(creditJobIdsFromSubgraph)
 		]);
 
+		// add a flag for credit jobs
+		const creditJobsWithFlags = oysterJobsByIdFromSubgraph.map((job: any) => {
+			job.isCreditJob = true;
+			return job;
+		});
+
 		// combine the two arrays of oyster jobs
-		const allOysterJobsFromSubgraph = oysterJobsFromSubgraph.concat(oysterJobsByIdFromSubgraph);
+		const allOysterJobsFromSubgraph = oysterJobsFromSubgraph.concat(creditJobsWithFlags);
 
 		// Create a lookup object based on jobStatuses
 		let jobStatusLookup: Record<string, string> = {};

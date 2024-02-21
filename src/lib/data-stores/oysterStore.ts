@@ -481,3 +481,12 @@ export function setInventoryDataLoadedInOysterStore(status: boolean) {
 		};
 	});
 }
+
+export function setOysterActiveJobsPageInOysterStore(page: number) {
+	oysterStore.update((value) => {
+		return {
+			...value,
+			activeJobsPage: page
+		};
+	});
+}

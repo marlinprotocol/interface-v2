@@ -90,6 +90,7 @@ export type OysterStore = {
 	};
 	allMarketplaceData: OysterMarketplaceDataModel[];
 	jobsData: OysterInventoryDataModel[];
+	activeJobsPage?: number;
 	allowance: bigint;
 	merchantJobsData: OysterInventoryDataModel[];
 	marketplaceLoaded: boolean;

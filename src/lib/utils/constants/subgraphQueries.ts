@@ -237,11 +237,13 @@ export const QUERY_TO_JOB_REVISE_RATE_END_TIMESTAMP_DATA = `query ReviseRateRequ
   }
 }`;
 
-export const QUERY_TO_GET_MERCHANT_JOBS_DATA = `query Jobs($address: String) {
+export const QUERY_TO_GET_MERCHANT_JOBS_DATA = `query Jobs($address: String, $first: Int, $skip: Int) {
   jobs(
     where: { provider: $address }
     orderBy: createdAt
-    orderDirection: desc
+    orderDirection: desc,
+    first: $first,
+    skip: $skip
   ) {
     id
     metadata

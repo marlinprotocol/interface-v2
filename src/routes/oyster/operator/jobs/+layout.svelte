@@ -4,6 +4,7 @@
 	import { chainIdHasChanged, chainStore } from '$lib/data-stores/chainProviderStore';
 	import {
 		oysterRateMetadataStore,
+		oysterStore,
 		setMerchantJobsLoadedInOysterStore,
 		updateMerchantJobsInOysterStore
 	} from '$lib/data-stores/oysterStore';
@@ -21,7 +22,7 @@
 	async function fetchOysterMerchantJobs() {
 		setMerchantJobsLoadedInOysterStore(false);
 		const [merchantJobsFromSubgraph, jobStatuses] = await Promise.all([
-			getOysterMerchantJobsFromSubgraph($walletStore.address),
+			getOysterMerchantJobsFromSubgraph($walletStore.address, $oysterStore.activeJobsPage || 1),
 			getJobStatuses($walletStore.address)
 		]);
 

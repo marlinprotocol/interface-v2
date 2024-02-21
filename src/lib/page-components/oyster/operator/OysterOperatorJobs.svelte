@@ -2,7 +2,7 @@
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
 	import SearchBar from '$lib/components/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
-	import { oysterStore } from '$lib/data-stores/oysterStore';
+	import { oysterStore, setOysterActiveJobsPageInOysterStore } from '$lib/data-stores/oysterStore';
 	import OysterOperatorJobsTableRow from '$lib/page-components/oyster/operator/OysterOperatorJobsTableRow.svelte';
 	import type {
 		OysterInventoryDataModel,
@@ -19,7 +19,7 @@
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 
 	let searchInput = '';
-	let activePage = 1;
+	let activePage = $oysterStore.activeJobsPage || 1;
 	let merchantJobsData: OysterInventoryDataModel[] | undefined;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
 
@@ -37,6 +37,7 @@
 	};
 
 	const handlePageChange = (page: number) => {
+		setOysterActiveJobsPageInOysterStore(page);
 		activePage = page;
 	};
 

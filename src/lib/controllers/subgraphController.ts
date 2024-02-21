@@ -27,6 +27,7 @@ import { addToast } from '$lib/data-stores/toastStore';
 import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 import { contractAddressStore } from '$lib/data-stores/contractStore';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
+import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 
 let contractAddresses: ContractAddress;
 let chainConfig: ChainConfig;
@@ -472,12 +473,14 @@ export async function getApprovedOysterAllowancesFromSubgraph(address: Address) 
 	}
 }
 
-export async function getOysterMerchantJobsFromSubgraph(address: Address) {
+export async function getOysterMerchantJobsFromSubgraph(address: Address, currentPage: number) {
 	const url = chainConfig.subgraph_urls.OYSTER;
 
 	const query = QUERY_TO_GET_MERCHANT_JOBS_DATA;
 	const queryVariables = {
-		address: address.toLowerCase()
+		address: address.toLowerCase(),
+		first: TABLE_ITEMS_PER_PAGE,
+		skip: (currentPage - 1) * TABLE_ITEMS_PER_PAGE // active page * TABLE_ITEMS_PER_PAGE (skip 10 per each page)
 	};
 
 	try {

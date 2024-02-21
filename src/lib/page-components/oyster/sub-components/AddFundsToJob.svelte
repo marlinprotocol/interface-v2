@@ -168,7 +168,7 @@
 						$oysterTokenMetadataStore.decimal
 					);
 			const currency = useMarlinCredits
-				? OYSTER_MARLIN_CREDIT_METADATA.currency.split('_').join(' ')[1]
+				? OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]
 				: $oysterTokenMetadataStore.currency;
 
 			return `Insufficient balance. Your current wallet has ${walletBalanceString} ${currency}.`;

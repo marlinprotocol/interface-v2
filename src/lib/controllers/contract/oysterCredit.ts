@@ -3,6 +3,7 @@ import type { ContractAddress } from '$lib/types/storeTypes';
 import { OYSTER_CREDIT_ABI } from '$lib/utils/abis/oysterCredit';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
+import type { BytesLike } from 'ethers';
 
 let contractAddresses: ContractAddress;
 contractAddressStore.subscribe((value) => {
@@ -38,6 +39,28 @@ export async function createNewOysterJobWithCredits(
 			txn,
 			approveReciept
 		};
+	} catch (error: any) {
+		throw new Error('Transaction Error');
+	}
+}
+
+export async function addCreditsToOysterJob(jobId: BytesLike, amount: bigint) {
+	const oysterContract = createSignerContract(contractAddresses.OYSTER_CREDIT, OYSTER_CREDIT_ABI);
+	try {
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.ADD_CREDITS_JOB.ADDING_CREDITS;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.ADD_CREDITS_JOB.CREDITS_ADDED;
+		const errorTxnMessage = 'Unable to add credits to Oyster Job.';
+		const parentFunctionName = 'addCreditsToOysterJob';
+
+		const { txn } = await createTransaction(
+			() => oysterContract.jobDeposit(jobId, amount),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+
+		return txn;
 	} catch (error: any) {
 		throw new Error('Transaction Error');
 	}

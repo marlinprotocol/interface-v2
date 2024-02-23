@@ -174,6 +174,10 @@ export const MESSAGES = {
 				ADDING_FUNDS: 'Adding funds to job.',
 				FUNDS_ADDED: 'Funds added to job.'
 			},
+			ADD_CREDITS_JOB: {
+				ADDING_CREDITS: 'Adding credits to job.',
+				CREDITS_ADDED: 'Credits added to job.'
+			},
 			AMEND_RATE_JOB: {
 				INITIATING: 'Initiating rate revision.',
 				INITIATED: 'Initiated rate revision.',

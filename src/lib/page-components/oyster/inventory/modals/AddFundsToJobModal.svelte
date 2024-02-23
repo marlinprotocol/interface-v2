@@ -10,8 +10,9 @@
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import {
-		handleApproveFundForOysterJob,
-		handleFundsAddToJob
+		handleAddCreditsToJob,
+		handleAddFundsToJob,
+		handleApproveFundForOysterJob
 	} from '$lib/utils/services/oysterServices';
 	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
@@ -20,6 +21,7 @@
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import type { WalletBalanceStore } from '$lib/types/storeTypes';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
+	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -33,14 +35,24 @@
 	let approvedLoading = false;
 	let approved = false;
 	let instanceCostString = '';
+	let useMarlinCredits: boolean = false;
 
 	function handleMaxClick() {
-		instanceCostString = bigNumberToString(
-			walletBalance,
-			$oysterTokenMetadataStore.decimal,
-			4,
-			false
-		);
+		if (useMarlinCredits) {
+			instanceCostString = bigNumberToString(
+				walletBalance,
+				OYSTER_MARLIN_CREDIT_METADATA.decimal,
+				OYSTER_MARLIN_CREDIT_METADATA.precision,
+				false
+			);
+		} else {
+			instanceCostString = bigNumberToString(
+				walletBalance,
+				$oysterTokenMetadataStore.decimal,
+				4,
+				false
+			);
+		}
 		duration = Number(
 			(walletBalance * $oysterRateMetadataStore.oysterRateScalingFactor) / rateScaled
 		);
@@ -67,21 +79,25 @@
 
 	const handleSubmitClick = async () => {
 		submitLoading = true;
-		await handleFundsAddToJob(
-			jobData,
-			instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
-			duration ?? 0
-		);
+		const amount = instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor;
+
+		if (useMarlinCredits) {
+			await handleAddCreditsToJob(jobData, amount, duration ?? 0);
+		} else {
+			await handleAddFundsToJob(jobData, amount, duration ?? 0);
+		}
+
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
 	};
 
-	$: ({ rateScaled } = jobData);
-	$: walletBalance =
-		$walletBalanceStore[
-			$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
-		];
+	$: ({ rateScaled, isCreditJob } = jobData);
+	$: walletBalance = useMarlinCredits
+		? $oysterStore.credits.balance
+		: $walletBalanceStore[
+				$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
+			];
 	$: approved =
 		connected &&
 		Boolean(instanceCostScaled) &&
@@ -89,7 +105,7 @@
 			instanceCostScaled / BigInt($oysterRateMetadataStore.oysterRateScalingFactor) &&
 		instanceCostScaled > 0n;
 	$: approveEnable = connected && !submitLoading && instanceCostScaled > 0n && !invalidCost;
-	$: confirmEnable = approved && approveEnable;
+	$: confirmEnable = useMarlinCredits ? approveEnable : approved && approveEnable;
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
@@ -105,28 +121,57 @@
 				bind:instanceCostScaled
 				bind:instanceCostString
 				bind:durationUnitInSec
+				bind:useMarlinCredits
 				instanceRate={rateScaled}
 				isTotalRate={true}
 			/>
 		</div>
-		<div class="mt-2 flex items-center gap-2">
-			<MaxButton onclick={handleMaxClick} />
-			<Divider direction="divider-vertical" />
-			<Text
-				variant="small"
-				styleClass="text-gray-400"
-				fontWeight="font-normal"
-				text="Balance:
+		<div class="mt-2 flex items-center justify-between">
+			<div class="flex items-center gap-2">
+				<MaxButton onclick={handleMaxClick} />
+				<Divider direction="divider-vertical" />
+				{#if isCreditJob && useMarlinCredits}
+					<Text
+						variant="small"
+						styleClass="text-gray-400"
+						fontWeight="font-normal"
+						text="Balance:
 					{bigNumberToString(
-					walletBalance,
-					$oysterTokenMetadataStore.decimal,
-					4
-				)} {$oysterTokenMetadataStore.currency}"
-			/>
+							walletBalance,
+							OYSTER_MARLIN_CREDIT_METADATA.decimal,
+							OYSTER_MARLIN_CREDIT_METADATA.decimal
+						)} {OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]}"
+					/>
+				{:else}
+					<Text
+						variant="small"
+						styleClass="text-gray-400"
+						fontWeight="font-normal"
+						text="Balance:
+						{bigNumberToString(
+							walletBalance,
+							$oysterTokenMetadataStore.decimal,
+							4
+						)} {$oysterTokenMetadataStore.currency}"
+					/>
+				{/if}
+			</div>
+			{#if isCreditJob}
+				<div class="form-control">
+					<label class="label cursor-pointer">
+						<span class="label-text mr-3">Use Credits</span>
+						<input
+							bind:checked={useMarlinCredits}
+							type="checkbox"
+							class="checkbox-primary checkbox checkbox-md"
+						/>
+					</label>
+				</div>
+			{/if}
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		{#if !approved}
+		{#if !approved && !useMarlinCredits}
 			<Button
 				variant="filled"
 				disabled={!approveEnable}

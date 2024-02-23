@@ -8,6 +8,7 @@ import {
 	updateApprovedFundsInOysterStore,
 	updateJobRateInOysterStore,
 	updateJobStatusOnTimerEndInOysterStore,
+	withdrawCreditsFromOysterStore,
 	withdrawFundsFromJobInOysterStore
 } from '$lib/data-stores/oysterStore';
 import {
@@ -26,7 +27,10 @@ import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 import type { TokenMetadata } from '$lib/types/environmentTypes';
 import { approveToken } from '$lib/controllers/contract/token';
 import type { Address } from '$lib/types/storeTypes';
-import { createNewOysterJobWithCredits } from '$lib/controllers/contract/oysterCredit';
+import {
+	addCreditsToOysterJob,
+	createNewOysterJobWithCredits
+} from '$lib/controllers/contract/oysterCredit';
 
 export async function handleClaimAmountFromOysterJob(jobId: BytesLike) {
 	try {
@@ -59,7 +63,7 @@ export async function handleApproveFundForOysterJob(
 	}
 }
 
-export async function handleFundsAddToJob(
+export async function handleAddFundsToJob(
 	jobData: OysterInventoryDataModel,
 	amount: bigint,
 	duration: number
@@ -68,6 +72,22 @@ export async function handleFundsAddToJob(
 	try {
 		const txn = await addFundsToOysterJob(id, amount);
 		addFundsToJobInOysterStore(id, txn, jobData, amount, duration);
+	} catch (e) {
+		console.log('e :>> ', e);
+		return jobData;
+	}
+}
+
+export async function handleAddCreditsToJob(
+	jobData: OysterInventoryDataModel,
+	amount: bigint,
+	duration: number
+) {
+	const { id } = jobData;
+	try {
+		const txn = await addCreditsToOysterJob(id, amount);
+		addFundsToJobInOysterStore(id, txn, jobData, amount, duration);
+		withdrawCreditsFromOysterStore(amount);
 	} catch (e) {
 		console.log('e :>> ', e);
 		return jobData;
@@ -203,6 +223,7 @@ export async function handleCreateJobWithCredits(
 			durationInSec,
 			scalingFactor
 		);
+		withdrawCreditsFromOysterStore(balance);
 		return true;
 	} catch (e) {
 		console.log('e :>> ', e);

@@ -479,6 +479,18 @@ export function initializeMarlinCreditsInOysterStore(credits: bigint) {
 	});
 }
 
+export function withdrawCreditsFromOysterStore(amount: bigint) {
+	oysterStore.update((value) => {
+		return {
+			...value,
+			credits: {
+				isWhitelisted: value.credits.isWhitelisted,
+				balance: value.credits.balance - amount
+			}
+		};
+	});
+}
+
 export function initializeInventoryDataInOysterStore(oysterJobs: OysterInventoryDataModel[]) {
 	oysterStore.update((value) => {
 		return {

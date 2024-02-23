@@ -212,7 +212,9 @@
 		title={isTotalRate ? 'Total Cost' : 'Instance Cost'}
 		bind:inputAmountString={instanceCostString}
 		handleUpdatedAmount={handleCostChange}
-		suffix={$oysterTokenMetadataStore.currency}
+		suffix={useMarlinCredits
+			? OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]
+			: $oysterTokenMetadataStore.currency}
 		disabled={!instanceRate}
 	/>
 </div>

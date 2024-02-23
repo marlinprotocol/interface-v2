@@ -35,10 +35,9 @@
 	let approvedLoading = false;
 	let approved = false;
 	let instanceCostString = '';
-	let useMarlinCredits: boolean = false;
 
 	function handleMaxClick() {
-		if (useMarlinCredits) {
+		if (isCreditJob) {
 			instanceCostString = bigNumberToString(
 				walletBalance,
 				OYSTER_MARLIN_CREDIT_METADATA.decimal,
@@ -81,7 +80,7 @@
 		submitLoading = true;
 		const amount = instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor;
 
-		if (useMarlinCredits) {
+		if (isCreditJob) {
 			await handleAddCreditsToJob(jobData, amount, duration ?? 0);
 		} else {
 			await handleAddFundsToJob(jobData, amount, duration ?? 0);
@@ -93,7 +92,7 @@
 	};
 
 	$: ({ rateScaled, isCreditJob } = jobData);
-	$: walletBalance = useMarlinCredits
+	$: walletBalance = isCreditJob
 		? $oysterStore.credits.balance
 		: $walletBalanceStore[
 				$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
@@ -105,7 +104,7 @@
 			instanceCostScaled / BigInt($oysterRateMetadataStore.oysterRateScalingFactor) &&
 		instanceCostScaled > 0n;
 	$: approveEnable = connected && !submitLoading && instanceCostScaled > 0n && !invalidCost;
-	$: confirmEnable = useMarlinCredits ? approveEnable : approved && approveEnable;
+	$: confirmEnable = isCreditJob ? approveEnable : approved && approveEnable;
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
@@ -121,7 +120,7 @@
 				bind:instanceCostScaled
 				bind:instanceCostString
 				bind:durationUnitInSec
-				bind:useMarlinCredits
+				bind:useMarlinCredits={isCreditJob}
 				instanceRate={rateScaled}
 				isTotalRate={true}
 			/>
@@ -130,7 +129,7 @@
 			<div class="flex items-center gap-2">
 				<MaxButton onclick={handleMaxClick} />
 				<Divider direction="divider-vertical" />
-				{#if isCreditJob && useMarlinCredits}
+				{#if isCreditJob}
 					<Text
 						variant="small"
 						styleClass="text-gray-400"
@@ -156,22 +155,10 @@
 					/>
 				{/if}
 			</div>
-			{#if isCreditJob}
-				<div class="form-control">
-					<label class="label cursor-pointer">
-						<span class="label-text mr-3">Use Credits</span>
-						<input
-							bind:checked={useMarlinCredits}
-							type="checkbox"
-							class="checkbox-primary checkbox checkbox-md"
-						/>
-					</label>
-				</div>
-			{/if}
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		{#if !approved && !useMarlinCredits}
+		{#if !approved && !isCreditJob}
 			<Button
 				variant="filled"
 				disabled={!approveEnable}

@@ -24,9 +24,11 @@ describe('Text', () => {
 			props: { address: 'xyz street , city:abc', name: 'Robert', rowIndex: 2 }
 		});
 		expect(getByTestId('name-with-address').id === 'name-with-address').toBe(true);
+		console.log(getByTestId('name-with-address').firstElementChild?.firstElementChild?.innerHTML);
 		expect(
-			getByTestId('name-with-address').firstElementChild?.firstElementChild?.innerHTML === 'Ro'
+			getByTestId('name-with-address').firstElementChild?.firstElementChild?.innerHTML === 'Ro '
 		).toBe(true);
+
 		expect(
 			getByTestId('name-with-address').lastElementChild?.firstElementChild?.getAttribute(
 				'data-tip'

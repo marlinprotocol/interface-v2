@@ -45,7 +45,10 @@ export async function createNewOysterJobWithCredits(
 }
 
 export async function addCreditsToOysterJob(jobId: BytesLike, amount: bigint) {
-	const oysterContract = createSignerContract(contractAddresses.OYSTER_CREDIT, OYSTER_CREDIT_ABI);
+	const oysterCreditContract = createSignerContract(
+		contractAddresses.OYSTER_CREDIT,
+		OYSTER_CREDIT_ABI
+	);
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.ADD_CREDITS_JOB.ADDING_CREDITS;
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.ADD_CREDITS_JOB.CREDITS_ADDED;
@@ -53,7 +56,132 @@ export async function addCreditsToOysterJob(jobId: BytesLike, amount: bigint) {
 		const parentFunctionName = 'addCreditsToOysterJob';
 
 		const { txn } = await createTransaction(
-			() => oysterContract.jobDeposit(jobId, amount),
+			() => oysterCreditContract.jobDeposit(jobId, amount),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+
+		return txn;
+	} catch (error: any) {
+		throw new Error('Transaction Error');
+	}
+}
+
+export async function stopOysterCreditJob(jobId: BytesLike) {
+	const oysterCreditContract = createSignerContract(
+		contractAddresses.OYSTER_CREDIT,
+		OYSTER_CREDIT_ABI
+	);
+	try {
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.STOP_CREDIT_JOB.STOPPING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.STOP_CREDIT_JOB.STOPPED;
+		const errorTxnMessage = 'Unable to stop Oyster Job.';
+		const parentFunctionName = 'stopOysterCreditJob';
+
+		const { txn } = await createTransaction(
+			() => oysterCreditContract.jobClose(jobId),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+
+		return txn;
+	} catch (error: any) {
+		throw new Error('Transaction Error');
+	}
+}
+
+export async function withdrawFundsFromOysterCreditJob(jobId: BytesLike, amount: bigint) {
+	const oysterCreditContract = createSignerContract(
+		contractAddresses.OYSTER_CREDIT,
+		OYSTER_CREDIT_ABI
+	);
+	try {
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.WITHDRAW_JOB_CREDIT.WITHDRAWING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.WITHDRAW_JOB_CREDIT.WITHDRAWN;
+		const errorTxnMessage = 'Unable to withdraw funds from Oyster Job.';
+		const parentFunctionName = 'withdrawFundsFromOysterCreditJob';
+
+		const { txn } = await createTransaction(
+			() => oysterCreditContract.jobWithdraw(jobId, amount),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+
+		return txn;
+	} catch (error: any) {
+		throw new Error('Transaction Error');
+	}
+}
+
+export async function initiateRateReviseOysterCreditJob(jobId: BytesLike, rate: bigint) {
+	const oysterCreditContract = createSignerContract(
+		contractAddresses.OYSTER_CREDIT,
+		OYSTER_CREDIT_ABI
+	);
+	try {
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATED;
+		const errorTxnMessage = 'Unable to initiate rate revision for Oyster Job.';
+		const parentFunctionName = 'initiateRateReviseOysterCreditJob';
+
+		const { txn } = await createTransaction(
+			() => oysterCreditContract.jobReviseRateInitiate(jobId, rate),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+
+		return txn;
+	} catch (error: any) {
+		throw new Error('Transaction Error');
+	}
+}
+
+export async function finaliseRateReviseOysterCreditJob(jobId: BytesLike) {
+	const oysterCreditContract = createSignerContract(
+		contractAddresses.OYSTER_CREDIT,
+		OYSTER_CREDIT_ABI
+	);
+	try {
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.AMENDING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.AMENDED;
+		const errorTxnMessage = 'Unable to finalise rate revision for Oyster Job.';
+		const parentFunctionName = 'finaliseRateReviseOysterCreditJob';
+
+		const { txn } = await createTransaction(
+			() => oysterCreditContract.jobReviseRateFinalize(jobId),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+
+		return txn;
+	} catch (error: any) {
+		throw new Error('Transaction Error');
+	}
+}
+
+export async function cancelRateReviseOysterCreditJob(jobId: BytesLike) {
+	const oysterCreditContract = createSignerContract(
+		contractAddresses.OYSTER_CREDIT,
+		OYSTER_CREDIT_ABI
+	);
+	try {
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.CANCELLING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.CANCELLED;
+		const errorTxnMessage = 'Unable to cancel rate revision for Oyster Job.';
+		const parentFunctionName = 'cancelRateReviseOysterCreditJob';
+
+		const { txn } = await createTransaction(
+			() => oysterCreditContract.jobReviseRateCancel(jobId),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,

@@ -166,9 +166,19 @@ export const MESSAGES = {
 				STOPPING: 'Stopping job.',
 				STOPPED: 'Stopped job.'
 			},
+			STOP_CREDIT_JOB: {
+				INITIATING: 'Initiating credit job stop.',
+				INITIATED: 'Initiated credit job stop.',
+				STOPPING: 'Stopping credit job.',
+				STOPPED: 'Stopped credit job.'
+			},
 			WITHDRAW_JOB: {
 				WITHDRAWING: 'Withdrawing funds from job.',
 				WITHDRAWN: 'Withdrew funds from job.'
+			},
+			WITHDRAW_JOB_CREDIT: {
+				WITHDRAWING: 'Withdrawing credits from job.',
+				WITHDRAWN: 'Withdrew credits from job.'
 			},
 			ADD_FUNDS_JOB: {
 				ADDING_FUNDS: 'Adding funds to job.',

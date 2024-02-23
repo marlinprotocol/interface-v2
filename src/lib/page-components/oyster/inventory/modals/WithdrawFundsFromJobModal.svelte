@@ -12,7 +12,10 @@
 		inputAmountInValidMessage,
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
-	import { handleFundsWithdrawFromJob } from '$lib/utils/services/oysterServices';
+	import {
+		handleFundsWithdrawFromCreditJob,
+		handleFundsWithdrawFromJob
+	} from '$lib/utils/services/oysterServices';
 	import { DEFAULT_PRECISION } from '$lib/utils/constants/constants';
 	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 
@@ -61,7 +64,11 @@
 
 	const handleSubmitClick = async () => {
 		submitLoading = true;
-		await handleFundsWithdrawFromJob(jobData, inputAmount, Number(durationReduced));
+		if (isCreditJob) {
+			await handleFundsWithdrawFromCreditJob(jobData, inputAmount, Number(durationReduced));
+		} else {
+			await handleFundsWithdrawFromJob(jobData, inputAmount, Number(durationReduced));
+		}
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
@@ -77,7 +84,7 @@
 		return 0n;
 	}
 
-	$: ({ rateScaled, balance, rate } = jobData);
+	$: ({ rateScaled, balance, rate, isCreditJob } = jobData);
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString, $oysterTokenMetadataStore.decimal)
 		: 0n;

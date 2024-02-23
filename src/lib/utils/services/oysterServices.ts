@@ -1,4 +1,5 @@
 import {
+	addCreditsToOysterStore,
 	addFundsToJobInOysterStore,
 	cancelRateReviseInOysterStore,
 	createNewJobInOysterStore,
@@ -29,7 +30,12 @@ import { approveToken } from '$lib/controllers/contract/token';
 import type { Address } from '$lib/types/storeTypes';
 import {
 	addCreditsToOysterJob,
-	createNewOysterJobWithCredits
+	cancelRateReviseOysterCreditJob,
+	createNewOysterJobWithCredits,
+	finaliseRateReviseOysterCreditJob,
+	initiateRateReviseOysterCreditJob,
+	stopOysterCreditJob,
+	withdrawFundsFromOysterCreditJob
 } from '$lib/controllers/contract/oysterCredit';
 
 export async function handleClaimAmountFromOysterJob(jobId: BytesLike) {
@@ -109,7 +115,23 @@ export async function handleFundsWithdrawFromJob(
 	}
 }
 
-export async function handleInitiateRateRevise(
+export async function handleFundsWithdrawFromCreditJob(
+	jobData: OysterInventoryDataModel,
+	amount: bigint,
+	duration: number
+) {
+	const { id } = jobData;
+	try {
+		const txn = await withdrawFundsFromOysterCreditJob(id, amount);
+		withdrawFundsFromJobInOysterStore(id, txn, jobData, amount, duration);
+		addCreditsToOysterStore(amount);
+	} catch (e) {
+		console.log('e :>> ', e);
+		return jobData;
+	}
+}
+
+export async function handleInitiateJobRateRevise(
 	jobData: OysterInventoryDataModel,
 	newRate: bigint,
 	waitingTime: number
@@ -123,10 +145,34 @@ export async function handleInitiateRateRevise(
 	}
 }
 
-export async function handleCancelRateRevise(jobData: OysterInventoryDataModel) {
+export async function handleInitiateCreditJobRateRevise(
+	jobData: OysterInventoryDataModel,
+	newRate: bigint,
+	waitingTime: number
+) {
+	const { id } = jobData;
+	try {
+		await initiateRateReviseOysterCreditJob(id, newRate);
+		initiateRateReviseInOysterStore(id, jobData, newRate, waitingTime);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+export async function handleJobRateReviseCancel(jobData: OysterInventoryDataModel) {
 	const { id } = jobData;
 	try {
 		await cancelRateReviseOysterJob(id);
+		cancelRateReviseInOysterStore(id, jobData);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+export async function handleCreditJobRateReviseCancel(jobData: OysterInventoryDataModel) {
+	const { id } = jobData;
+	try {
+		await cancelRateReviseOysterCreditJob(id);
 		cancelRateReviseInOysterStore(id, jobData);
 	} catch (e) {
 		console.log('e :>> ', e);
@@ -141,7 +187,10 @@ export function handleJobStatusOnStopTimerEnd(jobData: OysterInventoryDataModel)
 	}
 }
 
-export async function handleFinaliseRateRevise(jobData: OysterInventoryDataModel, newRate: bigint) {
+export async function handleFinaliseJobRateRevise(
+	jobData: OysterInventoryDataModel,
+	newRate: bigint
+) {
 	const { id } = jobData;
 	try {
 		await finaliseRateReviseOysterJob(id);
@@ -151,10 +200,34 @@ export async function handleFinaliseRateRevise(jobData: OysterInventoryDataModel
 	}
 }
 
-export async function handleConfirmJobStop(jobData: OysterInventoryDataModel) {
+export async function handleFinaliseCreditJobRateRevise(
+	jobData: OysterInventoryDataModel,
+	newRate: bigint
+) {
+	const { id } = jobData;
+	try {
+		await finaliseRateReviseOysterCreditJob(id);
+		updateJobRateInOysterStore(id, newRate);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+export async function handleJobStopConfirm(jobData: OysterInventoryDataModel) {
 	const { id } = jobData;
 	try {
 		const txn = await stopOysterJob(id);
+		stopJobInOysterStore(id, txn, jobData);
+	} catch (e) {
+		console.log('e :>> ', e);
+		return jobData;
+	}
+}
+
+export async function handleCreditJobStopConfirm(jobData: OysterInventoryDataModel) {
+	const { id } = jobData;
+	try {
+		const txn = await stopOysterCreditJob(id);
 		stopJobInOysterStore(id, txn, jobData);
 	} catch (e) {
 		console.log('e :>> ', e);

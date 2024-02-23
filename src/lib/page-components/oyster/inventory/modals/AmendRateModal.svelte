@@ -15,9 +15,12 @@
 	} from '$lib/utils/helpers/conversionHelper';
 	import { bigIntAbs, closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
-		handleCancelRateRevise,
-		handleFinaliseRateRevise,
-		handleInitiateRateRevise
+		handleCreditJobRateReviseCancel,
+		handleFinaliseCreditJobRateRevise,
+		handleFinaliseJobRateRevise,
+		handleInitiateCreditJobRateRevise,
+		handleInitiateJobRateRevise,
+		handleJobRateReviseCancel
 	} from '$lib/utils/services/oysterServices';
 	import { oysterRateMetadataStore, oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 
@@ -35,25 +38,41 @@
 
 	const handleInitiateClick = async () => {
 		submitLoading = true;
-		await handleInitiateRateRevise(
-			jobData,
-			inputRate,
-			$oysterRateMetadataStore.rateReviseWaitingTime
-		);
+		if (isCreditJob) {
+			await handleInitiateCreditJobRateRevise(
+				jobData,
+				inputRate,
+				$oysterRateMetadataStore.rateReviseWaitingTime
+			);
+		} else {
+			await handleInitiateJobRateRevise(
+				jobData,
+				inputRate,
+				$oysterRateMetadataStore.rateReviseWaitingTime
+			);
+		}
 		submitLoading = false;
 		closeModal(modalFor);
 	};
 
 	const handleConfirmClick = async () => {
 		submitLoading = true;
-		await handleFinaliseRateRevise(jobData, newRate);
+		if (isCreditJob) {
+			await handleFinaliseCreditJobRateRevise(jobData, newRate);
+		} else {
+			await handleFinaliseJobRateRevise(jobData, newRate);
+		}
 		submitLoading = false;
 		closeModal(modalFor);
 	};
 
 	const handleCancelInitiate = async () => {
 		cancelLoading = true;
-		await handleCancelRateRevise(jobData);
+		if (isCreditJob) {
+			await handleCreditJobRateReviseCancel(jobData);
+		} else {
+			await handleJobRateReviseCancel(jobData);
+		}
 		cancelLoading = false;
 		closeModal(modalFor);
 	};
@@ -66,18 +85,22 @@
 		}
 	};
 
-	$: ({ rate, reviseRate: { newRate = 0n, updatesAt = 0, rateStatus = '' } = {} } = jobData);
+	$: ({
+		rate,
+		reviseRate: { newRate = 0n, updatesAt = 0, rateStatus = '' } = {},
+		isCreditJob
+	} = jobData);
 	$: modalTitle =
 		rateStatus === ''
 			? 'INITIATE RATE REVISE'
 			: rateStatus === 'completed'
-			? 'CONFIRM RATE REVISE'
-			: 'INITIATED RATE REVISE';
+				? 'CONFIRM RATE REVISE'
+				: 'INITIATED RATE REVISE';
 	$: inputRate = isInputAmountValid(inputAmountString)
 		? convertHourlyRateToSecondlyRate(
 				stringToBigNumber(inputAmountString, $oysterTokenMetadataStore.decimal) *
 					$oysterRateMetadataStore.oysterRateScalingFactor
-		  )
+			)
 		: 0n;
 	$: difference = bigIntAbs(rate - inputRate);
 	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
@@ -117,9 +140,8 @@
 					<AmountInputWithTitle
 						title="New Hourly Rate"
 						inputAmountString={convertRateToPerHourString(
-							newRate +
-								($oysterRateMetadataStore.oysterRateScalingFactor - BigInt(1)) /
-									$oysterRateMetadataStore.oysterRateScalingFactor,
+							(newRate + ($oysterRateMetadataStore.oysterRateScalingFactor - BigInt(1))) /
+								$oysterRateMetadataStore.oysterRateScalingFactor,
 							$oysterTokenMetadataStore.decimal
 						)}
 						prefix={$oysterTokenMetadataStore.symbol}

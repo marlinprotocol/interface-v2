@@ -23,6 +23,7 @@ const Verified = '/_oysterstatic/images/verifiedicon.svg';
 const WalletConnect = '/_oysterstatic/images/walleticon.svg';
 const WalletConnected = '/_oysterstatic/images/wallet-connected.svg';
 const ArbitrumLogo = '/_oysterstatic/images/arbitrum.webp';
+const PolygonLogo = '/_oysterstatic/images/polygon.svg';
 const EthereumLogo = '/_oysterstatic/images/eth.webp';
 const LineaLogo = '/_oysterstatic/images/linea.webp';
 
@@ -52,6 +53,7 @@ export const staticImages = {
 	WalletConnect,
 	WalletConnected,
 	ArbitrumLogo,
+	PolygonLogo,
 	EthereumLogo,
 	LineaLogo
 };

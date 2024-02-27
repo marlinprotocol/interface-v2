@@ -155,25 +155,18 @@
 
 	// Define the debounced version of getInstances
 	const debouncedGetInstances = debounce(getInstances, 4000);
-	const memoizeInstances = (cpUrl: string, updatedUrl: string, isRegistered: boolean) => {
+	const memoizeInstances = (updatedUrl: string) => {
 		if (!validCPUrl) {
 			return debouncedGetInstances('');
 		}
 		// initial case while adding cpUrl : invoke PROXY api call
-		if (cpUrl === '' && updatedUrl) {
-			return debouncedGetInstances('proxy');
-		}
-		// While changing cpUrl : invoke PROXY api call
-		if (cpUrl !== updatedUrl) {
+		if (!registeredCpURL && updatedUrl) {
 			return debouncedGetInstances('proxy');
 		}
 		// While cpUrl registered already: invoke api call using wallet only if required
-		if (isRegistered) {
-			if (initialInstances.length === 0) {
-				return debouncedGetInstances('wallet');
-			}
+		if (registeredCpURL && initialInstances.length === 0) {
+			return debouncedGetInstances('wallet');
 		}
-
 		return debouncedGetInstances('');
 	};
 	$: updateCpUrls($walletStore.address, $chainStore.chainId, $connected, $oysterStore.providerData);
@@ -183,7 +176,7 @@
 	$: sanitizedUpdatedCpURL = sanitizeUrl(updatedCpURL);
 	// using regex to validate CP URL
 	$: validCPUrl = checkValidURL(sanitizedUpdatedCpURL);
-	$: instances = memoizeInstances(registeredCpURL, updatedCpURL, registered);
+	$: instances = memoizeInstances(updatedCpURL);
 	$: instances
 		.then((data) => {
 			if (data.length > 0) {

@@ -35,6 +35,7 @@
 	} from '$lib/controllers/contract/oyster';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
+	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
 
 	let enableRegisterButton = false;
 	let updatedCpURL = '';
@@ -46,6 +47,7 @@
 	let unregisterLoading = false;
 	let registerLoading = false;
 	let updateLoading = false;
+	let initialInstances: CPUrlDataModel[] = [];
 
 	const handleOnRegister = async () => {
 		if (connected) {
@@ -84,20 +86,25 @@
 		await removeOysterInfrastructureProvider();
 		removeProviderFromOysterStore();
 		unregisterLoading = false;
+		registeredCpURL = '';
+		registered = false;
+		initialInstances = [];
 	};
 
-	async function getInstances(useUpdatedCpURL: boolean) {
+	async function getInstances(apiType: string) {
 		try {
-			if (useUpdatedCpURL) {
+			if (apiType === 'proxy') {
 				const instances = await getInstancesFromControlPlaneUsingCpUrl(sanitizedUpdatedCpURL);
-				return getModifiedInstances(instances);
-			} else if (registeredCpURL !== '' && !useUpdatedCpURL) {
+				initialInstances = getModifiedInstances(instances);
+				return initialInstances;
+			} else if (registeredCpURL !== '' && apiType === 'wallet') {
 				const instances = await getInstancesFromControlPlaneUsingOperatorAddress(
 					$walletStore.address
 				);
-				return getModifiedInstances(instances);
+				initialInstances = getModifiedInstances(instances);
+				return initialInstances;
 			} else {
-				return [];
+				return initialInstances;
 			}
 		} catch (error) {
 			console.log('error from getInstances', error);
@@ -148,6 +155,20 @@
 
 	// Define the debounced version of getInstances
 	const debouncedGetInstances = debounce(getInstances, 4000);
+	const memoizeInstances = (updatedUrl: string) => {
+		if (!validCPUrl) {
+			return debouncedGetInstances('');
+		}
+		// initial case while adding cpUrl : invoke PROXY api call
+		if (!registeredCpURL && updatedUrl) {
+			return debouncedGetInstances('proxy');
+		}
+		// While cpUrl registered already: invoke api call using wallet only if required
+		if (registeredCpURL && initialInstances.length === 0) {
+			return debouncedGetInstances('wallet');
+		}
+		return debouncedGetInstances('');
+	};
 	$: updateCpUrls($walletStore.address, $chainStore.chainId, $connected, $oysterStore.providerData);
 	$: if (updatedCpURL !== registeredCpURL) {
 		enableRegisterButton = false;
@@ -155,11 +176,7 @@
 	$: sanitizedUpdatedCpURL = sanitizeUrl(updatedCpURL);
 	// using regex to validate CP URL
 	$: validCPUrl = checkValidURL(sanitizedUpdatedCpURL);
-	$: instances =
-		(registeredCpURL === '' && updatedCpURL && validCPUrl) ||
-		(registeredCpURL !== updatedCpURL && validCPUrl)
-			? debouncedGetInstances(true)
-			: debouncedGetInstances(false);
+	$: instances = memoizeInstances(updatedCpURL);
 	$: instances
 		.then((data) => {
 			if (data.length > 0) {

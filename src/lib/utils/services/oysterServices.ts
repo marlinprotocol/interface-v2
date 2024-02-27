@@ -294,7 +294,8 @@ export async function handleCreateJobWithCredits(
 			rate,
 			balance,
 			durationInSec,
-			scalingFactor
+			scalingFactor,
+			true
 		);
 		withdrawCreditsFromOysterStore(balance);
 		return true;

@@ -376,7 +376,8 @@ export function createNewJobInOysterStore(
 	rateScaled: bigint,
 	balance: bigint,
 	durationInSec: number,
-	scalingFactor: bigint
+	scalingFactor: bigint,
+	isCreditJob?: boolean
 ) {
 	const txHash = txn.hash;
 	const jobOpenEvent = approveReciept.logs?.find(
@@ -416,6 +417,7 @@ export function createNewJobInOysterStore(
 		endEpochTime: nowTime + durationInSec,
 		durationLeft: durationInSec,
 		durationRun: 0,
+		isCreditJob,
 		status: 'running',
 		depositHistory: [
 			{

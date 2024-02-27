@@ -1,15 +1,15 @@
 import { staticImages } from '$lib/components/images/staticImages';
 import type { ChainConfig } from '$lib/types/environmentTypes';
 
-export const LINEA: ChainConfig = {
-	chain_id: '0xe708',
-	chain_name: 'Linea',
-	chain_token: 'ETH',
-	chain_image: staticImages.LineaLogo,
-	block_explorer_name: 'Lineascan',
-	block_explorer_url: 'https://lineascan.build',
-	rpc_url: 'https://rpc.linea.build',
-	backend_network_id: 'Linea',
+export const POLYGON: ChainConfig = {
+	chain_id: '0x89',
+	chain_name: 'Polygon',
+	chain_token: 'MATIC',
+	chain_image: staticImages.PolygonLogo,
+	block_explorer_name: 'Polygonscan',
+	block_explorer_url: 'https://polygonscan.com',
+	rpc_url: 'https://polygon-rpc.com/',
+	backend_network_id: 'Polygon',
 	contract_addresses: {
 		BRIDGE: '',
 		CLUSTER_REGISTRY: '',
@@ -17,15 +17,15 @@ export const LINEA: ChainConfig = {
 		RECEIVER_STAKING: '',
 		REWARD_DELEGATORS: '',
 		STAKE_MANAGER: '',
-		OYSTER: '0xdD78e7F31B98dD8BD1F44F8FFCCeb4EdA6abdc5B',
+		OYSTER: '0x4dA7A531EF660533074341df098F722F1Aa5dFaa',
 		POND: '',
 		MPOND: '',
-		USDC: '0x176211869cA2b568f2A7D4EE941E073a821EE1ff'
+		USDC: '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359'
 	},
 	subgraph_urls: {
 		RECEIVER_STAKING: '',
 		BRIDGE: '',
-		OYSTER: 'https://graph-query.linea.build/subgraphs/name/marlinprotocol/oyster-linea',
+		OYSTER: 'https://api.thegraph.com/subgraphs/name/marlin-staging/oyster-polygon',
 		POND: '',
 		MPOND: ''
 	},
@@ -41,7 +41,7 @@ export const LINEA: ChainConfig = {
 			precision: 6,
 			currency: 'USDC',
 			symbol: '$',
-			address: '0x176211869cA2b568f2A7D4EE941E073a821EE1ff'
+			address: '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359'
 		}
 	}
 };

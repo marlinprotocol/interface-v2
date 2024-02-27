@@ -44,6 +44,20 @@ export function isInputAmountValid(amount: string): boolean {
 	return /^(?!0\d)(?!.*(?:\..*){2})\d{1,50}(?:\.\d{1,18})?$/.test(amount);
 }
 
+export function sanitizeUrl(url: string) {
+	let sanitizedUrl = url;
+	if (url === '') {
+		return sanitizedUrl;
+	}
+	if (!url.includes('://')) {
+		sanitizedUrl = 'http://' + url;
+	}
+	if (url.endsWith('/')) {
+		sanitizedUrl = sanitizedUrl.replace(/\/+$/, '');
+	}
+	return sanitizedUrl;
+}
+
 /**
  * Returns error message if the amount is not valid
  */

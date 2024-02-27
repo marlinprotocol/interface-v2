@@ -2,6 +2,7 @@ import type {
 	CPInstances,
 	CPUrlDataModel,
 	OysterInventoryDataModel,
+	OysterJobMetadata,
 	OysterMarketplaceDataModel
 } from '$lib/types/oysterComponentType';
 import { getProvidersInstancesJSON, getProvidersNameJSON } from '$lib/controllers/httpController';
@@ -9,22 +10,22 @@ import { getProvidersInstancesJSON, getProvidersNameJSON } from '$lib/controller
 import { BANDWIDTH_RATES_LOOKUP } from '$lib/page-components/oyster/data/bandwidthRates';
 import { SECONDS_IN_HUNDRED_YEARS } from '$lib/utils/constants/constants';
 import type { Address } from '$lib/types/storeTypes';
+import { DEFAULT_JOB_METADATA } from '../constants/oysterConstants';
 
 export const parseMetadata = (metadata: string) => {
 	metadata = metadata.replaceAll("'", '');
 	metadata = metadata.replaceAll('\\', '');
 
-	const metadataParsed = metadata ? JSON.parse(metadata) : {};
-	const { url, instance, region, vcpu, memory, arch } = metadataParsed ?? {};
+	try {
+		const metadataParsed = metadata
+			? (JSON.parse(metadata) as OysterJobMetadata)
+			: DEFAULT_JOB_METADATA;
 
-	return {
-		enclaveUrl: url,
-		instance,
-		region,
-		vcpu,
-		memory,
-		arch
-	};
+		return metadataParsed;
+	} catch (error) {
+		console.error('Error parsing metadata', error);
+		return DEFAULT_JOB_METADATA;
+	}
 };
 
 export const getInstanceMetadatDataForOperator = (
@@ -102,7 +103,7 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 		};
 	}
 
-	const { enclaveUrl, instance, region, vcpu, memory, arch } = parseMetadata(metadata);
+	const { url, instance, region, vcpu, memory, arch } = parseMetadata(metadata);
 
 	//convert to BigNumber
 	const _totalDeposit = BigInt(totalDeposit);
@@ -120,7 +121,7 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 		ip,
 		owner,
 		metadata,
-		enclaveUrl,
+		enclaveUrl: url,
 		instance,
 		region,
 		vcpu,

@@ -380,10 +380,18 @@ export function createNewJobInOysterStore(
 	isCreditJob?: boolean
 ) {
 	const txHash = txn.hash;
-	const jobOpenEvent = approveReciept.logs?.find(
-		(event: any) => event?.fragment?.name === 'JobOpened'
-	);
-	const jobId = jobOpenEvent?.args?.job;
+	let jobId = '';
+	if (isCreditJob) {
+		const jobOpenEvent = approveReciept.logs?.find(
+			(event: any) => event?.fragment?.name === 'UserBudgetDecreased'
+		);
+		jobId = jobOpenEvent?.topics?.[1];
+	} else {
+		const jobOpenEvent = approveReciept.logs?.find(
+			(event: any) => event?.fragment?.name === 'JobOpened'
+		);
+		jobId = jobOpenEvent?.args?.job;
+	}
 
 	const nowTime = Date.now() / 1000;
 

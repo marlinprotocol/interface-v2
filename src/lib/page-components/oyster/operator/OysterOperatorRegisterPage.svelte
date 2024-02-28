@@ -50,45 +50,73 @@
 	let initialInstances: CPUrlDataModel[] = [];
 
 	const handleOnRegister = async () => {
-		if (connected) {
-			registerLoading = true;
-			await registerOysterInfrastructureProvider(sanitizedUpdatedCpURL);
-			updateProviderInOysterStore(updatedCpURL, $walletStore.address);
-			registeredCpURL = updatedCpURL;
-			registered = true;
-			disableCpURL = true;
+		try {
+			if (connected) {
+				registerLoading = true;
+				await registerOysterInfrastructureProvider(sanitizedUpdatedCpURL);
+				updateProviderInOysterStore(updatedCpURL, $walletStore.address);
+				registeredCpURL = updatedCpURL;
+				registered = true;
+				disableCpURL = true;
+				registerLoading = false;
+				registerLoading = registerLoading;
+			} else {
+				addToast({
+					variant: 'error',
+					message: 'Please connect your wallet'
+				});
+			}
+		} catch (error) {
 			registerLoading = false;
-		} else {
+			console.error(error);
 			addToast({
 				variant: 'error',
-				message: 'Please connect your wallet'
+				message: 'Oops! Something went wrong.'
 			});
 		}
 	};
 
 	const handleOnUpdate = async () => {
-		if (connected) {
-			updateLoading = true;
-			await updateOysterInfrastructureProvider(sanitizedUpdatedCpURL);
-			updateProviderInOysterStore(updatedCpURL, $walletStore.address);
-			registeredCpURL = updatedCpURL;
+		try {
+			if (connected) {
+				updateLoading = true;
+				await updateOysterInfrastructureProvider(sanitizedUpdatedCpURL);
+				updateProviderInOysterStore(updatedCpURL, $walletStore.address);
+				registeredCpURL = updatedCpURL;
+				updateLoading = false;
+			} else {
+				addToast({
+					variant: 'error',
+					message: 'Please connect your wallet'
+				});
+			}
+		} catch (error) {
 			updateLoading = false;
-		} else {
+			console.error(error);
 			addToast({
 				variant: 'error',
-				message: 'Please connect your wallet'
+				message: 'Oops! Something went wrong.'
 			});
 		}
 	};
 
 	const handleOnUnregister = async () => {
-		unregisterLoading = true;
-		await removeOysterInfrastructureProvider();
-		removeProviderFromOysterStore();
-		unregisterLoading = false;
-		registeredCpURL = '';
-		registered = false;
-		initialInstances = [];
+		try {
+			unregisterLoading = true;
+			await removeOysterInfrastructureProvider();
+			removeProviderFromOysterStore();
+			unregisterLoading = false;
+			registeredCpURL = '';
+			registered = false;
+			initialInstances = [];
+		} catch (error) {
+			unregisterLoading = false;
+			console.error(error);
+			addToast({
+				variant: 'error',
+				message: 'Oops! Something went wrong.'
+			});
+		}
 	};
 
 	async function getInstances(apiType: string) {

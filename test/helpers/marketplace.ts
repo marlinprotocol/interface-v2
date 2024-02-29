@@ -40,3 +40,29 @@ export function isSortedNumerically(array: number[]) {
     }
     return true;
 }
+
+// Inventory Dashboard Utils
+export async function extractBalanceColumnData(page: Page) {
+    return await page.$$eval('tbody tr.main-row', rows => {
+        return rows.map(row => {
+            const balanceCell = row.querySelector('td:nth-of-type(6)');
+            return balanceCell ? parseFloat(balanceCell.textContent?.trim().replace('$', '').replace(/,/g, '') || '') : 0;
+        });
+    });
+}
+export async function extractHourlyRateColumnData(page: Page) {
+    return await page.$$eval('tbody tr.main-row', rows => {
+        return rows.map(row => {
+            const balanceCell = row.querySelector('td:nth-of-type(5)');
+            return balanceCell ? parseFloat(balanceCell.textContent?.trim().replace('$', '').replace(/,/g, '') || '') : 0;
+        });
+    });
+}
+export async function extractRegionColumnData(page: Page) {
+    return await page.$$eval('tbody tr.main-row', rows => {
+        return rows.map(row => {
+            const regionCell = row.querySelector('td:nth-of-type(4)');
+            return regionCell ? regionCell.textContent?.trim() || '' : '';
+        });
+    });
+}

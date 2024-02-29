@@ -4,15 +4,23 @@
 	import { getReceiverRewardsDataFromSubgraph } from '$lib/controllers/subgraphController';
 	import {
 		allowedChainsStore,
+		chainIdHasChanged,
 		chainStore,
 		setAllowedChainsStore
 	} from '$lib/data-stores/chainProviderStore';
 	import { environment } from '$lib/data-stores/environment';
 	import { receiverRewardsStore } from '$lib/data-stores/receiverRewardsStore';
-	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
+	import {
+		connected,
+		walletAddressHasChanged,
+		walletStore
+	} from '$lib/data-stores/walletProviderStore';
 	import RewardsDashboard from '$lib/page-components/receiver-rewards/RewardsDashboard.svelte';
 	import { modifyReceiverRewardsData } from '$lib/utils/data-modifiers/subgraphModifier';
 	import { onDestroy, onMount } from 'svelte';
+
+	let previousChainId: number | null = null;
+	let previousWalletAddress: string = '';
 
 	onMount(() => {
 		setAllowedChainsStore(environment.supported_chains.receiver_rewards);
@@ -35,8 +43,19 @@
 		? $allowedChainsStore.includes($chainStore.chainId)
 		: true;
 
-	$: if ($connected && $chainStore.chainId && chainSupported) {
-		loadConnectedData();
+	$: if ($connected) {
+		if (
+			walletAddressHasChanged($walletStore.address, previousWalletAddress) ||
+			chainIdHasChanged($chainStore.chainId, previousChainId)
+		) {
+			loadConnectedData();
+			previousChainId = $chainStore.chainId;
+			previousWalletAddress = $walletStore.address;
+		}
+	} else {
+		// resetting chain id since everything depends on the wallet address in inventory
+		previousChainId = null;
+		previousWalletAddress = '';
 	}
 
 	onDestroy(() => {

@@ -3,13 +3,19 @@
 	import { getReceiverStakingDataFromSubgraph } from '$lib/controllers/subgraphController';
 	import {
 		allowedChainsStore,
+		chainIdHasChanged,
 		chainStore,
 		setAllowedChainsStore
 	} from '$lib/data-stores/chainProviderStore';
 	import { environment } from '$lib/data-stores/environment';
 	import { initializeReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
-	import { walletStore } from '$lib/data-stores/walletProviderStore';
+	import {
+		connected,
+		walletAddressHasChanged,
+		walletStore
+	} from '$lib/data-stores/walletProviderStore';
 	import StakeDashboard from '$lib/page-components/receiver-staking/StakeDashboard.svelte';
+	import type { Address } from '$lib/types/storeTypes';
 	import { modifyReceiverStakingData } from '$lib/utils/data-modifiers/subgraphModifier';
 	import { onDestroy, onMount } from 'svelte';
 
@@ -17,8 +23,8 @@
 		setAllowedChainsStore(environment.supported_chains.receiver_staking);
 	});
 
-	let prevWalletAddress: string | null = null;
-	let prevChainId: number | null = null;
+	let previousWalletAddress: Address = '';
+	let previousChainId: number | null = null;
 
 	async function getAndSetReceiverStakingData(address: string) {
 		const receiverStakingDataFromSubgraph = await getReceiverStakingDataFromSubgraph(address);
@@ -26,26 +32,24 @@
 		initializeReceiverStakingStore(modifiedReceiverStakingData);
 	}
 
-	$: if (
-		$walletStore.address !== '' &&
-		(prevWalletAddress !== $walletStore.address ||
-			prevChainId !== $chainStore.chainId ||
-			prevWalletAddress === null ||
-			prevChainId === null)
-	) {
-		prevWalletAddress = $walletStore.address;
-		prevChainId = $chainStore.chainId;
-		getAndSetReceiverStakingData($walletStore.address);
-	}
-
-	$: if ($walletStore.address === '') {
-		prevWalletAddress = null;
-		prevChainId = null;
-	}
-
 	$: chainSupported = $chainStore.chainId
 		? $allowedChainsStore.includes($chainStore.chainId)
 		: true;
+
+	$: if ($connected) {
+		if (
+			walletAddressHasChanged($walletStore.address, previousWalletAddress) ||
+			chainIdHasChanged($chainStore.chainId, previousChainId)
+		) {
+			getAndSetReceiverStakingData($walletStore.address);
+			previousChainId = $chainStore.chainId;
+			previousWalletAddress = $walletStore.address;
+		}
+	} else {
+		// resetting chain id since everything depends on the wallet address in inventory
+		previousChainId = null;
+		previousWalletAddress = '';
+	}
 
 	onDestroy(() => {
 		setAllowedChainsStore([]);

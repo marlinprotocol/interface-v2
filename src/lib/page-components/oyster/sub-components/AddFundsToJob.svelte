@@ -5,7 +5,8 @@
 	import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import {
 		DEFAULT_OYSTER_DURATION_UNIT,
-		OYSTER_DURATION_UNITS_LIST
+		OYSTER_DURATION_UNITS_LIST,
+		OYSTER_MARLIN_CREDIT_METADATA
 	} from '$lib/utils/constants/oysterConstants';
 	import {
 		bigNumberToString,
@@ -21,7 +22,11 @@
 		getDurationInSecondsForUnit
 	} from '$lib/utils/helpers/oysterHelpers';
 	import type { WalletBalanceStore } from '$lib/types/storeTypes';
-	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
+	import {
+		oysterTokenMetadataStore,
+		oysterRateMetadataStore,
+		oysterStore
+	} from '$lib/data-stores/oysterStore';
 
 	const durationUnitList = OYSTER_DURATION_UNITS_LIST.map((unit) => unit.label);
 
@@ -32,6 +37,7 @@
 	export let instanceCostString = '';
 	export let isTotalRate = false;
 	export let durationUnitInSec = getDurationInSecondsForUnit(DEFAULT_OYSTER_DURATION_UNIT);
+	export let useMarlinCredits = false;
 
 	let durationUnit = DEFAULT_OYSTER_DURATION_UNIT;
 	let instanceRateString = '';
@@ -43,7 +49,7 @@
 						_instanceRate / $oysterRateMetadataStore.oysterRateScalingFactor,
 						$oysterTokenMetadataStore.decimal,
 						4
-				  )
+					)
 				: '';
 			return;
 		}
@@ -132,26 +138,49 @@
 		}
 	};
 
+	function isCostValid(instanceCostScaled: bigint, useMarlinCredits: boolean) {
+		const walletBalance = useMarlinCredits
+			? $oysterStore.credits.balance
+			: $walletBalanceStore[
+					$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
+				];
+		return Boolean(
+			instanceCostScaled &&
+				instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor <= walletBalance
+		);
+	}
+
+	function getInvalidMessage(
+		instanceCostScaled: bigint,
+		invalidCost: boolean,
+		useMarlinCredits: boolean
+	) {
+		if (!instanceCostScaled) {
+			return '';
+		}
+		if (invalidCost) {
+			const walletBalanceString = useMarlinCredits
+				? bigNumberToString($oysterStore.credits.balance, OYSTER_MARLIN_CREDIT_METADATA.decimal)
+				: bigNumberToString(
+						$walletBalanceStore[
+							$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
+						],
+						$oysterTokenMetadataStore.decimal
+					);
+			const currency = useMarlinCredits
+				? OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]
+				: $oysterTokenMetadataStore.currency;
+
+			return `Insufficient balance. Your current wallet has ${walletBalanceString} ${currency}.`;
+		}
+		return '';
+	}
+
 	$: updateRateString(instanceRate);
 	$: durationString = computeDurationString(duration, durationUnitInSec);
 	$: instanceCostScaled = computeCost(duration || 0, instanceRate);
-	$: invalidCost = !(
-		instanceCostScaled &&
-		instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor <=
-			$walletBalanceStore[
-				$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
-			]
-	);
-	$: inValidMessage = !instanceCostScaled
-		? ''
-		: invalidCost
-		? `Insufficient balance. Your current wallet has ${bigNumberToString(
-				$walletBalanceStore[
-					$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
-				],
-				$oysterTokenMetadataStore.decimal
-		  )} ${$oysterTokenMetadataStore.currency}.`
-		: '';
+	$: invalidCost = !isCostValid(instanceCostScaled, useMarlinCredits);
+	$: inValidMessage = getInvalidMessage(instanceCostScaled, invalidCost, useMarlinCredits);
 </script>
 
 <div class="flex gap-2">
@@ -183,7 +212,9 @@
 		title={isTotalRate ? 'Total Cost' : 'Instance Cost'}
 		bind:inputAmountString={instanceCostString}
 		handleUpdatedAmount={handleCostChange}
-		suffix={$oysterTokenMetadataStore.currency}
+		suffix={useMarlinCredits
+			? OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]
+			: $oysterTokenMetadataStore.currency}
 		disabled={!instanceRate}
 	/>
 </div>

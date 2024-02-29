@@ -12,9 +12,13 @@
 		inputAmountInValidMessage,
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
-	import { handleFundsWithdrawFromJob } from '$lib/utils/services/oysterServices';
+	import {
+		handleFundsWithdrawFromCreditJob,
+		handleFundsWithdrawFromJob
+	} from '$lib/utils/services/oysterServices';
 	import { DEFAULT_PRECISION } from '$lib/utils/constants/constants';
 	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
+	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -61,7 +65,11 @@
 
 	const handleSubmitClick = async () => {
 		submitLoading = true;
-		await handleFundsWithdrawFromJob(jobData, inputAmount, Number(durationReduced));
+		if (isCreditJob) {
+			await handleFundsWithdrawFromCreditJob(jobData, inputAmount, Number(durationReduced));
+		} else {
+			await handleFundsWithdrawFromJob(jobData, inputAmount, Number(durationReduced));
+		}
 		submitLoading = false;
 		resetInputs();
 		closeModal(modalFor);
@@ -77,7 +85,17 @@
 		return 0n;
 	}
 
-	$: ({ rateScaled, balance, rate } = jobData);
+	function getMaxAmountText(isCreditJob: boolean | undefined) {
+		return isCreditJob
+			? `Available balance: ${bigNumberToString(maxAmount, OYSTER_MARLIN_CREDIT_METADATA.decimal)} ${
+					OYSTER_MARLIN_CREDIT_METADATA.symbol.split('_')[1]
+				}`
+			: `Available balance: ${bigNumberToString(maxAmount, $oysterTokenMetadataStore.decimal)} ${
+					$oysterTokenMetadataStore.currency
+				}`;
+	}
+
+	$: ({ rateScaled, balance, rate, isCreditJob } = jobData);
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString, $oysterTokenMetadataStore.decimal)
 		: 0n;
@@ -86,22 +104,21 @@
 	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;
 	$: maxAmount = getMaxAmountForJob(rateScaled, balance);
 	$: durationReduced = inputAmount > 0 ? inputAmount / rate : 0n;
+	$: maxAmountText = getMaxAmountText(isCreditJob);
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
 	<svelte:fragment slot="title">WITHDRAW FUNDS</svelte:fragment>
-	<svelte:fragment slot="subtitle"
-		>Enter the amount you'd like to withdraw from this job.</svelte:fragment
-	>
+	<svelte:fragment slot="subtitle">
+		Enter the amount you'd like to withdraw from this job.
+	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
 			title="Amount"
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			inputCardVariant="none"
-			maxAmountText="Available balance:
-				{bigNumberToString(maxAmount, $oysterTokenMetadataStore.decimal)} 
-				{$oysterTokenMetadataStore.currency}"
+			{maxAmountText}
 		>
 			<Text slot="input-end-button" text="Amount" fontWeight="font-medium" />
 			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />

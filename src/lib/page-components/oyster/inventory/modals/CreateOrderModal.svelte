@@ -15,13 +15,19 @@
 	import { getRateForProviderAndFilters } from '$lib/utils/helpers/oysterHelpers';
 	import {
 		handleApproveFundForOysterJob,
-		handleCreateJob
+		handleCreateJob,
+		handleCreateJobWithCredits
 	} from '$lib/utils/services/oysterServices';
 	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
 	import MetadetailsForNewOrder from '$lib/page-components/oyster/sub-components/MetadetailsForNewOrder.svelte';
 	import BandwidthSelector from '$lib/page-components/oyster/sub-components/BandwidthSelector.svelte';
 	import { OYSTER_OWNER_INVENTORY_URL } from '$lib/utils/constants/urls';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
+	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
+	import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
+	import type { WalletBalanceStore } from '$lib/types/storeTypes';
+	import Text from '$lib/atoms/texts/Text.svelte';
+	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
@@ -39,6 +45,7 @@
 	let providerAddress: string | undefined = preFilledData.provider?.address;
 	let vcpu = '';
 	let memory = '';
+	let useMarlinCredits: boolean = false;
 	let notServiceable = false;
 	//loading state
 	let submitLoading = false;
@@ -119,15 +126,32 @@
 			address: $walletStore.address
 		};
 
-		const success = await handleCreateJob(
-			owner,
-			metadata,
-			provider,
-			totalRate,
-			totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
-			duration,
-			$oysterRateMetadataStore.oysterRateScalingFactor
-		);
+		const amountSentToContract = totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor;
+
+		let success: any;
+		if (useMarlinCredits) {
+			success = await handleCreateJobWithCredits(
+				owner,
+				metadata,
+				provider,
+				totalRate,
+				amountSentToContract,
+				duration,
+				$oysterRateMetadataStore.oysterRateScalingFactor
+			);
+			console.log('created job using credits');
+		} else {
+			success = await handleCreateJob(
+				owner,
+				metadata,
+				provider,
+				totalRate,
+				amountSentToContract,
+				duration,
+				$oysterRateMetadataStore.oysterRateScalingFactor
+			);
+			console.log('created job using using real cash ching ching');
+		}
 
 		submitLoading = false;
 		if (!success) {
@@ -182,7 +206,28 @@
 		region.value,
 		$oysterStore.allMarketplaceData
 	);
+	$: walletBalance =
+		$oysterStore.credits.isWhitelisted && useMarlinCredits
+			? $oysterStore.credits.balance
+			: $walletBalanceStore[
+					$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
+				];
 
+	$: walletBalanceText = useMarlinCredits
+		? bigNumberToString(
+				walletBalance,
+				OYSTER_MARLIN_CREDIT_METADATA.decimal,
+				OYSTER_MARLIN_CREDIT_METADATA.precision
+			) +
+			' ' +
+			OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]
+		: bigNumberToString(
+				walletBalance,
+				$oysterTokenMetadataStore.decimal,
+				$oysterTokenMetadataStore.precision
+			) +
+			' ' +
+			$oysterTokenMetadataStore.currency;
 	$: approved =
 		instanceCostScaled > 0n &&
 		$oysterStore.allowance >= totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor &&
@@ -245,6 +290,7 @@
 				bind:instanceCostString
 				bind:duration
 				bind:invalidCost
+				bind:useMarlinCredits
 			/>
 			<BandwidthSelector
 				bind:region
@@ -268,17 +314,49 @@
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<div class="p-4">
-			<Button
-				variant="filled"
-				disabled={!submitEnable}
-				loading={submitLoading}
-				onclick={approved ? handleSubmitClick : handleApproveClick}
-				size="large"
-				styleClass="btn-block w-full"
-			>
-				{approved ? 'DEPLOY' : 'APPROVE'}
-			</Button>
+		<div class="flex items-center justify-between px-4 pt-2">
+			<Text
+				variant="small"
+				styleClass="text-black ml-1"
+				fontWeight="font-normal"
+				text="Balance: {walletBalanceText}"
+			/>
+			<div class="form-control">
+				<label class="label cursor-pointer">
+					<span class="label-text mr-3">Use Credits</span>
+					<input
+						bind:checked={useMarlinCredits}
+						type="checkbox"
+						class="checkbox-primary checkbox checkbox-md"
+					/>
+				</label>
+			</div>
+		</div>
+
+		<div class="px-4 py-2 pb-4">
+			{#if useMarlinCredits}
+				<Button
+					variant="filled"
+					disabled={!submitEnable}
+					loading={submitLoading}
+					onclick={handleSubmitClick}
+					size="large"
+					styleClass="btn-block w-full"
+				>
+					{'DEPLOY'}
+				</Button>
+			{:else}
+				<Button
+					variant="filled"
+					disabled={!submitEnable}
+					loading={submitLoading}
+					onclick={approved ? handleSubmitClick : handleApproveClick}
+					size="large"
+					styleClass="btn-block w-full"
+				>
+					{approved ? 'DEPLOY' : 'APPROVE'}
+				</Button>
+			{/if}
 		</div>
 	</svelte:fragment>
 </Modal>

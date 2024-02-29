@@ -26,14 +26,15 @@
 		amountUsed,
 		refund,
 		createdAt,
-		endEpochTime
+		endEpochTime,
+		isCreditJob
 	} = rowData);
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
 <tr class="main-row hover:bg-base-200">
 	<td class={tableCellClasses.row}>
-		<NameWithAddress {name} {address} {rowIndex}>
+		<NameWithAddress {name} {address} {rowIndex} {isCreditJob}>
 			<svelte:fragment slot="copyIcon">
 				<div class="copy-icon cursor-pointer">
 					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />

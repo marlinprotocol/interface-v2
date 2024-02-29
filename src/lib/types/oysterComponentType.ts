@@ -114,6 +114,7 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 		stopStatus: string; //'' | 'disabled' | 'pending' | 'completed'
 	};
 	ip?: string;
+	isCreditJob?: boolean;
 }
 
 export interface CreateOrderPreFilledModel extends CPUrlDataModel {

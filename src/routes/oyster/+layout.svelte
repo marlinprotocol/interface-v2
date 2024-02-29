@@ -4,13 +4,15 @@
 	import { getAllowance } from '$lib/controllers/contract/usdc';
 	import {
 		getAllProvidersDetailsFromSubgraph,
-		getApprovedOysterAllowancesFromSubgraph
+		getApprovedOysterAllowancesFromSubgraph,
+		getOysterCreditFromSubgraph
 	} from '$lib/controllers/subgraphController';
 	import {
 		chainConfigStore,
 		chainStore,
 		allowedChainsStore,
-		setAllowedChainsStore
+		setAllowedChainsStore,
+		chainIdHasChanged
 	} from '$lib/data-stores/chainProviderStore';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { environment } from '$lib/data-stores/environment';
@@ -19,9 +21,15 @@
 		oysterTokenMetadataStore,
 		oysterRateMetadataStore,
 		setMarketplaceLoadedInOysterStore,
-		updateMarketplaceDataInOysterStore
+		updateMarketplaceDataInOysterStore,
+		initializeMarlinCreditsInOysterStore
 	} from '$lib/data-stores/oysterStore';
-	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
+	import {
+		connected,
+		walletAddressHasChanged,
+		walletStore
+	} from '$lib/data-stores/walletProviderStore';
+	import type { Address } from '$lib/types/storeTypes';
 	import { getOysterProvidersModified } from '$lib/utils/data-modifiers/oysterModifiers';
 	import { addRegionNameToMarketplaceData } from '$lib/utils/helpers/oysterHelpers';
 	import type { BrowserProvider } from 'ethers';
@@ -31,9 +39,8 @@
 		setAllowedChainsStore(environment.supported_chains.oyster);
 	});
 
-	let prevChainIdCdata: null | number = null;
-	let prevChainIdMdata: null | number = null;
-	let prevAddress = '';
+	let previousChainId: number | null = null;
+	let previousWalletAddress: Address = '';
 
 	async function loadConnectedData() {
 		console.log('Loading oyster allowances data');
@@ -48,6 +55,10 @@
 					);
 		initializeAllowanceInOysterStore(allowance);
 		console.log('Oyster allowances data is loaded');
+
+		const marlinCredits = await getOysterCreditFromSubgraph($walletStore.address);
+		initializeMarlinCreditsInOysterStore(marlinCredits);
+		console.log('Marlin credits data is loaded');
 	}
 
 	async function loadMarketplaceData() {
@@ -68,17 +79,18 @@
 		? $allowedChainsStore.includes($chainStore.chainId)
 		: true;
 
-	$: if ($chainStore.chainId !== prevChainIdMdata) {
-		prevChainIdMdata = $chainStore.chainId;
+	$: if (chainIdHasChanged($chainStore.chainId, previousChainId)) {
+		previousChainId = $chainStore.chainId;
 		loadMarketplaceData();
 	}
 
 	$: if (
 		$connected &&
-		($walletStore.address !== prevAddress || $chainStore.chainId !== prevChainIdCdata)
+		(walletAddressHasChanged($walletStore.address, previousWalletAddress) ||
+			chainIdHasChanged($chainStore.chainId, previousChainId))
 	) {
-		prevChainIdCdata = $chainStore.chainId;
-		prevAddress = $walletStore.address;
+		previousChainId = $chainStore.chainId;
+		previousWalletAddress = $walletStore.address;
 		loadConnectedData();
 	}
 

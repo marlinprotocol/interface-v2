@@ -58,7 +58,8 @@ export const DEFAULT_CONTRACT_ADDRESS_STORE: ContractAddress = {
 	OYSTER: '',
 	POND: '',
 	MPOND: '',
-	USDC: ''
+	USDC: '',
+	OYSTER_CREDIT: ''
 };
 
 // receiver staked, queued data store
@@ -96,7 +97,11 @@ export const DEFAULT_OYSTER_STORE: OysterStore = {
 	marketplaceLoaded: false,
 	oysterStoreLoaded: false,
 	merchantJobsLoaded: false,
-	providerDetailsLoaded: false
+	providerDetailsLoaded: false,
+	credits: {
+		isWhitelisted: false,
+		balance: 0n
+	}
 };
 
 // receiverRewardsStore

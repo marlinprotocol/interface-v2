@@ -67,6 +67,7 @@
 		ip,
 		balance,
 		durationLeft,
+		isCreditJob,
 		endEpochTime, // epoch time in seconds based on duration left,
 		// newRate is being passed to the modal for the amend rate modal and is not used here
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -78,20 +79,20 @@
 		stopStatus === '' || stopStatus === 'disabled'
 			? 'INITIATE STOP'
 			: stopStatus === 'pending'
-			? 'CANCEL STOP'
-			: 'CONFIRM STOP';
+				? 'CANCEL STOP'
+				: 'CONFIRM STOP';
 
 	$: amendRateButtonText =
 		rateStatus === ''
 			? 'INITIATE RATE AMEND'
 			: rateStatus === 'pending'
-			? 'CANCEL RATE AMEND'
-			: 'CONFIRM RATE AMEND';
+				? 'CANCEL RATE AMEND'
+				: 'CONFIRM RATE AMEND';
 </script>
 
 <tr class="main-row hover:bg-base-200">
 	<td class={tableCellClasses.row}>
-		<NameWithAddress {name} {address} {rowIndex}>
+		<NameWithAddress {name} {address} {rowIndex} {isCreditJob}>
 			<svelte:fragment slot="copyIcon">
 				<div class="w-4">
 					<div class="copy-icon cursor-pointer">

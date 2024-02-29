@@ -117,17 +117,19 @@ export async function initializeWalletBalancesStore(
 		const tokens = Object.keys(chainConfig.tokens);
 		let balances = DEFAULT_WALLET_BALANCE_STORE;
 
-		// get balance from subgaph if subgraph url is provided else get it from contract
-		if (tokens.includes('POND') && chainConfig.subgraph_urls.POND !== '') {
-			const pondBalance = await getPondBalanceFromSubgraph(walletAddress);
-			balances = { ...balances, pond: pondBalance };
-		} else {
-			const pondBalance = await getBalanceOfToken(
-				walletAddress,
-				chainConfig.contract_addresses.POND,
-				walletProvider
-			);
-			balances = { ...balances, pond: pondBalance };
+		if (tokens.includes('POND')) {
+			// get balance from subgraph if subgraph url is provided else get it from contract
+			if (chainConfig.subgraph_urls.POND !== '') {
+				const pondBalance = await getPondBalanceFromSubgraph(walletAddress);
+				balances = { ...balances, pond: pondBalance };
+			} else {
+				const pondBalance = await getBalanceOfToken(
+					walletAddress,
+					chainConfig.contract_addresses.POND,
+					walletProvider
+				);
+				balances = { ...balances, pond: pondBalance };
+			}
 		}
 		if (tokens.includes('MPOND')) {
 			const mpondBalance = await getMPondBalanceFromSubgraph(walletAddress);
@@ -148,4 +150,14 @@ export async function initializeWalletBalancesStore(
 		console.log('error while setting wallet balance');
 		console.log(error);
 	}
+}
+
+export function walletAddressHasChanged(
+	currentWalletAddress: Address,
+	previousWalletAddress: Address
+) {
+	if (currentWalletAddress !== '') {
+		return previousWalletAddress !== currentWalletAddress;
+	}
+	return false;
 }

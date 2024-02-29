@@ -20,14 +20,16 @@ export const ARB_ONE: ChainConfig = {
 		OYSTER: '0x9d95D61eA056721E358BC49fE995caBF3B86A34B',
 		POND: '0xdA0a57B710768ae17941a9Fa33f8B720c8bD9ddD',
 		MPOND: '0xC606157CdBEb8e0BDB273E40D6Ee96e151083194',
-		USDC: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'
+		USDC: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
+		OYSTER_CREDIT: ''
 	},
 	subgraph_urls: {
 		RECEIVER_STAKING: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/staking-arb1',
 		BRIDGE: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/bridge',
 		OYSTER: 'https://api.thegraph.com/subgraphs/name/marlin-staging/oyster-arb1',
 		POND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-arb1',
-		MPOND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-arb1'
+		MPOND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-arb1',
+		OYSTER_CREDIT: ''
 	},
 	oyster_token: 'USDC',
 	oyster_rate_metadata: {

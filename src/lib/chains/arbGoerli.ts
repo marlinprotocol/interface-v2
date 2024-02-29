@@ -20,14 +20,16 @@ export const ARB_GOERLI: ChainConfig = {
 		OYSTER: '0xdbc4779b69bdc0f657ba35648e434bae042a00e0',
 		POND: '0xa9472a9C135Cb33221de441a4DEd393FD515a69C',
 		MPOND: '0x0B3d9b224496C2A2Fa1a4096D8EB4D350eFd9079',
-		USDC: '0x8FB1E3fC51F3b789dED7557E680551d93Ea9d892'
+		USDC: '0x8FB1E3fC51F3b789dED7557E680551d93Ea9d892',
+		OYSTER_CREDIT: ''
 	},
 	subgraph_urls: {
 		RECEIVER_STAKING: 'https://api.thegraph.com/subgraphs/name/marlin-staging/staking-arb1-goerli',
 		BRIDGE: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/bridge-kovan',
 		OYSTER: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/enclaves-arb-goerli',
 		POND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-dev',
-		MPOND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-dev'
+		MPOND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-dev',
+		OYSTER_CREDIT: ''
 	},
 	oyster_token: 'POND',
 	oyster_rate_metadata: {

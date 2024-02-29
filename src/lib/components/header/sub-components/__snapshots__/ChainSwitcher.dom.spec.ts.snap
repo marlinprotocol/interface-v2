@@ -56,8 +56,10 @@ exports[`ChainSwitcher > render's the component properly 1`] = `
               <path
                 d="M1683 808l-742 741q-19 19-45 19t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"
               />
+              
                
                
+              
               
             </svg>
             <!--&lt;Svg&gt;-->
@@ -84,7 +86,7 @@ exports[`ChainSwitcher > render's the component properly 1`] = `
               />
             </div>
              
-            Arb Goerli
+            Arbitrum Sepolia
           </button>
            
         </li>
@@ -151,8 +153,10 @@ exports[`ChainSwitcher > render's the dark mode classes 1`] = `
               <path
                 d="M1683 808l-742 741q-19 19-45 19t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"
               />
+              
                
                
+              
               
             </svg>
             <!--&lt;Svg&gt;-->
@@ -179,7 +183,7 @@ exports[`ChainSwitcher > render's the dark mode classes 1`] = `
               />
             </div>
              
-            Arb Goerli
+            Arbitrum Sepolia
           </button>
            
         </li>

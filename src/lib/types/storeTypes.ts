@@ -54,6 +54,7 @@ export type ContractAddress = {
 	POND: Address;
 	MPOND: Address;
 	USDC: Address;
+	OYSTER_CREDIT: Address;
 };
 
 // receiver staking store
@@ -96,6 +97,10 @@ export type OysterStore = {
 	oysterStoreLoaded: boolean;
 	merchantJobsLoaded: boolean;
 	providerDetailsLoaded: boolean;
+	credits: {
+		isWhitelisted: boolean;
+		balance: bigint;
+	};
 };
 
 // receiver rewards store

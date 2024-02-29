@@ -6,8 +6,11 @@ import {
 } from '$lib/utils/constants/storeDefaults';
 import {
 	QUERY_TO_CHECK_IF_SIGNER_EXISTS,
+	QUERY_TO_CHECK_OYSTER_CREDIT_BALANCE,
 	QUERY_TO_GET_ALL_PROVIDERS_DATA,
+	QUERY_TO_GET_CREDIT_JOBS_DATA,
 	QUERY_TO_GET_JOBS_DATA,
+	QUERY_TO_GET_JOBS_DATA_BY_ID,
 	QUERY_TO_GET_MERCHANT_JOBS_DATA,
 	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY,
@@ -384,6 +387,37 @@ export async function getOysterJobsFromSubgraph(address: Address) {
 	}
 }
 
+export async function getOysterJobsFromSubgraphById(id: string[]) {
+	const url = chainConfig.subgraph_urls.OYSTER;
+
+	const query = QUERY_TO_GET_JOBS_DATA_BY_ID;
+	const queryVariables = {
+		id
+	};
+
+	try {
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+		const jobs = result['data']?.jobs;
+
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data'] && jobs?.length) {
+			return jobs;
+		} else {
+			return [];
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: `Error getting oyster jobs by id from subgraph. ${error.message}`,
+			timeout: 6000
+		});
+		console.error('Error getting oyster jobs by id from subgraph', error);
+		return [];
+	}
+}
+
 export async function getProviderDetailsFromSubgraph(address: Address) {
 	const url = chainConfig.subgraph_urls.OYSTER;
 
@@ -533,6 +567,72 @@ export async function getReceiverRewardsDataFromSubgraph(address: Address) {
 			timeout: 6000
 		});
 		console.error('Error getting receiver rewards data from subgraph', error);
+		return [];
+	}
+}
+
+// ----------------------------- oyster credit contract subgraph methods -----------------------------
+export async function getOysterCreditFromSubgraph(address: Address) {
+	const url = chainConfig.subgraph_urls.OYSTER_CREDIT;
+
+	const query = QUERY_TO_CHECK_OYSTER_CREDIT_BALANCE;
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
+
+	try {
+		// console.log(url, query, queryVariables);
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+		// console.log('credits', result);
+		const userCreditsBudget = result['data']?.userCredits?.[0]?.userBudget;
+		console.log('user credits from subgraph', userCreditsBudget);
+
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (userCreditsBudget) {
+			return BigInt(userCreditsBudget);
+		} else {
+			return 0n;
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: `Error getting oyster user credit from subgraph. ${error.message}`,
+			timeout: 6000
+		});
+		console.error('Error getting oyster user credit from subgraph', error);
+		return 0n;
+	}
+}
+
+export async function getOysterCreditJobsFromSubgraph(address: Address) {
+	const url = chainConfig.subgraph_urls.OYSTER_CREDIT;
+
+	const query = QUERY_TO_GET_CREDIT_JOBS_DATA;
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
+
+	try {
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+		const jobs = result['data']?.jobCredits;
+
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data'] && jobs?.length) {
+			return jobs;
+		} else {
+			return [];
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: `Error getting oyster credit jobs from subgraph. ${error.message}`,
+			timeout: 6000
+		});
+		console.error('Error getting oyster credit jobs from subgraph', error);
 		return [];
 	}
 }

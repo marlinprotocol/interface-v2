@@ -30,8 +30,8 @@ export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
         name: ARB_SEPOLIA.chain_name,
         rpcUrl: ARB_SEPOLIA.rpc_url,
         chainId: 421614,
-        symbol: 'ETH',
-        blockExplorerUrl: 'https://testnet.arbiscan.io',
+        symbol: ARB_SEPOLIA.chain_token,
+        blockExplorerUrl: ARB_SEPOLIA.block_explorer_url,
         // blockExplorerUrl: 'https://testnet.arbiscan.io',
     })
 })

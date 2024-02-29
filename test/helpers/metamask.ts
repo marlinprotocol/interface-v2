@@ -15,7 +15,7 @@ export const loginToMetamask = async (metamask: MetaMask, page: Page) => {
         rpcUrl: ARB_SEPOLIA.rpc_url,
         chainId: 421614,
         symbol: ARB_SEPOLIA.chain_token,
-        blockExplorerUrl: 'https://testnet.arbiscan.io',
+        blockExplorerUrl: ARB_SEPOLIA.block_explorer_name,
     })
     await metamask.switchNetwork(ARB_SEPOLIA.chain_name);
 }

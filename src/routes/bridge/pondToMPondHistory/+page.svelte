@@ -32,7 +32,6 @@
 			previousWalletAddress = $walletStore.address;
 		}
 	} else {
-		// resetting chain id since everything depends on the wallet address in inventory
 		previousChainId = null;
 		previousWalletAddress = '';
 	}

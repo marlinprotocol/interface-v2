@@ -82,7 +82,8 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 		refund = '0',
 		settlementHistory = [],
 		depositHistory = [],
-		rateRevisionHistory = []
+		rateRevisionHistory = [],
+		isCreditJob
 	} = job ?? {};
 
 	const nowTime = Math.floor(Date.now() / 1000);
@@ -137,6 +138,7 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 		lastSettled: Number(lastSettled),
 		createdAt: Number(createdAt),
 		id,
+		isCreditJob,
 		reviseRate: reviseRateMap,
 		settlementHistory: settlementHistory.map((settlement: any) => {
 			return {

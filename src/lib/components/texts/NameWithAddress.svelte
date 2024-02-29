@@ -9,6 +9,7 @@
 	export let name = '';
 	export let address = '';
 	export let rowIndex = -1;
+	export let isCreditJob = false;
 
 	const onCopyAddress = () => {
 		copyTextToClipboard(address);
@@ -31,10 +32,17 @@
 	<div>
 		{#if rowIndex > -1}
 			<div
-				class="mr-3 flex h-[32px] w-[32px] flex-col items-center justify-center rounded-md bg-primary text-sm font-medium text-white"
+				class="relative mr-3 flex h-[32px] w-[32px] flex-col items-center justify-center rounded-md text-sm font-medium text-white"
 				style="background-color:{bgColor};"
 			>
 				{startLetters}
+				{#if isCreditJob}
+					<div
+						class="absolute -bottom-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-yellow-500"
+					>
+						<span class="text-xs">C</span>
+					</div>
+				{/if}
 			</div>
 		{/if}
 	</div>

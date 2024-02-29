@@ -43,7 +43,12 @@ export type OysterRateMetadata = {
 	rateReviseWaitingTime: number;
 };
 
-export type Tokens = { POND?: TokenMetadata; MPOND?: TokenMetadata; USDC?: TokenMetadata };
+export type Tokens = {
+	POND?: TokenMetadata;
+	MPOND?: TokenMetadata;
+	USDC?: TokenMetadata;
+	OYSTER_CREDIT?: TokenMetadata;
+};
 
 export type TokenMetadata = {
 	decimal: number;
@@ -59,6 +64,7 @@ export type SubgraphUrls = {
 	OYSTER: string;
 	POND: string;
 	MPOND: string;
+	OYSTER_CREDIT: string;
 };
 
 type RouteNames = 'bridge' | 'oyster' | 'receiver_staking' | 'receiver_rewards';

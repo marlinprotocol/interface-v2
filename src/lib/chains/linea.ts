@@ -20,6 +20,7 @@ export const LINEA: ChainConfig = {
 		OYSTER: '0xdD78e7F31B98dD8BD1F44F8FFCCeb4EdA6abdc5B',
 		POND: '',
 		MPOND: '',
+		OYSTER_CREDIT: '',
 		USDC: '0x176211869cA2b568f2A7D4EE941E073a821EE1ff'
 	},
 	subgraph_urls: {
@@ -27,7 +28,8 @@ export const LINEA: ChainConfig = {
 		BRIDGE: '',
 		OYSTER: 'https://graph-query.linea.build/subgraphs/name/marlinprotocol/oyster-linea',
 		POND: '',
-		MPOND: ''
+		MPOND: '',
+		OYSTER_CREDIT: ''
 	},
 	oyster_token: 'USDC',
 	oyster_rate_metadata: {

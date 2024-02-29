@@ -20,7 +20,8 @@ export const LINEA_GOERLI: ChainConfig = {
 		OYSTER: '0xe43EFeA7f40a885f4B35a149CAB5FC3fE01564C6',
 		POND: '0xDcD2846DCA523Db1C8F3c842a41A58099dE26A0A',
 		MPOND: '',
-		USDC: ''
+		USDC: '',
+		OYSTER_CREDIT: ''
 	},
 	subgraph_urls: {
 		RECEIVER_STAKING: '',
@@ -28,7 +29,8 @@ export const LINEA_GOERLI: ChainConfig = {
 		OYSTER:
 			'https://graph-query.goerli.linea.build/subgraphs/name/marlinprotocol/oyster-linea-goerli',
 		POND: '',
-		MPOND: ''
+		MPOND: '',
+		OYSTER_CREDIT: ''
 	},
 	oyster_token: 'POND',
 	oyster_rate_metadata: {

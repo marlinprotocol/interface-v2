@@ -8,10 +8,13 @@
 	import { epochToDurationString } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import {
-		handleCancelRateRevise,
-		handleConfirmJobStop,
-		handleInitiateRateRevise,
-		handleJobStatusOnStopTimerEnd
+		handleCreditJobRateReviseCancel,
+		handleCreditJobStopConfirm,
+		handleInitiateCreditJobRateRevise,
+		handleInitiateJobRateRevise,
+		handleJobRateReviseCancel,
+		handleJobStatusOnStopTimerEnd,
+		handleJobStopConfirm
 	} from '$lib/utils/services/oysterServices';
 	import StopModalContent from '$lib/page-components/oyster/sub-components/StopModalContent.svelte';
 	import { oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
@@ -24,21 +27,42 @@
 
 	const handleInitiateClick = async () => {
 		submitLoading = true;
-		await handleInitiateRateRevise(jobData, 0n, $oysterRateMetadataStore.rateReviseWaitingTime);
+		if (isCreditJob) {
+			await handleInitiateCreditJobRateRevise(
+				jobData,
+				0n,
+				$oysterRateMetadataStore.rateReviseWaitingTime
+			);
+		} else {
+			await handleInitiateJobRateRevise(
+				jobData,
+				0n,
+				$oysterRateMetadataStore.rateReviseWaitingTime
+			);
+		}
 		submitLoading = false;
 		closeModal(modalFor);
 	};
 
 	const handleConfirmClick = async () => {
 		submitLoading = true;
-		await handleConfirmJobStop(jobData);
+		if (isCreditJob) {
+			await handleCreditJobStopConfirm(jobData);
+		} else {
+			await handleJobStopConfirm(jobData);
+		}
 		submitLoading = false;
 		closeModal(modalFor);
 	};
 
 	const handleCancelInitiate = async () => {
 		cancelLoading = true;
-		await handleCancelRateRevise(jobData);
+
+		if (isCreditJob) {
+			await handleCreditJobRateReviseCancel(jobData);
+		} else {
+			await handleJobRateReviseCancel(jobData);
+		}
 		cancelLoading = false;
 		closeModal(modalFor);
 	};
@@ -48,13 +72,13 @@
 		handleJobStatusOnStopTimerEnd(jobData);
 	};
 
-	$: ({ reviseRate: { stopStatus = '', updatesAt = 0 } = {} } = jobData);
+	$: ({ reviseRate: { stopStatus = '', updatesAt = 0 } = {}, isCreditJob } = jobData);
 	$: modalTitle =
 		stopStatus === '' || stopStatus === 'disabled'
 			? 'INITIATE STOP'
 			: stopStatus === 'completed'
-			? 'CONFIRM STOP'
-			: 'INITIATED STOP';
+				? 'CONFIRM STOP'
+				: 'INITIATED STOP';
 	$: submitButtonText =
 		stopStatus === '' || stopStatus === 'disabled' ? 'INITIATE STOP' : 'CONFIRM';
 	$: submitButtonAction =

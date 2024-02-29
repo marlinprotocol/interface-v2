@@ -49,7 +49,11 @@ export function resetOysterStore() {
 			jobsData: [],
 			allowance: 0n,
 			merchantJobsData: [],
-			marketplaceLoaded: true
+			marketplaceLoaded: true,
+			credits: {
+				isWhitelisted: false,
+				balance: 0n
+			}
 		};
 	});
 }
@@ -372,13 +376,22 @@ export function createNewJobInOysterStore(
 	rateScaled: bigint,
 	balance: bigint,
 	durationInSec: number,
-	scalingFactor: bigint
+	scalingFactor: bigint,
+	isCreditJob?: boolean
 ) {
 	const txHash = txn.hash;
-	const jobOpenEvent = approveReciept.logs?.find(
-		(event: any) => event?.fragment?.name === 'JobOpened'
-	);
-	const jobId = jobOpenEvent?.args?.job;
+	let jobId = '';
+	if (isCreditJob) {
+		const jobOpenEvent = approveReciept.logs?.find(
+			(event: any) => event?.fragment?.name === 'UserBudgetDecreased'
+		);
+		jobId = jobOpenEvent?.topics?.[1];
+	} else {
+		const jobOpenEvent = approveReciept.logs?.find(
+			(event: any) => event?.fragment?.name === 'JobOpened'
+		);
+		jobId = jobOpenEvent?.args?.job;
+	}
 
 	const nowTime = Date.now() / 1000;
 
@@ -412,6 +425,7 @@ export function createNewJobInOysterStore(
 		endEpochTime: nowTime + durationInSec,
 		durationLeft: durationInSec,
 		durationRun: 0,
+		isCreditJob,
 		status: 'running',
 		depositHistory: [
 			{
@@ -459,6 +473,42 @@ export function initializeAllowanceInOysterStore(allowance: bigint) {
 		return {
 			...value,
 			allowance: allowance
+		};
+	});
+}
+
+export function initializeMarlinCreditsInOysterStore(credits: bigint) {
+	oysterStore.update((value) => {
+		return {
+			...value,
+			credits: {
+				isWhitelisted: credits !== undefined,
+				balance: credits
+			}
+		};
+	});
+}
+
+export function withdrawCreditsFromOysterStore(amount: bigint) {
+	oysterStore.update((value) => {
+		return {
+			...value,
+			credits: {
+				isWhitelisted: value.credits.isWhitelisted,
+				balance: value.credits.balance - amount
+			}
+		};
+	});
+}
+
+export function addCreditsToOysterStore(amount: bigint) {
+	oysterStore.update((value) => {
+		return {
+			...value,
+			credits: {
+				isWhitelisted: value.credits.isWhitelisted,
+				balance: value.credits.balance + amount
+			}
 		};
 	});
 }

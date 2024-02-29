@@ -156,19 +156,37 @@ export const MESSAGES = {
 				CREATING: 'Creating a new job.',
 				CREATED: 'Created a new job.'
 			},
+			CREATE_JOB_WITH_CREDIT: {
+				CREATING: 'Creating a new job using credits.',
+				CREATED: 'Created a new job using credits.'
+			},
 			STOP_JOB: {
 				INITIATING: 'Initiating job stop.',
 				INITIATED: 'Initiated job stop.',
 				STOPPING: 'Stopping job.',
 				STOPPED: 'Stopped job.'
 			},
+			STOP_CREDIT_JOB: {
+				INITIATING: 'Initiating credit job stop.',
+				INITIATED: 'Initiated credit job stop.',
+				STOPPING: 'Stopping credit job.',
+				STOPPED: 'Stopped credit job.'
+			},
 			WITHDRAW_JOB: {
 				WITHDRAWING: 'Withdrawing funds from job.',
 				WITHDRAWN: 'Withdrew funds from job.'
 			},
+			WITHDRAW_JOB_CREDIT: {
+				WITHDRAWING: 'Withdrawing credits from job.',
+				WITHDRAWN: 'Withdrew credits from job.'
+			},
 			ADD_FUNDS_JOB: {
 				ADDING_FUNDS: 'Adding funds to job.',
 				FUNDS_ADDED: 'Funds added to job.'
+			},
+			ADD_CREDITS_JOB: {
+				ADDING_CREDITS: 'Adding credits to job.',
+				CREDITS_ADDED: 'Credits added to job.'
 			},
 			AMEND_RATE_JOB: {
 				INITIATING: 'Initiating rate revision.',

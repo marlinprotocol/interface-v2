@@ -1,7 +1,10 @@
 <script lang="ts">
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 
-	import { getReceiverPondBalanceFromSubgraph } from '$lib/controllers/subgraphController';
+	import {
+		getOysterCreditFromSubgraph,
+		getReceiverPondBalanceFromSubgraph
+	} from '$lib/controllers/subgraphController';
 	import { chainConfigStore, chainStore } from '$lib/data-stores/chainProviderStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
@@ -103,4 +106,9 @@
 	<div class="mb-28 flex justify-center gap-3">
 		<AddTokenPrompt />
 	</div>
+	<button
+		class="btn btn-secondary"
+		on:click={() => getOysterCreditFromSubgraph($walletStore.address)}
+		>Get Credits for oyster</button
+	>
 </div>

@@ -10,12 +10,6 @@ test('navigating to /oyster/marketplace/', async ({ page }) => {
     expect(hasText).toBeTruthy();
 });
 
-test('navigating to /oyster/marketplace/', async ({ page }) => {
-    await page.goto(OYSTER_MARKETPLACE_URL);
-
-    const hasText = await page.textContent('text=Infrastructure Providers');
-    expect(hasText).toBeTruthy();
-});
 
 test('Renders the table', async ({ page }) => {
     await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });

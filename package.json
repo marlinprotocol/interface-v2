@@ -16,7 +16,7 @@
     "format": "prettier --write .",
     "update": "ncu -u && npm i",
     "prepare": "node .husky/install.mjs",
-    "test:e2e": "synpress && playwright test --ui",
+    "test:integration": "synpress && playwright test --ui",
     "synpress-test": "rm -rf .cache-synpress && synpress && playwright test --ui"
   },
   "devDependencies": {

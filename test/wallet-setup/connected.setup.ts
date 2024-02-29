@@ -1,5 +1,6 @@
 import { MetaMask, defineWalletSetup, getExtensionId } from '@synthetixio/synpress'
 import 'dotenv/config'
+import { ARB_SEPOLIA } from '../../src/lib/chains/arbSepolia';
 
 const SEED_PHRASE = process.env.VITE_SEED_PHRASE || ''
 const PASSWORD = process.env.VITE_WALLET_PASSWORD || ''
@@ -15,8 +16,8 @@ export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
 
     const page = await context.newPage();
 
-    // Go to a locally hosted MetaMask Test Dapp.
-    await page.goto('http://localhost:5173', { waitUntil: 'networkidle' })
+    // Go to a locally hosted App.
+    await page.goto('http://localhost:5173', { waitUntil: 'networkidle' });
 
     const connectWalletButtons = await page.$$('button:has-text("Connect Wallet")');
     connectWalletButtons[0].click();
@@ -26,10 +27,11 @@ export default defineWalletSetup(PASSWORD, async (context, walletPage) => {
 
     await metamask.connectToDapp();
     await metamask.addNetwork({
-        name: 'Arbitrum Rinkeby',
-        rpcUrl: 'https://arbitrum-sepolia.blockpi.network/v1/rpc/public',
+        name: ARB_SEPOLIA.chain_name,
+        rpcUrl: ARB_SEPOLIA.rpc_url,
         chainId: 421614,
         symbol: 'ETH',
         blockExplorerUrl: 'https://testnet.arbiscan.io',
+        // blockExplorerUrl: 'https://testnet.arbiscan.io',
     })
 })

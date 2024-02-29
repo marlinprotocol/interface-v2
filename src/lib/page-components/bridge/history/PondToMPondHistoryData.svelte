@@ -1,10 +1,7 @@
 <script lang="ts">
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
-	import { getPondToMPondConversionHistoryFromSubgraph } from '$lib/controllers/subgraphController';
-	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
-	import type { Address } from '$lib/types/storeTypes';
 	import { POND_TO_MPOND_TABLE_HEADER } from '$lib/utils/constants/bridgeConstants';
 	import {
 		DEFAULT_CURRENCY_DECIMALS,
@@ -14,28 +11,16 @@
 	import { bigNumberToString, epochSecToString } from '$lib/utils/helpers/conversionHelper';
 	import HistoryTableCommon from '$lib/page-components/bridge/history/HistoryTableCommon.svelte';
 	import { MPOND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
-	import { modifyPondToMpondConversionHistory } from '$lib/utils/data-modifiers/subgraphModifier';
 	import { getTxnUrl } from '$lib/utils/helpers/commonHelper';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 
-	let historyData: PondToMPondHistoryDataModel[] | undefined;
-	let loading = true;
+	export let historyData: PondToMPondHistoryDataModel[] | undefined;
+	export let loading = true;
 
 	// reverse the order of sortedData
 	const handleSortData = (id: string) => {
 		historyData = historyData?.reverse();
 	};
-
-	async function getHistoryData(address: Address) {
-		loading = true;
-		const historyDataFromSubgraph = await getPondToMPondConversionHistoryFromSubgraph(address);
-		historyData = modifyPondToMpondConversionHistory(historyDataFromSubgraph);
-		loading = false;
-	}
-
-	$: if ($walletStore.address) {
-		getHistoryData($walletStore.address);
-	}
 </script>
 
 <HistoryTableCommon

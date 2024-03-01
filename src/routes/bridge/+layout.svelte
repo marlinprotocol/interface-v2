@@ -33,7 +33,7 @@
 		? $allowedChainsStore.includes($chainStore.chainId)
 		: true;
 
-	// TODO:  update the allowance function to fetch from correct subgraph
+	// TODO @souvikmishra : update the allowance function to fetch from correct subgraph
 	async function init() {
 		const [allowancesData, requestedMPond] = await Promise.all([
 			getPondAndMPondBridgeAllowancesFromSubgraph(

@@ -59,7 +59,6 @@
 				registered = true;
 				disableCpURL = true;
 				registerLoading = false;
-				registerLoading = registerLoading;
 			} else {
 				addToast({
 					variant: 'error',
@@ -111,6 +110,9 @@
 			initialInstances = [];
 		} catch (error) {
 			unregisterLoading = false;
+			registeredCpURL = '';
+			registered = false;
+			initialInstances = [];
 			console.error(error);
 			addToast({
 				variant: 'error',
@@ -131,8 +133,10 @@
 				);
 				initialInstances = getModifiedInstances(instances);
 				return initialInstances;
-			} else {
+			} else if (registeredCpURL) {
 				return initialInstances;
+			} else {
+				return [];
 			}
 		} catch (error) {
 			console.log('error from getInstances', error);

@@ -22,7 +22,8 @@
 		oysterRateMetadataStore,
 		setMarketplaceLoadedInOysterStore,
 		updateMarketplaceDataInOysterStore,
-		initializeMarlinCreditsInOysterStore
+		initializeMarlinCreditsInOysterStore,
+		oysterStore
 	} from '$lib/data-stores/oysterStore';
 	import {
 		connected,
@@ -54,11 +55,11 @@
 						$walletStore.provider as BrowserProvider
 					);
 		initializeAllowanceInOysterStore(allowance);
-		console.log('Oyster allowances data is loaded');
+		console.log('Oyster allowances data is loaded', $oysterStore.allowance);
 
 		const marlinCredits = await getOysterCreditFromSubgraph($walletStore.address);
 		initializeMarlinCreditsInOysterStore(marlinCredits);
-		console.log('Marlin credits data is loaded');
+		console.log('Marlin credits data is loaded', $oysterStore.credits.balance);
 	}
 
 	async function loadMarketplaceData() {
@@ -72,26 +73,30 @@
 		const marketplaceDataWithRegionName = addRegionNameToMarketplaceData(marketplaceData);
 		// updating stores instead of returning data as we don't need to show this data explicitly
 		updateMarketplaceDataInOysterStore(marketplaceDataWithRegionName);
-		console.log('marketplace data is loaded');
+		console.log('Marketplace data is loaded');
 	}
 
 	$: chainSupported = $chainStore.chainId
 		? $allowedChainsStore.includes($chainStore.chainId)
 		: true;
 
-	$: if (chainIdHasChanged($chainStore.chainId, previousChainId)) {
-		previousChainId = $chainStore.chainId;
-		loadMarketplaceData();
-	}
-
-	$: if (
-		$connected &&
-		(walletAddressHasChanged($walletStore.address, previousWalletAddress) ||
-			chainIdHasChanged($chainStore.chainId, previousChainId))
-	) {
-		previousChainId = $chainStore.chainId;
-		previousWalletAddress = $walletStore.address;
-		loadConnectedData();
+	// load marketplace data based on chain change, and connected data based on wallet address+chain change
+	$: if ($connected) {
+		if (chainIdHasChanged($chainStore.chainId, previousChainId)) {
+			loadMarketplaceData();
+			loadConnectedData();
+			previousChainId = $chainStore.chainId;
+		} else if (walletAddressHasChanged($walletStore.address, previousWalletAddress)) {
+			loadConnectedData();
+			previousWalletAddress = $walletStore.address;
+		}
+	} else {
+		if (chainIdHasChanged($chainStore.chainId, previousChainId)) {
+			loadMarketplaceData();
+			previousChainId = $chainStore.chainId;
+		}
+		// reset previousWalletAddress if not connected, since no wallet is connected
+		previousWalletAddress = '';
 	}
 
 	onDestroy(() => {

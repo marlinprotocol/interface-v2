@@ -48,14 +48,18 @@
 		}
 	}
 
-	$: if (
-		$connected &&
-		(walletAddressHasChanged($walletStore.address, previousWalletAddress) ||
-			chainIdHasChanged($chainStore.chainId, previousChainId))
-	) {
-		previousChainId = $chainStore.chainId;
-		previousWalletAddress = $walletStore.address;
-		fetchOysterMerchantJobs();
+	$: if ($connected) {
+		if (
+			walletAddressHasChanged($walletStore.address, previousWalletAddress) ||
+			chainIdHasChanged($chainStore.chainId, previousChainId)
+		) {
+			fetchOysterMerchantJobs();
+			previousChainId = $chainStore.chainId;
+			previousWalletAddress = $walletStore.address;
+		}
+	} else {
+		previousChainId = null;
+		previousWalletAddress = '';
 	}
 </script>
 

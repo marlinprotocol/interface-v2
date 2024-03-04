@@ -486,18 +486,18 @@ export const addJobsToMap = (
 	jobs.forEach((job) => map.set(job.id, job));
 };
 
-export const combineAndDeduplicateJobs = (
-	earlierJobs: OysterInventoryDataModel[],
-	newJobs: OysterInventoryDataModel[]
-) => {
-	const combinedUniqueObjectsMap = new Map();
+// export const combineAndDeduplicateJobs = (
+// 	earlierJobs: OysterInventoryDataModel[],
+// 	newJobs: OysterInventoryDataModel[]
+// ) => {
+// 	const combinedUniqueObjectsMap = new Map();
 
-	// Add objects from both arrays to the map
-	addJobsToMap(earlierJobs, combinedUniqueObjectsMap);
-	addJobsToMap(newJobs, combinedUniqueObjectsMap);
+// 	// Add objects from both arrays to the map
+// 	addJobsToMap(earlierJobs, combinedUniqueObjectsMap);
+// 	addJobsToMap(newJobs, combinedUniqueObjectsMap);
 
-	// Convert the map values back to an array
-	return Array.from(combinedUniqueObjectsMap.values()).sort(
-		(job1, job2) => job2.createdAt - job1.createdAt
-	);
-};
+// 	// Convert the map values back to an array
+// 	return Array.from(combinedUniqueObjectsMap.values()).sort(
+// 		(job1, job2) => job2.createdAt - job1.createdAt
+// 	);
+// };

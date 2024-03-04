@@ -1,30 +1,41 @@
 <script lang="ts">
-	import { connected, web3WalletStore } from '$lib/data-stores/walletProviderStore';
+	import {
+		connected,
+		walletAddressHasChanged,
+		web3WalletStore
+	} from '$lib/data-stores/walletProviderStore';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import DisconnectWalletButton from '$lib/components/header/sub-components/DisconnectWalletButton.svelte';
 	import { setWalletAndChainStores } from '$lib/controllers/walletController';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
+	import { chainIdHasChanged } from '$lib/data-stores/chainProviderStore';
+	import type { Address } from '$lib/types/storeTypes';
 
-	let lastAddress: string | undefined = undefined;
+	let previousWalletAddress: Address = '';
+	let previousChainId: number | null = null;
 
 	$: connectedAccount = $web3WalletStore?.[0];
 	$: provider = connectedAccount?.provider;
 	$: address = connectedAccount?.accounts?.[0].address;
 	$: currentChain = Number(connectedAccount?.chains[0].id);
+	$: userIsConnected = address !== undefined && provider !== undefined;
 
-	$: if (
-		address !== undefined &&
-		provider !== undefined &&
-		(address !== lastAddress || currentChain !== $chainStore.chainId)
-	) {
-		console.log('setting wallet and chain stores');
-		setWalletAndChainStores(provider);
-		lastAddress = address;
+	$: if (userIsConnected) {
+		if (
+			walletAddressHasChanged(address, previousWalletAddress) ||
+			chainIdHasChanged(currentChain, previousChainId)
+		) {
+			setWalletAndChainStores(provider);
+			previousWalletAddress = address;
+			previousChainId = currentChain;
+		}
+	} else {
+		previousWalletAddress = '';
+		previousChainId = null;
 	}
 </script>
 
 {#if $connected}
-	<DisconnectWalletButton bind:lastAddress />
+	<DisconnectWalletButton bind:lastAddress={previousWalletAddress} />
 {:else}
 	<ConnectWalletButton />
 {/if}

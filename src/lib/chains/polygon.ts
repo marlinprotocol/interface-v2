@@ -20,14 +20,16 @@ export const POLYGON: ChainConfig = {
 		OYSTER: '0x4dA7A531EF660533074341df098F722F1Aa5dFaa',
 		POND: '',
 		MPOND: '',
-		USDC: '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359'
+		USDC: '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359',
+		OYSTER_CREDIT: ''
 	},
 	subgraph_urls: {
 		RECEIVER_STAKING: '',
 		BRIDGE: '',
 		OYSTER: 'https://api.thegraph.com/subgraphs/name/marlin-staging/oyster-polygon',
 		POND: '',
-		MPOND: ''
+		MPOND: '',
+		OYSTER_CREDIT: ''
 	},
 	oyster_token: 'USDC',
 	oyster_rate_metadata: {

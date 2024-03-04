@@ -225,14 +225,9 @@
 			openInstanceTable = true;
 		});
 
-		const isDisabledCpUrl = () => {
-			if($connected) {
-				return Boolean(registeredCpURL)
-			} else {
-				return true;
-			}
-		}
-	$: disableCpURL =  isDisabledCpUrl();
+		
+	$: disableCpURL =  $connected ? Boolean(registeredCpURL) : false;
+
 </script>
 
 <ContainerCard>

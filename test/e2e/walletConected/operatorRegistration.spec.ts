@@ -39,7 +39,7 @@ test('Operator Registation', async ({ context, page, metamaskPage, extensionId }
 
     if (registerButton) {
         expect(await registerButton.isDisabled()).toBeTruthy()
-        await page.getByTestId('container-card-body').getByRole('button').first().click();
+        // await page.getByTestId('container-card-body').getByRole('button').first().click();
         const cpURLInput = page.getByPlaceholder('Paste URL here');
         expect(cpURLInput).toHaveValue('');
         expect(cpURLInput).toBeEnabled();
@@ -143,7 +143,7 @@ test('Operator Registation and Unregistration', async ({ context, page, metamask
 
     const [registerButton] = await page.$$('button:has-text("REGISTER")');
     expect(await registerButton.isDisabled()).toBeTruthy()
-    await page.getByTestId('container-card-body').getByRole('button').first().click();
+    // await page.getByTestId('container-card-body').getByRole('button').first().click();
 
     const cpURLInput = page.getByPlaceholder('Paste URL here');
     expect(cpURLInput).toHaveValue('');

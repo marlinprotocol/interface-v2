@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" defer>
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
@@ -225,8 +225,15 @@
 			openInstanceTable = true;
 		});
 
+		const isDisabledCpUrl = (connected:boolean, cpUrl:string) => {
+			if(Boolean(connected)) {
+				return Boolean(cpUrl)
+			} else {
+				return true;
+			}
+		}
 		
-	$: disableCpURL =  $connected ? Boolean(registeredCpURL) : false;
+	$: disableCpURL =  isDisabledCpUrl($connected, registeredCpURL);
 
 </script>
 

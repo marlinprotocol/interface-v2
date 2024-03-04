@@ -13,6 +13,15 @@ VITE_SEED_PHRASE= YOUR_SEED_PHRASE
 By default playwright tests runs on Chromium.
 to configure/install more browser refer to [Playwright Docs](https://playwright.dev/docs/browsers)
 
+### Setting up cache.
+running the script `npm run test:integration` will create .cache-synpress folder which will have cache for wallet setup files (named as [file-name].setup.js).
+
+For the first time, you'll need to run the development server separately and then run `npm run test:integration`.
+after that no need to run the development server separately.
+
+### Config
+configuration for playwright can be found in playwright.config.js
+
 ### Learn more about playwright and synpress
 https://synpress.io/
 https://playwright.dev/

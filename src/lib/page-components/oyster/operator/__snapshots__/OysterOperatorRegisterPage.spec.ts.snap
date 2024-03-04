@@ -1,0 +1,332 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`OysterOperatorRegistration > renders the component 1`] = `
+<body>
+  <onboard-v2
+    style="all: initial;"
+  />
+  <style>
+    
+    
+@font-face {
+  font-family: 'Inter';
+  font-style:  normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
+}
+
+  
+  </style>
+  <div>
+    <div
+      class="mx-auto w-full sm:w-130"
+      data-testid="container-card-root"
+    >
+      <div
+        class="mb-2"
+        data-testid="container-card-header"
+      >
+        <div
+          class="text-left text-3xl font-bold"
+          data-testid="text"
+        >
+          Operator Registration
+        </div>
+        <!--&lt;Text&gt;-->
+         
+        <div
+          class="mb-4 mt-2 flex flex-col gap-1 text-left text-grey-700"
+        >
+          <div
+            class="flex items-center gap-2"
+          >
+            <div
+              class=" text-base font-normal"
+              data-testid="text"
+            >
+              Quick access:
+            </div>
+            <!--&lt;Text&gt;-->
+             
+            <a
+              href="https://docs.marlin.org/docs/User%20Guides/Oyster/"
+              target="_blank"
+            >
+              <div
+                class="text-primary text-base font-medium"
+                data-testid="text"
+              >
+                Documentation
+              </div>
+              <!--&lt;Text&gt;-->
+            </a>
+             
+            <div
+              class="h-4 w-[1px] bg-grey-500 my-0"
+              data-testid="divider"
+            />
+            <!--&lt;Divider&gt;-->
+             
+            <a
+              href="https://discord.gg/xqJfSGY6gR"
+              target="_blank"
+            >
+              <div
+                class="text-primary text-base font-medium"
+                data-testid="text"
+              >
+                Support
+              </div>
+              <!--&lt;Text&gt;-->
+            </a>
+          </div>
+        </div>
+      </div>
+       
+      <div
+        class="card mx-auto rounded-lg bg-base-100 px-4 py-4 text-center sm:px-6 sm:py-6 "
+        data-testid="container-card-body"
+      >
+        <div
+          class=" w-full rounded-lg bg-base-200 p-4"
+          data-testid="input-card"
+        >
+          <div
+            class="flex items-center justify-between"
+          >
+            <div
+              class="flex items-center gap-1"
+            >
+              <div
+                class=" text-sm font-normal"
+                data-testid="text"
+              >
+                Address
+              </div>
+              <!--&lt;Text&gt;-->
+               
+              <div
+                class="tooltip flex shrink-0 text-left font-normal  tooltip-secondary tooltip-top"
+                data-testid="tooltip-icon"
+                data-tip="Address of oyster operator"
+              >
+                <img
+                  alt="Info"
+                  src="/images/alert.svg"
+                  width="14px"
+                />
+              </div>
+              <!--&lt;TooltipIcon&gt;-->
+            </div>
+             
+          </div>
+           
+          <div
+            class="flex items-center justify-between"
+          >
+            <input
+              class="hideInputNumberAppearance input input-ghost h-[30px] w-full text-lg mt-1 p-0 font-semibold text-primary disabled:opacity-70 disabled:text-primary disabled:placeholder:text-primary/[.2] focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent"
+              disabled=""
+              id="address-display"
+              placeholder="Enter your address here"
+            />
+             
+          </div>
+        </div>
+        <!--&lt;InputCard&gt;-->
+        <!--&lt;InputCardWithEndButton&gt;-->
+        <!--&lt;TextInputWithEndButton&gt;-->
+         
+        <div
+          class="mt-4 w-full rounded-lg bg-base-200 p-4"
+          data-testid="input-card"
+        >
+          <div
+            class="flex items-center justify-between"
+          >
+            <div
+              class="flex items-center gap-1"
+            >
+              <div
+                class=" text-sm font-normal"
+                data-testid="text"
+              >
+                Control Plane URL
+              </div>
+              <!--&lt;Text&gt;-->
+               
+              <div
+                class="tooltip flex shrink-0 text-left font-normal  tooltip-secondary tooltip-top"
+                data-testid="tooltip-icon"
+                data-tip="URL of the control plane which is used to provide pricing data"
+              >
+                <img
+                  alt="Info"
+                  src="/images/alert.svg"
+                  width="14px"
+                />
+              </div>
+              <!--&lt;TooltipIcon&gt;-->
+            </div>
+             
+            <button
+              type="button"
+            >
+              <svg
+                aria-label=""
+                class="fa-icon icon-info s-T5YyQewRBd7n"
+                data-testid="icon"
+                height="16"
+                role="presentation"
+                style="width:18px; height:18px; cursor:pointer;  "
+                version="1.1"
+                viewBox="0 0 1792 1792"
+                width="16"
+              >
+                <path
+                  d="M888 1184l116-116-152-152-116 116v56h96v96h56zM1328 464q-16-16-33 1l-350 350q-17 17-1 33t33-1l350-350q17-17 1-33zM1408 1058v190q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q63 0 117 25 15 7 18 23 3 17-9 29l-49 49q-14 14-32 8-23-6-45-6h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113v-126q0-13 9-22l64-64q15-15 35-7t20 29zM1312 320l288 288-672 672h-288v-288zM1756 452l-92 92-288-288 92-92q28-28 68-28t68 28l152 152q28 28 28 68t-28 68z"
+                />
+                
+                 
+                 
+                
+                
+              </svg>
+              <!--&lt;Svg&gt;-->
+              <!--&lt;Icon&gt;-->
+              <!--&lt;Icon&gt;-->
+            </button>
+            
+          </div>
+           
+          <div
+            class="flex items-center justify-between"
+          >
+            <input
+              class="hideInputNumberAppearance input input-ghost h-[30px] w-full text-lg mt-1 p-0 font-semibold text-primary disabled:opacity-70 disabled:text-primary disabled:placeholder:text-primary/[.2] focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent"
+              id="address-display"
+              placeholder="Paste URL here"
+            />
+             
+          </div>
+        </div>
+        <!--&lt;InputCard&gt;-->
+        <!--&lt;InputCardWithEndButton&gt;-->
+        <!--&lt;TextInputWithEndButton&gt;-->
+         
+        
+        <!--&lt;ErrorTextCard&gt;-->
+         
+         
+        <div
+          class="mt-4 w-full rounded-lg bg-base-200 p-4"
+          data-testid="input-card"
+        >
+          <div
+            class="flex items-center justify-between"
+          >
+            <div
+              class="flex items-center gap-1"
+            >
+              <div
+                class=" text-sm font-normal"
+                data-testid="text"
+              >
+                Details
+              </div>
+              <!--&lt;Text&gt;-->
+               
+            </div>
+             
+            <button
+              class=" btn btn-xs btn-circle p-0 bg-base-300 hover:bg-base-300 border-none disabled:bg-base-200 disabled:cursor-not-allowed"
+              data-testid="collapse-button"
+              disabled=""
+              id=""
+            >
+              <svg
+                aria-label=""
+                class="fa-icon icon-disabled s-T5YyQewRBd7n"
+                data-testid="icon"
+                height="16"
+                role="presentation"
+                style="width:12px; height:12px; cursor:pointer;  "
+                version="1.1"
+                viewBox="0 0 1792 1792"
+                width="16"
+              >
+                <path
+                  d="M1683 808l-742 741q-19 19-45 19t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"
+                />
+                
+                 
+                 
+                
+                
+              </svg>
+              <!--&lt;Svg&gt;-->
+              <!--&lt;Icon&gt;-->
+              <!--&lt;Icon&gt;-->
+            </button>
+            <!--&lt;CollapseButton&gt;-->
+          </div>
+           
+          <div
+            class="flex items-center justify-between"
+          >
+            
+             
+          </div>
+        </div>
+        <!--&lt;InputCard&gt;-->
+        <!--&lt;InputCardWithEndButton&gt;-->
+        <!--&lt;InstancesTable&gt;-->
+         
+        <div
+          class="mt-4"
+        />
+         
+        <button
+          class="flex gap-[10.3px] w-full h-14 text-base font-semibold h-12 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white gap-1.5"
+        >
+           
+          <svg
+            aria-label=""
+            class="fa-icon icon-white s-T5YyQewRBd7n"
+            data-testid="icon"
+            height="16"
+            role="presentation"
+            style="width:20px; height:20px; cursor:pointer;  "
+            version="1.1"
+            viewBox="0 0 1152 1792"
+            width="10.285714285714286"
+          >
+            <path
+              d="M320 768h512v-192q0-106-75-181t-181-75-181 75-75 181v192zM1152 864v576q0 40-28 68t-68 28h-960q-40 0-68-28t-28-68v-576q0-40 28-68t68-28h32v-192q0-184 132-316t316-132 316 132 132 316v192h32q40 0 68 28t28 68z"
+            />
+            
+             
+             
+            
+            
+          </svg>
+          <!--&lt;Svg&gt;-->
+          <!--&lt;Icon&gt;-->
+          <!--&lt;Icon&gt;-->
+          
+		Connect Wallet
+        </button>
+        <!--&lt;Button&gt;-->
+        
+        <!--&lt;ConnectWalletButton&gt;-->
+        
+      </div>
+    </div>
+    <!--&lt;ContainerCard&gt;-->
+     
+    
+    <!--&lt;OysterOperatorRegisterPage&gt;-->
+  </div>
+</body>
+`;

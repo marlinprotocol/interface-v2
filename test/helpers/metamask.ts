@@ -17,5 +17,5 @@ export const loginToMetamask = async (metamask: MetaMask, page: Page) => {
         symbol: ARB_SEPOLIA.chain_token,
         blockExplorerUrl: ARB_SEPOLIA.block_explorer_name,
     })
-    await metamask.switchNetwork(ARB_SEPOLIA.chain_name);
+    // await metamask.switchNetwork(ARB_SEPOLIA.chain_name);
 }

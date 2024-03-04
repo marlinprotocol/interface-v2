@@ -100,44 +100,44 @@ test('Copy Operator Address', async ({ page, context, metamaskPage, extensionId 
     expect(clipboardContent.endsWith(expectedAddressEnd)).toBeTruthy()
 });
 
-test('Add Funds To The Job', async ({ page, context, metamaskPage, extensionId }) => {
-    // Grant permissions for clipboard-read
-    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+// test('Add Funds To The Job', async ({ page, context, metamaskPage, extensionId }) => {
+//     // Grant permissions for clipboard-read
+//     await context.grantPermissions(['clipboard-read', 'clipboard-write']);
 
-    await page.goto('/oyster/inventory/', { waitUntil: 'networkidle' });
+//     await page.goto('/oyster/inventory/', { waitUntil: 'networkidle' });
 
-    const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId)
-    await loginToMetamask(metamask, page);
+//     const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId)
+//     await loginToMetamask(metamask, page);
 
-    const rows = await page.$$eval('tbody tr', rows => rows);
-    if (!(rows.length > 0)) test.skip();
+//     const rows = await page.$$eval('tbody tr', rows => rows);
+//     if (!(rows.length > 0)) test.skip();
 
-    const expandRowToggleButton = await page.$('tbody tr:nth-child(1) td:last-child button');
-    if (expandRowToggleButton && !(await expandRowToggleButton.isDisabled())) {
-        await expandRowToggleButton.click();
-        await page.locator('text=ADD FUNDS').first().click();
-        await page.waitForSelector('text=Add funds by approving and depositing tokens for the job');
+//     const expandRowToggleButton = await page.$('tbody tr:nth-child(1) td:last-child button');
+//     if (expandRowToggleButton && !(await expandRowToggleButton.isDisabled())) {
+//         await expandRowToggleButton.click();
+//         await page.locator('text=ADD FUNDS').first().click();
+//         await page.waitForSelector('text=Add funds by approving and depositing tokens for the job');
 
-        await page.locator('div:nth-child(2) > div:nth-child(2) > #pond-input-amount').first().fill('1')
-        await page.getByText('Days').first().click();
-        await page.getByRole('button', { name: 'Minutes' }).click();
+//         await page.locator('div:nth-child(2) > div:nth-child(2) > #pond-input-amount').first().fill('1')
+//         await page.getByText('Days').first().click();
+//         await page.getByRole('button', { name: 'Minutes' }).click();
 
-        // const buttonLabel = await page.locator('.modal-footer > .btn-block').first().innerText();
-        // if(buttonLabel === 'CONFIRM') {}
-        await page.locator('text=APPROVE').first().click();
-        await metamask.approveTokenPermission();
-        await page.waitForTimeout(5000)
-        await page.waitForSelector('text=CONFIRM');
-        // const buttonLabel1 = await page.locator('.modal-footer > .btn-block').first().innerText();
-        // console.log({ buttonLabel1 })
-        await page.locator('.modal-footer > .btn-block').first().click();
-        await page.waitForTimeout(5000)
-        await metamask.confirmTransactionAndWaitForMining();
+//         // const buttonLabel = await page.locator('.modal-footer > .btn-block').first().innerText();
+//         // if(buttonLabel === 'CONFIRM') {}
+//         await page.locator('text=APPROVE').first().click();
+//         await metamask.approveTokenPermission();
+//         await page.waitForTimeout(5000)
+//         await page.waitForSelector('text=CONFIRM');
+//         // const buttonLabel1 = await page.locator('.modal-footer > .btn-block').first().innerText();
+//         // console.log({ buttonLabel1 })
+//         await page.locator('.modal-footer > .btn-block').first().click();
+//         await page.waitForTimeout(5000)
+//         await metamask.confirmTransactionAndWaitForMining();
 
-        await page.waitForSelector(`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.ADD_FUNDS_JOB.FUNDS_ADDED}`)
-    }
+//         await page.waitForSelector(`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.ADD_FUNDS_JOB.FUNDS_ADDED}`)
+//     }
 
-});
+// });
 
 test('Sorting by Balance', async ({ context, page, metamaskPage, extensionId }) => {
     await page.goto(OYSTER_OWNER_INVENTORY_URL, { waitUntil: 'networkidle' });

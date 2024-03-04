@@ -6,10 +6,10 @@ import { loginToMetamask } from '../../helpers/metamask';
 
 const test = testWithSynpress(BasicSetup, unlockForFixture)
 const { expect } = test;
+const CP_URL = process.env.VITE_DEMO_CP_URL || '';
 
 
 test('Operator Registation', async ({ context, page, metamaskPage, extensionId }) => {
-    const CP_URL = process.env.VITE_DEMO_CP_URL || '';
     await page.goto(OYSTER_OPERATOR_URL, { waitUntil: 'networkidle' });
 
     const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId)
@@ -37,10 +37,9 @@ test('Operator Registation', async ({ context, page, metamaskPage, extensionId }
 
     const [registerButton] = await page.$$('button:has-text("REGISTER")');
 
-    console.log({ registerButton })
     if (registerButton) {
         expect(await registerButton.isDisabled()).toBeTruthy()
-
+        await page.getByTestId('container-card-body').getByRole('button').first().click();
         const cpURLInput = page.getByPlaceholder('Paste URL here');
         expect(cpURLInput).toHaveValue('');
         expect(cpURLInput).toBeEnabled();
@@ -92,6 +91,32 @@ test('Operator Unregistration', async ({ context, page, metamaskPage, extensionI
 
 })
 
+test('Operator Edit', async ({ context, page, metamaskPage, extensionId }) => {
+    await page.goto(OYSTER_OPERATOR_URL, { waitUntil: 'networkidle' });
+
+    const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId)
+    await loginToMetamask(metamask, page);
+
+    const hasText = await page.textContent('text=Operator Registration');
+    expect(hasText).toBeTruthy();
+
+    const addressInput = page.getByPlaceholder('Enter your address here');
+    expect(addressInput).toBeDisabled();
+
+    // Editing -- need another CP url to test editing.
+    await page.waitForTimeout(1000);
+    const cpURLInput = page.getByPlaceholder('Paste URL here');
+    await page.getByTestId('container-card-body').getByRole('button').first().click();
+    await cpURLInput.fill(CP_URL + '...');
+    await page.waitForTimeout(1000);
+    await cpURLInput.fill(CP_URL);
+
+    // await page.waitForSelector('text=Instance Type');
+    // const [updateButton] = await page.$$('button:has-text("UPDATE")');
+    // await updateButton.click();
+    // await metamask.confirmTransactionAndWaitForMining();
+})
+
 test('Operator Registation and Unregistration', async ({ context, page, metamaskPage, extensionId }) => {
     const CP_URL = process.env.VITE_DEMO_CP_URL || '';
     await page.goto(OYSTER_OPERATOR_URL, { waitUntil: 'networkidle' });
@@ -118,6 +143,7 @@ test('Operator Registation and Unregistration', async ({ context, page, metamask
 
     const [registerButton] = await page.$$('button:has-text("REGISTER")');
     expect(await registerButton.isDisabled()).toBeTruthy()
+    await page.getByTestId('container-card-body').getByRole('button').first().click();
 
     const cpURLInput = page.getByPlaceholder('Paste URL here');
     expect(cpURLInput).toHaveValue('');

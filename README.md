@@ -37,6 +37,9 @@ You should see a prompt that looks like this:
 
 > The port number and VITE version can be different for you.
 
+## 🧪 Testing
+refer to test/docs.md
+
 ## 🧑‍💻 Building
 
 > Make sure that `PUBLIC_NODE_ENV='arb_mainnet'` in `.env` for building the mainnet version of the app.

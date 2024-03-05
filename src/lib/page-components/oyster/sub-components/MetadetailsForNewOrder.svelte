@@ -109,7 +109,7 @@
 			value !== ''
 				? allMarketplaceData.find(
 						(data) => data.provider.name === value || data.provider.address === value
-				  )?.provider.address
+					)?.provider.address
 				: undefined;
 		instanceRate = undefined;
 		instance = {
@@ -150,7 +150,7 @@
 				instance.value,
 				region.value,
 				allMarketplaceData
-		  )
+			)
 		: undefined;
 	$: set_vcpu(!instance.value ? '' : instanceData?.vcpu?.toString() ?? 'N/A');
 	$: set_arch(!instance.value ? '' : instanceData?.arch?.toString() ?? 'N/A');

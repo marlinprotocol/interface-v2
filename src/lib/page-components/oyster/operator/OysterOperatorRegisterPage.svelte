@@ -226,7 +226,7 @@
 		});
 
 		const isDisabledCpUrl = (connected:boolean, cpUrl:string) => {
-			if(Boolean(connected)) {
+			if(connected) {
 				return Boolean(cpUrl)
 			} else {
 				return true;

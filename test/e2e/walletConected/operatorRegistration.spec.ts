@@ -6,7 +6,8 @@ import { loginToMetamask } from '../../helpers/metamask';
 
 const test = testWithSynpress(BasicSetup, unlockForFixture)
 const { expect } = test;
-const CP_URL = process.env.VITE_DEMO_CP_URL || '';
+const TEST_CP_URL_1 = process.env.VITE_TEST_CP_URL_1 || '';
+const TEST_CP_URL_2 = process.env.VITE_TEST_CP_URL_2 || '';
 
 
 test('Operator Registation', async ({ context, page, metamaskPage, extensionId }) => {
@@ -44,7 +45,7 @@ test('Operator Registation', async ({ context, page, metamaskPage, extensionId }
         expect(cpURLInput).toHaveValue('');
         expect(cpURLInput).toBeEnabled();
 
-        await cpURLInput.fill(CP_URL);
+        await cpURLInput.fill(TEST_CP_URL_1);
 
         await page.waitForSelector('text=Instance Type');
 
@@ -103,22 +104,20 @@ test('Operator Edit', async ({ context, page, metamaskPage, extensionId }) => {
     const addressInput = page.getByPlaceholder('Enter your address here');
     expect(addressInput).toBeDisabled();
 
-    // Editing -- need another CP url to test editing.
     await page.waitForTimeout(1000);
     const cpURLInput = page.getByPlaceholder('Paste URL here');
     await page.getByTestId('container-card-body').getByRole('button').first().click();
-    await cpURLInput.fill(CP_URL + '...');
-    await page.waitForTimeout(1000);
-    await cpURLInput.fill(CP_URL);
+    await cpURLInput.fill(TEST_CP_URL_2);
 
-    // await page.waitForSelector('text=Instance Type');
-    // const [updateButton] = await page.$$('button:has-text("UPDATE")');
-    // await updateButton.click();
-    // await metamask.confirmTransactionAndWaitForMining();
+    await page.waitForSelector('text=Instance Type');
+    const [updateButton] = await page.$$('button:has-text("UPDATE")');
+    await updateButton.click();
+    await metamask.confirmTransactionAndWaitForMining();
+    await page.waitForSelector(`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.UPDATE.UPDATED}`)
+
 })
 
 test('Operator Registation and Unregistration', async ({ context, page, metamaskPage, extensionId }) => {
-    const CP_URL = process.env.VITE_DEMO_CP_URL || '';
     await page.goto(OYSTER_OPERATOR_URL, { waitUntil: 'networkidle' });
 
     const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId)
@@ -149,7 +148,7 @@ test('Operator Registation and Unregistration', async ({ context, page, metamask
     expect(cpURLInput).toHaveValue('');
     expect(cpURLInput).toBeEnabled();
 
-    await cpURLInput.fill(CP_URL);
+    await cpURLInput.fill(TEST_CP_URL_1);
 
     await page.waitForSelector('text=Instance Type');
 

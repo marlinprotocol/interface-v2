@@ -17,4 +17,4 @@ export const environment =
 		? environments[PUBLIC_NODE_ENV]
 		: environments.development;
 console.log('Environment Loaded for', PUBLIC_NODE_ENV);
-console.log(environment);
+// console.log(environment);

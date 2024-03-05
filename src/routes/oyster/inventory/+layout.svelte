@@ -68,14 +68,19 @@
 		console.log('Oyster inventory data is loaded');
 	}
 
-	$: if (
-		$connected &&
-		(walletAddressHasChanged($walletStore.address, previousWalletAddress) ||
-			chainIdHasChanged($chainStore.chainId, previousChainId))
-	) {
-		previousChainId = $chainStore.chainId;
-		previousWalletAddress = $walletStore.address;
-		loadOysterInventoryData();
+	$: if ($connected) {
+		if (
+			walletAddressHasChanged($walletStore.address, previousWalletAddress) ||
+			chainIdHasChanged($chainStore.chainId, previousChainId)
+		) {
+			loadOysterInventoryData();
+			previousChainId = $chainStore.chainId;
+			previousWalletAddress = $walletStore.address;
+		}
+	} else {
+		// resetting chain id since everything depends on the wallet address in inventory
+		previousChainId = null;
+		previousWalletAddress = '';
 	}
 </script>
 

@@ -130,11 +130,17 @@ export async function initializeWalletBalancesStore(
 				);
 				balances = { ...balances, pond: pondBalance };
 			}
+		} else {
+			balances = { ...balances, pond: 0n };
 		}
+
 		if (tokens.includes('MPOND')) {
 			const mpondBalance = await getMPondBalanceFromSubgraph(walletAddress);
 			balances = { ...balances, mpond: mpondBalance };
+		} else {
+			balances = { ...balances, mpond: 0n };
 		}
+
 		if (tokens.includes('USDC')) {
 			const usdcBalance = await getBalanceOfToken(
 				walletAddress,
@@ -142,7 +148,10 @@ export async function initializeWalletBalancesStore(
 				walletProvider
 			);
 			balances = { ...balances, usdc: usdcBalance };
+		} else {
+			balances = { ...balances, usdc: 0n };
 		}
+
 		walletBalanceStore.set(balances);
 		console.log('balances set', balances);
 		console.log('Wallet balance updated');

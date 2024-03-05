@@ -1,5 +1,5 @@
-import { staticImages } from '$lib/components/images/staticImages';
-import type { ChainConfig } from '$lib/types/environmentTypes';
+import { staticImages } from '../../lib/components/images/staticImages';
+import type { ChainConfig } from '../../lib/types/environmentTypes';
 
 export const ARB_SEPOLIA: ChainConfig = {
 	chain_id: '0x66eee',

@@ -14,7 +14,7 @@
 	export let isDark: boolean = false;
 
 	function handleChainSwitch(chainId: number) {
-		if ($connected) {
+		if ($connected && chainId !== $chainStore.chainId) {
 			switchChain(chainId, $web3WalletStore[0].provider);
 		} else {
 			updateChainStore(chainId);

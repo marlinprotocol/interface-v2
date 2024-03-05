@@ -28,14 +28,18 @@
 		console.log('operator details loaded');
 	}
 
-	$: if (
-		$connected &&
-		(chainIdHasChanged($chainStore.chainId, previousChainId) ||
-			walletAddressHasChanged($walletStore.address, previousWalletAddress))
-	) {
-		previousChainId = $chainStore.chainId;
-		previousWalletAddress = $walletStore.address;
-		loadProviderDetails();
+	$: if ($connected) {
+		if (
+			walletAddressHasChanged($walletStore.address, previousWalletAddress) ||
+			chainIdHasChanged($chainStore.chainId, previousChainId)
+		) {
+			loadProviderDetails();
+			previousChainId = $chainStore.chainId;
+			previousWalletAddress = $walletStore.address;
+		}
+	} else {
+		previousChainId = null;
+		previousWalletAddress = '';
 	}
 </script>
 

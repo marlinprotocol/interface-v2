@@ -1,7 +1,11 @@
 on: push
 jobs:
-  first-job:
-    runs-on: windows-latest
+  vitest:
+    timeout-minutes: 20
+
+    runs-on: ubuntu-latest
     steps:
-      - run: node --version
-      - run: npm --version
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ci-setup
+      - name: test
+        run: npm run test:unit

@@ -59,7 +59,6 @@
 				registered = true;
 				disableCpURL = true;
 				registerLoading = false;
-				registerLoading = registerLoading;
 			} else {
 				addToast({
 					variant: 'error',
@@ -111,6 +110,9 @@
 			initialInstances = [];
 		} catch (error) {
 			unregisterLoading = false;
+			registeredCpURL = '';
+			registered = false;
+			initialInstances = [];
 			console.error(error);
 			addToast({
 				variant: 'error',
@@ -131,8 +133,10 @@
 				);
 				initialInstances = getModifiedInstances(instances);
 				return initialInstances;
-			} else {
+			} else if (registeredCpURL) {
 				return initialInstances;
+			} else {
+				return [];
 			}
 		} catch (error) {
 			console.log('error from getInstances', error);
@@ -221,7 +225,14 @@
 			openInstanceTable = true;
 		});
 
-	$: disableCpURL = registeredCpURL === '' ? false : true;
+		const isDisabledCpUrl = () => {
+			if($connected) {
+				return Boolean(registeredCpURL)
+			} else {
+				return true;
+			}
+		}
+	$: disableCpURL =  isDisabledCpUrl();
 </script>
 
 <ContainerCard>
@@ -253,7 +264,7 @@
 		tooltipText="URL of the control plane which is used to provide pricing data"
 		placeholder="Paste URL here"
 		bind:input={updatedCpURL}
-		bind:disabled={disableCpURL}
+	    bind:disabled={disableCpURL}
 	>
 		<svelte:fragment slot="titleEndButton">
 			{#if $connected}

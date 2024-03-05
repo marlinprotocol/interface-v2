@@ -26,7 +26,7 @@
 				/>
 			</div>
 			<div class="flex items-center">
-				<div class="mt-1 w-[98%] overflow-hidden overflow-ellipsis text-xl font-semibold">
+				<div data-testid='wallet-address' class="mt-1 w-[98%] overflow-hidden overflow-ellipsis text-xl font-semibold">
 					{$walletStore.address}
 				</div>
 				<button

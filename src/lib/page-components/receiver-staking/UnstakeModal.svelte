@@ -88,11 +88,11 @@
 	)}${
 		!($receiverStakingStore.queuedBalance === 0n)
 			? ' + Queued: ' +
-			  bigNumberToString(
+				bigNumberToString(
 					$receiverStakingStore.queuedBalance,
 					DEFAULT_CURRENCY_DECIMALS,
 					POND_PRECISIONS
-			  )
+				)
 			: ''
 	}`;
 	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;

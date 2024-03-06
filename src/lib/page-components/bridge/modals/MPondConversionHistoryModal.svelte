@@ -28,8 +28,8 @@
 						tooltipDirection={i === MPOND_CONVERSION_HISTORY_TABLE_HEADER.length - 1
 							? 'tooltip-left'
 							: i === 0
-							? 'tooltip-right'
-							: 'tooltip-bottom'}
+								? 'tooltip-right'
+								: 'tooltip-bottom'}
 					/>
 				</div>
 			{/each}

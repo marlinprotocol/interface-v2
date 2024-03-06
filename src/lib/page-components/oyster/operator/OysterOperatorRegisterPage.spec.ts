@@ -36,7 +36,7 @@ describe('OysterOperatorRegistration', () => {
 	});
 
 	test('connect wallet and fire register', async () => {
-		const testAddress = '0x78f43d0bdB00E411A5797C8f50D7DDf793dd9884';
+		const testAddress = process.env.VITE_WALLET_ADDRESS || '';
 		const cpUrlValue = process.env.VITE_DEMO_CP_URL || '';
 
 		const { getByText, getByPlaceholderText, getByTestId, container } = render(

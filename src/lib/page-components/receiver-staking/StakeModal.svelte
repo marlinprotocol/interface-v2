@@ -184,16 +184,16 @@
 	//if signerAddress is already set then we consider only inputAmount else we also consider signerAddress to be set while disabling submit button
 	$: submitEnable = signerAddressNotAdded
 		? inputAmount &&
-		  inputAmount > 0 &&
-		  $receiverStakingStore.approvedBalance >= inputAmount &&
-		  $walletBalanceStore.pond >= inputAmount &&
-		  updatedSignerAddress !== '' &&
-		  signerAddressIsValid &&
-		  signerAddressIsUnique
+			inputAmount > 0 &&
+			$receiverStakingStore.approvedBalance >= inputAmount &&
+			$walletBalanceStore.pond >= inputAmount &&
+			updatedSignerAddress !== '' &&
+			signerAddressIsValid &&
+			signerAddressIsUnique
 		: inputAmount &&
-		  inputAmount > 0 &&
-		  $receiverStakingStore.approvedBalance >= inputAmount &&
-		  $walletBalanceStore.pond >= inputAmount;
+			inputAmount > 0 &&
+			$receiverStakingStore.approvedBalance >= inputAmount &&
+			$walletBalanceStore.pond >= inputAmount;
 	$: subtitle = signerAddressNotAdded
 		? 'Staking POND requires users to approve the POND tokens. After approval, enter the signer address mentioned in the receiver client and confirm the transaction. There is no lock-in period for staking POND.'
 		: 'Staking POND requires users to approve the POND tokens first and then confirm the transaction. There is no lock-in period for staking POND.';

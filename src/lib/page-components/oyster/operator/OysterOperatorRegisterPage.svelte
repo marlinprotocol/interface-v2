@@ -266,7 +266,7 @@
 		tooltipText="URL of the control plane which is used to provide pricing data"
 		placeholder="Paste URL here"
 		bind:input={updatedCpURL}
-	    bind:disabled={disableCpURL}
+		bind:disabled={disableCpURL}
 	>
 		<svelte:fragment slot="titleEndButton">
 			{#if $connected}

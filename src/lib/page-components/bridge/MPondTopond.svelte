@@ -84,11 +84,11 @@
 				unrequestedMPondBalance,
 				DEFAULT_CURRENCY_DECIMALS,
 				MPOND_PRECISIONS
-		  )} | Requested: ${bigNumberToString(
+			)} | Requested: ${bigNumberToString(
 				$bridgeStore.requestedMPond,
 				DEFAULT_CURRENCY_DECIMALS,
 				MPOND_PRECISIONS
-		  )}`
+			)}`
 		: 'Unrequested: 0 | Requested: 0';
 	$: mPondDisabledText =
 		inputAmount && inputAmount > 0 && !(unrequestedMPondBalance >= inputAmount)

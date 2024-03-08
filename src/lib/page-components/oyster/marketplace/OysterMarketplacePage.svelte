@@ -12,11 +12,13 @@
 	import OysterMarketplaceFilters from '$lib/page-components/oyster/marketplace/OysterMarketplaceFilters.svelte';
 	import OysterMarketplaceTableRow from '$lib/page-components/oyster/marketplace/OysterMarketplaceTableRow.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
+	import { chainIdHasChanged, chainStore } from '$lib/data-stores/chainProviderStore';
 
 	let activePage = 1;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
 	let filterMap: Record<string, string> = {};
 	let filteredData: OysterMarketplaceDataModel[];
+	let previousChainId: number | null = null;
 
 	const handleSortData = (id: string) => {
 		if (sortingMap[id]) {
@@ -39,12 +41,33 @@
 		activePage = 1;
 	};
 
-	$: filteredData =
-		filterMap && Object.keys(filterMap).length > 0 ? filteredData : $oysterStore.allMarketplaceData;
+	function getTableData(
+		currentChainId: number | null,
+		_filterMap: Record<string, string>,
+		_filteredData: OysterMarketplaceDataModel[],
+		_allMarketplaceData: OysterMarketplaceDataModel[]
+	) {
+		if (chainIdHasChanged(currentChainId, previousChainId)) {
+			previousChainId = currentChainId;
+			filterMap = {};
+			return _allMarketplaceData;
+		} else if (_filterMap && Object.keys(_filterMap).length > 0) {
+			return _filteredData;
+		} else {
+			return _allMarketplaceData;
+		}
+	}
+
+	$: tableData = getTableData(
+		$chainStore.chainId,
+		filterMap,
+		filteredData,
+		$oysterStore.allMarketplaceData
+	);
 	// get page array based on inventory and itemsPerPage
-	$: pageCount = Math.ceil((filteredData?.length ?? 0) / TABLE_ITEMS_PER_PAGE);
+	$: pageCount = Math.ceil((tableData?.length ?? 0) / TABLE_ITEMS_PER_PAGE);
 	// get paginated data based on activePage
-	$: paginatedData = filteredData?.slice(
+	$: paginatedData = tableData?.slice(
 		(activePage - 1) * TABLE_ITEMS_PER_PAGE,
 		activePage * TABLE_ITEMS_PER_PAGE
 	);

@@ -6,9 +6,10 @@ import { loginToMetamask } from '../../helpers/metamask';
 
 const test = testWithSynpress(BasicSetup, unlockForFixture);
 const { expect } = test;
+const TEST_CP_URL_1 = process.env.VITE_TEST_CP_URL_1 || '';
+const TEST_CP_URL_2 = process.env.VITE_TEST_CP_URL_2 || '';
 
 test('Operator Registation', async ({ context, page, metamaskPage, extensionId }) => {
-	const CP_URL = process.env.VITE_DEMO_CP_URL || '';
 	await page.goto(OYSTER_OPERATOR_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
@@ -36,15 +37,14 @@ test('Operator Registation', async ({ context, page, metamaskPage, extensionId }
 
 	const [registerButton] = await page.$$('button:has-text("REGISTER")');
 
-	console.log({ registerButton });
 	if (registerButton) {
-		expect(await registerButton.isDisabled()).toBeTruthy();
-
+		expect(await registerButton.isDisabled()).toBeTruthy()
+		// await page.getByTestId('container-card-body').getByRole('button').first().click();
 		const cpURLInput = page.getByPlaceholder('Paste URL here');
 		expect(cpURLInput).toHaveValue('');
 		expect(cpURLInput).toBeEnabled();
 
-		await cpURLInput.fill(CP_URL);
+		await cpURLInput.fill(TEST_CP_URL_1);
 
 		await page.waitForSelector('text=Instance Type');
 
@@ -62,7 +62,7 @@ test('Operator Registation', async ({ context, page, metamaskPage, extensionId }
 test('Operator Unregistration', async ({ context, page, metamaskPage, extensionId }) => {
 	await page.goto(OYSTER_OPERATOR_URL, { waitUntil: 'networkidle' });
 
-	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
+	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId)
 	await loginToMetamask(metamask, page);
 
 	const hasText = await page.textContent('text=Operator Registration');
@@ -87,21 +87,39 @@ test('Operator Unregistration', async ({ context, page, metamaskPage, extensionI
 	expect(await unregisterButton.isDisabled()).toBeFalsy();
 	await unregisterButton.click();
 	await metamask.confirmTransactionAndWaitForMining();
-	await page.waitForSelector(
-		`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.REMOVE.REMOVED}`
-	);
-});
+	await page.waitForSelector(`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.REMOVE.REMOVED}`)
 
-test('Operator Registation and Unregistration', async ({
-	context,
-	page,
-	metamaskPage,
-	extensionId
-}) => {
-	const CP_URL = process.env.VITE_DEMO_CP_URL || '';
+})
+
+test('Operator Edit', async ({ context, page, metamaskPage, extensionId }) => {
 	await page.goto(OYSTER_OPERATOR_URL, { waitUntil: 'networkidle' });
 
-	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
+	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId)
+	await loginToMetamask(metamask, page);
+
+	const hasText = await page.textContent('text=Operator Registration');
+	expect(hasText).toBeTruthy();
+
+	const addressInput = page.getByPlaceholder('Enter your address here');
+	expect(addressInput).toBeDisabled();
+
+	await page.waitForTimeout(1000);
+	const cpURLInput = page.getByPlaceholder('Paste URL here');
+	await page.getByTestId('container-card-body').getByRole('button').first().click();
+	await cpURLInput.fill(TEST_CP_URL_2);
+
+	await page.waitForSelector('text=Instance Type');
+	const [updateButton] = await page.$$('button:has-text("UPDATE")');
+	await updateButton.click();
+	await metamask.confirmTransactionAndWaitForMining();
+	await page.waitForSelector(`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.UPDATE.UPDATED}`)
+
+})
+
+test('Operator Registation and Unregistration', async ({ context, page, metamaskPage, extensionId }) => {
+	await page.goto(OYSTER_OPERATOR_URL, { waitUntil: 'networkidle' });
+
+	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId)
 	await loginToMetamask(metamask, page);
 
 	const hasText = await page.textContent('text=Operator Registration');
@@ -122,13 +140,14 @@ test('Operator Registation and Unregistration', async ({
 	expect(addressInput).toHaveValue(walletAddress);
 
 	const [registerButton] = await page.$$('button:has-text("REGISTER")');
-	expect(await registerButton.isDisabled()).toBeTruthy();
+	expect(await registerButton.isDisabled()).toBeTruthy()
+	// await page.getByTestId('container-card-body').getByRole('button').first().click();
 
 	const cpURLInput = page.getByPlaceholder('Paste URL here');
 	expect(cpURLInput).toHaveValue('');
 	expect(cpURLInput).toBeEnabled();
 
-	await cpURLInput.fill(CP_URL);
+	await cpURLInput.fill(TEST_CP_URL_1);
 
 	await page.waitForSelector('text=Instance Type');
 
@@ -149,13 +168,12 @@ test('Operator Registation and Unregistration', async ({
 	// await updateButton.click();
 	// await metamask.confirmTransactionAndWaitForMining();
 
+
 	// Unregister
 	await page.waitForSelector('text=UNREGISTER');
 	const [unregisterButton] = await page.$$('button:has-text("UNREGISTER")');
 	expect(await unregisterButton.isDisabled()).toBeFalsy();
 	await unregisterButton.click();
 	await metamask.confirmTransactionAndWaitForMining();
-	await page.waitForSelector(
-		`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.REMOVE.REMOVED}`
-	);
-});
+	await page.waitForSelector(`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.REMOVE.REMOVED}`)
+})

@@ -5,9 +5,10 @@ We are using `playwright` to test the UI and to interact with Metamask we are us
 ### Setting up .env
 
 ```sh
-VITE_DEMO_CP_URL="YOUR_CP_URL"
 VITE_WALLET_PASSWORD="YOUR_WALLET_PASSWORD"
 VITE_SEED_PHRASE="YOUR_SEED_PHRASE"
+VITE_TEST_CP_URL_1="VITE_TEST_CP_URL_1"
+VITE_TEST_CP_URL_2="VITE_TEST_CP_URL_2"
 VITE_WALLET_ADDRESS="YOUR_WALLET_ADDRESS"
 ```
 

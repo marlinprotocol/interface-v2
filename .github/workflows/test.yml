@@ -11,3 +11,9 @@ jobs:
       - uses: ./.github/actions/ci-setup
       - name: test
         run: npm run test:unit
+        env:
+          VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+          VITE_SEED_PHRASE: ${{ secrets.VITE_SEED_PHRASE }}
+          VITE_WALLET_PASSWORD: ${{ secrets.VITE_WALLET_PASSWORD }}
+          VITE_TEST_CP_URL_1: ${{ secrets.VITE_TEST_CP_URL_1 }}
+          VITE_TEST_CP_URL_2: ${{ secrets.VITE_TEST_CP_URL_2 }}

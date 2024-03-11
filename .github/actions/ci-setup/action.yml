@@ -1,7 +1,6 @@
 name: 'CI setup'
 runs:
   using: 'composite'
-  environment: test
   steps:
     - name: Set environment variable
       run: | 

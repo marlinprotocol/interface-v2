@@ -5,13 +5,11 @@ import type {
 } from '$lib/types/oysterComponentType';
 import type { Address, OysterStore } from '$lib/types/storeTypes';
 import { DEFAULT_OYSTER_STORE } from '$lib/utils/constants/storeDefaults';
-import { parseMetadata } from '$lib/utils/data-modifiers/oysterModifiers';
 import type { BytesLike } from 'ethers';
 import { derived, writable, type Writable } from 'svelte/store';
 import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 import { DEFAULT_CURRENCY_DECIMALS } from '$lib/utils/constants/constants';
 import type { TokenMetadata } from '$lib/types/environmentTypes';
-// import { combineAndDeduplicateJobs } from '$lib/utils/helpers/oysterHelpers';
 
 export const oysterStore: Writable<OysterStore> = writable(DEFAULT_OYSTER_STORE);
 export const oysterTokenMetadataStore = derived([chainConfigStore], ([$chainConfigStore]) => {
@@ -367,84 +365,11 @@ export function stopJobInOysterStore(id: BytesLike, txn: any, jobData: OysterInv
 	});
 }
 
-export function createNewJobInOysterStore(
-	txn: any,
-	approveReciept: any,
-	owner: { name?: string; address: Address },
-	metadata: string,
-	provider: { name?: string; address: Address },
-	rateScaled: bigint,
-	balance: bigint,
-	durationInSec: number,
-	scalingFactor: bigint,
-	isCreditJob?: boolean
-) {
-	const txHash = txn.hash;
-	let jobId = '';
-	if (isCreditJob) {
-		const jobOpenEvent = approveReciept.logs?.find(
-			(event: any) => event?.fragment?.name === 'UserBudgetDecreased'
-		);
-		jobId = jobOpenEvent?.topics?.[1];
-	} else {
-		const jobOpenEvent = approveReciept.logs?.find(
-			(event: any) => event?.fragment?.name === 'JobOpened'
-		);
-		jobId = jobOpenEvent?.args?.job;
-	}
-
-	const nowTime = Date.now() / 1000;
-
-	const { url, instance, region, vcpu, memory, arch } = parseMetadata(metadata);
-	const newJob: OysterInventoryDataModel = {
-		id: jobId,
-		provider: {
-			name: provider?.name || '',
-			address: provider.address
-		},
-		owner: {
-			name: owner?.name || '',
-			address: owner.address
-		},
-		metadata,
-		enclaveUrl: url,
-		instance,
-		region,
-		vcpu,
-		memory,
-		arch,
-		amountUsed: 0n,
-		refund: 0n,
-		rateScaled,
-		rate: rateScaled / scalingFactor,
-		balance,
-		totalDeposit: balance,
-		live: true,
-		lastSettled: nowTime,
-		createdAt: nowTime,
-		endEpochTime: nowTime + durationInSec,
-		durationLeft: durationInSec,
-		durationRun: 0,
-		isCreditJob,
-		status: 'running',
-		depositHistory: [
-			{
-				amount: balance,
-				id: txHash,
-				txHash: txHash,
-				timestamp: nowTime,
-				isWithdrawal: false,
-				transactionStatus: 'deposit'
-			}
-		],
-		amountToBeSettled: 0n,
-		settlementHistory: []
-	};
+export function decreaseOysterAllowanceInOysterStore(amountToBeDeducted: bigint) {
 	oysterStore.update((value) => {
 		return {
 			...value,
-			jobsData: [newJob, ...value.jobsData],
-			allowance: value.allowance - balance
+			allowance: value.allowance - amountToBeDeducted
 		};
 	});
 }
@@ -518,7 +443,6 @@ export function initializeInventoryDataInOysterStore(oysterJobs: OysterInventory
 		return {
 			...value,
 			jobsData: oysterJobs,
-			// jobsData: [...combineAndDeduplicateJobs(oysterJobs, value.jobsData)],
 			oysterStoreLoaded: true
 		};
 	});

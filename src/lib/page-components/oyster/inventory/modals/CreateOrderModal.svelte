@@ -28,6 +28,7 @@
 	import type { WalletBalanceStore } from '$lib/types/storeTypes';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
+	import { chainStore } from '$lib/data-stores/chainProviderStore';
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
@@ -137,7 +138,9 @@
 				totalRate,
 				amountSentToContract,
 				duration,
-				$oysterRateMetadataStore.oysterRateScalingFactor
+				$oysterRateMetadataStore.oysterRateScalingFactor,
+				$chainStore.chainId as number,
+				$walletStore.address
 			);
 			console.log('created job using credits');
 		} else {
@@ -148,7 +151,9 @@
 				totalRate,
 				amountSentToContract,
 				duration,
-				$oysterRateMetadataStore.oysterRateScalingFactor
+				$oysterRateMetadataStore.oysterRateScalingFactor,
+				$chainStore.chainId as number,
+				$walletStore.address
 			);
 			console.log('created job using using real cash ching ching');
 		}

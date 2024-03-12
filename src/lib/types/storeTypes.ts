@@ -112,3 +112,10 @@ export type ReceiverRewardsStore = {
 	epochDuration: number;
 	lastTicketIssuedEpoch: number | undefined;
 };
+
+// local storage store types
+export type OysterLocalStorageDataModel = {
+	[chainId: string]: {
+		[walletAddress: string]: OysterInventoryDataModel[];
+	};
+};

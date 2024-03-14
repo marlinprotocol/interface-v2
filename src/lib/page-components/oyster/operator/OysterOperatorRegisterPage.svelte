@@ -1,4 +1,4 @@
-<script lang="ts" defer>
+<script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
@@ -266,7 +266,7 @@
 		tooltipText="URL of the control plane which is used to provide pricing data"
 		placeholder="Paste URL here"
 		bind:input={updatedCpURL}
-	    bind:disabled={disableCpURL}
+		bind:disabled={disableCpURL}
 	>
 		<svelte:fragment slot="titleEndButton">
 			{#if $connected}

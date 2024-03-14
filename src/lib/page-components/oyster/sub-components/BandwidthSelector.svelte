@@ -48,7 +48,7 @@
 					bandwidthCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
 					$oysterTokenMetadataStore.decimal,
 					4
-			  )
+				)
 			: '';
 	$: totalCostScaled = bandwidthCostScaled + instanceCostScaled;
 	$: totalCost = totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor;

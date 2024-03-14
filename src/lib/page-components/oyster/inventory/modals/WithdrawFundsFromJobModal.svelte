@@ -87,9 +87,10 @@
 
 	function getMaxAmountText(isCreditJob: boolean | undefined) {
 		return isCreditJob
-			? `Available balance: ${bigNumberToString(maxAmount, OYSTER_MARLIN_CREDIT_METADATA.decimal)} ${
-					OYSTER_MARLIN_CREDIT_METADATA.symbol.split('_')[1]
-				}`
+			? `Available balance: ${bigNumberToString(
+					maxAmount,
+					OYSTER_MARLIN_CREDIT_METADATA.decimal
+				)} ${OYSTER_MARLIN_CREDIT_METADATA.symbol.split('_')[1]}`
 			: `Available balance: ${bigNumberToString(maxAmount, $oysterTokenMetadataStore.decimal)} ${
 					$oysterTokenMetadataStore.currency
 				}`;

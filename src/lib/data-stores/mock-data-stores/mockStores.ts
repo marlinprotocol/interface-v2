@@ -10,48 +10,53 @@ export const walletStoreValue: Writable<WalletStore> = writable(DEFAULT_WALLET_S
 export const web3WalletStoreValue = writable<WalletState[]>([]);
 
 export const connected = {
-    subscribe: connectedValue.subscribe,
-    set: vi.fn(),
-    mockSetSubscribeValue: (value: boolean): void => connectedValue.set(value)
+	subscribe: connectedValue.subscribe,
+	set: vi.fn(),
+	mockSetSubscribeValue: (value: boolean): void => connectedValue.set(value)
 };
-
 
 export const web3WalletStore = {
-    subscribe: web3WalletStoreValue.subscribe,
-    set: vi.fn(),
-    mockSetSubscribeValue: (value: WalletState[]): void => web3WalletStoreValue.set(value)
+	subscribe: web3WalletStoreValue.subscribe,
+	set: vi.fn(),
+	mockSetSubscribeValue: (value: WalletState[]): void => web3WalletStoreValue.set(value)
 };
 export const walletStore = {
-    subscribe: walletStoreValue.subscribe,
-    set: vi.fn(),
-    mockSetSubscribeValue: (value: WalletStore): void => walletStoreValue.set(value)
+	subscribe: walletStoreValue.subscribe,
+	set: vi.fn(),
+	mockSetSubscribeValue: (value: WalletStore): void => walletStoreValue.set(value)
 };
 
-export const chainConfigStoreValue = writable<{ block_explorer_name: string, block_explorer_url: string }>({ block_explorer_name: 'Block Explorer', block_explorer_url: 'https://blockexplorer.com' });
+export const chainConfigStoreValue = writable<{
+	block_explorer_name: string;
+	block_explorer_url: string;
+}>({ block_explorer_name: 'Block Explorer', block_explorer_url: 'https://blockexplorer.com' });
 export const chainConfigStore = {
-    subscribe: chainConfigStoreValue.subscribe,
-    set: vi.fn(),
-    mockSetSubscribeValue: (value: { block_explorer_name: string, block_explorer_url: string }): void => chainConfigStoreValue.set(value)
+	subscribe: chainConfigStoreValue.subscribe,
+	set: vi.fn(),
+	mockSetSubscribeValue: (value: {
+		block_explorer_name: string;
+		block_explorer_url: string;
+	}): void => chainConfigStoreValue.set(value)
 };
 
 export const chainStoreValue: Writable<ChainStore> = writable(DEFAULT_CHAIN_STORE);
 export const chainStore = {
-    subscribe: chainStoreValue.subscribe,
-    set: vi.fn(),
-    mockSetSubscribeValue: (value: ChainStore): void => chainStoreValue.set(value)
+	subscribe: chainStoreValue.subscribe,
+	set: vi.fn(),
+	mockSetSubscribeValue: (value: ChainStore): void => chainStoreValue.set(value)
 };
 
 export const allowedChainsValue: Writable<number[]> = writable([environment.default_chain_id]);
 export const allowedChainsStore = {
-    subscribe: allowedChainsValue.subscribe,
-    set: vi.fn(),
-    mockSetSubscribeValue: (value: number[]): void => allowedChainsValue.set(value)
+	subscribe: allowedChainsValue.subscribe,
+	set: vi.fn(),
+	mockSetSubscribeValue: (value: number[]): void => allowedChainsValue.set(value)
 };
 
 export const toastsValue: Writable<ToastModel[]> = writable([]);
 export const toastsStore = {
-    subscribe: toastsValue.subscribe,
-    set: vi.fn(),
-    mockSetSubscribeValue: (value: ToastModel[]): void => toastsValue.set(value),
-    dismissToast: vi.fn()
+	subscribe: toastsValue.subscribe,
+	set: vi.fn(),
+	mockSetSubscribeValue: (value: ToastModel[]): void => toastsValue.set(value),
+	dismissToast: vi.fn()
 };

@@ -21,7 +21,7 @@
 		Connect Wallet
 	</Button>
 {:else}
-	<div data-testid='connect-wallet-button' class="flex items-center gap-2">
+	<div data-testid="connect-wallet-button" class="flex items-center gap-2">
 		<ChainSwitcher />
 		<Button
 			onclick={connect}

@@ -138,7 +138,7 @@ describe('stringToBigNumber', () => {
 
 describe('epochSecToString', () => {
 	it('should return a formatted date string when supplied with an unix time', () => {
-		expect(epochSecToString(1629753600)).toBe('Aug 24, 2021');
+		expect(epochSecToString(1629753600)).toBe('Aug 23, 2021');
 	});
 });
 

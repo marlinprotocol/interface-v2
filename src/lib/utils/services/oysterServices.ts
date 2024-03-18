@@ -2,7 +2,7 @@ import {
 	addCreditsToOysterStore,
 	addFundsToJobInOysterStore,
 	cancelRateReviseInOysterStore,
-	createNewJobInOysterStore,
+	decreaseOysterAllowanceInOysterStore,
 	initiateRateReviseInOysterStore,
 	stopJobInOysterStore,
 	updateAmountToBeSettledForJobInOysterStore,
@@ -12,6 +12,7 @@ import {
 	withdrawCreditsFromOysterStore,
 	withdrawFundsFromJobInOysterStore
 } from '$lib/data-stores/oysterStore';
+import { addJobToOysterLocalStorageStore } from '$lib/data-stores/localStorageStore';
 import {
 	addFundsToOysterJob,
 	cancelRateReviseOysterJob,
@@ -22,6 +23,7 @@ import {
 	stopOysterJob,
 	withdrawFundsFromOysterJob
 } from '$lib/controllers/contract/oyster';
+import { transformOysterJobDataToInventoryDataModel } from '$lib/utils/helpers/oysterHelpers';
 
 import type { BytesLike } from 'ethers';
 import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
@@ -242,7 +244,9 @@ export async function handleCreateJob(
 	rate: bigint,
 	balance: bigint,
 	durationInSec: number,
-	scalingFactor: bigint
+	scalingFactor: bigint,
+	chainId: number,
+	walletAddress: string
 ) {
 	try {
 		const { txn, approveReciept } = await createNewOysterJob(
@@ -251,7 +255,7 @@ export async function handleCreateJob(
 			rate,
 			balance
 		);
-		createNewJobInOysterStore(
+		const jobEntry = transformOysterJobDataToInventoryDataModel(
 			txn,
 			approveReciept,
 			owner,
@@ -260,8 +264,11 @@ export async function handleCreateJob(
 			rate,
 			balance,
 			durationInSec,
-			scalingFactor
+			scalingFactor,
+			false
 		);
+		addJobToOysterLocalStorageStore(chainId, walletAddress, jobEntry);
+		decreaseOysterAllowanceInOysterStore(balance);
 		return true;
 	} catch (e) {
 		console.log('e :>> ', e);
@@ -276,7 +283,9 @@ export async function handleCreateJobWithCredits(
 	rate: bigint,
 	balance: bigint,
 	durationInSec: number,
-	scalingFactor: bigint
+	scalingFactor: bigint,
+	chainId: number,
+	walletAddress: string
 ) {
 	try {
 		const { txn, approveReciept } = await createNewOysterJobWithCredits(
@@ -285,7 +294,7 @@ export async function handleCreateJobWithCredits(
 			rate,
 			balance
 		);
-		createNewJobInOysterStore(
+		const jobEntry = transformOysterJobDataToInventoryDataModel(
 			txn,
 			approveReciept,
 			owner,
@@ -297,6 +306,7 @@ export async function handleCreateJobWithCredits(
 			scalingFactor,
 			true
 		);
+		addJobToOysterLocalStorageStore(chainId, walletAddress, jobEntry);
 		withdrawCreditsFromOysterStore(balance);
 		return true;
 	} catch (e) {

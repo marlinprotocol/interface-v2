@@ -7,6 +7,10 @@
 	} from '$lib/controllers/subgraphController';
 	import { chainIdHasChanged, chainStore } from '$lib/data-stores/chainProviderStore';
 	import {
+		oysterLocalStorageStore,
+		removeJobFromOysterLocalStorageStore
+	} from '$lib/data-stores/localStorageStore';
+	import {
 		initializeInventoryDataInOysterStore,
 		oysterRateMetadataStore,
 		setInventoryDataLoadedInOysterStore
@@ -16,11 +20,42 @@
 		walletAddressHasChanged,
 		walletStore
 	} from '$lib/data-stores/walletProviderStore';
+	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import type { Address } from '$lib/types/storeTypes';
 	import { modifyOysterJobData } from '$lib/utils/data-modifiers/oysterModifiers';
 
 	let previousChainId: number | null = null;
 	let previousWalletAddress: Address = '';
+
+	function getOysterJobsFromLocalStorage(currentChainId: number | null, walletAddress: Address) {
+		if (!$oysterLocalStorageStore || !currentChainId || !$oysterLocalStorageStore[currentChainId]) {
+			return [];
+		}
+		return $oysterLocalStorageStore[currentChainId][walletAddress] || [];
+	}
+
+	function mergeLocalStorageJobsWithSubgraphJobs(
+		localStorageJobs: OysterInventoryDataModel[],
+		modifiedSubgraphJobs: OysterInventoryDataModel[]
+	) {
+		const subgraphJobIds = modifiedSubgraphJobs.map((job: OysterInventoryDataModel) => job.id);
+		const uniqueLocalStorageJobs = localStorageJobs.filter(
+			(job: OysterInventoryDataModel) => !subgraphJobIds.includes(job.id)
+		);
+		// find job ids that are common in both local storage and subgraph jobs
+		const duplicateJobs = localStorageJobs.filter((job: OysterInventoryDataModel) =>
+			subgraphJobIds.includes(job.id)
+		);
+		// remove the entry from local storage if the job id is present in the subgraph jobs
+		duplicateJobs.forEach((job) => {
+			removeJobFromOysterLocalStorageStore(
+				$chainStore.chainId as number,
+				$walletStore.address,
+				job
+			);
+		});
+		return uniqueLocalStorageJobs.concat(modifiedSubgraphJobs);
+	}
 
 	async function loadOysterInventoryData() {
 		console.log('Loading oyster inventory data');
@@ -58,13 +93,19 @@
 				data.ip = jobStatusLookup[data.id.toString()];
 			}
 		});
-
-		const oysterJobs = await modifyOysterJobData(
+		const modifiedOysterJobs = await modifyOysterJobData(
 			allOysterJobsFromSubgraph,
 			$oysterRateMetadataStore.oysterRateScalingFactor
 		);
-
-		initializeInventoryDataInOysterStore(oysterJobs);
+		const localStorageJobs = getOysterJobsFromLocalStorage(
+			$chainStore.chainId,
+			$walletStore.address
+		);
+		const allOysterJobs = mergeLocalStorageJobsWithSubgraphJobs(
+			localStorageJobs,
+			modifiedOysterJobs
+		);
+		initializeInventoryDataInOysterStore(allOysterJobs);
 		console.log('Oyster inventory data is loaded');
 	}
 

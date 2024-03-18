@@ -32,6 +32,19 @@ export const DEFAULT_JOB_METADATA: OysterJobMetadata = {
 	arch: 'N/A'
 };
 
+// explicit keys in the oyster inventory data model which are of type bigint
+export const OYSTER_INVENTORY_DATA_MODEL_BIG_INT_KEYS = [
+	'totalDeposit',
+	'amountUsed',
+	'balance',
+	'refund',
+	'amountToBeSettled',
+	'rate',
+	'amount',
+	'newRate',
+	'rateScaled'
+];
+
 // make sure the id matches the id in Data Model
 export const OYSTER_INSTANCES_TABLE_HEADER: TableModel['header'][] = [
 	{

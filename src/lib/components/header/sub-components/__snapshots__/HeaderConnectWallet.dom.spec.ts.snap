@@ -326,6 +326,7 @@ exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not c
             >
               <div
                 class="mt-1 w-[98%] overflow-hidden overflow-ellipsis text-xl font-semibold"
+                data-testid="wallet-address"
               >
                 
               </div>

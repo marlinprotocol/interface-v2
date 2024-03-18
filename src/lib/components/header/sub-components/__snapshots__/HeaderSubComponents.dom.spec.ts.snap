@@ -235,6 +235,7 @@ exports[`Disconnect Wallet Modal > renders the Disconnect Wallet Modal component
             >
               <div
                 class="mt-1 w-[98%] overflow-hidden overflow-ellipsis text-xl font-semibold"
+                data-testid="wallet-address"
               >
                 
               </div>

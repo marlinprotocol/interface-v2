@@ -102,7 +102,8 @@ export const epochSecToString = (date: number) => {
 	return new Date(date * 1000).toLocaleDateString('en-US', {
 		year: 'numeric',
 		month: 'short',
-		day: 'numeric'
+		day: 'numeric',
+		timeZone: 'UTC' // This option specifies the time zone to use
 	});
 };
 

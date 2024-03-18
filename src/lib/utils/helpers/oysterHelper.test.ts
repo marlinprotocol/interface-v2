@@ -22,8 +22,7 @@ import {
 	getSearchAndFilteredMarketplaceData,
 	getAllFiltersListforMarketplaceData,
 	sortOysterOperatorInventory,
-	addJobsToMap,
-	combineAndDeduplicateJobs
+	addJobsToMap
 } from './oysterHelpers';
 
 import type {
@@ -5029,24 +5028,5 @@ describe('addJobsToMap', () => {
 		expect(map.size).toBe(2);
 		expect(map.get('job1')).toBe(jobs[0]);
 		expect(map.get('job2')).toBe(jobs[1]);
-	});
-});
-
-describe('combineAndDeduplicateJobs', () => {
-	it('should combine and deduplicate jobs based on id and sort by createdAt descending', () => {
-		const earlierJobs: Pick<OysterInventoryDataModel, 'id' | 'createdAt'>[] = [
-			{ id: 'job1', createdAt: 1000 },
-			{ id: 'job2', createdAt: 2000 }
-		];
-		const newJobs: Pick<OysterInventoryDataModel, 'id' | 'createdAt'>[] = [
-			{ id: 'job2', createdAt: 3000 },
-			{ id: 'job3', createdAt: 4000 }
-		];
-
-		const combinedJobs = combineAndDeduplicateJobs(earlierJobs, newJobs);
-		expect(combinedJobs.length).toBe(3);
-		expect(combinedJobs[0].id).toBe('job3');
-		expect(combinedJobs[1].id).toBe('job2');
-		expect(combinedJobs[2].id).toBe('job1');
 	});
 });

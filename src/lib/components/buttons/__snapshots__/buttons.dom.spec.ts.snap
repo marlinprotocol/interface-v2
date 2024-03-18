@@ -4,6 +4,7 @@ exports[`Back button > renders the back button component properly 1`] = `
 <body>
   <div>
     <a
+      class="flex gap-3"
       data-testid="back-button"
     >
       <img

@@ -12,8 +12,24 @@
 </script>
 <!-- data-theme="dark" -->
 
-<body data-sveltekit-preload-data="hover" style="min-height: 100vh">
+<body data-sveltekit-preload-data="hover" style="min-height: 100vh; overflow: hidden;">
+	<div id="loader"
+		style="height: 100vh; width: 100vw; background-color: #fff; position: absolute; inset: 0; z-index: 200;">Full
+		height loader
+	</div>
 	<div style="display: contents">%sveltekit.body%</div>
 </body>
+
+<script>
+
+	document.addEventListener('DOMContentLoaded', () => {
+		setTimeout(() => {
+			const body = document.getElementsByTagName('body')?.[0];
+			body.style['overflow'] = 'auto';
+			const loader = document.getElementById('loader');
+			loader.remove();
+		}, 1000)
+	})
+</script>
 
 </html>

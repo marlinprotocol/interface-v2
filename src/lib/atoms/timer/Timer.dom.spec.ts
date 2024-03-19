@@ -2,6 +2,7 @@ import { describe, expect, vi } from 'vitest';
 import { cleanup, render } from '@testing-library/svelte';
 import Timer from './Timer.svelte';
 import html from '@playpilot/svelte-htm';
+import { tick } from 'svelte';
 
 const timerTestId = 'timer-test';
 const delay = (duration: number) => new Promise((resolve) => setTimeout(resolve, duration));
@@ -80,7 +81,8 @@ describe('TimerComponent Component', () => {
 			}
 		});
 		expect(getByTestId('timer').classList.contains('on-time-end')).toBeFalsy();
-		await delay(1000);
+		await delay(1100);
+		await tick();
 		expect(getByTestId('timer').classList.contains('on-time-end')).toBeTruthy();
 	});
 });

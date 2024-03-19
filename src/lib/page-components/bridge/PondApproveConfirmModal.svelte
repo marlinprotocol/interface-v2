@@ -36,9 +36,9 @@
 	};
 	const handleConfirmClick = async () => {
 		try {
-			const txn = await convertPondToMPond(mPond);
+			const txn = await convertPondToMPond(mpond);
 			if (txn) {
-				addMpondToWalletBalanceStore(mPond);
+				addMpondToWalletBalanceStore(mpond);
 				withdrawPondFromWalletBalanceStore(pond);
 				decreasePondAllowanceInBridgeStore(pond);
 			}
@@ -48,7 +48,7 @@
 		}
 	};
 
-	$: mPond = pondToMPond(pond);
+	$: mpond = pondToMPond(pond);
 	$: approved = $bridgeStore.allowances.pond >= pond || false;
 </script>
 

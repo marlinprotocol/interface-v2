@@ -11,7 +11,7 @@ export const ARB_SEPOLIA: ChainConfig = {
 	rpc_url: 'https://arbitrum-sepolia.blockpi.network/v1/rpc/public',
 	backend_network_id: 'ArbOne',
 	contract_addresses: {
-		BRIDGE: '',
+		BRIDGE: '0x1bC0EFc6cd42884EB527228b0A41AcaEB5FdEB27',
 		CLUSTER_REGISTRY: '0x1fe9f98C4c0eC29a012f8B8fFDe962a13fCECe1E',
 		CLUSTER_REWARDS: '0x0266E6D433466D0ff153A4F853bF9C7516512E13',
 		RECEIVER_STAKING: '0x2f2Ee222bfe110E37C4F7b84A542fF53CE8e5C77',
@@ -25,7 +25,7 @@ export const ARB_SEPOLIA: ChainConfig = {
 	},
 	subgraph_urls: {
 		RECEIVER_STAKING: 'https://api.thegraph.com/subgraphs/name/marlin-staging/staking-arb1-dev',
-		BRIDGE: '',
+		BRIDGE: 'https://api.thegraph.com/subgraphs/name/marlin-staging/bridge-arb-sepolia',
 		OYSTER: 'https://api.thegraph.com/subgraphs/name/marlin-staging/enclaves-arb-dev',
 		POND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-dev',
 		MPOND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-dev',

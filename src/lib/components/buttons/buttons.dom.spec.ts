@@ -45,7 +45,7 @@ describe('Back button', () => {
 		});
 
 		const anchorButton = getByTestId('back-button');
-		expect(anchorButton.className).toBe('');
+		expect(anchorButton.className).toBe('flex gap-3');
 	});
 });
 

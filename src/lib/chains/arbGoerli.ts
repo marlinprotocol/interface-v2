@@ -3,7 +3,7 @@ import type { ChainConfig } from '$lib/types/environmentTypes';
 
 export const ARB_GOERLI: ChainConfig = {
 	chain_id: '0x66eed',
-	chain_name: 'Arb Goerli',
+	chain_name: 'Arbitrum Goerli',
 	chain_token: 'AGOR',
 	chain_image: staticImages.ArbitrumLogo,
 	block_explorer_name: 'Arbiscan',

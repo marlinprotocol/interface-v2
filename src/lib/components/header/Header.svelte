@@ -7,6 +7,7 @@
 
 <div
 	class="min-h-16 flex justify-between border-b border-black/[0.07] px-4 py-[32px] sm:navbar sm:justify-normal sm:px-4 sm:py-7 lg:px-0"
+	id="v1-header"
 >
 	<div class="width-full flex items-center justify-start sm:navbar-start">
 		<div class="dropdown">

@@ -158,27 +158,115 @@ module.exports = {
 					// '--tab-active-radius': '5rem', // border radius of tabs
 					// '--tab-radius': '0.5rem' // border radius of tabs
 				}
+			},
+			{
+				v2Theme: {
+					primary: '#3840c7',
+					'primary-200': '#383838',
+					'primary-focus': '#012d8f',
+					'primary-content': '#ffffff',
+					secondary: '#000000',
+					'secondary-focus': '#383838',
+					'secondary-content': '#ffffff',
+					accent: '#37cdbe',
+					'accent-focus': '#2aa79b',
+					'accent-content': '#ffffff',
+					neutral: '#3d4451',
+					'neutral-500': '#737373',
+					'base-100': '#ffffff',
+					'base-200': '#f3f4fc',
+					'base-300': '#e9f2f5',
+					info: '#e0a82e',
+					success: '#28bf92',
+					warning: '#fcca00',
+					error: '#e60000',
+					'error-focus': '#b30202',
+					'error-content': '#ffffff',
+					'background-color': '#F2F2F2', //e9f2f5
+					//custom designs
+					'.modal-backdrop': {
+						'background-color': '#010324cc'
+					},
+					'.icon-info': {
+						color: '#6b7280'
+					},
+					'.icon-primary': {
+						color: '#3840c7'
+					},
+					'.input-primary': {
+						width: '100%',
+						fontWeight: '600',
+						padding: '0',
+						color: '#3840c7',
+						border: 'none',
+						outline: 'none',
+						fontFamily: 'Orbitron',
+						'&:focus': {
+							border: 'none',
+							outline: 'none',
+							background: 'transparent',
+							color: '#3840c7'
+						},
+						'&:focus-within': {
+							border: 'none',
+							outline: 'none',
+							color: '#3840c7',
+							background: 'transparent'
+						},
+						'&:disabled': {
+							border: 'none',
+							outline: 'none',
+							background: 'transparent'
+						}
+					},
+					'.input': {
+						background: 'transparent',
+						border: 'none',
+						outline: 'none',
+						'&:focus': {
+							border: 'none',
+							outline: 'none',
+							background: 'transparent'
+						},
+						'&:disabled': {
+							border: 'none',
+							outline: 'none',
+							background: 'transparent'
+						}
+					},
+					'.input-group :icon': {
+						'border-radius': '100px'
+					},
+					'.btn': {
+						'text-transform': 'none'
+					},
+					'.btn-theme': {
+						'border-radius': '8px'
+					},
+					'.btn-lightblue': {
+						'background-color': '#DEE8F2',
+						color: '#3840c7',
+						border: 'none',
+						'&:hover': {
+							'background-color': '#d1dae3'
+						}
+					},
+					'.btn-disabled': {
+						cursor: 'not-allowed'
+					},
+					'.btn-text': {
+						'&:disabled': {
+							opacity: '0.6',
+							cursor: 'not-allowed',
+							'background-color': 'transparent'
+						}
+					},
+					'.tooltip:before': {
+						'white-space': 'break-spaces',
+						'max-width': '17rem'
+					}
+				}
 			}
-			// {
-			// 	dark: {
-			// 		...require('daisyui/src/colors/themes')['[data-theme=dark]'],
-			// 		primary: '#3840c7',
-			// 		'primary-200': '#383838',
-			// 		'primary-focus': '#012d8f',
-			// 		'primary-content': '#ffffff',
-			// 		'base-100': '#000000',
-			// 		'background-color': '#24252b',
-			// 		info: '#e0a82e',
-			// 		success: '#28bf92',
-			// 		error: '#e60000',
-			// 		'.icon-info': {
-			// 			color: '#b5b5b5'
-			// 		},
-			// 		'.icon-primary': {
-			// 			color: '#3840c7'
-			// 		}
-			// 	}
-			// }
 		]
 	},
 	plugins: [require('daisyui')]

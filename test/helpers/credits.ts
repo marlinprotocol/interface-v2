@@ -17,7 +17,7 @@ export const goToMarketPlaceAndFetchCredits = async (page: Page) => {
 
 	await page.locator('.checkbox-primary').first().click();
 	const walletBalance = await page.locator('.wallet-credits').first().innerHTML();
-	console.log({ walletBalance });
+
 	// Extract the number string
 	const match = walletBalance.match(/(\d+\.\d+)/);
 	const number = match ? parseFloat(match[0]) : 0;

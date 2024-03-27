@@ -5,6 +5,7 @@ import {
 	OYSTER_MARKETPLACE_URL,
 	OYSTER_OWNER_INVENTORY_URL
 } from '../../../src/lib/utils/constants/urls';
+import { MESSAGES } from '../../../src/lib/utils/constants/messages';
 import { loginToMetamask } from '../../helpers/metamask';
 import { goToMarketPlaceAndFetchCredits } from '../../helpers/credits';
 
@@ -87,11 +88,22 @@ test('Add funds to job using credits.', async ({ context, page, metamaskPage, ex
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);
 
+	const creditsBalance = await goToMarketPlaceAndFetchCredits(page);
+	if (creditsBalance < 5) {
+		console.log('not enough credits.');
+		test.skip();
+	}
+
+	await page.goto(OYSTER_OWNER_INVENTORY_URL, { waitUntil: 'networkidle' });
+
 	const hasText = await page.textContent('text=My Active Orders');
 	expect(hasText).toBeTruthy();
 
 	const rows = await page.$$eval('tbody tr', (rows) => rows);
 	if (!(rows.length > 0)) test.skip();
+
+	const durationHeader = page.locator('th:has-text("DURATION LEFT")');
+	await durationHeader.click();
 
 	const durationStrings = await page.$$eval('tbody tr.main-row', (rows) => {
 		return rows.map((row) => {
@@ -111,5 +123,33 @@ test('Add funds to job using credits.', async ({ context, page, metamaskPage, ex
 	if (!includesNon100) {
 		console.log('no entries with valid duration');
 		return test.skip();
+	}
+
+	const expandRowToggleButton = await page.$('tbody tr:nth-child(1) td:last-child button');
+	if (expandRowToggleButton && !(await expandRowToggleButton.isDisabled())) {
+		await expandRowToggleButton.click();
+		await page.locator('text=ADD FUNDS').first().click();
+		await page.waitForSelector('text=Add funds by approving and depositing tokens for the job');
+		await page
+			.locator('div:nth-child(3) > div:nth-child(2) > #pond-input-amount')
+			.first()
+			.fill('5');
+
+		await page
+			.locator('div:nth-child(2) > div:nth-child(2) > #pond-input-amount')
+			.first()
+			.fill('5');
+		await page.getByText('Days').first().click();
+		await page.getByRole('button', { name: 'Hours' }).click();
+
+		await page.locator('.modal-footer > .btn-block').first().click();
+		await metamask.confirmTransactionAndWaitForMining();
+		await page.waitForSelector(
+			`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.ADD_CREDITS_JOB.CREDITS_ADDED}`
+		);
+		await page.waitForTimeout(5_000);
+		const latestCreditsBalance = await goToMarketPlaceAndFetchCredits(page);
+		console.log({ latestCreditsBalance, creditsBalance });
+		expect(latestCreditsBalance).toBeLessThan(creditsBalance);
 	}
 });

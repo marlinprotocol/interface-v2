@@ -6,7 +6,7 @@ import {
 	OYSTER_OWNER_INVENTORY_URL
 } from '../../../src/lib/utils/constants/urls';
 import { loginToMetamask } from '../../helpers/metamask';
-import { Page } from '@playwright/test';
+import { goToMarketPlaceAndFetchCredits } from '../../helpers/credits';
 
 const test = testWithSynpress(BasicSetup, unlockForFixture);
 const { expect } = test;
@@ -36,7 +36,7 @@ test('Deploy a job using credits', async ({ context, page, metamaskPage, extensi
 
 	// duration in minutes
 	await page.locator('div:nth-child(4) > .search-container > .btn').first().click();
-	await page.getByRole('button', { name: 'Days' }).click();
+	await page.getByRole('button', { name: 'Hours' }).click();
 
 	// Bandwidth
 	await page
@@ -69,37 +69,47 @@ test('Deploy a job using credits', async ({ context, page, metamaskPage, extensi
 		await approveButton.click();
 		await metamask.notificationPage.confirmTransactionAndWaitForMining(extensionId);
 		await page.waitForURL(OYSTER_OWNER_INVENTORY_URL + '/', { waitUntil: 'networkidle' });
-
 		const walletBalance = await goToMarketPlaceAndFetchCredits(page);
 		expect(walletBalance).toBeLessThan(walletBalanceInNumber);
 	} else {
 		await metamask.notificationPage.confirmTransactionAndWaitForMining(extensionId);
 		await page.waitForURL(OYSTER_OWNER_INVENTORY_URL + '/', { waitUntil: 'networkidle' });
 		await page.reload();
+		await page.waitForTimeout(5_000);
 		const walletBalance = await goToMarketPlaceAndFetchCredits(page);
 		expect(walletBalance).toBeLessThan(walletBalanceInNumber);
 	}
 });
 
-export const goToMarketPlaceAndFetchCredits = async (page: Page) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
-	// sort by rate.
-	const rateHeader = page.locator('th:has-text("RATE")');
-	await rateHeader.click();
+test('Add funds to job using credits.', async ({ context, page, metamaskPage, extensionId }) => {
+	await page.goto(OYSTER_OWNER_INVENTORY_URL, { waitUntil: 'networkidle' });
 
-	// Select and click the 'DEPLOY' button within the first row
-	await page.locator('tbody tr.main-row:first-child td:nth-of-type(8)').click();
+	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
+	await loginToMetamask(metamask, page);
 
-	// Make sure the modal opened.
-	await page.waitForSelector('text=CREATE ORDER');
-	// Wait for the modal to be visible if it is not immediately so
-	await page.waitForSelector('.modal-body');
+	const hasText = await page.textContent('text=My Active Orders');
+	expect(hasText).toBeTruthy();
 
-	await page.locator('.checkbox-primary').first().click();
-	const walletBalance = await page.locator('.wallet-credits').first().innerHTML();
-	console.log({ walletBalance });
-	// Extract the number string
-	const match = walletBalance.match(/(\d+\.\d+)/);
-	const number = match ? parseFloat(match[0]) : 0;
-	return number;
-};
+	const rows = await page.$$eval('tbody tr', (rows) => rows);
+	if (!(rows.length > 0)) test.skip();
+
+	const durationStrings = await page.$$eval('tbody tr.main-row', (rows) => {
+		return rows.map((row) => {
+			const durationCell = row.querySelector('td:nth-of-type(7)');
+			return durationCell ? durationCell.textContent?.trim() : '';
+		});
+	});
+
+	const durations = durationStrings
+		.map((timeString) => {
+			const matches = timeString?.match(/\d+/g); // matches array of strings with digits
+			return matches ? matches.map(Number) : []; // convert to numbers, return empty array if no matches
+		})
+		.flat();
+
+	const includesNon100 = durations.some((number) => number !== 100);
+	if (!includesNon100) {
+		console.log('no entries with valid duration');
+		return test.skip();
+	}
+});

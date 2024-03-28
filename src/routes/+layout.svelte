@@ -29,7 +29,10 @@
 	/>
 </svelte:head>
 
-<main class="mx-auto my-0 w-full max-w-[1400px] text-center font-poppins lg:w-[90%] xl:w-[82%]">
+<main
+	class="mx-auto my-0 w-full max-w-[1400px] text-center font-poppins lg:w-[90%] xl:w-[82%]"
+	id="v1-main"
+>
 	<Toast />
 	<Header />
 	<slot />

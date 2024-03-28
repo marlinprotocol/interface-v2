@@ -183,6 +183,9 @@ module.exports = {
 					'error-focus': '#b30202',
 					'error-content': '#ffffff',
 					'background-color': '#F2F2F2', //e9f2f5
+					'.nav-bg': {
+						'background-color': '#ffffff'
+					},
 					//custom designs
 					'.modal-backdrop': {
 						'background-color': '#010324cc'

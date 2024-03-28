@@ -1,0 +1,174 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DisconnectWalletModal > renders properly 1`] = `
+<body>
+  <div>
+    <input
+      class="modal-toggle s-GZwqZrPaBy6h"
+      id="id-testing"
+      tabindex="-1"
+      type="checkbox"
+    />
+     
+    <div
+      class="modal s-GZwqZrPaBy6h"
+      data-testid="modal"
+    >
+      <div
+        class="w-11/12 sm:w-3/4 sm:max-w-[607px] modal-box rounded-lg bg-base-100 px-0 py-0 shadow-none s-GZwqZrPaBy6h"
+      >
+        <div
+          class="modal-header sticky top-0 z-10 flex items-center bg-white px-6 pb-4 pt-8 s-GZwqZrPaBy6h"
+        >
+          <div
+            class="flex w-full flex-col s-GZwqZrPaBy6h"
+          >
+             
+            <div
+              class="text-left text-[15px] font-medium text-[#0a0e3099] s-GZwqZrPaBy6h"
+            />
+             
+            <div
+              class="text-left text-2xl font-bold s-GZwqZrPaBy6h"
+            >
+              Your wallet
+            </div>
+             
+            <div
+              class="mt-1 text-left text-[15px] font-medium text-[#767676] s-GZwqZrPaBy6h"
+            />
+          </div>
+           
+          <button
+            class="flex h-12 min-w-[3rem] cursor-pointer items-center justify-center self-start text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+            data-testid="modal-close-button"
+          >
+            <img
+              alt="Close"
+              class="s-GZwqZrPaBy6h"
+              src="/images/close-circle-icon.svg"
+            />
+          </button>
+        </div>
+         
+        <div
+          class="modal-body  px-6 pb-4 pt-2 s-GZwqZrPaBy6h"
+        >
+          <div
+            class="mb-4 rounded-lg bg-base-200 p-4 text-left"
+          >
+            <div
+              class="flex items-center text-sm font-normal"
+            >
+              My Address
+				
+              <div
+                class="tooltip flex shrink-0 text-left font-normal ml-1 tooltip-secondary tooltip-right"
+                data-testid="tooltip-icon"
+                data-tip="Connected wallet address"
+              >
+                <img
+                  alt="Info"
+                  src="/images/alert.svg"
+                  width="14px"
+                />
+              </div>
+              <!--&lt;TooltipIcon&gt;-->
+            </div>
+             
+            <div
+              class="flex items-center"
+            >
+              <div
+                class="mt-1 w-[98%] overflow-hidden overflow-ellipsis text-xl font-semibold"
+                data-testid="wallet-address"
+              >
+                0x123
+              </div>
+               
+              <button
+                class="shrink-0 cursor-pointer"
+              >
+                <img
+                  alt="Copy"
+                  class="grey-img s-jqivLxfXFImT"
+                  src="/images/copy-btn.svg"
+                  width="14"
+                />
+                <!--&lt;ImageColored&gt;-->
+              </button>
+            </div>
+          </div>
+           
+          <div
+            class="flex flex-wrap gap-4"
+          >
+            <button
+              class="font-medium gap-3 h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
+            >
+               
+              <span
+                class="text-2xl font-light"
+              >
+                +
+              </span>
+               Add 
+              POND
+            </button>
+            <!--&lt;Button&gt;-->
+            <!--&lt;AddTokenPrompt&gt;-->
+             
+            <button
+              class="font-medium gap-3 h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
+            >
+               
+              <span
+                class="text-2xl font-light"
+              >
+                +
+              </span>
+               Add 
+              MPOND
+            </button>
+            <!--&lt;Button&gt;-->
+            <!--&lt;AddTokenPrompt&gt;-->
+             
+            <a
+              href="https://blockexplorer.com/address/0x123"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <button
+                class="font-medium gap-3  flex-nowrap h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
+              >
+                 
+                <img
+                  alt="Open"
+                  src="/images/openinnew.svg"
+                />
+                 
+                Block Explorer
+              </button>
+              <!--&lt;Button&gt;-->
+            </a>
+          </div>
+        </div>
+         
+        <div
+          class="modal-footer sticky bottom-0 bg-white mb-6 mt-4 px-6 s-GZwqZrPaBy6h"
+        >
+          <button
+            class="w-full font-semibold text-base h-14 text-base font-semibold btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white gap-1.5"
+          >
+             
+            LOGOUT
+          </button>
+          <!--&lt;Button&gt;-->
+        </div>
+      </div>
+    </div>
+    <!--&lt;Modal&gt;-->
+    <!--&lt;DisconnectWalletModal&gt;-->
+  </div>
+</body>
+`;

@@ -1,0 +1,151 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`HeaderLinksGroup > renders HeaderLinksGroup correctly 1`] = `
+[
+  <li
+    class="nav-links px-1"
+    data-testid="header-links-group"
+  >
+    <a
+      class=" p-0 font-semibold"
+      href="https://arb1.marlin.org/relay/operator/"
+      target="_blank"
+    >
+      <button
+        class="w-full px-4 py-2 text-left"
+      >
+        Relay
+      </button>
+    </a>
+     
+  </li>,
+  <li
+    class="nav-links px-1"
+    data-testid="header-links-group"
+  >
+    <a
+      class=" p-0 font-semibold"
+      href="/bridge"
+      target=""
+    >
+      <button
+        class="w-full px-4 py-2 text-left"
+      >
+        Bridge
+      </button>
+    </a>
+     
+  </li>,
+  <li
+    class="px-1"
+    data-testid="header-links-group"
+  >
+    <details>
+      <summary
+        class="font-semibold"
+      >
+        Oyster
+      </summary>
+       
+      <ul
+        class="p-2"
+      >
+        <li
+          class="w-full"
+        >
+          <a
+            class=" flex w-full items-start p-0"
+            href="/oyster/marketplace"
+          >
+            <button
+              class="w-full whitespace-nowrap px-4 py-2 text-left"
+            >
+              Marketplace
+            </button>
+          </a>
+           
+        </li>
+        <li
+          class="w-full"
+        >
+          <a
+            class=" flex w-full items-start p-0"
+            href="/oyster/operator"
+          >
+            <button
+              class="w-full whitespace-nowrap px-4 py-2 text-left"
+            >
+              Operator
+            </button>
+          </a>
+           
+        </li>
+        <li
+          class="w-full"
+        >
+          <a
+            class=" flex w-full items-start p-0"
+            href="/oyster/inventory"
+          >
+            <button
+              class="w-full whitespace-nowrap px-4 py-2 text-left"
+            >
+              Inventory
+            </button>
+          </a>
+           
+        </li>
+      </ul>
+    </details>
+     
+  </li>,
+  <li
+    class="px-1"
+    data-testid="header-links-group"
+  >
+    <details>
+      <summary
+        class="font-semibold"
+      >
+        Receiver Portal
+      </summary>
+       
+      <ul
+        class="p-2"
+      >
+        <li
+          class="w-full"
+        >
+          <a
+            class=" flex w-full items-start p-0"
+            href="/relay/receiver/staking"
+          >
+            <button
+              class="w-full whitespace-nowrap px-4 py-2 text-left"
+            >
+              Receiver Staking
+            </button>
+          </a>
+           
+        </li>
+        <li
+          class="w-full"
+        >
+          <a
+            class=" flex w-full items-start p-0"
+            href="/relay/receiver/rewards"
+          >
+            <button
+              class="w-full whitespace-nowrap px-4 py-2 text-left"
+            >
+              Receiver Rewards
+            </button>
+          </a>
+           
+        </li>
+      </ul>
+    </details>
+     
+  </li>,
+]
+`;

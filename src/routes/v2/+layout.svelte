@@ -5,7 +5,7 @@
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 
 	import Toast from '$lib/atoms/toast/Toast.svelte';
-	import Header from '$lib/components/header/Header.svelte';
+	import Header from '$lib/components/headerv2/Header.svelte';
 	import { onMount } from 'svelte';
 	import '../../app.css';
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
@@ -17,8 +17,16 @@
 				// do nothing
 			};
 		}
+
 		// hiding previous version nav bar
 		const v1header: HTMLElement | null = document.getElementById('v1-header');
+
+		const v1main: HTMLElement | null = document.getElementById('v1-main');
+
+		if (v1main) {
+			v1main.className = '';
+		}
+
 		if (v1header) {
 			v1header.style.display = 'none';
 		}
@@ -37,11 +45,11 @@
 	/>
 </svelte:head>
 
-<main class="mx-auto my-0 w-full max-w-[1400px] text-center font-poppins lg:w-[90%] xl:w-[82%]">
-	<Toast />
-	<!-- <Header /> -->
+<main class="w-full">
+	<!-- <Toast /> -->
+	<Header />
 	<slot />
 </main>
 
 <!-- This shows a prompt if the screen size is smaller than 1090px -->
-<SmallScreenPrompt />
+<!-- <SmallScreenPrompt /> -->

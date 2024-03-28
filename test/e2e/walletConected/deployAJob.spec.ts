@@ -40,7 +40,7 @@ test('connect wallet -> deploy a job -> check if it navigated to inventory', asy
 
 	// duration in minutes
 	await page.locator('div:nth-child(4) > .search-container > .btn').first().click();
-	await page.getByRole('button', { name: 'Minutes' }).click();
+	await page.getByRole('button', { name: 'Hours' }).click();
 
 	// Bandwidth
 	await page

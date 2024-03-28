@@ -258,3 +258,25 @@ export async function settleOysterJob(jobId: BytesLike) {
 		throw new Error('Transaction Error');
 	}
 }
+
+export async function updateEnclaveUrlForOysterJob(jobId: BytesLike, metadata: string) {
+	const oysterContract = createSignerContract(contractAddresses.OYSTER, OYSTER_MARKET_ABI);
+	try {
+		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.UPDATE_ENCLAVE_URL_JOB.UPDATING;
+		const successTxnMessage = MESSAGES.TOAST.ACTIONS.UPDATE_ENCLAVE_URL_JOB.UPDATED;
+		const errorTxnMessage = 'Unable to update enclave URL for Oyster Job.';
+		const parentFunctionName = 'updateEnclaveUrlForOysterJob';
+
+		const { txn } = await createTransaction(
+			() => oysterContract.jobMetadataUpdate(jobId, metadata),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName
+		);
+
+		return txn;
+	} catch (error: any) {
+		throw new Error('Transaction Error');
+	}
+}

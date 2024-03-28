@@ -283,6 +283,16 @@ export const OYSTER_MARKET_ABI = [
 	},
 	{
 		inputs: [
+			{ internalType: 'bytes32', name: '_job', type: 'bytes32' },
+			{ internalType: 'string', name: '_metadata', type: 'string' }
+		],
+		name: 'jobMetadataUpdate',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function'
+	},
+	{
+		inputs: [
 			{ internalType: 'string', name: '_metadata', type: 'string' },
 			{ internalType: 'address', name: '_provider', type: 'address' },
 			{ internalType: 'uint256', name: '_rate', type: 'uint256' },

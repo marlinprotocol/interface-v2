@@ -3,7 +3,8 @@
 	import Select from '$lib/components/select/Select.svelte';
 	import {
 		DEFAULT_BANDWIDTH_UNIT,
-		OYSTER_BANDWIDTH_UNITS_LIST
+		OYSTER_BANDWIDTH_UNITS_LIST,
+		OYSTER_MARLIN_CREDIT_METADATA
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
@@ -16,6 +17,7 @@
 	export let instanceCostScaled = 0n;
 	export let finalBandwidthRateScaled = 0n;
 	export let totalCostScaled = 0n;
+	export let useMarlinCredits = false;
 
 	let bandwidth = '';
 	let bandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
@@ -71,13 +73,17 @@
 	<AmountInputWithTitle
 		title="Bandwidth Cost"
 		bind:inputAmountString={bandwidthCostString}
-		suffix={$oysterTokenMetadataStore.currency}
+		suffix={useMarlinCredits
+			? OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]
+			: $oysterTokenMetadataStore.currency}
 		disabled={true}
 	/>
 	<AmountInputWithTitle
 		title="Total Cost"
 		bind:inputAmountString={totalAmountString}
-		suffix={$oysterTokenMetadataStore.currency}
+		suffix={useMarlinCredits
+			? OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]
+			: $oysterTokenMetadataStore.currency}
 		disabled={true}
 	/>
 </div>

@@ -21,6 +21,7 @@
 	import InventoryJobDetailsModal from '$lib/page-components/oyster/inventory/modals/JobDetailsModal.svelte';
 	import StopJobModal from '$lib/page-components/oyster/inventory/modals/StopJobModal.svelte';
 	import WithdrawFundsFromJobModal from '$lib/page-components/oyster/inventory/modals/WithdrawFundsFromJobModal.svelte';
+	import UpdateEnclaveUrlModal from '$lib/page-components/oyster/inventory/modals/UpdateEnclaveUrlModal.svelte';
 	import type { BytesLike } from 'ethers';
 	import { refreshJobStatusForJobId } from '$lib/controllers/httpController';
 	import {
@@ -219,6 +220,14 @@
 					>
 						{amendRateButtonText}
 					</ModalButton>
+					<ModalButton
+						variant="outlined"
+						size="small"
+						modalFor="update-enclave-url-{id}"
+						disabled={isJobFinished}
+					>
+						UPDATE ENCLAVE URL
+					</ModalButton>
 				{/if}
 				<ModalButton variant="outlined" size="small" modalFor="job-details-modal-{id}">
 					DETAILS
@@ -233,6 +242,7 @@
 <WithdrawFundsFromJobModal bind:jobData={rowData} modalFor="job-withdraw-fund-modal-{id}" />
 <StopJobModal bind:jobData={rowData} modalFor="job-stop-modal-{id}" />
 <AmendRateModal bind:jobData={rowData} modalFor="job-amend-rate-modal-{id}" />
+<UpdateEnclaveUrlModal bind:jobData={rowData} modalFor="update-enclave-url-{id}" />
 
 <style>
 	/* TODO: migrate these classes to tailwind and then refactor the copy to clipboard functionality */

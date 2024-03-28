@@ -304,6 +304,7 @@
 				bind:instanceCostScaled
 				bind:finalBandwidthRateScaled
 				bind:totalCostScaled
+				bind:useMarlinCredits
 			/>
 			<TextInputWithEndButton
 				styleClass="px-4 py-2"

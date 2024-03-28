@@ -103,6 +103,14 @@ export function withdrawMpondFromWalletBalanceStore(amount: bigint) {
 		};
 	});
 }
+export function withdrawUsdcFromWalletBalanceStore(amount: bigint) {
+	walletBalanceStore.update((walletBalanceStore) => {
+		return {
+			...walletBalanceStore,
+			usdc: walletBalanceStore.usdc - amount
+		};
+	});
+}
 /**
  * fetches the balance for POND, MPond and USDC based on
  * wallet address and sets the walletBalanceStore store.

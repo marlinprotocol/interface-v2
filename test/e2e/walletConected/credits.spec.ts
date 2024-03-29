@@ -11,6 +11,18 @@ import { goToMarketPlaceAndFetchCredits } from '../../helpers/credits';
 const test = testWithSynpress(BasicSetup, unlockForFixture);
 const { expect } = test;
 
+test('Able Get Credits Balance', async ({ context, page, metamaskPage, extensionId }) => {
+	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+
+	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
+	await loginToMetamask(metamask, page);
+	const hasText = await page.textContent('text=Infrastructure Providers');
+	expect(hasText).toBeTruthy();
+
+	const walletBalance = await goToMarketPlaceAndFetchCredits(page);
+	expect(walletBalance).not.toBeLessThan(1);
+});
+
 test('Deploy a job using credits', async ({ context, page, metamaskPage, extensionId }) => {
 	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 

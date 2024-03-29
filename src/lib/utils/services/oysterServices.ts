@@ -39,6 +39,7 @@ import {
 	stopOysterCreditJob,
 	withdrawFundsFromOysterCreditJob
 } from '$lib/controllers/contract/oysterCredit';
+import { withdrawUsdcFromWalletBalanceStore } from '$lib/data-stores/walletProviderStore';
 
 export async function handleClaimAmountFromOysterJob(jobId: BytesLike) {
 	try {
@@ -269,6 +270,7 @@ export async function handleCreateJob(
 		);
 		addJobToOysterLocalStorageStore(chainId, walletAddress, jobEntry);
 		decreaseOysterAllowanceInOysterStore(balance);
+		withdrawUsdcFromWalletBalanceStore(balance);
 		return true;
 	} catch (e) {
 		console.log('e :>> ', e);

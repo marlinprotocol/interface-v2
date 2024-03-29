@@ -78,7 +78,7 @@
 			value: preFilledData?.arch || ''
 		}
 	};
-	let enaclaveImageInputs = undefined;
+	let enaclaveImageInputs: string = '';
 
 	// deep copy of initial states
 	let merchant = {
@@ -198,7 +198,7 @@
 		enclaveImageUrl = {
 			...initialStates.enclaveImageUrl
 		};
-		enclaveImageUrl = undefined;
+		enaclaveImageInputs = '';
 	};
 
 	const handleMerchantChange = () => {

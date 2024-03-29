@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
-	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
@@ -36,7 +35,8 @@
 		durationRun,
 		createdAt,
 		depositHistory,
-		endEpochTime
+		endEpochTime,
+		inputs
 	} = jobData);
 </script>
 
@@ -45,12 +45,20 @@
 	<svelte:fragment slot="subtitle">View the details of your past order</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4 px-4">
-			<TextInputCard
-				title="Enclave Image URL"
-				value={enclaveUrl}
-				cliboardContent={enclaveUrl}
-				textStyle="text-primary truncate"
-			/>
+			<div data-testid="enclave-image-url" class="flex flex-col gap-4 sm:flex-row">
+				<TextInputCard
+					title="Enclave Image URL"
+					value={enclaveUrl}
+					cliboardContent={enclaveUrl}
+					textStyle="text-primary truncate"
+				/>
+				<TextInputCard
+					title="Enclave Image Inputs"
+					value={inputs ? inputs : 'N/A'}
+					cliboardContent={inputs ? inputs : 'N/A'}
+					textStyle="text-primary truncate"
+				/>
+			</div>
 			<div class="flex flex-col gap-4 sm:flex-row">
 				<TextInputCard
 					title="Operator"

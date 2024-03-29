@@ -1,6 +1,5 @@
 import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress';
 import BasicSetup from '../../wallet-setup/basic.setup';
-// import BasicSetup from '../../wallet-setup/connected.setup';
 import {
 	OYSTER_MARKETPLACE_URL,
 	OYSTER_OWNER_INVENTORY_URL

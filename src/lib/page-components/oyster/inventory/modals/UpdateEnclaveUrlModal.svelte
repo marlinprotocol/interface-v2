@@ -59,9 +59,34 @@
 		}
 	}
 
-	$: approveEnable = enclaveUrlValid && updatedEnclaveUrlInputDirty;
+	function getErrorMessage(
+		_updatedEnclaveUrl: string,
+		_enclaveUrl: string,
+		_updatedEnclaveUrlInputDirty: boolean,
+		_enclaveUrlValid: boolean
+	) {
+		if (_updatedEnclaveUrl === _enclaveUrl) {
+			return 'The new enclave URL should be different from the current enclave URL.';
+		} else if (
+			updatedEnclaveUrlInputDirty &&
+			!enclaveUrlValid &&
+			updatedEnclaveUrl !== '' &&
+			enclaveUrl !== updatedEnclaveUrl
+		) {
+			return 'Invalid control plane URL. Make sure to use the correct URL.';
+		} else {
+			return undefined;
+		}
+	}
 
 	$: ({ enclaveUrl, region, instance, memory, vcpu, id } = jobData);
+	$: approveEnable = enclaveUrlValid && updatedEnclaveUrlInputDirty;
+	$: errorMessage = getErrorMessage(
+		updatedEnclaveUrl,
+		enclaveUrl,
+		updatedEnclaveUrlInputDirty,
+		enclaveUrlValid
+	);
 </script>
 
 <Modal {modalFor}>
@@ -98,19 +123,7 @@
 				</div>
 			</form>
 		</InputCard>
-		<ErrorTextCard
-			styleClass="mt-4"
-			showError={enclaveUrl === updatedEnclaveUrl}
-			errorMessage="The new enclave URL should be different from the current enclave URL."
-		/>
-		<ErrorTextCard
-			styleClass="mt-4"
-			showError={updatedEnclaveUrlInputDirty &&
-				!enclaveUrlValid &&
-				updatedEnclaveUrl !== '' &&
-				enclaveUrl !== updatedEnclaveUrl}
-			errorMessage="Invalid control plane URL. Make sure to use the correct URL."
-		/>
+		<ErrorTextCard styleClass="mt-4" showError={errorMessage !== undefined} {errorMessage} />
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		<Button

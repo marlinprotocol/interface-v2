@@ -7,6 +7,7 @@ import {
 	stopJobInOysterStore,
 	updateAmountToBeSettledForJobInOysterStore,
 	updateApprovedFundsInOysterStore,
+	updateEnclaveUrlForOysterJobInOysterStore,
 	updateJobRateInOysterStore,
 	updateJobStatusOnTimerEndInOysterStore,
 	withdrawCreditsFromOysterStore,
@@ -21,6 +22,7 @@ import {
 	initiateRateReviseOysterJob,
 	settleOysterJob,
 	stopOysterJob,
+	updateEnclaveUrlForOysterJob,
 	withdrawFundsFromOysterJob
 } from '$lib/controllers/contract/oyster';
 import { transformOysterJobDataToInventoryDataModel } from '$lib/utils/helpers/oysterHelpers';
@@ -310,6 +312,17 @@ export async function handleCreateJobWithCredits(
 		);
 		addJobToOysterLocalStorageStore(chainId, walletAddress, jobEntry);
 		withdrawCreditsFromOysterStore(balance);
+		return true;
+	} catch (e) {
+		console.log('e :>> ', e);
+		return false;
+	}
+}
+
+export async function handleUpdateEnclaveUrlForOysterJob(jobId: BytesLike, metadata: string) {
+	try {
+		await updateEnclaveUrlForOysterJob(jobId, metadata);
+		updateEnclaveUrlForOysterJobInOysterStore(jobId, metadata);
 		return true;
 	} catch (e) {
 		console.log('e :>> ', e);

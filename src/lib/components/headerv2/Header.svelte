@@ -18,7 +18,8 @@
 			isNavOpen ? 'w-72' : 'w-28'
 		} transition-all duration-300 ease-out`}
 	>
-		<div class="relative h-full w-full">
+		<div class="relative flex h-full w-full flex-col">
+			<div class="mt-auto">Fixed Menus</div>
 			<button
 				class="absolute right-0 top-1/2 translate-x-1/2 translate-y-1/2 cursor-pointer"
 				on:click={toggleNavbar}

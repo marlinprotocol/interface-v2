@@ -1,6 +1,6 @@
 import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress';
 import BasicSetup from '../../wallet-setup/basic.setup';
-// import BasicSetup from '../../wallet-setup/connected.setup';
+
 import {
 	OYSTER_MARKETPLACE_URL,
 	OYSTER_OWNER_INVENTORY_URL
@@ -201,22 +201,6 @@ test('use some filters -> check if the same data show up on chain change', async
 				return { operator, instance, region, rate, vCPU, memory, arch };
 			});
 		}, tableRowSelector);
-
-		// for (let i = 1; i <= rowCountBeforeChange; i++) {
-		//     const rowData = {
-		//         operatorAddress: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(1) [data-testid="text"]`),
-		//         ipAddress: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(2)`),
-		//         instance: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(3)`),
-		//         region: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(4)`),
-		//         hourlyRate: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(5) [data-testid="tooltip"]`),
-		//         balance: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(6) [data-testid="tooltip"]`),
-		//         durationLeft: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(7) [data-testid="tooltip"]`)
-		//     };
-
-		//     // Normalize 'N/A' to null for ipAddress
-		//     rowData.ipAddress = rowData?.ipAddress?.includes('N/A') ? null : rowData.ipAddress;
-		//     allRowsDataBeforeChange.push(rowData);
-		// }
 	}
 
 	await metamask.addNetwork({
@@ -227,19 +211,10 @@ test('use some filters -> check if the same data show up on chain change', async
 		blockExplorerUrl: ARB_GOERLI.block_explorer_name
 	});
 
-	// const allRowsDataAfterChange: {
-	//     operatorAddress: string | null;
-	//     ipAddress: string | null;
-	//     instance: string | null;
-	//     region: string | null;
-	//     hourlyRate: string | null;
-	//     balance: string | null;
-	//     durationLeft: string | null;
-	// }[] = [];
 	const rowCountAfterChange = await page.$$eval('tbody tr', (rows) => rows.length);
 	if (rowCountAfterChange !== 0) {
 		// Extracting the data from the table using evaluate
-		const dataAfterFilter = await page.evaluate(
+		await page.evaluate(
 			({ tableRowSelector: selector, allRowsDataBeforeChange, expect }) => {
 				const rows = Array.from(document.querySelectorAll(selector));
 				return rows.map((row) => {
@@ -268,26 +243,7 @@ test('use some filters -> check if the same data show up on chain change', async
 			},
 			{ tableRowSelector, allRowsDataBeforeChange, expect }
 		);
-		//     for (let i = 1; i <= rowCountAfterChange; i++) {
-		//         const rowData = {
-		//             operatorAddress: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(1) [data-testid="text"]`),
-		//             ipAddress: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(2)`),
-		//             instance: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(3)`),
-		//             region: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(4)`),
-		//             hourlyRate: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(5) [data-testid="tooltip"]`),
-		//             balance: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(6) [data-testid="tooltip"]`),
-		//             durationLeft: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(7) [data-testid="tooltip"]`)
-		//         };
-
-		//         // Normalize 'N/A' to null for ipAddress
-		//         rowData.ipAddress = rowData?.ipAddress?.includes('N/A') ? null : rowData.ipAddress;
-		//         const exist = allRowsDataBeforeChange.find((row) => JSON.stringify(row) === JSON.stringify(rowData));
-		//         expect(exist).toBeFalsy();
-		//         allRowsDataAfterChange.push(rowData);
-		//     }
 	}
-
-	// Log out the data
 
 	if (rowCountAfterChange === 0 && rowCountBeforeChange === 0) {
 		expect(rowCountAfterChange).toBe(0);

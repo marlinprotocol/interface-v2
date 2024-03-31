@@ -104,7 +104,7 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 		};
 	}
 
-	const { url, instance, region, vcpu, memory, arch } = parseMetadata(metadata);
+	const { url, instance, region, vcpu, memory, arch, inputs } = parseMetadata(metadata);
 
 	//convert to BigNumber
 	const _totalDeposit = BigInt(totalDeposit);
@@ -131,6 +131,7 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 		vcpu,
 		arch,
 		memory,
+		inputs,
 		refund: _refund,
 		rateScaled: _rateScaled,
 		rate: _rate,

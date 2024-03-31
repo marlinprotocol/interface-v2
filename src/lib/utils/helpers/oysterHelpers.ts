@@ -518,7 +518,7 @@ export const transformOysterJobDataToInventoryDataModel = (
 
 	const nowTime = Date.now() / 1000;
 
-	const { url, instance, region, vcpu, memory, arch } = parseMetadata(metadata);
+	const { url, instance, region, vcpu, memory, arch, inputs } = parseMetadata(metadata);
 	const newJob: OysterInventoryDataModel = {
 		id: jobId,
 		provider: {
@@ -536,6 +536,7 @@ export const transformOysterJobDataToInventoryDataModel = (
 		vcpu,
 		memory,
 		arch,
+		inputs,
 		amountUsed: 0n,
 		refund: 0n,
 		rateScaled,

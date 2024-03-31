@@ -78,6 +78,7 @@
 			value: preFilledData?.arch || ''
 		}
 	};
+	let enaclaveImageInputs: string = '';
 
 	// deep copy of initial states
 	let merchant = {
@@ -115,7 +116,8 @@
 			region: region.value,
 			memory: Number(memory.split(' ')[0]),
 			vcpu: Number(vcpu),
-			url: finalEnclaveUrl
+			url: finalEnclaveUrl,
+			inputs: enaclaveImageInputs
 		});
 
 		const provider = {
@@ -196,6 +198,7 @@
 		enclaveImageUrl = {
 			...initialStates.enclaveImageUrl
 		};
+		enaclaveImageInputs = '';
 	};
 
 	const handleMerchantChange = () => {
@@ -311,6 +314,12 @@
 				title="Enclave Image URL"
 				placeholder="Paste URL here"
 				bind:input={enclaveImageUrl.value}
+			/>
+			<TextInputWithEndButton
+				styleClass="px-4 py-2"
+				title="Enclave Inputs (Optional)"
+				placeholder="Paste enclave inputs here"
+				bind:input={enaclaveImageInputs}
 			/>
 			<ErrorTextCard
 				styleClass="mt-0"

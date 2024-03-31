@@ -332,7 +332,8 @@
 		<div class="flex items-center justify-between px-4 pt-2">
 			<Text
 				variant="small"
-				styleClass="text-black ml-1 wallet-credits"
+				id="wallet-credits"
+				styleClass="text-black ml-1"
 				fontWeight="font-normal"
 				text="Balance: {walletBalanceText}"
 			/>

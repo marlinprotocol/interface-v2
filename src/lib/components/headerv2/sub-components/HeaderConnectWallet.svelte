@@ -4,8 +4,8 @@
 		walletAddressHasChanged,
 		web3WalletStore
 	} from '$lib/data-stores/walletProviderStore';
-	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
-	import DisconnectWalletButton from '$lib/components/header/sub-components/DisconnectWalletButton.svelte';
+	import ConnectWalletButton from '$lib/components/headerv2/sub-components/ConnectWalletButton.svelte';
+	import DisconnectWalletButton from '$lib/components/headerv2/sub-components/DisconnectWalletButton.svelte';
 	import { setWalletAndChainStores } from '$lib/controllers/walletController';
 	import { chainIdHasChanged } from '$lib/data-stores/chainProviderStore';
 	import type { Address } from '$lib/types/storeTypes';

@@ -267,6 +267,9 @@ module.exports = {
 					'.tooltip:before': {
 						'white-space': 'break-spaces',
 						'max-width': '17rem'
+					},
+					'.current-path svg path': {
+						fill: '#2DB8E3'
 					}
 				}
 			}

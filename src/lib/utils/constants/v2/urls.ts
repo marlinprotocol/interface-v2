@@ -6,8 +6,9 @@ export const DASHBOARD_URL = '/v2/dashboard';
 
 //bridge
 export const BRIDGE_URL = '/v2/bridge';
-export const POND_HISTORY_PAGE_URL = '/bridge/pondToMPondHistory';
-export const MPOND_HISTORY_PAGE_URL = '/bridge/mPondToPondHistory';
+export const POND_HISTORY_PAGE_URL = '/v2/bridge/pondToMPondHistory';
+export const MPOND_HISTORY_PAGE_URL = '/v2/bridge/mPondToPondHistory';
+export const ETH_HISTORY_PAGE_URL = '/v2/bridge/ethToArbHistory';
 export const BRIDGE_LEARN_MORE_DOC_LINK = 'https://docs.marlin.org/docs/Learn/Bridges/';
 
 //governance

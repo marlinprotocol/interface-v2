@@ -179,36 +179,40 @@
 									<ul class="ml-[25px] px-3">
 										{#each children as subLink}
 											<li>
-												<div
-													class={`relative w-fit px-4 py-2 font-poppins  text-sm hover:bg-transparent focus:!bg-transparent active:!bg-transparent active:!text-[#26272c] ${
-														$page.url.pathname.includes(subLink.href)
-															? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
-															: 'text-[#26272c] '
-													}`}
-												>
-													{subLink.preFixLabel}
-													{#if subLink.icon}
-														<img
-															src={subLink.icon}
-															alt={subLink.icon}
-															class="min-w-[18px] max-w-[18px]"
-														/>
-													{/if}
-													{#if subLink.postFixLabel}
-														{subLink.postFixLabel}
-													{/if}
-												</div>
+												<a href={subLink.href} class="p-0">
+													<div
+														class={`relative flex w-fit gap-1 px-4 py-2 font-poppins  text-sm hover:bg-transparent focus:!bg-transparent active:!bg-transparent active:!text-[#26272c] ${
+															$page.url.pathname.includes(subLink.href)
+																? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
+																: 'text-[#26272c]'
+														}`}
+													>
+														{subLink.preFixLabel}
+														{#if subLink.icon}
+															<img
+																src={subLink.icon}
+																alt={subLink.icon}
+																class="min-w-[18px] max-w-[18px]"
+															/>
+														{/if}
+														{#if subLink.postFixLabel}
+															{subLink.postFixLabel}
+														{/if}
+													</div>
+												</a>
 											</li>
 										{/each}
 									</ul>
 								</details>
 							</li>{:else}
-							<div class="flex cursor-pointer items-center gap-3 px-[14px] py-4">
-								<img src={icon} alt={icon} />
-								{#if isNavOpen}
-									<p class="font-poppins text-base font-medium text-[#26272c]">{label}</p>
-								{/if}
-							</div>
+							<a {href}>
+								<div class="flex cursor-pointer items-center gap-3 px-[14px] py-4">
+									<img src={icon} alt={icon} />
+									{#if isNavOpen}
+										<p class="font-poppins text-base font-medium text-[#26272c]">{label}</p>
+									{/if}
+								</div>
+							</a>
 						{/if}
 					{/each}
 				</ul>

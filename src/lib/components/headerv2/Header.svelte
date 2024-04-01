@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import HeaderConnectWallet from '$lib/components/headerv2/sub-components/HeaderConnectWallet.svelte';
-	import HeaderLinksGroup from '$lib/components/headerv2/sub-components/HeaderLinksGroup.svelte';
 	import HeaderLogo from '$lib/components/headerv2/sub-components/HeaderLogo.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { onMount } from 'svelte';
@@ -14,6 +12,29 @@
 	import KalypsoIcon from '$lib/components/headerv2/Icon/KalypsoIcon.svelte';
 	import OysterIcon from '$lib/components/headerv2/Icon/OysterIcon.svelte';
 	import RelayIcon from '$lib/components/headerv2/Icon/RelayIcon.svelte';
+	import {
+		BRIDGE_LEARN_MORE_DOC_LINK,
+		BRIDGE_URL,
+		DASHBOARD_URL,
+		ECOSYSTEM_URL,
+		FAQS_URL,
+		GOVERNANCE_URL,
+		KALYPSO_LINK_1_URL,
+		KALYPSO_LINK_2_URL,
+		KALYPSO_URL,
+		MPOND_HISTORY_PAGE_URL,
+		OYSTER_AUDITORS_URL,
+		OYSTER_INVENTORY_URL,
+		OYSTER_MARKETPLACE_URL,
+		OYSTER_OPERATOR_URL,
+		OYSTER_URL,
+		POND_HISTORY_PAGE_URL,
+		RELAY_CLUSTERS_URL,
+		RELAY_DELEGATION_URL,
+		RELAY_RECEIVER_URL,
+		RELAY_REGISTRATION_URL,
+		RELAY_URL
+	} from '$lib/utils/constants/v2/urls';
 
 	let isNavOpen: Boolean = true;
 	let pathname = '';
@@ -26,11 +47,11 @@
 		isNavOpen = !isNavOpen;
 	};
 	let links: any[] = [
-		{ label: 'Dashboard', href: '/v2/dashboard', icon: DashboardIcon },
+		{ label: 'Dashboard', href: DASHBOARD_URL, icon: DashboardIcon },
 		{
 			label: 'Bridge',
 			icon: BridgeIcon,
-			href: '/v2/bridge',
+			href: BRIDGE_URL,
 			children: [
 				{
 					label: `Pond <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,7 +71,7 @@
         stroke-linejoin="round"
     />
 </svg> MPond`,
-					href: '/'
+					href: POND_HISTORY_PAGE_URL
 				},
 				{
 					label: `Ethereum <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -70,48 +91,45 @@
         stroke-linejoin="round"
     />
 </svg> Arbitrum`,
-					href: '/'
+					href: MPOND_HISTORY_PAGE_URL
 				},
-				{ label: 'Learn', href: '/' }
+				{ label: 'Learn', href: BRIDGE_LEARN_MORE_DOC_LINK }
 			]
 		},
-		{ label: 'Governance', href: '/v2/governance', icon: GovernanceIcon },
+		{ label: 'Governance', href: GOVERNANCE_URL, icon: GovernanceIcon },
 		{
 			label: 'Relay',
 			icon: RelayIcon,
-			href: '/v2/relay',
+			href: RELAY_URL,
 			children: [
-				{ label: 'Clusters', href: '/v2/relay/clusters' },
-				{ label: 'Registration', href: '/v2/relay/registration' },
-				{ label: 'Delegations', href: '/v2/relay/delegations' },
-				{ label: 'Receivers', href: '/v2/relay/receiver' }
+				{ label: 'Clusters', href: RELAY_CLUSTERS_URL },
+				{ label: 'Registration', href: RELAY_REGISTRATION_URL },
+				{ label: 'Delegations', href: RELAY_DELEGATION_URL },
+				{ label: 'Receivers', href: RELAY_RECEIVER_URL }
 			]
 		},
 		{
 			label: 'Oyster',
 			icon: OysterIcon,
-			href: '/v2/oyster',
+			href: OYSTER_URL,
 			children: [
-				{ label: 'Marketplace', href: '/' },
-				{ label: 'Operator', href: '/' },
-				{ label: 'Inventory', href: '/' },
-				{ label: 'Auditors', href: '/' }
+				{ label: 'Marketplace', href: OYSTER_MARKETPLACE_URL },
+				{ label: 'Operator', href: OYSTER_OPERATOR_URL },
+				{ label: 'Inventory', href: OYSTER_INVENTORY_URL },
+				{ label: 'Auditors', href: OYSTER_AUDITORS_URL }
 			]
 		},
 		{
 			label: 'Kalypso',
 			icon: KalypsoIcon,
-			href: '/v2/kalypso',
+			href: KALYPSO_URL,
 			children: [
-				{ label: 'Link 1', href: '/' },
-				{ label: 'Link 2', href: '/' },
-				{ label: 'Link 3', href: '/' },
-				{ label: 'Link 4', href: '/' },
-				{ label: 'Link 5', href: '/' }
+				{ label: 'Kalypso 1', href: KALYPSO_LINK_1_URL },
+				{ label: 'Kalypso 2', href: KALYPSO_LINK_2_URL }
 			]
 		},
-		{ label: 'Ecosystem', href: '/v2/ecosystem', icon: EcosystemIcon },
-		{ label: 'FAQs', href: '/v2/faqs', icon: FaQsIcon }
+		{ label: 'Ecosystem', href: ECOSYSTEM_URL, icon: EcosystemIcon },
+		{ label: 'FAQs', href: FAQS_URL, icon: FaQsIcon }
 	];
 </script>
 
@@ -183,7 +201,6 @@
 				class="absolute right-0 top-1/2 translate-x-1/2 translate-y-1/2 cursor-pointer"
 				on:click={toggleNavbar}
 			>
-				<!--  -->
 				<img
 					src={staticImages.navButton}
 					class={`${isNavOpen ? '' : 'rotate-180'} transition-all duration-300 ease-out`}

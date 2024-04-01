@@ -28,6 +28,8 @@ const EthereumLogo = '/images/eth.webp';
 const LineaLogo = '/images/linea.webp';
 const MarlinLogo = 'https://blog.marlin.org/wp-content/uploads/2024/01/200x200.png';
 const navButton = '/images/navbtn.svg';
+const chainLogo = '/images/chainSwitchLogo.svg';
+const discChainLog = '/images/discChain.svg';
 
 export const staticImages = {
 	Alert,
@@ -59,5 +61,7 @@ export const staticImages = {
 	EthereumLogo,
 	LineaLogo,
 	MarlinLogo,
-	navButton
+	navButton,
+	chainLogo,
+	discChainLog
 };

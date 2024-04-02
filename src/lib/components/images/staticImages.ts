@@ -50,6 +50,9 @@ const dataTransferIcon = '/images/dataTransferIcon.svg';
 const dataTransferIconBlue = '/images/dataTransferIconBlue.svg';
 const marlinSmLogo = '/images/marlinSmLogo.svg';
 const marlinLgLogo = '/images/marlinLgLogo.svg';
+const alertV2Icon = '/images/alertV2Icon.svg';
+const sortV2Icon = '/images/sortV2Icon.svg';
+
 export const staticImages = {
 	Alert,
 	Arrow,
@@ -102,5 +105,7 @@ export const staticImages = {
 	relayIcon,
 	relayIconBlue,
 	marlinSmLogo,
-	marlinLgLogo
+	marlinLgLogo,
+	alertV2Icon,
+	sortV2Icon
 };

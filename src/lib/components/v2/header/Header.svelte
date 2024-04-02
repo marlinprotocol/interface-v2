@@ -18,7 +18,11 @@
 	>
 		<div class="relative h-full w-full">
 			<div class="mb-9 mt-8 flex items-center justify-center gap-2">
-				<HeaderLogo />
+				{#if isNavOpen}
+					<img src={staticImages.marlinLgLogo} alt="large logo" />
+				{:else}
+					<img src={staticImages.marlinSmLogo} alt="small logo" />
+				{/if}
 			</div>
 			<SidebarLinksGroup activeLink={$page.url.pathname} {isNavOpen} />
 			<button

@@ -12,7 +12,3 @@
 		<p class="ml-4 whitespace-nowrap font-poppins text-[14px] text-[#26272C]">{label}</p>
 	{/if}
 </div>
-
-<!--   ${
-			isNavOpen ? 'visible opacity-100' : 'invisible opacity-0'
-		} -->

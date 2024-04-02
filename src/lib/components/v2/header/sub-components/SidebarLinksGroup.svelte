@@ -181,16 +181,14 @@
 			{/if}
 		{/each}
 	</ul>
-	<div class={`mb-8 mt-auto rounded-2xl ${isNavOpen ? 'bg-[#F4F4F6]' : ''}`}>
+	<div class="mb-8 mt-auto rounded-2xl {isNavOpen ? 'bg-[#F4F4F6]' : ''}">
 		<ul>
 			{#each menuItems as item}
 				<MenuItem bind:isNavOpen imgSrc={item.imgSrc} label={item.label} />
 			{/each}
 		</ul>
 		<div class="px-4 py-4">
-			<label
-				class={`grid cursor-pointer place-items-center ${isNavOpen ? 'w-[48px]' : 'w-[24px]'}`}
-			>
+			<label class="grid cursor-pointer place-items-center {isNavOpen ? 'w-[48px]' : 'w-[24px]'}">
 				<input
 					type="checkbox"
 					value="synthwave"
@@ -199,7 +197,6 @@
 						? 'col-span-2 col-start-1 row-start-1 w-[48px]'
 						: 'col-span-1 col-start-1 row-start-1  w-[24px]'}"
 				/>
-
 				<svg
 					class={`col-start-1 row-start-1 fill-base-100 stroke-base-100`}
 					width="14"

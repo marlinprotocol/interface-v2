@@ -3,7 +3,7 @@
 	import lock from 'svelte-awesome/icons/lock';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import onboard from '$lib/controllers/web3OnboardController';
-	import ChainSwitcher from '$lib/components/headerv2/sub-components/ChainSwitcher.svelte';
+	import ChainSwitcher from '$lib/components/v2/header/sub-components/ChainSwitcher.svelte';
 
 	export let isLarge = false;
 	export let connectButtonText = 'Connect Wallet';

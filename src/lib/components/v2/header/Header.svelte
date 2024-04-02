@@ -1,9 +1,9 @@
 <script lang="ts">
-	import HeaderConnectWallet from '$lib/components/headerv2/sub-components/HeaderConnectWallet.svelte';
-	import HeaderLogo from '$lib/components/headerv2/sub-components/HeaderLogo.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { page } from '$app/stores';
 	import SidebarLinksGroup from './sub-components/SidebarLinksGroup.svelte';
+	import HeaderLogo from '$lib/components/v2/header/sub-components/HeaderLogo.svelte';
+	import HeaderConnectWallet from '$lib/components/v2/header/sub-components/HeaderConnectWallet.svelte';
 
 	let isNavOpen: Boolean = true;
 

@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { staticImages } from '$lib/components/images/staticImages';
+	import type { SidebarLinks } from '$lib/types/headerTypes';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
 
 	export let activeLink: string = '';
 	export let isNavOpen: Boolean = true;
 
-	let links: any[] = [];
+	let links: SidebarLinks[] = [];
 
 	$: links = [
 		{
@@ -46,7 +47,7 @@
 						? staticImages.dataTransferIconBlue
 						: staticImages.dataTransferIcon
 				},
-				{ preFixLabel: 'Learn', href: ROUTES.BRIDGE_LEARN_MORE_DOC_LINK }
+				{ preFixLabel: 'Learn', href: ROUTES.BRIDGE_LEARN_MORE_DOC_LINK, openInNewTab: true }
 			]
 		},
 		{
@@ -138,6 +139,7 @@
 								<li>
 									<a
 										href={subLink.href}
+										target={subLink.openInNewTab ? '_blank' : ''}
 										class="p-0 hover:bg-transparent focus:!bg-transparent active:!bg-transparent active:!text-[#26272c]"
 									>
 										<div

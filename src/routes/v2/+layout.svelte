@@ -48,9 +48,15 @@
 
 <main class="w-full">
 	<!-- <Toast /> -->
-	<Header />
-	<Sidebar />
-	<slot />
+	<div class="flex w-full flex-row">
+		<Sidebar />
+		<div class="flex max-h-[100dvh] w-full flex-col">
+			<Header />
+			<div class="max-h-[calc(100dvh-80px)] overflow-auto">
+				<slot />
+			</div>
+		</div>
+	</div>
 </main>
 
 <!-- This shows a prompt if the screen size is smaller than 1090px -->

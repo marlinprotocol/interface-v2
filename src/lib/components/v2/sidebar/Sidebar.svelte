@@ -2,6 +2,7 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { page } from '$app/stores';
 	import SidebarLinksGroup from '../header/sub-components/SidebarLinksGroup.svelte';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	let isNavOpen: Boolean = true;
 
@@ -9,9 +10,12 @@
 </script>
 
 <div
-	class={`nav-bg z-10 h-screen ${isNavOpen ? 'w-72' : 'w-28'} transition-all duration-300 ease-out`}
+	class={cn(
+		'nav-bg z-10 h-[100dvh] transition-all duration-300 ease-out',
+		isNavOpen ? 'min-w-[18rem]' : 'min-w-[112px]'
+	)}
 >
-	<div class="mb-9 mt-8 flex items-center justify-center gap-2">
+	<div class="flex h-20 items-center justify-center gap-2 p-4">
 		{#if isNavOpen}
 			<img src={staticImages.marlinLgLogo} alt="large logo" />
 		{:else}
@@ -20,12 +24,15 @@
 	</div>
 	<SidebarLinksGroup activeLink={$page.url.pathname} {isNavOpen} />
 	<button
-		class="absolute right-0 top-1/2 translate-x-1/2 translate-y-1/2 cursor-pointer"
+		class={cn(
+			'absolute top-1/2 cursor-pointer transition-all duration-300 ease-out',
+			isNavOpen ? 'left-[271px]' : 'left-[95px]'
+		)}
 		on:click={toggleNavbar}
 	>
 		<img
 			src={staticImages.navButton}
-			class={`${isNavOpen ? '' : 'rotate-180'} transition-all duration-300 ease-out`}
+			class={`${isNavOpen ? '' : 'rotate-180'} min-h-[35px] min-w-[35px]`}
 			alt="nav-btn"
 		/>
 	</button>

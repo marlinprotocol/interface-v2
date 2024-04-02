@@ -108,7 +108,7 @@
 	];
 </script>
 
-<div class="h-[600px] overflow-y-auto overflow-x-hidden px-7">
+<div class="overflow-y-auto overflow-x-hidden px-7">
 	<ul class="menu p-0">
 		{#each links as { icon, label, children, href }}
 			{#if children}

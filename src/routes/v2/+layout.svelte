@@ -9,6 +9,7 @@
 	import { onMount } from 'svelte';
 	import '../../app.css';
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
+	import Sidebar from '$lib/components/v2/sidebar/Sidebar.svelte';
 
 	onMount(async () => {
 		// removes console logs in production
@@ -48,6 +49,7 @@
 <main class="w-full">
 	<!-- <Toast /> -->
 	<Header />
+	<Sidebar />
 	<slot />
 </main>
 

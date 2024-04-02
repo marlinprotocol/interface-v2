@@ -1,9 +1,6 @@
 // _LINK: complete url
 // _URL: internal app routing url
 
-//dashboard page
-export const HUB_DASHBOARD_URL = '/v2/dashboard';
-
 // general links
 export const DISCORD_LINK = 'https://discord.gg/xqJfSGY6gR';
 

@@ -186,6 +186,15 @@ module.exports = {
 					'.nav-bg': {
 						'background-color': '#ffffff'
 					},
+					'.cnt-btn': {
+						'border-radius': '100px !important',
+						padding: '0px 24px'
+					},
+					'.chain-btn': {
+						'border-radius': '100px !important',
+						border: '1px solid #D9DADE !important',
+						'background-color': '#fffff'
+					},
 					//custom designs
 					'.modal-backdrop': {
 						'background-color': '#010324cc'

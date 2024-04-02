@@ -3,7 +3,7 @@
 	import lock from 'svelte-awesome/icons/lock';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import onboard from '$lib/controllers/web3OnboardController';
-	import ChainSwitcher from '$lib/components/header/sub-components/ChainSwitcher.svelte';
+	import ChainSwitcher from '$lib/components/v2/header/sub-components/ChainSwitcher.svelte';
 
 	export let isLarge = false;
 	export let connectButtonText = 'Connect Wallet';
@@ -26,10 +26,10 @@
 		<Button
 			onclick={connect}
 			size="small"
-			variant="outlined"
-			styleClass="flex gap-[10.3px] w-fit text-sm h-12 flex items-center"
+			variant="filled"
+			styleClass="flex gap-[10.3px] w-fit text-sm h-12 flex items-center cnt-btn"
 		>
-			<img src="/images/lockicon.svg" alt="Connect" />
+			<!-- <img src="/images/lockicon.svg" alt="Connect" /> -->
 			{connectButtonText}
 		</Button>
 	</div>

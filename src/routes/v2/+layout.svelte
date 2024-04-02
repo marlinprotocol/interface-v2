@@ -5,10 +5,11 @@
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 
 	import Toast from '$lib/atoms/toast/Toast.svelte';
-	import Header from '$lib/components/headerv2/Header.svelte';
+	import Header from '$lib/components/v2/header/Header.svelte';
 	import { onMount } from 'svelte';
 	import '../../app.css';
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
+	import Sidebar from '$lib/components/v2/sidebar/Sidebar.svelte';
 
 	onMount(async () => {
 		// removes console logs in production
@@ -47,8 +48,15 @@
 
 <main class="w-full">
 	<!-- <Toast /> -->
-	<Header />
-	<slot />
+	<div class="flex w-full flex-row">
+		<Sidebar />
+		<div class="flex max-h-[100dvh] w-full flex-col">
+			<Header />
+			<div class="max-h-[calc(100dvh-80px)] overflow-auto">
+				<slot />
+			</div>
+		</div>
+	</div>
 </main>
 
 <!-- This shows a prompt if the screen size is smaller than 1090px -->

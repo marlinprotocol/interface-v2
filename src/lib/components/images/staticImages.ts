@@ -28,7 +28,28 @@ const EthereumLogo = '/images/eth.webp';
 const LineaLogo = '/images/linea.webp';
 const MarlinLogo = 'https://blog.marlin.org/wp-content/uploads/2024/01/200x200.png';
 const navButton = '/images/navbtn.svg';
-
+const chainLogo = '/images/chainSwitchLogo.svg';
+const discChainLog = '/images/discChain.svg';
+const bridgeIcon = '/images/bridgeIcon.svg';
+const bridgeIconBlue = '/images/bridgeIconBlue.svg';
+const dashboardIcon = '/images/dashboardIcon.svg';
+const dashboardIconBlue = '/images/dashboardIconBlue.svg';
+const ecosystemIcon = '/images/ecosystemIcon.svg';
+const ecosystemIconBlue = '/images/ecosystemIconBlue.svg';
+const faqsIcon = '/images/faqsIcon.svg';
+const faqsIconBlue = '/images/faqsIconBlue.svg';
+const governanceIcon = '/images/governanceIcon.svg';
+const governanceIconBlue = '/images/governanceIconBlue.svg';
+const kalypsoIcon = '/images/kalypsoIcon.svg';
+const kalypsoIconBlue = '/images/kalypsoIconBlue.svg';
+const oysterIcon = '/images/oysterIcon.svg';
+const oysterIconBlue = '/images/oysterIconBlue.svg';
+const relayIcon = '/images/relayIcon.svg';
+const relayIconBlue = '/images/relayIconBlue.svg';
+const dataTransferIcon = '/images/dataTransferIcon.svg';
+const dataTransferIconBlue = '/images/dataTransferIconBlue.svg';
+const marlinSmLogo = '/images/marlinSmLogo.svg';
+const marlinLgLogo = '/images/marlinLgLogo.svg';
 export const staticImages = {
 	Alert,
 	Arrow,
@@ -59,5 +80,27 @@ export const staticImages = {
 	EthereumLogo,
 	LineaLogo,
 	MarlinLogo,
-	navButton
+	navButton,
+	chainLogo,
+	discChainLog,
+	bridgeIcon,
+	bridgeIconBlue,
+	dashboardIcon,
+	dashboardIconBlue,
+	dataTransferIcon,
+	dataTransferIconBlue,
+	ecosystemIcon,
+	ecosystemIconBlue,
+	faqsIcon,
+	faqsIconBlue,
+	governanceIcon,
+	governanceIconBlue,
+	kalypsoIcon,
+	kalypsoIconBlue,
+	oysterIcon,
+	oysterIconBlue,
+	relayIcon,
+	relayIconBlue,
+	marlinSmLogo,
+	marlinLgLogo
 };

@@ -2,6 +2,7 @@
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import { switchChain } from '$lib/utils/helpers/networkHelper';
 	import { environment } from '$lib/data-stores/environment';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import { connected, web3WalletStore } from '$lib/data-stores/walletProviderStore';
 	import {
 		allowedChainsStore,
@@ -10,8 +11,6 @@
 	} from '$lib/data-stores/chainProviderStore';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import chevronDown from 'svelte-awesome/icons/chevronDown';
-
-	export let isDark: boolean = false;
 
 	function handleChainSwitch(chainId: number) {
 		if ($connected && chainId !== $chainStore.chainId) {
@@ -31,39 +30,26 @@
 
 <svelte:window on:click={(e) => closeSwitcherWhenClickedOutside(e)} />
 
-<details
-	class={$allowedChainsStore.length === 0 ? 'focus pointer-events-none opacity-60' : 'dropdown'}
-	id="chain-dropdown"
->
-	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-	<summary
+<div class="dropdown dropdown-end" id="chain-dropdown">
+	<div
 		tabindex={$allowedChainsStore.length === 0 ? -1 : 0}
-		class="{isDark
-			? buttonClasses.greyFilled
-			: buttonClasses.whiteFilled} h-[50px] border border-sky-500 shadow-sm"
+		role="button"
+		class="{buttonClasses.whiteFilled} chain-btn m-1 flex h-12"
 	>
-		<div class="flex h-8 w-fit items-center">
+		<div class="flex items-center justify-center">
 			<div class="h-8 w-8">
-				{#if $chainStore.chainImage}
-					<img src={$chainStore.chainImage} alt="current chain" />
-				{:else}
-					<div
-						class="flex h-full items-center justify-center rounded-full {isDark
-							? 'bg-white'
-							: 'bg-[#e9f2f5]'}"
-					>
-						<span>{$chainStore.chainDisplayName[0].toLocaleUpperCase()}</span>
-					</div>
-				{/if}
+				<img src={staticImages.chainLogo} alt="current chain" />
 			</div>
 			<div class="ml-2">
-				<Icon data={chevronDown} size={12} iconColorClass="icon-primary" />
+				<Icon data={chevronDown} size={10} iconColorClass="icon-primary" />
 			</div>
 		</div>
-	</summary>
-
+	</div>
 	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-	<ul tabindex="0" class="menu dropdown-content rounded-box z-[1] mt-4 w-52 bg-base-100 p-2 shadow">
+	<ul
+		tabindex={$allowedChainsStore.length === 0 ? -1 : 0}
+		class="menu dropdown-content rounded-box z-[1] mt-4 w-52 bg-base-100 p-2 shadow"
+	>
 		{#each $allowedChainsStore as chain (chain)}
 			<li class="flex {$chainStore.chainId === chain ? 'rounded-lg bg-primary text-white' : ''}">
 				<button on:click={() => handleChainSwitch(chain)}>
@@ -75,4 +61,4 @@
 			</li>
 		{/each}
 	</ul>
-</details>
+</div>

@@ -28,7 +28,8 @@ module.exports = {
 			},
 			fontFamily: {
 				poppins: ['Poppins', 'sans-serif'],
-				orbitron: ['Orbitron', 'sans-serif']
+				orbitron: ['Orbitron', 'sans-serif'],
+				inter: ['Inter', 'sans-serif']
 			},
 			zIndex: {
 				100: '100',

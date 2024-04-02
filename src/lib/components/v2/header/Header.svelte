@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import HeaderConnectWallet from '$lib/components/headerv2/sub-components/HeaderConnectWallet.svelte';
-	import HeaderLinksGroup from '$lib/components/headerv2/sub-components/HeaderLinksGroup.svelte';
-	import HeaderLogo from '$lib/components/headerv2/sub-components/HeaderLogo.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import MenuItem from './sub-components/MenuItem.svelte';
+	import { page } from '$app/stores';
+	import SidebarLinksGroup from './sub-components/SidebarLinksGroup.svelte';
+	import HeaderLogo from '$lib/components/v2/header/sub-components/HeaderLogo.svelte';
+	import HeaderConnectWallet from '$lib/components/v2/header/sub-components/HeaderConnectWallet.svelte';
 
 	type MenuItemType = {
 		iconSVG: string;
@@ -12,9 +12,6 @@
 	};
 	let isNavOpen: Boolean = true;
 
-	const toggleNavbar = () => {
-		isNavOpen = !isNavOpen;
-	};
 	let checked = false;
 	let isLightMode = true;
 
@@ -40,6 +37,7 @@
 			label: 'Blog'
 		}
 	];
+	const toggleNavbar = () => (isNavOpen = !isNavOpen);
 </script>
 
 <div>
@@ -48,7 +46,27 @@
 			isNavOpen ? 'w-72' : 'w-28'
 		} transition-all duration-300 ease-out`}
 	>
-		<div class="relative flex h-full w-full flex-col">
+		<div class="relative h-full w-full">
+			<div class="mb-9 mt-8 flex items-center justify-center gap-2">
+				{#if isNavOpen}
+					<img src={staticImages.marlinLgLogo} alt="large logo" />
+				{:else}
+					<img src={staticImages.marlinSmLogo} alt="small logo" />
+				{/if}
+			</div>
+			<SidebarLinksGroup activeLink={$page.url.pathname} {isNavOpen} />
+
+			<button
+				class="absolute right-0 top-1/2 translate-x-1/2 translate-y-1/2 cursor-pointer"
+				on:click={toggleNavbar}
+			>
+				<img
+					src={staticImages.navButton}
+					class={`${isNavOpen ? '' : 'rotate-180'} transition-all duration-300 ease-out`}
+					alt="nav-btn"
+				/>
+			</button>
+
 			<div class={`mx-[28px] mb-[32px] mt-auto rounded-2xl ${isNavOpen ? 'bg-[#F4F4F6]' : ''}`}>
 				{#each menuItems as item}
 					<MenuItem bind:isNavOpen iconSVG={item.iconSVG} label={item.label} />
@@ -168,16 +186,6 @@
 					</label>
 				</div>
 			</div>
-			<button
-				class="absolute right-0 top-1/2 translate-x-1/2 translate-y-1/2 cursor-pointer"
-				on:click={toggleNavbar}
-			>
-				<img
-					src={staticImages.navButton}
-					class={`${isNavOpen ? '' : 'rotate-180'} transition-all duration-300 ease-out`}
-					alt="nav-btn"
-				/>
-			</button>
 		</div>
 	</div>
 	<div class="nav-bg top-0 flex h-20 w-full items-center justify-end">

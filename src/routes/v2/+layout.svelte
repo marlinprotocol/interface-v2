@@ -5,7 +5,7 @@
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 
 	import Toast from '$lib/atoms/toast/Toast.svelte';
-	import Header from '$lib/components/headerv2/Header.svelte';
+	import Header from '$lib/components/v2/header/Header.svelte';
 	import { onMount } from 'svelte';
 	import '../../app.css';
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';

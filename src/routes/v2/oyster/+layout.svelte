@@ -110,7 +110,9 @@
 
 {#if $chainStore.isValidChain && chainSupported}
 	<PageWrapper>
-		<slot />
+		<div>
+			<slot />
+		</div>
 	</PageWrapper>
 {:else}
 	<PageWrapper>

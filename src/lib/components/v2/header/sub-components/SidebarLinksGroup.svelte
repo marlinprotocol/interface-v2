@@ -11,8 +11,8 @@
 	$: links = [
 		{
 			label: 'Dashboard',
-			href: ROUTES.DASHBOARD_URL,
-			icon: activeLink.includes(ROUTES.DASHBOARD_URL)
+			href: ROUTES.HUB_DASHBOARD_URL,
+			icon: activeLink.includes(ROUTES.HUB_DASHBOARD_URL)
 				? staticImages.dashboardIconBlue
 				: staticImages.dashboardIcon
 		},

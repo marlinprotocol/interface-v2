@@ -1,8 +1,8 @@
 // _LINK: complete url
 // _URL: internal app routing url
 
-// dashboard
-const DASHBOARD_URL = '/v2/dashboard';
+//dashboard page
+const HUB_DASHBOARD_URL = '/v2/dashboard';
 
 //bridge
 const BRIDGE_URL = '/v2/bridge';
@@ -40,7 +40,7 @@ const ECOSYSTEM_URL = '/v2/ecosystem';
 const FAQS_URL = '/v2/faqs';
 
 export const ROUTES = {
-	DASHBOARD_URL,
+	HUB_DASHBOARD_URL,
 	BRIDGE_URL,
 	POND_HISTORY_PAGE_URL,
 	MPOND_HISTORY_PAGE_URL,

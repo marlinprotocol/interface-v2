@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PageWrapper from '$lib/components/wrapper/PageWrapper.svelte';
+	import PageWrapper from '$lib/components/v2/wrapper/PageWrapper.svelte';
 </script>
 
 <svelte:head>

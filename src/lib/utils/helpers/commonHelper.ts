@@ -1,5 +1,7 @@
 import { checkIfSignerExistsInSubgraph } from '$lib/controllers/subgraphController';
 import { shortenText } from '$lib/utils/helpers/conversionHelper';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function copyTextToClipboard(text: string) {
 	if (navigator.clipboard) {
@@ -217,3 +219,7 @@ export const doNothing = () => {
 export const bigIntAbs = (n: bigint) => {
 	return n < 0n ? -n : n;
 };
+
+export function cn(...args: ClassValue[]) {
+	return twMerge(clsx(args));
+}

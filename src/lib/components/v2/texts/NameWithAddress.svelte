@@ -41,7 +41,7 @@
 			</Tooltip>
 			<div class="flex w-fit items-center gap-1">
 				<Text
-					variant="tiny"
+					variant="nav"
 					styleClass="text-grey"
 					fontWeight="font-normal"
 					text={shortenText(address, 6, 6)}
@@ -52,7 +52,7 @@
 			</div>
 		{:else}
 			<div class="flex w-fit min-w-[150px] items-center gap-1">
-				<Text variant="body" fontWeight="font-normal" text={shortenText(address, 6, 6)} />
+				<Text variant="nav" fontWeight="font-normal" text={shortenText(address, 6, 6)} />
 				<button on:keypress={onCopyAddress} on:click={onCopyAddress}>
 					<slot name="copyIcon" />
 				</button>

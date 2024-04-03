@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { staticImages } from '$lib/components/images/staticImages';
 	import type { SidebarLinks } from '$lib/types/headerTypes';
+	import { menuItems } from '$lib/utils/constants/v2/navigation';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
+	import MenuItem from './MenuItem.svelte';
 
 	export let activeLink: string = '';
 	export let isNavOpen: Boolean = true;
 
 	let links: SidebarLinks[] = [];
+	let checked = false;
 
 	$: links = [
 		{
@@ -109,7 +112,7 @@
 	];
 </script>
 
-<div class="overflow-y-auto overflow-x-hidden px-7">
+<div class="flex flex-1 flex-col overflow-y-auto overflow-x-hidden px-7">
 	<ul class="menu p-0">
 		{#each links as { icon, label, children, href }}
 			{#if children}
@@ -178,4 +181,104 @@
 			{/if}
 		{/each}
 	</ul>
+	<div class="mb-8 mt-auto rounded-2xl {isNavOpen ? 'bg-[#F4F4F6]' : ''}">
+		<ul>
+			{#each menuItems as item}
+				<MenuItem bind:isNavOpen imgSrc={item.imgSrc} label={item.label} />
+			{/each}
+		</ul>
+		<div class="px-4 py-4">
+			<label class="grid cursor-pointer place-items-center {isNavOpen ? 'w-[48px]' : 'w-[24px]'}">
+				<input
+					type="checkbox"
+					value="synthwave"
+					bind:checked
+					class="theme-controller toggle {isNavOpen
+						? 'col-span-2 col-start-1 row-start-1 w-[48px]'
+						: 'col-span-1 col-start-1 row-start-1  w-[24px]'}"
+				/>
+				<svg
+					class={`col-start-1 row-start-1 fill-base-100 stroke-base-100`}
+					width="14"
+					height="14"
+					viewBox="0 0 14 14"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M9.91634 6.99967C9.91634 8.61049 8.61049 9.91634 6.99967 9.91634C5.38885 9.91634 4.08301 8.61049 4.08301 6.99967C4.08301 5.38885 5.38885 4.08301 6.99967 4.08301C8.61049 4.08301 9.91634 5.38885 9.91634 6.99967Z"
+						stroke="#030115"
+						stroke-width="0.875"
+					/>
+					<path
+						opacity="0.4"
+						d="M7.00033 1.16699V2.04199M7.00033 11.9587V12.8337M11.125 11.1253L10.5062 10.5065M3.49406 3.49406L2.87534 2.87534M12.8337 7.00033H11.9587M2.04199 7.00033H1.16699M11.1253 2.87541L10.5065 3.49412M3.49435 10.5066L2.87563 11.1253"
+						stroke="#030115"
+						stroke-width="0.875"
+						stroke-linecap="round"
+					/>
+				</svg>
+				<svg
+					width="14"
+					height="14"
+					viewBox="0 0 14 14"
+					fill="none"
+					class="{isNavOpen ? 'col-start-2' : 'col-start-1'} row-start-1"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						opacity="0.4"
+						d="M12.5443 8.21207C11.8444 8.5857 11.0452 8.79757 10.1964 8.79757C7.43958 8.79757 5.20472 6.5627 5.20472 3.80584C5.20472 2.95709 5.41655 2.15782 5.79022 1.45801C3.30873 2.03958 1.46094 4.26683 1.46094 6.92565C1.46094 10.0271 3.97516 12.5413 7.07663 12.5413C9.73546 12.5413 11.9627 10.6936 12.5443 8.21207Z"
+						stroke="white"
+						stroke-width="0.875"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+					<path
+						d="M12.5443 8.21207C11.9627 10.6936 9.73546 12.5413 7.07663 12.5413C3.97516 12.5413 1.46094 10.0271 1.46094 6.92565C1.46094 4.26683 3.30873 2.03958 5.79022 1.45801"
+						stroke="white"
+						stroke-width="0.875"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+				</svg>
+			</label>
+		</div>
+	</div>
 </div>
+
+<style>
+	.toggle,
+	.toggle[checked='false'],
+	.toggle[aria-checked='false'] .bg-base-content {
+		background-color: #fff;
+	}
+	.toggle:checked,
+	.toggle[checked='true'],
+	.toggle[aria-checked='true'] .bg-base-content {
+		background-color: #17191c;
+	}
+	.toggle {
+		--tglbg: #d9dade;
+		box-shadow:
+			var(--handleoffsetcalculator) 0 0 2px var(--tglbg) inset,
+			0 0 0 2px var(--tglbg) inset,
+			var(--togglehandleborder);
+		border: none;
+	}
+	.toggle:checked {
+		--tglbg: #3e3f47;
+	}
+	.toggle:checked + svg {
+		opacity: 0;
+		visibility: hidden;
+	}
+	.toggle + svg + svg:last-of-type {
+		opacity: 0;
+		visibility: hidden;
+	}
+	.toggle:checked + svg + svg:last-of-type {
+		opacity: 1;
+		visibility: visible;
+	}
+</style>

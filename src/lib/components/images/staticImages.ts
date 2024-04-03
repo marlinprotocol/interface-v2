@@ -52,6 +52,10 @@ const marlinSmLogo = '/images/marlinSmLogo.svg';
 const marlinLgLogo = '/images/marlinLgLogo.svg';
 const alertV2Icon = '/images/alertV2Icon.svg';
 const sortV2Icon = '/images/sortV2Icon.svg';
+const lightModeLogo = '/images/lightModeLogo.svg';
+const developerChatIcon = '/images/developerChatIcon.svg';
+const earthIcon = '/images/earth.svg';
+const blogIcon = '/images/blog.svg';
 
 export const staticImages = {
 	Alert,
@@ -107,5 +111,9 @@ export const staticImages = {
 	marlinSmLogo,
 	marlinLgLogo,
 	alertV2Icon,
-	sortV2Icon
+	sortV2Icon,
+	lightModeLogo,
+	developerChatIcon,
+	earthIcon,
+	blogIcon
 };

@@ -74,11 +74,9 @@
 			styleClass="w-full"
 			onSearchClick={onFilterClick}
 			isTableFilter={true}
+			clearButton={true}
+			{handleClearFilters}
 		/>
-
-		<Button variant="filled" size="medium" styleClass="w-[140px]" onclick={handleClearFilters}>
-			CLEAR
-		</Button>
 	</div>
 	<div class="mt-4 flex w-full flex-col items-center gap-4 md:flex-row">
 		<SearchWithSelect

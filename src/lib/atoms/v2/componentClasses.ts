@@ -1,5 +1,5 @@
 const baseFilledButtonClasses =
-	'btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed rounded-[100px]';
+	'btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px]';
 
 export const buttonClasses = {
 	filled: `${baseFilledButtonClasses} btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white`,

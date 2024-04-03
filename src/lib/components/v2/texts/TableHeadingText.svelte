@@ -37,7 +37,7 @@
 			<span class="w-fit tracking-widest">{title}</span>
 			{#if !!tooltipText}
 				<TooltipIcon
-					styleClass="mt-[1px] absolute right-[-18px]"
+					styleClass="mt-[1px] absolute right-[-27px] top-[2px]"
 					{tooltipText}
 					{tooltipDirection}
 					{iconWidth}

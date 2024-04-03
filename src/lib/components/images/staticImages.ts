@@ -1,6 +1,8 @@
 const Alert = '/images/alert.svg';
 const Arrow = '/images/arrowicon.svg';
 const ArrowLong = '/images/arrow-long.svg';
+const ArrowRightSolid = '/images/arrowRightSolid.svg';
+const ArrowLeftSolid = '/images/arrowLeftSolid.svg';
 const BlueAlert = '/images/blue-alert.svg';
 const Check = '/images/vectorcheck.svg';
 const CloseCircle = '/images/close-circle-icon.svg';
@@ -50,10 +52,13 @@ const dataTransferIcon = '/images/dataTransferIcon.svg';
 const dataTransferIconBlue = '/images/dataTransferIconBlue.svg';
 const marlinSmLogo = '/images/marlinSmLogo.svg';
 const marlinLgLogo = '/images/marlinLgLogo.svg';
+
 export const staticImages = {
 	Alert,
 	Arrow,
 	ArrowLong,
+	ArrowRightSolid,
+	ArrowLeftSolid,
 	BlueAlert,
 	Check,
 	CloseCircle,

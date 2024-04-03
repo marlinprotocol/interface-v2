@@ -56,6 +56,7 @@ const lightModeLogo = '/images/lightModeLogo.svg';
 const developerChatIcon = '/images/developerChatIcon.svg';
 const earthIcon = '/images/earth.svg';
 const blogIcon = '/images/blog.svg';
+const chevronDownIcon = '/images/chevronDownIcon.svg';
 
 export const staticImages = {
 	Alert,
@@ -115,5 +116,6 @@ export const staticImages = {
 	lightModeLogo,
 	developerChatIcon,
 	earthIcon,
-	blogIcon
+	blogIcon,
+	chevronDownIcon
 };

@@ -1,0 +1,98 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Pagination > renders correctly 1`] = `
+<body>
+  <div>
+    <div
+      class="btn-group custom-class"
+    >
+      <button
+        class="btn btn-sm px-2 border-none bg-base-200 hover:bg-base-300 disabled:bg-base-200 disabled:text-primary disabled:curson-not-allowed disabled:cursor-not-allowed"
+        data-testid="pagination-prev-button"
+        disabled=""
+      >
+        <svg
+          aria-label=""
+          class="fa-icon icon-info s-T5YyQewRBd7n"
+          data-testid="icon"
+          height="16"
+          role="presentation"
+          style="width:12px; height:12px; cursor:pointer;  "
+          version="1.1"
+          viewBox="0 0 1280 1792"
+          width="11.428571428571429"
+        >
+          <path
+            d="M1171 301l-531 531 531 531q19 19 19 45t-19 45l-166 166q-19 19-45 19t-45-19l-742-742q-19-19-19-45t19-45l742-742q19-19 45-19t45 19l166 166q19 19 19 45t-19 45z"
+          />
+          
+           
+           
+          
+          
+        </svg>
+        <!--&lt;Svg&gt;-->
+        <!--&lt;Icon&gt;-->
+        <!--&lt;Icon&gt;-->
+      </button>
+       
+      <button
+        class="btn btn-sm px-2 border-none bg-base-200 hover:bg-base-300 disabled:bg-base-200 disabled:text-primary disabled:curson-not-allowed disabled:cursor-not-allowed text-primary"
+        disabled=""
+      >
+        1
+      </button>
+      
+      <button
+        class="btn btn-sm px-2 border-none bg-base-200 hover:bg-base-300 disabled:bg-base-200 disabled:text-primary disabled:curson-not-allowed disabled:cursor-not-allowed "
+      >
+        2
+      </button>
+      
+      <button
+        class="btn btn-sm px-2 border-none bg-base-200 hover:bg-base-300 disabled:bg-base-200 disabled:text-primary disabled:curson-not-allowed disabled:cursor-not-allowed "
+      >
+        3
+      </button>
+      
+      <button
+        class="btn btn-sm px-2 border-none bg-base-200 hover:bg-base-300 disabled:bg-base-200 disabled:text-primary disabled:curson-not-allowed disabled:cursor-not-allowed "
+      >
+        4
+      </button>
+      
+      
+       
+      <button
+        class="btn btn-sm px-2 border-none bg-base-200 hover:bg-base-300 disabled:bg-base-200 disabled:text-primary disabled:curson-not-allowed disabled:cursor-not-allowed"
+        data-testid="pagination-next-button"
+      >
+        <svg
+          aria-label=""
+          class="fa-icon icon-primary s-T5YyQewRBd7n"
+          data-testid="icon"
+          height="16"
+          role="presentation"
+          style="width:12px; height:12px; cursor:pointer;  "
+          version="1.1"
+          viewBox="0 0 1280 1792"
+          width="11.428571428571429"
+        >
+          <path
+            d="M1107 877l-742 742q-19 19-45 19t-45-19l-166-166q-19-19-19-45t19-45l531-531-531-531q-19-19-19-45t19-45l166-166q19-19 45-19t45 19l742 742q19 19 19 45t-19 45z"
+          />
+          
+           
+           
+          
+          
+        </svg>
+        <!--&lt;Svg&gt;-->
+        <!--&lt;Icon&gt;-->
+        <!--&lt;Icon&gt;-->
+      </button>
+    </div>
+    <!--&lt;Pagination&gt;-->
+  </div>
+</body>
+`;

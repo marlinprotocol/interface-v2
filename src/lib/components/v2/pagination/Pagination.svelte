@@ -12,6 +12,26 @@
 	$: thirdPageCount = calculateThirdPageCount(activePage, pageCount);
 	$: forthPageCount = calculateForthPageCount(activePage, pageCount);
 	$: fifthPageCount = calculateFifthPageCount(activePage, pageCount);
+	$: lastPageNumber = activePage > pageCount - 2 || activePage < 4;
+	$: shouldDisplayLastPageNumber = lastPageNumber && activePage === pageCount - 1;
+
+	function handlePrevClick() {
+		if (activePage > 1) {
+			handlePageChange(activePage - 1);
+		}
+	}
+
+	function handleNextClick() {
+		if (activePage < pageCount) {
+			handlePageChange(activePage + 1);
+		}
+	}
+
+	function handleLastPageClick() {
+		if (lastPageNumber) {
+			handlePageChange(pageCount - 1);
+		}
+	}
 
 	function calculateThirdPageCount(activePage: number, pageCount: number): number {
 		return activePage <= 5 ? 3 : pageCount - activePage > 2 ? activePage - 2 : pageCount - 4;
@@ -35,11 +55,7 @@
 		disabled={isFirstPage}
 		data-testid="pagination-prev-button"
 		class="flex h-10 items-center gap-2 rounded-s-lg border border-r-0 border-[#D9DADE] bg-white px-4 py-[10px] font-poppins text-sm font-medium text-[#1D2939] disabled:cursor-not-allowed disabled:opacity-30"
-		on:click={() => {
-			if (activePage > 1) {
-				handlePageChange(activePage - 1);
-			}
-		}}
+		on:click={handlePrevClick}
 	>
 		<img src={staticImages.ArrowLeftSolid} alt={staticImages.ArrowLeftSolid} />
 		Previous
@@ -50,9 +66,11 @@
 				on:click={() => handlePageChange(page)}
 				class={cn(
 					'flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
-					i % 2 && 'border-x-0',
-					pageCount === i + 1 && 'border-r',
-					activePage === page && 'bg-[#3840C7] text-white'
+					{
+						'border-x-0': i % 2,
+						'border-r': pageCount === i + 1,
+						'bg-[#3840C7] text-white': activePage === page
+					}
 				)}
 			>
 				{page}
@@ -63,18 +81,16 @@
 			on:click={() => handlePageChange(1)}
 			class={cn(
 				'flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
-				activePage === 1 && 'bg-[#3840C7] text-white'
+				{ 'bg-[#3840C7] text-white': activePage === 1 }
 			)}
 		>
 			1
 		</button>
 		<button
-			on:click={() => {
-				activePage <= 3 && handlePageChange(2);
-			}}
+			on:click={() => activePage <= 3 && handlePageChange(2)}
 			class={cn(
 				'flex h-10 w-10 items-center justify-center border border-x-0 border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
-				activePage <= 3 && activePage === 2 && 'bg-[#3840C7] text-white'
+				{ 'bg-[#3840C7] text-white': activePage <= 3 && activePage === 2 }
 			)}
 		>
 			{#if activePage <= 3}
@@ -84,24 +100,20 @@
 			{/if}
 		</button>
 		<button
-			on:click={() => {
-				handlePageChange(thirdPageCount);
-			}}
+			on:click={() => handlePageChange(thirdPageCount)}
 			class={cn(
 				'flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
-				activePage === thirdPageCount && 'bg-[#3840C7] text-white'
+				{ 'bg-[#3840C7] text-white': activePage === thirdPageCount }
 			)}
 		>
 			{thirdPageCount}
 		</button>
 
 		<button
-			on:click={() => {
-				activePage >= 4 && handlePageChange(forthPageCount);
-			}}
+			on:click={() => activePage >= 4 && handlePageChange(forthPageCount)}
 			class={cn(
 				'flex h-10 w-10 items-center justify-center border border-x-0 border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
-				activePage >= 4 && activePage === forthPageCount && 'bg-[#3840C7] text-white'
+				{ 'bg-[#3840C7] text-white': activePage >= 4 && activePage === forthPageCount }
 			)}
 		>
 			{#if activePage < 4}
@@ -115,24 +127,22 @@
 			on:click={() => handlePageChange(fifthPageCount)}
 			class={cn(
 				'flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
-				activePage === fifthPageCount && 'bg-[#3840C7] text-white'
+				{ 'bg-[#3840C7] text-white': activePage === fifthPageCount }
 			)}
 		>
 			{fifthPageCount}
 		</button>
 
 		<button
-			on:click={() => {
-				activePage > pageCount - 2 || (activePage < 4 && handlePageChange(pageCount - 1));
-			}}
+			on:click={handleLastPageClick}
 			class={cn(
 				'flex h-10 w-10 items-center justify-center border border-x-0 border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
-				(activePage > pageCount - 2 || activePage < 4) &&
-					activePage === pageCount - 1 &&
-					'bg-[#3840C7] text-white'
+				{
+					'bg-[#3840C7] text-white': shouldDisplayLastPageNumber
+				}
 			)}
 		>
-			{#if activePage > pageCount - 2 || activePage < 4}
+			{#if lastPageNumber}
 				{pageCount - 1}
 			{:else}
 				...
@@ -143,7 +153,7 @@
 			on:click={() => handlePageChange(pageCount)}
 			class={cn(
 				'flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
-				activePage === pageCount && 'bg-[#3840C7] text-white'
+				{ 'bg-[#3840C7] text-white': activePage === pageCount }
 			)}
 		>
 			{pageCount}
@@ -154,11 +164,7 @@
 		disabled={isLastPage}
 		data-testid="pagination-next-button"
 		class="flex h-10 items-center gap-2 rounded-e-lg border border-l-0 border-[#D9DADE] bg-white px-4 py-[10px] font-poppins text-sm font-medium text-[#1D2939] disabled:cursor-not-allowed disabled:opacity-30"
-		on:click={() => {
-			if (activePage < pageCount) {
-				handlePageChange(activePage + 1);
-			}
-		}}
+		on:click={handleNextClick}
 	>
 		Next
 		<img src={staticImages.ArrowRightSolid} alt={staticImages.ArrowRightSolid} />

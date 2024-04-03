@@ -34,7 +34,7 @@
 	<button
 		disabled={isFirstPage}
 		data-testid="pagination-prev-button"
-		class="flex h-10 items-center gap-2 rounded-s-lg border border-r-0 border-[#D9DADE] bg-white px-4 py-[10px] font-poppins text-sm font-medium text-[#1D2939]"
+		class="flex h-10 items-center gap-2 rounded-s-lg border border-r-0 border-[#D9DADE] bg-white px-4 py-[10px] font-poppins text-sm font-medium text-[#1D2939] disabled:cursor-not-allowed disabled:opacity-30"
 		on:click={() => {
 			if (activePage > 1) {
 				handlePageChange(activePage - 1);
@@ -50,7 +50,8 @@
 				on:click={() => handlePageChange(page)}
 				class={cn(
 					'tex-sm flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
-					i == 1 && 'border-l-0 border-r-0',
+					i % 2 && 'border-l-0 border-r-0',
+					pageCount === i + 1 && 'border-r',
 					activePage === page && 'bg-[#3840C7] text-white'
 				)}
 			>
@@ -62,7 +63,6 @@
 			on:click={() => handlePageChange(1)}
 			class={cn(
 				'tex-sm flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
-
 				activePage === 1 && 'bg-[#3840C7] text-white'
 			)}
 		>
@@ -73,8 +73,7 @@
 				activePage <= 3 && handlePageChange(2);
 			}}
 			class={cn(
-				'tex-sm flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
-				'border-l-0 border-r-0',
+				'tex-sm flex h-10 w-10 items-center justify-center border border-l-0 border-r-0 border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
 				activePage <= 3 && activePage === 2 && 'bg-[#3840C7] text-white'
 			)}
 		>
@@ -86,13 +85,10 @@
 		</button>
 		<button
 			on:click={() => {
-				const page =
-					activePage <= 5 ? 3 : pageCount - activePage > 2 ? activePage - 2 : pageCount - 4;
 				handlePageChange(thirdPageCount);
 			}}
 			class={cn(
 				'tex-sm flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
-				'border-l-0 border-r-0',
 				activePage === thirdPageCount && 'bg-[#3840C7] text-white'
 			)}
 		>
@@ -104,8 +100,7 @@
 				activePage >= 4 && handlePageChange(forthPageCount);
 			}}
 			class={cn(
-				'tex-sm flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
-				'border-l-0 border-r-0',
+				'tex-sm flex h-10 w-10 items-center justify-center border border-l-0 border-r-0 border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
 				activePage >= 4 && activePage === forthPageCount && 'bg-[#3840C7] text-white'
 			)}
 		>
@@ -120,7 +115,6 @@
 			on:click={() => handlePageChange(fifthPageCount)}
 			class={cn(
 				'tex-sm flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
-				'border-l-0 border-r-0',
 				activePage === fifthPageCount && 'bg-[#3840C7] text-white'
 			)}
 		>
@@ -132,8 +126,7 @@
 				activePage > pageCount - 2 || (activePage < 4 && handlePageChange(pageCount - 1));
 			}}
 			class={cn(
-				'tex-sm flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
-				'border-l-0 border-r-0',
+				'tex-sm flex h-10 w-10 items-center justify-center border border-l-0 border-r-0 border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
 				(activePage > pageCount - 2 || activePage < 4) &&
 					activePage === pageCount - 1 &&
 					'bg-[#3840C7] text-white'
@@ -160,9 +153,9 @@
 	<button
 		disabled={isLastPage}
 		data-testid="pagination-next-button"
-		class="flex h-10 items-center gap-2 rounded-e-lg border border-l-0 border-[#D9DADE] bg-white px-4 py-[10px] font-poppins text-sm font-medium text-[#1D2939]"
+		class="flex h-10 items-center gap-2 rounded-e-lg border border-l-0 border-[#D9DADE] bg-white px-4 py-[10px] font-poppins text-sm font-medium text-[#1D2939] disabled:cursor-not-allowed disabled:opacity-30"
 		on:click={() => {
-			if (activePage < pageArray.length) {
+			if (activePage < pageCount) {
 				handlePageChange(activePage + 1);
 			}
 		}}

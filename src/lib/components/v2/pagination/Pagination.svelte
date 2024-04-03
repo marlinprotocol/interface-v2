@@ -49,8 +49,8 @@
 			<button
 				on:click={() => handlePageChange(page)}
 				class={cn(
-					'tex-sm flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
-					i % 2 && 'border-l-0 border-r-0',
+					'flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
+					i % 2 && 'border-x-0',
 					pageCount === i + 1 && 'border-r',
 					activePage === page && 'bg-[#3840C7] text-white'
 				)}
@@ -62,7 +62,7 @@
 		<button
 			on:click={() => handlePageChange(1)}
 			class={cn(
-				'tex-sm flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
+				'flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
 				activePage === 1 && 'bg-[#3840C7] text-white'
 			)}
 		>
@@ -73,7 +73,7 @@
 				activePage <= 3 && handlePageChange(2);
 			}}
 			class={cn(
-				'tex-sm flex h-10 w-10 items-center justify-center border border-l-0 border-r-0 border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
+				'flex h-10 w-10 items-center justify-center border border-x-0 border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
 				activePage <= 3 && activePage === 2 && 'bg-[#3840C7] text-white'
 			)}
 		>
@@ -88,7 +88,7 @@
 				handlePageChange(thirdPageCount);
 			}}
 			class={cn(
-				'tex-sm flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
+				'flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
 				activePage === thirdPageCount && 'bg-[#3840C7] text-white'
 			)}
 		>
@@ -100,7 +100,7 @@
 				activePage >= 4 && handlePageChange(forthPageCount);
 			}}
 			class={cn(
-				'tex-sm flex h-10 w-10 items-center justify-center border border-l-0 border-r-0 border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
+				'flex h-10 w-10 items-center justify-center border border-x-0 border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
 				activePage >= 4 && activePage === forthPageCount && 'bg-[#3840C7] text-white'
 			)}
 		>
@@ -114,7 +114,7 @@
 		<button
 			on:click={() => handlePageChange(fifthPageCount)}
 			class={cn(
-				'tex-sm flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
+				'flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
 				activePage === fifthPageCount && 'bg-[#3840C7] text-white'
 			)}
 		>
@@ -126,7 +126,7 @@
 				activePage > pageCount - 2 || (activePage < 4 && handlePageChange(pageCount - 1));
 			}}
 			class={cn(
-				'tex-sm flex h-10 w-10 items-center justify-center border border-l-0 border-r-0 border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
+				'flex h-10 w-10 items-center justify-center border border-x-0 border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
 				(activePage > pageCount - 2 || activePage < 4) &&
 					activePage === pageCount - 1 &&
 					'bg-[#3840C7] text-white'
@@ -142,7 +142,7 @@
 		<button
 			on:click={() => handlePageChange(pageCount)}
 			class={cn(
-				'tex-sm flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins font-normal text-[#344054]',
+				'flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
 				activePage === pageCount && 'bg-[#3840C7] text-white'
 			)}
 		>

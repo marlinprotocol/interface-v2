@@ -14,7 +14,7 @@
 
 <div
 	data-testid="tooltip-icon"
-	class="tooltip flex shrink-0 text-left font-normal {tooltipClass}"
+	class="tooltip ml-[14px] flex shrink-0 text-left font-normal {tooltipClass}"
 	data-tip={tooltipText}
 >
 	<img src={iconSrc} alt="Info" width={iconWidth} />

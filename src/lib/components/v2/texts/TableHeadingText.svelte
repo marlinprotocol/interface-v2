@@ -21,11 +21,11 @@
 			class="relative flex items-center gap-0.5"
 			on:click={() => handleSortData?.(heading.id)}
 		>
-			<img class="absolute mt-[2px]" src={staticImages.sortV2Icon} alt="sort" width="16px" />
+			<img class="absolute left-[-5px]" src={staticImages.sortV2Icon} alt="sort" width="16px" />
 			<span class="w-fit px-4 tracking-widest">{title}</span>
 			{#if !!tooltipText}
 				<TooltipIcon
-					styleClass="mt-[1px] absolute right-[-2px]"
+					styleClass="mt-[1px] absolute right-[-14px]"
 					{tooltipText}
 					{tooltipDirection}
 					{iconWidth}

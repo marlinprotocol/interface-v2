@@ -3,7 +3,7 @@
 	import { inputClasses } from '$lib/atoms/v2/componentClasses';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import type { InputCardVariant } from '$lib/types/componentTypes';
-	import Select from '$lib/components/select/Select.svelte';
+	import Select from '$lib/components/v2/select/Select.svelte';
 
 	export let dataList: (string | number)[] = [];
 	export let searchValue: string | number | undefined = '';

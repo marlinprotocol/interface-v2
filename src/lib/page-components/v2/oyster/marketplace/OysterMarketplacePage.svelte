@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Pagination from '$lib/components/pagination/Pagination.svelte';
+	import Pagination from '$lib/components/v2/pagination/Pagination.svelte';
 	import PageTitle from '$lib/components/v2/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type {
@@ -87,11 +87,12 @@
 			{#each paginatedData as rowData, rowIndex (rowData.id)}
 				<OysterMarketplaceTableRow {rowData} {rowIndex} />
 			{/each}
-			<tr>
+			<!-- <tr>
 				<td colspan="12">
-					<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
+					<Pagination {pageCount} {activePage} {handlePageChange} />
 				</td>
-			</tr>
+			</tr> -->
 		{/if}
 	</OysterTableCommon>
+	<Pagination {pageCount} {activePage} {handlePageChange} />
 </div>

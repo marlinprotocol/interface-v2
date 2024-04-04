@@ -50,7 +50,7 @@
 	}
 </script>
 
-<div class="flex items-center">
+<div class="mb-[18px] mt-[52px] flex items-center justify-end">
 	<button
 		disabled={isFirstPage}
 		data-testid="pagination-prev-button"

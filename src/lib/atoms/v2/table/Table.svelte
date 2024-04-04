@@ -7,13 +7,10 @@
 	export let headingStyleClass = '';
 	export let handleSortData: ((id: string) => void) | undefined = undefined;
 	export let iconWidth = '16px';
-	export let tablePadding = 'px-8 pb-6';
+	// export let tablePadding = 'px-8 pb-6';
 </script>
 
-<div
-	data-testid="table-container"
-	class="overflow-x-auto overflow-y-hidden {tablePadding} {styleClass}"
->
+<div data-testid="table-container" class="overflow-x-auto overflow-y-hidden {styleClass}">
 	<table class="w-full overflow-hidden rounded-[18px] text-center">
 		<thead class="w-full bg-[#F0F0F0]">
 			<tr>

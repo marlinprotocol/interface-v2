@@ -13,7 +13,7 @@
 </script>
 
 <div
-	class="mt-0.5 flex flex-nowrap items-center justify-center gap-1 text-center text-[14px] font-normal text-[#030115] {styleClass}"
+	class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-center text-[14px] font-normal text-[#030115] {styleClass}"
 	data-testid="table-heading-text"
 >
 	{#if sorting}

@@ -25,7 +25,7 @@
 </script>
 
 <div
-	class="ml-6 flex w-fit items-center justify-start"
+	class="ml-3 flex w-fit items-center justify-start"
 	data-testid="name-with-address"
 	id="name-with-address"
 >
@@ -36,7 +36,7 @@
 					variant="body"
 					fontWeight="font-medium"
 					text={name.length > 13 ? name.slice(0, 13).trim() + '...' : name}
-					styleClass="truncate min-w-[150px]"
+					styleClass="truncate min-w-[112px]"
 				/>
 			</Tooltip>
 			<div class="flex w-fit items-center gap-1">

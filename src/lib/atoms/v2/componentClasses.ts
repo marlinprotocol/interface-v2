@@ -30,7 +30,7 @@ export const tableCellClasses = {
 	heading: 'text-primary text-sm font-semibold px-2 pb-4',
 	row: 'font-semibold text-base py-6 whitespace-nowrap',
 	rowNormal:
-		'font-normal text-sm py-[23.5px] whitespace-nowrap leading-none border-b border-[#D9DADE]',
+		'text-left font-normal text-sm py-[23.5px] whitespace-nowrap leading-none border-b border-[#D9DADE]',
 	rowMini: 'font-normal text-xs py-1 whitespace-nowrap',
 	rowWithIcon: 'flex flex-col items-center justify-start',
 	empty: 'text-base text-center p-4 w-full'

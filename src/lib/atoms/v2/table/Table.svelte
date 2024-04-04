@@ -17,7 +17,7 @@
 				{#each tableHeading as columnHeading, i}
 					<th class="py-[26px]">
 						<TableHeadingText
-							styleClass={headingStyleClass}
+							styleClass="{headingStyleClass} {i === 0 ? 'ml-3' : ''}"
 							{iconWidth}
 							heading={columnHeading}
 							{handleSortData}

@@ -70,7 +70,7 @@
 			title="Operator"
 			showTitle={false}
 			placeholder="Search"
-			label="Enter operator name or address"
+			label="Operation name or address"
 			cardVariant="search"
 			styleClass="w-full"
 			onSearchClick={onFilterClick}
@@ -92,7 +92,7 @@
 			cardVariant="search"
 			title="Instance"
 			placeholder="Select"
-			label="Select Instance"
+			label="Instance"
 			isTableFilter={true}
 		/>
 		<SearchWithSelect
@@ -101,7 +101,7 @@
 			setSearchValue={(value, exactMatch) => handleFilterData('region', value, exactMatch)}
 			title="Region"
 			placeholder="Select"
-			label="Filter by Region"
+			label="Region"
 			showTitle={false}
 			cardVariant="search"
 			isTableFilter={true}
@@ -112,7 +112,7 @@
 			setSearchValue={(value, exactMatch) => handleFilterData('vcpu', value, exactMatch)}
 			title="vCPU"
 			placeholder="Select"
-			label="Filter by vCPU"
+			label="vCPU"
 			showTitle={false}
 			cardVariant="search"
 			isTableFilter={true}
@@ -123,7 +123,7 @@
 			setSearchValue={(value, exactMatch) => handleFilterData('memory', value, exactMatch)}
 			title="Memory"
 			placeholder="Select"
-			label="Filter by Memory"
+			label="Memory"
 			showTitle={false}
 			cardVariant="search"
 			isTableFilter={true}
@@ -135,7 +135,7 @@
 			setSearchValue={(value, exactMatch) => handleFilterData('arch', value, exactMatch)}
 			title="Arch"
 			placeholder="Select"
-			label="Filter by Arch"
+			label="Architecture"
 			showTitle={false}
 			cardVariant="search"
 			isTableFilter={true}

@@ -40,7 +40,7 @@ export const getInputCardVariant = (variant: InputCardVariant | undefined) => {
 			return '';
 
 		case 'search':
-			return 'bg-[#F4F4F6] px-4 py-2.5 rounded-[100px]';
+			return 'bg-transparent px-4 py-2.5 rounded-[100px]';
 
 		default:
 			return 'bg-base-200 p-4';

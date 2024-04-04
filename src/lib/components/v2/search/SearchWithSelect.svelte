@@ -4,7 +4,6 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import type { InputCardVariant } from '$lib/types/componentTypes';
 	import Select from '$lib/components/v2/select/Select.svelte';
-	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 
 	export let dataList: (string | number)[] = [];
 	export let searchValue: string | number | undefined = '';
@@ -19,6 +18,7 @@
 	export let disabled = false;
 	export let isTableFilter = false;
 	export let textSuffix = '';
+	export let label = '';
 
 	let suggestions: (string | number)[] = [];
 	let showSuggestions = false;
@@ -44,9 +44,13 @@
 	};
 </script>
 
-<div class="flex flex-1 flex-col">
-	<p class="mb-4 font-poppins text-base font-light text-[#030115]">{placeholder}</p>
-	<InputCard {styleClass} variant={cardVariant}>
+<div class="relative flex flex-1 flex-col">
+	<p
+		class="absolute left-[12px] top-[-22%] mb-4 bg-white px-1 font-poppins text-sm font-light text-[#030115]"
+	>
+		{label}
+	</p>
+	<InputCard styleClass="{styleClass} border border-[#D9DADE]" variant={cardVariant}>
 		<div class="search-container">
 			{#if showTitle}
 				<div class="flex items-center justify-between">

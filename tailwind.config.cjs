@@ -277,6 +277,9 @@ module.exports = {
 					'.tooltip:before': {
 						'white-space': 'break-spaces',
 						'max-width': '17rem'
+					},
+					'.shadow-select-dropdown': {
+						'box-shadow': '0px 0px 40px 0px #0000001A'
 					}
 				}
 			}

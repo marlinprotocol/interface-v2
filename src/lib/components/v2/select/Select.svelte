@@ -52,9 +52,10 @@
 		disabled={dataList.length === 0}
 		styleClass={buttonClasses.dropdownIcon}
 	/>
+
 	{#if showSuggestions && suggestions.length > 0}
 		<ul
-			class="absolute right-[-17px] top-10 z-10 max-h-72 w-fit min-w-[150px] overflow-y-auto rounded-md border border-gray-300 bg-white text-base shadow-lg focus:outline-none sm:text-sm"
+			class="shadow-select-dropdown absolute right-[-17px] top-10 z-10 max-h-72 w-fit min-w-[150px] overflow-y-auto rounded-md bg-white text-base focus:outline-none sm:text-sm"
 		>
 			<div class="flex items-center justify-between px-8 py-4">
 				<Text variant="small" fontWeight="font-semibold" text={title ?? 'Select'} />
@@ -95,7 +96,7 @@
 
 <style>
 	/* always show y scrollbar in chrome */
-	::-webkit-scrollbar {
+	/* ::-webkit-scrollbar {
 		-webkit-appearance: none;
 		width: 7px;
 	}
@@ -109,5 +110,20 @@
 	::-webkit-scrollbar-track {
 		background-color: rgba(0, 0, 0, 0.08);
 		border-radius: 5px;
+	} */
+
+	::-webkit-scrollbar-track {
+		border-radius: 5px;
+	}
+
+	::-webkit-scrollbar {
+		width: 14px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		border: 4px solid rgba(0, 0, 0, 0);
+		background-clip: padding-box;
+		border-radius: 9999px;
+		background-color: #aaaaaa;
 	}
 </style>

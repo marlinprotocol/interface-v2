@@ -62,7 +62,7 @@
 </script>
 
 <div class="mb-6 flex w-full flex-col items-end gap-2 rounded-[24px] bg-white px-8 py-6">
-	<div class="flex w-full gap-4">
+	<div class="flex w-full items-end gap-4">
 		<SearchWithSelect
 			dataList={allFilters?.provider}
 			searchValue={filterMap.provider}
@@ -74,9 +74,10 @@
 			styleClass="w-full"
 			onSearchClick={onFilterClick}
 			isTableFilter={true}
-			clearButton={true}
-			{handleClearFilters}
 		/>
+		<Button variant="filled" size="medium" styleClass="w-[140px]" onclick={handleClearFilters}
+			>CLEAR</Button
+		>
 	</div>
 	<div class="mt-4 flex w-full flex-col items-center gap-4 md:flex-row">
 		<SearchWithSelect

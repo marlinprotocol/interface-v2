@@ -3,6 +3,7 @@
 	import type { SidebarLinks } from '$lib/types/headerTypes';
 	import { menuItems } from '$lib/utils/constants/v2/navigation';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 	import MenuItem from './MenuItem.svelte';
 
 	export let activeLink: string = '';
@@ -174,7 +175,14 @@
 					<div class="flex cursor-pointer items-center gap-3 px-[14px] py-4">
 						<img src={icon} alt={icon} />
 						{#if isNavOpen}
-							<p class="font-poppins text-base font-medium text-[#26272c]">{label}</p>
+							<p
+								class={cn(
+									'font-poppins text-base font-medium text-[#26272c]',
+									activeLink.includes(href) && 'text-[#2DB8E3]'
+								)}
+							>
+								{label}
+							</p>
 						{/if}
 					</div>
 				</a>

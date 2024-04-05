@@ -210,12 +210,12 @@ module.exports = {
 					},
 					'.input-primary': {
 						width: '100%',
-						fontWeight: '600',
+						fontWeight: '500',
 						padding: '0',
 						color: '#3840c7',
 						border: 'none',
 						outline: 'none',
-						fontFamily: 'Orbitron',
+						fontFamily: 'Poppins',
 						'&:focus': {
 							border: 'none',
 							outline: 'none',
@@ -256,7 +256,7 @@ module.exports = {
 						'text-transform': 'none'
 					},
 					'.btn-theme': {
-						'border-radius': '8px'
+						'border-radius': '100px'
 					},
 					'.btn-lightblue': {
 						'background-color': '#DEE8F2',

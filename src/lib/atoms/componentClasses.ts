@@ -17,7 +17,7 @@ export const buttonClasses = {
 	dropdownIcon:
 		'btn btn-xs rounded-full btn-circle p-0 bg-base-300 border-primary/[.2] hover:bg-base-300 disabled:bg-base-200 disabled:cursor-not-allowed',
 	maxButton:
-		'btn btn-sm btn-text btn-ghost p-0 bg-transparent hover:bg-transparent font-bold text-primary tracking-widest disabled:text-primary disabled:cursor-not-allowed',
+		'p-0 text-sm bg-transparent hover:bg-transparent font-bold text-primary tracking-widest disabled:text-primary disabled:cursor-not-allowed',
 	largeButton:
 		'flex gap-2 text-primary h-14 text-base font-semibold items-center disabled:cursor-not-allowed',
 	tableConvertButton:

@@ -201,7 +201,7 @@ export const getButtonSize = (size: ButtonModel['size']) => {
 export const getInputCardVariant = (variant: InputCardVariant | undefined) => {
 	switch (variant) {
 		case 'primary':
-			return 'bg-base-200 p-4';
+			return 'bg-white px-6 py-[30px] rounded-3xl border border-[#D9DADE]';
 
 		case 'primary-mini':
 			return 'bg-base-200 py-2 px-4';

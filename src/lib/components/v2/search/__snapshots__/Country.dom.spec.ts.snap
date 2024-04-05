@@ -1,0 +1,14 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AutocompleteItem > render's the component properly 1`] = `
+<body>
+  <div>
+    <li
+      class="autocomplete-items s-uCfc5Mj2w8QL"
+    >
+      France
+    </li>
+    <!--&lt;Country&gt;-->
+  </div>
+</body>
+`;

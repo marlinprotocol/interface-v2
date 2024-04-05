@@ -28,7 +28,8 @@ module.exports = {
 			},
 			fontFamily: {
 				poppins: ['Poppins', 'sans-serif'],
-				orbitron: ['Orbitron', 'sans-serif']
+				orbitron: ['Orbitron', 'sans-serif'],
+				inter: ['Inter', 'sans-serif']
 			},
 			zIndex: {
 				100: '100',
@@ -278,6 +279,9 @@ module.exports = {
 					'.tooltip:before': {
 						'white-space': 'break-spaces',
 						'max-width': '17rem'
+					},
+					'.shadow-select-dropdown': {
+						'box-shadow': '0px 0px 40px 0px #0000001A'
 					}
 				}
 			}

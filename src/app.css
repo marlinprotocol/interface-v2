@@ -12,3 +12,7 @@
 	-moz-appearance: textfield;
 	/* Firefox */
 }
+
+body {
+	background-color: #f7f7f7;
+}

@@ -5,7 +5,7 @@
 	export let tooltipText: string;
 	export let styleClass = '';
 	export let iconWidth = '14px';
-	export let iconSrc = staticImages.Alert;
+	export let iconSrc = staticImages.alertV2Icon;
 	export let tooltipVariant: TooltipVariant = 'tooltip-secondary';
 	export let tooltipDirection: TooltipDirection = 'tooltip-top';
 

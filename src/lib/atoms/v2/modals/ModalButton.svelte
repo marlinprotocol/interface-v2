@@ -3,7 +3,8 @@
 	import { openModal } from '$lib/utils/helpers/commonHelper';
 	import type { IconData } from 'svelte-awesome/components/Icon.svelte';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
-	import { getButtonSize, getButtonStyles } from '$lib/utils/helpers/componentHelper';
+	import { getButtonStyles } from '$lib/utils/v2/helpers/componentHelper';
+	import { getButtonSize } from '$lib/utils/helpers/componentHelper';
 
 	export let modalFor: string;
 	export let disabled = false;

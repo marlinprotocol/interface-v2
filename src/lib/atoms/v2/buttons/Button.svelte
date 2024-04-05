@@ -2,6 +2,7 @@
 	import type { ButtonModel } from '$lib/types/componentTypes';
 	import { getButtonStyles } from '$lib/utils/v2/helpers/componentHelper';
 	import { getButtonSize } from '$lib/utils/helpers/componentHelper';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let variant: ButtonModel['variant'] = 'filled';
 	export let size: ButtonModel['size'] = 'medium';
@@ -13,7 +14,7 @@
 	const buttonStyles = getButtonStyles(variant);
 	const buttonSize = getButtonSize(size);
 
-	$: buttonStyleClass = `${styleClass} ${buttonSize} ${buttonStyles} gap-1.5`;
+	$: buttonStyleClass = cn('gap-1.5 !rounded-[100.86px]', styleClass, buttonSize, buttonStyles);
 </script>
 
 <button {disabled} on:click={onclick} class={buttonStyleClass}>

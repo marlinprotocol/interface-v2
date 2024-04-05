@@ -60,6 +60,10 @@ const earthIcon = '/images/earth.svg';
 const blogIcon = '/images/blog.svg';
 const chevronDownIcon = '/images/chevronDownIcon.svg';
 
+const closeIcon = '/images/closeIcon.svg';
+const successIcon = '/images/SuccessIcon.svg';
+const alertRed = '/images/alertRed.svg';
+
 export const staticImages = {
 	Alert,
 	Arrow,
@@ -121,5 +125,8 @@ export const staticImages = {
 	developerChatIcon,
 	earthIcon,
 	blogIcon,
-	chevronDownIcon
+	chevronDownIcon,
+	closeIcon,
+	successIcon,
+	alertRed
 };

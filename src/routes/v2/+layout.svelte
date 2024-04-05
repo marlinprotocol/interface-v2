@@ -4,7 +4,7 @@
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 
-	import Toast from '$lib/atoms/toast/Toast.svelte';
+	import Toast from '$lib/atoms/v2/toast/Toast.svelte';
 	import Header from '$lib/components/v2/header/Header.svelte';
 	import { onMount } from 'svelte';
 	import '../../app.css';
@@ -51,7 +51,7 @@
 </svelte:head>
 
 <main class="w-full">
-	<!-- <Toast /> -->
+	<Toast />
 	<div class="flex w-full flex-row">
 		<Sidebar />
 		<div class="flex max-h-[100dvh] w-full flex-col">

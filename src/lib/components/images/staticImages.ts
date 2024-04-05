@@ -59,10 +59,12 @@ const developerChatIcon = '/images/developerChatIcon.svg';
 const earthIcon = '/images/earth.svg';
 const blogIcon = '/images/blog.svg';
 const chevronDownIcon = '/images/chevronDownIcon.svg';
-
 const closeIcon = '/images/closeIcon.svg';
 const successIcon = '/images/SuccessIcon.svg';
 const alertRed = '/images/alertRed.svg';
+const toastSuccessAlert = '/images/toastSuccessAlert.svg';
+const toastErrorAlert = '/images/toastErrorAlert.svg';
+const toastWarningAlert = '/images/toastWarningAlert.svg';
 
 export const staticImages = {
 	Alert,
@@ -128,5 +130,8 @@ export const staticImages = {
 	chevronDownIcon,
 	closeIcon,
 	successIcon,
-	alertRed
+	alertRed,
+	toastSuccessAlert,
+	toastErrorAlert,
+	toastWarningAlert
 };

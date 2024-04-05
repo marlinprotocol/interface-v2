@@ -57,6 +57,10 @@ const developerChatIcon = '/images/developerChatIcon.svg';
 const earthIcon = '/images/earth.svg';
 const blogIcon = '/images/blog.svg';
 
+const closeIcon = '/images/closeIcon.svg';
+const successIcon = '/images/SuccessIcon.svg';
+const alertRed = '/images/alertRed.svg';
+
 export const staticImages = {
 	Alert,
 	Arrow,
@@ -115,5 +119,8 @@ export const staticImages = {
 	lightModeLogo,
 	developerChatIcon,
 	earthIcon,
-	blogIcon
+	blogIcon,
+	closeIcon,
+	successIcon,
+	alertRed
 };

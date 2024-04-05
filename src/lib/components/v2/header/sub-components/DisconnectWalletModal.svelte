@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
+	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
-	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import AddTokenPrompt from '$lib/components/prompts/AddTokenPrompt.svelte';
@@ -15,6 +15,7 @@
 
 <Modal {modalFor}>
 	<svelte:fragment slot="title">Your wallet</svelte:fragment>
+	<!-- <svelte:fragment slot="successmsg">Conversion Successful</svelte:fragment> -->
 	<svelte:fragment slot="content">
 		<div class="mb-4 rounded-lg bg-base-200 p-4 text-left">
 			<div class="flex items-center text-sm font-normal">
@@ -65,4 +66,8 @@
 			LOGOUT
 		</Button>
 	</svelte:fragment>
+
+	<!-- <svelte:fragment slot="errorMessage">
+		Insufficient MPOND
+	</svelte:fragment> -->
 </Modal>

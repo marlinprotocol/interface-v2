@@ -62,6 +62,8 @@ module.exports = {
 					success: '#28bf92',
 					warning: '#fcca00',
 					error: '#e60000',
+					'red-100': '#FEE6E6',
+					'red-500': '#E00606',
 					'error-focus': '#b30202',
 					'error-content': '#ffffff',
 					'background-color': '#e9f2f5', //e9f2f5

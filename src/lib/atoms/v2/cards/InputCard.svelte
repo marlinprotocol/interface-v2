@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { InputCardVariant } from '$lib/types/componentTypes';
 	import { cn } from '$lib/utils/helpers/commonHelper';
-	import { getInputCardVariant } from '$lib/utils/helpers/componentHelper';
+	import { getInputCardVariant } from '$lib/utils/v2/helpers/componentHelper';
 
 	export let styleClass = '';
 	export let variant: InputCardVariant | undefined = 'primary';

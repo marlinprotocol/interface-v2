@@ -113,8 +113,8 @@
 	];
 </script>
 
-<div class="flex flex-1 flex-col overflow-y-auto overflow-x-hidden px-7">
-	<ul class="menu p-0">
+<div class="flex flex-1 flex-col px-7">
+	<ul class="menu h-[620px] flex-nowrap overflow-y-auto overflow-x-hidden p-0">
 		{#each links as { icon, label, children, href }}
 			{#if children}
 				<li>
@@ -189,7 +189,11 @@
 			{/if}
 		{/each}
 	</ul>
-	<div class="mb-8 mt-auto rounded-2xl {isNavOpen ? 'bg-[#F4F4F6]' : ''}">
+	<div
+		class={cn('mb-8 mt-auto rounded-2xl ', {
+			isNavOpen: 'bg-[#F4F4F6]'
+		})}
+	>
 		<ul>
 			{#each menuItems as item}
 				<MenuItem bind:isNavOpen imgSrc={item.imgSrc} label={item.label} />

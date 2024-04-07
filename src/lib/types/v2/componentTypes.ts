@@ -11,3 +11,5 @@ export type ButtonModel = {
 	size?: 'tiniest' | 'tiny' | 'smaller' | 'small' | 'medium' | 'large';
 	onclick: (() => Promise<void> | void | boolean) | undefined;
 };
+
+export type TooltipPlacement = 'top' | 'right' | 'bottom' | 'left';

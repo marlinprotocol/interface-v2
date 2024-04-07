@@ -18,7 +18,9 @@
 	async function getPondToMpondHistoryData(address: Address) {
 		loading = true;
 		const historyDataFromSubgraph = await getPondToMPondConversionHistoryFromSubgraph(address);
-		historyData = modifyPondToMpondConversionHistory(historyDataFromSubgraph);
+		historyData = historyDataFromSubgraph
+			? modifyPondToMpondConversionHistory(historyDataFromSubgraph)
+			: [];
 		loading = false;
 	}
 

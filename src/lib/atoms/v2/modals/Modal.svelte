@@ -27,11 +27,13 @@
 				{/if}
 				{#if $$slots.successmsg}
 					<div class="flex w-full flex-col items-center justify-between">
-						<div class="ml-[70px] h-[84px] w-[84px]">
-							<img src={staticImages.successIcon} alt="success-icon" class="object-cover" />
+						<div
+							class="ml-[70px] grid h-[84px] w-[84px] place-items-center rounded-full bg-[#68A843]"
+						>
+							<img src={staticImages.tick} alt="tick" width="60px" height="60px" />
 						</div>
 
-						<div class="ml-[70px] mt-[-30px] text-[22px] font-semibold">
+						<div class="ml-[70px] mt-4 text-[26px] font-semibold">
 							<slot name="successmsg" />
 						</div>
 					</div>

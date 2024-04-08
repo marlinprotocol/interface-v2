@@ -3,7 +3,6 @@
 	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let placement: TooltipPlacement = 'top';
-	export let minWidth: string = '';
 
 	const tooltipPosition = {
 		top: {
@@ -33,10 +32,9 @@
 	<slot name="tooltipIcon" />
 	<div
 		class={cn(
-			'absolute z-100 box-border hidden min-w-[320px] rounded-xl bg-white shadow-[0px_12px_16px_-4px_#10182814] group-hover:block',
+			'absolute z-100 box-border hidden w-max max-w-[320px] rounded-xl bg-white shadow-[0px_12px_16px_-4px_#10182814] group-hover:block',
 			tooltipPosition[placement].container
 		)}
-		style={`min-width: ${minWidth}`}
 	>
 		<slot name="tooltipContent" />
 		<i

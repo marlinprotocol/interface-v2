@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
+	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { doNothing } from '$lib/utils/helpers/commonHelper';
 
@@ -15,12 +15,10 @@
 	size="large"
 	styleClass="w-full"
 >
-	<div class="flex w-full justify-between">
-		<div class="flex w-full justify-center gap-1">
-			{firstText}
-			<img src={staticImages.Arrow} alt="Copy" width="8px" />
-			{secondText} conversion history
-		</div>
-		<img src={staticImages.RightArrow} alt="Copy" />
+	<div class="flex w-full justify-center gap-1">
+		<img src={staticImages.conversionIcon} alt="Conversion" />
+		{firstText}
+		to
+		{secondText} conversion history
 	</div>
 </Button>

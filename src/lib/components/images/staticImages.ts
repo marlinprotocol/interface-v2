@@ -68,12 +68,14 @@ const backIcon = '/images/backV2Icon.svg';
 // history pages
 const exchangeIcon = '/images/exchangeV2Icon.svg';
 const cancelIcon = '/images/cancelV2Icon.svg';
-const convertIcon = '/images/convertV2Icon.svg';
+const historyIcon = '/images/historyV2Icon.svg';
 const conversionCycleIcon = '/images/conversionCycleV2Icon.svg';
 const toastSuccessAlert = '/images/toastSuccessAlert.svg';
 const toastErrorAlert = '/images/toastErrorAlert.svg';
 const toastWarningAlert = '/images/toastWarningAlert.svg';
 const conversionIcon = '/images/conversionIcon.svg';
+
+const externalLinkIcon = '/images/externalLinkV2Icon.svg';
 
 export const staticImages = {
 	Alert,
@@ -143,11 +145,12 @@ export const staticImages = {
 	backIcon,
 	exchangeIcon,
 	cancelIcon,
-	convertIcon,
+	historyIcon,
 	conversionCycleIcon,
 	toastSuccessAlert,
 	toastErrorAlert,
 	toastWarningAlert,
 	arrowConversion,
-	conversionIcon
+	conversionIcon,
+	externalLinkIcon
 };

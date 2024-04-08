@@ -9,8 +9,8 @@
 		<div class="m-auto flex h-[35px] items-center">
 			<slot name="line1" />
 		</div>
-		<!-- <div class="flex h-[18px] items-center pt-[10px]">
+		<div class="flex h-[18px] items-center pt-[10px]">
 			<slot name="line2" />
-		</div> -->
+		</div>
 	</div>
 </td>

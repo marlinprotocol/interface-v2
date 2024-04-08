@@ -157,7 +157,7 @@
 			</div>
 		</Timer>
 	</TableDataWithButton>
-	<TableDataWithButton>
+	<!-- <TableDataWithButton>
 		<svelte:fragment slot="line1">
 			{bigNumberToString(pondEligible, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
 		</svelte:fragment>
@@ -167,7 +167,7 @@
 				modalFor="mpond-conversion-history-modal-{rowIndex}"
 			/>
 		</svelte:fragment>
-	</TableDataWithButton>
+	</TableDataWithButton> -->
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
 			<ModalButton

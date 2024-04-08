@@ -1,6 +1,6 @@
 import { buttonClasses } from '$lib/atoms/v2/componentClasses';
-import type { InputCardVariant } from '$lib/types/componentTypes';
-import type { ButtonModel } from '$lib/types/v2/componentTypes';
+import { staticImages } from '$lib/components/images/staticImages';
+import type { ButtonModel, CommonVariant, InputCardVariant } from '$lib/types/v2/componentTypes';
 
 export const getButtonStyles = (variant: ButtonModel['variant']) => {
 	switch (variant) {
@@ -28,7 +28,7 @@ export const getButtonStyles = (variant: ButtonModel['variant']) => {
 export const getInputCardVariant = (variant: InputCardVariant | undefined) => {
 	switch (variant) {
 		case 'primary':
-			return 'bg-base-200 p-4';
+			return 'bg-white px-6 py-[30px] rounded-3xl border border-[#D9DADE]';
 
 		case 'primary-mini':
 			return 'bg-base-200 py-2 px-4';
@@ -44,5 +44,31 @@ export const getInputCardVariant = (variant: InputCardVariant | undefined) => {
 
 		default:
 			return 'bg-base-200 p-4';
+	}
+};
+
+export const getColorClassByVariant = (variant: CommonVariant | undefined) => {
+	switch (variant) {
+		case 'success':
+			return 'bg-[#F4F9F0]';
+		case 'warning':
+			return 'bg-[#FCEFD4]';
+		case 'error':
+			return 'bg-[#FEE6E6]';
+		default:
+			return '';
+	}
+};
+
+export const getIconbyVariant = (variant: CommonVariant | undefined) => {
+	switch (variant) {
+		case 'success':
+			return staticImages.toastSuccessAlert;
+		case 'warning':
+			return staticImages.toastWarningAlert;
+		case 'error':
+			return staticImages.toastErrorAlert;
+		default:
+			return '';
 	}
 };

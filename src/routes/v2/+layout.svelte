@@ -4,12 +4,14 @@
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 
-	import Toast from '$lib/atoms/toast/Toast.svelte';
+	import Toast from '$lib/atoms/v2/toast/Toast.svelte';
 	import Header from '$lib/components/v2/header/Header.svelte';
 	import { onMount } from 'svelte';
 	import '../../app.css';
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
 	import Sidebar from '$lib/components/v2/sidebar/Sidebar.svelte';
+	import { cn } from '$lib/utils/helpers/commonHelper';
+	import { isNavOpen } from '$lib/data-stores/v2/navStore';
 
 	onMount(async () => {
 		// removes console logs in production
@@ -51,12 +53,19 @@
 </svelte:head>
 
 <main class="w-full">
-	<!-- <Toast /> -->
+	<Toast />
 	<div class="flex w-full flex-row">
 		<Sidebar />
 		<div class="flex max-h-[100dvh] w-full flex-col">
 			<Header />
-			<div class="max-h-[calc(100dvh-80px)] overflow-auto">
+			<div
+				class={cn(
+					'max-h-[calc(100dvh-80px)] overflow-auto transition-all duration-300 ease-out',
+					$isNavOpen
+						? 'w-[calc(100%-18rem)] translate-x-[18rem]'
+						: 'w-[calc(100%-112px)] translate-x-[112px]'
+				)}
+			>
 				<slot />
 			</div>
 		</div>

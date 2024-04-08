@@ -1,6 +1,6 @@
 <script lang="ts">
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
-	import PageWrapper from '$lib/components/v2/wrapper/PageWrapper.svelte';
+	import PageWrapper from '$lib/components/wrapper/PageWrapper.svelte';
 	import {
 		getPondAndMPondBridgeAllowancesFromSubgraph,
 		getRequestedMPondForConversionFromSubgraph
@@ -72,9 +72,10 @@
 
 {#if $chainStore.isValidChain && chainSupported}
 	<PageWrapper>
-		<div class="mx-[28px] flex flex-1 flex-col">
+		<!-- <div class="mx-[28px] flex flex-1 flex-col">
 			<slot />
-		</div>
+		</div> -->
+		<slot />
 	</PageWrapper>
 {:else}
 	<PageWrapper>

@@ -16,3 +16,50 @@
 body {
 	background-color: #f7f7f7;
 }
+
+
+/* WebKit-based browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d9dade;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #d9dade;
+}
+
+::-webkit-scrollbar-track {
+    background: #f4f4f6;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #d9dade;
+}
+
+/* Firefox */
+/* For Firefox 64 and later versions */
+/* Note: Firefox doesn't support border-radius for scrollbar-thumb */
+.scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #d9dade #f4f4f6;
+}
+
+.scrollbar:hover {
+    scrollbar-color: #d9dade #d9dade;
+}
+
+.scrollbar:active {
+    scrollbar-color: #d9dade #f4f4f6;
+}
+
+/* Internet Explorer */
+/* For Internet Explorer 11 */
+* {
+    scrollbar-face-color: #d9dade;
+    scrollbar-track-color: #f4f4f6;
+    scrollbar-arrow-color: #d9dade;
+}

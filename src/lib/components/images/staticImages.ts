@@ -59,7 +59,7 @@ const developerChatIcon = '/images/developerChatIcon.svg';
 const earthIcon = '/images/earth.svg';
 const blogIcon = '/images/blog.svg';
 const chevronDownIcon = '/images/chevronDownIcon.svg';
-
+const arrowConversion = '/images/arrowConversion.svg';
 const closeIcon = '/images/closeIcon.svg';
 const successIcon = '/images/SuccessIcon.svg';
 const alertRed = '/images/alertRed.svg';
@@ -70,6 +70,10 @@ const exchangeIcon = '/images/exchangeV2Icon.svg';
 const cancelIcon = '/images/cancelV2Icon.svg';
 const convertIcon = '/images/convertV2Icon.svg';
 const conversionCycleIcon = '/images/conversionCycleV2Icon.svg';
+const toastSuccessAlert = '/images/toastSuccessAlert.svg';
+const toastErrorAlert = '/images/toastErrorAlert.svg';
+const toastWarningAlert = '/images/toastWarningAlert.svg';
+const conversionIcon = '/images/conversionIcon.svg';
 
 export const staticImages = {
 	Alert,
@@ -140,5 +144,10 @@ export const staticImages = {
 	exchangeIcon,
 	cancelIcon,
 	convertIcon,
-	conversionCycleIcon
+	conversionCycleIcon,
+	toastSuccessAlert,
+	toastErrorAlert,
+	toastWarningAlert,
+	arrowConversion,
+	conversionIcon
 };

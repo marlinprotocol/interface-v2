@@ -126,10 +126,7 @@
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
 			<div class="flex gap-3">
-				<button
-					type="button"
-					class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE] hover:bg-[#F0F0F0]"
-				>
+				<button type="button">
 					<img src={staticImages.exchangeIcon} alt="Exchange Icon" />
 				</button>
 				<button
@@ -157,8 +154,6 @@
 		<svelte:fragment slot="line1">
 			{bigNumberToString(pondPending, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
 		</svelte:fragment>
-		<svelte:fragment slot="line2">
-			<MPondConversionCycleButton
 				{eligibleCycles}
 				{endEpochTime}
 				{currentCycle}
@@ -199,11 +194,6 @@
 		</svelte:fragment>
 	</TableDataWithButton> -->
 	<!-- <TableDataWithButton>
-		<svelte:fragment slot="line1">
-			<ModalButton
-				disabled={!(pondEligible > 0n)}
-				variant="tableConvertButton"
-				modalFor="mpond-convert-modal-{rowIndex}">CONVERT</ModalButton
 			>
 			<MPondEligibleConvertModal
 				maxAmount={pondToMPond(pondEligible)}

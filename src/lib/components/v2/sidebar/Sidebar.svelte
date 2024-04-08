@@ -31,7 +31,7 @@
 	>
 		<img
 			src={staticImages.navButton}
-			class={`${$isNavOpen ? '' : 'rotate-180'} min-h-[35px] min-w-[35px]`}
+			class={cn('min-h-[35px] min-w-[35px]', $isNavOpen ? '' : 'rotate-180')}
 			alt="nav-btn"
 		/>
 	</button>

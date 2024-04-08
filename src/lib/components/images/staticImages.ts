@@ -63,6 +63,7 @@ const chevronDownIcon = '/images/chevronDownIcon.svg';
 const closeIcon = '/images/closeIcon.svg';
 const successIcon = '/images/SuccessIcon.svg';
 const alertRed = '/images/alertRed.svg';
+const backIcon = '/images/backV2Icon.svg';
 
 export const staticImages = {
 	Alert,
@@ -128,5 +129,6 @@ export const staticImages = {
 	chevronDownIcon,
 	closeIcon,
 	successIcon,
-	alertRed
+	alertRed,
+	backIcon
 };

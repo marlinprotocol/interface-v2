@@ -25,7 +25,7 @@
 </script>
 
 <div
-	class="ml-3 flex w-fit items-center justify-start"
+	class="ml-4 flex w-fit items-center justify-start"
 	data-testid="name-with-address"
 	id="name-with-address"
 >

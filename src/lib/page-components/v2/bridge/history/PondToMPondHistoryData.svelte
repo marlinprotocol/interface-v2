@@ -1,0 +1,74 @@
+<script lang="ts">
+	import { tableCellClasses } from '$lib/atoms/v2/componentClasses';
+	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
+	import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
+	import { POND_TO_MPOND_TABLE_HEADER } from '$lib/utils/constants/v2/bridgeConstants';
+	import {
+		DEFAULT_CURRENCY_DECIMALS,
+		MPOND_PRECISIONS,
+		POND_PRECISIONS,
+		TABLE_ITEMS_PER_PAGE
+	} from '$lib/utils/constants/constants';
+	import { bigNumberToString, epochSecToString } from '$lib/utils/helpers/conversionHelper';
+
+	import { ROUTES } from '$lib/utils/constants/v2/urls';
+	import HistoryTableCommon from './HistoryTableCommon.svelte';
+	import Pagination from '$lib/components/v2/pagination/Pagination.svelte';
+
+	export let historyData: PondToMPondHistoryDataModel[] | undefined;
+	export let loading = true;
+	let activePage = 1;
+	// reverse the order of sortedData
+	const handleSortData = (id: string) => {
+		historyData = historyData?.reverse();
+	};
+
+	// get page array based on inventory and itemsPerPage
+	$: pageCount = Math.ceil((historyData?.length ?? 0) / TABLE_ITEMS_PER_PAGE);
+	// get paginated data based on activePage
+	$: paginatedData = historyData?.slice(
+		(activePage - 1) * TABLE_ITEMS_PER_PAGE,
+		activePage * TABLE_ITEMS_PER_PAGE
+	);
+	const handlePageChange = (page: number) => {
+		activePage = page;
+	};
+</script>
+
+<HistoryTableCommon
+	tableTitle={{
+		backButton: {
+			firstText: 'MPond',
+			secondText: 'POND',
+			href: ROUTES.BRIDGE_URL
+		},
+		title: 'POND to MPond Conversion History'
+	}}
+	{loading}
+	{handleSortData}
+	noDataFound={!paginatedData?.length}
+	fullWidth={true}
+	tableHeading={POND_TO_MPOND_TABLE_HEADER}
+>
+	{#if paginatedData?.length}
+		{#each paginatedData as row}
+			<tr>
+				<td class={tableCellClasses.rowNormal + ' block pl-4'}>{epochSecToString(row.timestamp)}</td
+				>
+				<td class={tableCellClasses.rowNormal}
+					>{bigNumberToString(row.pondConverted, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}</td
+				>
+				<td class={tableCellClasses.rowNormal}
+					>{bigNumberToString(row.mpondReceived, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)}</td
+				>
+				<!-- <td class={tableCellClasses.rowNormal}>
+					<TxnHashText
+						txnHash={row.transactionHash}
+						txnHashUrl={getTxnUrl($chainConfigStore.block_explorer_url, row.transactionHash)}
+					/>
+				</td> -->
+			</tr>
+		{/each}
+	{/if}
+</HistoryTableCommon>
+<Pagination {pageCount} {activePage} {handlePageChange} />

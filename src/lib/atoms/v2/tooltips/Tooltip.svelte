@@ -1,183 +1,50 @@
 <script lang="ts">
 	import type { TooltipPlacement } from '$lib/types/v2/componentTypes';
+	import { cn } from '$lib/utils/helpers/commonHelper';
+
 	export let placement: TooltipPlacement = 'top';
+	export let minWidth: string = '';
+
+	const tooltipPosition = {
+		top: {
+			container: '-top-5 left-1/2 -translate-x-1/2 -translate-y-full',
+			arrow:
+				'after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 top-full left-1/2 -ml-[15px] w-[30px] h-[15px]'
+		},
+		bottom: {
+			container: 'top-10 left-1/2 -translate-x-1/2 translate-y-0',
+			arrow:
+				'after:left-1/2 after:-translate-x-1/2 after:translate-y-1/2 bottom-full left-1/2 -ml-[15px] w-[30px] h-[15px]'
+		},
+		left: {
+			container: 'top-1/2 right-full mr-5 translate-x-0 -translate-y-1/2',
+			arrow:
+				'after:left-0 after:top-1/2 after:-translate-x-1/2 after:-translate-y-1/2 left-full top-1/2 -mt-[15px] w-[15px] h-[30px]'
+		},
+		right: {
+			container: 'top-1/2 left-full ml-5 translate-x-0 -translate-y-1/2',
+			arrow:
+				'after:left-0 after:top-1/2 after:translate-x-1/2 after:-translate-y-1/2 right-full top-1/2 -mt-[15px] w-[15px] h-[30px]'
+		}
+	};
 </script>
 
-<div class="custom-tooltip">
+<div class="group relative inline-block cursor-pointer text-left">
 	<slot name="tooltipIcon" />
-	<div class={placement}>
+	<div
+		class={cn(
+			'absolute z-[999999999] box-border hidden min-w-[320px] rounded-xl bg-white shadow-[0px_12px_16px_-4px_#10182814] group-hover:block',
+			tooltipPosition[placement].container
+		)}
+		style={`min-width: ${minWidth}`}
+	>
 		<slot name="tooltipContent" />
-		<i></i>
+		<i
+			class={cn(
+				'absolute overflow-hidden after:absolute after:h-[15px] after:w-[15px] after:rotate-45 after:bg-white after:shadow-[0px_12px_16px_-4px_#10182814]',
+				tooltipPosition[placement].arrow
+			)}
+		></i>
+		<div class="after:left-0 after:top-1/2 after:-translate-y-1/2 after:translate-x-1/2"></div>
 	</div>
 </div>
-
-<style>
-	.custom-tooltip {
-		display: inline-block;
-		position: relative;
-		text-align: left;
-		cursor: pointer;
-	}
-
-	.custom-tooltip .top {
-		position: absolute;
-		min-width: 320px;
-		max-width: 320px;
-		top: -20px;
-		left: 50%;
-		transform: translate(-30%, -100%);
-		background-color: #ffffff;
-		border-radius: 12px;
-		z-index: 99999999;
-		box-sizing: border-box;
-		display: none;
-		box-shadow: 0px 12px 16px -4px #10182814;
-	}
-
-	.custom-tooltip:hover .top {
-		display: block;
-	}
-
-	.custom-tooltip .top i {
-		position: absolute;
-		top: 100%;
-		left: 30%;
-		margin-left: -15px;
-		width: 30px;
-		height: 15px;
-		overflow: hidden;
-	}
-
-	.custom-tooltip .top i::after {
-		content: '';
-		position: absolute;
-		width: 15px;
-		height: 15px;
-		left: 50%;
-		transform: translate(-50%, -50%) rotate(45deg);
-		background-color: #ffffff;
-		box-shadow: 0px 12px 16px -4px #10182814;
-	}
-
-	.custom-tooltip .bottom {
-		min-width: 200px;
-		top: 40px;
-		left: 50%;
-		transform: translate(-50%, 0);
-		background-color: #ffffff;
-		border-radius: 12px;
-		position: absolute;
-		z-index: 99999999;
-		box-sizing: border-box;
-		box-shadow: 0px 12px 16px -4px #10182814;
-		display: none;
-	}
-
-	.custom-tooltip:hover .bottom {
-		display: block;
-	}
-
-	.custom-tooltip .bottom i {
-		position: absolute;
-		bottom: 100%;
-		left: 50%;
-		margin-left: -12px;
-		width: 24px;
-		height: 12px;
-		overflow: hidden;
-	}
-
-	.custom-tooltip .bottom i::after {
-		content: '';
-		position: absolute;
-		width: 12px;
-		height: 12px;
-		left: 50%;
-		transform: translate(-50%, 50%) rotate(45deg);
-		background-color: #ffffff;
-		box-shadow: 0px 12px 16px -4px #10182814;
-	}
-
-	.custom-tooltip .right {
-		min-width: 200px;
-		max-width: 400px;
-		top: 50%;
-		left: 100%;
-		margin-left: 20px;
-		transform: translate(0, -50%);
-		background-color: #ffffff;
-		border-radius: 12px;
-		position: absolute;
-		z-index: 99999999;
-		box-sizing: border-box;
-		box-shadow: 0px 12px 16px -4px #10182814;
-		visibility: hidden;
-		opacity: 0;
-	}
-
-	.custom-tooltip:hover .right {
-		visibility: visible;
-		opacity: 1;
-	}
-
-	.custom-tooltip .right i {
-		position: absolute;
-		top: 50%;
-		right: 100%;
-		margin-top: -12px;
-		width: 12px;
-		height: 24px;
-		overflow: hidden;
-	}
-	.custom-tooltip .right i::after {
-		content: '';
-		position: absolute;
-		width: 12px;
-		height: 12px;
-		left: 0;
-		top: 50%;
-		transform: translate(50%, -50%) rotate(-45deg);
-		background-color: #ffffff;
-		box-shadow: 0px 12px 16px -4px #10182814;
-	}
-
-	.custom-tooltip .left {
-		min-width: 200px;
-		max-width: 400px;
-		top: 50%;
-		right: 100%;
-		margin-right: 20px;
-		transform: translate(0, -50%);
-		background-color: #ffffff;
-		border-radius: 12px;
-		position: absolute;
-		z-index: 99999999;
-		box-sizing: border-box;
-		display: none;
-	}
-
-	.custom-tooltip:hover .left {
-		display: block;
-	}
-
-	.custom-tooltip .left i {
-		position: absolute;
-		top: 50%;
-		left: 100%;
-		margin-top: -12px;
-		width: 12px;
-		height: 24px;
-		overflow: hidden;
-	}
-
-	.custom-tooltip .left i::after {
-		content: '';
-		position: absolute;
-		width: 12px;
-		height: 12px;
-		left: 0;
-		top: 50%;
-		transform: translate(-50%, -50%) rotate(-45deg);
-		background-color: #ffffff;
-	}
-</style>

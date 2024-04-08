@@ -7,7 +7,6 @@
 	export let onClose: () => void = () => {
 		doNothing();
 	};
-	export let padding = true;
 	export let isScrollable = false;
 </script>
 
@@ -49,7 +48,7 @@
 			</div>
 			<button
 				data-testId="modal-close-button"
-				class="mr-[-22px] flex h-[54px] min-w-[54px] cursor-pointer items-center justify-center text-sm font-bold text-gray-300"
+				class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] text-sm font-bold text-gray-300"
 				on:click={() => {
 					closeModal(modalFor);
 					onClose();

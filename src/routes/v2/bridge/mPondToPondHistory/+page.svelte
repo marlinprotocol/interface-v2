@@ -70,7 +70,7 @@
 		},
 		{
 			id: '1',
-			mpondAmount: BigInt(100),
+			mpondAmount: BigInt(20),
 			mpondConverted: BigInt(90),
 			pondAmount: BigInt(9000),
 			pondEligible: BigInt(10000),
@@ -613,10 +613,5 @@
 
 <MPondToPondHistoryData
 	bind:loading
-	historyData={[
-		...pondToMPondHistoryData,
-		...pondToMPondHistoryData.reverse(),
-		...pondToMPondHistoryData.reverse(),
-		...pondToMPondHistoryData
-	]}
+	historyData={[...pondToMPondHistoryData, ...pondToMPondHistoryData.reverse()]}
 />

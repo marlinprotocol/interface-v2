@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
+	import TableHeadingText from '$lib/components/v2/texts/TableHeadingText.svelte';
 	import type { TableModel } from '$lib/types/componentTypes';
 
 	export let tableHeading: TableModel['header'][];

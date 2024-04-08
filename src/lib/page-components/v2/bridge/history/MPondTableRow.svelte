@@ -126,7 +126,10 @@
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
 			<div class="flex gap-3">
-				<button type="button">
+				<button
+					type="button"
+					class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE] hover:bg-[#F0F0F0]"
+				>
 					<img src={staticImages.exchangeIcon} alt="Exchange Icon" />
 				</button>
 				<button

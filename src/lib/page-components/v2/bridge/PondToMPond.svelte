@@ -17,7 +17,7 @@
 	} from '$lib/utils/helpers/conversionHelper';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import AmountInputWithMaxButton from '$lib/components/v2/inputs/AmountInputWithMaxButton.svelte';
-	import PondApproveConfirmModal from '$lib/page-components/bridge/PondApproveConfirmModal.svelte';
+	import PondApproveConfirmModal from '$lib/page-components/v2/bridge/PondApproveConfirmModal.svelte';
 	import Tab from '$lib/atoms/v2/tabs/Tab.svelte';
 	import ConversionHistoryButton from './sub-components/ConversionHistoryButton.svelte';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';

@@ -6,8 +6,8 @@
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import MenuItem from './MenuItem.svelte';
 
-	export let activeLink: string = '';
-	export let isNavOpen: Boolean = true;
+	export let activeLink = '';
+	export let isNavOpen = true;
 
 	let links: SidebarLinks[] = [];
 	let checked = false;
@@ -30,16 +30,8 @@
 				{
 					preFixLabel: 'Pond',
 					postFixLabel: 'MPond',
-					href: ROUTES.POND_HISTORY_PAGE_URL,
-					icon: activeLink.includes(ROUTES.POND_HISTORY_PAGE_URL)
-						? staticImages.dataTransferIconBlue
-						: staticImages.dataTransferIcon
-				},
-				{
-					preFixLabel: 'MPond',
-					postFixLabel: 'Pond',
-					href: ROUTES.MPOND_HISTORY_PAGE_URL,
-					icon: activeLink.includes(ROUTES.MPOND_HISTORY_PAGE_URL)
+					href: ROUTES.BRIDGE_URL,
+					icon: activeLink.includes(ROUTES.BRIDGE_URL)
 						? staticImages.dataTransferIconBlue
 						: staticImages.dataTransferIcon
 				},

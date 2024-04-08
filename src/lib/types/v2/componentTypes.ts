@@ -35,3 +35,13 @@ export type ToastModel = {
 	timeout: number;
 	variant: CommonVariant;
 };
+
+export type ModalInputModel = {
+	title: string;
+	tooltipText?: string;
+	maxAmount: bigint;
+	maxAmountText?: string;
+	maxAmountTooltipText?: string;
+	handleApproveClick?: () => void;
+	inputCardVariant?: InputCardVariant;
+};

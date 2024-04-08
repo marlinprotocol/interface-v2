@@ -56,7 +56,7 @@
 		<Sidebar />
 		<div class="flex max-h-[100dvh] w-full flex-col">
 			<Header />
-			<div class="max-h-[calc(100dvh-80px)] overflow-auto">
+			<div class="h-full max-h-[calc(100dvh-80px)] overflow-auto">
 				<slot />
 			</div>
 		</div>

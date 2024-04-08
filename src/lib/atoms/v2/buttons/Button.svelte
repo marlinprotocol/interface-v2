@@ -13,11 +13,9 @@
 
 	const buttonStyles = getButtonStyles(variant);
 	const buttonSize = getButtonSize(size);
-
-	$: buttonStyleClass = cn('gap-1.5 !rounded-[100.86px]', styleClass, buttonSize, buttonStyles);
 </script>
 
-<button {disabled} on:click={onclick} class={buttonStyleClass}>
+<button {disabled} on:click={onclick} class={cn('gap-1.5', buttonSize, buttonStyles, styleClass)}>
 	{#if loading}
 		<span data-testid="loading-spinner" class="loading loading-spinner loading-sm" />
 	{/if}

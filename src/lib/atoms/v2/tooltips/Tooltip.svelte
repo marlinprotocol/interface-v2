@@ -33,7 +33,7 @@
 	<slot name="tooltipIcon" />
 	<div
 		class={cn(
-			'absolute z-[999999999] box-border hidden min-w-[320px] rounded-xl bg-white shadow-[0px_12px_16px_-4px_#10182814] group-hover:block',
+			'absolute z-100 box-border hidden min-w-[320px] rounded-xl bg-white shadow-[0px_12px_16px_-4px_#10182814] group-hover:block',
 			tooltipPosition[placement].container
 		)}
 		style={`min-width: ${minWidth}`}

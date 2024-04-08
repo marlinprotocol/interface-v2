@@ -29,7 +29,7 @@
 	};
 </script>
 
-<div class="group relative inline-block cursor-pointer text-left">
+<div class="group relative inline-block cursor-pointer text-left" data-testid="tooltip">
 	<slot name="tooltipIcon" />
 	<div
 		class={cn(

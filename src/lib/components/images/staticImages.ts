@@ -65,6 +65,12 @@ const successIcon = '/images/SuccessIcon.svg';
 const alertRed = '/images/alertRed.svg';
 const backIcon = '/images/backV2Icon.svg';
 
+// history pages
+const exchangeIcon = '/images/exchangeV2Icon.svg';
+const cancelIcon = '/images/cancelV2Icon.svg';
+const convertIcon = '/images/convertV2Icon.svg';
+const conversionCycleIcon = '/images/conversionCycleV2Icon.svg';
+
 export const staticImages = {
 	Alert,
 	Arrow,
@@ -130,5 +136,9 @@ export const staticImages = {
 	closeIcon,
 	successIcon,
 	alertRed,
-	backIcon
+	backIcon,
+	exchangeIcon,
+	cancelIcon,
+	convertIcon,
+	conversionCycleIcon
 };

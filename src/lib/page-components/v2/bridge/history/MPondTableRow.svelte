@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
+	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import TableDataWithButton from '$lib/components/table-cells/TableDataWithButton.svelte';
+	import TableDataWithButton from '$lib/components/v2/table-cells/TableDataWithButton.svelte';
 	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
 	import type {
 		MPondEligibleCyclesModel,
@@ -100,19 +100,19 @@
 </script>
 
 <tr class="border-b border-[#e5e5e5] last:border-b-0">
-	<TableDataWithButton>
+	<TableDataWithButton firstRow>
 		<svelte:fragment slot="line1">
 			{epochSecToString(timestamp)}
 		</svelte:fragment>
 	</TableDataWithButton>
-	<TableDataWithButton>
+	<!-- <TableDataWithButton>
 		<svelte:fragment slot="line1">
 			<TxnHashText
 				txnHash={transactionHash}
 				txnHashUrl={getTxnUrl($chainConfigStore.block_explorer_url, transactionHash)}
 			/>
 		</svelte:fragment>
-	</TableDataWithButton>
+	</TableDataWithButton> -->
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
 			{bigNumberToString(mpondAmount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)}
@@ -125,6 +125,36 @@
 	</TableDataWithButton>
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
+			<div class="flex gap-3">
+				<button
+					type="button"
+					class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE] hover:bg-[#F0F0F0]"
+				>
+					<img src={staticImages.exchangeIcon} alt="Exchange Icon" />
+				</button>
+				<button
+					type="button"
+					class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE] hover:bg-[#F0F0F0]"
+				>
+					<img src={staticImages.conversionCycleIcon} alt="" />
+				</button>
+				<button
+					type="button"
+					class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE] hover:bg-[#F0F0F0]"
+				>
+					<img src={staticImages.convertIcon} alt="" />
+				</button>
+				<button
+					type="button"
+					class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE] hover:bg-[#F0F0F0]"
+				>
+					<img src={staticImages.cancelIcon} alt="" />
+				</button>
+			</div>
+		</svelte:fragment>
+	</TableDataWithButton>
+	<!-- <TableDataWithButton>
+		<svelte:fragment slot="line1">
 			{bigNumberToString(pondPending, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
 		</svelte:fragment>
 		<svelte:fragment slot="line2">
@@ -135,8 +165,8 @@
 				modalFor="mpond-conversion-cycle-modal-{rowIndex}"
 			/>
 		</svelte:fragment>
-	</TableDataWithButton>
-	<TableDataWithButton>
+	</TableDataWithButton> -->
+	<!-- <TableDataWithButton>
 		<svelte:fragment slot="line1">
 			{bigNumberToString(pondInProcess, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
 		</svelte:fragment>
@@ -156,8 +186,8 @@
 				/>
 			</div>
 		</Timer>
-	</TableDataWithButton>
-	<TableDataWithButton>
+	</TableDataWithButton> -->
+	<!-- <TableDataWithButton>
 		<svelte:fragment slot="line1">
 			{bigNumberToString(pondEligible, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
 		</svelte:fragment>
@@ -167,8 +197,8 @@
 				modalFor="mpond-conversion-history-modal-{rowIndex}"
 			/>
 		</svelte:fragment>
-	</TableDataWithButton>
-	<TableDataWithButton>
+	</TableDataWithButton> -->
+	<!-- <TableDataWithButton>
 		<svelte:fragment slot="line1">
 			<ModalButton
 				disabled={!(pondEligible > 0n)}
@@ -203,5 +233,5 @@
 				</Button>
 			{/if}
 		</svelte:fragment>
-	</TableDataWithButton>
+	</TableDataWithButton> -->
 </tr>

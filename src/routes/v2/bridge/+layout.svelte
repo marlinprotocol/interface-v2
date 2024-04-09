@@ -72,7 +72,9 @@
 
 {#if $chainStore.isValidChain && chainSupported}
 	<PageWrapper>
-		<slot />
+		<div class="mx-[28px] flex flex-1 flex-col">
+			<slot />
+		</div>
 	</PageWrapper>
 {:else}
 	<PageWrapper>

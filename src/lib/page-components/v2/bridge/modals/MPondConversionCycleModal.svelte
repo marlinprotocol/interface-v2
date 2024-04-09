@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import LoadingAnimationModal from '$lib/components/loading/LoadingAnimationModal.svelte';

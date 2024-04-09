@@ -52,6 +52,7 @@
 	/>
 </svelte:head>
 
+
 <main class="flex h-dvh w-full font-poppins">
 	<!-- toasts are removed from the normal document flow as it has position fixed   -->
 	<Toast />

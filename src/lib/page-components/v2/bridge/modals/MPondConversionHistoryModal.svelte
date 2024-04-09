@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
 	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
 	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';

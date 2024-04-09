@@ -6,13 +6,13 @@
 		OysterMarketplaceDataModel,
 		OysterMarketplaceSortKeys
 	} from '$lib/types/oysterComponentType';
-	import { OYSTER_MARKETPLACE_TABLE_HEADER } from '$lib/utils/constants/v2/oysterConstants';
 	import { sortOysterMarketplace } from '$lib/utils/helpers/oysterHelpers';
 	import OysterTableCommon from '$lib/page-components/v2/oyster/inventory/OysterTableCommon.svelte';
 	import OysterMarketplaceFilters from '$lib/page-components/v2/oyster/marketplace/OysterMarketplaceFilters.svelte';
 	import OysterMarketplaceTableRow from '$lib/page-components/v2/oyster/marketplace/OysterMarketplaceTableRow.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 	import { chainIdHasChanged, chainStore } from '$lib/data-stores/chainProviderStore';
+	import { OYSTER_MARKETPLACE_TABLE_HEADER } from '$lib/utils/constants/v2/oysterConstants';
 
 	let activePage = 1;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};

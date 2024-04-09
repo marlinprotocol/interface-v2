@@ -63,6 +63,13 @@ const arrowConversion = '/images/arrowConversion.svg';
 const closeIcon = '/images/closeIcon.svg';
 const successIcon = '/images/SuccessIcon.svg';
 const alertRed = '/images/alertRed.svg';
+const backIcon = '/images/backV2Icon.svg';
+
+// history pages
+const exchangeIcon = '/images/exchangeV2Icon.svg';
+const cancelIcon = '/images/cancelV2Icon.svg';
+const historyIcon = '/images/historyV2Icon.svg';
+const conversionCycleIcon = '/images/conversionCycleV2Icon.svg';
 const toastSuccessAlert = '/images/toastSuccessAlert.svg';
 const toastErrorAlert = '/images/toastErrorAlert.svg';
 const toastWarningAlert = '/images/toastWarningAlert.svg';
@@ -71,6 +78,8 @@ const walleticonOyster = '/images/walletIconOyster.svg';
 const clockIcon = '/images/clockIcon.svg';
 const checkmark = '/images/checkmark.svg';
 const tick = '/images/tick.svg';
+
+const externalLinkIcon = '/images/externalLinkV2Icon.svg';
 
 export const staticImages = {
 	Alert,
@@ -137,6 +146,11 @@ export const staticImages = {
 	closeIcon,
 	successIcon,
 	alertRed,
+	backIcon,
+	exchangeIcon,
+	cancelIcon,
+	historyIcon,
+	conversionCycleIcon,
 	toastSuccessAlert,
 	toastErrorAlert,
 	toastWarningAlert,
@@ -144,6 +158,7 @@ export const staticImages = {
 	conversionIcon,
 	walleticonOyster,
 	clockIcon,
+	externalLinkIcon,
 	checkmark,
 	tick
 };

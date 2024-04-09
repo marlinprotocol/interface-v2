@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Modal from '$lib/atoms/modals/Modal.svelte';
-	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
+	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';

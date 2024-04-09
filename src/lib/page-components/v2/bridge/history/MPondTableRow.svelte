@@ -1,9 +1,6 @@
 <script lang="ts">
-	import Button from '$lib/atoms/v2/buttons/Button.svelte';
-	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import TableDataWithButton from '$lib/components/v2/table-cells/TableDataWithButton.svelte';
-	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
 	import type {
 		MPondEligibleCyclesModel,
 		MPondToPondHistoryDataModel
@@ -16,21 +13,17 @@
 	import {
 		bigNumberToString,
 		epochSecToString,
-		epochToDurationString,
 		mPondToPond,
 		pondToMPond
 	} from '$lib/utils/helpers/conversionHelper';
 
 	import MPondConversionCycleButton from '$lib/page-components/v2/bridge/buttons/MPondConversionCycleButton.svelte';
 	import MPondConversionHistoryButton from '$lib/page-components/v2/bridge/buttons/MPondConversionHistoryButton.svelte';
-	import MPondEligibleConvertModal from '$lib/page-components/bridge/modals/MPondEligibleConvertModal.svelte';
-	import HistoryDataIconButton from '$lib/page-components/bridge/sub-components/HistoryDataIconButton.svelte';
+	import MPondEligibleConvertModal from '$lib/page-components/v2/bridge/modals/MPondEligibleConvertModal.svelte';
 	import { cancelMPondConversionRequest } from '$lib/controllers/contract/bridge';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { getTxnUrl } from '$lib/utils/helpers/commonHelper';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
-	import TxnIcon from '$lib/components/icons/TxnIcon.svelte';
 
 	export let rowData: MPondToPondHistoryDataModel;
 	export let rowIndex: number;

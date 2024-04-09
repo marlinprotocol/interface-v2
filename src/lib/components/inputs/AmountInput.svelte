@@ -5,6 +5,7 @@
 	export let onFocusOut = () => {};
 	export let styleClass = '';
 	export let onlyInteger = false;
+	import { inputClasses } from '$lib/atoms/v2/componentClasses';
 
 	const validateInput = (
 		e: KeyboardEvent & {
@@ -37,7 +38,7 @@
 	on:focusout={onFocusOut}
 	on:keydown={validateInput}
 	on:keyup={validateInput}
-	class="hideInputNumberAppearance {styleClass}"
+	class="hideInputNumberAppearance {styleClass} "
 	placeholder={onlyInteger ? '0' : '0.00'}
 	autocomplete="off"
 />

@@ -40,7 +40,7 @@
 				<div class="text-left text-[15px] font-medium text-[#0a0e3099]">
 					<slot name="header" />
 				</div>
-				<div class="text-left text-[22px] font-medium">
+				<div class="text-left text-[22px] font-medium tracking-[-1px]">
 					<slot name="title" />
 				</div>
 				<div class="mt-1 text-left text-[15px] font-medium text-[#767676]">
@@ -62,7 +62,7 @@
 			<slot name="content" />
 		</div>
 		{#if $$slots.actionButtons}
-			<div class="modal-footer sticky bottom-0 bg-white pt-8">
+			<div class="modal-footer sticky bottom-0 bg-white {padding ? 'pt-8' : ''} ">
 				<slot name="actionButtons" />
 			</div>
 		{/if}

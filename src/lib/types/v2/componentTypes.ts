@@ -12,7 +12,14 @@ export type ButtonModel = {
 	onclick: (() => Promise<void> | void | boolean) | undefined;
 };
 
-export type InputCardVariant = 'primary' | 'warning' | 'none' | 'search' | 'primary-mini';
+export type InputCardVariant =
+	| 'primary'
+	| 'warning'
+	| 'none'
+	| 'search'
+	| 'primary-mini'
+	| 'yellow'
+	| 'green';
 
 export type CommonVariant = 'success' | 'warning' | 'error';
 

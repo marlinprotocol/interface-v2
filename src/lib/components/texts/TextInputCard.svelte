@@ -12,6 +12,7 @@
 	export let textStyle = '';
 	export let centered = false;
 	export let cliboardContent: string | undefined = '';
+	export let variant = 'primary';
 
 	$: successMessage = `${title} copied to clipboard`;
 </script>

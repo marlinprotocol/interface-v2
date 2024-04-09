@@ -35,7 +35,10 @@ export const getInputCardVariant = (variant: InputCardVariant | undefined) => {
 
 		case 'warning':
 			return 'bg-red-100 px-4 py-1';
-
+		case 'yellow':
+			return 'bg-[#EDBE59]';
+		case 'green':
+			return 'bg-[#68A843]';
 		case 'none':
 			return '';
 

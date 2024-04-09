@@ -50,7 +50,7 @@
 	/>
 </svelte:head>
 
-<main class="w-full">
+<main class="w-full font-poppins">
 	<Toast />
 	<div class="flex w-full flex-row">
 		<Sidebar />

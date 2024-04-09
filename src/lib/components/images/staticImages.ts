@@ -67,6 +67,8 @@ const toastSuccessAlert = '/images/toastSuccessAlert.svg';
 const toastErrorAlert = '/images/toastErrorAlert.svg';
 const toastWarningAlert = '/images/toastWarningAlert.svg';
 const conversionIcon = '/images/conversionIcon.svg';
+const walleticonOyster = '/images/walletIconOyster.svg';
+const clockIcon = '/images/clockIcon.svg';
 
 export const staticImages = {
 	Alert,
@@ -137,5 +139,7 @@ export const staticImages = {
 	toastErrorAlert,
 	toastWarningAlert,
 	arrowConversion,
-	conversionIcon
+	conversionIcon,
+	walleticonOyster,
+	clockIcon
 };

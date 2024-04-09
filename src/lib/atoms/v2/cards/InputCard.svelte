@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { InputCardVariant } from '$lib/types/componentTypes';
+	import type { InputCardVariant } from '$lib/types/v2/componentTypes';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import { getInputCardVariant } from '$lib/utils/v2/helpers/componentHelper';
 

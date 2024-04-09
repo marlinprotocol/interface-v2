@@ -34,34 +34,37 @@
 	};
 </script>
 
-<HistoryTableCommon
-	tableTitle={{
-		backButton: {
-			firstText: 'MPond',
-			secondText: 'POND',
-			href: ROUTES.BRIDGE_URL
-		},
-		title: 'POND to MPond Conversion History'
-	}}
-	{loading}
-	{handleSortData}
-	noDataFound={!paginatedData?.length}
-	fullWidth={true}
-	tableHeading={POND_TO_MPOND_TABLE_HEADER}
->
-	{#if paginatedData?.length}
-		{#each paginatedData as row}
-			<tr>
-				<td class={tableCellClasses.rowNormal + ' block pl-4'}>{epochSecToString(row.timestamp)}</td
-				>
-				<td class={tableCellClasses.rowNormal}
-					>{bigNumberToString(row.pondConverted, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}</td
-				>
-				<td class={tableCellClasses.rowNormal}
-					>{bigNumberToString(row.mpondReceived, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)}</td
-				>
-			</tr>
-		{/each}
-	{/if}
-</HistoryTableCommon>
-<Pagination {pageCount} {activePage} {handlePageChange} />
+<div class="mx-[28px] flex flex-1 flex-col">
+	<HistoryTableCommon
+		tableTitle={{
+			backButton: {
+				firstText: 'MPond',
+				secondText: 'POND',
+				href: ROUTES.BRIDGE_URL
+			},
+			title: 'POND to MPond Conversion History'
+		}}
+		{loading}
+		{handleSortData}
+		noDataFound={!paginatedData?.length}
+		fullWidth={true}
+		tableHeading={POND_TO_MPOND_TABLE_HEADER}
+	>
+		{#if paginatedData?.length}
+			{#each paginatedData as row}
+				<tr>
+					<td class={tableCellClasses.rowNormal + ' block pl-4'}
+						>{epochSecToString(row.timestamp)}</td
+					>
+					<td class={tableCellClasses.rowNormal}
+						>{bigNumberToString(row.pondConverted, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}</td
+					>
+					<td class={tableCellClasses.rowNormal}
+						>{bigNumberToString(row.mpondReceived, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)}</td
+					>
+				</tr>
+			{/each}
+		{/if}
+	</HistoryTableCommon>
+	<Pagination {pageCount} {activePage} {handlePageChange} />
+</div>

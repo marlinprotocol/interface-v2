@@ -28,24 +28,26 @@
 	};
 </script>
 
-<HistoryTableCommon
-	tableTitle={{
-		backButton: {
-			firstText: 'POND',
-			secondText: 'MPond',
-			href: ROUTES.BRIDGE_URL
-		},
-		title: 'MPond to POND conversion history'
-	}}
-	{loading}
-	{handleSortData}
-	noDataFound={!paginatedData?.length}
-	tableHeading={MPOND_TO_POND_TABLE_HEADER}
->
-	{#if paginatedData?.length}
-		{#each paginatedData as rowData, rowIndex}
-			<MPondTableRow {rowData} {rowIndex} />
-		{/each}
-	{/if}
-</HistoryTableCommon>
-<Pagination {pageCount} {activePage} {handlePageChange} />
+<div class="mx-[28px] flex flex-1 flex-col">
+	<HistoryTableCommon
+		tableTitle={{
+			backButton: {
+				firstText: 'POND',
+				secondText: 'MPond',
+				href: ROUTES.BRIDGE_URL
+			},
+			title: 'MPond to POND conversion history'
+		}}
+		{loading}
+		{handleSortData}
+		noDataFound={!paginatedData?.length}
+		tableHeading={MPOND_TO_POND_TABLE_HEADER}
+	>
+		{#if paginatedData?.length}
+			{#each paginatedData as rowData, rowIndex}
+				<MPondTableRow {rowData} {rowIndex} />
+			{/each}
+		{/if}
+	</HistoryTableCommon>
+	<Pagination {pageCount} {activePage} {handlePageChange} />
+</div>

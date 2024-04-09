@@ -7,6 +7,7 @@
 	export let onClose: () => void = () => {
 		doNothing();
 	};
+	export let padding = true;
 	export let isScrollable = false;
 </script>
 

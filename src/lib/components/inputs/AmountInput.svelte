@@ -5,7 +5,6 @@
 	export let onFocusOut = () => {};
 	export let styleClass = '';
 	export let onlyInteger = false;
-	import { inputClasses } from '$lib/atoms/v2/componentClasses';
 
 	const validateInput = (
 		e: KeyboardEvent & {

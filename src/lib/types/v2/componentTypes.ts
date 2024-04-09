@@ -14,8 +14,6 @@ export type ButtonModel = {
 
 export type TooltipPlacement = 'top' | 'right' | 'bottom' | 'left';
 
-export type TooltipPlacement = 'top' | 'right' | 'bottom' | 'left';
-
 export type InputCardVariant =
 	| 'primary'
 	| 'warning'

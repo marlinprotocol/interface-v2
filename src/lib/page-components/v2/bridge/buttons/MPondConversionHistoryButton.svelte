@@ -3,6 +3,7 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import MPondConversionHistoryModal from '$lib/page-components/v2/bridge/modals/MPondConversionHistoryModal.svelte';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let conversionHistory: MPondToPondHistoryDataModel['conversionHistory'];
 	export let modalFor: string;
@@ -13,13 +14,13 @@
 
 <MPondConversionHistoryModal conversions={conversionHistory} {modalFor} />
 {#if !conversionHistory?.length}
-	<div class="{classes} cursor-not-allowed opacity-50">
-		<img src={staticImages.historyIcon} alt="" />
+	<div class={cn(classes, 'cursor-not-allowed opacity-50')}>
+		<img src={staticImages.historyIcon} alt="History Icon" />
 	</div>
 {:else}
 	<ModalButton variant="text" size="tiniest" {modalFor}>
-		<div class="{classes} hover:bg-[#F0F0F0]">
-			<img src={staticImages.historyIcon} alt="" />
+		<div class={cn(classes, 'hover:bg-[#F0F0F0]')}>
+			<img src={staticImages.historyIcon} alt="History Icon" />
 		</div>
 	</ModalButton>
 {/if}

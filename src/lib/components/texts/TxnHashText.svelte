@@ -8,6 +8,5 @@
 </script>
 
 <div class="flex items-center justify-center gap-2" data-testid="txn-hash-text">
-	<!-- {shortenText(txnHash, startInt, endInt)} -->
 	<TxnIcon {txnHashUrl} />
 </div>

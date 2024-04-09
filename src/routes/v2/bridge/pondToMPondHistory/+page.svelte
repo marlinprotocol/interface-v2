@@ -41,8 +41,3 @@
 </script>
 
 <PondToMPondHistoryData bind:loading bind:historyData />
-<!-- historyData={[
-	...pondToMPondHistoryData,
-	...pondToMPondHistoryData.reverse(),
-	...pondToMPondHistoryData
-]} -->

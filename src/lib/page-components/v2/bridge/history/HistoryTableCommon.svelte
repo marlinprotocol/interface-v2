@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { tableCellClasses } from '$lib/atoms/componentClasses';
 	import Table from '$lib/atoms/v2/table/Table.svelte';
-	import HeaderConnectWallet from '$lib/components/header/sub-components/HeaderConnectWallet.svelte';
+	import HeaderConnectWallet from '$lib/components/v2/header/sub-components/HeaderConnectWallet.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import PageTitle from '$lib/components/v2/texts/PageTitle.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { TableModel } from '$lib/types/componentTypes';
 	import { staticImages } from '$lib/components/images/staticImages';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let tableTitle: {
 		backButton: {
@@ -23,12 +24,6 @@
 	export let fullWidth = true;
 </script>
 
-<!-- <HistoryBackButton
-	firstText={tableTitle.backButton.firstText}
-	secondText={tableTitle.backButton.secondText}
-	href={tableTitle.backButton.href}
-/>
- -->
 <div class="flex items-center gap-4">
 	<a
 		class="mb-8 flex h-[56px] w-[56px] items-center justify-center rounded-full border border-[#D9DADE] bg-white"
@@ -39,9 +34,10 @@
 	<PageTitle title={tableTitle.title} />
 </div>
 <div
-	class="card rounded-[18px] bg-base-100 {fullWidth
-		? 'max-w-full'
-		: 'sm:max-w-full md:max-w-[66.66%]'}"
+	class={cn(
+		'card rounded-[18px] bg-base-100',
+		fullWidth ? 'max-w-full' : 'sm:max-w-full md:max-w-[66.66%]'
+	)}
 >
 	{#if !$connected}
 		<div class="my-4 flex justify-center text-center">

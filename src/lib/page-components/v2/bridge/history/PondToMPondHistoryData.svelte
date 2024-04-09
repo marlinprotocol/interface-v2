@@ -61,12 +61,6 @@
 				<td class={tableCellClasses.rowNormal}
 					>{bigNumberToString(row.mpondReceived, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)}</td
 				>
-				<!-- <td class={tableCellClasses.rowNormal}>
-					<TxnHashText
-						txnHash={row.transactionHash}
-						txnHashUrl={getTxnUrl($chainConfigStore.block_explorer_url, row.transactionHash)}
-					/>
-				</td> -->
 			</tr>
 		{/each}
 	{/if}

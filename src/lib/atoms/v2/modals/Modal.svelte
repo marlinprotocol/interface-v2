@@ -7,7 +7,6 @@
 	export let onClose: () => void = () => {
 		doNothing();
 	};
-	export let padding = true;
 	export let isScrollable = false;
 </script>
 
@@ -28,11 +27,13 @@
 				{/if}
 				{#if $$slots.successmsg}
 					<div class="flex w-full flex-col items-center justify-between">
-						<div class="ml-[70px] h-[84px] w-[84px]">
-							<img src={staticImages.successIcon} alt="success-icon" class="object-cover" />
+						<div
+							class="ml-[70px] grid h-[84px] w-[84px] place-items-center rounded-full bg-[#68A843]"
+						>
+							<img src={staticImages.tick} alt="tick" width="60px" height="60px" />
 						</div>
 
-						<div class="ml-[70px] mt-[-30px] text-[22px] font-semibold">
+						<div class="ml-[70px] mt-4 text-[26px] font-semibold">
 							<slot name="successmsg" />
 						</div>
 					</div>
@@ -49,7 +50,7 @@
 			</div>
 			<button
 				data-testId="modal-close-button"
-				class="mr-[-22px] flex h-[54px] min-w-[54px] cursor-pointer items-center justify-center text-sm font-bold text-gray-300"
+				class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] text-sm font-bold text-gray-300"
 				on:click={() => {
 					closeModal(modalFor);
 					onClose();

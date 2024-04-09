@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { staticImages } from '$lib/components/images/staticImages';
+	import { isNavOpen } from '$lib/data-stores/v2/navStore';
 	import type { SidebarLinks } from '$lib/types/headerTypes';
 	import { menuItems } from '$lib/utils/constants/v2/navigation';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import MenuItem from './MenuItem.svelte';
 
-	export let activeLink = '';
-	export let isNavOpen = true;
+	export let activeLink: string = '';
 
 	let links: SidebarLinks[] = [];
 	let checked = false;
@@ -106,31 +106,35 @@
 </script>
 
 <div class="flex flex-1 flex-col px-7">
-	<ul class="menu h-[620px] flex-nowrap overflow-y-auto overflow-x-hidden p-0">
+	<ul class="menu h-[calc(100dvh-288px)] flex-nowrap overflow-y-auto overflow-x-hidden p-0">
 		{#each links as { icon, label, children, href }}
 			{#if children}
 				<li>
 					<details>
 						<summary
-							class={`px-[14px] py-4 after:text-[#26272c] hover:bg-transparent focus:bg-transparent active:!bg-transparent  ${
-								activeLink.includes(href) && 'after:text-[#2DB8E3]'
-							} ${!isNavOpen && 'after:hidden'}
-							${!isNavOpen && activeLink.includes(href) && 'bg-[#FCFCFC]'}`}
+							class={cn(
+								'px-[14px] py-4 after:text-[#26272c] hover:bg-transparent focus:bg-transparent active:!bg-transparent',
+								{
+									'after:text-[#2DB8E3]': activeLink.includes(href),
+									'after:hidden': !$isNavOpen,
+									'bg-[#FCFCFC]': !$isNavOpen && activeLink.includes(href)
+								}
+							)}
 						>
 							<div class="flex items-center gap-3">
 								<img src={icon} alt={icon} />
-								{#if isNavOpen}
+								{#if $isNavOpen}
 									<p
-										class={`font-poppins text-base font-medium text-[#26272c]  ${
-											activeLink.includes(href) && 'text-[#2DB8E3]'
-										}`}
+										class={cn('font-poppins text-base font-medium text-[#26272c]', {
+											'text-[#2DB8E3]': activeLink.includes(href)
+										})}
 									>
 										{label}
 									</p>
 								{/if}
 							</div>
 						</summary>
-						<ul class={`ml-[25px] px-3 ${isNavOpen ? 'block' : 'hidden'}`}>
+						<ul class={cn('ml-[25px] px-3', $isNavOpen ? 'block' : 'hidden')}>
 							{#each children as subLink}
 								<li>
 									<a
@@ -139,11 +143,12 @@
 										class="p-0 hover:bg-transparent focus:!bg-transparent active:!bg-transparent active:!text-[#26272c]"
 									>
 										<div
-											class={`relative flex w-fit gap-1 px-4 py-2 font-poppins  text-sm ${
+											class={cn(
+												'relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
 												activeLink.includes(subLink.href)
 													? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
 													: 'text-[#26272c]'
-											}`}
+											)}
 										>
 											{subLink.preFixLabel}
 											{#if subLink.icon}
@@ -166,12 +171,11 @@
 				<a {href}>
 					<div class="flex cursor-pointer items-center gap-3 px-[14px] py-4">
 						<img src={icon} alt={icon} />
-						{#if isNavOpen}
+						{#if $isNavOpen}
 							<p
-								class={cn(
-									'font-poppins text-base font-medium text-[#26272c]',
-									activeLink.includes(href) && 'text-[#2DB8E3]'
-								)}
+								class={cn('font-poppins text-base font-medium text-[#26272c]', {
+									'text-[#2DB8E3]': activeLink.includes(href)
+								})}
 							>
 								{label}
 							</p>
@@ -181,28 +185,29 @@
 			{/if}
 		{/each}
 	</ul>
-	<div
-		class={cn('mb-8 mt-auto rounded-2xl ', {
-			isNavOpen: 'bg-[#F4F4F6]'
-		})}
-	>
+	<div class={cn('mb-8 mt-auto rounded-2xl', { 'bg-[#F4F4F6]': $isNavOpen })}>
 		<ul>
 			{#each menuItems as item}
-				<MenuItem bind:isNavOpen imgSrc={item.imgSrc} label={item.label} />
+				<MenuItem imgSrc={item.imgSrc} label={item.label} />
 			{/each}
 		</ul>
 		<div class="px-4 py-4">
-			<label class="grid cursor-pointer place-items-center {isNavOpen ? 'w-[48px]' : 'w-[24px]'}">
+			<label
+				class={cn('grid cursor-pointer place-items-center', $isNavOpen ? 'w-[48px]' : 'w-[24px]')}
+			>
 				<input
 					type="checkbox"
 					value="synthwave"
 					bind:checked
-					class="theme-controller toggle {isNavOpen
-						? 'col-span-2 col-start-1 row-start-1 w-[48px]'
-						: 'col-span-1 col-start-1 row-start-1  w-[24px]'}"
+					class={cn(
+						'theme-controller toggle',
+						$isNavOpen
+							? 'col-span-2 col-start-1 row-start-1 w-[48px]'
+							: 'col-span-1 col-start-1 row-start-1 w-[24px]'
+					)}
 				/>
 				<svg
-					class={`col-start-1 row-start-1 fill-base-100 stroke-base-100`}
+					class="col-start-1 row-start-1 fill-base-100 stroke-base-100"
 					width="14"
 					height="14"
 					viewBox="0 0 14 14"
@@ -227,7 +232,7 @@
 					height="14"
 					viewBox="0 0 14 14"
 					fill="none"
-					class="{isNavOpen ? 'col-start-2' : 'col-start-1'} row-start-1"
+					class={cn('row-start-1', $isNavOpen ? 'col-start-2' : 'col-start-1')}
 					xmlns="http://www.w3.org/2000/svg"
 				>
 					<path

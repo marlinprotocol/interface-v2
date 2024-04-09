@@ -12,6 +12,10 @@ export type ButtonModel = {
 	onclick: (() => Promise<void> | void | boolean) | undefined;
 };
 
+export type TooltipPlacement = 'top' | 'right' | 'bottom' | 'left';
+
+export type TooltipPlacement = 'top' | 'right' | 'bottom' | 'left';
+
 export type InputCardVariant =
 	| 'primary'
 	| 'warning'

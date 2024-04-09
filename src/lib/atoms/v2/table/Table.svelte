@@ -1,6 +1,7 @@
 <script lang="ts">
 	import TableHeadingText from '$lib/components/v2/texts/TableHeadingText.svelte';
 	import type { TableModel } from '$lib/types/componentTypes';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let tableHeading: TableModel['header'][];
 	export let styleClass = '';
@@ -17,7 +18,7 @@
 				{#each tableHeading as columnHeading, i}
 					<th class="py-[26px]">
 						<TableHeadingText
-							styleClass="{headingStyleClass} {i === 0 ? 'ml-3' : ''}"
+							styleClass={cn(headingStyleClass, i === 0 ? 'ml-4' : '')}
 							{iconWidth}
 							heading={columnHeading}
 							{handleSortData}

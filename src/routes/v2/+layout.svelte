@@ -52,7 +52,7 @@
 	/>
 </svelte:head>
 
-<main class="flex h-dvh w-full">
+<main class="h-dvh flex w-full">
 	<!-- toasts are removed from the normal document flow as it has position fixed   -->
 	<Toast />
 

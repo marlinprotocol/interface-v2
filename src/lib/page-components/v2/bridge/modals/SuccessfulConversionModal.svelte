@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
-	import Modal from '$lib/atoms/modals/Modal.svelte';
+	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import {
@@ -29,34 +29,42 @@
 </script>
 
 <Modal {modalFor}>
-	<img slot="icon" src={staticImages.Sheild} alt="" width="38px" />
-	<svelte:fragment slot="title">Conversion Successful</svelte:fragment>
+	<svelte:fragment slot="successmsg">Conversion Successful</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="text-left text-base font-medium text-gray-600">
-			<div>You have converted</div>
-			<div>
+		<div class="flex flex-col gap-6 text-lg font-light text-[#26272C]">
+			<div class="rounded-xl border border-[#D9DADE] p-4">
+				<div>You have converted</div>
+				<div>
+					<span class="font-bold text-black"
+						>{amountConvertedFrom}
+						{conversionFrom.toUpperCase()}</span
+					>
+					to
+					<span class="font-bold text-black"
+						>{bigNumberToString(
+							amountConvertedTo,
+							DEFAULT_CURRENCY_DECIMALS,
+							conversionFrom === 'pond' ? MPOND_PRECISIONS : POND_PRECISIONS
+						)}
+						{conversionTo.toUpperCase()}</span
+					>
+				</div>
+			</div>
+
+			<div class="rounded-xl border border-[#D9DADE] p-4">
+				<div>Updated Wallet Balance</div>
 				<span class="font-bold text-black"
-					>{amountConvertedFrom}
-					{conversionFrom.toUpperCase()}</span
-				>
-				to
-				<span class="font-bold text-black"
-					>{bigNumberToString(
-						amountConvertedTo,
+					>{bigNumberToString($walletBalanceStore.pond, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
+					POND
+				</span>|
+				<span class="font-bold text-black">
+					{bigNumberToString(
+						$walletBalanceStore.mpond,
 						DEFAULT_CURRENCY_DECIMALS,
-						conversionFrom === 'pond' ? MPOND_PRECISIONS : POND_PRECISIONS
-					)}
-					{conversionTo.toUpperCase()}</span
+						MPOND_PRECISIONS
+					)} MPOND</span
 				>
 			</div>
-			<Divider margin="my-6" />
-			<div>Updated Wallet Balance</div>
-			<span class="font-bold text-black"
-				>{bigNumberToString($walletBalanceStore.pond, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)} POND
-			</span>|
-			<span class="font-bold text-black">
-				{bigNumberToString($walletBalanceStore.mpond, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)} MPOND</span
-			>
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">

@@ -52,22 +52,15 @@
 	/>
 </svelte:head>
 
-<main class="w-full">
+<main class="flex h-dvh w-full">
+	<!-- toasts are removed from the normal document flow as it has position fixed   -->
 	<Toast />
-	<div class="flex w-full flex-row">
-		<Sidebar />
-		<div class="flex max-h-[100dvh] w-full flex-col">
-			<Header />
-			<div
-				class={cn(
-					'max-h-[calc(100dvh-80px)] overflow-auto transition-all duration-300 ease-out',
-					$isNavOpen
-						? 'w-[calc(100%-18rem)] translate-x-[18rem]'
-						: 'w-[calc(100%-112px)] translate-x-[112px]'
-				)}
-			>
-				<slot />
-			</div>
+
+	<Sidebar />
+	<div class="flex h-full w-full flex-col">
+		<Header />
+		<div class="flex h-full w-full">
+			<slot />
 		</div>
 	</div>
 </main>

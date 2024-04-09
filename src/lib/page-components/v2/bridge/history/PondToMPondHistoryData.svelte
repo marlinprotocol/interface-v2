@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { tableCellClasses } from '$lib/atoms/v2/componentClasses';
-	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
 	import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import { POND_TO_MPOND_TABLE_HEADER } from '$lib/utils/constants/v2/bridgeConstants';
 	import {

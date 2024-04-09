@@ -1,0 +1,56 @@
+<script lang="ts">
+	import InputCard from '$lib/atoms/v2/cards/InputCard.svelte';
+	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
+	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import { bigNumberToString, epochToDurationString } from '$lib/utils/helpers/conversionHelper';
+	import { staticImages } from '$lib/components/images/staticImages';
+	import { cn } from '$lib/utils/helpers/commonHelper';
+
+	export let jobData: OysterInventoryDataModel;
+
+	$: ({ balance, durationLeft } = jobData);
+
+	const commonStyleClass = 'h-[207px] rounded-xl flex items-center justify-center';
+	const iconStyle = 'w-[64px] h-[64px] rounded-full bg-base-100 flex items-center justify-center ';
+</script>
+
+<div class="flex flex-col gap-4">
+	<div class="flex gap-4">
+		<div class="w-full">
+			<InputCard variant="yellow">
+				<div class={cn(commonStyleClass)}>
+					<div>
+						<div class="flex w-full justify-center">
+							<div class={cn(iconStyle)}>
+								<img src={staticImages.walleticonOyster} alt="wallet" />
+							</div>
+						</div>
+
+						<div class="mt-4 text-lg font-light">Current Balance</div>
+						<div class="text-xl font-semibold">
+							{bigNumberToString(balance, $oysterTokenMetadataStore.decimal)}
+							{$oysterTokenMetadataStore.currency}
+						</div>
+					</div>
+				</div>
+			</InputCard>
+		</div>
+		<div class="w-full">
+			<InputCard variant="green">
+				<div class={cn(commonStyleClass)}>
+					<div>
+						<div class="flex w-full justify-center">
+							<div class={cn(iconStyle)}>
+								<img src={staticImages.clockIcon} alt="wallet" />
+							</div>
+						</div>
+						<div class="mt-4 text-lg font-light">Duration Left</div>
+						<div class="text-xl font-semibold">
+							{durationLeft === 0 ? 'Ended' : epochToDurationString(durationLeft, false)}
+						</div>
+					</div>
+				</div>
+			</InputCard>
+		</div>
+	</div>
+</div>

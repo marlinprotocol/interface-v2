@@ -37,7 +37,7 @@
 	on:focusout={onFocusOut}
 	on:keydown={validateInput}
 	on:keyup={validateInput}
-	class="hideInputNumberAppearance {styleClass}"
+	class="hideInputNumberAppearance {styleClass} "
 	placeholder={onlyInteger ? '0' : '0.00'}
 	autocomplete="off"
 />

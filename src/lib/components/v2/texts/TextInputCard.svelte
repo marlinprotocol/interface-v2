@@ -1,10 +1,10 @@
 <script lang="ts">
-	import InputCard from '$lib/atoms/cards/InputCard.svelte';
+	import InputCard from '$lib/atoms/v2/cards/InputCard.svelte';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import { handleCopyClick } from '$lib/utils/helpers/componentHelper';
-	import { staticImages } from '../images/staticImages';
+	import { staticImages } from '$lib/components/images/staticImages';
 
 	export let title: string;
 	export let tooltipText = '';

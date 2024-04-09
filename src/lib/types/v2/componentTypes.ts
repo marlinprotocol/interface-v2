@@ -14,7 +14,14 @@ export type ButtonModel = {
 
 export type TooltipPlacement = 'top' | 'right' | 'bottom' | 'left';
 
-export type InputCardVariant = 'primary' | 'warning' | 'none' | 'search' | 'primary-mini';
+export type InputCardVariant =
+	| 'primary'
+	| 'warning'
+	| 'none'
+	| 'search'
+	| 'primary-mini'
+	| 'yellow'
+	| 'green';
 
 export type CommonVariant = 'success' | 'warning' | 'error';
 

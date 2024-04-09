@@ -74,6 +74,8 @@ const toastSuccessAlert = '/images/toastSuccessAlert.svg';
 const toastErrorAlert = '/images/toastErrorAlert.svg';
 const toastWarningAlert = '/images/toastWarningAlert.svg';
 const conversionIcon = '/images/conversionIcon.svg';
+const checkmark = '/images/checkmark.svg';
+const tick = '/images/tick.svg';
 
 const externalLinkIcon = '/images/externalLinkV2Icon.svg';
 
@@ -152,5 +154,7 @@ export const staticImages = {
 	toastWarningAlert,
 	arrowConversion,
 	conversionIcon,
-	externalLinkIcon
+	externalLinkIcon,
+	checkmark,
+	tick
 };

@@ -8,13 +8,8 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/v2/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import {
-		bigNumberToString,
-		convertRateToPerHourString,
-		epochToDurationString
-	} from '$lib/utils/helpers/conversionHelper';
-	import { getInventoryDurationVariant } from '$lib/utils/helpers/oysterHelpers';
-	import plus from 'svelte-awesome/icons/plus';
+	import { bigNumberToString, epochToDurationString } from '$lib/utils/helpers/conversionHelper';
+	import { getInventoryDurationVariant } from '$lib/utils/v2/helpers/oysterHelpers';
 	import { slide } from 'svelte/transition';
 	import AddFundsToJobModal from '$lib/page-components/v2/oyster/inventory/modals/AddFundsToJobModal.svelte';
 	import AmendRateModal from '$lib/page-components/v2/oyster/inventory/modals/AmendRateModal.svelte';
@@ -27,9 +22,7 @@
 		oysterTokenMetadataStore,
 		updateJobStatusByIdInOysterStore
 	} from '$lib/data-stores/oysterStore';
-	import refresh from 'svelte-awesome/icons/refresh';
-	import Icon from '$lib/atoms/icons/Icon.svelte';
-	import { getColorHexByVariant, handleCopyClick } from '$lib/utils/v2/helpers/componentHelper';
+	import { handleCopyClick } from '$lib/utils/v2/helpers/componentHelper';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -141,10 +134,8 @@
 			<div slot="active">
 				<Tooltip tooltipText={epochToDurationString(durationLeft)} tooltipDirection="tooltip-left">
 					<div
-						class="mx-auto w-24 rounded py-1 text-center text-sm text-white"
-						style="background-color: {getColorHexByVariant(
-							getInventoryDurationVariant(durationLeft)
-						)}"
+						class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm text-[#030115]"
+						style="background-color: {getInventoryDurationVariant(durationLeft)}"
 					>
 						{epochToDurationString(durationLeft, true)}
 					</div>

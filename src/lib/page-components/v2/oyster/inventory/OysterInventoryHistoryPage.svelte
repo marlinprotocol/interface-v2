@@ -1,14 +1,14 @@
 <script lang="ts">
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
-	import SearchBar from '$lib/components/search/SearchBar.svelte';
-	import PageTitle from '$lib/components/texts/PageTitle.svelte';
+	import SearchBar from '$lib/components/v2/search/SearchBar.svelte';
+	import PageTitle from '$lib/components/v2/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type {
 		OysterInventoryDataModel,
 		OysterInventorySortKeys
 	} from '$lib/types/oysterComponentType';
-	import { OYSTER_HISTORY_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_HISTORY_TABLE_HEADER } from '$lib/utils/constants/v2/oysterConstants';
 	import { getSearchedInventoryData, sortOysterInventory } from '$lib/utils/helpers/oysterHelpers';
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
 	import OysterInventoryHistoryTableRow from '$lib/page-components/oyster/inventory/OysterInventoryHistoryTableRow.svelte';
@@ -58,13 +58,13 @@
 
 <div class="mx-auto">
 	<PageTitle title="My Past Orders" backHref={OYSTER_OWNER_INVENTORY_URL} />
-	<div class="mb-6 flex items-center gap-4">
+	<div class="mb-6 flex items-center gap-4 rounded-[24px] bg-white px-8 py-6">
 		<SearchBar
 			disabled={!$connected}
 			{onSearchClick}
 			bind:input={searchInput}
-			placeholder="Search for operator, instance or region"
-			styleClass="w-full"
+			placeholder="Search"
+			styleClass="w-full bg-[#F4F4F6]"
 		/>
 	</div>
 	<OysterTableCommon

@@ -9,7 +9,7 @@
 	export let disabled = false;
 	export let styleClass = '';
 	export let onSearchClick: (() => void) | undefined = undefined;
-	export let label: string;
+	export let label: string = '';
 </script>
 
 <InputCard

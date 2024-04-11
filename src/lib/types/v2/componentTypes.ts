@@ -23,7 +23,15 @@ export type InputCardVariant =
 	| 'yellow'
 	| 'green';
 
-export type CommonVariant = 'success' | 'warning' | 'error';
+export type CommonVariant =
+	| 'primary'
+	| 'secondary'
+	| 'info'
+	| 'success'
+	| 'warning'
+	| 'error'
+	| 'disabled'
+	| 'grey';
 
 export type Toast = {
 	id?: number;

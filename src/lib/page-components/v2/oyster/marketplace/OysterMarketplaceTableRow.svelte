@@ -31,7 +31,7 @@
 
 <tr class="main-row hover:bg-base-200">
 	<td class={tableCellClasses.rowNormal}>
-		<NameWithAddress {name} {address} {rowIndex}>
+		<NameWithAddress {address} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="w-4">
 					<div class="copy-icon cursor-pointer">

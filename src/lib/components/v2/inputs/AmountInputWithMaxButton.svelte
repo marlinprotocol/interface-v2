@@ -2,10 +2,10 @@
 	import InputCard from '$lib/atoms/v2/cards/InputCard.svelte';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { InputCardVariant, ModalInputModel } from '$lib/types/componentTypes';
 	import AmountInput from '$lib/components/inputs/AmountInput.svelte';
+	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
 	export let inputAmountString = '';
 	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance: 0.00';
 	export let maxAmountTooltipText: ModalInputModel['maxAmountTooltipText'] = '';
@@ -31,7 +31,7 @@
 			<Divider />
 		{/if}
 		<div class="mt-[-10px] flex items-center justify-end gap-2">
-			<div class="flex gap-1">
+			<div class="flex items-center gap-1">
 				<Text
 					text={maxAmountText}
 					variant="small"
@@ -39,12 +39,9 @@
 					fontWeight="font-normal"
 				/>
 				{#if maxAmountTooltipText}
-					<TooltipIcon
-						tooltipText={maxAmountTooltipText}
-						iconWidth="16px"
-						tooltipVariant="tooltip-secondary"
-						tooltipDirection="tooltip-bottom"
-					/>
+					<Tooltip>
+						<span slot="tooltipContent" class="text-sm leading-[18px]">{maxAmountTooltipText}</span>
+					</Tooltip>
 				{/if}
 			</div>
 			{#if $$slots.inputMaxButton}

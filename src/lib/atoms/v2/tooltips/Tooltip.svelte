@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { staticImages } from '$lib/components/images/staticImages';
 	import type { TooltipPlacement } from '$lib/types/v2/componentTypes';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 
@@ -29,6 +30,10 @@
 </script>
 
 <div class="group relative inline-block cursor-pointer text-left" data-testid="tooltip">
+	<!-- adds a default icon for tooltip when no icon is passed to the slot -->
+	{#if !$$slots.tooltipIcon}
+		<img src={staticImages.alertV2Icon} alt="Info" width="16px" />
+	{/if}
 	<slot name="tooltipIcon" />
 	<div
 		class={cn(

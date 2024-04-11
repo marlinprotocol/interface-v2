@@ -29,7 +29,7 @@
 	$: instanceRate = rateScaled / $oysterRateMetadataStore.oysterRateScalingFactor;
 </script>
 
-<tr class="main-row hover:bg-base-200">
+<tr class="main-row h-[64px] hover:bg-base-200">
 	<td class={tableCellClasses.rowNormal}>
 		<NameWithAddress {address} {rowIndex}>
 			<svelte:fragment slot="copyIcon">

@@ -2,17 +2,17 @@
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
+	import NameWithAddress from '$lib/components/v2/texts/NameWithAddress.svelte';
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { bigNumberToString, epochToDurationString } from '$lib/utils/helpers/conversionHelper';
-	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
-	import CreateOrderModal from '$lib/page-components/oyster/v2/inventory/modals/CreateOrderModal.svelte';
-	import PastJobDetailsModal from '$lib/page-components/oyster/v2/inventory/modals/PastJobDetailsModal.svelte';
-	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
+	import { getInventoryStatusVariant } from '$lib/utils/v2/helpers/oysterHelpers';
+	import { getColorHexByVariant } from '$lib/utils/v2/helpers/componentHelper';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
+	import { tableCellClasses } from '$lib/atoms/v2/componentClasses';
+	import PastJobDetailsModal from './modals/PastJobDetailsModal.svelte';
+	import CreateOrderModal from './modals/CreateOrderModal.svelte';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -32,9 +32,9 @@
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
-<tr class="main-row hover:bg-base-200">
-	<td class={tableCellClasses.row}>
-		<NameWithAddress {name} {address} {rowIndex} {isCreditJob}>
+<tr class="main-row h-[64px] hover:bg-base-200">
+	<td class={tableCellClasses.rowNormal}>
+		<NameWithAddress {address} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="copy-icon cursor-pointer">
 					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
@@ -42,18 +42,7 @@
 			</svelte:fragment>
 		</NameWithAddress>
 	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{instance ?? 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{region ?? 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
-			totalDeposit,
-			$oysterTokenMetadataStore.decimal
-		)}
-	</td>
+
 	<td class={tableCellClasses.rowNormal}>
 		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 			amountUsed,
@@ -78,10 +67,14 @@
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		<ModalButton
-			variant="tableConvertButton"
+			variant="text"
 			styleClass="w-fit ml-4 mr-6"
-			modalFor="job-history-details-{rowIndex}">DETAILS</ModalButton
+			modalFor="job-history-details-{rowIndex}"
 		>
+			<div class="rounded-full border border-[#D9DADE] p-3">
+				<img src={staticImages.infoV2Icon} alt="Info Icon" />
+			</div>
+		</ModalButton>
 	</td>
 </tr>
 <PastJobDetailsModal modalFor="job-history-details-{rowIndex}" jobData={rowData} {rowIndex} />

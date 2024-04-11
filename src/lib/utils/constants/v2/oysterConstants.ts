@@ -205,21 +205,6 @@ export const OYSTER_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 		id: 'provider'
 	},
 	{
-		title: 'INSTANCE',
-		id: 'instance',
-		sorting: true
-	},
-	{
-		title: 'REGION',
-		id: 'region',
-		sorting: true
-	},
-	{
-		title: 'AMOUNT PAID',
-		id: 'totalDeposit',
-		sorting: true
-	},
-	{
 		title: 'AMOUNT USED',
 		id: 'amountUsed',
 		sorting: true

@@ -27,7 +27,7 @@ const OYSTER_MARKETPLACE_URL = '/v2/oyster/marketplace';
 const OYSTER_OPERATOR_URL = '/v2/oyster/operator';
 const OYSTER_INVENTORY_URL = '/v2/oyster/inventory';
 const OYSTER_AUDITORS_URL = '/v2/oyster/auditors';
-const OYSTER_OWNER_HISTORY_URL = '/v2/oyster/inventory/history';
+const OYSTER_INVENTORY_HISTORY_URL = '/v2/oyster/inventory/history';
 
 //kalypso
 const KALYPSO_URL = '/v2/kalypso';
@@ -63,5 +63,5 @@ export const ROUTES = {
 	KALYPSO_LINK_2_URL,
 	ECOSYSTEM_URL,
 	FAQS_URL,
-	OYSTER_OWNER_HISTORY_URL
+	OYSTER_INVENTORY_HISTORY_URL
 };

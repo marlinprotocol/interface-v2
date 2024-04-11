@@ -1,8 +1,6 @@
 <script lang="ts">
-	import search from 'svelte-awesome/icons/search';
-	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import InputCard from '$lib/atoms/v2/cards/InputCard.svelte';
-	import { inputClasses } from '$lib/atoms/componentClasses';
+	import { inputClasses } from '$lib/atoms/v2/componentClasses';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 
@@ -16,7 +14,7 @@
 
 <InputCard
 	variant="search"
-	styleClass="{styleClass} relative flex gap-4 items-center border border-[#D9DADE]"
+	styleClass={cn('relative flex gap-4 items-center border border-[#D9DADE]', styleClass)}
 >
 	{#if label}
 		<p
@@ -31,7 +29,7 @@
 		bind:value={input}
 		on:click={(e) => onSearchClick?.()}
 		id="address-display"
-		class={cn(inputClasses.searchInputText, 'hideInputNumberAppearance placeholder-[#A8A8A8]')}
+		class={cn(inputClasses.searchInputText, 'hideInputNumberAppearance')}
 		{placeholder}
 		{disabled}
 	/>

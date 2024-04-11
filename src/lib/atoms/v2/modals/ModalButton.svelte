@@ -34,7 +34,7 @@
 	on:click={onClick}
 	on:keydown={keydownHandler}
 	for={modalFor}
-	class="{labelStyleClass} {labelSize} {styleClass} {disabledClass} gap-1.5"
+	class="{labelStyleClass} {labelSize} {styleClass} {disabledClass} gap-1.5 font-normal"
 >
 	{#if icon}
 		<Icon data={icon} size={14} iconColorClass="icon-white" />

@@ -164,7 +164,6 @@
 						size="small"
 						modalFor="job-add-funds-modal-{id}"
 						disabled={isJobFinished}
-						styleClass="font-normal"
 					>
 						Add Funds
 					</ModalButton>
@@ -173,7 +172,6 @@
 						size="small"
 						modalFor="job-stop-modal-{id}"
 						disabled={isJobFinished}
-						styleClass="font-normal"
 					>
 						{closeButtonText}
 					</ModalButton>
@@ -182,7 +180,6 @@
 						size="small"
 						modalFor="job-withdraw-fund-modal-{id}"
 						disabled={isJobFinished}
-						styleClass="font-normal"
 					>
 						Withdraw
 					</ModalButton>
@@ -191,17 +188,11 @@
 						size="small"
 						modalFor="job-amend-rate-modal-{id}"
 						disabled={isJobFinished}
-						styleClass="font-normal"
 					>
 						{amendRateButtonText}
 					</ModalButton>
 				{/if}
-				<ModalButton
-					styleClass="font-normal"
-					variant="outlined"
-					size="small"
-					modalFor="job-details-modal-{id}"
-				>
+				<ModalButton variant="outlined" size="small" modalFor="job-details-modal-{id}">
 					Details
 				</ModalButton>
 			</div>

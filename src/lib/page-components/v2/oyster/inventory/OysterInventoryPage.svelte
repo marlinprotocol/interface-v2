@@ -62,7 +62,7 @@
 		styleClass="w-full"
 		disabled={!$connected}
 	/>
-	<a href={ROUTES.OYSTER_OWNER_HISTORY_URL}>
+	<a href={ROUTES.OYSTER_INVENTORY_HISTORY_URL}>
 		<Button
 			size="large"
 			variant="outlined"

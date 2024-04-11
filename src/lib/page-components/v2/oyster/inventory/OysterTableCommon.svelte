@@ -5,6 +5,7 @@
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { TableModel } from '$lib/types/componentTypes';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let loading = false;
 	export let handleSortData: (id: string) => void;
@@ -25,7 +26,7 @@
 		</div>
 	{:else if noDataFound}
 		<Table {tableHeading} {handleSortData} headingStyleClass="h-[32px]" />
-		<div class="mb-8 {tableClasses.empty}">
+		<div class={cn(tableClasses.empty, 'mb-8')}>
 			{emptyTableMessage}
 		</div>
 	{:else}

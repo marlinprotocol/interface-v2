@@ -80,6 +80,8 @@ const checkmark = '/images/checkmark.svg';
 const tick = '/images/tick.svg';
 
 const externalLinkIcon = '/images/externalLinkV2Icon.svg';
+const searchV2Icon = '/images/searchV2Icon.svg';
+const refreshV2Icon = '/images/refreshV2Icon.svg';
 
 export const staticImages = {
 	Alert,
@@ -160,5 +162,7 @@ export const staticImages = {
 	clockIcon,
 	externalLinkIcon,
 	checkmark,
-	tick
+	tick,
+	searchV2Icon,
+	refreshV2Icon
 };

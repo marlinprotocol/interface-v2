@@ -165,24 +165,6 @@ export const OYSTER_INVENTORY_TABLE_HEADER: TableModel['header'][] = [
 		tooltipText: 'Ip address of the deployed instance'
 	},
 	{
-		title: 'INSTANCE',
-		id: 'instance',
-		sorting: true,
-		tooltipText: 'Instance type used for the job'
-	},
-	{
-		title: 'REGION',
-		id: 'region',
-		sorting: true,
-		tooltipText: 'Region in which the enclave is deployed.'
-	},
-	{
-		title: 'HOURLY RATE',
-		id: 'rate',
-		sorting: true,
-		tooltipText: 'Rate that the operator charges for each hour of usage.'
-	},
-	{
 		title: 'BALANCE',
 		id: 'balance',
 		sorting: true,

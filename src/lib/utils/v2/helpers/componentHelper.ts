@@ -1,6 +1,8 @@
 import { buttonClasses } from '$lib/atoms/v2/componentClasses';
 import { staticImages } from '$lib/components/images/staticImages';
+import { addToast } from '$lib/data-stores/toastStore';
 import type { ButtonModel, CommonVariant, InputCardVariant } from '$lib/types/v2/componentTypes';
+import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
 
 export const getButtonStyles = (variant: ButtonModel['variant']) => {
 	switch (variant) {
@@ -73,5 +75,36 @@ export const getIconbyVariant = (variant: CommonVariant | undefined) => {
 			return staticImages.toastErrorAlert;
 		default:
 			return '';
+	}
+};
+
+export const getColorHexByVariant = (variant: CommonVariant | undefined) => {
+	switch (variant) {
+		case 'primary':
+			return '#0F62FE';
+		case 'secondary':
+			return '#6F6F6F';
+		case 'success':
+			return '#24A148';
+		case 'info':
+			return '#0062FF';
+		case 'warning':
+			return '#f1861b';
+		case 'error':
+			return '#DA1E28';
+		case 'disabled':
+			return '#0F62FE';
+		case 'grey':
+			return '#6F6F6F';
+		default:
+			return '';
+	}
+};
+
+// -------------------------------------------- USER INTERACTION HELPERS ----------------------------------------
+export const handleCopyClick = (text: string | undefined, successMessage: string) => {
+	if (text) {
+		copyTextToClipboard(text);
+		addToast({ message: successMessage, variant: 'success' });
 	}
 };

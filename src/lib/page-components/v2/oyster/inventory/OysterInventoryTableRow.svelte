@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
+	import { tableCellClasses } from '$lib/atoms/v2/componentClasses';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
-	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
-	import CollapseButton from '$lib/components/buttons/CollapseButton.svelte';
+	import CollapseButton from '$lib/components/v2/buttons/CollapseButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
+	import NameWithAddress from '$lib/components/v2/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import {
 		bigNumberToString,
@@ -29,7 +29,7 @@
 	} from '$lib/data-stores/oysterStore';
 	import refresh from 'svelte-awesome/icons/refresh';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
-	import { getColorHexByVariant, handleCopyClick } from '$lib/utils/helpers/componentHelper';
+	import { getColorHexByVariant, handleCopyClick } from '$lib/utils/v2/helpers/componentHelper';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -77,22 +77,22 @@
 	$: isOpen = expandedRows.has(id.toString());
 	$: closeButtonText =
 		stopStatus === '' || stopStatus === 'disabled'
-			? 'INITIATE STOP'
+			? 'Initiate Stop'
 			: stopStatus === 'pending'
-				? 'CANCEL STOP'
-				: 'CONFIRM STOP';
+				? 'Cancel Stop'
+				: 'Confirm Stop';
 
 	$: amendRateButtonText =
 		rateStatus === ''
-			? 'INITIATE RATE AMEND'
+			? 'Initiate rate amend'
 			: rateStatus === 'pending'
-				? 'CANCEL RATE AMEND'
-				: 'CONFIRM RATE AMEND';
+				? 'Cancel rate amend'
+				: 'Confirm rate amend';
 </script>
 
 <tr class="main-row hover:bg-base-200">
-	<td class={tableCellClasses.row}>
-		<NameWithAddress {name} {address} {rowIndex} {isCreditJob}>
+	<td class={tableCellClasses.rowNormal}>
+		<NameWithAddress {address} {rowIndex}>
 			<svelte:fragment slot="copyIcon">
 				<div class="w-4">
 					<div class="copy-icon cursor-pointer">
@@ -103,13 +103,7 @@
 		</NameWithAddress>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
-		<div class="flex items-center justify-center gap-2">
-			<button
-				class="{refreshLoading ? 'animate-spin' : ''} flex items-center"
-				on:click={() => refreshJobStatus(id)}
-			>
-				<Icon data={refresh} size={12} />
-			</button>
+		<div class="flex items-center justify-start gap-2">
 			{ip ?? 'N/A'}
 			{#if ip}
 				<button
@@ -119,27 +113,15 @@
 					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 				</button>
 			{/if}
+			<button
+				class="{refreshLoading ? 'animate-spin' : ''} flex items-center"
+				on:click={() => refreshJobStatus(id)}
+			>
+				<img src={staticImages.refreshV2Icon} alt="Refresh Icon" />
+			</button>
 		</div>
 	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{instance ?? 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{region ?? 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<Tooltip
-			tooltipText="{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
-				rate,
-				$oysterTokenMetadataStore.decimal
-			)}"
-		>
-			{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
-				rate,
-				$oysterTokenMetadataStore.decimal
-			)}
-		</Tooltip>
-	</td>
+
 	<td class={tableCellClasses.rowNormal}>
 		<Tooltip
 			tooltipText="{$oysterTokenMetadataStore.symbol}{bigNumberToString(
@@ -156,7 +138,7 @@
 	</td>
 	<td class={tableCellClasses.rowNormal}>
 		<Timer timerId="timer-for-inventory-table-row-{id}" {endEpochTime}>
-			<div slot="active" class="mx-auto">
+			<div slot="active">
 				<Tooltip tooltipText={epochToDurationString(durationLeft)} tooltipDirection="tooltip-left">
 					<div
 						class="mx-auto w-24 rounded py-1 text-center text-sm text-white"
@@ -168,7 +150,7 @@
 					</div>
 				</Tooltip>
 			</div>
-			<div slot="inactive" class="mx-auto">Ended</div>
+			<div slot="inactive">Ended</div>
 		</Timer>
 	</td>
 	<td class={tableCellClasses.rowNormal}>
@@ -189,17 +171,18 @@
 					<ModalButton
 						variant="filled"
 						size="small"
-						icon={plus}
 						modalFor="job-add-funds-modal-{id}"
 						disabled={isJobFinished}
+						styleClass="font-normal"
 					>
-						ADD FUNDS
+						Add Funds
 					</ModalButton>
 					<ModalButton
 						variant="outlined"
 						size="small"
 						modalFor="job-stop-modal-{id}"
 						disabled={isJobFinished}
+						styleClass="font-normal"
 					>
 						{closeButtonText}
 					</ModalButton>
@@ -208,20 +191,27 @@
 						size="small"
 						modalFor="job-withdraw-fund-modal-{id}"
 						disabled={isJobFinished}
+						styleClass="font-normal"
 					>
-						WITHDRAW
+						Withdraw
 					</ModalButton>
 					<ModalButton
 						variant="outlined"
 						size="small"
 						modalFor="job-amend-rate-modal-{id}"
 						disabled={isJobFinished}
+						styleClass="font-normal"
 					>
 						{amendRateButtonText}
 					</ModalButton>
 				{/if}
-				<ModalButton variant="outlined" size="small" modalFor="job-details-modal-{id}">
-					DETAILS
+				<ModalButton
+					styleClass="font-normal"
+					variant="outlined"
+					size="small"
+					modalFor="job-details-modal-{id}"
+				>
+					Details
 				</ModalButton>
 			</div>
 		</td>

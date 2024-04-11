@@ -4,6 +4,7 @@
 	import InputCard from '$lib/atoms/v2/cards/InputCard.svelte';
 	import { inputClasses } from '$lib/atoms/componentClasses';
 	import { staticImages } from '$lib/components/images/staticImages';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let input: string;
 	export let placeholder = '';
@@ -25,13 +26,12 @@
 		</p>
 	{/if}
 	<img src={staticImages.searchV2Icon} alt="Search Icon" class="h-6 w-6" />
-	<!-- <Icon styleClass="opacity: .2" data={search} size={18} iconColorClass="icon-info" /> -->
 	<input
 		prefix="0x"
 		bind:value={input}
 		on:click={(e) => onSearchClick?.()}
 		id="address-display"
-		class="hideInputNumberAppearance {inputClasses.searchInputText} placeholder-[#A8A8A8]"
+		class={cn(inputClasses.searchInputText, 'hideInputNumberAppearance placeholder-[#A8A8A8]')}
 		{placeholder}
 		{disabled}
 	/>

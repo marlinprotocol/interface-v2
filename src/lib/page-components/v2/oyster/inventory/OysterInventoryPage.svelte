@@ -11,7 +11,6 @@
 	import OysterTableCommon from '$lib/page-components/v2/oyster/inventory/OysterTableCommon.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
-	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 
 	let searchInput = '';
@@ -53,7 +52,6 @@
 	);
 </script>
 
-<!-- <div class="mx-auto"> -->
 <PageTitle title="My Active Orders" />
 <div class="mb-6 flex items-center gap-4 rounded-[24px] bg-white px-8 py-6">
 	<SearchBar
@@ -64,7 +62,6 @@
 		styleClass="w-full"
 		disabled={!$connected}
 	/>
-	<!-- class="{buttonClasses.outlined} btn btn-theme btn-sm block border-primary bg-inherit px-[38px] py-[19px] font-normal text-primary hover:border-primary-focus hover:bg-inherit hover:text-primary-focus disabled:cursor-not-allowed disabled:border-grey-300 disabled:bg-inherit disabled:text-grey-300" -->
 	<a href={ROUTES.OYSTER_OWNER_HISTORY_URL}>
 		<Button
 			size="large"
@@ -88,4 +85,3 @@
 	{/if}
 </OysterTableCommon>
 <Pagination {pageCount} {activePage} {handlePageChange} />
-<!-- </div> -->

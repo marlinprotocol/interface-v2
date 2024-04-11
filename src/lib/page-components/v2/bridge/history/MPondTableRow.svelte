@@ -24,6 +24,7 @@
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { getTxnUrl } from '$lib/utils/helpers/commonHelper';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
 
 	export let rowData: MPondToPondHistoryDataModel;
 	export let rowIndex: number;
@@ -124,39 +125,54 @@
 	<TableDataWithButton>
 		<svelte:fragment slot="line1">
 			<div class="flex gap-3">
-				<ModalButton
-					disabled={!(pondEligible > 0n)}
-					size="tiniest"
-					variant="text"
-					modalFor="mpond-convert-modal-{rowIndex}"
-				>
-					<div
-						class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE] hover:bg-[#F0F0F0]"
+				<Tooltip>
+					<ModalButton
+						slot="tooltipIcon"
+						disabled={!(pondEligible > 0n)}
+						size="tiniest"
+						variant="text"
+						modalFor="mpond-convert-modal-{rowIndex}"
 					>
-						<img src={staticImages.exchangeIcon} alt="" />
-					</div>
-				</ModalButton>
+						<div
+							class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE] hover:bg-[#F0F0F0]"
+						>
+							<img src={staticImages.exchangeIcon} alt="" />
+						</div>
+					</ModalButton>
+					<span slot="tooltipContent">Convert</span>
+				</Tooltip>
 
-				<MPondConversionCycleButton
-					{eligibleCycles}
-					{endEpochTime}
-					{currentCycle}
-					modalFor="mpond-conversion-cycle-modal-{rowIndex}"
-				/>
-
-				<MPondConversionHistoryButton
-					{conversionHistory}
-					modalFor="mpond-conversion-history-modal-{rowIndex}"
-				/>
-				<button
-					type="button"
-					class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE] hover:bg-[#F0F0F0]"
-					on:click={async () => {
-						await handleCancelConversionRequest(requestEpoch);
-					}}
-				>
-					<img src={staticImages.cancelIcon} alt="" />
-				</button>
+				<Tooltip>
+					<MPondConversionCycleButton
+						slot="tooltipIcon"
+						{eligibleCycles}
+						{endEpochTime}
+						{currentCycle}
+						modalFor="mpond-conversion-cycle-modal-{rowIndex}"
+					/>
+					<span slot="tooltipContent">Conversion Cycle</span>
+				</Tooltip>
+				<Tooltip>
+					<MPondConversionHistoryButton
+						slot="tooltipIcon"
+						{conversionHistory}
+						modalFor="mpond-conversion-history-modal-{rowIndex}"
+					/>
+					<span slot="tooltipContent">History</span>
+				</Tooltip>
+				<Tooltip>
+					<button
+						slot="tooltipIcon"
+						type="button"
+						class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE] hover:bg-[#F0F0F0]"
+						on:click={async () => {
+							await handleCancelConversionRequest(requestEpoch);
+						}}
+					>
+						<img src={staticImages.cancelIcon} alt="Cancel Icon" />
+					</button>
+					<span slot="tooltipContent">Cancel</span>
+				</Tooltip>
 			</div>
 		</svelte:fragment>
 	</TableDataWithButton>

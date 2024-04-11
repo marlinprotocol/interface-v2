@@ -13,6 +13,8 @@
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 	import { chainIdHasChanged, chainStore } from '$lib/data-stores/chainProviderStore';
 	import { OYSTER_MARKETPLACE_TABLE_HEADER } from '$lib/utils/constants/v2/oysterConstants';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	let activePage = 1;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
@@ -85,13 +87,10 @@
 	>
 		{#if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex (rowData.id)}
-				<OysterMarketplaceTableRow {rowData} {rowIndex} />
+				<tr class={cn(tableClasses.mainRow, 'group hover:bg-base-200')}>
+					<OysterMarketplaceTableRow {rowData} {rowIndex} />
+				</tr>
 			{/each}
-			<!-- <tr>
-				<td colspan="12">
-					<Pagination {pageCount} {activePage} {handlePageChange} />
-				</td>
-			</tr> -->
 		{/if}
 	</OysterTableCommon>
 	<Pagination {pageCount} {activePage} {handlePageChange} />

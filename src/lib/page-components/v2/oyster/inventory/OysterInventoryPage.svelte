@@ -5,6 +5,7 @@
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import OysterInventoryTableRow from '$lib/page-components/v2/oyster/inventory/OysterInventoryTableRow.svelte';
+	import OysterInventoryExpandedTableRow from '$lib/page-components/v2/oyster/inventory/OysterInventoryExpandedTableRow.svelte';
 	import type { OysterInventorySortKeys } from '$lib/types/oysterComponentType';
 	import { OYSTER_INVENTORY_TABLE_HEADER } from '$lib/utils/constants/v2/oysterConstants';
 	import { getSearchedInventoryData, sortOysterInventory } from '$lib/utils/helpers/oysterHelpers';
@@ -12,6 +13,7 @@
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -80,7 +82,12 @@
 >
 	{#if paginatedData?.length}
 		{#each paginatedData as rowData, rowIndex (rowData.id)}
-			<OysterInventoryTableRow {rowData} {rowIndex} bind:expandedRows />
+			<tr class="group hover:bg-base-200">
+				<OysterInventoryTableRow {rowData} {rowIndex} bind:expandedRows />
+			</tr>
+			<tr class={tableClasses.mainRow}>
+				<OysterInventoryExpandedTableRow {rowData} {expandedRows} />
+			</tr>
 		{/each}
 	{/if}
 </OysterTableCommon>

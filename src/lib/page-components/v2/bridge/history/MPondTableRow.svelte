@@ -25,6 +25,7 @@
 	import { getTxnUrl } from '$lib/utils/helpers/commonHelper';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 
 	export let rowData: MPondToPondHistoryDataModel;
 	export let rowIndex: number;
@@ -95,7 +96,7 @@
 	$: endEpochTime = getTimerEpoch(currentCycle, eligibleCycles);
 </script>
 
-<tr class="border-b border-[#e5e5e5] last:border-b-0">
+<tr class={tableClasses.row}>
 	<TableDataWithButton firstRow>
 		<svelte:fragment slot="line1">
 			<div class="flex items-center gap-2">

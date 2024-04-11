@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/v2/componentClasses';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 	import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import { POND_TO_MPOND_TABLE_HEADER } from '$lib/utils/constants/v2/bridgeConstants';
 	import {
@@ -53,14 +53,12 @@
 	>
 		{#if paginatedData?.length}
 			{#each paginatedData as row}
-				<tr class={tableCellClasses.mainRow}>
-					<td class={cn(tableCellClasses.rowCell, 'block pl-4')}
-						>{epochSecToString(row.timestamp)}</td
-					>
-					<td class={tableCellClasses.rowCell}
+				<tr class={tableClasses.mainRow}>
+					<td class={cn(tableClasses.cell, 'block pl-4')}>{epochSecToString(row.timestamp)}</td>
+					<td class={tableClasses.cell}
 						>{bigNumberToString(row.pondConverted, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}</td
 					>
-					<td class={tableCellClasses.rowCell}
+					<td class={tableClasses.cell}
 						>{bigNumberToString(row.mpondReceived, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)}</td
 					>
 				</tr>

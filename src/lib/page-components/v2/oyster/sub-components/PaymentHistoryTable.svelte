@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 	import Table from '$lib/atoms/table/Table.svelte';
 	import TxnIcon from '$lib/components/icons/TxnIcon.svelte';
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
@@ -24,14 +24,14 @@
 			<tbody slot="tableBody">
 				{#each tableData as rowData}
 					<tr>
-						<td class={tableCellClasses.rowNormal}>{epochSecToString(rowData.timestamp)}</td>
-						<td class={tableCellClasses.rowNormal}
+						<td class={tableClasses.rowNormal}>{epochSecToString(rowData.timestamp)}</td>
+						<td class={tableClasses.rowNormal}
 							>{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 								rowData.amount,
 								$oysterTokenMetadataStore.decimal
 							)}</td
 						>
-						<td class={tableCellClasses.rowNormal}>
+						<td class={tableClasses.rowNormal}>
 							<div class="flex items-center justify-center gap-2 capitalize">
 								{rowData.transactionStatus}
 								<TxnIcon

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 	import Table from '$lib/atoms/v2/table/Table.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
@@ -25,7 +25,7 @@
 		</div>
 	{:else if noDataFound}
 		<Table {tableHeading} {handleSortData} headingStyleClass="h-[32px]" />
-		<div class="mb-8 {tableCellClasses.empty}">
+		<div class="mb-8 {tableClasses.empty}">
 			{emptyTableMessage}
 		</div>
 	{:else}

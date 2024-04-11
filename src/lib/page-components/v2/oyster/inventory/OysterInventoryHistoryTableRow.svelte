@@ -12,7 +12,7 @@
 	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -33,42 +33,42 @@
 </script>
 
 <tr class="main-row hover:bg-base-200">
-	<td class={tableCellClasses.row}>
+	<td class={tableClasses.cell}>
 		<NameWithAddress {name} {address} {rowIndex} {isCreditJob}>
 			<svelte:fragment slot="copyIcon">
-				<div class="copy-icon cursor-pointer">
+				<div class="hidden cursor-pointer group-hover:flex">
 					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 				</div>
 			</svelte:fragment>
 		</NameWithAddress>
 	</td>
-	<td class={tableCellClasses.rowNormal}>
+	<td class={tableClasses.cell}>
 		{instance ?? 'N/A'}
 	</td>
-	<td class={tableCellClasses.rowNormal}>
+	<td class={tableClasses.cell}>
 		{region ?? 'N/A'}
 	</td>
-	<td class={tableCellClasses.rowNormal}>
+	<td class={tableClasses.cell}>
 		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 			totalDeposit,
 			$oysterTokenMetadataStore.decimal
 		)}
 	</td>
-	<td class={tableCellClasses.rowNormal}>
+	<td class={tableClasses.cell}>
 		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 			amountUsed,
 			$oysterTokenMetadataStore.decimal
 		)}
 	</td>
-	<td class={tableCellClasses.rowNormal}>
+	<td class={tableClasses.cell}>
 		{$oysterTokenMetadataStore.symbol}{bigNumberToString(refund, $oysterTokenMetadataStore.decimal)}
 	</td>
-	<td class={tableCellClasses.rowNormal}>
+	<td class={tableClasses.cell}>
 		<Tooltip tooltipText={epochToDurationString(endEpochTime - createdAt)}>
 			{epochToDurationString(endEpochTime - createdAt, true)}
 		</Tooltip>
 	</td>
-	<td class={tableCellClasses.rowNormal}>
+	<td class={tableClasses.cell}>
 		<div
 			class="mx-auto w-24 rounded py-1 text-sm capitalize text-white"
 			style="background-color: {statusColor}"
@@ -76,7 +76,7 @@
 			{status}
 		</div>
 	</td>
-	<td class={tableCellClasses.rowNormal}>
+	<td class={tableClasses.cell}>
 		<ModalButton
 			variant="tableConvertButton"
 			styleClass="w-fit ml-4 mr-6"
@@ -86,21 +86,3 @@
 </tr>
 <PastJobDetailsModal modalFor="job-history-details-{rowIndex}" jobData={rowData} {rowIndex} />
 <CreateOrderModal modalFor="create-order-modal-{rowIndex}" preFilledData={rowData} />
-
-<style>
-	/* TODO: migrate these classes to tailwind and then refactor the copy to clipboard functionality */
-	.main-row {
-		border-bottom: 1px solid #e5e5e5;
-	}
-
-	.main-row:last-child {
-		border-bottom: none;
-	}
-
-	.main-row:hover .copy-icon {
-		display: flex;
-	}
-	.main-row .copy-icon {
-		display: none;
-	}
-</style>

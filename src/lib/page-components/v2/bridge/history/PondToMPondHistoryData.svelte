@@ -13,6 +13,7 @@
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
 	import HistoryTableCommon from './HistoryTableCommon.svelte';
 	import Pagination from '$lib/components/v2/pagination/Pagination.svelte';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let historyData: PondToMPondHistoryDataModel[] | undefined;
 	export let loading = true;
@@ -52,14 +53,14 @@
 	>
 		{#if paginatedData?.length}
 			{#each paginatedData as row}
-				<tr>
-					<td class={tableCellClasses.rowNormal + ' block pl-4'}
+				<tr class={tableCellClasses.mainRow}>
+					<td class={cn(tableCellClasses.rowCell, 'block pl-4')}
 						>{epochSecToString(row.timestamp)}</td
 					>
-					<td class={tableCellClasses.rowNormal}
+					<td class={tableCellClasses.rowCell}
 						>{bigNumberToString(row.pondConverted, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}</td
 					>
-					<td class={tableCellClasses.rowNormal}
+					<td class={tableCellClasses.rowCell}
 						>{bigNumberToString(row.mpondReceived, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)}</td
 					>
 				</tr>

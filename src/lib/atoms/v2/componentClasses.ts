@@ -26,11 +26,14 @@ export const buttonClasses = {
 		'btn btn-sm px-2 border-none bg-base-200 hover:bg-base-300 disabled:bg-base-200 disabled:text-primary disabled:curson-not-allowed disabled:cursor-not-allowed'
 };
 
+// TODO @souvikmishra: refactor these later
 export const tableCellClasses = {
 	heading: 'text-primary text-sm font-semibold px-2 pb-4',
 	row: 'font-semibold text-base py-6 whitespace-nowrap',
 	rowNormal:
 		'text-left font-normal text-sm whitespace-nowrap leading-none border-b border-[#D9DADE]',
+	mainRow: ' border-b border-[#D9DADE] last:border-none',
+	rowCell: 'text-left font-normal text-sm py-[23.5px] whitespace-nowrap leading-none',
 	rowMini: 'font-normal text-xs py-1 whitespace-nowrap',
 	rowWithIcon: 'flex flex-col items-center justify-start',
 	empty: 'text-base text-center p-4 w-full'

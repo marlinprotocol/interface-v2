@@ -8,25 +8,20 @@
 	export let headingStyleClass = '';
 	export let handleSortData: ((id: string) => void) | undefined = undefined;
 	export let iconWidth = '16px';
-	// export let tablePadding = 'px-8 pb-6';
 </script>
 
-<div data-testid="table-container" class="overflow-x-auto overflow-y-hidden {styleClass}">
-	<table class="w-full overflow-hidden rounded-[18px] text-center">
-		<thead class="w-full bg-[#F0F0F0]">
+<div data-testid="table-container" class={styleClass}>
+	<table class="w-full rounded-[18px] text-center">
+		<thead class="w-full">
 			<tr>
 				{#each tableHeading as columnHeading, i}
-					<th class="py-[26px]">
+					<th class="bg-[#F0F0F0] py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]">
 						<TableHeadingText
 							styleClass={cn(headingStyleClass, i === 0 ? 'ml-4' : '')}
-							{iconWidth}
 							heading={columnHeading}
+							placement={i > tableHeading.length - 3 ? 'left' : i === 0 ? 'right' : 'bottom'}
 							{handleSortData}
-							tooltipDirection={i > tableHeading.length - 3
-								? 'tooltip-left'
-								: i === 0
-									? 'tooltip-right'
-									: 'tooltip-bottom'}
+							{iconWidth}
 						/>
 					</th>
 				{/each}

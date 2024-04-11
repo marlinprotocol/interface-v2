@@ -12,6 +12,15 @@ export type ButtonModel = {
 	onclick: (() => Promise<void> | void | boolean) | undefined;
 };
 
+export type TableModel = {
+	header: {
+		title: string;
+		tooltipText?: string;
+		id: string;
+		sorting?: boolean;
+	};
+};
+
 export type TooltipPlacement = 'top' | 'right' | 'bottom' | 'left';
 
 export type InputCardVariant =

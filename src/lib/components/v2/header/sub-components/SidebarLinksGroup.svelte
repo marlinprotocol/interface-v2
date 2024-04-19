@@ -105,87 +105,91 @@
 	];
 </script>
 
-<div class="flex flex-1 flex-col px-7">
-	<ul class="menu h-[calc(100dvh-288px)] flex-nowrap overflow-y-auto overflow-x-hidden p-0">
-		{#each links as { icon, label, children, href }}
-			{#if children}
-				<li>
-					<details>
-						<summary
-							class={cn(
-								'px-[14px] py-4 after:text-[#26272c] hover:bg-transparent focus:bg-transparent active:!bg-transparent',
-								{
-									'after:text-[#2DB8E3]': activeLink.includes(href),
-									'after:hidden': !$isNavOpen,
-									'bg-[#FCFCFC]': !$isNavOpen && activeLink.includes(href)
-								}
-							)}
-						>
-							<div class="flex items-center gap-3">
-								<img src={icon} alt={icon} />
-								{#if $isNavOpen}
-									<p
-										class={cn('font-poppins text-base font-medium text-[#26272c]', {
-											'text-[#2DB8E3]': activeLink.includes(href)
-										})}
-									>
-										{label}
-									</p>
-								{/if}
-							</div>
-						</summary>
-						<ul class={cn('ml-[25px] px-3', $isNavOpen ? 'block' : 'hidden')}>
-							{#each children as subLink}
-								<li>
-									<a
-										href={subLink.href}
-										target={subLink.openInNewTab ? '_blank' : ''}
-										class="p-0 hover:bg-transparent focus:!bg-transparent active:!bg-transparent active:!text-[#26272c]"
-									>
-										<div
-											class={cn(
-												'relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
-												activeLink.includes(subLink.href)
-													? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
-													: 'text-[#26272c]'
-											)}
-										>
-											{subLink.preFixLabel}
-											{#if subLink.icon}
-												<img
-													src={subLink.icon}
-													alt={subLink.icon}
-													class="min-w-[18px] max-w-[18px]"
-												/>
-											{/if}
-											{#if subLink.postFixLabel}
-												{subLink.postFixLabel}
-											{/if}
-										</div>
-									</a>
-								</li>
-							{/each}
-						</ul>
-					</details>
-				</li>{:else}
-				<a {href}>
-					<div class="flex cursor-pointer items-center gap-3 px-[14px] py-4">
-						<img src={icon} alt={icon} />
-						{#if $isNavOpen}
-							<p
-								class={cn('font-poppins text-base font-medium text-[#26272c]', {
-									'text-[#2DB8E3]': activeLink.includes(href)
-								})}
+<div class="flex h-[calc(100dvh-5rem)] flex-1 flex-col justify-between px-6">
+	<div
+		class="relative max-h-[calc(100dvh-5rem-176px)] overflow-hidden after:absolute after:bottom-0 after:h-10 after:w-full after:bg-gradient-to-b after:from-transparent after:to-white"
+	>
+		<ul class="menu max-h-full flex-nowrap overflow-y-auto overflow-x-hidden px-0 pb-2 pt-0">
+			{#each links as { icon, label, children, href }}
+				{#if children}
+					<li>
+						<details>
+							<summary
+								class={cn(
+									'px-[14px] py-4 after:text-[#26272c] hover:bg-transparent focus:bg-transparent active:!bg-transparent',
+									{
+										'after:text-[#2DB8E3]': activeLink.includes(href),
+										'after:hidden': !$isNavOpen,
+										'bg-[#FCFCFC]': !$isNavOpen && activeLink.includes(href)
+									}
+								)}
 							>
-								{label}
-							</p>
-						{/if}
-					</div>
-				</a>
-			{/if}
-		{/each}
-	</ul>
-	<div class={cn('mb-8 mt-auto rounded-2xl', { 'bg-[#F4F4F6]': $isNavOpen })}>
+								<div class="flex items-center gap-3">
+									<img src={icon} alt={icon} />
+									{#if $isNavOpen}
+										<p
+											class={cn('font-poppins text-base font-medium text-[#26272c]', {
+												'text-[#2DB8E3]': activeLink.includes(href)
+											})}
+										>
+											{label}
+										</p>
+									{/if}
+								</div>
+							</summary>
+							<ul class={cn('ml-[25px] px-3', $isNavOpen ? 'block' : 'hidden')}>
+								{#each children as subLink}
+									<li>
+										<a
+											href={subLink.href}
+											target={subLink.openInNewTab ? '_blank' : ''}
+											class="p-0 hover:bg-transparent focus:!bg-transparent active:!bg-transparent active:!text-[#26272c]"
+										>
+											<div
+												class={cn(
+													'relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
+													activeLink.includes(subLink.href)
+														? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
+														: 'text-[#26272c]'
+												)}
+											>
+												{subLink.preFixLabel}
+												{#if subLink.icon}
+													<img
+														src={subLink.icon}
+														alt={subLink.icon}
+														class="min-w-[18px] max-w-[18px]"
+													/>
+												{/if}
+												{#if subLink.postFixLabel}
+													{subLink.postFixLabel}
+												{/if}
+											</div>
+										</a>
+									</li>
+								{/each}
+							</ul>
+						</details>
+					</li>{:else}
+					<a {href}>
+						<div class="flex cursor-pointer items-center gap-3 px-[14px] py-4">
+							<img src={icon} alt={icon} />
+							{#if $isNavOpen}
+								<p
+									class={cn('font-poppins text-base font-medium text-[#26272c]', {
+										'text-[#2DB8E3]': activeLink.includes(href)
+									})}
+								>
+									{label}
+								</p>
+							{/if}
+						</div>
+					</a>
+				{/if}
+			{/each}
+		</ul>
+	</div>
+	<div class={cn('my-8 rounded-2xl', { 'bg-[#F4F4F6]': $isNavOpen })}>
 		<ul>
 			{#each menuItems as item}
 				<MenuItem imgSrc={item.imgSrc} label={item.label} />

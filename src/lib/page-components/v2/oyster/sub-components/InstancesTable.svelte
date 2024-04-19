@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 	import Table from '$lib/atoms/table/Table.svelte';
 	import CollapseButton from '$lib/components/buttons/CollapseButton.svelte';
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
@@ -14,11 +14,6 @@
 	export let tableData: Promise<CPUrlDataModel[]> = Promise.resolve([]);
 	export let isOpen = false;
 	export let validCPUrl = false;
-
-	const styles = {
-		docButton: 'text-primary font-medium',
-		tableCell: tableCellClasses.rowMini
-	};
 </script>
 
 <InputCardWithEndButton styleClass="mt-4" title="Details">
@@ -41,9 +36,9 @@
 					<tbody slot="tableBody">
 						{#each value as row}
 							<tr>
-								<td class={styles.tableCell}>{row.instance}</td>
-								<td class={styles.tableCell}>{row.region}</td>
-								<td class={styles.tableCell}>
+								<td class={tableClasses.cellMini}>{row.instance}</td>
+								<td class={tableClasses.cellMini}>{row.region}</td>
+								<td class={tableClasses.cellMini}>
 									{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
 										row.rateScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
 										$oysterTokenMetadataStore.decimal

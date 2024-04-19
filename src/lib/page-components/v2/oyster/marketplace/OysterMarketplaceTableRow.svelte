@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
-	import { tableCellClasses } from '$lib/atoms/v2/componentClasses';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
@@ -29,79 +29,63 @@
 	$: instanceRate = rateScaled / $oysterRateMetadataStore.oysterRateScalingFactor;
 </script>
 
-<tr class="main-row h-[64px] hover:bg-base-200">
-	<td class={tableCellClasses.rowNormal}>
-		<NameWithAddress {address} {rowIndex}>
-			<svelte:fragment slot="copyIcon">
-				<div class="w-4">
-					<div class="copy-icon cursor-pointer">
-						<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
-					</div>
+<!-- <tr class="main-row h-[64px] hover:bg-base-200"> -->
+<td class={tableClasses.cell}>
+	<NameWithAddress {address} {rowIndex}>
+		<svelte:fragment slot="copyIcon">
+			<div class="w-4">
+				<div class="copy-icon cursor-pointer">
+					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 				</div>
-			</svelte:fragment>
-		</NameWithAddress>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{instance ?? 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{region ?? 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<Tooltip
-			tooltipText="{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
-				instanceRate,
-				$oysterTokenMetadataStore.decimal
-			)}"
+			</div>
+		</svelte:fragment>
+	</NameWithAddress>
+</td>
+<td class={tableClasses.cell}>
+	{instance ?? 'N/A'}
+</td>
+<td class={tableClasses.cell}>
+	{region ?? 'N/A'}
+</td>
+<td class={tableClasses.cell}>
+	<Tooltip
+		tooltipText="{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
+			instanceRate,
+			$oysterTokenMetadataStore.decimal
+		)}"
+	>
+		{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
+			instanceRate,
+			$oysterTokenMetadataStore.decimal
+		)}
+	</Tooltip>
+</td>
+<td class={tableClasses.cell}>
+	{vcpu ? vcpu : 'N/A'}
+</td>
+<td class={tableClasses.cell}>
+	{memory ? `${memory}${MEMORY_SUFFIX}` : 'N/A'}
+</td>
+<td class={tableClasses.cell}>
+	{arch ? arch : 'N/A'}
+</td>
+<td class={tableClasses.cell}>
+	{#if $connected}
+		<ModalButton
+			variant="tableConvertButton"
+			styleClass="w-fit px-6 mr-4"
+			modalFor="create-order-modal-{rowIndex}">Deploy</ModalButton
 		>
-			{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
-				instanceRate,
-				$oysterTokenMetadataStore.decimal
-			)}
-		</Tooltip>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{vcpu ? vcpu : 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{memory ? `${memory}${MEMORY_SUFFIX}` : 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{arch ? arch : 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{#if $connected}
-			<ModalButton
-				variant="tableConvertButton"
-				styleClass="w-fit px-6 mr-4"
-				modalFor="create-order-modal-{rowIndex}">Deploy</ModalButton
-			>
-		{:else}
-			<Button
-				styleClass="w-fit px-6 mr-4"
-				variant="tableConvertButton"
-				onclick={() =>
-					addToast({
-						message: 'Please connect your wallet to deploy.',
-						variant: 'info'
-					})}>Deploy</Button
-			>
-		{/if}
-	</td>
-</tr>
+	{:else}
+		<Button
+			styleClass="w-fit px-6 mr-4"
+			variant="tableConvertButton"
+			onclick={() =>
+				addToast({
+					message: 'Please connect your wallet to deploy.',
+					variant: 'info'
+				})}>Deploy</Button
+		>
+	{/if}
+</td>
 <CreateOrderModal modalFor="create-order-modal-{rowIndex}" preFilledData={rowData} />
-
-<style>
-	/* TODO: migrate these classes to tailwind and then refactor the copy to clipboard functionality */
-	.main-row {
-		margin-left: 20px;
-		border-bottom: 1px solid #e5e5e5;
-	}
-	/* show icon only on hover on table-row */
-	.main-row:hover .copy-icon {
-		display: flex;
-	}
-	.main-row .copy-icon {
-		display: none;
-	}
-</style>

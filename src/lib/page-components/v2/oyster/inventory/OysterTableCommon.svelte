@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 	import Table from '$lib/atoms/v2/table/Table.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { TableModel } from '$lib/types/componentTypes';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let loading = false;
 	export let handleSortData: (id: string) => void;
@@ -25,7 +26,7 @@
 		</div>
 	{:else if noDataFound}
 		<Table {tableHeading} {handleSortData} headingStyleClass="h-[32px]" />
-		<div class="mb-8 {tableCellClasses.empty}">
+		<div class={cn(tableClasses.empty, 'mb-8')}>
 			{emptyTableMessage}
 		</div>
 	{:else}

@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/v2/componentClasses';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
-	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import CollapseButton from '$lib/components/v2/buttons/CollapseButton.svelte';
@@ -10,12 +9,6 @@
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { bigNumberToString, epochToDurationString } from '$lib/utils/helpers/conversionHelper';
 	import { getInventoryDurationVariant } from '$lib/utils/v2/helpers/oysterHelpers';
-	import { slide } from 'svelte/transition';
-	import AddFundsToJobModal from '$lib/page-components/v2/oyster/inventory/modals/AddFundsToJobModal.svelte';
-	import AmendRateModal from '$lib/page-components/v2/oyster/inventory/modals/AmendRateModal.svelte';
-	import InventoryJobDetailsModal from '$lib/page-components/v2/oyster/inventory/modals/JobDetailsModal.svelte';
-	import StopJobModal from '$lib/page-components/v2/oyster/inventory/modals/StopJobModal.svelte';
-	import WithdrawFundsFromJobModal from '$lib/page-components/v2/oyster/inventory/modals/WithdrawFundsFromJobModal.svelte';
 	import type { BytesLike } from 'ethers';
 	import { refreshJobStatusForJobId } from '$lib/controllers/httpController';
 	import {
@@ -52,175 +45,84 @@
 	}
 
 	$: ({
-		provider: { name, address },
-		instance,
-		region,
-		rate,
+		provider: { address },
 		id,
 		ip,
 		balance,
 		durationLeft,
-		isCreditJob,
 		endEpochTime, // epoch time in seconds based on duration left,
 		// newRate is being passed to the modal for the amend rate modal and is not used here
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		reviseRate: { newRate = null, rateStatus = '', stopStatus = '' } = {}
 	} = rowData);
-	$: isJobFinished = !(Math.floor(endEpochTime - Date.now() / 1000) > 0);
 	$: isOpen = expandedRows.has(id.toString());
-	$: closeButtonText =
-		stopStatus === '' || stopStatus === 'disabled'
-			? 'Initiate Stop'
-			: stopStatus === 'pending'
-				? 'Cancel Stop'
-				: 'Confirm Stop';
-
-	$: amendRateButtonText =
-		rateStatus === ''
-			? 'Initiate rate amend'
-			: rateStatus === 'pending'
-				? 'Cancel rate amend'
-				: 'Confirm rate amend';
 </script>
 
-<tr class="main-row h-[64px] hover:bg-base-200">
-	<td class={tableCellClasses.rowNormal}>
-		<NameWithAddress {address} {rowIndex}>
-			<svelte:fragment slot="copyIcon">
-				<div class="w-4">
-					<div class="copy-icon cursor-pointer">
-						<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
-					</div>
-				</div>
-			</svelte:fragment>
-		</NameWithAddress>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<div class="flex items-center justify-start gap-2">
-			{ip ?? 'N/A'}
-			{#if ip}
-				<button
-					class="cursor-pointer"
-					on:click={() => handleCopyClick(ip, 'IP Address copied to clipboard')}
-				>
+<td class={tableClasses.cell}>
+	<NameWithAddress {address} {rowIndex}>
+		<svelte:fragment slot="copyIcon">
+			<div class="w-4">
+				<div class="copy-icon hidden cursor-pointer group-hover:flex">
 					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
-				</button>
-			{/if}
+				</div>
+			</div>
+		</svelte:fragment>
+	</NameWithAddress>
+</td>
+<td class={tableClasses.cell}>
+	<div class="flex items-center justify-start gap-2">
+		{ip ?? 'N/A'}
+		{#if ip}
 			<button
-				class="{refreshLoading ? 'animate-spin' : ''} flex items-center"
-				on:click={() => refreshJobStatus(id)}
+				class="cursor-pointer"
+				on:click={() => handleCopyClick(ip, 'IP Address copied to clipboard')}
 			>
-				<img src={staticImages.refreshV2Icon} alt="Refresh Icon" />
+				<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 			</button>
-		</div>
-	</td>
-
-	<td class={tableCellClasses.rowNormal}>
-		<Tooltip
-			tooltipText="{$oysterTokenMetadataStore.symbol}{bigNumberToString(
-				balance,
-				$oysterTokenMetadataStore.decimal,
-				$oysterTokenMetadataStore.precision
-			)}"
+		{/if}
+		<button
+			class="{refreshLoading ? 'animate-spin' : ''} flex items-center"
+			on:click={() => refreshJobStatus(id)}
 		>
-			{$oysterTokenMetadataStore.symbol}{bigNumberToString(
-				balance,
-				$oysterTokenMetadataStore.decimal
-			)}
-		</Tooltip>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<Timer timerId="timer-for-inventory-table-row-{id}" {endEpochTime}>
-			<div slot="active">
-				<Tooltip tooltipText={epochToDurationString(durationLeft)} tooltipDirection="tooltip-left">
-					<div
-						class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm text-[#030115]"
-						style="background-color: {getInventoryDurationVariant(durationLeft)}"
-					>
-						{epochToDurationString(durationLeft, true)}
-					</div>
-				</Tooltip>
-			</div>
-			<div slot="inactive">Ended</div>
-		</Timer>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<CollapseButton
-			styleClass="mr-6"
-			{isOpen}
-			onclick={() => {
-				toggleRowExpansion(id.toString());
-			}}
-		/>
-	</td>
-</tr>
-<tr class="expanded-row">
-	{#if isOpen}
-		<td colspan="12">
-			<div transition:slide={{ duration: 400 }} class="mb-8 mt-4 flex gap-4 px-8">
-				{#if !isJobFinished}
-					<ModalButton
-						variant="filled"
-						size="small"
-						modalFor="job-add-funds-modal-{id}"
-						disabled={isJobFinished}
-					>
-						Add Funds
-					</ModalButton>
-					<ModalButton
-						variant="outlined"
-						size="small"
-						modalFor="job-stop-modal-{id}"
-						disabled={isJobFinished}
-					>
-						{closeButtonText}
-					</ModalButton>
-					<ModalButton
-						variant="outlined"
-						size="small"
-						modalFor="job-withdraw-fund-modal-{id}"
-						disabled={isJobFinished}
-					>
-						Withdraw
-					</ModalButton>
-					<ModalButton
-						variant="outlined"
-						size="small"
-						modalFor="job-amend-rate-modal-{id}"
-						disabled={isJobFinished}
-					>
-						{amendRateButtonText}
-					</ModalButton>
-				{/if}
-				<ModalButton variant="outlined" size="small" modalFor="job-details-modal-{id}">
-					Details
-				</ModalButton>
-			</div>
-		</td>
-	{/if}
-</tr>
-
-<InventoryJobDetailsModal bind:jobData={rowData} modalFor="job-details-modal-{id}" />
-<AddFundsToJobModal bind:jobData={rowData} modalFor="job-add-funds-modal-{id}" />
-<WithdrawFundsFromJobModal bind:jobData={rowData} modalFor="job-withdraw-fund-modal-{id}" />
-<StopJobModal bind:jobData={rowData} modalFor="job-stop-modal-{id}" />
-<AmendRateModal bind:jobData={rowData} modalFor="job-amend-rate-modal-{id}" />
-
-<style>
-	/* TODO: migrate these classes to tailwind and then refactor the copy to clipboard functionality */
-	.expanded-row {
-		border-bottom: 1px solid #e5e5e5;
-	}
-
-	.expanded-row:last-child {
-		border-bottom: none;
-	}
-
-	/* show icon only on hover on table-row */
-	.main-row:hover .copy-icon {
-		display: flex;
-	}
-	.main-row .copy-icon {
-		display: none;
-	}
-</style>
+			<img src={staticImages.refreshV2Icon} alt="Refresh Icon" />
+		</button>
+	</div>
+</td>
+<td class={tableClasses.cell}>
+	<Tooltip
+		tooltipText="{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+			balance,
+			$oysterTokenMetadataStore.decimal,
+			$oysterTokenMetadataStore.precision
+		)}"
+	>
+		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+			balance,
+			$oysterTokenMetadataStore.decimal
+		)}
+	</Tooltip>
+</td>
+<td class={tableClasses.cell}>
+	<Timer timerId="timer-for-inventory-table-row-{id}" {endEpochTime}>
+		<div slot="active">
+			<Tooltip tooltipText={epochToDurationString(durationLeft)} tooltipDirection="tooltip-left">
+				<div
+					class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm text-[#030115]"
+					style="background-color: {getInventoryDurationVariant(durationLeft)}"
+				>
+					{epochToDurationString(durationLeft, true)}
+				</div>
+			</Tooltip>
+		</div>
+		<div slot="inactive">Ended</div>
+	</Timer>
+</td>
+<td class={tableClasses.cell}>
+	<CollapseButton
+		styleClass="mr-6"
+		{isOpen}
+		onclick={() => {
+			toggleRowExpansion(id.toString());
+		}}
+	/>
+</td>

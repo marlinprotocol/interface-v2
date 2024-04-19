@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 	import Table from '$lib/atoms/v2/table/Table.svelte';
 	import HeaderConnectWallet from '$lib/components/v2/header/sub-components/HeaderConnectWallet.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
@@ -54,7 +54,7 @@
 			</tbody>
 		</Table>
 		{#if noDataFound}
-			<div class={tableCellClasses.empty}>No data found!</div>
+			<div class={tableClasses.empty}>No data found!</div>
 		{/if}
 	{/if}
 </div>

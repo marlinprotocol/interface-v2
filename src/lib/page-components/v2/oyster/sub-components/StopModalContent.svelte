@@ -17,7 +17,7 @@
 <div class="flex flex-col gap-4">
 	<div class="flex gap-4">
 		<div class="w-full">
-			<InputCard variant="yellow">
+			<InputCard variant="none" styleClass="bg-[#F4F4F6]">
 				<div class={cn(commonStyleClass)}>
 					<div>
 						<div class="flex w-full justify-center">
@@ -36,7 +36,7 @@
 			</InputCard>
 		</div>
 		<div class="w-full">
-			<InputCard variant="green">
+			<InputCard variant="none" styleClass="bg-[#F4F4F6]">
 				<div class={cn(commonStyleClass)}>
 					<div>
 						<div class="flex w-full justify-center">

@@ -1,18 +1,16 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
-	import { staticImages } from '$lib/components/images/staticImages';
 	import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import {
 		DEFAULT_CURRENCY_DECIMALS,
 		MPOND_PRECISIONS,
 		POND_PRECISIONS
 	} from '$lib/utils/constants/constants';
-	import { POND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
 	import { bigNumberToString, mPondToPond, pondToMPond } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';
+	import { ROUTES } from '$lib/utils/constants/v2/urls';
 
 	export let modalFor: string;
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
@@ -70,7 +68,7 @@
 	<svelte:fragment slot="actionButtons">
 		<Button
 			onclick={() => {
-				if (conversionFrom === 'pond') goto(POND_HISTORY_PAGE_URL);
+				if (conversionFrom === 'pond') goto(ROUTES.POND_HISTORY_PAGE_URL);
 				closeModal(modalFor);
 			}}
 			variant="filled"

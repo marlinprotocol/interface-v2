@@ -16,9 +16,15 @@
 	$: successMessage = `${title} copied to clipboard`;
 </script>
 
-<InputCard variant={'primary'}>
+<InputCard variant="v2Input">
 	<div class="mb-1 flex items-center gap-1 {centered ? 'justify-center' : ''}">
-		<Text variant="small" text={title} />
+		<Text
+			variant="small"
+			text={title}
+			styleClass="
+		absolute left-[18px] top-[-10px] mb-4 bg-white px-2 font-poppins text-sm font-light text-[#030115]
+		"
+		/>
 		{#if tooltipText}
 			<TooltipIcon
 				{tooltipText}
@@ -29,9 +35,9 @@
 	</div>
 	<div class="flex {textStyle} {centered ? 'items-center justify-center text-center' : ''}">
 		<Text
-			variant="small"
+			variant="body"
 			text={value}
-			fontWeight="font-medium"
+			fontWeight="font-normal"
 			styleClass="flex {textStyle} {centered ? 'items-center justify-center text-center' : ''}"
 		/>
 		{#if cliboardContent !== '' && cliboardContent !== undefined}

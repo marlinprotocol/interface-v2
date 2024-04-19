@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
-	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import TextInputCard from '$lib/components/texts/TextInputCard.svelte';
+	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
+	import TextInputCard from '$lib/components/v2/texts/TextInputCard.svelte';
 	import { oysterStore, oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
@@ -56,44 +56,36 @@
 	<svelte:fragment slot="title">ORDER DETAILS</svelte:fragment>
 	<svelte:fragment slot="subtitle">View the details of your order</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex flex-col gap-4 px-4">
+		<div class="mt-10 flex flex-col gap-4 px-4">
 			<div data-testid="enclave-image-url" class="flex flex-col gap-4 sm:flex-row">
 				<TextInputCard
 					title="Enclave Image URL"
 					value={enclaveUrl}
 					cliboardContent={enclaveUrl}
-					textStyle="text-primary truncate"
+					textStyle="truncate"
 				/>
 			</div>
 			<div class="flex flex-col gap-4 sm:flex-row">
-				<TextInputCard
-					title="Operator"
-					value={name !== '' ? name : address}
-					centered
-					textStyle="text-primary truncate"
-				/>
+				<TextInputCard title="Operator" value={name !== '' ? name : address} textStyle="truncate" />
 				<TextInputCard
 					title="IP Address"
 					value={ip ?? 'N/A'}
 					cliboardContent={ip}
-					centered
-					textStyle="text-primary truncate"
+					textStyle="truncate"
 				/>
 			</div>
 			<div class="flex flex-col gap-4 sm:flex-row">
 				<TextInputCard
 					title="Start Date"
 					value={epochSecToString(createdAt)}
-					centered
-					textStyle="text-primary truncate"
+					textStyle="truncate"
 				/>
 				<TextInputCard
 					title="Duration Left"
 					value={nowTime > endEpochTime
 						? 'Ended'
 						: epochToDurationString(endEpochTime - nowTime, true)}
-					centered
-					textStyle="text-primary truncate"
+					textStyle="truncate"
 				/>
 			</div>
 			<div class="flex flex-col gap-4 sm:flex-row">
@@ -103,8 +95,7 @@
 						rate,
 						$oysterTokenMetadataStore.decimal
 					)}"
-					centered
-					textStyle="text-primary truncate"
+					textStyle="truncate"
 				/>
 				<TextInputCard
 					title="Amount Used"
@@ -112,8 +103,7 @@
 						amountUsed,
 						$oysterTokenMetadataStore.decimal
 					)}"
-					centered
-					textStyle="text-primary truncate"
+					textStyle="truncate"
 				/>
 				<TextInputCard
 					title="Total Paid"
@@ -121,39 +111,22 @@
 						totalDeposit,
 						$oysterTokenMetadataStore.decimal
 					)}"
-					centered
-					textStyle="text-primary truncate"
+					textStyle="truncate"
 				/>
 			</div>
 			<div class="flex flex-col gap-4 sm:flex-row">
-				<TextInputCard
-					title="Instance"
-					value={instance}
-					centered
-					textStyle="text-primary truncate"
-				/>
-				<TextInputCard title="Region" value={region} centered textStyle="text-primary truncate" />
-				<TextInputCard title="Arch" value={arch} centered textStyle="text-primary truncate" />
+				<TextInputCard title="Instance" value={instance} textStyle="truncate" />
+				<TextInputCard title="Region" value={region} textStyle="truncate" />
+				<TextInputCard title="Arch" value={arch} textStyle="truncate" />
 			</div>
 			<div class="flex flex-col gap-4 sm:flex-row">
-				<TextInputCard
-					title="vCPU"
-					value={vcpu?.toString() ?? ''}
-					centered
-					textStyle="text-primary truncate"
-				/>
+				<TextInputCard title="vCPU" value={vcpu?.toString() ?? ''} textStyle="truncate" />
 				<TextInputCard
 					title="Memory"
 					value={(memory?.toString() ?? '') + (memory ? MEMORY_SUFFIX : '')}
-					centered
-					textStyle="text-primary truncate"
+					textStyle="truncate"
 				/>
-				<TextInputCard
-					title="Bandwidth"
-					value={bandwidth}
-					centered
-					textStyle="text-primary truncate"
-				/>
+				<TextInputCard title="Bandwidth" value={bandwidth} textStyle="truncate" />
 			</div>
 			<PaymentHistoryTable tableData={depositHistory} />
 		</div>

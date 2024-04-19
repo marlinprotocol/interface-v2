@@ -87,7 +87,7 @@
 	>
 		{#if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex (rowData.id)}
-				<tr class={cn(tableClasses.mainRow, 'group hover:bg-base-200')}>
+				<tr class={cn(tableClasses.mainRow, 'group h-[64px] hover:bg-base-200')}>
 					<OysterMarketplaceTableRow {rowData} {rowIndex} />
 				</tr>
 			{/each}

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
-	import { tableCellClasses } from '$lib/atoms/v2/componentClasses';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
@@ -42,66 +42,64 @@
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
-<tr class="main-row hover:bg-base-200">
-	<td class={tableCellClasses.row}>
-		<NameWithAddress {name} {address} {rowIndex}>
-			<svelte:fragment slot="copyIcon">
-				<div class="w-4">
-					<div class="copy-icon cursor-pointer">
-						<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
-					</div>
+<td class={tableClasses.row}>
+	<NameWithAddress {name} {address} {rowIndex}>
+		<svelte:fragment slot="copyIcon">
+			<div class="w-4">
+				<div class="copy-icon cursor-pointer">
+					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 				</div>
-			</svelte:fragment>
-		</NameWithAddress>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{instance ?? 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{region ?? 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{epochSecToString(createdAt)}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={epochToDurationString(durationRun)}>
-			{epochToDurationString(durationRun, true)}
-		</Tooltip>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<Tooltip
-			tooltipText="{$oysterTokenMetadataStore.symbol}${bigNumberToString(
-				amountToBeSettled,
-				$oysterTokenMetadataStore.decimal,
-				$oysterTokenMetadataStore.precision
-			)}"
-		>
-			{$oysterTokenMetadataStore.symbol}{bigNumberToString(
-				amountToBeSettled,
-				$oysterTokenMetadataStore.decimal
-			)}
-		</Tooltip>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<div
-			class="mx-auto w-24 rounded py-1 text-center text-sm capitalize text-white"
-			style="background-color: {statusColor}"
-		>
-			{status}
-		</div>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<Button
-			variant="tableConvertButton"
-			onclick={handleClaimClick}
-			size="smaller"
-			disabled={submitLoading || status === 'closed'}
-			styleClass="w-fit px-8 rounded text-xs mr-6"
-		>
-			CLAIM
-		</Button>
-	</td>
-</tr>
+			</div>
+		</svelte:fragment>
+	</NameWithAddress>
+</td>
+<td class={tableClasses.rowNormal}>
+	{instance ?? 'N/A'}
+</td>
+<td class={tableClasses.rowNormal}>
+	{region ?? 'N/A'}
+</td>
+<td class={tableClasses.rowNormal}>
+	{epochSecToString(createdAt)}
+</td>
+<td class={tableClasses.rowNormal}>
+	<Tooltip tooltipText={epochToDurationString(durationRun)}>
+		{epochToDurationString(durationRun, true)}
+	</Tooltip>
+</td>
+<td class={tableClasses.rowNormal}>
+	<Tooltip
+		tooltipText="{$oysterTokenMetadataStore.symbol}${bigNumberToString(
+			amountToBeSettled,
+			$oysterTokenMetadataStore.decimal,
+			$oysterTokenMetadataStore.precision
+		)}"
+	>
+		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+			amountToBeSettled,
+			$oysterTokenMetadataStore.decimal
+		)}
+	</Tooltip>
+</td>
+<td class={tableClasses.rowNormal}>
+	<div
+		class="mx-auto w-24 rounded py-1 text-center text-sm capitalize text-white"
+		style="background-color: {statusColor}"
+	>
+		{status}
+	</div>
+</td>
+<td class={tableClasses.rowNormal}>
+	<Button
+		variant="tableConvertButton"
+		onclick={handleClaimClick}
+		size="smaller"
+		disabled={submitLoading || status === 'closed'}
+		styleClass="w-fit px-8 rounded text-xs mr-6"
+	>
+		CLAIM
+	</Button>
+</td>
 
 <style>
 	/* TODO: migrate these classes to tailwind and then refactor the copy to clipboard functionality */

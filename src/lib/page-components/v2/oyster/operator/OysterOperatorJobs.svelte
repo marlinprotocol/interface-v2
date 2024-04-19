@@ -72,7 +72,9 @@
 >
 	{#if paginatedData?.length}
 		{#each paginatedData as rowData, rowIndex (rowData.id)}
-			<OysterOperatorJobsTableRow {rowData} {rowIndex} />
+			<tr class="main-row h-[64px] hover:bg-base-200">
+				<OysterOperatorJobsTableRow {rowData} {rowIndex} />
+			</tr>
 		{/each}
 	{/if}
 </OysterTableCommon>

@@ -14,9 +14,11 @@
 		sortOysterOperatorHistory
 	} from '$lib/utils/helpers/oysterHelpers';
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
-	import OysterOperatorJobsHistoryTableRow from '$lib/page-components/oyster/operator/OysterOperatorJobsHistoryTableRow.svelte';
+	import OysterOperatorJobsHistoryTableRow from '$lib/page-components/v2/oyster/operator/OysterOperatorJobsHistoryTableRow.svelte';
 	import { OYSTER_OPERATOR_JOBS_URL } from '$lib/utils/constants/urls';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
+	import { cn } from '$lib/utils/helpers/commonHelper';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -76,13 +78,11 @@
 	>
 		{#if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex}
-				<OysterOperatorJobsHistoryTableRow {rowData} {rowIndex} />
+				<tr class={cn(tableClasses.row, 'bg-black hover:bg-base-200')}>
+					<OysterOperatorJobsHistoryTableRow {rowData} {rowIndex} />
+				</tr>
 			{/each}
-			<tr>
-				<td colspan="12">
-					<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
-				</td>
-			</tr>
 		{/if}
 	</OysterTableCommon>
+	<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
 </div>

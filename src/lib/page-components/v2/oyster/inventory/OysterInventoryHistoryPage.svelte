@@ -15,6 +15,8 @@
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
+	import { cn } from '$lib/utils/helpers/commonHelper';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -83,7 +85,9 @@
 >
 	{#if paginatedData?.length}
 		{#each paginatedData as rowData, rowIndex}
-			<OysterInventoryHistoryTableRow {rowData} {rowIndex} />
+			<tr class={cn(tableClasses.row, 'main-row h-16 hover:bg-base-200')}>
+				<OysterInventoryHistoryTableRow {rowData} {rowIndex} />
+			</tr>
 		{/each}
 	{/if}
 </OysterTableCommon>

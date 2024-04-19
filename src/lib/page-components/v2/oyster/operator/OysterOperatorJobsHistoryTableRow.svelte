@@ -26,40 +26,38 @@
 	} = rowData);
 </script>
 
-<tr class="main-row hover:bg-base-200">
-	<td class={tableCellClasses.row}>
-		<NameWithAddress {address} {name} {rowIndex}>
-			<svelte:fragment slot="copyIcon">
-				<div class="copy-icon cursor-pointer">
-					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
-				</div>
-			</svelte:fragment>
-		</NameWithAddress>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{instance ?? 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{region ?? 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{epochSecToString(createdAt)}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{epochSecToString(endEpochTime)}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={epochToDurationString(durationRun)}>
-			{epochToDurationString(durationRun, true)}
-		</Tooltip>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
-			totalDeposit,
-			$oysterTokenMetadataStore.decimal
-		)}
-	</td>
-</tr>
+<td class={tableCellClasses.row}>
+	<NameWithAddress {address} {name} {rowIndex}>
+		<svelte:fragment slot="copyIcon">
+			<div class="copy-icon cursor-pointer">
+				<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
+			</div>
+		</svelte:fragment>
+	</NameWithAddress>
+</td>
+<td class={tableCellClasses.rowNormal}>
+	{instance ?? 'N/A'}
+</td>
+<td class={tableCellClasses.rowNormal}>
+	{region ?? 'N/A'}
+</td>
+<td class={tableCellClasses.rowNormal}>
+	{epochSecToString(createdAt)}
+</td>
+<td class={tableCellClasses.rowNormal}>
+	{epochSecToString(endEpochTime)}
+</td>
+<td class={tableCellClasses.rowNormal}>
+	<Tooltip tooltipText={epochToDurationString(durationRun)}>
+		{epochToDurationString(durationRun, true)}
+	</Tooltip>
+</td>
+<td class={tableCellClasses.rowNormal}>
+	{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+		totalDeposit,
+		$oysterTokenMetadataStore.decimal
+	)}
+</td>
 
 <style>
 	/* TODO: migrate these classes to tailwind and then refactor the copy to clipboard functionality */

@@ -10,7 +10,7 @@
 	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import { convertRateToPerHourString } from '$lib/utils/helpers/conversionHelper';
-	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
+	import CreateOrderModal from '$lib/page-components/v2/oyster/inventory/modals/CreateOrderModal.svelte';
 	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
 

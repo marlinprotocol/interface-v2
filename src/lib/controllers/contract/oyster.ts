@@ -19,12 +19,22 @@ export async function registerOysterInfrastructureProvider(controlPlaneUrl: stri
 		const errorTxnMessage = 'Unable to register as Oyster Infrastructure Provider.';
 		const parentFunctionName = 'registerOysterInfrastructureProvider';
 
+		const initiateTxnTitle = MESSAGES.TOAST.REGISTER_OPERATOR.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.REGISTER_OPERATOR.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.REGISTER_OPERATOR.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
+
 		const { txn } = await createTransaction(
 			() => oysterContract.providerAdd(controlPlaneUrl),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 		return txn;
 	} catch (error: any) {
@@ -39,13 +49,21 @@ export async function updateOysterInfrastructureProvider(controlPlaneUrl: string
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.UPDATE.UPDATED;
 		const errorTxnMessage = 'Unable to update Oyster Infrastructure Provider.';
 		const parentFunctionName = 'updateOysterInfrastructureProvider';
-
+		const initiateTxnTitle = MESSAGES.TOAST.UPDATE_OPERATOR.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.UPDATE_OPERATOR.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.UPDATE_OPERATOR.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 		const { txn } = await createTransaction(
 			() => oysterContract.providerUpdateWithCp(controlPlaneUrl),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 		return txn;
 	} catch (error: any) {
@@ -60,13 +78,21 @@ export async function removeOysterInfrastructureProvider() {
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.REMOVE.REMOVED;
 		const errorTxnMessage = 'Unable to remove Oyster Infrastructure Provider.';
 		const parentFunctionName = 'removeOysterInfrastructureProvider';
-
+		const initiateTxnTitle = MESSAGES.TOAST.UNREGISTER_OPERATOR.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.UNREGISTER_OPERATOR.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.UNREGISTER_OPERATOR.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 		const { txn } = await createTransaction(
 			() => oysterContract.providerRemove(),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 		return txn;
 	} catch (error: any) {

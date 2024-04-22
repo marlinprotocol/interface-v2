@@ -45,6 +45,21 @@ export const MESSAGES = {
 			FAILED: 'Deploy Rejected',
 			CREATED: 'Deploy in progress...'
 		},
+		UNREGISTER_OPERATOR: {
+			SUCCESS: 'Removal successful',
+			FAILED: 'Removal failed',
+			CREATED: 'Removal in progress...'
+		},
+		REGISTER_OPERATOR: {
+			SUCCESS: 'Register successful',
+			FAILED: 'Register failed',
+			CREATED: 'Register in progress...'
+		},
+		UPDATE_OPERATOR: {
+			SUCCESS: 'Update successful',
+			FAILED: 'Update failed',
+			CREATED: 'Update in progress...'
+		},
 		ACTIONS: {
 			DEPOSIT: {
 				/**

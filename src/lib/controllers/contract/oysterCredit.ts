@@ -180,12 +180,22 @@ export async function cancelRateReviseOysterCreditJob(jobId: BytesLike) {
 		const errorTxnMessage = 'Unable to cancel rate revision for Oyster Job.';
 		const parentFunctionName = 'cancelRateReviseOysterCreditJob';
 
+		const initiateTxnTitle = MESSAGES.TOAST.CANCEL_STOP.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.CANCEL_STOP.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.CANCEL_STOP.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
+
 		const { txn } = await createTransaction(
 			() => oysterCreditContract.jobReviseRateCancel(jobId),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 
 		return txn;

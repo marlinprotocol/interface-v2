@@ -22,7 +22,7 @@ export async function createTransaction(
 	successTxnMessage: string,
 	errorTxnMessage: string,
 	parentFunctionName: string,
-	titles?: { initiateTxnTitle?: string; successTxnTitle?: string; errorTxnTitle?: string }
+	titles?: { initiateTxnTitle?: string; successTxnTitle?: string; failedTxnTitle?: string }
 ) {
 	try {
 		addToast({
@@ -73,7 +73,7 @@ export async function createTransaction(
 				description: error.reason
 					? capitalizeFirstLetter(error.reason)
 					: MESSAGES.TOAST.TRANSACTION.FAILED,
-				title: titles?.errorTxnTitle || ''
+				title: titles?.failedTxnTitle || ''
 			},
 			variant: 'error'
 		});

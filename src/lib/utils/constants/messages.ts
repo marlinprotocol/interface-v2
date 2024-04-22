@@ -10,6 +10,31 @@ export const MESSAGES = {
 			FAILED: 'Conversion Rejected',
 			CREATED: 'Conversing in progress...'
 		},
+		INIT_STOP: {
+			SUCCESS: 'Initiated Rate Revision',
+			FAILED: 'Failed Rate Revision',
+			CREATED: 'Initiating Rate Revision'
+		},
+		STOP_JOB: {
+			SUCCESS: 'Stopped Job',
+			FAILED: 'Failed Stoping Job',
+			CREATED: 'Stoping Job'
+		},
+		WITHDRAW: {
+			SUCCESS: 'Withdrawal Successful',
+			FAILED: 'Failed Withdrawal',
+			CREATED: 'Withdrawal in progress'
+		},
+		ADD_FUND: {
+			SUCCESS: 'Adding Funds Successful',
+			FAILED: 'Failed Adding Funds',
+			CREATED: 'Adding Funds in progress'
+		},
+		CANCEL_STOP: {
+			SUCCESS: 'Cancelled Rate Revision',
+			FAILED: 'Failed Cancelling Rate Revision',
+			CREATED: 'Cancelling Rate Revision'
+		},
 		APPROVAL: {
 			SUCCESS: 'Approval Succeeded',
 			FAILED: 'Approval Rejected',

@@ -5,6 +5,11 @@ export const MESSAGES = {
 			SUCCESS: 'Transaction successfully mined!',
 			FAILED: 'Uh-Oh, Transaction was not successful!'
 		},
+		CONVERSION: {
+			SUCCESS: 'Conversion Succeeded',
+			FAILED: 'Conversion Rejected',
+			CREATED: 'Conversing in progress...'
+		},
 		ACTIONS: {
 			DEPOSIT: {
 				/**

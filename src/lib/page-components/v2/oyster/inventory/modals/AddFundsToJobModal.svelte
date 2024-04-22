@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
+	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
 	import {
 		oysterStore,
@@ -15,7 +15,7 @@
 		handleApproveFundForOysterJob
 	} from '$lib/utils/services/oysterServices';
 	import AddFundsToJob from '$lib/page-components/v2/oyster/sub-components/AddFundsToJob.svelte';
-	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
+	import MaxButton from '$lib/components/v2/buttons/MaxButton.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';

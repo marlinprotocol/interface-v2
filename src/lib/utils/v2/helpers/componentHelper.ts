@@ -31,10 +31,8 @@ export const getInputCardVariant = (variant: InputCardVariant | undefined) => {
 	switch (variant) {
 		case 'primary':
 			return 'bg-white px-6 py-[30px] rounded-3xl border border-[#D9DADE]';
-
 		case 'primary-mini':
 			return 'bg-base-200 py-2 px-4';
-
 		case 'warning':
 			return 'bg-red-100 px-4 py-1';
 		case 'yellow':
@@ -43,10 +41,10 @@ export const getInputCardVariant = (variant: InputCardVariant | undefined) => {
 			return 'bg-[#68A843]';
 		case 'none':
 			return '';
-
 		case 'search':
 			return 'bg-transparent px-4 py-2.5 rounded-[100px]';
-
+		case 'v2Input':
+			return 'relative border border-[#D9DADE] py-[20px] px-[18px] rounded-full';
 		default:
 			return 'bg-base-200 p-4';
 	}

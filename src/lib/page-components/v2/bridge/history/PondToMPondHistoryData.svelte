@@ -53,8 +53,8 @@
 	>
 		{#if paginatedData?.length}
 			{#each paginatedData as row}
-				<tr class={tableClasses.mainRow}>
-					<td class={cn(tableClasses.cell, 'block pl-4')}>{epochSecToString(row.timestamp)}</td>
+				<tr class={cn(tableClasses.row, 'group h-16 hover:bg-base-200')}>
+					<td class={cn(tableClasses.cell, 'pl-4')}>{epochSecToString(row.timestamp)}</td>
 					<td class={tableClasses.cell}
 						>{bigNumberToString(row.pondConverted, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}</td
 					>

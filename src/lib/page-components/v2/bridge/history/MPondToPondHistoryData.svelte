@@ -7,6 +7,8 @@
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 	import Pagination from '$lib/components/v2/pagination/Pagination.svelte';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let historyData: MPondToPondHistoryDataModel[] | undefined;
 	export let loading = true;
@@ -45,7 +47,9 @@
 	>
 		{#if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex}
-				<MPondTableRow {rowData} {rowIndex} />
+				<tr class={cn(tableClasses.row, 'h-16 hover:bg-base-200')}>
+					<MPondTableRow {rowData} {rowIndex} />
+				</tr>
 			{/each}
 		{/if}
 	</HistoryTableCommon>

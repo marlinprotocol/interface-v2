@@ -96,88 +96,86 @@
 	$: endEpochTime = getTimerEpoch(currentCycle, eligibleCycles);
 </script>
 
-<tr class={tableClasses.row}>
-	<TableDataWithButton firstRow>
-		<svelte:fragment slot="line1">
-			<div class="flex items-center gap-2">
-				{epochSecToString(timestamp)}
-				<a
-					class="shrink-0"
-					href={getTxnUrl($chainConfigStore.block_explorer_url, transactionHash)}
-					target="_blank"
-					rel="noopener noreferrer"
+<TableDataWithButton firstRow>
+	<svelte:fragment slot="line1">
+		<div class="flex items-center gap-2">
+			{epochSecToString(timestamp)}
+			<a
+				class="shrink-0"
+				href={getTxnUrl($chainConfigStore.block_explorer_url, transactionHash)}
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				<img src={staticImages.externalLinkIcon} alt="txn link" width="18px" />
+			</a>
+		</div>
+	</svelte:fragment>
+</TableDataWithButton>
+
+<TableDataWithButton>
+	<svelte:fragment slot="line1">
+		{bigNumberToString(mpondAmount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)}
+	</svelte:fragment>
+</TableDataWithButton>
+<TableDataWithButton>
+	<svelte:fragment slot="line1">
+		{bigNumberToString(pondAmount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
+	</svelte:fragment>
+</TableDataWithButton>
+<TableDataWithButton>
+	<svelte:fragment slot="line1">
+		<div class="flex gap-3">
+			<Tooltip>
+				<ModalButton
+					slot="tooltipIcon"
+					disabled={!(pondEligible > 0n)}
+					size="tiniest"
+					variant="text"
+					modalFor="mpond-convert-modal-{rowIndex}"
 				>
-					<img src={staticImages.externalLinkIcon} alt="txn link" width="18px" />
-				</a>
-			</div>
-		</svelte:fragment>
-	</TableDataWithButton>
-
-	<TableDataWithButton>
-		<svelte:fragment slot="line1">
-			{bigNumberToString(mpondAmount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)}
-		</svelte:fragment>
-	</TableDataWithButton>
-	<TableDataWithButton>
-		<svelte:fragment slot="line1">
-			{bigNumberToString(pondAmount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
-		</svelte:fragment>
-	</TableDataWithButton>
-	<TableDataWithButton>
-		<svelte:fragment slot="line1">
-			<div class="flex gap-3">
-				<Tooltip>
-					<ModalButton
-						slot="tooltipIcon"
-						disabled={!(pondEligible > 0n)}
-						size="tiniest"
-						variant="text"
-						modalFor="mpond-convert-modal-{rowIndex}"
-					>
-						<div
-							class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE] hover:bg-[#F0F0F0]"
-						>
-							<img src={staticImages.exchangeIcon} alt="" />
-						</div>
-					</ModalButton>
-					<span slot="tooltipContent">Convert</span>
-				</Tooltip>
-
-				<Tooltip>
-					<MPondConversionCycleButton
-						slot="tooltipIcon"
-						{eligibleCycles}
-						{endEpochTime}
-						{currentCycle}
-						modalFor="mpond-conversion-cycle-modal-{rowIndex}"
-					/>
-					<span slot="tooltipContent">Conversion Cycle</span>
-				</Tooltip>
-				<Tooltip>
-					<MPondConversionHistoryButton
-						slot="tooltipIcon"
-						{conversionHistory}
-						modalFor="mpond-conversion-history-modal-{rowIndex}"
-					/>
-					<span slot="tooltipContent">History</span>
-				</Tooltip>
-				<Tooltip>
-					<button
-						slot="tooltipIcon"
-						type="button"
+					<div
 						class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE] hover:bg-[#F0F0F0]"
-						on:click={async () => {
-							await handleCancelConversionRequest(requestEpoch);
-						}}
 					>
-						<img src={staticImages.cancelIcon} alt="Cancel Icon" />
-					</button>
-					<span slot="tooltipContent">Cancel</span>
-				</Tooltip>
-			</div>
-		</svelte:fragment>
-	</TableDataWithButton>
-</tr>
+						<img src={staticImages.exchangeIcon} alt="" />
+					</div>
+				</ModalButton>
+				<span slot="tooltipContent">Convert</span>
+			</Tooltip>
+
+			<Tooltip>
+				<MPondConversionCycleButton
+					slot="tooltipIcon"
+					{eligibleCycles}
+					{endEpochTime}
+					{currentCycle}
+					modalFor="mpond-conversion-cycle-modal-{rowIndex}"
+				/>
+				<span slot="tooltipContent">Conversion Cycle</span>
+			</Tooltip>
+			<Tooltip>
+				<MPondConversionHistoryButton
+					slot="tooltipIcon"
+					{conversionHistory}
+					modalFor="mpond-conversion-history-modal-{rowIndex}"
+				/>
+				<span slot="tooltipContent">History</span>
+			</Tooltip>
+			<Tooltip>
+				<button
+					slot="tooltipIcon"
+					type="button"
+					class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE] hover:bg-[#F0F0F0]"
+					on:click={async () => {
+						await handleCancelConversionRequest(requestEpoch);
+					}}
+				>
+					<img src={staticImages.cancelIcon} alt="Cancel Icon" />
+				</button>
+				<span slot="tooltipContent">Cancel</span>
+			</Tooltip>
+		</div>
+	</svelte:fragment>
+</TableDataWithButton>
 
 <MPondEligibleConvertModal
 	maxAmount={pondToMPond(pondEligible)}

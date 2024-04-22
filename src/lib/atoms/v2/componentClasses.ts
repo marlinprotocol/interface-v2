@@ -29,7 +29,7 @@ export const buttonClasses = {
 export const tableClasses = {
 	heading: 'text-primary text-sm font-semibold px-2 pb-4',
 	row: 'border-b border-[#D9DADE] font-normal whitespace-nowrap last:border-b-0',
-	cell: 'text-left text-sm py-[23.5px] leading-none',
+	cell: 'text-left text-sm leading-none',
 	cellMini: 'text-xs py-1',
 	empty: 'text-base text-center p-4 w-full'
 };

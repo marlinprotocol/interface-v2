@@ -10,7 +10,7 @@
 		walletAddressHasChanged,
 		walletStore
 	} from '$lib/data-stores/walletProviderStore';
-	import OysterOperatorRegisterPage from '$lib/page-components/oyster/operator/OysterOperatorRegisterPage.svelte';
+	import OysterOperatorRegisterPage from '$lib/page-components/v2/oyster/operator/OysterOperatorRegisterPage.svelte';
 	import type { Address } from '$lib/types/storeTypes';
 
 	let previousChainId: number | null = null;

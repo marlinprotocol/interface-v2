@@ -82,6 +82,7 @@ const tick = '/images/tick.svg';
 const externalLinkIcon = '/images/externalLinkV2Icon.svg';
 const searchV2Icon = '/images/searchV2Icon.svg';
 const refreshV2Icon = '/images/refreshV2Icon.svg';
+const infoV2Icon = '/images/infoV2Icon.svg';
 
 export const staticImages = {
 	Alert,
@@ -164,5 +165,6 @@ export const staticImages = {
 	checkmark,
 	tick,
 	searchV2Icon,
-	refreshV2Icon
+	refreshV2Icon,
+	infoV2Icon
 };

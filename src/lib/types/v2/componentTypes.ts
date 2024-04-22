@@ -30,7 +30,8 @@ export type InputCardVariant =
 	| 'search'
 	| 'primary-mini'
 	| 'yellow'
-	| 'green';
+	| 'green'
+	| 'v2Input';
 
 export type CommonVariant =
 	| 'primary'

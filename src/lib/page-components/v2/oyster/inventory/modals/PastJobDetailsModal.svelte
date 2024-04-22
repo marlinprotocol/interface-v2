@@ -41,7 +41,6 @@
 
 <Modal {modalFor} modalWidth="w-11/12 sm:max-w-[700px]" padding={false}>
 	<svelte:fragment slot="title">Past Order Details</svelte:fragment>
-	<!-- <svelte:fragment slot="subtitle">View the details of your past order</svelte:fragment> -->
 	<svelte:fragment slot="content">
 		<div class="mt-4 flex flex-col gap-4 px-4">
 			<TextInputCard

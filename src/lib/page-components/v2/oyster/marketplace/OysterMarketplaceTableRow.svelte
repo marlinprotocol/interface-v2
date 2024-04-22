@@ -29,12 +29,11 @@
 	$: instanceRate = rateScaled / $oysterRateMetadataStore.oysterRateScalingFactor;
 </script>
 
-<!-- <tr class="main-row h-[64px] hover:bg-base-200"> -->
 <td class={tableClasses.cell}>
 	<NameWithAddress {address} {rowIndex}>
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
-				<div class="copy-icon cursor-pointer">
+				<div class="hidden cursor-pointer group-hover:flex">
 					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 				</div>
 			</div>

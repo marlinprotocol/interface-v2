@@ -46,7 +46,7 @@
 	<NameWithAddress {name} {address} {rowIndex}>
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
-				<div class="copy-icon cursor-pointer">
+				<div class="hidden cursor-pointer group-hover:flex">
 					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 				</div>
 			</div>

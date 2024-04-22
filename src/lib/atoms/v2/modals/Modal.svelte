@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { staticImages } from '$lib/components/images/staticImages';
-	import { closeModal, doNothing } from '$lib/utils/helpers/commonHelper';
+	import { closeModal, cn, doNothing } from '$lib/utils/helpers/commonHelper';
 
 	export let modalFor = '';
 	export let modalWidth = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
@@ -14,9 +14,11 @@
 <!-- removing input from tabbing order since its open and close behaviour is being controlled by label and close button respectively  -->
 <input type="checkbox" id={modalFor} class="modal-toggle" tabindex="-1" />
 <div data-testId="modal" class="modal">
-	<div class="{modalWidth} modal-box rounded-3xl bg-base-100 p-[24px] drop-shadow-sm">
+	<div
+		class="{modalWidth} modal-box flex flex-col overflow-hidden rounded-3xl bg-base-100 p-0 drop-shadow-sm"
+	>
 		<div
-			class="modal-header sticky top-0 z-10 flex {$$slots.successmsg
+			class="modal-header sticky top-0 z-10 flex p-6 {$$slots.successmsg
 				? 'items-start'
 				: 'items-center'}  justify-between bg-white pb-4"
 		>
@@ -60,11 +62,17 @@
 				<img src={staticImages.closeIcon} alt="Close" />
 			</button>
 		</div>
-		<div class="modal-body {isScrollable ? 'overflow-y-auto overflow-x-hidden' : ''} ">
+		<div
+			class={cn(
+				'modal-body',
+				isScrollable ? 'flex flex-col overflow-y-auto overflow-x-hidden' : '',
+				'p-6'
+			)}
+		>
 			<slot name="content" />
 		</div>
 		{#if $$slots.actionButtons}
-			<div class="modal-footer sticky bottom-0 bg-white {padding ? 'pt-8' : ''} ">
+			<div class="modal-footer sticky bottom-0 bg-white px-6 pb-6 pt-4 {padding ? 'pt-8' : ''} ">
 				<slot name="actionButtons" />
 			</div>
 		{/if}

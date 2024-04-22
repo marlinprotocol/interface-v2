@@ -24,13 +24,21 @@ export async function convertPondToMPond(expectedMPond: bigint) {
 		);
 		const errorTxnMessage = 'Unable to convert POND to MPond';
 		const parentFunctionName = 'convertPondToMPond';
-
+		const initiateTxnTitle = MESSAGES.TOAST.CONVERSION.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.CONVERSION.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.CONVERSION.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 		const { txn } = await createTransaction(
 			() => bridgeContract.getMpond(expectedMPond),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 		return txn;
 	} catch (error: any) {

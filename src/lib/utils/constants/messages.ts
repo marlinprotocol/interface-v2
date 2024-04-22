@@ -10,6 +10,16 @@ export const MESSAGES = {
 			FAILED: 'Conversion Rejected',
 			CREATED: 'Conversing in progress...'
 		},
+		APPROVAL: {
+			SUCCESS: 'Approval Succeeded',
+			FAILED: 'Approval Rejected',
+			CREATED: 'Approval in progress...'
+		},
+		DEPLOY: {
+			SUCCESS: 'Deploy Succeeded',
+			FAILED: 'Deploy Rejected',
+			CREATED: 'Deploy in progress...'
+		},
 		ACTIONS: {
 			DEPOSIT: {
 				/**

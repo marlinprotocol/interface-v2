@@ -21,13 +21,14 @@ export async function createTransaction(
 	initiateTxnMessage: string,
 	successTxnMessage: string,
 	errorTxnMessage: string,
-	parentFunctionName: string
+	parentFunctionName: string,
+	titles?: { initiateTxnTitle?: string; successTxnTitle?: string; errorTxnTitle?: string }
 ) {
 	try {
 		addToast({
 			message: {
 				description: initiateTxnMessage,
-				title: MESSAGES.TOAST.CONVERSION.CREATED
+				title: titles?.initiateTxnTitle || ''
 			},
 			variant: 'warning'
 		});
@@ -36,7 +37,7 @@ export async function createTransaction(
 
 		addToast({
 			message: {
-				title: MESSAGES.TOAST.CONVERSION.CREATED,
+				title: titles?.initiateTxnTitle || '',
 				description: MESSAGES.TOAST.TRANSACTION.CREATED
 			},
 			variant: 'warning'
@@ -50,7 +51,7 @@ export async function createTransaction(
 			addToast({
 				message: {
 					description: MESSAGES.TOAST.TRANSACTION.FAILED,
-					title: MESSAGES.TOAST.CONVERSION.FAILED
+					title: titles?.errorTxnTitle || ''
 				},
 				variant: 'error'
 			});
@@ -60,7 +61,7 @@ export async function createTransaction(
 		// if the transaction is mined, show a toast with success message and return the txn
 		addToast({
 			message: {
-				title: MESSAGES.TOAST.CONVERSION.SUCCESS,
+				title: titles?.successTxnTitle || '',
 				description: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + successTxnMessage
 			},
 			variant: 'success'
@@ -72,7 +73,7 @@ export async function createTransaction(
 				description: error.reason
 					? capitalizeFirstLetter(error.reason)
 					: MESSAGES.TOAST.TRANSACTION.FAILED,
-				title: MESSAGES.TOAST.CONVERSION.FAILED
+				title: titles?.errorTxnTitle || ''
 			},
 			variant: 'error'
 		});

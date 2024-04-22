@@ -100,22 +100,3 @@
 		CLAIM
 	</Button>
 </td>
-
-<style>
-	/* TODO: migrate these classes to tailwind and then refactor the copy to clipboard functionality */
-	/* show icon only on hover on table-row */
-	.main-row {
-		border-bottom: 1px solid #e5e5e5;
-	}
-
-	.main-row:last-child {
-		border-bottom: none;
-	}
-
-	.main-row:hover .copy-icon {
-		display: flex;
-	}
-	.main-row .copy-icon {
-		display: none;
-	}
-</style>

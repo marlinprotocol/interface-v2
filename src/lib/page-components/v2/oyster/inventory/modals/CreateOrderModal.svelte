@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import Button from '$lib/atoms/buttons/Button.svelte';
+	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
@@ -271,9 +271,7 @@
 
 <Modal {modalFor} onClose={resetInputs} padding={false} isScrollable={true}>
 	<svelte:fragment slot="title">CREATE ORDER</svelte:fragment>
-	<svelte:fragment slot="subtitle">
-		{subtitle}
-	</svelte:fragment>
+
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-2 px-4">
 			<MetadetailsForNewOrder

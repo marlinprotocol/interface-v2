@@ -16,7 +16,8 @@
 	import OysterTableCommon from '$lib/page-components/v2/oyster/inventory/OysterTableCommon.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 	import { OYSTER_OPERATOR_HISTORY_URL, OYSTER_OPERATOR_URL } from '$lib/utils/constants/urls';
-	import { buttonClasses } from '$lib/atoms/v2/componentClasses';
+	import { buttonClasses, tableClasses } from '$lib/atoms/v2/componentClasses';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -72,7 +73,7 @@
 >
 	{#if paginatedData?.length}
 		{#each paginatedData as rowData, rowIndex (rowData.id)}
-			<tr class="main-row group h-[64px] hover:bg-base-200">
+			<tr class={cn(tableClasses.row, 'group h-[64px] hover:bg-base-200')}>
 				<OysterOperatorJobsTableRow {rowData} {rowIndex} />
 			</tr>
 		{/each}

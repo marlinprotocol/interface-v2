@@ -85,7 +85,7 @@
 			<tr class="group h-[64px] hover:bg-base-200">
 				<OysterInventoryTableRow {rowData} {rowIndex} bind:expandedRows />
 			</tr>
-			<tr class={tableClasses.mainRow}>
+			<tr class={tableClasses.row}>
 				<OysterInventoryExpandedTableRow {rowData} {expandedRows} />
 			</tr>
 		{/each}

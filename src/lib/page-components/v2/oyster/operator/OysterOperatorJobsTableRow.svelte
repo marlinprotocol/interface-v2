@@ -42,7 +42,7 @@
 	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
-<td class={tableClasses.row}>
+<td class={tableClasses.cell}>
 	<NameWithAddress {name} {address} {rowIndex}>
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
@@ -53,21 +53,21 @@
 		</svelte:fragment>
 	</NameWithAddress>
 </td>
-<td class={tableClasses.rowNormal}>
+<td class={tableClasses.cell}>
 	{instance ?? 'N/A'}
 </td>
-<td class={tableClasses.rowNormal}>
+<td class={tableClasses.cell}>
 	{region ?? 'N/A'}
 </td>
-<td class={tableClasses.rowNormal}>
+<td class={tableClasses.cell}>
 	{epochSecToString(createdAt)}
 </td>
-<td class={tableClasses.rowNormal}>
+<td class={tableClasses.cell}>
 	<Tooltip tooltipText={epochToDurationString(durationRun)}>
 		{epochToDurationString(durationRun, true)}
 	</Tooltip>
 </td>
-<td class={tableClasses.rowNormal}>
+<td class={tableClasses.cell}>
 	<Tooltip
 		tooltipText="{$oysterTokenMetadataStore.symbol}${bigNumberToString(
 			amountToBeSettled,
@@ -81,7 +81,7 @@
 		)}
 	</Tooltip>
 </td>
-<td class={tableClasses.rowNormal}>
+<td class={tableClasses.cell}>
 	<div
 		class="mx-auto w-24 rounded py-1 text-center text-sm capitalize text-white"
 		style="background-color: {statusColor}"
@@ -89,7 +89,7 @@
 		{status}
 	</div>
 </td>
-<td class={tableClasses.rowNormal}>
+<td class={tableClasses.cell}>
 	<Button
 		variant="tableConvertButton"
 		onclick={handleClaimClick}

@@ -28,13 +28,6 @@ export const buttonClasses = {
 
 export const tableClasses = {
 	heading: 'text-primary text-sm font-semibold px-2 pb-4',
-	// row: 'font-semibold text-base py-6 whitespace-nowrap',
-	rowNormal:
-		'text-left font-normal text-sm whitespace-nowrap leading-none border-b border-[#D9DADE]',
-	mainRow: 'border-b border-[#D9DADE] last:border-none',
-	rowCell: 'text-left font-normal text-sm whitespace-nowrap leading-none',
-	rowMini: 'font-normal text-xs py-1 whitespace-nowrap',
-	rowWithIcon: 'flex flex-col items-center justify-start',
 	row: 'border-b border-[#D9DADE] font-normal whitespace-nowrap last:border-b-0',
 	cell: 'text-left text-sm leading-none',
 	cellMini: 'text-xs py-1',

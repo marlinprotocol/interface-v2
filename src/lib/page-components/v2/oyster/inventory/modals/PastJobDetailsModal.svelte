@@ -11,7 +11,7 @@
 		epochToDurationString
 	} from '$lib/utils/helpers/conversionHelper';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
-	import PaymentHistoryTable from '$lib/page-components/oyster/sub-components/PaymentHistoryTable.svelte';
+	import PaymentHistoryTable from '$lib/page-components/v2/oyster/sub-components/PaymentHistoryTable.svelte';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 
 	export let modalFor: string;
@@ -39,10 +39,10 @@
 	} = jobData);
 </script>
 
-<Modal {modalFor} modalWidth="w-11/12 sm:max-w-[700px]" padding={false}>
+<Modal isScrollable {modalFor} modalWidth="w-11/12 sm:max-w-[700px]" padding={false}>
 	<svelte:fragment slot="title">Past Order Details</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="mt-4 flex flex-col gap-4 px-4">
+		<div class="flex flex-col gap-4 px-4">
 			<TextInputCard
 				title="Enclave Image URL"
 				value={enclaveUrl}

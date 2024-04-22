@@ -15,7 +15,7 @@
 		getBandwidthFromRateAndRegion,
 		getRateForProviderAndFilters
 	} from '$lib/utils/helpers/oysterHelpers';
-	import PaymentHistoryTable from '$lib/page-components/oyster/sub-components/PaymentHistoryTable.svelte';
+	import PaymentHistoryTable from '$lib/page-components/v2/oyster/sub-components/PaymentHistoryTable.svelte';
 	import { getInstanceMetadatDataForOperator } from '$lib/utils/data-modifiers/oysterModifiers';
 
 	export let modalFor: string;
@@ -54,9 +54,8 @@
 
 <Modal {modalFor} modalWidth="w-11/12 sm:max-w-[700px]" padding={false} isScrollable={true}>
 	<svelte:fragment slot="title">ORDER DETAILS</svelte:fragment>
-	<svelte:fragment slot="subtitle">View the details of your order</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="mt-10 flex flex-col gap-4 px-4">
+		<div class="flex flex-col gap-4">
 			<div data-testid="enclave-image-url" class="flex flex-col gap-4 sm:flex-row">
 				<TextInputCard
 					title="Enclave Image URL"
@@ -132,7 +131,7 @@
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<div class="w-full p-4">
+		<div class="w-full">
 			<ModalButton variant="filled" {modalFor} size="large" styleClass="btn-block my-0">
 				OK
 			</ModalButton>

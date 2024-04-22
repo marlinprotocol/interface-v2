@@ -83,6 +83,26 @@ const externalLinkIcon = '/images/externalLinkV2Icon.svg';
 const searchV2Icon = '/images/searchV2Icon.svg';
 const refreshV2Icon = '/images/refreshV2Icon.svg';
 const infoV2Icon = '/images/infoV2Icon.svg';
+const ankrLogo = '/images/ankr-blue-logo.png';
+const cradlesLogo = '/images/CradlesLogo.png';
+const brightlyStakeLogo = '/images/Brightlystakelogo.png';
+const midaSwapLogo = '/images/MidaswapLogo.png';
+const aspectaLogo = '/images/AspectaLogo.png';
+const echolinkLogo = '/images/EcholinkLogo.png';
+const publicAiLogo = '/images/PublicAIDarkLogo.png';
+const p2pLogo = '/images/p2p_logo_white.png';
+const t2t2Logo = '/images/T2T2Logo.png';
+const hashkeyCloudLogo = '/images/HashkeyCloudLogo.png';
+const nodeasyLogo = '/images/NodeEasyLogo.png';
+const chorusOneLogo = '/images/ChorusOneLogo.png';
+const availLogo = '/images/Avail-Logo-OnDark.3bbffcbf.png';
+const stafiLogo = '/images/StafiLogo.png';
+const sjtUniversityLogo = '/images/ShanghaiJiaoTongUniversityLogo.png';
+const goSleepLogo = '/images/GoSleepLogo.png';
+const infstones = '/images/InfstonesLogo.png';
+const staking4allLogo = '/images/Staking4AllLogo.png';
+const degoLogo = '/images/DegoFinance.png';
+const promLogo = '/images/PromLogo.png';
 
 export const staticImages = {
 	Alert,
@@ -166,5 +186,25 @@ export const staticImages = {
 	tick,
 	searchV2Icon,
 	refreshV2Icon,
-	infoV2Icon
+	infoV2Icon,
+	ankrLogo,
+	cradlesLogo,
+	brightlyStakeLogo,
+	midaSwapLogo,
+	aspectaLogo,
+	echolinkLogo,
+	publicAiLogo,
+	p2pLogo,
+	t2t2Logo,
+	hashkeyCloudLogo,
+	nodeasyLogo,
+	chorusOneLogo,
+	availLogo,
+	stafiLogo,
+	sjtUniversityLogo,
+	goSleepLogo,
+	infstones,
+	staking4allLogo,
+	degoLogo,
+	promLogo
 };

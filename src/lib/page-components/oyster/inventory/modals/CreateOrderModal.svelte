@@ -29,6 +29,7 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
+	import { ROUTES } from '$lib/utils/constants/v2/urls';
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
@@ -164,7 +165,7 @@
 		}
 		resetInputs();
 		closeModal(modalFor);
-		goto(OYSTER_OWNER_INVENTORY_URL);
+		goto(ROUTES.OYSTER_INVENTORY_URL);
 	};
 
 	const handleApproveClick = async () => {

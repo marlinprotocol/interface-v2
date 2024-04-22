@@ -17,7 +17,7 @@
 	const onBlurStyle = 'top-0 left-0 mt-1.5 font-medium';
 	const onFocusStyle = ' left-[12px] top-[-20px] mb-4 font-light';
 	const titleStyleInit =
-		'absolute z-10 cursor-text bg-white px-1 font-poppins  text-sm text-[#030115] transition-all';
+		'absolute  cursor-text bg-white px-1 font-poppins  text-sm text-[#030115] transition-all';
 
 	let titleStyle = onFocusStyle;
 
@@ -84,7 +84,7 @@
 			{onBlur}
 		/>
 		{#if !!suffix.length}
-			<Text text={suffix} styleClass="text-sm text-primary ml-1 mt-1" />
+			<Text text={suffix} styleClass="text-sm text-primary ml-1 " />
 		{/if}
 
 		<div class="w-fit">

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithTitle from '$lib/components/v2/inputs/AmountInputWithTitle.svelte';
-	import Select from '$lib/components/select/Select.svelte';
+	import Select from '$lib/components/v2/select/Select.svelte';
 	import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import {
 		DEFAULT_OYSTER_DURATION_UNIT,

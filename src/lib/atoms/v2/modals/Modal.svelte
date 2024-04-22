@@ -4,6 +4,7 @@
 
 	export let modalFor = '';
 	export let modalWidth = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
+	export let showOverFlow = true;
 	export let onClose: () => void = () => {
 		doNothing();
 	};
@@ -14,11 +15,15 @@
 <!-- removing input from tabbing order since its open and close behaviour is being controlled by label and close button respectively  -->
 <input type="checkbox" id={modalFor} class="modal-toggle" tabindex="-1" />
 <div data-testId="modal" class="modal">
-	<div class="{modalWidth} modal-box rounded-3xl bg-base-100 p-[24px] drop-shadow-sm">
+	<div
+		class="{modalWidth} modal-box rounded-3xl bg-base-100 p-[24px] drop-shadow-sm {showOverFlow
+			? 'overflow-y-auto'
+			: 'overflow-y-visible'} "
+	>
 		<div
 			class="modal-header sticky top-0 z-10 flex {$$slots.successmsg
 				? 'items-start'
-				: 'items-center'}  justify-between bg-white pb-4"
+				: 'items-center'}  mb-4 justify-between bg-white"
 		>
 			<div class="flex w-full flex-col">
 				{#if $$slots.icon}

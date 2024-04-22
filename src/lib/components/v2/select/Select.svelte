@@ -44,18 +44,20 @@
 	on:click={handleToggleShowAllSuggestions}
 	class="search-container relative flex w-fit cursor-pointer items-baseline"
 >
-	{#if showLabel}
-		<span class="mr-2 text-sm text-primary">{value}</span>
-	{/if}
-	<CollapseButton
-		isOpen={showSuggestions}
-		disabled={dataList.length === 0}
-		styleClass={buttonClasses.dropdownIcon}
-	/>
+	<div class="flex h-auto items-center">
+		{#if showLabel}
+			<span class="mr-2 text-sm text-primary">{value}</span>
+		{/if}
+		<CollapseButton
+			isOpen={showSuggestions}
+			disabled={dataList.length === 0}
+			styleClass={buttonClasses.dropdownIcon}
+		/>
+	</div>
 
 	{#if showSuggestions && suggestions.length > 0}
 		<ul
-			class="shadow-select-dropdown absolute right-[-17px] top-10 z-10 max-h-72 w-fit min-w-[150px] overflow-y-auto rounded-md bg-white text-base focus:outline-none sm:text-sm"
+			class="shadow-select-dropdown absolute right-[-17px] top-10 z-20 max-h-72 w-fit min-w-[150px] overflow-y-auto rounded-md bg-white text-base focus:outline-none sm:text-sm"
 		>
 			<div class="flex items-center justify-between px-8 py-4">
 				<Text variant="small" fontWeight="font-semibold" text={title ?? 'Select'} />

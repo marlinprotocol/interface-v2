@@ -30,7 +30,6 @@
 	let instanceCostScaled = 0n;
 	let invalidCost = false;
 	let durationUnitInSec: number;
-	//loading states
 	let submitLoading = false;
 	let approvedLoading = false;
 	let approved = false;
@@ -107,7 +106,7 @@
 	$: confirmEnable = isCreditJob ? approveEnable : approved && approveEnable;
 </script>
 
-<Modal {modalFor} onClose={resetInputs} padding={false}>
+<Modal {modalFor} onClose={resetInputs} padding={false} showOverFlow={false}>
 	<svelte:fragment slot="title">Add Funds</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-2">

@@ -183,9 +183,10 @@
 	$: inValidMessage = getInvalidMessage(instanceCostScaled, invalidCost, useMarlinCredits);
 </script>
 
-<div class="flex gap-2">
+<div class="flex gap-4">
 	<AmountInputWithTitle
 		title="Hourly Rate"
+		id="Hourly-Rate"
 		bind:inputAmountString={instanceRateString}
 		prefix={$oysterTokenMetadataStore.symbol}
 		handleUpdatedAmount={handleRateChange}
@@ -193,6 +194,7 @@
 	/>
 	<AmountInputWithTitle
 		title="Duration"
+		id="Duration"
 		bind:inputAmountString={durationString}
 		handleUpdatedAmount={handleDurationChange}
 		onlyInteger
@@ -210,6 +212,7 @@
 	</AmountInputWithTitle>
 	<AmountInputWithTitle
 		title={isTotalRate ? 'Total Cost' : 'Instance Cost'}
+		id="cost"
 		bind:inputAmountString={instanceCostString}
 		handleUpdatedAmount={handleCostChange}
 		suffix={useMarlinCredits

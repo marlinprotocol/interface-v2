@@ -9,6 +9,6 @@
 	$: variantClass = getInputCardVariant(variant);
 </script>
 
-<div data-testid="input-card" class={cn('w-full rounded-lg', variantClass, styleClass)}>
+<div data-testid="input-card" class={cn('w-fit rounded-lg', variantClass, styleClass)}>
 	<slot />
 </div>

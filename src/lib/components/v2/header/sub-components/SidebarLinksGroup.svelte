@@ -182,7 +182,7 @@
 	<div class={cn('my-8 rounded-2xl', { 'bg-[#F4F4F6]': $isNavOpen })}>
 		<ul>
 			{#each menuItems as item}
-				<MenuItem imgSrc={item.imgSrc} label={item.label} />
+				<MenuItem {...item} />
 			{/each}
 		</ul>
 		<div class="px-4 py-4">

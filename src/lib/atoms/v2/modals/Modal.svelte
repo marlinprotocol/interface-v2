@@ -15,12 +15,16 @@
 <input type="checkbox" id={modalFor} class="modal-toggle" tabindex="-1" />
 <div data-testId="modal" class="modal">
 	<div
-		class="{modalWidth} modal-box flex flex-col overflow-hidden rounded-3xl bg-base-100 p-0 drop-shadow-sm"
+		class={cn(
+			modalWidth,
+			'modal-box flex flex-col overflow-hidden rounded-3xl bg-base-100 p-0 drop-shadow-sm'
+		)}
 	>
 		<div
-			class="modal-header sticky top-0 z-10 flex p-6 {$$slots.successmsg
-				? 'items-start'
-				: 'items-center'}  justify-between bg-white pb-4"
+			class={cn(
+				$$slots.successmsg ? 'items-start' : 'items-center',
+				'modal-header sticky top-0 z-10 flex justify-between  bg-white p-6 pb-4'
+			)}
 		>
 			<div class="flex w-full flex-col">
 				{#if $$slots.icon}
@@ -72,7 +76,9 @@
 			<slot name="content" />
 		</div>
 		{#if $$slots.actionButtons}
-			<div class="modal-footer sticky bottom-0 bg-white px-6 pb-6 pt-4 {padding ? 'pt-8' : ''} ">
+			<div
+				class={cn(padding ? 'pt-8' : '', 'modal-footer sticky bottom-0 bg-white px-6 pb-6 pt-4')}
+			>
 				<slot name="actionButtons" />
 			</div>
 		{/if}

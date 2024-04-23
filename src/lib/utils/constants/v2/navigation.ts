@@ -4,14 +4,17 @@ import type { MenuItemType } from '$lib/types/v2/navigation';
 export const menuItems: MenuItemType[] = [
 	{
 		imgSrc: staticImages.developerChatIcon,
-		label: 'Developer Chat'
+		label: 'Developer Chat',
+		href: 'https://discord.com/invite/pdQZyyy'
 	},
 	{
 		imgSrc: staticImages.earthIcon,
-		label: 'Research Forum'
+		label: 'Research Forum',
+		href: 'https://research.marlin.org/'
 	},
 	{
 		label: 'Blog',
-		imgSrc: staticImages.blogIcon
+		imgSrc: staticImages.blogIcon,
+		href: 'https://blog.marlin.org/'
 	}
 ];

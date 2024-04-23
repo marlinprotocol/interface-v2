@@ -38,20 +38,14 @@
 				{
 					preFixLabel: 'Ethereum',
 					postFixLabel: 'Arbitrum',
-					href: ROUTES.ETH_HISTORY_PAGE_URL,
-					icon: activeLink.includes(ROUTES.ETH_HISTORY_PAGE_URL)
+					href: ROUTES.ETH_ARB_BRIDGE_LINK,
+					icon: activeLink.includes(ROUTES.ETH_ARB_BRIDGE_LINK)
 						? staticImages.dataTransferIconBlue
-						: staticImages.dataTransferIcon
+						: staticImages.dataTransferIcon,
+					openInNewTab: true
 				},
-				{ preFixLabel: 'Learn', href: ROUTES.BRIDGE_LEARN_MORE_DOC_LINK, openInNewTab: true }
+				{ preFixLabel: 'Learn', href: ROUTES.BRIDGE_LEARN_LINK, openInNewTab: true }
 			]
-		},
-		{
-			label: 'Governance',
-			href: ROUTES.GOVERNANCE_URL,
-			icon: activeLink.includes(ROUTES.GOVERNANCE_URL)
-				? staticImages.governanceIconBlue
-				: staticImages.governanceIcon
 		},
 		{
 			label: 'Relay',
@@ -60,10 +54,10 @@
 				: staticImages.relayIcon,
 			href: ROUTES.RELAY_URL,
 			children: [
-				{ preFixLabel: 'Clusters', href: ROUTES.RELAY_CLUSTERS_URL },
-				{ preFixLabel: 'Registration', href: ROUTES.RELAY_REGISTRATION_URL },
-				{ preFixLabel: 'Delegations', href: ROUTES.RELAY_DELEGATION_URL },
-				{ preFixLabel: 'Receivers', href: ROUTES.RELAY_RECEIVER_URL }
+				{ preFixLabel: 'Clusters', href: ROUTES.RELAY_CLUSTERS_LINK, openInNewTab: true },
+				{ preFixLabel: 'Registration', href: ROUTES.RELAY_REGISTRATION_LINK, openInNewTab: true },
+				{ preFixLabel: 'Delegations', href: ROUTES.RELAY_DELEGATION_LINK, openInNewTab: true },
+				{ preFixLabel: 'Receivers', href: ROUTES.RELAY_RECEIVER_LINK, openInNewTab: true }
 			]
 		},
 		{
@@ -75,8 +69,7 @@
 			children: [
 				{ preFixLabel: 'Marketplace', href: ROUTES.OYSTER_MARKETPLACE_URL },
 				{ preFixLabel: 'Operator', href: ROUTES.OYSTER_OPERATOR_URL },
-				{ preFixLabel: 'Inventory', href: ROUTES.OYSTER_INVENTORY_URL },
-				{ preFixLabel: 'Auditors', href: ROUTES.OYSTER_AUDITORS_URL }
+				{ preFixLabel: 'Inventory', href: ROUTES.OYSTER_INVENTORY_URL }
 			]
 		},
 		{
@@ -85,10 +78,7 @@
 				? staticImages.kalypsoIconBlue
 				: staticImages.kalypsoIcon,
 			href: ROUTES.KALYPSO_URL,
-			children: [
-				{ preFixLabel: 'Kalypso 1', href: ROUTES.KALYPSO_LINK_1_URL },
-				{ preFixLabel: 'Kalypso 2', href: ROUTES.KALYPSO_LINK_2_URL }
-			]
+			children: [{ preFixLabel: 'Dashboard', href: ROUTES.KALYPSO_LINK_1_URL }]
 		},
 		{
 			label: 'Ecosystem',
@@ -96,11 +86,6 @@
 			icon: activeLink.includes(ROUTES.ECOSYSTEM_URL)
 				? staticImages.ecosystemIconBlue
 				: staticImages.ecosystemIcon
-		},
-		{
-			label: 'FAQs',
-			href: ROUTES.FAQS_URL,
-			icon: activeLink.includes(ROUTES.FAQS_URL) ? staticImages.faqsIconBlue : staticImages.faqsIcon
 		}
 	];
 </script>
@@ -192,7 +177,7 @@
 	<div class={cn('my-8 rounded-2xl', { 'bg-[#F4F4F6]': $isNavOpen })}>
 		<ul>
 			{#each menuItems as item}
-				<MenuItem imgSrc={item.imgSrc} label={item.label} />
+				<MenuItem {...item} />
 			{/each}
 		</ul>
 		<div class="px-4 py-4">

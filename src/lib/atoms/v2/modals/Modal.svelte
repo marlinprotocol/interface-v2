@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { staticImages } from '$lib/components/images/staticImages';
-	import { closeModal, doNothing } from '$lib/utils/helpers/commonHelper';
+	import { closeModal, cn, doNothing } from '$lib/utils/helpers/commonHelper';
 
 	export let modalFor = '';
 	export let modalWidth = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
+	export let showOverFlow = true;
 	export let onClose: () => void = () => {
 		doNothing();
 	};
@@ -14,11 +15,17 @@
 <!-- removing input from tabbing order since its open and close behaviour is being controlled by label and close button respectively  -->
 <input type="checkbox" id={modalFor} class="modal-toggle" tabindex="-1" />
 <div data-testId="modal" class="modal">
-	<div class="{modalWidth} modal-box rounded-3xl bg-base-100 p-[24px] drop-shadow-sm">
+	<div
+		class={cn(
+			modalWidth,
+			'modal-box overflow-y-visible rounded-3xl bg-base-100 p-[24px] drop-shadow-sm',
+			{ 'overflow-y-auto': showOverFlow }
+		)}
+	>
 		<div
-			class="modal-header sticky top-0 z-10 flex {$$slots.successmsg
-				? 'items-start'
-				: 'items-center'}  justify-between bg-white pb-4"
+			class={cn('modal-header sticky top-0 z-10 mb-4  flex items-center justify-between bg-white', {
+				'items-start': $$slots.successmsg
+			})}
 		>
 			<div class="flex w-full flex-col">
 				{#if $$slots.icon}

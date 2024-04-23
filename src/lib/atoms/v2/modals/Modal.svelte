@@ -78,7 +78,9 @@
 		</div>
 		{#if $$slots.actionButtons}
 			<div
-				class={cn(padding ? 'pt-8' : '', 'modal-footer sticky bottom-0 bg-white px-6 pb-6 pt-4')}
+				class={cn('modal-footer sticky bottom-0 bg-white px-6 pb-6 pt-4', {
+					'pt-8': padding
+				})}
 			>
 				<slot name="actionButtons" />
 			</div>

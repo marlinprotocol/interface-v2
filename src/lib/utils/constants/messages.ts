@@ -11,9 +11,9 @@ export const MESSAGES = {
 			CREATED: 'Conversion in progress...'
 		},
 		INIT_STOP: {
-			SUCCESS: 'Rate revised',
-			FAILED: 'Rate revision failed',
-			CREATED: 'Initiating rate revision'
+			SUCCESS: 'Initiated stop',
+			FAILED: 'Initiate stop failed',
+			CREATED: 'Initiating stop'
 		},
 		STOP_JOB: {
 			SUCCESS: 'Job stopped',
@@ -31,9 +31,9 @@ export const MESSAGES = {
 			CREATED: 'Adding funds'
 		},
 		CANCEL_STOP: {
-			SUCCESS: 'Cancelled Rate Revision',
-			FAILED: 'Failed Cancelling Rate Revision',
-			CREATED: 'Cancelling rate Revision'
+			SUCCESS: 'Job canceled',
+			FAILED: 'Cancel failed',
+			CREATED: 'Cancelling job'
 		},
 		APPROVAL: {
 			SUCCESS: 'Approved',

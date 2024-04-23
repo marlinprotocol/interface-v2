@@ -23,7 +23,7 @@
 		)}
 	>
 		<div
-			class={cn('modal-header sticky top-0 z-10 mb-4  flex items-center justify-between bg-white', {
+			class={cn('modal-header sticky top-0 z-10  flex items-center justify-between bg-white', {
 				'items-start': $$slots.successmsg
 			})}
 		>
@@ -46,15 +46,23 @@
 						</div>
 					</div>
 				{/if}
-				<div class="text-left text-[15px] font-medium text-[#0a0e3099]">
-					<slot name="header" />
-				</div>
-				<div class="text-left text-[22px] font-medium tracking-[-1px]">
-					<slot name="title" />
-				</div>
-				<div class="mt-1 text-left text-[15px] font-medium text-[#767676]">
-					<slot name="subtitle" />
-				</div>
+				{#if $$slots.header}
+					<div class="text-left text-[15px] font-medium text-[#0a0e3099]">
+						<slot name="header" />
+					</div>
+				{/if}
+
+				{#if $$slots.title}
+					<div class="text-left text-[22px] font-medium tracking-[-1px]">
+						<slot name="title" />
+					</div>
+				{/if}
+
+				{#if $$slots.subtitle}
+					<div class="mt-1 text-left text-[15px] font-medium text-[#767676]">
+						<slot name="subtitle" />
+					</div>
+				{/if}
 			</div>
 			<button
 				data-testId="modal-close-button"
@@ -69,16 +77,15 @@
 		</div>
 		<div
 			class={cn(
-				'modal-body',
-				isScrollable ? 'flex flex-col overflow-y-auto overflow-x-hidden' : '',
-				'p-6'
+				'modal-body pt-4',
+				isScrollable ? 'flex flex-col overflow-y-auto overflow-x-hidden' : ''
 			)}
 		>
 			<slot name="content" />
 		</div>
 		{#if $$slots.actionButtons}
 			<div
-				class={cn('modal-footer sticky bottom-0 bg-white px-6 pb-6 pt-4', {
+				class={cn('modal-footer sticky bottom-0 bg-white pt-4', {
 					'pt-8': padding
 				})}
 			>

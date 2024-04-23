@@ -18,7 +18,7 @@
 <!-- class="{styleClass} {buttonClasses.iconLightBlue}" -->
 <button data-testid="collapse-button" {id} on:click={onclick} {disabled} class="w-max">
 	<img
-		class={cn(`${isOpen ? 'rotate-180' : 'rotate-0'}`, ' transform transition duration-200')}
+		class={cn('rotate-0 transform transition duration-200', { 'rotate-180': isOpen })}
 		src={staticImages.chevronDownIcon}
 		alt="Collapse Icon"
 	/>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { staticImages } from '$lib/components/images/staticImages';
-	import { closeModal, doNothing } from '$lib/utils/helpers/commonHelper';
+	import { closeModal, cn, doNothing } from '$lib/utils/helpers/commonHelper';
 
 	export let modalFor = '';
 	export let modalWidth = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
@@ -16,14 +16,16 @@
 <input type="checkbox" id={modalFor} class="modal-toggle" tabindex="-1" />
 <div data-testId="modal" class="modal">
 	<div
-		class="{modalWidth} modal-box rounded-3xl bg-base-100 p-[24px] drop-shadow-sm {showOverFlow
-			? 'overflow-y-auto'
-			: 'overflow-y-visible'} "
+		class={cn(
+			modalWidth,
+			'modal-box overflow-y-visible rounded-3xl bg-base-100 p-[24px] drop-shadow-sm',
+			{ 'overflow-y-auto': showOverFlow }
+		)}
 	>
 		<div
-			class="modal-header sticky top-0 z-10 flex {$$slots.successmsg
-				? 'items-start'
-				: 'items-center'}  mb-4 justify-between bg-white"
+			class={cn('modal-header sticky top-0 z-10 mb-4  flex items-center justify-between bg-white', {
+				'items-start': $$slots.successmsg
+			})}
 		>
 			<div class="flex w-full flex-col">
 				{#if $$slots.icon}

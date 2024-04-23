@@ -8,18 +8,16 @@ const HUB_DASHBOARD_URL = '/v2/dashboard';
 const BRIDGE_URL = '/v2/bridge';
 const POND_HISTORY_PAGE_URL = '/v2/bridge/pondToMPondHistory';
 const MPOND_HISTORY_PAGE_URL = '/v2/bridge/mPondToPondHistory';
-const ETH_HISTORY_PAGE_URL = '/v2/bridge/ethToArbHistory';
-const BRIDGE_LEARN_MORE_DOC_LINK = 'https://docs.marlin.org/docs/Learn/Bridges/';
-
-//governance
-const GOVERNANCE_URL = '/v2/governance';
+const ETH_ARB_BRIDGE_LINK =
+	'https://bridge.arbitrum.io/?destinationChain=arbitrum-one&sourceChain=ethereum';
+const BRIDGE_LEARN_LINK = 'https://docs.marlin.org/learn/bridges';
 
 //relay
 const RELAY_URL = '/v2/relay';
-const RELAY_CLUSTERS_URL = '/v2/relay/clusters';
-const RELAY_REGISTRATION_URL = '/v2/relay/registration';
-const RELAY_DELEGATION_URL = '/v2/relay/delegations';
-const RELAY_RECEIVER_URL = '/v2/relay/receiver/rewards';
+const RELAY_CLUSTERS_LINK = 'https://arb1.marlin.org/relay/operator';
+const RELAY_REGISTRATION_LINK = 'https://arb1.marlin.org/relay/operator/register';
+const RELAY_DELEGATION_LINK = 'https://arb1.marlin.org/relay/stash';
+const RELAY_RECEIVER_LINK = 'https://receivers.marlin.org/';
 
 //oyster
 const OYSTER_URL = '/v2/oyster';
@@ -32,8 +30,7 @@ const OYSTER_OPERATOR_JOBS_URL = '/v2/oyster/operator/jobs';
 
 //kalypso
 const KALYPSO_URL = '/v2/kalypso';
-const KALYPSO_LINK_1_URL = '/v2/kalypso/link-1';
-const KALYPSO_LINK_2_URL = '/v2/kalypso/link-2';
+const KALYPSO_LINK_1_URL = '/v2/kalypso';
 
 //ecosystem
 const ECOSYSTEM_URL = '/v2/ecosystem';
@@ -46,14 +43,13 @@ export const ROUTES = {
 	BRIDGE_URL,
 	POND_HISTORY_PAGE_URL,
 	MPOND_HISTORY_PAGE_URL,
-	ETH_HISTORY_PAGE_URL,
-	BRIDGE_LEARN_MORE_DOC_LINK,
-	GOVERNANCE_URL,
+	ETH_ARB_BRIDGE_LINK,
+	BRIDGE_LEARN_LINK,
 	RELAY_URL,
-	RELAY_CLUSTERS_URL,
-	RELAY_REGISTRATION_URL,
-	RELAY_DELEGATION_URL,
-	RELAY_RECEIVER_URL,
+	RELAY_CLUSTERS_LINK,
+	RELAY_REGISTRATION_LINK,
+	RELAY_DELEGATION_LINK,
+	RELAY_RECEIVER_LINK,
 	OYSTER_URL,
 	OYSTER_MARKETPLACE_URL,
 	OYSTER_OPERATOR_URL,
@@ -61,7 +57,6 @@ export const ROUTES = {
 	OYSTER_AUDITORS_URL,
 	KALYPSO_URL,
 	KALYPSO_LINK_1_URL,
-	KALYPSO_LINK_2_URL,
 	ECOSYSTEM_URL,
 	FAQS_URL,
 	OYSTER_INVENTORY_HISTORY_URL,

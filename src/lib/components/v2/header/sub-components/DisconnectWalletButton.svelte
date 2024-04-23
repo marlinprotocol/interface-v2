@@ -32,10 +32,7 @@
 	>
 		<img src={staticImages.discChainLog} alt="Metamask Logo" />
 		<div>
-			<span class="text-sm font-bold text-[#07617d]"
-				>{$chainStore?.chainDisplayName?.toLocaleUpperCase()}</span
-			>
-			<p class="text-2xs font-medium text-[#008295]">{shortAddress}</p>
+			<p class="text-sm font-medium text-[#030115]">{shortAddress}</p>
 		</div>
 	</ModalButton>
 </div>

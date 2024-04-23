@@ -4,6 +4,7 @@
 
 	export let modalFor = '';
 	export let modalWidth = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
+	export let showOverFlow = true;
 	export let onClose: () => void = () => {
 		doNothing();
 	};
@@ -17,14 +18,14 @@
 	<div
 		class={cn(
 			modalWidth,
-			'modal-box flex flex-col overflow-hidden rounded-3xl bg-base-100 p-0 drop-shadow-sm'
+			'modal-box overflow-y-visible rounded-3xl bg-base-100 p-[24px] drop-shadow-sm',
+			{ 'overflow-y-auto': showOverFlow }
 		)}
 	>
 		<div
-			class={cn(
-				$$slots.successmsg ? 'items-start' : 'items-center',
-				'modal-header sticky top-0 z-10 flex justify-between  bg-white p-6 pb-4'
-			)}
+			class={cn('modal-header sticky top-0 z-10 mb-4  flex items-center justify-between bg-white', {
+				'items-start': $$slots.successmsg
+			})}
 		>
 			<div class="flex w-full flex-col">
 				{#if $$slots.icon}

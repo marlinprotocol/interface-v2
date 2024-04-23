@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 	import Table from '$lib/atoms/v2/table/Table.svelte';
-	import TxnIcon from '$lib/components/icons/TxnIcon.svelte';
-	import InputCardWithEndButton from '$lib/components/v2/inputs/InputCardWithEndButton.svelte';
 	import type { OysterDepositHistoryDataModel } from '$lib/types/oysterComponentType';
 	import { OYSTER_PAYMENT_HISTORY_TABLE_HEADER } from '$lib/utils/constants/v2/oysterConstants';
 	import { bigNumberToString, epochSecToString } from '$lib/utils/helpers/conversionHelper';
@@ -15,7 +13,11 @@
 	export let tableData: OysterDepositHistoryDataModel[] = [];
 </script>
 
-<InputCardWithEndButton styleClass="bg-white" title="Transaction History">
+<div>
+	<div class="flex items-center justify-between">
+		<span class="text-base">Transaction History</span>
+		<Button variant="text" styleClass="text-primary text-base font-medium h-fit">See more</Button>
+	</div>
 	<div class="max-h-40 w-full overflow-y-auto overflow-x-hidden">
 		<Table
 			tableHeading={OYSTER_PAYMENT_HISTORY_TABLE_HEADER}
@@ -49,7 +51,4 @@
 			</tbody>
 		</Table>
 	</div>
-	<svelte:fragment slot="titleEndButton">
-		<Button variant="text" styleClass="text-primary">See more</Button>
-	</svelte:fragment>
-</InputCardWithEndButton>
+</div>

@@ -6,59 +6,59 @@ export const MESSAGES = {
 			FAILED: 'Uh-Oh, Transaction was not successful!'
 		},
 		CONVERSION: {
-			SUCCESS: 'Conversion Succeeded',
-			FAILED: 'Conversion Rejected',
-			CREATED: 'Conversing in progress...'
+			SUCCESS: 'Conversion successful',
+			FAILED: 'Rejected conversion',
+			CREATED: 'Conversion in progress...'
 		},
 		INIT_STOP: {
-			SUCCESS: 'Initiated Rate Revision',
-			FAILED: 'Failed Rate Revision',
-			CREATED: 'Initiating Rate Revision'
+			SUCCESS: 'Rate revised',
+			FAILED: 'Rate revision failed',
+			CREATED: 'Initiating rate revision'
 		},
 		STOP_JOB: {
-			SUCCESS: 'Stopped Job',
-			FAILED: 'Failed Stoping Job',
-			CREATED: 'Stoping Job'
+			SUCCESS: 'Job stopped',
+			FAILED: 'Job stop failed',
+			CREATED: 'Stopping Job'
 		},
 		WITHDRAW: {
-			SUCCESS: 'Withdrawal Successful',
-			FAILED: 'Failed Withdrawal',
+			SUCCESS: 'Withdrawal successful',
+			FAILED: 'Failed withdrawal',
 			CREATED: 'Withdrawal in progress'
 		},
 		ADD_FUND: {
-			SUCCESS: 'Adding Funds Successful',
-			FAILED: 'Failed Adding Funds',
-			CREATED: 'Adding Funds in progress'
+			SUCCESS: 'Adding funds successfully',
+			FAILED: 'Adding funds failed',
+			CREATED: 'Adding funds'
 		},
 		CANCEL_STOP: {
 			SUCCESS: 'Cancelled Rate Revision',
 			FAILED: 'Failed Cancelling Rate Revision',
-			CREATED: 'Cancelling Rate Revision'
+			CREATED: 'Cancelling rate Revision'
 		},
 		APPROVAL: {
-			SUCCESS: 'Approval Succeeded',
-			FAILED: 'Approval Rejected',
+			SUCCESS: 'Approved',
+			FAILED: 'Rejected',
 			CREATED: 'Approval in progress...'
 		},
 		DEPLOY: {
-			SUCCESS: 'Deploy Succeeded',
-			FAILED: 'Deploy Rejected',
-			CREATED: 'Deploy in progress...'
+			SUCCESS: 'Deployed successfully',
+			FAILED: 'Rejected deployment',
+			CREATED: 'Deployment in progress'
 		},
 		UNREGISTER_OPERATOR: {
-			SUCCESS: 'Removal successful',
-			FAILED: 'Removal failed',
-			CREATED: 'Removal in progress...'
+			SUCCESS: 'Unregistered',
+			FAILED: 'Unregistration failed',
+			CREATED: 'Unregistration in progress'
 		},
 		REGISTER_OPERATOR: {
-			SUCCESS: 'Register successful',
-			FAILED: 'Register failed',
-			CREATED: 'Register in progress...'
+			SUCCESS: 'Registration successful',
+			FAILED: 'Registration failed',
+			CREATED: 'Registration in progress'
 		},
 		UPDATE_OPERATOR: {
 			SUCCESS: 'Update successful',
 			FAILED: 'Update failed',
-			CREATED: 'Update in progress...'
+			CREATED: 'Update in progress'
 		},
 		ACTIONS: {
 			DEPOSIT: {

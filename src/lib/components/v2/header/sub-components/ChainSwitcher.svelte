@@ -12,6 +12,8 @@
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import chevronDown from 'svelte-awesome/icons/chevronDown';
 
+	let activeChainImage = staticImages.chainLogo;
+
 	function handleChainSwitch(chainId: number) {
 		if ($connected && chainId !== $chainStore.chainId) {
 			switchChain(chainId, $web3WalletStore[0].provider);
@@ -26,6 +28,13 @@
 			dropdown?.removeAttribute('open');
 		}
 	}
+
+	$: {
+		const activeChainId = $chainStore.chainId;
+		if (activeChainId !== null) {
+			activeChainImage = environment.valid_chains[activeChainId].chain_image;
+		}
+	}
 </script>
 
 <svelte:window on:click={(e) => closeSwitcherWhenClickedOutside(e)} />
@@ -38,7 +47,7 @@
 	>
 		<div class="flex items-center justify-center">
 			<div class="h-8 w-8">
-				<img src={staticImages.chainLogo} alt="current chain" />
+				<img src={activeChainImage} alt="current chain" />
 			</div>
 			<div class="ml-2">
 				<Icon data={chevronDown} size={10} iconColorClass="icon-primary" />

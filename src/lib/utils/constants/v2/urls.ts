@@ -35,9 +35,6 @@ const KALYPSO_LINK_1_URL = '/v2/kalypso';
 //ecosystem
 const ECOSYSTEM_URL = '/v2/ecosystem';
 
-//faqs
-const FAQS_URL = '/v2/faqs';
-
 export const ROUTES = {
 	HUB_DASHBOARD_URL,
 	BRIDGE_URL,
@@ -58,7 +55,6 @@ export const ROUTES = {
 	KALYPSO_URL,
 	KALYPSO_LINK_1_URL,
 	ECOSYSTEM_URL,
-	FAQS_URL,
 	OYSTER_INVENTORY_HISTORY_URL,
 	OYSTER_OPERATOR_JOBS_URL
 };

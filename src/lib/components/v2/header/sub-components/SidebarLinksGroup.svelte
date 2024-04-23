@@ -86,11 +86,6 @@
 			icon: activeLink.includes(ROUTES.ECOSYSTEM_URL)
 				? staticImages.ecosystemIconBlue
 				: staticImages.ecosystemIcon
-		},
-		{
-			label: 'FAQs',
-			href: ROUTES.FAQS_URL,
-			icon: activeLink.includes(ROUTES.FAQS_URL) ? staticImages.faqsIconBlue : staticImages.faqsIcon
 		}
 	];
 </script>

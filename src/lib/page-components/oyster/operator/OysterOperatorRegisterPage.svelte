@@ -17,6 +17,7 @@
 		updateProviderInOysterStore
 	} from '$lib/data-stores/oysterStore';
 	import { addToast } from '$lib/data-stores/toastStore';
+	import { addToast as addToastV2 } from '$lib/data-stores/v2/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { checkValidURL, sanitizeUrl } from '$lib/utils/helpers/commonHelper';
 	import edit from 'svelte-awesome/icons/edit';
@@ -60,9 +61,12 @@
 				disableCpURL = true;
 				registerLoading = false;
 			} else {
-				addToast({
+				addToastV2({
 					variant: 'error',
-					message: 'Please connect your wallet'
+					message: {
+						title: 'Connect Wallet',
+						description: 'Please connect your wallet'
+					}
 				});
 			}
 		} catch (error) {
@@ -92,9 +96,12 @@
 		} catch (error) {
 			updateLoading = false;
 			console.error(error);
-			addToast({
+			addToastV2({
 				variant: 'error',
-				message: 'Oops! Something went wrong.'
+				message: {
+					title: 'Unregistering Failed',
+					description: 'Oops! Something went wrong.'
+				}
 			});
 		}
 	};
@@ -114,9 +121,12 @@
 			registered = false;
 			initialInstances = [];
 			console.error(error);
-			addToast({
+			addToastV2({
 				variant: 'error',
-				message: 'Oops! Something went wrong.'
+				message: {
+					title: 'Unregistering Failed',
+					description: 'Oops! Something went wrong.'
+				}
 			});
 		}
 	};
@@ -225,16 +235,15 @@
 			openInstanceTable = true;
 		});
 
-		const isDisabledCpUrl = (connected:boolean, cpUrl:string) => {
-			if(connected) {
-				return Boolean(cpUrl)
-			} else {
-				return true;
-			}
+	const isDisabledCpUrl = (connected: boolean, cpUrl: string) => {
+		if (connected) {
+			return Boolean(cpUrl);
+		} else {
+			return true;
 		}
-		
-	$: disableCpURL =  isDisabledCpUrl($connected, registeredCpURL);
+	};
 
+	$: disableCpURL = isDisabledCpUrl($connected, registeredCpURL);
 </script>
 
 <ContainerCard>

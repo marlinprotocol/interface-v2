@@ -191,10 +191,6 @@ export const OYSTER_PAYMENT_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'AMOUNT',
 		id: 'amount'
-	},
-	{
-		title: 'TX HASH',
-		id: 'txHash'
 	}
 ];
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import Button from '$lib/atoms/buttons/Button.svelte';
+	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
@@ -29,6 +29,7 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
+	import { ROUTES } from '$lib/utils/constants/v2/urls';
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
@@ -164,7 +165,7 @@
 		}
 		resetInputs();
 		closeModal(modalFor);
-		goto(OYSTER_OWNER_INVENTORY_URL);
+		goto(ROUTES.OYSTER_INVENTORY_URL);
 	};
 
 	const handleApproveClick = async () => {
@@ -271,9 +272,7 @@
 
 <Modal {modalFor} onClose={resetInputs} padding={false} isScrollable={true}>
 	<svelte:fragment slot="title">CREATE ORDER</svelte:fragment>
-	<svelte:fragment slot="subtitle">
-		{subtitle}
-	</svelte:fragment>
+
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-2 px-4">
 			<MetadetailsForNewOrder

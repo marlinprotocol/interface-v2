@@ -5,6 +5,61 @@ export const MESSAGES = {
 			SUCCESS: 'Transaction successfully mined!',
 			FAILED: 'Uh-Oh, Transaction was not successful!'
 		},
+		CONVERSION: {
+			SUCCESS: 'Conversion successful',
+			FAILED: 'Rejected conversion',
+			CREATED: 'Conversion in progress...'
+		},
+		INIT_STOP: {
+			SUCCESS: 'Rate revised',
+			FAILED: 'Rate revision failed',
+			CREATED: 'Initiating rate revision'
+		},
+		STOP_JOB: {
+			SUCCESS: 'Job stopped',
+			FAILED: 'Job stop failed',
+			CREATED: 'Stopping Job'
+		},
+		WITHDRAW: {
+			SUCCESS: 'Withdrawal successful',
+			FAILED: 'Failed withdrawal',
+			CREATED: 'Withdrawal in progress'
+		},
+		ADD_FUND: {
+			SUCCESS: 'Adding funds successfully',
+			FAILED: 'Adding funds failed',
+			CREATED: 'Adding funds'
+		},
+		CANCEL_STOP: {
+			SUCCESS: 'Cancelled Rate Revision',
+			FAILED: 'Failed Cancelling Rate Revision',
+			CREATED: 'Cancelling rate Revision'
+		},
+		APPROVAL: {
+			SUCCESS: 'Approved',
+			FAILED: 'Rejected',
+			CREATED: 'Approval in progress...'
+		},
+		DEPLOY: {
+			SUCCESS: 'Deployed successfully',
+			FAILED: 'Rejected deployment',
+			CREATED: 'Deployment in progress'
+		},
+		UNREGISTER_OPERATOR: {
+			SUCCESS: 'Unregistered',
+			FAILED: 'Unregistration failed',
+			CREATED: 'Unregistration in progress'
+		},
+		REGISTER_OPERATOR: {
+			SUCCESS: 'Registration successful',
+			FAILED: 'Registration failed',
+			CREATED: 'Registration in progress'
+		},
+		UPDATE_OPERATOR: {
+			SUCCESS: 'Update successful',
+			FAILED: 'Update failed',
+			CREATED: 'Update in progress'
+		},
 		ACTIONS: {
 			DEPOSIT: {
 				/**

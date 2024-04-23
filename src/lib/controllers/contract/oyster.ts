@@ -19,12 +19,22 @@ export async function registerOysterInfrastructureProvider(controlPlaneUrl: stri
 		const errorTxnMessage = 'Unable to register as Oyster Infrastructure Provider.';
 		const parentFunctionName = 'registerOysterInfrastructureProvider';
 
+		const initiateTxnTitle = MESSAGES.TOAST.REGISTER_OPERATOR.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.REGISTER_OPERATOR.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.REGISTER_OPERATOR.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
+
 		const { txn } = await createTransaction(
 			() => oysterContract.providerAdd(controlPlaneUrl),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 		return txn;
 	} catch (error: any) {
@@ -39,13 +49,21 @@ export async function updateOysterInfrastructureProvider(controlPlaneUrl: string
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.UPDATE.UPDATED;
 		const errorTxnMessage = 'Unable to update Oyster Infrastructure Provider.';
 		const parentFunctionName = 'updateOysterInfrastructureProvider';
-
+		const initiateTxnTitle = MESSAGES.TOAST.UPDATE_OPERATOR.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.UPDATE_OPERATOR.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.UPDATE_OPERATOR.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 		const { txn } = await createTransaction(
 			() => oysterContract.providerUpdateWithCp(controlPlaneUrl),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 		return txn;
 	} catch (error: any) {
@@ -60,13 +78,21 @@ export async function removeOysterInfrastructureProvider() {
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.REMOVE.REMOVED;
 		const errorTxnMessage = 'Unable to remove Oyster Infrastructure Provider.';
 		const parentFunctionName = 'removeOysterInfrastructureProvider';
-
+		const initiateTxnTitle = MESSAGES.TOAST.UNREGISTER_OPERATOR.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.UNREGISTER_OPERATOR.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.UNREGISTER_OPERATOR.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 		const { txn } = await createTransaction(
 			() => oysterContract.providerRemove(),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 		return txn;
 	} catch (error: any) {
@@ -86,6 +112,14 @@ export async function createNewOysterJob(
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.CREATE_JOB.CREATED;
 		const errorTxnMessage = 'Unable to create new Oyster Job.';
 		const parentFunctionName = 'createNewOysterJob';
+		const initiateTxnTitle = MESSAGES.TOAST.DEPLOY.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.DEPLOY.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.DEPLOY.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 		// using "send" on the base contract method as we want a contractTransactionReceipt to
 		// get the jobId of the newly created job emitted as an event from the contract
 		const { txn, approveReciept } = await createTransaction(
@@ -93,7 +127,8 @@ export async function createNewOysterJob(
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 
 		return {
@@ -113,12 +148,21 @@ export async function stopOysterJob(jobId: BytesLike) {
 		const errorTxnMessage = 'Unable to stop Oyster Job.';
 		const parentFunctionName = 'stopOysterJob';
 
+		const initiateTxnTitle = MESSAGES.TOAST.STOP_JOB.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.STOP_JOB.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.STOP_JOB.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 		const { txn } = await createTransaction(
 			() => oysterContract.jobClose(jobId),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 
 		return txn;
@@ -134,13 +178,21 @@ export async function withdrawFundsFromOysterJob(jobId: BytesLike, amount: bigin
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.WITHDRAW_JOB.WITHDRAWN;
 		const errorTxnMessage = 'Unable to withdraw funds from Oyster Job.';
 		const parentFunctionName = 'withdrawFundsFromOysterJob';
-
+		const initiateTxnTitle = MESSAGES.TOAST.WITHDRAW.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.WITHDRAW.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.WITHDRAW.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 		const { txn } = await createTransaction(
 			() => oysterContract.jobWithdraw(jobId, amount),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 
 		return txn;
@@ -156,13 +208,21 @@ export async function addFundsToOysterJob(jobId: BytesLike, amount: bigint) {
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.ADD_FUNDS_JOB.FUNDS_ADDED;
 		const errorTxnMessage = 'Unable to add funds to Oyster Job.';
 		const parentFunctionName = 'addFundsToOysterJob';
-
+		const initiateTxnTitle = MESSAGES.TOAST.ADD_FUND.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.ADD_FUND.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.ADD_FUND.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 		const { txn } = await createTransaction(
 			() => oysterContract.jobDeposit(jobId, amount),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 
 		return txn;
@@ -178,13 +238,22 @@ export async function initiateRateReviseOysterJob(jobId: BytesLike, rate: bigint
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATED;
 		const errorTxnMessage = 'Unable to initiate rate revision for Oyster Job.';
 		const parentFunctionName = 'initiateRateReviseOysterJob';
+		const initiateTxnTitle = MESSAGES.TOAST.INIT_STOP.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.INIT_STOP.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.INIT_STOP.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 
 		const { txn } = await createTransaction(
 			() => oysterContract.jobReviseRateInitiate(jobId, rate),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 
 		return txn;
@@ -200,13 +269,21 @@ export async function cancelRateReviseOysterJob(jobId: BytesLike) {
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.CANCELLED;
 		const errorTxnMessage = 'Unable to cancel rate revision for Oyster Job.';
 		const parentFunctionName = 'cancelRateReviseOysterJob';
-
+		const initiateTxnTitle = MESSAGES.TOAST.CANCEL_STOP.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.CANCEL_STOP.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.CANCEL_STOP.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 		const { txn } = await createTransaction(
 			() => oysterContract.jobReviseRateCancel(jobId),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 
 		return txn;

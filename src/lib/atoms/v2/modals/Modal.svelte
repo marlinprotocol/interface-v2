@@ -67,11 +67,21 @@
 				<img src={staticImages.closeIcon} alt="Close" />
 			</button>
 		</div>
-		<div class="modal-body {isScrollable ? 'overflow-y-auto overflow-x-hidden' : ''} ">
+		<div
+			class={cn(
+				'modal-body',
+				isScrollable ? 'flex flex-col overflow-y-auto overflow-x-hidden' : '',
+				'p-6'
+			)}
+		>
 			<slot name="content" />
 		</div>
 		{#if $$slots.actionButtons}
-			<div class="modal-footer sticky bottom-0 bg-white {padding ? 'pt-8' : ''} ">
+			<div
+				class={cn('modal-footer sticky bottom-0 bg-white px-6 pb-6 pt-4', {
+					'pt-8': padding
+				})}
+			>
 				<slot name="actionButtons" />
 			</div>
 		{/if}

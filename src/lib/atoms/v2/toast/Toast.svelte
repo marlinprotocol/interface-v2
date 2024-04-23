@@ -21,8 +21,14 @@
 					<img src={toast.iconData} alt={toast.iconData} />
 				</div>
 				<span class="max-w-[330px] grow text-left text-sm">
-					<div class="font-poppins text-lg text-[#000000]">{toast.message.title}</div>
-					<p class="text-base font-light text-[#707070]">{toast.message.description}</p>
+					{#if toast.message.title}
+						<div class="font-poppins text-lg text-[#000000]">{toast.message.title}</div>
+					{/if}
+					{#if toast.message.description}
+						<p class="text-base font-light text-[#707070]">
+							{toast.message.description}
+						</p>
+					{/if}
 				</span>
 			</button>
 		{/each}

@@ -4,7 +4,7 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
-	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
+	import AmountInputWithMaxButton from '$lib/components/v2/inputs/AmountInputWithMaxButton.svelte';
 	import { DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import {
@@ -78,13 +78,12 @@
 	<svelte:fragment slot="title">Enter an amount</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
-			title="From"
+			currency="Pond"
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			maxAmountText={balanceText}
 			inputCardVariant="none"
 		>
-			<Text slot="input-end-button" text="MPond" fontWeight="font-medium" />
 			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
 		</AmountInputWithMaxButton>
 		<ErrorTextCard

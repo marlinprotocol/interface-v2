@@ -13,7 +13,9 @@
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
 	import HistoryTableCommon from './HistoryTableCommon.svelte';
 	import Pagination from '$lib/components/v2/pagination/Pagination.svelte';
-	import { cn } from '$lib/utils/helpers/commonHelper';
+	import { cn, getTxnUrl } from '$lib/utils/helpers/commonHelper';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { staticImages } from '$lib/components/images/staticImages';
 
 	export let historyData: PondToMPondHistoryDataModel[] | undefined;
 	export let loading = true;
@@ -40,10 +42,10 @@
 		tableTitle={{
 			backButton: {
 				firstText: 'MPond',
-				secondText: 'POND',
+				secondText: 'Pond',
 				href: ROUTES.BRIDGE_URL
 			},
-			title: 'POND to MPond Conversion History'
+			title: 'Pond to MPond conversion history'
 		}}
 		{loading}
 		{handleSortData}
@@ -54,7 +56,18 @@
 		{#if paginatedData?.length}
 			{#each paginatedData as row}
 				<tr class={cn(tableClasses.row, 'group h-16 hover:bg-base-200')}>
-					<td class={cn(tableClasses.cell, 'pl-4')}>{epochSecToString(row.timestamp)}</td>
+					<td class={tableClasses.cell}
+						><div class="flex items-center gap-2 pl-4">
+							{epochSecToString(row.timestamp)}<a
+								class="shrink-0 opacity-0 group-hover:opacity-100"
+								href={getTxnUrl($chainConfigStore.block_explorer_url, row.transactionHash)}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<img src={staticImages.externalLinkIcon} alt="txn link" width="18px" />
+							</a>
+						</div></td
+					>
 					<td class={tableClasses.cell}
 						>{bigNumberToString(row.pondConverted, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}</td
 					>

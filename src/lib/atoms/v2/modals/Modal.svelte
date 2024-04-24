@@ -17,8 +17,8 @@
 <div data-testId="modal" class="modal">
 	<div
 		class={cn(
-			modalWidth,
 			'modal-box overflow-y-visible rounded-3xl bg-base-100 p-[24px] drop-shadow-sm',
+			modalWidth,
 			{ 'overflow-y-auto': showOverFlow }
 		)}
 	>

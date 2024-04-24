@@ -103,6 +103,10 @@ const infstones = '/images/InfstonesLogo.png';
 const staking4allLogo = '/images/Staking4AllLogo.png';
 const degoLogo = '/images/DegoFinance.png';
 const promLogo = '/images/PromLogo.png';
+const calendarIcon = '/images/calendar.svg';
+const checkmarkCircleIcon = '/images/checkmark-circle.svg';
+const clock = '/images/clock.svg';
+const loadingIcon = '/images/loading.svg';
 
 export const staticImages = {
 	Alert,
@@ -206,5 +210,9 @@ export const staticImages = {
 	infstones,
 	staking4allLogo,
 	degoLogo,
-	promLogo
+	promLogo,
+	calendarIcon,
+	checkmarkCircleIcon,
+	clock,
+	loadingIcon
 };

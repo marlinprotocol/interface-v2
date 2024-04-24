@@ -38,6 +38,7 @@ export type MPondToPondHistoryDataModel = {
 	eligibleCycles: MPondEligibleCyclesModel[];
 	currentCycle: number;
 	requestEpoch: bigint;
+	endTimestamp: number;
 };
 
 export type MPondToPondConversionModel = {

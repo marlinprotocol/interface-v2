@@ -228,24 +228,10 @@
 	};
 
 	$: disableCpURL = isDisabledCpUrl($connected, registeredCpURL);
-	// let activeTab: 'details' | 'history' = 'details';
-	// const toggleActiveTab = () => {
-	// 	if (activeTab === 'details') {
 
-	// 		// activeTab = 'history';
-	// 	} else {
-	// 		// activeTab = 'details';
-	// 	}
-	// };
-	// $: historyActive = activeTab === 'history';
-	// $: detailsActive = activeTab === 'details';
-	// const inactiveClasses = 'bg-white font-light text-[#A8A8A8]';
 	$: path = $page.url.pathname;
-	$: detailsActive = path === '/v2/oyster/operator/jobs/';
-	$: historyActive = path === '/v2/oyster/operator/jobs/history/';
-
-	console.log({ registered });
-	console.log({ connected: $connected });
+	$: detailsActive = path === ROUTES.OYSTER_OPERATOR_JOBS_URL + '/';
+	$: historyActive = path === ROUTES.OYSTER_INVENTORY_HISTORY_URL + '/';
 </script>
 
 <div>

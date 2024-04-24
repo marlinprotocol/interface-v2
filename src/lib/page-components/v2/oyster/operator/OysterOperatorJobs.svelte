@@ -1,7 +1,5 @@
 <script lang="ts">
 	import Pagination from '$lib/components/v2/pagination/Pagination.svelte';
-	import SearchBar from '$lib/components/v2/search/SearchBar.svelte';
-	import PageTitle from '$lib/components/v2/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import OysterOperatorJobsTableRow from '$lib/page-components/v2/oyster/operator/OysterOperatorJobsTableRow.svelte';
 	import type {
@@ -57,13 +55,6 @@
 	);
 </script>
 
-<PageTitle title="My Job List" backHref={ROUTES.OYSTER_OPERATOR_URL} />
-<div class="mb-6 flex items-center gap-4">
-	<SearchBar {onSearchClick} bind:input={searchInput} placeholder="Search" styleClass="w-full" />
-	<a href={ROUTES.OYSTER_OPERATOR_HISTORY_URL}>
-		<div class="{buttonClasses.outlined} h-12 whitespace-nowrap">ORDER HISTORY</div>
-	</a>
-</div>
 <OysterTableCommon
 	{handleSortData}
 	tableHeading={OYSTER_MERCHANT_JOB_TABLE_HEADER}

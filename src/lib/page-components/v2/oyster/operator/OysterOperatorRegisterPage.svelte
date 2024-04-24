@@ -17,7 +17,6 @@
 	} from '$lib/data-stores/oysterStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
-	import { checkValidURL, sanitizeUrl } from '$lib/utils/helpers/commonHelper';
 	import edit from 'svelte-awesome/icons/edit';
 	import InstancesTable from '$lib/page-components/oyster/sub-components/InstancesTable.svelte';
 	import {
@@ -39,6 +38,9 @@
 	import PageTitle from '$lib/components/v2/texts/PageTitle.svelte';
 	import { shortenText } from '$lib/utils/helpers/conversionHelper';
 	import Text from '$lib/atoms/v2/texts/Text.svelte';
+	import OysterOperatorJobsHistory from './OysterOperatorJobsHistory.svelte';
+	import OysterOperatorJobs from '$lib/page-components/v2/oyster/operator/OysterOperatorJobs.svelte';
+	import { checkValidURL, cn, sanitizeUrl } from '$lib/utils/helpers/commonHelper';
 
 	let enableRegisterButton = false;
 	let updatedCpURL = '';
@@ -237,6 +239,17 @@
 	};
 
 	$: disableCpURL = isDisabledCpUrl($connected, registeredCpURL);
+	let activeTab: 'details' | 'history' = 'details';
+	const toggleActiveTab = () => {
+		if (activeTab === 'details') {
+			activeTab = 'history';
+		} else {
+			activeTab = 'details';
+		}
+	};
+	$: historyActive = activeTab === 'history';
+	$: detailsActive = activeTab === 'details';
+	const inactiveClasses = 'bg-white font-light text-[#A8A8A8]';
 </script>
 
 <div>
@@ -316,5 +329,32 @@
 				<ConnectWalletButton isLarge={true} />
 			{/if}
 		</div>
+	{/if}
+
+	<div class="mt-[40px] inline-block gap-[10px] rounded-tl-[18px] rounded-tr-[18px] bg-white">
+		<button
+			on:click={toggleActiveTab}
+			class={cn('w-[172px] rounded-tl-[18px] rounded-tr-[18px] py-[27px]', {
+				'bg-white font-light text-[#A8A8A8]': historyActive,
+				'bg-[#F0F0F0] font-medium text-primary': detailsActive
+			})}
+		>
+			Details
+		</button>
+		<button
+			on:click={toggleActiveTab}
+			class={cn('w-[172px] rounded-tl-[18px] rounded-tr-[18px] py-[27px]', {
+				'bg-white font-light text-[#A8A8A8]': detailsActive,
+				'bg-[#F0F0F0] font-medium text-primary': historyActive
+			})}
+		>
+			History
+		</button>
+	</div>
+	{#if historyActive}
+		<OysterOperatorJobsHistory />
+	{/if}
+	{#if detailsActive}
+		<OysterOperatorJobs />
 	{/if}
 </div>

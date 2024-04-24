@@ -98,6 +98,20 @@ export const getColorHexByVariant = (variant: CommonVariant | undefined) => {
 			return '';
 	}
 };
+export const getColorHexByVariantForTag = (variant: CommonVariant | undefined) => {
+	switch (variant) {
+		case 'primary':
+			return '#0F62FE';
+		case 'success':
+			return '#F4F9F0';
+		case 'warning':
+			return '#FCEFD4';
+		case 'error':
+			return '#FEE6E6';
+		default:
+			return '';
+	}
+};
 
 // -------------------------------------------- USER INTERACTION HELPERS ----------------------------------------
 export const handleCopyClick = (text: string | undefined, successMessage: string) => {

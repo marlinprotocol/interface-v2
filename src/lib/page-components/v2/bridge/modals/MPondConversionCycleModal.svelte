@@ -19,10 +19,48 @@
 	export let modalFor: string;
 </script>
 
-<Modal {modalFor} isScrollable>
+<Modal {modalFor} isScrollable modalWidth="w-[642px] max-w-none">
 	<svelte:fragment slot="title">Conversion Cycle</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="mb-8 flex w-full flex-row">
+		<div class="flex items-center justify-between gap-2">
+			<div
+				class="flex h-52 w-36 flex-col items-center justify-center rounded-xl bg-[#F4F4F6] text-[#030115]"
+			>
+				<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#2DB8E3]">
+					<img src={staticImages.checkmarkCircleIcon} alt="Eligible" />
+				</div>
+				<span class="mt-4 text-lg font-light leading-5">Eligible</span>
+				<span class="text-xl font-semibold">10,000.00</span>
+			</div>
+			<div
+				class="flex h-52 w-36 flex-col items-center justify-center rounded-xl bg-[#F4F4F6] text-[#030115]"
+			>
+				<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#F2C25E]">
+					<img src={staticImages.loadingIcon} alt="In Process" />
+				</div>
+				<span class="mt-4 text-lg font-light leading-5">In Process</span>
+				<span class="text-xl font-semibold">10,000.00</span>
+			</div>
+			<div
+				class="flex h-52 w-36 flex-col items-center justify-center rounded-xl bg-[#F4F4F6] text-[#030115]"
+			>
+				<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#F2675E]">
+					<img src={staticImages.clock} alt="Pending" />
+				</div>
+				<span class="mt-4 text-lg font-light leading-5">Pending</span>
+				<span class="text-xl font-semibold">10,000.00</span>
+			</div>
+			<div
+				class="flex h-52 w-36 flex-col items-center justify-center rounded-xl bg-[#F4F4F6] text-[#030115]"
+			>
+				<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#B4B6B6]">
+					<img src={staticImages.calendarIcon} alt="End of cycle" />
+				</div>
+				<span class="mt-4 text-lg font-light leading-5">End of cycle</span>
+				<span class="text-xl font-semibold">12/12/2024</span>
+			</div>
+		</div>
+		<!-- <div class="mb-8 flex w-full flex-row">
 			{#each MPOND_CONVERSION_CYCLE_TABLE_HEADER as headingData, i}
 				<div class="flex-1">
 					<TableHeadingText
@@ -88,6 +126,6 @@
 					{/each}
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</svelte:fragment>
 </Modal>

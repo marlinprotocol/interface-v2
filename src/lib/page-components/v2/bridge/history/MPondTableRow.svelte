@@ -86,7 +86,8 @@
 		pondEligible,
 		conversionHistory,
 		requestEpoch,
-		mpondConverted
+		mpondConverted,
+		endTimestamp
 	} = rowData);
 
 	$: cancelDisabled =
@@ -145,9 +146,10 @@
 			<Tooltip>
 				<MPondConversionCycleButton
 					slot="tooltipIcon"
-					{eligibleCycles}
-					{endEpochTime}
-					{currentCycle}
+					{pondEligible}
+					{pondInProcess}
+					{pondPending}
+					{endTimestamp}
 					modalFor="mpond-conversion-cycle-modal-{rowIndex}"
 				/>
 				<span slot="tooltipContent">Conversion Cycle</span>

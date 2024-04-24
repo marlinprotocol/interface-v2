@@ -262,7 +262,6 @@
 			<p class="pb-3 text-base font-normal">Control Plane:</p>
 			<TextInputWithEndButton
 				styleClass="w-full bg-[#F4F4F6] py-4 rounded-[100px]"
-				title=""
 				placeholder="Paste URL here"
 				bind:input={updatedCpURL}
 			>

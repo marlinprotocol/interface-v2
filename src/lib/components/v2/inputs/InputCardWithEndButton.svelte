@@ -13,12 +13,12 @@
 <svelte:window bind:innerWidth />
 <InputCard {styleClass}>
 	<div class="flex items-center justify-between">
-		<!-- <div class="flex items-center gap-1">
+		<div class="flex items-center gap-1">
 			<Text variant="small" text={title} />
 			{#if !!tooltipText}
 				<TooltipIcon {tooltipText} />
 			{/if}
-		</div> -->
+		</div>
 		<slot name="titleEndButton" />
 	</div>
 	<div class="flex items-center justify-between">

@@ -16,6 +16,5 @@
 		fontWeight="font-medium"
 		text={title}
 	/>
-	<slot name="title" />
 	<slot name="button" />
 </div>

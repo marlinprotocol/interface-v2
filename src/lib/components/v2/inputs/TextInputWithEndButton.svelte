@@ -5,7 +5,7 @@
 
 	export let styleClass = '';
 	export let tooltipText = '';
-	export let title: string;
+	export let title = '';
 	export let placeholder = '';
 	export let disabled = false;
 	export let input: string;

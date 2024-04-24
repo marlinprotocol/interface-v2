@@ -14,6 +14,11 @@
 	} from '$lib/data-stores/walletProviderStore';
 	import type { Address } from '$lib/types/storeTypes';
 	import { modifyOysterJobData } from '$lib/utils/data-modifiers/oysterModifiers';
+	import { getProviderDetailsFromSubgraph } from '$lib/controllers/subgraphController';
+	import {
+		initializeProviderDataInOysterStore,
+		resetOysterStore
+	} from '$lib/data-stores/oysterStore';
 
 	let previousChainId: number | null = null;
 	let previousWalletAddress: Address = '';
@@ -48,12 +53,25 @@
 		}
 	}
 
+	async function loadProviderDetails() {
+		console.log('fetching operator details');
+		const providerDetails = await getProviderDetailsFromSubgraph($walletStore.address);
+		// updating the oyster store with provider details and registered
+		if (providerDetails !== undefined && providerDetails !== null) {
+			initializeProviderDataInOysterStore(providerDetails);
+		} else {
+			resetOysterStore();
+		}
+		console.log('operator details loaded');
+	}
+
 	$: if ($connected) {
 		if (
 			walletAddressHasChanged($walletStore.address, previousWalletAddress) ||
 			chainIdHasChanged($chainStore.chainId, previousChainId)
 		) {
 			fetchOysterMerchantJobs();
+			loadProviderDetails();
 			previousChainId = $chainStore.chainId;
 			previousWalletAddress = $walletStore.address;
 		}

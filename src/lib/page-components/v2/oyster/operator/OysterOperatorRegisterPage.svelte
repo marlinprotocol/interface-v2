@@ -1,10 +1,9 @@
 <script lang="ts">
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
-	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
-	import Icon from '$lib/atoms/icons/Icon.svelte';
+	import { page } from '$app/stores';
+
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
-	import { staticImages } from '$lib/components/images/staticImages';
 	import TextInputWithEndButton from '$lib/components/v2/inputs/TextInputWithEndButton.svelte';
 	import {
 		getInstancesFromControlPlaneUsingCpUrl,
@@ -17,13 +16,6 @@
 	} from '$lib/data-stores/oysterStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
-	import edit from 'svelte-awesome/icons/edit';
-	import InstancesTable from '$lib/page-components/oyster/sub-components/InstancesTable.svelte';
-	import {
-		OYSTER_OPERATOR_JOBS_URL,
-		OYSTER_DOC_LINK,
-		DISCORD_LINK
-	} from '$lib/utils/constants/urls';
 
 	import { getModifiedInstances } from '$lib/utils/data-modifiers/oysterModifiers';
 	import {
@@ -35,11 +27,8 @@
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
-	import PageTitle from '$lib/components/v2/texts/PageTitle.svelte';
 	import { shortenText } from '$lib/utils/helpers/conversionHelper';
 	import Text from '$lib/atoms/v2/texts/Text.svelte';
-	import OysterOperatorJobsHistory from './OysterOperatorJobsHistory.svelte';
-	import OysterOperatorJobs from '$lib/page-components/v2/oyster/operator/OysterOperatorJobs.svelte';
 	import { checkValidURL, cn, sanitizeUrl } from '$lib/utils/helpers/commonHelper';
 
 	let enableRegisterButton = false;
@@ -239,17 +228,24 @@
 	};
 
 	$: disableCpURL = isDisabledCpUrl($connected, registeredCpURL);
-	let activeTab: 'details' | 'history' = 'details';
-	const toggleActiveTab = () => {
-		if (activeTab === 'details') {
-			activeTab = 'history';
-		} else {
-			activeTab = 'details';
-		}
-	};
-	$: historyActive = activeTab === 'history';
-	$: detailsActive = activeTab === 'details';
-	const inactiveClasses = 'bg-white font-light text-[#A8A8A8]';
+	// let activeTab: 'details' | 'history' = 'details';
+	// const toggleActiveTab = () => {
+	// 	if (activeTab === 'details') {
+
+	// 		// activeTab = 'history';
+	// 	} else {
+	// 		// activeTab = 'details';
+	// 	}
+	// };
+	// $: historyActive = activeTab === 'history';
+	// $: detailsActive = activeTab === 'details';
+	// const inactiveClasses = 'bg-white font-light text-[#A8A8A8]';
+	$: path = $page.url.pathname;
+	$: detailsActive = path === '/v2/oyster/operator/jobs/';
+	$: historyActive = path === '/v2/oyster/operator/jobs/history/';
+
+	console.log({ registered });
+	console.log({ connected: $connected });
 </script>
 
 <div>
@@ -331,30 +327,24 @@
 		</div>
 	{/if}
 
-	<div class="mt-[40px] inline-block gap-[10px] rounded-tl-[18px] rounded-tr-[18px] bg-white">
-		<button
-			on:click={toggleActiveTab}
-			class={cn('w-[172px] rounded-tl-[18px] rounded-tr-[18px] py-[27px]', {
+	<div class="mt-[40px] flex w-min gap-[10px] rounded-tl-[18px] rounded-tr-[18px] bg-white">
+		<a
+			href={ROUTES.OYSTER_OPERATOR_JOBS_URL}
+			class={cn('block w-[172px] rounded-tl-[18px] rounded-tr-[18px] py-[27px] text-center', {
 				'bg-white font-light text-[#A8A8A8]': historyActive,
 				'bg-[#F0F0F0] font-medium text-primary': detailsActive
 			})}
 		>
 			Details
-		</button>
-		<button
-			on:click={toggleActiveTab}
-			class={cn('w-[172px] rounded-tl-[18px] rounded-tr-[18px] py-[27px]', {
+		</a>
+		<a
+			href={ROUTES.OYSTER_OPERATOR_HISTORY_URL}
+			class={cn('block w-[172px] rounded-tl-[18px] rounded-tr-[18px] py-[27px] text-center', {
 				'bg-white font-light text-[#A8A8A8]': detailsActive,
 				'bg-[#F0F0F0] font-medium text-primary': historyActive
 			})}
 		>
 			History
-		</button>
+		</a>
 	</div>
-	{#if historyActive}
-		<OysterOperatorJobsHistory />
-	{/if}
-	{#if detailsActive}
-		<OysterOperatorJobs />
-	{/if}
 </div>

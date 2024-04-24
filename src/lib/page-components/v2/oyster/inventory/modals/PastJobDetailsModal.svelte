@@ -42,7 +42,7 @@
 <Modal isScrollable {modalFor} modalWidth="w-11/12 sm:max-w-[700px]" padding={false}>
 	<svelte:fragment slot="title">Past Order Details</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex flex-col gap-4 px-4">
+		<div class="flex flex-col gap-4">
 			<TextInputCard
 				title="Enclave Image URL"
 				value={enclaveUrl}
@@ -85,17 +85,15 @@
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<div class="p-4">
-			<div class="w-full">
-				<Button
-					variant="filled"
-					size="large"
-					styleClass="btn-block w-full my-0"
-					onclick={handleRedeploy}
-				>
-					REDEPLOY
-				</Button>
-			</div>
+		<div class="w-full">
+			<Button
+				variant="filled"
+				size="large"
+				styleClass="btn-block w-full my-0"
+				onclick={handleRedeploy}
+			>
+				REDEPLOY
+			</Button>
 		</div>
 	</svelte:fragment>
 </Modal>

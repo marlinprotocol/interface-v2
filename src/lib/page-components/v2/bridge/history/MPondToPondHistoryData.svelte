@@ -3,7 +3,6 @@
 	import { MPOND_TO_POND_TABLE_HEADER } from '$lib/utils/constants/v2/bridgeConstants';
 	import HistoryTableCommon from '$lib/page-components/v2/bridge/history/HistoryTableCommon.svelte';
 	import MPondTableRow from '$lib/page-components/v2/bridge/history/MPondTableRow.svelte';
-	import { POND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 	import Pagination from '$lib/components/v2/pagination/Pagination.svelte';
@@ -38,7 +37,7 @@
 				secondText: 'MPond',
 				href: ROUTES.BRIDGE_URL
 			},
-			title: 'MPond to POND conversion history'
+			title: 'MPond to Pond conversion history'
 		}}
 		{loading}
 		{handleSortData}

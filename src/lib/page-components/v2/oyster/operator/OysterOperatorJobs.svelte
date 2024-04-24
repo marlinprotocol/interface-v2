@@ -55,35 +55,14 @@
 		(activePage - 1) * TABLE_ITEMS_PER_PAGE,
 		activePage * TABLE_ITEMS_PER_PAGE
 	);
-	const cmnBtnClass = 'w-48 h-14 text-base';
 </script>
 
 <PageTitle title="My Job List" backHref={ROUTES.OYSTER_OPERATOR_URL} />
-<div class="mb-6 gap-4 rounded-3xl bg-white px-8 py-6">
-	<p class="mb-3 text-base">Control Plane:</p>
-	<SearchBar
-		{onSearchClick}
-		bind:input={searchInput}
-		placeholder="Search"
-		styleClass="w-full bg-[#F4F4F6]"
-	>
-		<svelte:fragment slot="buttons">
-			<div
-				class=" flex w-fit justify-between rounded-[100px] bg-white p-4 px-5 text-base font-normal"
-			>
-				<p class="border-r pr-3">Instances: 200</p>
-				<p class="pl-3">Regions: 30</p>
-			</div>
-		</svelte:fragment>
-	</SearchBar>
-	<div class="mt-3 flex items-center gap-3">
-		<a href={ROUTES.OYSTER_OPERATOR_HISTORY_URL}>
-			<div class={cn(buttonClasses.filled, cmnBtnClass)}>Update</div>
-		</a>
-		<a href={ROUTES.OYSTER_OPERATOR_HISTORY_URL}>
-			<div class={cn(buttonClasses.whiteFilled, cmnBtnClass)}>Unregister</div>
-		</a>
-	</div>
+<div class="mb-6 flex items-center gap-4">
+	<SearchBar {onSearchClick} bind:input={searchInput} placeholder="Search" styleClass="w-full" />
+	<a href={ROUTES.OYSTER_OPERATOR_HISTORY_URL}>
+		<div class="{buttonClasses.outlined} h-12 whitespace-nowrap">ORDER HISTORY</div>
+	</a>
 </div>
 <OysterTableCommon
 	{handleSortData}

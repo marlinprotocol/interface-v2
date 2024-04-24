@@ -10,16 +10,11 @@
 	export let styleClass = '';
 	export let onSearchClick: (() => void) | undefined = undefined;
 	export let label: string = '';
-
-	const isButtonSlotExists = $$slots.buttons;
 </script>
 
 <InputCard
 	variant="search"
-	styleClass={cn(
-		'relative flex gap-4 items-center justify-between border border-[#D9DADE]',
-		styleClass
-	)}
+	styleClass={cn('relative flex gap-4 items-center border border-[#D9DADE]', styleClass)}
 >
 	{#if label}
 		<p
@@ -28,20 +23,14 @@
 			{label}
 		</p>
 	{/if}
-	<div class="flex gap-4">
-		<img src={staticImages.searchV2Icon} alt="Search Icon" class="h-6 w-6" />
-		<input
-			prefix="0x"
-			bind:value={input}
-			on:click={(e) => onSearchClick?.()}
-			id="address-display"
-			class={cn(inputClasses.searchInputText, 'hideInputNumberAppearance')}
-			{placeholder}
-			{disabled}
-		/>
-	</div>
-
-	{#if isButtonSlotExists}
-		<slot name="buttons" />
-	{/if}
+	<img src={staticImages.searchV2Icon} alt="Search Icon" class="h-6 w-6" />
+	<input
+		prefix="0x"
+		bind:value={input}
+		on:click={(e) => onSearchClick?.()}
+		id="address-display"
+		class={cn(inputClasses.searchInputText, 'hideInputNumberAppearance')}
+		{placeholder}
+		{disabled}
+	/>
 </InputCard>

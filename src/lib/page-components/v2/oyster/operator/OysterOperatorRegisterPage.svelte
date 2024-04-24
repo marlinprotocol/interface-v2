@@ -262,58 +262,59 @@
 			{/if}
 		{/if}
 	</div>
-
-	<div class="rounded-3xl bg-white px-8 py-6">
-		<p class="pb-3 text-base font-normal">Control Plane:</p>
-		<TextInputWithEndButton
-			styleClass="w-full bg-[#F4F4F6] py-4 rounded-[100px]"
-			title=""
-			placeholder="Paste URL here"
-			bind:input={updatedCpURL}
-		>
-			<svelte:fragment slot="endInfoBox">
-				<div
-					class="flex w-full max-w-[300px] items-center justify-between gap-3 rounded-[100px] bg-white px-[18px] py-4"
-				>
-					<p>Instances: 200</p>
-					<Divider direction="divider-vertical" />
-					<p>Instances: 200</p>
-				</div>
-			</svelte:fragment>
-		</TextInputWithEndButton>
-		<ErrorTextCard
-			showError={!validCPUrl && updatedCpURL !== ''}
-			errorMessage="Invalid control plane URL. Make sure to use the full URL along with http:// or https:// and remove any trailing slashes."
-		/>
-
-		<div class="mt-4" />
-		{#if $connected}
-			{#if registered}
-				<div class="flex gap-4">
-					<Button
-						variant="filled"
-						size="large"
-						styleClass="w-[190.5px]"
-						disabled={!validCPUrl || registeredCpURL === updatedCpURL || !enableRegisterButton}
-						onclick={handleOnUpdate}
-						loading={updateLoading}
+	{#if registered}
+		<div class="rounded-3xl bg-white px-8 py-6">
+			<p class="pb-3 text-base font-normal">Control Plane:</p>
+			<TextInputWithEndButton
+				styleClass="w-full bg-[#F4F4F6] py-4 rounded-[100px]"
+				title=""
+				placeholder="Paste URL here"
+				bind:input={updatedCpURL}
+			>
+				<svelte:fragment slot="endInfoBox">
+					<div
+						class="flex w-full max-w-[300px] items-center justify-between gap-3 rounded-[100px] bg-white px-[18px] py-4"
 					>
-						UPDATE
-					</Button>
-					<Button
-						variant="outlined"
-						size="large"
-						styleClass="w-[190.5px]"
-						disabled={!validCPUrl || registeredCpURL !== updatedCpURL}
-						onclick={handleOnUnregister}
-						loading={unregisterLoading}
-					>
-						UNREGISTER
-					</Button>
-				</div>
+						<p>Instances: 200</p>
+						<Divider direction="divider-vertical" />
+						<p>Instances: 200</p>
+					</div>
+				</svelte:fragment>
+			</TextInputWithEndButton>
+			<ErrorTextCard
+				showError={!validCPUrl && updatedCpURL !== ''}
+				errorMessage="Invalid control plane URL. Make sure to use the full URL along with http:// or https:// and remove any trailing slashes."
+			/>
+
+			<div class="mt-4" />
+			{#if $connected}
+				{#if registered}
+					<div class="flex gap-4">
+						<Button
+							variant="filled"
+							size="large"
+							styleClass="w-[190.5px]"
+							disabled={!validCPUrl || registeredCpURL === updatedCpURL || !enableRegisterButton}
+							onclick={handleOnUpdate}
+							loading={updateLoading}
+						>
+							UPDATE
+						</Button>
+						<Button
+							variant="outlined"
+							size="large"
+							styleClass="w-[190.5px]"
+							disabled={!validCPUrl || registeredCpURL !== updatedCpURL}
+							onclick={handleOnUnregister}
+							loading={unregisterLoading}
+						>
+							UNREGISTER
+						</Button>
+					</div>
+				{/if}
+			{:else}
+				<ConnectWalletButton isLarge={true} />
 			{/if}
-		{:else}
-			<ConnectWalletButton isLarge={true} />
-		{/if}
-	</div>
+		</div>
+	{/if}
 </div>

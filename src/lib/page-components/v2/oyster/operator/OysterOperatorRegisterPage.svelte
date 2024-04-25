@@ -231,7 +231,7 @@
 
 	$: path = $page.url.pathname;
 	$: detailsActive = path === ROUTES.OYSTER_OPERATOR_JOBS_URL + '/';
-	$: historyActive = path === ROUTES.OYSTER_INVENTORY_HISTORY_URL + '/';
+	$: historyActive = path === ROUTES.OYSTER_OPERATOR_HISTORY_URL + '/';
 </script>
 
 <div>

@@ -2,7 +2,7 @@
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
-	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
+	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 
 	import NameWithAddress from '$lib/components/v2/texts/NameWithAddress.svelte';
@@ -49,7 +49,7 @@
 	<NameWithAddress {name} {address} {rowIndex}>
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
-				<div class="hidden cursor-pointer group-hover:flex">
+				<div class="hidden cursor-pointer group-hover/row:flex">
 					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 				</div>
 			</div>
@@ -66,22 +66,28 @@
 	{epochSecToString(createdAt)}
 </td>
 <td class={tableClasses.cell}>
-	<Tooltip tooltipText={epochToDurationString(durationRun)}>
-		{epochToDurationString(durationRun, true)}
+	<Tooltip>
+		<p slot="tooltipIcon">
+			{epochToDurationString(durationRun, true)}
+		</p>
+		<span slot="tooltipContent">{epochToDurationString(durationRun)}</span>
 	</Tooltip>
 </td>
 <td class={tableClasses.cell}>
-	<Tooltip
-		tooltipText="{$oysterTokenMetadataStore.symbol}${bigNumberToString(
-			amountToBeSettled,
-			$oysterTokenMetadataStore.decimal,
-			$oysterTokenMetadataStore.precision
-		)}"
-	>
-		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
-			amountToBeSettled,
-			$oysterTokenMetadataStore.decimal
-		)}
+	<Tooltip>
+		<p slot="tooltipIcon">
+			{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+				amountToBeSettled,
+				$oysterTokenMetadataStore.decimal
+			)}
+		</p>
+		<span slot="tooltipContent"
+			>{$oysterTokenMetadataStore.symbol}${bigNumberToString(
+				amountToBeSettled,
+				$oysterTokenMetadataStore.decimal,
+				$oysterTokenMetadataStore.precision
+			)}</span
+		>
 	</Tooltip>
 </td>
 <td class={tableClasses.cell}>
@@ -94,9 +100,17 @@
 </td>
 
 <td class={tableClasses.cell}>
-	<Button onclick={handleClaimClick} variant="text" styleClass="w-fit ml-4 mr-6">
-		<div class="rounded-full border border-[#D9DADE] p-3">
-			<img src={staticImages.Verified} alt="Claim" />
-		</div>
-	</Button>
+	<Tooltip>
+		<Button
+			slot="tooltipIcon"
+			onclick={handleClaimClick}
+			variant="text"
+			styleClass="w-fit ml-4 mr-6"
+		>
+			<div class="rounded-full border border-[#D9DADE] p-3">
+				<img src={staticImages.Verified} alt="Claim" />
+			</div>
+		</Button>
+		<span slot="tooltipContent">Claim</span>
+	</Tooltip>
 </td>

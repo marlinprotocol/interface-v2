@@ -11,7 +11,7 @@
 <div
 	class={cn(
 		'nav-bg z-10 flex h-full flex-1 flex-col transition-all duration-300 ease-out',
-		$isNavOpen ? 'min-w-[18rem]' : 'min-w-[112px]'
+		$isNavOpen ? 'min-w-[18rem]' : 'min-w-[104px]'
 	)}
 >
 	<div class="flex h-20 items-center justify-center gap-2 p-4">
@@ -25,7 +25,7 @@
 	<button
 		class={cn(
 			'fixed top-1/2 cursor-pointer transition-all duration-300 ease-out',
-			$isNavOpen ? 'left-[271px]' : 'left-[95px]'
+			$isNavOpen ? 'left-[271px]' : 'left-[87px]'
 		)}
 		on:click={toggleNavbar}
 	>

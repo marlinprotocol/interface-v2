@@ -25,12 +25,12 @@
 			<LoadingAnimatedPing />
 		</div>
 	{:else if noDataFound}
-		<Table {tableHeading} {handleSortData} headingStyleClass="h-[32px]" />
+		<Table roundedBorders={false} {tableHeading} {handleSortData} headingStyleClass="h-[32px]" />
 		<div class={cn(tableClasses.empty, 'mb-8')}>
 			{emptyTableMessage}
 		</div>
 	{:else}
-		<Table {tableHeading} {handleSortData} headingStyleClass="h-[32px]">
+		<Table roundedBorders={false} {tableHeading} {handleSortData} headingStyleClass="h-[32px]">
 			<tbody slot="tableBody">
 				<slot />
 			</tbody>

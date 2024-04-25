@@ -8,6 +8,7 @@
 	export let headingStyleClass = '';
 	export let handleSortData: ((id: string) => void) | undefined = undefined;
 	export let iconWidth = '16px';
+	export let roundedBorders: boolean = true;
 </script>
 
 <div data-testid="table-container" class={styleClass}>
@@ -15,7 +16,11 @@
 		<thead class="w-full">
 			<tr>
 				{#each tableHeading as columnHeading, i}
-					<th class="bg-[#F0F0F0] py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]">
+					<th
+						class={cn('bg-[#F0F0F0] py-[26px]', {
+							'first:rounded-tl-[18px] last:rounded-tr-[18px]': roundedBorders
+						})}
+					>
 						<TableHeadingText
 							styleClass={cn(headingStyleClass, i === 0 ? 'ml-4' : '')}
 							heading={columnHeading}

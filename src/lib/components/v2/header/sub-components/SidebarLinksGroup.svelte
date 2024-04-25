@@ -12,6 +12,23 @@
 	let links: SidebarLinks[] = [];
 	let checked = false;
 
+	function expandMenu(e?: Event) {
+		const menuToggle = e?.target as HTMLElement;
+		const menuItems = menuToggle.nextElementSibling as HTMLElement;
+		if (menuToggle.classList.contains('menu-dropdown-show')) {
+			menuToggle.classList.remove('menu-dropdown-show');
+			menuItems.classList.remove('menu-dropdown-show');
+		} else {
+			menuToggle.classList.add('menu-dropdown-show');
+			menuItems.classList.add('menu-dropdown-show');
+		}
+	}
+	function expandMenuWithKey(e?: KeyboardEvent) {
+		if (e?.key === 'Enter' || e?.key === ' ') {
+			expandMenu(e);
+		}
+	}
+
 	$: links = [
 		{
 			label: 'Dashboard',
@@ -98,66 +115,74 @@
 			{#each links as { icon, label, children, href }}
 				{#if children}
 					<li>
-						<details>
-							<summary
-								class={cn(
-									'px-[14px] py-4 after:text-[#26272c] hover:bg-transparent focus:bg-transparent active:!bg-transparent',
-									{
-										'after:text-[#2DB8E3]': activeLink.includes(href),
-										'after:hidden': !$isNavOpen,
-										'bg-[#FCFCFC]': !$isNavOpen && activeLink.includes(href)
-									}
-								)}
-							>
-								<div class="flex items-center gap-3">
+						<span
+							class={cn(
+								'menu-dropdown-toggle px-[14px] py-4 after:text-[#26272c] hover:bg-transparent active:!bg-transparent',
+								{
+									'after:text-[#2DB8E3]': activeLink.includes(href),
+									'flex items-center justify-center after:hidden': !$isNavOpen,
+									'bg-[#FCFCFC]': !$isNavOpen && activeLink.includes(href)
+								}
+							)}
+							on:click={(e) => expandMenu(e)}
+							on:keydown={(e) => expandMenuWithKey(e)}
+							role="button"
+							tabindex="0"
+						>
+							<div class="flex items-center gap-3">
+								<div class="flex h-6 w-6 items-center justify-center">
 									<img src={icon} alt={icon} />
-									{#if $isNavOpen}
-										<p
-											class={cn('font-poppins text-base font-medium text-[#26272c]', {
-												'text-[#2DB8E3]': activeLink.includes(href)
-											})}
-										>
-											{label}
-										</p>
-									{/if}
 								</div>
-							</summary>
-							<ul class={cn('ml-[25px] px-3', $isNavOpen ? 'block' : 'hidden')}>
-								{#each children as subLink}
-									<li>
-										<a
-											href={subLink.href}
-											target={subLink.openInNewTab ? '_blank' : ''}
-											class="p-0 hover:bg-transparent focus:!bg-transparent active:!bg-transparent active:!text-[#26272c]"
+								{#if $isNavOpen}
+									<p
+										class={cn('font-poppins text-base	 font-medium text-[#26272c]', {
+											'text-[#2DB8E3]': activeLink.includes(href)
+										})}
+									>
+										{label}
+									</p>
+								{/if}
+							</div>
+						</span>
+						<ul class={cn('menu-dropdown ml-[25px] px-3', { hidden: !$isNavOpen })}>
+							{#each children as subLink}
+								<li>
+									<a
+										href={subLink.href}
+										target={subLink.openInNewTab ? '_blank' : ''}
+										class="p-0 hover:bg-transparent focus:!bg-transparent active:!bg-transparent active:!text-[#26272c]"
+									>
+										<div
+											class={cn(
+												'relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
+												activeLink.includes(subLink.href)
+													? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
+													: 'text-[#26272c]'
+											)}
 										>
-											<div
-												class={cn(
-													'relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
-													activeLink.includes(subLink.href)
-														? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
-														: 'text-[#26272c]'
-												)}
-											>
-												{subLink.preFixLabel}
-												{#if subLink.icon}
-													<img
-														src={subLink.icon}
-														alt={subLink.icon}
-														class="min-w-[18px] max-w-[18px]"
-													/>
-												{/if}
-												{#if subLink.postFixLabel}
-													{subLink.postFixLabel}
-												{/if}
-											</div>
-										</a>
-									</li>
-								{/each}
-							</ul>
-						</details>
+											{subLink.preFixLabel}
+											{#if subLink.icon}
+												<img
+													src={subLink.icon}
+													alt={subLink.icon}
+													class="min-w-[18px] max-w-[18px]"
+												/>
+											{/if}
+											{#if subLink.postFixLabel}
+												{subLink.postFixLabel}
+											{/if}
+										</div>
+									</a>
+								</li>
+							{/each}
+						</ul>
 					</li>{:else}
 					<a {href}>
-						<div class="flex cursor-pointer items-center gap-3 px-[14px] py-4">
+						<div
+							class={cn('flex cursor-pointer items-center gap-3 px-[14px] py-4', {
+								'justify-center': !$isNavOpen
+							})}
+						>
 							<img src={icon} alt={icon} />
 							{#if $isNavOpen}
 								<p

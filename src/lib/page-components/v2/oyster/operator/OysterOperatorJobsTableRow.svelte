@@ -92,14 +92,11 @@
 		{status}
 	</div>
 </td>
+
 <td class={tableClasses.cell}>
-	<Button
-		variant="tableConvertButton"
-		onclick={handleClaimClick}
-		size="smaller"
-		disabled={submitLoading || status === 'closed'}
-		styleClass="w-fit px-8 rounded text-xs mr-6"
-	>
-		CLAIM
+	<Button onclick={handleClaimClick} variant="text" styleClass="w-fit ml-4 mr-6">
+		<div class="rounded-full border border-[#D9DADE] p-3">
+			<img src={staticImages.Verified} alt="Claim" />
+		</div>
 	</Button>
 </td>

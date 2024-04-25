@@ -13,6 +13,7 @@
 	export let tableHeading: TableModel['header'][];
 	export let walletConnectionRequired = true;
 	export let emptyTableMessage = 'No data found!';
+	export let roundedBorders: boolean = true;
 </script>
 
 <div class="card max-w-full rounded-[18px] bg-base-100">
@@ -25,12 +26,12 @@
 			<LoadingAnimatedPing />
 		</div>
 	{:else if noDataFound}
-		<Table roundedBorders={false} {tableHeading} {handleSortData} headingStyleClass="h-[32px]" />
+		<Table {roundedBorders} {tableHeading} {handleSortData} headingStyleClass="h-[32px]" />
 		<div class={cn(tableClasses.empty, 'mb-8')}>
 			{emptyTableMessage}
 		</div>
 	{:else}
-		<Table roundedBorders={false} {tableHeading} {handleSortData} headingStyleClass="h-[32px]">
+		<Table {roundedBorders} {tableHeading} {handleSortData} headingStyleClass="h-[32px]">
 			<tbody slot="tableBody">
 				<slot />
 			</tbody>

@@ -57,6 +57,7 @@
 
 <OysterTableCommon
 	{handleSortData}
+	roundedBorders={false}
 	tableHeading={OYSTER_MERCHANT_JOB_TABLE_HEADER}
 	loading={!$oysterStore.merchantJobsLoaded}
 	noDataFound={paginatedData?.length ? false : true}

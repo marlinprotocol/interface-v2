@@ -2,7 +2,7 @@ import type { TableModel } from '$lib/types/componentTypes';
 
 export const POND_TO_MPOND_TABLE_HEADER: TableModel['header'][] = [
 	{
-		title: 'DATE',
+		title: 'Date',
 		id: 'date',
 		sorting: true
 	},
@@ -21,9 +21,15 @@ export const POND_TO_MPOND_TABLE_HEADER: TableModel['header'][] = [
 
 export const MPOND_TO_POND_TABLE_HEADER: TableModel['header'][] = [
 	{
-		title: 'DATE',
+		title: 'Date',
 		id: 'date',
 		sorting: true
+	},
+	{
+		title: 'POND',
+		id: 'pond',
+		tooltipText:
+			'The total amount of POND to be received as a result of the conversion from MPond. Note: 1 MPond equals 1 Million POND.'
 	},
 	{
 		title: 'MPond',
@@ -31,31 +37,19 @@ export const MPOND_TO_POND_TABLE_HEADER: TableModel['header'][] = [
 		tooltipText: 'The amount of MPond that was placed for conversion to POND.'
 	},
 	{
-		title: 'TOTAL POND',
-		id: 'pond',
-		tooltipText:
-			'The total amount of POND to be received as a result of the conversion from MPond. Note: 1 MPond equals 1 Million POND.'
-	},
-	{
-		title: 'ACTIONS',
+		title: 'Actions',
 		id: 'actions'
 	}
 ];
 
 export const MPOND_CONVERSION_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
-		title: 'DATE',
+		title: 'Date',
 		id: 'date'
 	},
 	{
-		title: 'CONVERTED',
-		id: 'pond',
-		tooltipText: 'The amount of POND converted.'
-	},
-	{
-		title: 'TX HASH',
-		id: 'txnHash',
-		tooltipText: 'The transaction hash of the conversion.'
+		title: 'Converted',
+		id: 'pond'
 	}
 ];
 

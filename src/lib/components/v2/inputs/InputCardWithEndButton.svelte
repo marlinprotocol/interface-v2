@@ -1,5 +1,5 @@
 <script lang="ts">
-	import InputCard from '$lib/atoms/cards/InputCard.svelte';
+	import InputCard from '$lib/atoms/v2/cards/InputCard.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 
@@ -23,6 +23,7 @@
 	</div>
 	<div class="flex items-center justify-between">
 		<slot />
+		<slot name="endInfoBox" />
 		<slot name="endButton" />
 	</div>
 </InputCard>

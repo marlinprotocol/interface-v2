@@ -1,12 +1,10 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
-	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
-	import Icon from '$lib/atoms/icons/Icon.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
+	import Button from '$lib/atoms/v2/buttons/Button.svelte';
+	import { page } from '$app/stores';
+
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
-	import { staticImages } from '$lib/components/images/staticImages';
-	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
+	import TextInputWithEndButton from '$lib/components/v2/inputs/TextInputWithEndButton.svelte';
 	import {
 		getInstancesFromControlPlaneUsingCpUrl,
 		getInstancesFromControlPlaneUsingOperatorAddress
@@ -18,14 +16,6 @@
 	} from '$lib/data-stores/oysterStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
-	import { checkValidURL, sanitizeUrl } from '$lib/utils/helpers/commonHelper';
-	import edit from 'svelte-awesome/icons/edit';
-	import InstancesTable from '$lib/page-components/oyster/sub-components/InstancesTable.svelte';
-	import {
-		OYSTER_OPERATOR_JOBS_URL,
-		OYSTER_DOC_LINK,
-		DISCORD_LINK
-	} from '$lib/utils/constants/urls';
 
 	import { getModifiedInstances } from '$lib/utils/data-modifiers/oysterModifiers';
 	import {
@@ -33,10 +23,13 @@
 		registerOysterInfrastructureProvider,
 		removeOysterInfrastructureProvider
 	} from '$lib/controllers/contract/oyster';
-	import Divider from '$lib/atoms/divider/Divider.svelte';
+	import Divider from '$lib/atoms/v2/divider/Divider.svelte';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
+	import { shortenText } from '$lib/utils/helpers/conversionHelper';
+	import Text from '$lib/atoms/v2/texts/Text.svelte';
+	import { checkValidURL, cn, sanitizeUrl } from '$lib/utils/helpers/commonHelper';
 
 	let enableRegisterButton = false;
 	let updatedCpURL = '';
@@ -235,128 +228,108 @@
 	};
 
 	$: disableCpURL = isDisabledCpUrl($connected, registeredCpURL);
+
+	$: path = $page.url.pathname;
+	$: detailsActive = path === ROUTES.OYSTER_OPERATOR_JOBS_URL + '/';
+	$: historyActive = path === ROUTES.OYSTER_INVENTORY_HISTORY_URL + '/';
 </script>
 
-<ContainerCard>
-	<svelte:fragment slot="header">
-		<Text variant="h2" text="Operator Registration" styleClass="text-left" />
-		<div class="mb-4 mt-2 flex flex-col gap-1 text-left text-grey-700">
-			<div class="flex items-center gap-2">
-				<Text variant="body" text="Quick access:" />
-				<a href={OYSTER_DOC_LINK} target="_blank">
-					<Text styleClass="text-primary" fontWeight="font-medium" text="Documentation" />
-				</a>
-				<Divider direction="divider-vertical" />
-				<a href={DISCORD_LINK} target="_blank">
-					<Text styleClass="text-primary" fontWeight="font-medium" text="Support" />
-				</a>
-			</div>
-		</div>
-	</svelte:fragment>
-	<TextInputWithEndButton
-		title="Address"
-		tooltipText="Address of oyster operator"
-		placeholder="Enter your address here"
-		bind:input={$walletStore.address}
-		disabled={true}
-	/>
-	<TextInputWithEndButton
-		styleClass="mt-4"
-		title="Control Plane URL"
-		tooltipText="URL of the control plane which is used to provide pricing data"
-		placeholder="Paste URL here"
-		bind:input={updatedCpURL}
-		bind:disabled={disableCpURL}
-	>
-		<svelte:fragment slot="titleEndButton">
-			{#if $connected}
-				<Button
-					onclick={() => (disableCpURL = !disableCpURL)}
-					disabled={!$connected}
-					variant="text"
-					size="tiniest"
-				>
-					<Icon data={edit} size={18} />
-				</Button>
-			{:else}
-				<button
-					type="button"
-					on:click={() => {
-						addToast({
-							message: 'Please connect your wallet.',
-							variant: 'error'
-						});
-					}}
-				>
-					<Icon data={edit} size={18} />
-				</button>
-			{/if}
-		</svelte:fragment>
-	</TextInputWithEndButton>
-	<ErrorTextCard
-		showError={!validCPUrl && updatedCpURL !== ''}
-		errorMessage="Invalid control plane URL. Make sure to use the full URL along with http:// or https:// and remove any trailing slashes."
-	/>
-	{#await instances catch error}
-		<ErrorTextCard
-			showError={error}
-			errorMessage="Uh-oh seems like the url you entered is incorrect."
+<div>
+	<div class="flex items-center justify-between">
+		<Text
+			styleClass="font-poppins leading-[-2px] text-[#030115]"
+			variant="h2"
+			fontWeight="font-medium"
+			text="Hello, {shortenText($walletStore.address, 6, 6)}"
 		/>
-	{/await}
-	<InstancesTable isOpen={openInstanceTable} {validCPUrl} bind:tableData={instances} />
-
-	<div class="mt-4" />
-	{#if $connected}
-		{#if registered}
-			<div class="flex justify-center gap-4">
-				<div class="w-1/2">
-					<Button
-						variant="filled"
-						size="large"
-						styleClass="w-full"
-						disabled={!validCPUrl || registeredCpURL === updatedCpURL || !enableRegisterButton}
-						onclick={handleOnUpdate}
-						loading={updateLoading}
-					>
-						UPDATE
-					</Button>
-				</div>
-				<div class="w-1/2">
-					<Button
-						variant="outlined"
-						size="large"
-						styleClass="w-full"
-						disabled={!validCPUrl || registeredCpURL !== updatedCpURL}
-						onclick={handleOnUnregister}
-						loading={unregisterLoading}
-					>
-						UNREGISTER
-					</Button>
-				</div>
-			</div>
-		{:else}
-			<Button
-				variant="filled"
-				size="large"
-				styleClass="w-full"
-				disabled={!validCPUrl || !enableRegisterButton}
-				onclick={handleOnRegister}
-				loading={registerLoading}
-			>
-				REGISTER
-			</Button>
+		{#if $connected}
+			{#if !registered}
+				<Button
+					variant="filled"
+					size="large"
+					styleClass="w-[170px] text-base font-normal"
+					disabled={false}
+					onclick={handleOnRegister}
+					loading={registerLoading}
+				>
+					REGISTER
+				</Button>
+			{/if}
 		{/if}
-	{:else}
-		<ConnectWalletButton isLarge={true} />
+	</div>
+	{#if registered}
+		<div class="rounded-3xl bg-white px-8 py-6">
+			<p class="pb-3 text-base font-normal">Control Plane:</p>
+			<TextInputWithEndButton
+				styleClass="w-full bg-[#F4F4F6] py-4 rounded-[100px]"
+				placeholder="Paste URL here"
+				bind:input={updatedCpURL}
+			>
+				<svelte:fragment slot="endInfoBox">
+					<div
+						class="flex w-full max-w-[300px] items-center justify-between gap-3 rounded-[100px] bg-white px-[18px] py-4"
+					>
+						<p>Instances: 200</p>
+						<Divider direction="divider-vertical" />
+						<p>Instances: 200</p>
+					</div>
+				</svelte:fragment>
+			</TextInputWithEndButton>
+			<ErrorTextCard
+				showError={!validCPUrl && updatedCpURL !== ''}
+				errorMessage="Invalid control plane URL. Make sure to use the full URL along with http:// or https:// and remove any trailing slashes."
+			/>
+
+			<div class="mt-4" />
+			{#if $connected}
+				{#if registered}
+					<div class="flex gap-4">
+						<Button
+							variant="filled"
+							size="large"
+							styleClass="w-[190.5px]"
+							disabled={!validCPUrl || registeredCpURL === updatedCpURL || !enableRegisterButton}
+							onclick={handleOnUpdate}
+							loading={updateLoading}
+						>
+							UPDATE
+						</Button>
+						<Button
+							variant="outlined"
+							size="large"
+							styleClass="w-[190.5px]"
+							disabled={!validCPUrl || registeredCpURL !== updatedCpURL}
+							onclick={handleOnUnregister}
+							loading={unregisterLoading}
+						>
+							UNREGISTER
+						</Button>
+					</div>
+				{/if}
+			{:else}
+				<ConnectWalletButton isLarge={true} />
+			{/if}
+		</div>
 	{/if}
-</ContainerCard>
-{#if $connected}
-	<a href={ROUTES.OYSTER_OPERATOR_JOBS_URL}>
-		<Button variant="whiteFilled" size="large" styleClass="w-full sm:w-130 mt-4 mx-auto">
-			<div class="flex w-full justify-between">
-				<div class="flex w-full justify-center">TRACK USAGE</div>
-				<img src={staticImages.RightArrow} alt="Right Arrow" />
-			</div>
-		</Button>
-	</a>
-{/if}
+
+	<div class="mt-[40px] flex w-min gap-[10px] rounded-tl-[18px] rounded-tr-[18px] bg-white">
+		<a
+			href={ROUTES.OYSTER_OPERATOR_JOBS_URL}
+			class={cn('block w-[172px] rounded-tl-[18px] rounded-tr-[18px] py-[27px] text-center', {
+				'bg-white font-light text-[#A8A8A8]': historyActive,
+				'bg-[#F0F0F0] font-medium text-primary': detailsActive
+			})}
+		>
+			Details
+		</a>
+		<a
+			href={ROUTES.OYSTER_OPERATOR_HISTORY_URL}
+			class={cn('block w-[172px] rounded-tl-[18px] rounded-tr-[18px] py-[27px] text-center', {
+				'bg-white font-light text-[#A8A8A8]': detailsActive,
+				'bg-[#F0F0F0] font-medium text-primary': historyActive
+			})}
+		>
+			History
+		</a>
+	</div>
+</div>

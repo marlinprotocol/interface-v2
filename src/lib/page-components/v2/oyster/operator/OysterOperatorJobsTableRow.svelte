@@ -13,7 +13,10 @@
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/helpers/conversionHelper';
-	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
+	import {
+		getColorHexByVariant,
+		getColorHexByVariantForTag
+	} from '$lib/utils/v2/helpers/componentHelper';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
 	import { handleClaimAmountFromOysterJob } from '$lib/utils/services/oysterServices';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
@@ -39,7 +42,7 @@
 		durationRun,
 		amountToBeSettled
 	} = rowData);
-	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
+	$: statusColor = getColorHexByVariantForTag(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
 <td class={tableClasses.cell}>
@@ -83,7 +86,7 @@
 </td>
 <td class={tableClasses.cell}>
 	<div
-		class="mx-auto w-24 rounded py-1 text-center text-sm capitalize text-white"
+		class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm capitalize text-[#030115]"
 		style="background-color: {statusColor}"
 	>
 		{status}

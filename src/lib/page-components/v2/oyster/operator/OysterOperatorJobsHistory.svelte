@@ -1,8 +1,5 @@
 <script lang="ts">
-	import SearchBar from '$lib/components/search/SearchBar.svelte';
-
-	import Pagination from '$lib/components/pagination/Pagination.svelte';
-	import PageTitle from '$lib/components/texts/PageTitle.svelte';
+	import Pagination from '$lib/components/v2/pagination/Pagination.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type {
 		OysterInventoryDataModel,
@@ -13,9 +10,8 @@
 		getSearchedOysterJobsData,
 		sortOysterOperatorHistory
 	} from '$lib/utils/helpers/oysterHelpers';
-	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
+	import OysterTableCommon from '$lib/page-components/v2/oyster/inventory/OysterTableCommon.svelte';
 	import OysterOperatorJobsHistoryTableRow from '$lib/page-components/v2/oyster/operator/OysterOperatorJobsHistoryTableRow.svelte';
-	import { OYSTER_OPERATOR_JOBS_URL } from '$lib/utils/constants/urls';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import { tableClasses } from '$lib/atoms/v2/componentClasses';
@@ -60,29 +56,18 @@
 	);
 </script>
 
-<div class="mx-auto">
-	<PageTitle title="History of Claims" backHref={OYSTER_OPERATOR_JOBS_URL} />
-	<div class="mb-6 flex items-center gap-4">
-		<SearchBar
-			{onSearchClick}
-			bind:input={searchInput}
-			placeholder="Search for user, instance or region"
-			styleClass="w-full"
-		/>
-	</div>
-	<OysterTableCommon
-		{handleSortData}
-		loading={!$oysterStore.merchantJobsLoaded}
-		tableHeading={OYSTER_OPERATOR_HISTORY_TABLE_HEADER}
-		noDataFound={paginatedData?.length ? false : true}
-	>
-		{#if paginatedData?.length}
-			{#each paginatedData as rowData, rowIndex}
-				<tr class={cn(tableClasses.row, 'group h-16 hover:bg-base-200')}>
-					<OysterOperatorJobsHistoryTableRow {rowData} {rowIndex} />
-				</tr>
-			{/each}
-		{/if}
-	</OysterTableCommon>
-	<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
-</div>
+<OysterTableCommon
+	{handleSortData}
+	loading={!$oysterStore.merchantJobsLoaded}
+	tableHeading={OYSTER_OPERATOR_HISTORY_TABLE_HEADER}
+	noDataFound={paginatedData?.length ? false : true}
+>
+	{#if paginatedData?.length}
+		{#each paginatedData as rowData, rowIndex}
+			<tr class={cn(tableClasses.row, 'group h-16 hover:bg-base-200')}>
+				<OysterOperatorJobsHistoryTableRow {rowData} {rowIndex} />
+			</tr>
+		{/each}
+	{/if}
+</OysterTableCommon>
+<Pagination {pageCount} {activePage} {handlePageChange} />

@@ -4,7 +4,7 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
-	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
+	import AmountInputWithMaxButton from '$lib/components/v2/inputs/AmountInputWithMaxButton.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import {
@@ -115,13 +115,11 @@
 	</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
-			title="Amount"
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			inputCardVariant="none"
 			{maxAmountText}
 		>
-			<Text slot="input-end-button" text="Amount" fontWeight="font-medium" />
 			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
 		</AmountInputWithMaxButton>
 		<ErrorTextCard

@@ -3,7 +3,7 @@
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
-	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
+	import TextInputWithEndButton from '$lib/components/v2/inputs/TextInputWithEndButton.svelte';
 	import {
 		oysterStore,
 		oysterTokenMetadataStore,
@@ -18,15 +18,14 @@
 		handleCreateJob,
 		handleCreateJobWithCredits
 	} from '$lib/utils/services/oysterServices';
-	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
-	import MetadetailsForNewOrder from '$lib/page-components/oyster/sub-components/MetadetailsForNewOrder.svelte';
-	import BandwidthSelector from '$lib/page-components/oyster/sub-components/BandwidthSelector.svelte';
-	import { OYSTER_OWNER_INVENTORY_URL } from '$lib/utils/constants/urls';
+	import AddFundsToJob from '$lib/page-components/v2/oyster/sub-components/AddFundsToJob.svelte';
+	import MetadetailsForNewOrder from '$lib/page-components/v2/oyster/sub-components/MetadetailsForNewOrder.svelte';
+	import BandwidthSelector from '$lib/page-components/v2/oyster/sub-components/BandwidthSelector.svelte';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import type { WalletBalanceStore } from '$lib/types/storeTypes';
-	import Text from '$lib/atoms/texts/Text.svelte';
+	import Text from '$lib/atoms/v2/texts/Text.svelte';
 	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';

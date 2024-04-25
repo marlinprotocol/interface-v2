@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
+	import AmountInputWithTitle from '$lib/components/v2/inputs/AmountInputWithTitle.svelte';
 	import Select from '$lib/components/select/Select.svelte';
 	import {
 		DEFAULT_BANDWIDTH_UNIT,

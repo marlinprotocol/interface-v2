@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
-	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
-	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
+	import TextInputWithEndButton from '$lib/components/v2/inputs/TextInputWithEndButton.svelte';
+	import SearchWithSelect from '$lib/components/v2/search/SearchWithSelect.svelte';
 	import type {
 		OysterFiltersModel,
 		OysterMarketplaceDataModel

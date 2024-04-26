@@ -12,22 +12,18 @@
 	export let activeLink: string = '';
 
 	let links: SidebarLinks[] = [];
-	let checked = false;
+	let expandedLinks: string[] = [];
 
-	function expandMenu(e?: Event) {
-		const menuToggle = e?.target as HTMLElement;
-		const menuItems = menuToggle.nextElementSibling as HTMLElement;
-		if (menuToggle.classList.contains('menu-dropdown-show')) {
-			menuToggle.classList.remove('menu-dropdown-show');
-			menuItems.classList.remove('menu-dropdown-show');
+	function expandMenu(label: string) {
+		if (expandedLinks.includes(label)) {
+			expandedLinks = expandedLinks.filter((item) => item !== label);
 		} else {
-			menuToggle.classList.add('menu-dropdown-show');
-			menuItems.classList.add('menu-dropdown-show');
+			expandedLinks = [...expandedLinks, label];
 		}
 	}
-	function expandMenuWithKey(e?: KeyboardEvent) {
+	function expandMenuWithKey(e: KeyboardEvent, label: string) {
 		if (e?.key === 'Enter' || e?.key === ' ') {
-			expandMenu(e);
+			expandMenu(label);
 		}
 	}
 
@@ -123,15 +119,15 @@
 								{
 									'after:text-[#2DB8E3]': activeLink.includes(href),
 									'after:hidden': !$isNavOpen,
-									'bg-[#FCFCFC]': !$isNavOpen && activeLink.includes(href)
+									'menu-dropdown-show': expandedLinks.includes(label)
 								}
 							)}
-							on:click={(e) => expandMenu(e)}
-							on:keydown={(e) => expandMenuWithKey(e)}
+							on:click|self={() => expandMenu(label)}
+							on:keydown|self={(e) => expandMenuWithKey(e, label)}
 							role="button"
 							tabindex="0"
 						>
-							<div class="flex items-start gap-3">
+							<div class="pointer-events-none flex items-start gap-3">
 								<div class="flex h-6 w-6 items-center justify-center">
 									<img src={icon} alt={icon} />
 								</div>
@@ -146,7 +142,12 @@
 								{/if}
 							</div>
 						</div>
-						<ul class={cn('menu-dropdown ml-[25px] px-3', { hidden: !$isNavOpen })}>
+						<ul
+							class={cn('menu-dropdown ml-[25px] px-3', {
+								hidden: !$isNavOpen,
+								'menu-dropdown-show': expandedLinks.includes(label)
+							})}
+						>
 							{#each children as subLink}
 								<li>
 									{#if subLink.openInNewTab}
@@ -183,7 +184,7 @@
 										>
 											<div
 												class={cn(
-													'relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
+													'pointer-events-none relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
 													activeLink.includes(subLink.href)
 														? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
 														: 'text-[#26272c]'

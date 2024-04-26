@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
-	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
-	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
+	import TextInputWithEndButton from '$lib/components/v2/inputs/TextInputWithEndButton.svelte';
+	import SearchWithSelect from '$lib/components/v2/search/SearchWithSelect.svelte';
 	import type {
 		OysterFiltersModel,
 		OysterMarketplaceDataModel
@@ -162,6 +162,9 @@
 	searchValue={merchant.value}
 	setSearchValue={handleMerchantChange}
 	title="Operator"
+	label="Operator"
+	showTitle={false}
+	cardVariant="v2Input"
 	placeholder="Enter operator name or address"
 />
 <ErrorTextCard
@@ -169,13 +172,16 @@
 	errorMessage={merchant.error}
 	styleClass="mt-0"
 />
-<div class="flex gap-2">
+<div class="my-4 flex gap-2">
 	<div class="w-full">
 		<SearchWithSelect
 			dataList={filters?.instance ?? []}
 			searchValue={instance.value}
 			setSearchValue={handleInstanceChange}
 			title="Instance"
+			label="Instance"
+			cardVariant="v2Input"
+			showTitle={false}
 			placeholder="Select instance"
 			disabled={!merchant.value}
 		/>
@@ -186,6 +192,9 @@
 			searchValue={region.value}
 			setSearchValue={handleRegionChange}
 			title="Region"
+			label="Region"
+			cardVariant="v2Input"
+			showTitle={false}
 			placeholder="Select region"
 			disabled={!merchant.value}
 		/>
@@ -203,11 +212,21 @@
 />
 <div class="flex gap-2">
 	<div class="w-full">
-		<TextInputWithEndButton title="vCPU" bind:input={vcpu} placeholder="Select" />
+		<TextInputWithEndButton
+			showTitle={false}
+			styleClass="px-4 py-2.5"
+			title="vCPU"
+			bind:input={vcpu}
+			placeholder="Select"
+			label="vCPU"
+		/>
 	</div>
 	<div class="w-full">
 		<TextInputWithEndButton
+			showTitle={false}
+			styleClass="px-4 py-2.5"
 			title="Architecture"
+			label="Architecture"
 			bind:input={arch.value}
 			placeholder="Select"
 			disabled
@@ -216,7 +235,10 @@
 	<div class="w-full">
 		<TextInputWithEndButton
 			title="Memory ({MEMORY_SUFFIX.trimStart()})"
+			label="Memory ({MEMORY_SUFFIX.trimStart()})"
 			bind:input={memory}
+			showTitle={false}
+			styleClass="px-4 py-2.5"
 			placeholder="Select"
 		/>
 	</div>

@@ -11,10 +11,15 @@
 <div
 	class={cn(
 		'nav-bg z-10 flex h-full flex-1 flex-col transition-all duration-300 ease-out',
-		$isNavOpen ? 'min-w-[18rem]' : 'min-w-[112px]'
+		$isNavOpen ? 'min-w-[18rem]' : 'min-w-[104px]'
 	)}
 >
-	<div class="flex h-20 items-center justify-center gap-2 p-4">
+	<div
+		class={cn('flex h-20 items-center gap-2 py-4 transition-all', {
+			'px-[38px]': $isNavOpen,
+			'px-[30px]': !$isNavOpen
+		})}
+	>
 		{#if $isNavOpen}
 			<img src={staticImages.marlinLgLogo} alt="large logo" />
 		{:else}
@@ -25,7 +30,7 @@
 	<button
 		class={cn(
 			'fixed top-1/2 cursor-pointer transition-all duration-300 ease-out',
-			$isNavOpen ? 'left-[271px]' : 'left-[95px]'
+			$isNavOpen ? 'left-[271px]' : 'left-[87px]'
 		)}
 		on:click={toggleNavbar}
 	>

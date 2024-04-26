@@ -2,7 +2,7 @@
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
-	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
+	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/v2/texts/NameWithAddress.svelte';
 	import { addToast } from '$lib/data-stores/toastStore';
@@ -33,7 +33,7 @@
 	<NameWithAddress {address} {rowIndex}>
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
-				<div class="hidden cursor-pointer group-hover:flex">
+				<div class="hidden cursor-pointer group-hover/row:flex">
 					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 				</div>
 			</div>
@@ -47,16 +47,19 @@
 	{region ?? 'N/A'}
 </td>
 <td class={tableClasses.cell}>
-	<Tooltip
-		tooltipText="{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
-			instanceRate,
-			$oysterTokenMetadataStore.decimal
-		)}"
-	>
-		{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
-			instanceRate,
-			$oysterTokenMetadataStore.decimal
-		)}
+	<Tooltip>
+		<span slot="tooltipIcon"
+			>{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
+				instanceRate,
+				$oysterTokenMetadataStore.decimal
+			)}</span
+		>
+		<span class="font-normal" slot="tooltipContent">
+			{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
+				instanceRate,
+				$oysterTokenMetadataStore.decimal
+			)}
+		</span>
 	</Tooltip>
 </td>
 <td class={tableClasses.cell}>
@@ -70,21 +73,36 @@
 </td>
 <td class={tableClasses.cell}>
 	{#if $connected}
-		<ModalButton
-			variant="tableConvertButton"
-			styleClass="w-fit px-6 mr-4"
-			modalFor="create-order-modal-{rowIndex}">Deploy</ModalButton
-		>
+		<Tooltip>
+			<ModalButton
+				variant="text"
+				styleClass="w-fit px-6"
+				modalFor="create-order-modal-{rowIndex}"
+				slot="tooltipIcon"
+			>
+				<div class="rounded-full border border-[#D9DADE] p-3">
+					<img src={staticImages.deployIcon} alt="Deploy" />
+				</div>
+			</ModalButton>
+			<span class="font-normal" slot="tooltipContent">Deploy</span>
+		</Tooltip>
 	{:else}
 		<Button
-			styleClass="w-fit px-6 mr-4"
-			variant="tableConvertButton"
 			onclick={() =>
 				addToast({
 					message: 'Please connect your wallet to deploy.',
 					variant: 'info'
-				})}>Deploy</Button
+				})}
+			variant="text"
+			styleClass="w-fit ml-4"
 		>
+			<Tooltip>
+				<div slot="tooltipIcon" class="rounded-full border border-[#D9DADE] p-3">
+					<img src={staticImages.deployIcon} alt="Deploy" />
+				</div>
+				<span class="font-normal" slot="tooltipContent">Deploy</span>
+			</Tooltip>
+		</Button>
 	{/if}
 </td>
 <CreateOrderModal modalFor="create-order-modal-{rowIndex}" preFilledData={rowData} />

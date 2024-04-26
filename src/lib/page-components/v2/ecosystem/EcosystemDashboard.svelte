@@ -123,7 +123,7 @@
 	<PageTitle title="Explore The Ecosystem" />
 	<SearchBar
 		bind:input={searchInput}
-		placeholder="Search for operator, instance or region"
+		placeholder="Search for the partner you are looking for..."
 		styleClass="w-full"
 	/>
 

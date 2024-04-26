@@ -1,16 +1,35 @@
 <script lang="ts">
+	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { isNavOpen } from '$lib/data-stores/v2/navStore';
 	import type { SidebarLinks } from '$lib/types/headerTypes';
 	import { menuItems } from '$lib/utils/constants/v2/navigation';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
 	import { cn } from '$lib/utils/helpers/commonHelper';
+	import ExternalLinkConfirmationModal from '../../modals/ExternalLinkConfirmationModal.svelte';
 	import MenuItem from './MenuItem.svelte';
 
 	export let activeLink: string = '';
 
 	let links: SidebarLinks[] = [];
 	let checked = false;
+
+	function expandMenu(e?: Event) {
+		const menuToggle = e?.target as HTMLElement;
+		const menuItems = menuToggle.nextElementSibling as HTMLElement;
+		if (menuToggle.classList.contains('menu-dropdown-show')) {
+			menuToggle.classList.remove('menu-dropdown-show');
+			menuItems.classList.remove('menu-dropdown-show');
+		} else {
+			menuToggle.classList.add('menu-dropdown-show');
+			menuItems.classList.add('menu-dropdown-show');
+		}
+	}
+	function expandMenuWithKey(e?: KeyboardEvent) {
+		if (e?.key === 'Enter' || e?.key === ' ') {
+			expandMenu(e);
+		}
+	}
 
 	$: links = [
 		{
@@ -94,40 +113,72 @@
 	<div
 		class="relative max-h-[calc(100dvh-5rem-176px)] overflow-hidden after:absolute after:bottom-0 after:h-10 after:w-full after:bg-gradient-to-b after:from-transparent after:to-white"
 	>
-		<ul class="menu max-h-full flex-nowrap overflow-y-auto overflow-x-hidden px-0 pb-2 pt-0">
+		<ul class="menu max-h-full flex-nowrap overflow-y-auto overflow-x-hidden px-0 pb-10 pt-0">
 			{#each links as { icon, label, children, href }}
 				{#if children}
 					<li>
-						<details>
-							<summary
-								class={cn(
-									'px-[14px] py-4 after:text-[#26272c] hover:bg-transparent focus:bg-transparent active:!bg-transparent',
-									{
-										'after:text-[#2DB8E3]': activeLink.includes(href),
-										'after:hidden': !$isNavOpen,
-										'bg-[#FCFCFC]': !$isNavOpen && activeLink.includes(href)
-									}
-								)}
-							>
-								<div class="flex items-center gap-3">
+						<div
+							class={cn(
+								'menu-dropdown-toggle px-[14px] py-4 after:text-[#26272c] hover:bg-transparent active:!bg-transparent',
+								{
+									'after:text-[#2DB8E3]': activeLink.includes(href),
+									'after:hidden': !$isNavOpen,
+									'bg-[#FCFCFC]': !$isNavOpen && activeLink.includes(href)
+								}
+							)}
+							on:click={(e) => expandMenu(e)}
+							on:keydown={(e) => expandMenuWithKey(e)}
+							role="button"
+							tabindex="0"
+						>
+							<div class="flex items-start gap-3">
+								<div class="flex h-6 w-6 items-center justify-center">
 									<img src={icon} alt={icon} />
-									{#if $isNavOpen}
-										<p
-											class={cn('font-poppins text-base font-medium text-[#26272c]', {
-												'text-[#2DB8E3]': activeLink.includes(href)
-											})}
-										>
-											{label}
-										</p>
-									{/if}
 								</div>
-							</summary>
-							<ul class={cn('ml-[25px] px-3', $isNavOpen ? 'block' : 'hidden')}>
-								{#each children as subLink}
-									<li>
+								{#if $isNavOpen}
+									<p
+										class={cn('font-poppins text-base font-medium text-[#26272c]', {
+											'text-[#2DB8E3]': activeLink.includes(href)
+										})}
+									>
+										{label}
+									</p>
+								{/if}
+							</div>
+						</div>
+						<ul class={cn('menu-dropdown ml-[25px] px-3', { hidden: !$isNavOpen })}>
+							{#each children as subLink}
+								<li>
+									{#if subLink.openInNewTab}
+										<ModalButton
+											modalFor="external-link-confirmation-{subLink.preFixLabel}"
+											variant="text"
+											styleClass="p-0 hover:bg-transparent h-auto justify-start focus:!bg-transparent active:!bg-transparent active:!text-[#26272c]"
+										>
+											<div
+												class={cn(
+													'relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
+													activeLink.includes(subLink.href)
+														? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
+														: 'text-[#26272c]'
+												)}
+											>
+												{subLink.preFixLabel}
+												{#if subLink.icon}
+													<img
+														src={subLink.icon}
+														alt={subLink.icon}
+														class="min-w-[18px] max-w-[18px]"
+													/>
+												{/if}
+												{#if subLink.postFixLabel}
+													{subLink.postFixLabel}
+												{/if}
+											</div>
+										</ModalButton>
+									{:else}
 										<a
 											href={subLink.href}
-											target={subLink.openInNewTab ? '_blank' : ''}
 											class="p-0 hover:bg-transparent focus:!bg-transparent active:!bg-transparent active:!text-[#26272c]"
 										>
 											<div
@@ -151,36 +202,45 @@
 												{/if}
 											</div>
 										</a>
-									</li>
-								{/each}
-							</ul>
-						</details>
-					</li>{:else}
-					<a {href}>
-						<div class="flex cursor-pointer items-center gap-3 px-[14px] py-4">
-							<img src={icon} alt={icon} />
-							{#if $isNavOpen}
-								<p
-									class={cn('font-poppins text-base font-medium text-[#26272c]', {
-										'text-[#2DB8E3]': activeLink.includes(href)
-									})}
-								>
-									{label}
-								</p>
-							{/if}
-						</div>
-					</a>
+									{/if}
+								</li>
+							{/each}
+						</ul>
+					</li>
+				{:else}
+					<li>
+						<a {href} class="px-[14px] py-4">
+							<div
+								class={cn('flex items-center gap-3', {
+									'justify-center': !$isNavOpen
+								})}
+							>
+								<div class="flex h-6 w-6 items-center justify-center">
+									<img src={icon} alt={icon} />
+								</div>
+								{#if $isNavOpen}
+									<p
+										class={cn('font-poppins text-base font-medium text-[#26272c]', {
+											'text-[#2DB8E3]': activeLink.includes(href)
+										})}
+									>
+										{label}
+									</p>
+								{/if}
+							</div>
+						</a>
+					</li>
 				{/if}
 			{/each}
 		</ul>
 	</div>
-	<div class={cn('my-8 rounded-2xl', { 'bg-[#F4F4F6]': $isNavOpen })}>
+	<div class={cn('my-8 rounded-2xl pb-4', { 'bg-[#F4F4F6]': $isNavOpen })}>
 		<ul>
 			{#each menuItems as item}
 				<MenuItem {...item} />
 			{/each}
 		</ul>
-		<div class="px-4 py-4">
+		<!-- <div class="px-4 py-4">
 			<label
 				class={cn('grid cursor-pointer place-items-center', $isNavOpen ? 'w-[48px]' : 'w-[24px]')}
 			>
@@ -241,9 +301,21 @@
 					/>
 				</svg>
 			</label>
-		</div>
+		</div> -->
 	</div>
 </div>
+
+{#each links as { children }}
+	{#if children}
+		{#each children as subLink}
+			<ExternalLinkConfirmationModal
+				href={subLink.href}
+				modalFor="external-link-confirmation-{subLink.preFixLabel}"
+				label={subLink.preFixLabel}
+			></ExternalLinkConfirmationModal>
+		{/each}
+	{/if}
+{/each}
 
 <style>
 	.toggle,

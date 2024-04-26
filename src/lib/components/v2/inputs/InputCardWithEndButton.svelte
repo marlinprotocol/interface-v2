@@ -1,14 +1,36 @@
 <script lang="ts">
 	import InputCard from '$lib/atoms/v2/cards/InputCard.svelte';
+	import Text from '$lib/atoms/texts/Text.svelte';
+	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
+	import type { InputCardVariant } from '$lib/types/v2/componentTypes';
 
 	export let styleClass = '';
-
+	export let tooltipText = '';
+	export let title: string;
+	export let variant: InputCardVariant | undefined;
+	export let label: string = '';
+	export let showTitle: boolean = true;
 	let innerWidth = 0;
 </script>
 
 <svelte:window bind:innerWidth />
-<InputCard {styleClass}>
+<InputCard {variant} {styleClass}>
+	{#if label}
+		<p
+			class="absolute left-[12px] top-[-10px] z-[1] mb-4 bg-white px-1 font-poppins text-sm font-light text-[#030115]"
+		>
+			{label}
+		</p>
+	{/if}
 	<div class="flex items-center justify-between">
+		{#if showTitle}
+			<div class="flex items-center gap-1">
+				<Text variant="small" text={title} />
+				{#if !!tooltipText}
+					<TooltipIcon {tooltipText} />
+				{/if}
+			</div>
+		{/if}
 		<slot name="titleEndButton" />
 	</div>
 	<div class="flex items-center justify-between">

@@ -115,12 +115,12 @@
 
 <TableDataWithButton>
 	<svelte:fragment slot="line1">
-		{bigNumberToString(mpondAmount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)}
+		{bigNumberToString(pondAmount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
 	</svelte:fragment>
 </TableDataWithButton>
 <TableDataWithButton>
 	<svelte:fragment slot="line1">
-		{bigNumberToString(pondAmount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
+		{bigNumberToString(mpondAmount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)}
 	</svelte:fragment>
 </TableDataWithButton>
 <TableDataWithButton>

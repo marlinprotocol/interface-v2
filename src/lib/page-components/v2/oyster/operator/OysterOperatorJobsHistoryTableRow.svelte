@@ -3,7 +3,7 @@
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
+	import NameWithAddress from '$lib/components/v2/texts/NameWithAddress.svelte';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import {

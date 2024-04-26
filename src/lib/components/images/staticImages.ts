@@ -110,6 +110,7 @@ const loadingIcon = '/images/loading.svg';
 const yellowInfo = '/images/information-circle.svg';
 const redAlert = '/images/alert-red.svg';
 const greenTick = '/images/checkmark-circle-green.svg';
+const deployIcon = '/images/deployIcon.svg';
 
 export const staticImages = {
 	Alert,
@@ -220,5 +221,6 @@ export const staticImages = {
 	loadingIcon,
 	yellowInfo,
 	redAlert,
-	greenTick
+	greenTick,
+	deployIcon
 };

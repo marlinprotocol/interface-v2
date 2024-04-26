@@ -1,7 +1,8 @@
 <script lang="ts">
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import { page } from '$app/stores';
-
+	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
+	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import TextInputWithEndButton from '$lib/components/v2/inputs/TextInputWithEndButton.svelte';
@@ -30,6 +31,8 @@
 	import { shortenText } from '$lib/utils/helpers/conversionHelper';
 	import Text from '$lib/atoms/v2/texts/Text.svelte';
 	import { checkValidURL, cn, sanitizeUrl } from '$lib/utils/helpers/commonHelper';
+	import RegisterModal from './Modals/RegisterModal.svelte';
+	import LoadingAnimationModal from '$lib/components/loading/LoadingAnimationModal.svelte';
 
 	let enableRegisterButton = false;
 	let updatedCpURL = '';
@@ -37,11 +40,16 @@
 	let registered = false;
 	let disableCpURL = true;
 	let openInstanceTable = false;
-	// loading states
 	let unregisterLoading = false;
 	let registerLoading = false;
 	let updateLoading = false;
 	let initialInstances: CPUrlDataModel[] = [];
+	let instancesLoading = false;
+	let instancesData = {
+		totalInstances: 0,
+		totalRegions: 0
+	};
+	let loadingInstances = false;
 
 	const handleOnRegister = async () => {
 		try {
@@ -117,23 +125,29 @@
 
 	async function getInstances(apiType: string) {
 		try {
+			loadingInstances = true;
 			if (apiType === 'proxy') {
 				const instances = await getInstancesFromControlPlaneUsingCpUrl(sanitizedUpdatedCpURL);
 				initialInstances = getModifiedInstances(instances);
+				loadingInstances = false;
 				return initialInstances;
 			} else if (registeredCpURL !== '' && apiType === 'wallet') {
 				const instances = await getInstancesFromControlPlaneUsingOperatorAddress(
 					$walletStore.address
 				);
 				initialInstances = getModifiedInstances(instances);
+				loadingInstances = false;
 				return initialInstances;
 			} else if (registeredCpURL) {
+				loadingInstances = false;
 				return initialInstances;
 			} else {
+				loadingInstances = false;
 				return [];
 			}
 		} catch (error) {
 			console.log('error from getInstances', error);
+			loadingInstances = true;
 			throw error;
 		}
 	}
@@ -180,7 +194,7 @@
 	}
 
 	// Define the debounced version of getInstances
-	const debouncedGetInstances = debounce(getInstances, 4000);
+	const debouncedGetInstances = debounce(getInstances, 200);
 	const memoizeInstances = (updatedUrl: string) => {
 		if (!validCPUrl) {
 			return debouncedGetInstances('');
@@ -195,6 +209,7 @@
 		}
 		return debouncedGetInstances('');
 	};
+
 	$: updateCpUrls($walletStore.address, $chainStore.chainId, $connected, $oysterStore.providerData);
 	$: if (updatedCpURL !== registeredCpURL) {
 		enableRegisterButton = false;
@@ -206,18 +221,32 @@
 	$: instances
 		.then((data) => {
 			if (data.length > 0) {
+				const uniqueRegions = [...new Set(data.map((instance) => instance.region))];
+				instancesData.totalInstances = data.length;
+				instancesData.totalRegions = uniqueRegions.length;
 				enableRegisterButton = true;
 				openInstanceTable = true;
 			} else {
 				enableRegisterButton = false;
 				openInstanceTable = false;
 			}
+			instancesLoading = false;
 		})
 		.catch((error) => {
 			console.error(error);
+			instancesLoading = false;
 			enableRegisterButton = false;
-			openInstanceTable = true;
 		});
+
+	$: if (validCPUrl && updatedCpURL !== registeredCpURL) {
+		fetchInstances();
+	}
+
+	async function fetchInstances() {
+		instancesLoading = true;
+		await instances;
+		instancesLoading = false;
+	}
 
 	const isDisabledCpUrl = (connected: boolean, cpUrl: string) => {
 		if (connected) {
@@ -228,88 +257,94 @@
 	};
 
 	$: disableCpURL = isDisabledCpUrl($connected, registeredCpURL);
-
 	$: path = $page.url.pathname;
 	$: detailsActive = path === ROUTES.OYSTER_OPERATOR_JOBS_URL + '/';
 	$: historyActive = path === ROUTES.OYSTER_OPERATOR_HISTORY_URL + '/';
 </script>
 
 <div>
-	<div class="flex items-center justify-between">
-		<Text
-			styleClass="font-poppins leading-[-2px] text-[#030115]"
-			variant="h2"
-			fontWeight="font-medium"
-			text="Hello, {shortenText($walletStore.address, 6, 6)}"
-		/>
-		{#if $connected}
-			{#if !registered}
-				<Button
-					variant="filled"
-					size="large"
-					styleClass="w-[170px] text-base font-normal"
-					disabled={false}
-					onclick={handleOnRegister}
-					loading={registerLoading}
-				>
-					REGISTER
-				</Button>
-			{/if}
-		{/if}
-	</div>
-	{#if registered}
-		<div class="rounded-3xl bg-white px-8 py-6">
-			<p class="pb-3 text-base font-normal">Control Plane:</p>
-			<TextInputWithEndButton
-				styleClass="w-full bg-[#F4F4F6] py-4 rounded-[100px]"
-				placeholder="Paste URL here"
-				bind:input={updatedCpURL}
-			>
-				<svelte:fragment slot="endInfoBox">
-					<div
-						class="flex w-full max-w-[300px] items-center justify-between gap-3 rounded-[100px] bg-white px-[18px] py-4"
-					>
-						<p>Instances: 200</p>
-						<Divider direction="divider-vertical" />
-						<p>Instances: 200</p>
-					</div>
-				</svelte:fragment>
-			</TextInputWithEndButton>
-			<ErrorTextCard
-				showError={!validCPUrl && updatedCpURL !== ''}
-				errorMessage="Invalid control plane URL. Make sure to use the full URL along with http:// or https:// and remove any trailing slashes."
+	{#if !$oysterStore.merchantJobsLoaded}
+		<LoadingAnimatedPing />
+	{:else}
+		<div class="flex items-center justify-between">
+			<Text
+				styleClass="font-poppins leading-[-2px] text-[#030115]"
+				variant="h2"
+				fontWeight="font-medium"
+				text="Hello, {shortenText($walletStore.address, 6, 6)}"
 			/>
-
-			<div class="mt-4" />
 			{#if $connected}
-				{#if registered}
-					<div class="flex gap-4">
-						<Button
-							variant="filled"
-							size="large"
-							styleClass="w-[190.5px]"
-							disabled={!validCPUrl || registeredCpURL === updatedCpURL || !enableRegisterButton}
-							onclick={handleOnUpdate}
-							loading={updateLoading}
-						>
-							UPDATE
-						</Button>
-						<Button
-							variant="outlined"
-							size="large"
-							styleClass="w-[190.5px]"
-							disabled={!validCPUrl || registeredCpURL !== updatedCpURL}
-							onclick={handleOnUnregister}
-							loading={unregisterLoading}
-						>
-							UNREGISTER
-						</Button>
-					</div>
+				{#if !registered}
+					<ModalButton
+						variant="filled"
+						size="large"
+						styleClass="w-[170px] text-base font-normal"
+						modalFor="oyster-register-url-operator"
+					>
+						Register
+					</ModalButton>
 				{/if}
-			{:else}
-				<ConnectWalletButton isLarge={true} />
 			{/if}
 		</div>
+		{#if registered}
+			<div class="mt-6 rounded-3xl bg-white px-8 py-6">
+				<!-- <p class="pb-3 text-base font-normal">Control Plane:</p> -->
+				<TextInputWithEndButton
+					styleClass="w-full bg-[#F4F4F6] py-4 rounded-[100px]"
+					placeholder="Paste URL here"
+					title="Control Plane"
+					bind:input={updatedCpURL}
+					id="cpurl-main"
+				>
+					<svelte:fragment slot="endInfoBox">
+						<div
+							class="flex w-full max-w-[300px] items-center justify-between gap-3 rounded-[100px] bg-white px-[18px] py-4"
+						>
+							{#if loadingInstances}
+								<p>loading...</p>
+							{:else}
+								<p>Instances: {instancesData.totalInstances}</p>
+								<Divider direction="divider-vertical" />
+								<p>Regions: {instancesData.totalRegions}</p>
+							{/if}
+						</div>
+					</svelte:fragment>
+				</TextInputWithEndButton>
+				<ErrorTextCard
+					showError={!validCPUrl && updatedCpURL !== ''}
+					errorMessage="Invalid control plane URL. Make sure to use the full URL along with http:// or https:// and remove any trailing slashes."
+				/>
+
+				<div class="mt-4" />
+				{#if $connected}
+					{#if registered}
+						<div class="flex gap-4">
+							<ModalButton
+								variant="filled"
+								size="large"
+								styleClass="w-[190.5px]"
+								modalFor="oyster-register-url-operator"
+							>
+								Update
+							</ModalButton>
+
+							<Button
+								variant="outlined"
+								size="large"
+								styleClass="w-[190.5px]"
+								disabled={!validCPUrl || registeredCpURL !== updatedCpURL}
+								onclick={handleOnUnregister}
+								loading={unregisterLoading}
+							>
+								Unregister
+							</Button>
+						</div>
+					{/if}
+				{:else}
+					<ConnectWalletButton isLarge={true} />
+				{/if}
+			</div>
+		{/if}
 	{/if}
 
 	<div class="mt-[40px] flex w-min gap-[10px] rounded-tl-[18px] rounded-tr-[18px] bg-white">
@@ -333,3 +368,16 @@
 		</a>
 	</div>
 </div>
+
+<RegisterModal
+	{handleOnRegister}
+	{handleOnUpdate}
+	{updateLoading}
+	{registered}
+	bind:registeredCpURL
+	bind:registerLoading
+	bind:updatedCpURL
+	bind:validCPUrl
+	bind:enableRegisterButton
+	bind:instancesLoading
+/>

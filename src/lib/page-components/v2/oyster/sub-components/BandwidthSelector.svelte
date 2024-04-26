@@ -57,7 +57,7 @@
 		: '';
 </script>
 
-<div class="flex gap-2">
+<div class="mb-4 flex gap-2">
 	<AmountInputWithTitle
 		title="Bandwidth"
 		bind:inputAmountString={bandwidth}

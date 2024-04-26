@@ -212,11 +212,21 @@
 />
 <div class="flex gap-2">
 	<div class="w-full">
-		<TextInputWithEndButton title="vCPU" bind:input={vcpu} placeholder="Select" />
+		<TextInputWithEndButton
+			showTitle={false}
+			styleClass="px-4 py-2.5"
+			title="vCPU"
+			bind:input={vcpu}
+			placeholder="Select"
+			label="vCPU"
+		/>
 	</div>
 	<div class="w-full">
 		<TextInputWithEndButton
+			showTitle={false}
+			styleClass="px-4 py-2.5"
 			title="Architecture"
+			label="Architecture"
 			bind:input={arch.value}
 			placeholder="Select"
 			disabled
@@ -225,7 +235,10 @@
 	<div class="w-full">
 		<TextInputWithEndButton
 			title="Memory ({MEMORY_SUFFIX.trimStart()})"
+			label="Memory ({MEMORY_SUFFIX.trimStart()})"
 			bind:input={memory}
+			showTitle={false}
+			styleClass="px-4 py-2.5"
 			placeholder="Select"
 		/>
 	</div>

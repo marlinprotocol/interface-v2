@@ -183,7 +183,7 @@
 	$: inValidMessage = getInvalidMessage(instanceCostScaled, invalidCost, useMarlinCredits);
 </script>
 
-<div class="flex gap-4">
+<div class="my-4 flex gap-4">
 	<AmountInputWithTitle
 		title="Hourly Rate"
 		id="Hourly-Rate"

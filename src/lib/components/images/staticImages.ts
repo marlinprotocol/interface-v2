@@ -107,6 +107,9 @@ const calendarIcon = '/images/calendar.svg';
 const checkmarkCircleIcon = '/images/checkmark-circle.svg';
 const clock = '/images/clock.svg';
 const loadingIcon = '/images/loading.svg';
+const yellowInfo = '/images/information-circle.svg';
+const redAlert = '/images/alert-red.svg';
+const greenTick = '/images/checkmark-circle-green.svg';
 
 export const staticImages = {
 	Alert,
@@ -214,5 +217,8 @@ export const staticImages = {
 	calendarIcon,
 	checkmarkCircleIcon,
 	clock,
-	loadingIcon
+	loadingIcon,
+	yellowInfo,
+	redAlert,
+	greenTick
 };

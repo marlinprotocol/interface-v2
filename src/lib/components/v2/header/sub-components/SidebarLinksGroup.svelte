@@ -204,13 +204,13 @@
 			{/each}
 		</ul>
 	</div>
-	<div class={cn('my-8 rounded-2xl', { 'bg-[#F4F4F6]': $isNavOpen })}>
+	<div class={cn('my-8 rounded-2xl pb-4', { 'bg-[#F4F4F6]': $isNavOpen })}>
 		<ul>
 			{#each menuItems as item}
 				<MenuItem {...item} />
 			{/each}
 		</ul>
-		<div class="px-4 py-4">
+		<!-- <div class="px-4 py-4">
 			<label
 				class={cn('grid cursor-pointer place-items-center', $isNavOpen ? 'w-[48px]' : 'w-[24px]')}
 			>
@@ -271,7 +271,7 @@
 					/>
 				</svg>
 			</label>
-		</div>
+		</div> -->
 	</div>
 </div>
 

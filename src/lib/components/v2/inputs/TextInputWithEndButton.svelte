@@ -9,9 +9,11 @@
 	export let placeholder = '';
 	export let disabled = false;
 	export let input: string;
+	export let label: string = '';
+	export let showTitle: boolean = true;
 </script>
 
-<InputCardWithEndButton {styleClass} {tooltipText} {title}>
+<InputCardWithEndButton {showTitle} {label} variant="v2Input" {styleClass} {tooltipText} {title}>
 	<input
 		id="address-display"
 		bind:value={input}

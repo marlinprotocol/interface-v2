@@ -45,11 +45,13 @@
 </script>
 
 <div class="relative flex flex-1 flex-col">
-	<p
-		class="absolute left-[12px] top-[-10px] z-[1] mb-4 bg-white px-1 font-poppins text-sm font-light text-[#030115]"
-	>
-		{label}
-	</p>
+	{#if label}
+		<p
+			class="absolute left-[12px] top-[-10px] z-[1] mb-4 bg-white px-1 font-poppins text-sm font-light text-[#030115]"
+		>
+			{label}
+		</p>
+	{/if}
 
 	<InputCard styleClass="{styleClass} border border-[#D9DADE]" variant={cardVariant}>
 		<div class="search-container">

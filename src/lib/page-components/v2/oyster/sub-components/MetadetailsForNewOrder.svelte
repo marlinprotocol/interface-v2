@@ -162,6 +162,9 @@
 	searchValue={merchant.value}
 	setSearchValue={handleMerchantChange}
 	title="Operator"
+	label="Operator"
+	showTitle={false}
+	cardVariant="v2Input"
 	placeholder="Enter operator name or address"
 />
 <ErrorTextCard
@@ -169,13 +172,16 @@
 	errorMessage={merchant.error}
 	styleClass="mt-0"
 />
-<div class="flex gap-2">
+<div class="my-4 flex gap-2">
 	<div class="w-full">
 		<SearchWithSelect
 			dataList={filters?.instance ?? []}
 			searchValue={instance.value}
 			setSearchValue={handleInstanceChange}
 			title="Instance"
+			label="Instance"
+			cardVariant="v2Input"
+			showTitle={false}
 			placeholder="Select instance"
 			disabled={!merchant.value}
 		/>
@@ -186,6 +192,9 @@
 			searchValue={region.value}
 			setSearchValue={handleRegionChange}
 			title="Region"
+			label="Region"
+			cardVariant="v2Input"
+			showTitle={false}
 			placeholder="Select region"
 			disabled={!merchant.value}
 		/>

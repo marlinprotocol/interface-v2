@@ -111,16 +111,16 @@
 	<div
 		class="relative max-h-[calc(100dvh-5rem-176px)] overflow-hidden after:absolute after:bottom-0 after:h-10 after:w-full after:bg-gradient-to-b after:from-transparent after:to-white"
 	>
-		<ul class="menu max-h-full flex-nowrap overflow-y-auto overflow-x-hidden px-0 pb-2 pt-0">
+		<ul class="menu max-h-full flex-nowrap overflow-y-auto overflow-x-hidden px-0 pb-10 pt-0">
 			{#each links as { icon, label, children, href }}
 				{#if children}
 					<li>
-						<span
+						<div
 							class={cn(
 								'menu-dropdown-toggle px-[14px] py-4 after:text-[#26272c] hover:bg-transparent active:!bg-transparent',
 								{
 									'after:text-[#2DB8E3]': activeLink.includes(href),
-									'flex items-center justify-center after:hidden': !$isNavOpen,
+									'after:hidden': !$isNavOpen,
 									'bg-[#FCFCFC]': !$isNavOpen && activeLink.includes(href)
 								}
 							)}
@@ -129,13 +129,13 @@
 							role="button"
 							tabindex="0"
 						>
-							<div class="flex items-center gap-3">
+							<div class="flex items-start gap-3">
 								<div class="flex h-6 w-6 items-center justify-center">
 									<img src={icon} alt={icon} />
 								</div>
 								{#if $isNavOpen}
 									<p
-										class={cn('font-poppins text-base	 font-medium text-[#26272c]', {
+										class={cn('font-poppins text-base font-medium text-[#26272c]', {
 											'text-[#2DB8E3]': activeLink.includes(href)
 										})}
 									>
@@ -143,7 +143,7 @@
 									</p>
 								{/if}
 							</div>
-						</span>
+						</div>
 						<ul class={cn('menu-dropdown ml-[25px] px-3', { hidden: !$isNavOpen })}>
 							{#each children as subLink}
 								<li>
@@ -176,25 +176,30 @@
 								</li>
 							{/each}
 						</ul>
-					</li>{:else}
-					<a {href}>
-						<div
-							class={cn('flex cursor-pointer items-center gap-3 px-[14px] py-4', {
-								'justify-center': !$isNavOpen
-							})}
-						>
-							<img src={icon} alt={icon} />
-							{#if $isNavOpen}
-								<p
-									class={cn('font-poppins text-base font-medium text-[#26272c]', {
-										'text-[#2DB8E3]': activeLink.includes(href)
-									})}
-								>
-									{label}
-								</p>
-							{/if}
-						</div>
-					</a>
+					</li>
+				{:else}
+					<li>
+						<a {href} class="px-[14px] py-4">
+							<div
+								class={cn('flex items-center gap-3', {
+									'justify-center': !$isNavOpen
+								})}
+							>
+								<div class="flex h-6 w-6 items-center justify-center">
+									<img src={icon} alt={icon} />
+								</div>
+								{#if $isNavOpen}
+									<p
+										class={cn('font-poppins text-base font-medium text-[#26272c]', {
+											'text-[#2DB8E3]': activeLink.includes(href)
+										})}
+									>
+										{label}
+									</p>
+								{/if}
+							</div>
+						</a>
+					</li>
 				{/if}
 			{/each}
 		</ul>

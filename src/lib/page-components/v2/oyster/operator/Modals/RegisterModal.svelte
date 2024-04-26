@@ -20,16 +20,24 @@
 	let isUpdateButtonDisabled: boolean;
 	let isRegistredButtonDisabled: boolean;
 
-	$: isUpdateButtonDisabled =
-		!validCPUrl || registeredCpURL === updatedCpURL || !enableRegisterButton;
-	$: isRegistredButtonDisabled = !validCPUrl || !enableRegisterButton;
-
-	console.log({ isUpdateButtonDisabled });
 	let isStateVisiable = false;
 	const commonStateClass =
 		'mt-4 w-full rounded-[18px]  py-6 flex items-center justify-center gap-[7px]';
 	let currentStateClass = '';
 	let iconName = '';
+
+	function returnStateComponent(value: string) {
+		switch (value) {
+			case 'bg-[#FDF3DE] text-[#E6B54D]':
+				return 'Your register is loading...';
+			case 'bg-[#FEE6E6] text-[#E00606]':
+				return 'Details are wrong';
+			case 'bg-[#F4F9F0] text-[#68A843]':
+				return 'Your register has been added successfully ';
+			default:
+				break;
+		}
+	}
 
 	$: if (instancesLoading) {
 		isStateVisiable = true;
@@ -46,24 +54,14 @@
 	} else {
 		isStateVisiable = false;
 	}
-	function returnStateComponent(value: string) {
-		switch (value) {
-			case 'bg-[#FDF3DE] text-[#E6B54D]':
-				return 'Your register is loading...';
-			case 'bg-[#FEE6E6] text-[#E00606]':
-				return 'Details are wrong';
-			case 'bg-[#F4F9F0] text-[#68A843]':
-				return 'Your register has been added successfully ';
-			default:
-				break;
-		}
-	}
+	$: isUpdateButtonDisabled =
+		!validCPUrl || registeredCpURL === updatedCpURL || !enableRegisterButton;
+	$: isRegistredButtonDisabled = !validCPUrl || !enableRegisterButton;
 </script>
 
 <Modal modalFor="oyster-register-url-operator">
 	<svelte:fragment slot="title">Register</svelte:fragment>
 	<svelte:fragment slot="content">
-		<!-- <p class="pb-3 text-base font-normal">Details</p> -->
 		<TextInputWithEndButton
 			styleClass="w-full  py-4 rounded-[100px]"
 			placeholder="Paste URL here"

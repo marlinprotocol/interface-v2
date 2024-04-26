@@ -4,7 +4,6 @@
 	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let styleClass = '';
-	// export let tooltipText = '';
 	export let title = '';
 	export let placeholder = '';
 	export let disabled = false;

@@ -1,10 +1,12 @@
 <script lang="ts">
+	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { isNavOpen } from '$lib/data-stores/v2/navStore';
 	import type { SidebarLinks } from '$lib/types/headerTypes';
 	import { menuItems } from '$lib/utils/constants/v2/navigation';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
 	import { cn } from '$lib/utils/helpers/commonHelper';
+	import ExternalLinkConfirmationModal from '../../modals/ExternalLinkConfirmationModal.svelte';
 	import MenuItem from './MenuItem.svelte';
 
 	export let activeLink: string = '';
@@ -147,32 +149,60 @@
 						<ul class={cn('menu-dropdown ml-[25px] px-3', { hidden: !$isNavOpen })}>
 							{#each children as subLink}
 								<li>
-									<a
-										href={subLink.href}
-										target={subLink.openInNewTab ? '_blank' : ''}
-										class="p-0 hover:bg-transparent focus:!bg-transparent active:!bg-transparent active:!text-[#26272c]"
-									>
-										<div
-											class={cn(
-												'relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
-												activeLink.includes(subLink.href)
-													? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
-													: 'text-[#26272c]'
-											)}
+									{#if subLink.openInNewTab}
+										<ModalButton
+											modalFor="external-link-confirmation-{subLink.preFixLabel}"
+											variant="text"
+											styleClass="p-0 hover:bg-transparent h-auto justify-start focus:!bg-transparent active:!bg-transparent active:!text-[#26272c]"
 										>
-											{subLink.preFixLabel}
-											{#if subLink.icon}
-												<img
-													src={subLink.icon}
-													alt={subLink.icon}
-													class="min-w-[18px] max-w-[18px]"
-												/>
-											{/if}
-											{#if subLink.postFixLabel}
-												{subLink.postFixLabel}
-											{/if}
-										</div>
-									</a>
+											<div
+												class={cn(
+													'relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
+													activeLink.includes(subLink.href)
+														? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
+														: 'text-[#26272c]'
+												)}
+											>
+												{subLink.preFixLabel}
+												{#if subLink.icon}
+													<img
+														src={subLink.icon}
+														alt={subLink.icon}
+														class="min-w-[18px] max-w-[18px]"
+													/>
+												{/if}
+												{#if subLink.postFixLabel}
+													{subLink.postFixLabel}
+												{/if}
+											</div>
+										</ModalButton>
+									{:else}
+										<a
+											href={subLink.href}
+											class="p-0 hover:bg-transparent focus:!bg-transparent active:!bg-transparent active:!text-[#26272c]"
+										>
+											<div
+												class={cn(
+													'relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
+													activeLink.includes(subLink.href)
+														? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
+														: 'text-[#26272c]'
+												)}
+											>
+												{subLink.preFixLabel}
+												{#if subLink.icon}
+													<img
+														src={subLink.icon}
+														alt={subLink.icon}
+														class="min-w-[18px] max-w-[18px]"
+													/>
+												{/if}
+												{#if subLink.postFixLabel}
+													{subLink.postFixLabel}
+												{/if}
+											</div>
+										</a>
+									{/if}
 								</li>
 							{/each}
 						</ul>
@@ -274,6 +304,18 @@
 		</div> -->
 	</div>
 </div>
+
+{#each links as { children }}
+	{#if children}
+		{#each children as subLink}
+			<ExternalLinkConfirmationModal
+				href={subLink.href}
+				modalFor="external-link-confirmation-{subLink.preFixLabel}"
+				label={subLink.preFixLabel}
+			></ExternalLinkConfirmationModal>
+		{/each}
+	{/if}
+{/each}
 
 <style>
 	.toggle,

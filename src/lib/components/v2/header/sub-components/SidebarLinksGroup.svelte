@@ -35,6 +35,32 @@
 				: staticImages.dashboardIcon
 		},
 		{
+			label: 'Oyster',
+			icon: activeLink.includes(ROUTES.OYSTER_URL)
+				? staticImages.oysterIconBlue
+				: staticImages.oysterIcon,
+			href: ROUTES.OYSTER_URL,
+			children: [
+				{ preFixLabel: 'Marketplace', href: ROUTES.OYSTER_MARKETPLACE_URL },
+				{ preFixLabel: 'Operator', href: ROUTES.OYSTER_OPERATOR_URL },
+				{ preFixLabel: 'Inventory', href: ROUTES.OYSTER_INVENTORY_URL }
+			]
+		},
+		{
+			label: 'Relay',
+			icon: staticImages.relayIcon,
+			href: ROUTES.RELAY_CLUSTERS_LINK,
+			isExternal: true
+		},
+		{
+			label: 'Kalypso',
+			icon: activeLink.includes(ROUTES.KALYPSO_URL)
+				? staticImages.kalypsoIconBlue
+				: staticImages.kalypsoIcon,
+			href: ROUTES.KALYPSO_URL,
+			children: [{ preFixLabel: 'Dashboard', href: ROUTES.KALYPSO_LINK_1_URL }]
+		},
+		{
 			label: 'Bridge',
 			icon: activeLink.includes(ROUTES.BRIDGE_URL)
 				? staticImages.bridgeIconBlue
@@ -62,37 +88,11 @@
 			]
 		},
 		{
-			label: 'Oyster',
-			icon: activeLink.includes(ROUTES.OYSTER_URL)
-				? staticImages.oysterIconBlue
-				: staticImages.oysterIcon,
-			href: ROUTES.OYSTER_URL,
-			children: [
-				{ preFixLabel: 'Marketplace', href: ROUTES.OYSTER_MARKETPLACE_URL },
-				{ preFixLabel: 'Operator', href: ROUTES.OYSTER_OPERATOR_URL },
-				{ preFixLabel: 'Inventory', href: ROUTES.OYSTER_INVENTORY_URL }
-			]
-		},
-		{
-			label: 'Kalypso',
-			icon: activeLink.includes(ROUTES.KALYPSO_URL)
-				? staticImages.kalypsoIconBlue
-				: staticImages.kalypsoIcon,
-			href: ROUTES.KALYPSO_URL,
-			children: [{ preFixLabel: 'Dashboard', href: ROUTES.KALYPSO_LINK_1_URL }]
-		},
-		{
 			label: 'Ecosystem',
 			href: ROUTES.ECOSYSTEM_URL,
 			icon: activeLink.includes(ROUTES.ECOSYSTEM_URL)
 				? staticImages.ecosystemIconBlue
 				: staticImages.ecosystemIcon
-		},
-		{
-			label: 'Relay',
-			icon: staticImages.relayIcon,
-			href: ROUTES.RELAY_CLUSTERS_LINK,
-			isExternal: true
 		}
 	];
 </script>

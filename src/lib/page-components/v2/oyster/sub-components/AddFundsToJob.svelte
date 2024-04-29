@@ -224,4 +224,8 @@
 		disabled={!instanceRate}
 	/>
 </div>
-<ErrorTextCard styleClass="mt-0" showError={inValidMessage !== ''} errorMessage={inValidMessage} />
+<ErrorTextCard
+	styleClass="mt-0 mb-4"
+	showError={inValidMessage !== ''}
+	errorMessage={inValidMessage}
+/>

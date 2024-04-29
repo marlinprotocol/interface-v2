@@ -73,7 +73,7 @@
 		disabled={!$connected}
 		{onSearchClick}
 		bind:input={searchInput}
-		placeholder="Search"
+		placeholder="Operator name or address"
 		styleClass="w-full bg-[#F4F4F6]"
 	/>
 </div>

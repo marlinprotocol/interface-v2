@@ -14,6 +14,7 @@
 	let expandedLinks: string[] = [];
 
 	function handleSidebarMenuItemClickWhenCollapsed(e: Event) {
+		console.log('handleSidebarMenuItemClickWhenCollapsed', e);
 		$isNavOpen = true;
 		const targetElement = e.target as HTMLElement;
 		const menuDropdown = targetElement.nextElementSibling as Element;
@@ -215,7 +216,7 @@
 					</li>
 				{:else}
 					<li>
-						<a {href} class="px-[14px] py-4" target={isExternal ? '_blank' : '_self'}>
+						<a {href} class="px-[14px] py-4" target={isExternal ? '_blank' : ''}>
 							<div
 								class={cn('flex items-center gap-3', {
 									'justify-center': !$isNavOpen

@@ -12,11 +12,12 @@
 	export let handleUpdatedAmount: any = undefined;
 	export let inputCardVariant: InputCardVariant = 'primary';
 	export let currency = '';
+	export let showBalance: boolean = true;
 </script>
 
 <InputCard variant="primary">
 	<form>
-		<div class="flex items-start justify-between gap-2">
+		<div class="flex items-center justify-between gap-2">
 			<AmountInput
 				bind:value={inputAmountString}
 				onChange={handleUpdatedAmount}
@@ -30,24 +31,26 @@
 		{#if inputCardVariant !== 'none'}
 			<Divider />
 		{/if}
-		<div class="mt-[-10px] flex items-center justify-end gap-2">
-			<div class="flex items-center gap-1">
-				<Text
-					text={maxAmountText}
-					variant="small"
-					styleClass="text-[#657183]"
-					fontWeight="font-normal"
-				/>
-				{#if maxAmountTooltipText}
-					<Tooltip>
-						<span slot="tooltipContent" class="text-sm leading-[18px]">{maxAmountTooltipText}</span>
-					</Tooltip>
+		{#if showBalance}<div class="mt-[-10px] flex items-center justify-end gap-2">
+				<div class="flex items-center gap-1">
+					<Text
+						text={maxAmountText}
+						variant="small"
+						styleClass="text-[#657183]"
+						fontWeight="font-normal"
+					/>
+					{#if maxAmountTooltipText}
+						<Tooltip>
+							<span slot="tooltipContent" class="text-sm leading-[18px]"
+								>{maxAmountTooltipText}</span
+							>
+						</Tooltip>
+					{/if}
+				</div>
+				{#if $$slots.inputMaxButton}
+					<Divider direction="divider-vertical" />
+					<slot name="inputMaxButton" />
 				{/if}
-			</div>
-			{#if $$slots.inputMaxButton}
-				<Divider direction="divider-vertical" />
-				<slot name="inputMaxButton" />
-			{/if}
-		</div>
+			</div>{/if}
 	</form>
 </InputCard>

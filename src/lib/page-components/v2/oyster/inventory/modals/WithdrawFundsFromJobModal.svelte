@@ -19,6 +19,7 @@
 	import { DEFAULT_PRECISION } from '$lib/utils/constants/constants';
 	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
+	import Divider from '$lib/atoms/v2/divider/Divider.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -119,9 +120,21 @@
 			{handleUpdatedAmount}
 			inputCardVariant="none"
 			{maxAmountText}
-		>
-			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
-		</AmountInputWithMaxButton>
+			currency="Amount"
+			showBalance={false}
+		/>
+		<div class="mt-4 flex items-center justify-end gap-2">
+			<MaxButton onclick={handleMaxClick} />
+			<Divider direction="divider-vertical" />
+			<div class="flex items-center gap-1">
+				<Text
+					text={maxAmountText}
+					variant="small"
+					styleClass="text-[#657183]"
+					fontWeight="font-normal"
+				/>
+			</div>
+		</div>
 		<ErrorTextCard
 			showError={!inputAmountIsValid && updatedAmountInputDirty}
 			errorMessage={inValidMessage}

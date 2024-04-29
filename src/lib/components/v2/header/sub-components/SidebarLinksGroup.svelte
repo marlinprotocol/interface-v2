@@ -325,14 +325,6 @@
 		</div> -->
 	</div>
 </div>
-
-<!-- {#each links as { children }}
-	{#if children}
-		{#each children as subLink}
-			
-		{/each}
-	{/if}
-{/each} -->
 <ExternalLinkConfirmationModal
 	href={ROUTES.RELAY_CLUSTERS_LINK}
 	modalFor="external-link-confirmation-Relay"

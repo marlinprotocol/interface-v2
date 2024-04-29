@@ -14,7 +14,6 @@
 	let expandedLinks: string[] = [];
 
 	function handleSidebarMenuItemClickWhenCollapsed(e: Event) {
-		console.log('handleSidebarMenuItemClickWhenCollapsed', e);
 		$isNavOpen = true;
 		const targetElement = e.target as HTMLElement;
 		const menuDropdown = targetElement.nextElementSibling as Element;

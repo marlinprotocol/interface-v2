@@ -19,4 +19,5 @@ export type SidebarLinks = {
 	href: string;
 	icon: string;
 	children?: SubLinks[];
+	isExternal?: boolean;
 };

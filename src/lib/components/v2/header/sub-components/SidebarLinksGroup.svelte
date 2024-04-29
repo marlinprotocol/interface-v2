@@ -82,18 +82,18 @@
 			href: ROUTES.KALYPSO_URL,
 			children: [{ preFixLabel: 'Dashboard', href: ROUTES.KALYPSO_LINK_1_URL }]
 		},
-
-		{
-			label: 'Relay',
-			icon: staticImages.relayIcon,
-			href: ROUTES.RELAY_CLUSTERS_LINK
-		},
 		{
 			label: 'Ecosystem',
 			href: ROUTES.ECOSYSTEM_URL,
 			icon: activeLink.includes(ROUTES.ECOSYSTEM_URL)
 				? staticImages.ecosystemIconBlue
 				: staticImages.ecosystemIcon
+		},
+		{
+			label: 'Relay',
+			icon: staticImages.relayIcon,
+			href: ROUTES.RELAY_CLUSTERS_LINK,
+			isExternal: true
 		}
 	];
 </script>
@@ -103,7 +103,7 @@
 		class="relative max-h-[calc(100dvh-5rem-176px)] overflow-hidden after:absolute after:bottom-0 after:h-10 after:w-full after:bg-gradient-to-b after:from-transparent after:to-white"
 	>
 		<ul class="menu max-h-full flex-nowrap overflow-y-auto overflow-x-hidden px-0 pb-10 pt-0">
-			{#each links as { icon, label, children, href }}
+			{#each links as { icon, label, children, href, isExternal }}
 				{#if children}
 					<li>
 						<div
@@ -203,53 +203,26 @@
 					</li>
 				{:else}
 					<li>
-						{#if label === 'Relay'}
-							<ModalButton
-								modalFor="external-link-confirmation-{label}"
-								variant="text"
-								styleClass="px-[14px] py-4 hover:bg-[#3030301a]  h-auto justify-start "
+						<a {href} class="px-[14px] py-4" target={isExternal ? '_blank' : '_self'}>
+							<div
+								class={cn('flex items-center gap-3', {
+									'justify-center': !$isNavOpen
+								})}
 							>
-								<div
-									class={cn('flex items-center gap-3', {
-										'justify-center': !$isNavOpen
-									})}
-								>
-									<div class="flex h-6 w-6 items-center justify-center">
-										<img src={icon} alt={icon} />
-									</div>
-									{#if $isNavOpen}
-										<p
-											class={cn('font-poppins text-base font-medium text-[#26272c]', {
-												'text-[#2DB8E3]': activeLink.includes(href)
-											})}
-										>
-											{label}
-										</p>
-									{/if}
+								<div class="flex h-6 w-6 items-center justify-center">
+									<img src={icon} alt={icon} />
 								</div>
-							</ModalButton>
-						{:else}
-							<a {href} class="px-[14px] py-4">
-								<div
-									class={cn('flex items-center gap-3', {
-										'justify-center': !$isNavOpen
-									})}
-								>
-									<div class="flex h-6 w-6 items-center justify-center">
-										<img src={icon} alt={icon} />
-									</div>
-									{#if $isNavOpen}
-										<p
-											class={cn('font-poppins text-base font-medium text-[#26272c]', {
-												'text-[#2DB8E3]': activeLink.includes(href)
-											})}
-										>
-											{label}
-										</p>
-									{/if}
-								</div>
-							</a>
-						{/if}
+								{#if $isNavOpen}
+									<p
+										class={cn('font-poppins text-base font-medium text-[#26272c]', {
+											'text-[#2DB8E3]': activeLink.includes(href)
+										})}
+									>
+										{label}
+									</p>
+								{/if}
+							</div>
+						</a>
 					</li>
 				{/if}
 			{/each}
@@ -325,11 +298,12 @@
 		</div> -->
 	</div>
 </div>
-<ExternalLinkConfirmationModal
+
+<!-- <ExternalLinkConfirmationModal
 	href={ROUTES.RELAY_CLUSTERS_LINK}
 	modalFor="external-link-confirmation-Relay"
 	label="Relay"
-></ExternalLinkConfirmationModal>
+></ExternalLinkConfirmationModal> -->
 
 <style>
 	.toggle,

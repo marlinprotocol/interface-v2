@@ -17,14 +17,14 @@
 <div data-testId="modal" class="modal">
 	<div
 		class={cn(
-			'modal-box flex flex-col overflow-x-hidden overflow-y-visible rounded-3xl bg-base-100 p-0 drop-shadow-sm',
+			'modal-box flex flex-col overflow-x-hidden overflow-y-visible rounded-3xl bg-[#FCFCFC]  p-0 drop-shadow-sm',
 			modalWidth,
 			{ 'overflow-y-auto': showOverFlow }
 		)}
 	>
 		<div
 			class={cn(
-				'modal-header sticky top-0 z-10  flex items-center justify-between bg-white px-6 pt-6',
+				'modal-header sticky top-0 z-10  flex items-center justify-between bg-[#FCFCFC] px-6 pt-6',
 				{
 					'items-start': $$slots.successmsg
 				}
@@ -69,7 +69,7 @@
 			</div>
 			<button
 				data-testId="modal-close-button"
-				class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] text-sm font-bold text-gray-300"
+				class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300"
 				on:click={() => {
 					closeModal(modalFor);
 					onClose();
@@ -88,7 +88,7 @@
 		</div>
 		{#if $$slots.actionButtons}
 			<div
-				class={cn('modal-footer sticky bottom-0 bg-white px-6 py-6', {
+				class={cn('modal-footer sticky bottom-0 bg-[#FCFCFC] px-6 pb-6 pt-4', {
 					'pt-8': padding
 				})}
 			>

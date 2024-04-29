@@ -44,7 +44,7 @@
 	};
 </script>
 
-<div class="relative flex flex-1 flex-col">
+<div class="relative flex flex-1 flex-col bg-white">
 	{#if label}
 		<p
 			class="absolute left-[12px] top-[-10px] z-[1] mb-4 bg-white px-1 font-poppins text-sm font-normal text-[#030115]"

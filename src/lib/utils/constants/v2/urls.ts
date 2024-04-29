@@ -1,6 +1,11 @@
 // _LINK: complete url
 // _URL: internal app routing url
 
+// general links
+const DISCORD_LINK = 'https://discord.gg/invite/heT4sND';
+const MARLIN_BLOG_LINK = 'https://blog.marlin.org/';
+const MARLIN_RESEARCH_FORUM_LINK = 'https://research.marlin.org/';
+
 //dashboard page
 const HUB_DASHBOARD_URL = '/v2/dashboard';
 
@@ -37,6 +42,9 @@ const KALYPSO_LINK_1_URL = '/v2/kalypso';
 const ECOSYSTEM_URL = '/v2/ecosystem';
 
 export const ROUTES = {
+	DISCORD_LINK,
+	MARLIN_BLOG_LINK,
+	MARLIN_RESEARCH_FORUM_LINK,
 	HUB_DASHBOARD_URL,
 	BRIDGE_URL,
 	POND_HISTORY_PAGE_URL,

@@ -49,7 +49,6 @@
 		_filteredData: OysterMarketplaceDataModel[] | [],
 		_allMarketplaceData: OysterMarketplaceDataModel[]
 	) {
-		console.log('ran');
 		if (chainIdHasChanged(currentChainId, previousChainId)) {
 			previousChainId = currentChainId;
 			filterMap = {};

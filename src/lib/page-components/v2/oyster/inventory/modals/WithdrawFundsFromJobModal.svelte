@@ -124,13 +124,13 @@
 			showBalance={false}
 		/>
 		<div class="mt-4 flex items-center justify-end gap-2">
-			<MaxButton onclick={handleMaxClick} />
+			<MaxButton styleClass="font-medium" onclick={handleMaxClick} />
 			<Divider direction="divider-vertical" />
 			<div class="flex items-center gap-1">
 				<Text
 					text={maxAmountText}
 					variant="small"
-					styleClass="text-[#657183]"
+					styleClass="text-[#030115]"
 					fontWeight="font-normal"
 				/>
 			</div>

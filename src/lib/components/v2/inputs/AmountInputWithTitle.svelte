@@ -13,6 +13,7 @@
 	export let suffix = '';
 	export let onlyInteger = false;
 	export let id = '';
+	export let showLabelFocused: boolean = false;
 
 	const onBlurStyle = 'top-0 left-0 mt-1.5 font-medium';
 	const onFocusStyle = ' left-[12px] top-[-20px] mb-4 font-light';
@@ -34,6 +35,7 @@
 	}
 
 	const onBlur = () => {
+		if (showLabelFocused) return;
 		onBlurAction();
 	};
 
@@ -41,7 +43,6 @@
 		handleUpdatedAmount(e);
 		if (e && e.target && e.target.id && e.target.id === 'pond-input-amount-Duration') {
 			const elementToFocus: HTMLElement | null = document.getElementById(`title-cost`);
-
 			if (!!inputAmountString.length && elementToFocus) {
 				elementToFocus.className = ` ${onFocusStyle} ${titleStyleInit}`;
 			} else if (elementToFocus) {
@@ -58,6 +59,9 @@
 	}
 	if (!disabled) {
 		titleStyle = onBlurStyle;
+	}
+	if (showLabelFocused) {
+		titleStyle = onFocusStyle;
 	}
 </script>
 

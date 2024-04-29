@@ -8,7 +8,7 @@
 	export let onClose: () => void = () => {
 		doNothing();
 	};
-	export let padding = true;
+	export let padding = false;
 	export let isScrollable = false;
 </script>
 
@@ -17,15 +17,18 @@
 <div data-testId="modal" class="modal">
 	<div
 		class={cn(
-			'modal-box overflow-y-visible rounded-3xl bg-base-100 p-[24px] drop-shadow-sm',
+			'modal-box flex flex-col overflow-x-hidden overflow-y-visible rounded-3xl bg-base-100 p-0 drop-shadow-sm',
 			modalWidth,
 			{ 'overflow-y-auto': showOverFlow }
 		)}
 	>
 		<div
-			class={cn('modal-header sticky top-0 z-10  flex items-center justify-between bg-white', {
-				'items-start': $$slots.successmsg
-			})}
+			class={cn(
+				'modal-header sticky top-0 z-10  flex items-center justify-between bg-white px-6 pt-6',
+				{
+					'items-start': $$slots.successmsg
+				}
+			)}
 		>
 			<div class="flex w-full flex-col">
 				{#if $$slots.icon}
@@ -76,16 +79,16 @@
 			</button>
 		</div>
 		<div
-			class={cn(
-				'modal-body pt-4',
-				isScrollable ? 'flex flex-col overflow-y-auto overflow-x-hidden' : ''
-			)}
+			class={cn('modal-body px-6 pt-4', {
+				'flex flex-col overflow-y-auto overflow-x-hidden': isScrollable,
+				'pb-6': !$$slots.actionButtons
+			})}
 		>
 			<slot name="content" />
 		</div>
 		{#if $$slots.actionButtons}
 			<div
-				class={cn('modal-footer sticky bottom-0 bg-white pt-4', {
+				class={cn('modal-footer sticky bottom-0 bg-white px-6 py-6', {
 					'pt-8': padding
 				})}
 			>

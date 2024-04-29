@@ -63,6 +63,7 @@
 		bind:inputAmountString={bandwidth}
 		onlyInteger
 		disabled={!region}
+		showLabelFocused={true}
 	>
 		<div slot="endButton">
 			<Select title="Bandwidth" dataList={bandwidthUnitList} bind:value={bandwidthUnit} showLabel />

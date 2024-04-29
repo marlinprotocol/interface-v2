@@ -43,7 +43,6 @@
 		handleUpdatedAmount(e);
 		if (e && e.target && e.target.id && e.target.id === 'pond-input-amount-Duration') {
 			const elementToFocus: HTMLElement | null = document.getElementById(`title-cost`);
-			// if (showLabelFocused) return;
 			if (!!inputAmountString.length && elementToFocus) {
 				elementToFocus.className = ` ${onFocusStyle} ${titleStyleInit}`;
 			} else if (elementToFocus) {

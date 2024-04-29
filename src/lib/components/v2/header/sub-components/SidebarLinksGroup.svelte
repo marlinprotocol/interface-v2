@@ -13,16 +13,29 @@
 	let links: SidebarLinks[] = [];
 	let expandedLinks: string[] = [];
 
-	function expandMenu(label: string) {
+	function handleSidebarMenuItemClickWhenCollapsed(e: Event) {
+		$isNavOpen = true;
+		const targetElement = e.target as HTMLElement;
+		const menuDropdown = targetElement.nextElementSibling as Element;
+		const firstChildCta = menuDropdown.querySelector('li')?.children[0] as HTMLDivElement;
+		firstChildCta?.click();
+	}
+
+	function expandMenu(e: Event, label: string) {
 		if (expandedLinks.includes(label)) {
 			expandedLinks = expandedLinks.filter((item) => item !== label);
 		} else {
 			expandedLinks = [...expandedLinks, label];
 		}
+
+		if (!$isNavOpen) {
+			handleSidebarMenuItemClickWhenCollapsed(e);
+		}
 	}
+
 	function expandMenuWithKey(e: KeyboardEvent, label: string) {
 		if (e?.key === 'Enter' || e?.key === ' ') {
-			expandMenu(label);
+			expandMenu(e, label);
 		}
 	}
 
@@ -114,7 +127,7 @@
 									'menu-dropdown-show': expandedLinks.includes(label)
 								}
 							)}
-							on:click|self={() => expandMenu(label)}
+							on:click|self={(e) => expandMenu(e, label)}
 							on:keydown|self={(e) => expandMenuWithKey(e, label)}
 							role="button"
 							tabindex="0"

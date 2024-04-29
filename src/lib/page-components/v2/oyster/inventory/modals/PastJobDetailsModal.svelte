@@ -39,7 +39,7 @@
 	} = jobData);
 </script>
 
-<Modal isScrollable {modalFor} modalWidth="w-11/12 sm:max-w-[700px]" padding={false}>
+<Modal isScrollable {modalFor} modalWidth="w-11/12 sm:max-w-[607px]" padding={false}>
 	<svelte:fragment slot="title">Past Order Details</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4">

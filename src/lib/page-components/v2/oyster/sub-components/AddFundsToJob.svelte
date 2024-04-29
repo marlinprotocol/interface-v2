@@ -14,7 +14,7 @@
 		convertRateToPerHourString,
 		stringToBigNumber
 	} from '$lib/utils/helpers/conversionHelper';
-	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import { cn, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		computeCost,
 		computeDuration,
@@ -38,6 +38,7 @@
 	export let isTotalRate = false;
 	export let durationUnitInSec = getDurationInSecondsForUnit(DEFAULT_OYSTER_DURATION_UNIT);
 	export let useMarlinCredits = false;
+	export let containerClasses: string = '';
 
 	let durationUnit = DEFAULT_OYSTER_DURATION_UNIT;
 	let instanceRateString = '';
@@ -183,7 +184,7 @@
 	$: inValidMessage = getInvalidMessage(instanceCostScaled, invalidCost, useMarlinCredits);
 </script>
 
-<div class="my-4 flex gap-4">
+<div class={cn('flex gap-4', containerClasses)}>
 	<AmountInputWithTitle
 		title="Hourly Rate"
 		id="Hourly-Rate"

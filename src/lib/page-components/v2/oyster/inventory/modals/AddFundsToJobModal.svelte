@@ -121,7 +121,7 @@
 				isTotalRate={true}
 			/>
 		</div>
-		<div class="my-4 flex items-center justify-end">
+		<div class="mt-4 flex items-center justify-end">
 			<div class="flex items-center gap-2">
 				<MaxButton onclick={handleMaxClick} />
 				<Divider direction="divider-vertical" />

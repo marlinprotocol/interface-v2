@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { inputClasses } from '$lib/atoms/componentClasses';
+	import { inputClasses } from '$lib/atoms/v2/componentClasses';
 	import InputCardWithEndButton from '$lib/components/v2/inputs/InputCardWithEndButton.svelte';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 

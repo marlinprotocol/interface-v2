@@ -73,7 +73,7 @@
 	</div>
 	<div class="flex items-center">
 		{#if !!prefix.length}
-			<Text text={prefix} styleClass="text-sm text-primary mt-1" />
+			<Text text={prefix} styleClass="text-sm text-[#030115] mt-1" />
 		{/if}
 
 		<AmountInput

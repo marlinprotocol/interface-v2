@@ -212,7 +212,7 @@ module.exports = {
 						width: '100%',
 						fontWeight: '500',
 						padding: '0',
-						color: '#3840c7',
+						color: '#030115',
 						border: 'none',
 						outline: 'none',
 						fontFamily: 'Poppins',
@@ -220,12 +220,12 @@ module.exports = {
 							border: 'none',
 							outline: 'none',
 							background: 'transparent',
-							color: '#3840c7'
+							color: '#030115'
 						},
 						'&:focus-within': {
 							border: 'none',
 							outline: 'none',
-							color: '#3840c7',
+							color: '#030115',
 							background: 'transparent'
 						},
 						'&:disabled': {

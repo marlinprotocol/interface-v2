@@ -288,6 +288,7 @@
 				handleChange={handleMerchantChange}
 			/>
 			<AddFundsToJob
+				containerClasses="my-4"
 				bind:instanceRate
 				bind:instanceCostScaled
 				bind:instanceCostString

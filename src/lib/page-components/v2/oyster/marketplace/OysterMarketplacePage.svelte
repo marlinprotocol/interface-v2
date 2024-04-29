@@ -19,7 +19,7 @@
 	let activePage = 1;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
 	let filterMap: Record<string, string> = {};
-	let filteredData: OysterMarketplaceDataModel[];
+	let filteredData: OysterMarketplaceDataModel[] | null;
 	let previousChainId: number | null = null;
 
 	const handleSortData = (id: string) => {
@@ -29,7 +29,7 @@
 			sortingMap[id] = 'asc';
 		}
 		filteredData = sortOysterMarketplace(
-			filteredData,
+			filteredData || $oysterStore.allMarketplaceData,
 			id as OysterMarketplaceSortKeys,
 			sortingMap[id]
 		);
@@ -46,16 +46,19 @@
 	function getTableData(
 		currentChainId: number | null,
 		_filterMap: Record<string, string>,
-		_filteredData: OysterMarketplaceDataModel[],
+		_filteredData: OysterMarketplaceDataModel[] | null,
 		_allMarketplaceData: OysterMarketplaceDataModel[]
 	) {
 		if (chainIdHasChanged(currentChainId, previousChainId)) {
 			previousChainId = currentChainId;
 			filterMap = {};
+			filteredData = null;
 			return _allMarketplaceData;
 		} else if (_filterMap && Object.keys(_filterMap).length > 0) {
+			filteredData = _filteredData;
 			return _filteredData;
 		} else {
+			filteredData = _allMarketplaceData;
 			return _allMarketplaceData;
 		}
 	}
@@ -77,7 +80,9 @@
 
 <div class="mx-auto">
 	<PageTitle title="Infrastructure Providers" />
-	<OysterMarketplaceFilters bind:filteredData bind:filterMap {onFilterClick} />
+	{#if filteredData}
+		<OysterMarketplaceFilters bind:filteredData bind:filterMap {onFilterClick} />
+	{/if}
 	<OysterTableCommon
 		walletConnectionRequired={false}
 		{handleSortData}

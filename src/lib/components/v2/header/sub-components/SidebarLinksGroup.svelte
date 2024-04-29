@@ -6,7 +6,6 @@
 	import { menuItems } from '$lib/utils/constants/v2/navigation';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
 	import { cn } from '$lib/utils/helpers/commonHelper';
-	import ExternalLinkConfirmationModal from '../../modals/ExternalLinkConfirmationModal.svelte';
 	import MenuItem from './MenuItem.svelte';
 
 	export let activeLink: string = '';
@@ -63,19 +62,6 @@
 			]
 		},
 		{
-			label: 'Relay',
-			icon: activeLink.includes(ROUTES.RELAY_URL)
-				? staticImages.relayIconBlue
-				: staticImages.relayIcon,
-			href: ROUTES.RELAY_URL,
-			children: [
-				{ preFixLabel: 'Clusters', href: ROUTES.RELAY_CLUSTERS_LINK, openInNewTab: true },
-				{ preFixLabel: 'Registration', href: ROUTES.RELAY_REGISTRATION_LINK, openInNewTab: true },
-				{ preFixLabel: 'Delegations', href: ROUTES.RELAY_DELEGATION_LINK, openInNewTab: true },
-				{ preFixLabel: 'Receivers', href: ROUTES.RELAY_RECEIVER_LINK, openInNewTab: true }
-			]
-		},
-		{
 			label: 'Oyster',
 			icon: activeLink.includes(ROUTES.OYSTER_URL)
 				? staticImages.oysterIconBlue
@@ -101,6 +87,12 @@
 			icon: activeLink.includes(ROUTES.ECOSYSTEM_URL)
 				? staticImages.ecosystemIconBlue
 				: staticImages.ecosystemIcon
+		},
+		{
+			label: 'Relay',
+			icon: staticImages.relayIcon,
+			href: ROUTES.RELAY_CLUSTERS_LINK,
+			isExternal: true
 		}
 	];
 </script>
@@ -110,7 +102,7 @@
 		class="relative max-h-[calc(100dvh-5rem-176px)] overflow-hidden after:absolute after:bottom-0 after:h-10 after:w-full after:bg-gradient-to-b after:from-transparent after:to-white"
 	>
 		<ul class="menu max-h-full flex-nowrap overflow-y-auto overflow-x-hidden px-0 pb-10 pt-0">
-			{#each links as { icon, label, children, href }}
+			{#each links as { icon, label, children, href, isExternal }}
 				{#if children}
 					<li>
 						<div
@@ -210,7 +202,7 @@
 					</li>
 				{:else}
 					<li>
-						<a {href} class="px-[14px] py-4">
+						<a {href} class="px-[14px] py-4" target={isExternal ? '_blank' : '_self'}>
 							<div
 								class={cn('flex items-center gap-3', {
 									'justify-center': !$isNavOpen
@@ -305,18 +297,6 @@
 		</div> -->
 	</div>
 </div>
-
-{#each links as { children }}
-	{#if children}
-		{#each children as subLink}
-			<ExternalLinkConfirmationModal
-				href={subLink.href}
-				modalFor="external-link-confirmation-{subLink.preFixLabel}"
-				label={subLink.preFixLabel}
-			></ExternalLinkConfirmationModal>
-		{/each}
-	{/if}
-{/each}
 
 <style>
 	.toggle,

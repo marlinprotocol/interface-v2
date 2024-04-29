@@ -76,7 +76,7 @@
 		<Button
 			size="medium"
 			variant="outlined"
-			styleClass="font-normal h-full whitespace-nowrap px-[38px] py-[19px]">Order History</Button
+			styleClass="font-normal h-full whitespace-nowrap px-[38px] py-[18px]">Order History</Button
 		>
 	</a>
 </div>

@@ -111,9 +111,7 @@
 
 <Modal {modalFor} onClose={resetInputs}>
 	<svelte:fragment slot="title">Withdraw Funds</svelte:fragment>
-	<svelte:fragment slot="subtitle">
-		Enter the amount you'd like to withdraw from this job.
-	</svelte:fragment>
+
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
 			bind:inputAmountString

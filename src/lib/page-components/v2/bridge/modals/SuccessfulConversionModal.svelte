@@ -26,7 +26,7 @@
 		conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted);
 </script>
 
-<Modal {modalFor}>
+<Modal {modalFor} padding={false}>
 	<svelte:fragment slot="successmsg">Conversion Successful</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-6 text-lg font-light text-[#26272C]">

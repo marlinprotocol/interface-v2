@@ -79,16 +79,16 @@
 			</button>
 		</div>
 		<div
-			class={cn(
-				'modal-body px-6 pb-6 pt-4',
-				isScrollable ? 'flex flex-col overflow-y-auto overflow-x-hidden' : ''
-			)}
+			class={cn('modal-body px-6 pt-4', {
+				'flex flex-col overflow-y-auto overflow-x-hidden': isScrollable,
+				'pb-6': !$$slots.actionButtons
+			})}
 		>
 			<slot name="content" />
 		</div>
 		{#if $$slots.actionButtons}
 			<div
-				class={cn('modal-footer sticky bottom-0 bg-white px-6 pb-6', {
+				class={cn('modal-footer sticky bottom-0 bg-white px-6 py-6', {
 					'pt-8': padding
 				})}
 			>

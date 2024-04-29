@@ -317,7 +317,7 @@
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<div class="flex items-center justify-between pt-2">
+		<div class="flex items-center justify-between">
 			<Text
 				variant="small"
 				styleClass="text-black ml-1"
@@ -336,7 +336,7 @@
 			</div>
 		</div>
 
-		<div class="pt-2">
+		<div class="mt-3">
 			{#if useMarlinCredits}
 				<Button
 					variant="filled"

@@ -85,7 +85,7 @@
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<div class="w-full pt-6">
+		<div class="w-full">
 			<Button
 				variant="filled"
 				size="large"

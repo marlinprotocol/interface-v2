@@ -131,7 +131,7 @@
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<div class="w-full pt-6">
+		<div class="w-full">
 			<ModalButton variant="filled" {modalFor} size="large" styleClass="btn-block my-0">
 				OK
 			</ModalButton>

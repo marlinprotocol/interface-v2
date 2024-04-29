@@ -38,5 +38,5 @@ export const inputClasses = {
 	inputText:
 		'input input-ghost h-[30px] w-full text-body p-0 font-semibold text-primary disabled:opacity-70 disabled:text-primary disabled:placeholder:text-primary/[.2] focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent',
 	searchInputText:
-		'input input-ghost h-[30px] w-full text-[15px] p-0 font-normal text-primary focus:outline-none focus-within:border-b-2 focus-within:text-primary focus:bg-transparent disabled:text-blue-500 placeholder-[#A8A8A8]'
+		'input input-ghost h-[30px] w-full text-[16px] p-0 font-normal text-[#030115] focus:outline-none focus-within:border-b-2 focus-within:text-[#030115] focus:bg-transparent disabled:text-blue-500 placeholder-[#A8A8A8]'
 };

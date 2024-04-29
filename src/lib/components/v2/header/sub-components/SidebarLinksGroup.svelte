@@ -1,5 +1,4 @@
 <script lang="ts">
-	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { isNavOpen } from '$lib/data-stores/v2/navStore';
 	import type { SidebarLinks } from '$lib/types/headerTypes';
@@ -119,14 +118,11 @@
 				{#if children}
 					<li>
 						<div
-							class={cn(
-								'menu-dropdown-toggle px-[14px] py-4 after:text-[#26272c] hover:bg-transparent active:!bg-transparent',
-								{
-									'after:text-[#2DB8E3]': activeLink.includes(href),
-									'after:hidden': !$isNavOpen,
-									'menu-dropdown-show': expandedLinks.includes(label)
-								}
-							)}
+							class={cn('menu-dropdown-toggle px-[14px] py-4 after:text-[#26272c]', {
+								'after:text-[#2DB8E3]': activeLink.includes(href),
+								'after:hidden': !$isNavOpen,
+								'menu-dropdown-show': expandedLinks.includes(label)
+							})}
 							on:click|self={(e) => expandMenu(e, label)}
 							on:keydown|self={(e) => expandMenuWithKey(e, label)}
 							role="button"
@@ -155,60 +151,32 @@
 						>
 							{#each children as subLink}
 								<li>
-									{#if subLink.openInNewTab}
-										<ModalButton
-											modalFor="external-link-confirmation-{subLink.preFixLabel}"
-											variant="text"
-											styleClass="p-0 hover:bg-transparent h-auto justify-start focus:!bg-transparent active:!bg-transparent active:!text-[#26272c]"
+									<a
+										href={subLink.href}
+										target={subLink.openInNewTab ? '_blank' : ''}
+										class="p-0 active:!text-[#26272c]"
+									>
+										<div
+											class={cn(
+												'pointer-events-none relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
+												activeLink.includes(subLink.href)
+													? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
+													: 'text-[#26272c]'
+											)}
 										>
-											<div
-												class={cn(
-													'relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
-													activeLink.includes(subLink.href)
-														? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
-														: 'text-[#26272c]'
-												)}
-											>
-												{subLink.preFixLabel}
-												{#if subLink.icon}
-													<img
-														src={subLink.icon}
-														alt={subLink.icon}
-														class="min-w-[18px] max-w-[18px]"
-													/>
-												{/if}
-												{#if subLink.postFixLabel}
-													{subLink.postFixLabel}
-												{/if}
-											</div>
-										</ModalButton>
-									{:else}
-										<a
-											href={subLink.href}
-											class="p-0 hover:bg-transparent focus:!bg-transparent active:!bg-transparent active:!text-[#26272c]"
-										>
-											<div
-												class={cn(
-													'pointer-events-none relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
-													activeLink.includes(subLink.href)
-														? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
-														: 'text-[#26272c]'
-												)}
-											>
-												{subLink.preFixLabel}
-												{#if subLink.icon}
-													<img
-														src={subLink.icon}
-														alt={subLink.icon}
-														class="min-w-[18px] max-w-[18px]"
-													/>
-												{/if}
-												{#if subLink.postFixLabel}
-													{subLink.postFixLabel}
-												{/if}
-											</div>
-										</a>
-									{/if}
+											{subLink.preFixLabel}
+											{#if subLink.icon}
+												<img
+													src={subLink.icon}
+													alt={subLink.icon}
+													class="min-w-[18px] max-w-[18px]"
+												/>
+											{/if}
+											{#if subLink.postFixLabel}
+												{subLink.postFixLabel}
+											{/if}
+										</div>
+									</a>
 								</li>
 							{/each}
 						</ul>

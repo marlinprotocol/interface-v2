@@ -60,7 +60,7 @@
 		{onSearchClick}
 		bind:input={searchInput}
 		placeholder="Search for operator, instance or region"
-		label="Operation name or address"
+		label="Operator name or address"
 		styleClass="w-full"
 		disabled={!$connected}
 	/>

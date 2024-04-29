@@ -80,9 +80,7 @@
 
 <div class="mx-auto">
 	<PageTitle title="Infrastructure Providers" />
-	<!-- {#if filteredData} -->
 	<OysterMarketplaceFilters bind:filteredData bind:filterMap {onFilterClick} />
-	<!-- {/if} -->
 	<OysterTableCommon
 		walletConnectionRequired={false}
 		{handleSortData}

@@ -75,10 +75,10 @@
 	$: ({ reviseRate: { stopStatus = '', updatesAt = 0 } = {}, isCreditJob } = jobData);
 	$: modalTitle =
 		stopStatus === '' || stopStatus === 'disabled'
-			? 'Inititae Stop'
+			? 'Initiate Stop'
 			: stopStatus === 'completed'
 				? 'Confirm Stop'
-				: 'Inititaed Stop';
+				: 'Initiated Stop';
 	$: submitButtonText =
 		stopStatus === '' || stopStatus === 'disabled' ? 'INITIATE STOP' : 'CONFIRM';
 	$: submitButtonAction =

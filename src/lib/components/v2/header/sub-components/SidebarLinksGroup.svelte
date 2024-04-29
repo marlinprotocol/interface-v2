@@ -6,7 +6,6 @@
 	import { menuItems } from '$lib/utils/constants/v2/navigation';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
 	import { cn } from '$lib/utils/helpers/commonHelper';
-	import ExternalLinkConfirmationModal from '../../modals/ExternalLinkConfirmationModal.svelte';
 	import MenuItem from './MenuItem.svelte';
 
 	export let activeLink: string = '';
@@ -298,12 +297,6 @@
 		</div> -->
 	</div>
 </div>
-
-<!-- <ExternalLinkConfirmationModal
-	href={ROUTES.RELAY_CLUSTERS_LINK}
-	modalFor="external-link-confirmation-Relay"
-	label="Relay"
-></ExternalLinkConfirmationModal> -->
 
 <style>
 	.toggle,

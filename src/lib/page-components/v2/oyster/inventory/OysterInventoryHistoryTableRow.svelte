@@ -7,7 +7,7 @@
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { bigNumberToString, epochToDurationString } from '$lib/utils/helpers/conversionHelper';
 	import { getInventoryStatusVariant } from '$lib/utils/v2/helpers/oysterHelpers';
-	import { getColorHexByVariant } from '$lib/utils/v2/helpers/componentHelper';
+	import { getColorHexByVariantForTag } from '$lib/utils/v2/helpers/componentHelper';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import PastJobDetailsModal from './modals/PastJobDetailsModal.svelte';
@@ -29,7 +29,7 @@
 		endEpochTime,
 		isCreditJob
 	} = rowData);
-	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
+	$: statusColor = getColorHexByVariantForTag(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
 <td class={tableClasses.cell}>
@@ -58,7 +58,7 @@
 </td>
 <td class={tableClasses.cell}>
 	<div
-		class="mx-auto w-24 rounded py-1 text-center text-sm capitalize text-white"
+		class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm capitalize text-[#030115]"
 		style="background-color: {statusColor}"
 	>
 		{status}

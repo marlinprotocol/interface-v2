@@ -75,10 +75,10 @@
 	$: ({ reviseRate: { stopStatus = '', updatesAt = 0 } = {}, isCreditJob } = jobData);
 	$: modalTitle =
 		stopStatus === '' || stopStatus === 'disabled'
-			? 'Inititae Stop'
+			? 'Initiate Stop'
 			: stopStatus === 'completed'
 				? 'Confirm Stop'
-				: 'Inititaed Stop';
+				: 'Initiated Stop';
 	$: submitButtonText =
 		stopStatus === '' || stopStatus === 'disabled' ? 'INITIATE STOP' : 'CONFIRM';
 	$: submitButtonAction =
@@ -90,7 +90,6 @@
 	<svelte:fragment slot="title">
 		{modalTitle}
 	</svelte:fragment>
-	<!-- <svelte:fragment slot="subtitle">You can stop your job here</svelte:fragment> -->
 	<svelte:fragment slot="content">
 		<StopModalContent {jobData} />
 		{#if stopStatus === 'pending'}

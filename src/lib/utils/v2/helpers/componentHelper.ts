@@ -101,7 +101,7 @@ export const getColorHexByVariant = (variant: CommonVariant | undefined) => {
 export const getColorHexByVariantForTag = (variant: CommonVariant | undefined) => {
 	switch (variant) {
 		case 'primary':
-			return '#0F62FE';
+			return '#0F62FE23';
 		case 'success':
 			return '#F4F9F0';
 		case 'warning':

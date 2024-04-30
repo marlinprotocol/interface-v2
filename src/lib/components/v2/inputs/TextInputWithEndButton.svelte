@@ -59,7 +59,8 @@
 			on:click={focusElement}
 		>
 			{title}
-		</button>{/if}
+		</button>
+	{/if}
 	<input
 		id="address-display"
 		bind:value={input}

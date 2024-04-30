@@ -14,6 +14,7 @@
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import { tableClasses } from '$lib/atoms/v2/componentClasses';
+	import SearchWithSelect from '$lib/components/v2/search/SearchWithSelect.svelte';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -55,21 +56,27 @@
 </script>
 
 <PageTitle title="My Active Orders" />
-<div class="mb-6 flex items-center gap-4 rounded-[24px] bg-white px-8 py-6">
-	<SearchBar
-		{onSearchClick}
-		bind:input={searchInput}
-		placeholder="Search for operator, instance or region"
-		label="Operation name or address"
+<div class="mb-6 flex items-stretch gap-4 rounded-[24px] bg-white px-8 py-6">
+	<SearchWithSelect
+		dataList={inventoryData?.map((id) => id.provider.address)}
+		searchValue={searchInput}
+		setSearchValue={(value, exactMatch) => {
+			searchInput = value.toString();
+		}}
+		title="Operator"
+		showTitle={false}
+		placeholder="Search"
+		label="Operator name or address"
+		cardVariant="search"
 		styleClass="w-full"
-		disabled={!$connected}
+		{onSearchClick}
+		isTableFilter={true}
 	/>
-	<a href={ROUTES.OYSTER_INVENTORY_HISTORY_URL}>
+	<a class="flex h-full" href={ROUTES.OYSTER_INVENTORY_HISTORY_URL}>
 		<Button
-			size="large"
+			size="medium"
 			variant="outlined"
-			styleClass="font-normal whitespace-nowrap px-[38px] py-[19px] leading-[0]"
-			>Order History</Button
+			styleClass="font-normal h-full whitespace-nowrap px-[38px] py-[18px]">Order History</Button
 		>
 	</a>
 </div>

@@ -112,8 +112,6 @@
 			initialInstances = [];
 		} catch (error) {
 			unregisterLoading = false;
-			registeredCpURL = '';
-			registered = false;
 			initialInstances = [];
 			console.error(error);
 			addToast({
@@ -288,11 +286,10 @@
 		</div>
 		{#if registered}
 			<div class="mt-6 rounded-3xl bg-white px-8 py-6">
-				<!-- <p class="pb-3 text-base font-normal">Control Plane:</p> -->
+				<p class="pb-3 text-base font-normal">Control Plane:</p>
 				<TextInputWithEndButton
-					styleClass="w-full bg-[#F4F4F6] py-4 rounded-[100px]"
+					styleClass="w-full bg-[#F4F4F6] py-[5px] pr-[5px] 	rounded-[100px]"
 					placeholder="Paste URL here"
-					title="Control Plane"
 					bind:input={updatedCpURL}
 					id="cpurl-main"
 				>

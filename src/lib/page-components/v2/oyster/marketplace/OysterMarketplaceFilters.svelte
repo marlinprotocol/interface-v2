@@ -70,7 +70,7 @@
 			title="Operator"
 			showTitle={false}
 			placeholder="Search"
-			label="Operation name or address"
+			label="Operator name or address"
 			cardVariant="search"
 			styleClass="w-full"
 			onSearchClick={onFilterClick}

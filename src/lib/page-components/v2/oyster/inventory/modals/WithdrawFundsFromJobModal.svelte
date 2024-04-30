@@ -19,6 +19,7 @@
 	import { DEFAULT_PRECISION } from '$lib/utils/constants/constants';
 	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
+	import Divider from '$lib/atoms/v2/divider/Divider.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -110,18 +111,28 @@
 
 <Modal {modalFor} onClose={resetInputs}>
 	<svelte:fragment slot="title">Withdraw Funds</svelte:fragment>
-	<svelte:fragment slot="subtitle">
-		Enter the amount you'd like to withdraw from this job.
-	</svelte:fragment>
+
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			inputCardVariant="none"
 			{maxAmountText}
-		>
-			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
-		</AmountInputWithMaxButton>
+			currency="Amount"
+			showBalance={false}
+		/>
+		<div class="mt-4 flex items-center justify-end gap-2">
+			<MaxButton styleClass="font-medium" onclick={handleMaxClick} />
+			<Divider direction="divider-vertical" />
+			<div class="flex items-center gap-1">
+				<Text
+					text={maxAmountText}
+					variant="small"
+					styleClass="text-[#030115]"
+					fontWeight="font-normal"
+				/>
+			</div>
+		</div>
 		<ErrorTextCard
 			showError={!inputAmountIsValid && updatedAmountInputDirty}
 			errorMessage={inValidMessage}

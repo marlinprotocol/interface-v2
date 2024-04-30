@@ -52,7 +52,7 @@
 			?.arch ?? 'N/A';
 </script>
 
-<Modal {modalFor} modalWidth="w-11/12 sm:max-w-[700px]" padding={false} isScrollable={true}>
+<Modal {modalFor} modalWidth="w-11/12 sm:max-w-[607px]" padding={false} isScrollable={true}>
 	<svelte:fragment slot="title">ORDER DETAILS</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4">

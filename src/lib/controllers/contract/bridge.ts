@@ -57,13 +57,21 @@ export async function requestMPondConversion(amount: bigint) {
 		);
 		const errorTxnMessage = 'Unable to place request for converting MPond to POND.';
 		const parentFunctionName = 'requestMPondConversion';
-
+		const initiateTxnTitle = MESSAGES.TOAST.CONVERSION.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.CONVERSION.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.CONVERSION.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 		const { txn } = await createTransaction(
 			() => bridgeContract.placeRequest(amount),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 		return txn;
 	} catch (error: any) {

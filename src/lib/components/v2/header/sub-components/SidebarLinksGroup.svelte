@@ -79,7 +79,7 @@
 			href: ROUTES.BRIDGE_URL,
 			children: [
 				{
-					preFixLabel: 'Pond',
+					preFixLabel: 'POND',
 					postFixLabel: 'MPond',
 					href: ROUTES.BRIDGE_URL,
 					icon: activeLink.includes(ROUTES.BRIDGE_URL)

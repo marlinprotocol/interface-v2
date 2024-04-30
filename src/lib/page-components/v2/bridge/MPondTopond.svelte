@@ -118,7 +118,7 @@
 </AmountInputWithMaxButton>
 <Tab id="mPond" on:click={() => (activeTabValue = 'pond')}>Pond</Tab>
 <AmountInputWithMaxButton
-	currency="Pond"
+	currency="POND"
 	inputCardVariant="none"
 	inputAmountString={convertedAmountString}
 	maxAmountText={pondBalanceText}
@@ -136,7 +136,7 @@
 	<ConnectWalletButton styleClass="mt-4" isLarge={true} />
 {/if}
 <a class="mt-4 block" href={ROUTES.MPOND_HISTORY_PAGE_URL}>
-	<ConversionHistoryButton firstText="MPond" secondText="Pond" />
+	<ConversionHistoryButton firstText="MPond" secondText="POND" />
 </a>
 <ErrorTextCard
 	showError={!inputAmountIsValid && updatedAmountInputDirty}

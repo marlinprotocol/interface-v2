@@ -78,7 +78,7 @@
 	<svelte:fragment slot="title">Enter an amount</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
-			currency="Pond"
+			currency="POND"
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			maxAmountText={balanceText}

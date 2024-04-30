@@ -92,10 +92,10 @@ export async function getPondBalanceFromSubgraph(address: Address): Promise<bigi
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error fetching Pond balance. ${error.message}`,
+			message: `Error fetching POND balance. ${error.message}`,
 			timeout: 6000
 		});
-		console.log('Error fetching Pond balance', error);
+		console.log('Error fetching POND balance', error);
 		return DEFAULT_WALLET_BALANCE_STORE.pond;
 	}
 }
@@ -151,10 +151,10 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error fetching receiver Pond balance from subgraph. ${error.message}`,
+			message: `Error fetching receiver POND balance from subgraph. ${error.message}`,
 			timeout: 6000
 		});
-		console.log('Error fetching receiver Pond balance from subgraph', error);
+		console.log('Error fetching receiver POND balance from subgraph', error);
 		return DEFAULT_WALLET_BALANCE_STORE.mpond;
 	}
 }
@@ -252,10 +252,10 @@ export async function getPondAndMPondBridgeAllowancesFromSubgraph(
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error fetching receiver Pond and MPond allowances from subgraph. ${error.message}`,
+			message: `Error fetching receiver POND and MPond allowances from subgraph. ${error.message}`,
 			timeout: 6000
 		});
-		console.log('Error fetching receiver pond and mPond allowances from subgraph', error);
+		console.log('Error fetching receiver POND and mPond allowances from subgraph', error);
 		return DEFAULT_BRIDGE_STORE.allowances;
 	}
 }
@@ -316,10 +316,10 @@ export async function getPondToMPondConversionHistoryFromSubgraph(address: Addre
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error getting Pond to MPond history data from subgraph. ${error.message}`,
+			message: `Error getting POND to MPond history data from subgraph. ${error.message}`,
 			timeout: 6000
 		});
-		console.log('Error getting Pond to MPond history data from subgraph', error);
+		console.log('Error getting POND to MPond history data from subgraph', error);
 		return undefined;
 	}
 }
@@ -346,10 +346,10 @@ export async function getMPondToPondConversionHistoryFromSubgraph(address: Addre
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error getting MPond to Pond history data from subgraph. ${error.message}`,
+			message: `Error getting MPond to POND history data from subgraph. ${error.message}`,
 			timeout: 6000
 		});
-		console.log('Error getting MPond to Pond history data from subgraph', error);
+		console.log('Error getting MPond to POND history data from subgraph', error);
 		return undefined;
 	}
 }

@@ -6,6 +6,7 @@ export type ButtonModel = {
 		| 'error'
 		| 'info'
 		| 'greyFilled'
+		| 'greyOutlined'
 		| 'whiteFilled'
 		| 'tableConvertButton';
 	size?: 'tiniest' | 'tiny' | 'smaller' | 'small' | 'medium' | 'large';

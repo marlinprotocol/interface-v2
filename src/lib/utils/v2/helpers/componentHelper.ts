@@ -10,6 +10,8 @@ export const getButtonStyles = (variant: ButtonModel['variant']) => {
 			return buttonClasses.filled;
 		case 'outlined':
 			return buttonClasses.outlined;
+		case 'greyOutlined':
+			return buttonClasses.greyOutlined;
 		case 'error':
 			return buttonClasses.error;
 		case 'text':

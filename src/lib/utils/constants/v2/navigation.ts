@@ -1,20 +1,21 @@
 import { staticImages } from '$lib/components/images/staticImages';
 import type { MenuItemType } from '$lib/types/v2/navigation';
+import { ROUTES } from './urls';
 
 export const menuItems: MenuItemType[] = [
 	{
 		imgSrc: staticImages.developerChatIcon,
 		label: 'Developer Chat',
-		href: 'https://discord.com/invite/pdQZyyy'
+		href: ROUTES.DISCORD_LINK
 	},
 	{
 		imgSrc: staticImages.earthIcon,
 		label: 'Research Forum',
-		href: 'https://research.marlin.org/'
+		href: ROUTES.MARLIN_RESEARCH_FORUM_LINK
 	},
 	{
 		label: 'Blog',
 		imgSrc: staticImages.blogIcon,
-		href: 'https://blog.marlin.org/'
+		href: ROUTES.MARLIN_BLOG_LINK
 	}
 ];

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { isNavOpen } from '$lib/data-stores/v2/navStore';
 	import type { SidebarLinks } from '$lib/types/headerTypes';
@@ -13,16 +12,29 @@
 	let links: SidebarLinks[] = [];
 	let expandedLinks: string[] = [];
 
-	function expandMenu(label: string) {
+	function handleSidebarMenuItemClickWhenCollapsed(e: Event) {
+		$isNavOpen = true;
+		const targetElement = e.target as HTMLElement;
+		const menuDropdown = targetElement.nextElementSibling as Element;
+		const firstChildCta = menuDropdown.querySelector('li')?.children[0] as HTMLDivElement;
+		firstChildCta?.click();
+	}
+
+	function expandMenu(e: Event, label: string) {
 		if (expandedLinks.includes(label)) {
 			expandedLinks = expandedLinks.filter((item) => item !== label);
 		} else {
 			expandedLinks = [...expandedLinks, label];
 		}
+
+		if (!$isNavOpen) {
+			handleSidebarMenuItemClickWhenCollapsed(e);
+		}
 	}
+
 	function expandMenuWithKey(e: KeyboardEvent, label: string) {
 		if (e?.key === 'Enter' || e?.key === ' ') {
-			expandMenu(label);
+			expandMenu(e, label);
 		}
 	}
 
@@ -33,6 +45,31 @@
 			icon: activeLink.includes(ROUTES.HUB_DASHBOARD_URL)
 				? staticImages.dashboardIconBlue
 				: staticImages.dashboardIcon
+		},
+		{
+			label: 'Oyster',
+			icon: activeLink.includes(ROUTES.OYSTER_URL)
+				? staticImages.oysterIconBlue
+				: staticImages.oysterIcon,
+			href: ROUTES.OYSTER_URL,
+			children: [
+				{ preFixLabel: 'Marketplace', href: ROUTES.OYSTER_MARKETPLACE_URL },
+				{ preFixLabel: 'Operator', href: ROUTES.OYSTER_OPERATOR_URL },
+				{ preFixLabel: 'Inventory', href: ROUTES.OYSTER_INVENTORY_URL }
+			]
+		},
+		{
+			label: 'Relay',
+			icon: staticImages.relayIcon,
+			href: ROUTES.RELAY_CLUSTERS_LINK,
+			isExternal: true
+		},
+		{
+			label: 'Kalypso',
+			icon: activeLink.includes(ROUTES.KALYPSO_URL)
+				? staticImages.kalypsoIconBlue
+				: staticImages.kalypsoIcon,
+			href: ROUTES.KALYPSO_URL
 		},
 		{
 			label: 'Bridge',
@@ -62,36 +99,11 @@
 			]
 		},
 		{
-			label: 'Oyster',
-			icon: activeLink.includes(ROUTES.OYSTER_URL)
-				? staticImages.oysterIconBlue
-				: staticImages.oysterIcon,
-			href: ROUTES.OYSTER_URL,
-			children: [
-				{ preFixLabel: 'Marketplace', href: ROUTES.OYSTER_MARKETPLACE_URL },
-				{ preFixLabel: 'Operator', href: ROUTES.OYSTER_OPERATOR_URL },
-				{ preFixLabel: 'Inventory', href: ROUTES.OYSTER_INVENTORY_URL }
-			]
-		},
-		{
-			label: 'Kalypso',
-			icon: activeLink.includes(ROUTES.KALYPSO_URL)
-				? staticImages.kalypsoIconBlue
-				: staticImages.kalypsoIcon,
-			href: ROUTES.KALYPSO_URL
-		},
-		{
 			label: 'Ecosystem',
 			href: ROUTES.ECOSYSTEM_URL,
 			icon: activeLink.includes(ROUTES.ECOSYSTEM_URL)
 				? staticImages.ecosystemIconBlue
 				: staticImages.ecosystemIcon
-		},
-		{
-			label: 'Relay',
-			icon: staticImages.relayIcon,
-			href: ROUTES.RELAY_CLUSTERS_LINK,
-			isExternal: true
 		}
 	];
 </script>
@@ -105,15 +117,12 @@
 				{#if children}
 					<li>
 						<div
-							class={cn(
-								'menu-dropdown-toggle px-[14px] py-4 after:text-[#26272c] hover:bg-transparent active:!bg-transparent',
-								{
-									'after:text-[#2DB8E3]': activeLink.includes(href),
-									'after:hidden': !$isNavOpen,
-									'menu-dropdown-show': expandedLinks.includes(label)
-								}
-							)}
-							on:click|self={() => expandMenu(label)}
+							class={cn('menu-dropdown-toggle px-[14px] py-4 after:text-[#26272c]', {
+								'after:text-[#2DB8E3]': activeLink.includes(href),
+								'after:hidden': !$isNavOpen,
+								'menu-dropdown-show': expandedLinks.includes(label)
+							})}
+							on:click|self={(e) => expandMenu(e, label)}
 							on:keydown|self={(e) => expandMenuWithKey(e, label)}
 							role="button"
 							tabindex="0"
@@ -141,67 +150,39 @@
 						>
 							{#each children as subLink}
 								<li>
-									{#if subLink.openInNewTab}
-										<ModalButton
-											modalFor="external-link-confirmation-{subLink.preFixLabel}"
-											variant="text"
-											styleClass="p-0 hover:bg-transparent h-auto justify-start focus:!bg-transparent active:!bg-transparent active:!text-[#26272c]"
+									<a
+										href={subLink.href}
+										target={subLink.openInNewTab ? '_blank' : ''}
+										class="p-0 active:!text-[#26272c]"
+									>
+										<div
+											class={cn(
+												'pointer-events-none relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
+												activeLink.includes(subLink.href)
+													? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
+													: 'text-[#26272c]'
+											)}
 										>
-											<div
-												class={cn(
-													'relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
-													activeLink.includes(subLink.href)
-														? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
-														: 'text-[#26272c]'
-												)}
-											>
-												{subLink.preFixLabel}
-												{#if subLink.icon}
-													<img
-														src={subLink.icon}
-														alt={subLink.icon}
-														class="min-w-[18px] max-w-[18px]"
-													/>
-												{/if}
-												{#if subLink.postFixLabel}
-													{subLink.postFixLabel}
-												{/if}
-											</div>
-										</ModalButton>
-									{:else}
-										<a
-											href={subLink.href}
-											class="p-0 hover:bg-transparent focus:!bg-transparent active:!bg-transparent active:!text-[#26272c]"
-										>
-											<div
-												class={cn(
-													'pointer-events-none relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
-													activeLink.includes(subLink.href)
-														? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
-														: 'text-[#26272c]'
-												)}
-											>
-												{subLink.preFixLabel}
-												{#if subLink.icon}
-													<img
-														src={subLink.icon}
-														alt={subLink.icon}
-														class="min-w-[18px] max-w-[18px]"
-													/>
-												{/if}
-												{#if subLink.postFixLabel}
-													{subLink.postFixLabel}
-												{/if}
-											</div>
-										</a>
-									{/if}
+											{subLink.preFixLabel}
+											{#if subLink.icon}
+												<img
+													src={subLink.icon}
+													alt={subLink.icon}
+													class="min-w-[18px] max-w-[18px]"
+												/>
+											{/if}
+											{#if subLink.postFixLabel}
+												{subLink.postFixLabel}
+											{/if}
+										</div>
+									</a>
 								</li>
 							{/each}
 						</ul>
 					</li>
 				{:else}
 					<li>
-						<a {href} class="px-[14px] py-4" target={isExternal ? '_blank' : '_self'}>
+						<a {href} class="px-[14px] py-4" target={isExternal ? '_blank' : ''}>
 							<div
 								class={cn('flex items-center gap-3', {
 									'justify-center': !$isNavOpen

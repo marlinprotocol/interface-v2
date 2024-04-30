@@ -21,7 +21,7 @@
 				<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#2DB8E3]">
 					<img src={staticImages.checkmarkCircleIcon} alt="Eligible" />
 				</div>
-				<span class="mt-4 text-lg font-light leading-5">Eligible</span>
+				<span class="mb-[5px] mt-4 text-lg font-light leading-5">Eligible</span>
 				<span class="text-xl font-semibold"
 					>{bigNumberToString(pondEligible, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}</span
 				>
@@ -32,7 +32,7 @@
 				<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#F2C25E]">
 					<img src={staticImages.loadingIcon} alt="In Process" />
 				</div>
-				<span class="mt-4 text-lg font-light leading-5">In Process</span>
+				<span class="mb-[5px] mt-4 text-lg font-light leading-5">In Process</span>
 				<span class="text-xl font-semibold"
 					>{bigNumberToString(pondInProcess, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}</span
 				>
@@ -43,7 +43,7 @@
 				<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#F2675E]">
 					<img src={staticImages.clock} alt="Pending" />
 				</div>
-				<span class="mt-4 text-lg font-light leading-5">Pending</span>
+				<span class="mb-[5px] mt-4 text-lg font-light leading-5">Pending</span>
 				<span class="text-xl font-semibold"
 					>{bigNumberToString(pondPending, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}</span
 				>
@@ -54,7 +54,7 @@
 				<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#B4B6B6]">
 					<img src={staticImages.calendarIcon} alt="End of cycle" />
 				</div>
-				<span class="mt-4 text-lg font-light leading-5">End of cycle</span>
+				<span class="mb-[5px] mt-4 text-lg font-light leading-5">End of cycle</span>
 				<span class="text-xl font-semibold">{epochSecToString(endTimestamp)}</span>
 			</div>
 		</div>

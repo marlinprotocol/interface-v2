@@ -78,8 +78,7 @@
 			icon: activeLink.includes(ROUTES.KALYPSO_URL)
 				? staticImages.kalypsoIconBlue
 				: staticImages.kalypsoIcon,
-			href: ROUTES.KALYPSO_URL,
-			children: [{ preFixLabel: 'Dashboard', href: ROUTES.KALYPSO_LINK_1_URL }]
+			href: ROUTES.KALYPSO_URL
 		},
 		{
 			label: 'Ecosystem',

@@ -41,7 +41,7 @@
 
 	const handleMaxClick = () => {
 		if (unrequestedMPondBalance) {
-			inputAmountString = bigNumberToString(unrequestedMPondBalance, 18, 18, false);
+			inputAmountString = bigNumberToString(unrequestedMPondBalance, 18, MPOND_PRECISIONS, false);
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
 			inValidMessage = '';

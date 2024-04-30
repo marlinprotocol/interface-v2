@@ -1,8 +1,7 @@
 <script lang="ts">
 	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
 	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
-	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
+	import MaxButton from '$lib/components/v2/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/v2/inputs/AmountInputWithMaxButton.svelte';
 	import { DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS } from '$lib/utils/constants/constants';
@@ -12,7 +11,7 @@
 		inputAmountInValidMessage,
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
-	import MPondApproveConfirmModal from '$lib/page-components/bridge/modals/MPondApproveConfirmModal.svelte';
+	import MPondApproveConfirmModal from '$lib/page-components/v2/bridge/modals/MPondApproveConfirmModal.svelte';
 
 	export let modalFor: string;
 	export let maxAmount: bigint;
@@ -78,7 +77,7 @@
 	<svelte:fragment slot="title">Enter an amount</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
-			currency="Pond"
+			currency="POND"
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			maxAmountText={balanceText}
@@ -102,6 +101,7 @@
 		</ModalButton>
 	</svelte:fragment>
 </Modal>
+
 <MPondApproveConfirmModal
 	modalFor={modalIdWithRowIndex}
 	{requestEpoch}

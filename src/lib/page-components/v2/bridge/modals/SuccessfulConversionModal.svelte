@@ -60,7 +60,7 @@
 						$walletBalanceStore.mpond,
 						DEFAULT_CURRENCY_DECIMALS,
 						MPOND_PRECISIONS
-					)} MPOND</span
+					)} MPond</span
 				>
 			</div>
 		</div>

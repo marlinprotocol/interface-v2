@@ -29,7 +29,7 @@
 	const handleApproveClick = async () => {
 		try {
 			if (!$chainConfigStore.tokens.MPOND) {
-				throw new Error('MPOND token not found in chain config');
+				throw new Error('MPond token not found in chain config');
 			}
 			await approveToken(
 				$chainConfigStore.tokens.MPOND,

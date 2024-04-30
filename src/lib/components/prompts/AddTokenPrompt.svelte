@@ -8,6 +8,7 @@
 	import { addToast } from '$lib/data-stores/toastStore';
 
 	export let tokenFor: 'POND' | 'MPOND' = 'POND';
+	export let label: string;
 
 	async function addTokenToWallet(
 		walletProvider: Eip1193Provider,
@@ -59,5 +60,5 @@
 	styleClass="font-medium gap-3"
 	onclick={() => addTokenToWallet($web3WalletStore[0].provider, $chainConfigStore.tokens[tokenFor])}
 >
-	<span class="text-2xl font-light">+</span> Add {tokenFor}</Button
+	<span class="text-2xl font-light">+</span> Add {label}</Button
 >

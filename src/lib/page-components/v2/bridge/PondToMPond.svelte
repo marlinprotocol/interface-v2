@@ -68,13 +68,13 @@
 	)}`;
 	$: pondDisabledText =
 		inputAmount && inputAmount > 0 && !($walletBalanceStore.pond >= inputAmount)
-			? 'Insufficient Pond'
+			? 'Insufficient POND'
 			: '';
 	$: enableConversion = inputAmount && inputAmount > 0 && $walletBalanceStore.pond >= inputAmount;
 </script>
 
 <AmountInputWithMaxButton
-	currency="Pond"
+	currency="POND"
 	bind:inputAmountString
 	{handleUpdatedAmount}
 	maxAmountText={balanceText}
@@ -103,7 +103,7 @@
 	<ConnectWalletButton styleClass="mt-4" isLarge={true} />
 {/if}
 <a class="mt-4 block" href={ROUTES.POND_HISTORY_PAGE_URL}>
-	<ConversionHistoryButton firstText="Pond" secondText="MPond" />
+	<ConversionHistoryButton firstText="POND" secondText="MPond" />
 </a>
 <ErrorTextCard
 	showError={!inputAmountIsValid && updatedAmountInputDirty}

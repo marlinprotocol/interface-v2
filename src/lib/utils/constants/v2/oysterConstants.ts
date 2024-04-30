@@ -246,12 +246,6 @@ export const OYSTER_MARKETPLACE_TABLE_HEADER: TableModel['header'][] = [
 		tooltipText: 'Region in which the enclave is deployed.'
 	},
 	{
-		title: 'Rate',
-		id: 'rateScaled',
-		sorting: true,
-		tooltipText: 'Rate that the operator charges for each hour of usage.'
-	},
-	{
 		title: 'vCPU',
 		id: 'vcpu',
 		sorting: true,
@@ -267,6 +261,12 @@ export const OYSTER_MARKETPLACE_TABLE_HEADER: TableModel['header'][] = [
 		title: 'Arch',
 		id: 'arch',
 		tooltipText: 'Architecture of the instance'
+	},
+	{
+		title: 'Rate',
+		id: 'rateScaled',
+		sorting: true,
+		tooltipText: 'Rate that the operator charges for each hour of usage.'
 	},
 	{
 		title: '',

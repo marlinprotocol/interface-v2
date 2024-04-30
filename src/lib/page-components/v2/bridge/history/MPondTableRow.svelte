@@ -152,7 +152,7 @@
 					{endTimestamp}
 					modalFor="mpond-conversion-cycle-modal-{rowIndex}"
 				/>
-				<span slot="tooltipContent">Conversion Cycle</span>
+				<span slot="tooltipContent">See conversion cycle</span>
 			</Tooltip>
 			<Tooltip>
 				<MPondConversionHistoryButton

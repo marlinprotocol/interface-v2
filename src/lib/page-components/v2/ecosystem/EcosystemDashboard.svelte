@@ -15,7 +15,7 @@
 	}>;
 
 	let searchInput = '';
-	let selectedFilter = 'All';
+	let selectedFilter = 'View All';
 	let filteredPartners: filterDataModal;
 	const partners: filterDataModal = [
 		{
@@ -162,7 +162,7 @@
 	];
 
 	const filters = [
-		'All',
+		'View All',
 		'Blockchain',
 		'Validators',
 		'DeFi',
@@ -176,7 +176,7 @@
 	];
 
 	function getFilteredPartners(partnerSearchString: string, partnerFilterString: string) {
-		if (partnerFilterString === 'All' && !partnerSearchString.length) {
+		if (partnerFilterString === 'View All' && !partnerSearchString.length) {
 			return partners;
 		}
 
@@ -184,7 +184,7 @@
 			return partners.filter((partner) => partner.category.includes(partnerFilterString));
 		}
 
-		if (partnerFilterString === 'All' && !!partnerSearchString.length) {
+		if (partnerFilterString === 'View All' && !!partnerSearchString.length) {
 			return partners.filter((partner) =>
 				partner.name.toLowerCase().includes(partnerSearchString.toLowerCase())
 			);
@@ -206,7 +206,7 @@
 
 	<div class="my-4 flex gap-1.5">
 		{#each filters as filter}
-			{#if selectedFilter == filter}
+			{#if selectedFilter === filter}
 				<Button
 					onclick={() => {
 						selectedFilter = filter;
@@ -220,7 +220,8 @@
 					onclick={() => {
 						selectedFilter = filter;
 					}}
-					variant="outlined"
+					variant="greyOutlined"
+					styleClass="font-normal"
 				>
 					{filter}
 				</Button>

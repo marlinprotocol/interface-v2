@@ -8,6 +8,7 @@ export const buttonClasses = {
 	whiteFilled: `${baseFilledButtonClasses} bg-white text-black border border-[#D9DADE] hover:bg-base-200`,
 	outlined:
 		'btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed',
+	greyOutlined: `${baseFilledButtonClasses} border-[#D9DADE] bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed`,
 	error:
 		'btn btn-theme btn-sm text-error px-5 border-error bg-inherit hover:bg-inherit hover:border-error hover:text-error-focus disabled:cursor-not-allowed',
 	text: 'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent disabled:bg-transparent disabled:cursor-not-allowed',

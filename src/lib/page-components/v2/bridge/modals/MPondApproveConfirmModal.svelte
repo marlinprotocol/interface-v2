@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ApproveAndConfirmModal from '$lib/components/modals/ApproveAndConfirmModal.svelte';
+	import ApproveAndConfirmModal from '$lib/components/v2/modals/ApproveAndConfirmModal.svelte';
 	import {
 		bridgeStore,
 		decreaseMpondAllowanceInBridgeStore,

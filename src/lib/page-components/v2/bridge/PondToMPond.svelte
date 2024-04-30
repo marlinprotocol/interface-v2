@@ -36,7 +36,7 @@
 
 	const handleMaxClick = () => {
 		if ($walletBalanceStore.pond) {
-			inputAmountString = bigNumberToString($walletBalanceStore.pond, 18, 18, false);
+			inputAmountString = bigNumberToString($walletBalanceStore.pond, 18, POND_PRECISIONS, false);
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
 			inValidMessage = '';

@@ -51,7 +51,7 @@ export async function createTransaction(
 			addToast({
 				message: {
 					description: MESSAGES.TOAST.TRANSACTION.FAILED,
-					title: titles?.errorTxnTitle || ''
+					title: titles?.failedTxnTitle || ''
 				},
 				variant: 'error'
 			});
@@ -68,11 +68,17 @@ export async function createTransaction(
 		});
 		return { txn: txn, approveReciept: approveReciept };
 	} catch (error: any) {
+		let description = error.reason
+			? capitalizeFirstLetter(error.reason)
+			: MESSAGES.TOAST.TRANSACTION.FAILED;
+
+		if (error.shortMessage === 'user rejected action') {
+			description = 'Transaction rejected by the user';
+		}
+
 		addToast({
 			message: {
-				description: error.reason
-					? capitalizeFirstLetter(error.reason)
-					: MESSAGES.TOAST.TRANSACTION.FAILED,
+				description,
 				title: titles?.failedTxnTitle || ''
 			},
 			variant: 'error'

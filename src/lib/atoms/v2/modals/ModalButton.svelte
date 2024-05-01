@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { ButtonModel } from '$lib/types/componentTypes';
-	import { openModal } from '$lib/utils/helpers/commonHelper';
+	import type { ButtonModel } from '$lib/types/v2/componentTypes';
+	import { cn, openModal } from '$lib/utils/helpers/commonHelper';
 	import type { IconData } from 'svelte-awesome/components/Icon.svelte';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import { getButtonStyles } from '$lib/utils/v2/helpers/componentHelper';
@@ -34,7 +34,7 @@
 	on:click={onClick}
 	on:keydown={keydownHandler}
 	for={modalFor}
-	class="{labelStyleClass} {labelSize} {styleClass} {disabledClass} gap-1.5 font-normal"
+	class={cn('gap-1.5 font-normal', labelStyleClass, labelSize, disabledClass, styleClass)}
 >
 	{#if icon}
 		<Icon data={icon} size={14} iconColorClass="icon-white" />

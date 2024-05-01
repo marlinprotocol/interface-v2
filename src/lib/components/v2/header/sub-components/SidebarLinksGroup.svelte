@@ -58,9 +58,16 @@
 		},
 		{
 			label: 'Relay',
-			icon: staticImages.relayIcon,
-			href: ROUTES.RELAY_CLUSTERS_LINK,
-			openInNewTab: true
+			icon: activeLink.includes(ROUTES.RELAY_URL)
+				? staticImages.relayIconBlue
+				: staticImages.relayIcon,
+			href: ROUTES.RELAY_URL,
+			children: [
+				{ preFixLabel: 'Clusters', href: ROUTES.RELAY_CLUSTERS_LINK, openInNewTab: true },
+				{ preFixLabel: 'Registration', href: ROUTES.RELAY_REGISTRATION_LINK, openInNewTab: true },
+				{ preFixLabel: 'Delegations', href: ROUTES.RELAY_DELEGATION_LINK, openInNewTab: true },
+				{ preFixLabel: 'Receivers', href: ROUTES.RELAY_RECEIVER_LINK, openInNewTab: true }
+			]
 		},
 		{
 			label: 'Kalypso',

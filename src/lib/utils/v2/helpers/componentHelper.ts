@@ -122,3 +122,22 @@ export const handleCopyClick = (text: string | undefined, successMessage: string
 		addToast({ message: successMessage, variant: 'success' });
 	}
 };
+
+export const getButtonSize = (size: ButtonModel['size']) => {
+	switch (size) {
+		case 'tiniest':
+			return '';
+		case 'tiny':
+			return 'h-8';
+		case 'smaller':
+			return 'h-9';
+		case 'small':
+			return 'h-10';
+		case 'medium':
+			return 'h-12';
+		case 'large':
+			return 'h-14 text-base font-normal';
+		default:
+			return undefined;
+	}
+};

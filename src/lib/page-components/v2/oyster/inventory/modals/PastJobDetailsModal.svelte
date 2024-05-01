@@ -35,7 +35,8 @@
 		durationRun,
 		createdAt,
 		depositHistory,
-		endEpochTime
+		endEpochTime,
+		ip
 	} = jobData);
 </script>
 
@@ -51,7 +52,15 @@
 			/>
 			<div class="flex flex-col gap-4 sm:flex-row">
 				<TextInputCard title="Operator" value={name !== '' ? name : address} />
+			</div>
+			<div class="flex flex-col gap-4 sm:flex-row">
 				<TextInputCard title="Region" value={region} />
+				<TextInputCard
+					title="IP Address"
+					value={ip ?? 'N/A'}
+					cliboardContent={ip}
+					textStyle="truncate"
+				/>
 			</div>
 			<div class="flex flex-col gap-4 sm:flex-row">
 				<TextInputCard title="Instance" value={instance} />
@@ -92,7 +101,7 @@
 				styleClass="btn-block w-full my-0"
 				onclick={handleRedeploy}
 			>
-				REDEPLOY
+				Redeploy
 			</Button>
 		</div>
 	</svelte:fragment>

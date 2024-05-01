@@ -92,10 +92,10 @@
 	} = jobData);
 	$: modalTitle =
 		rateStatus === ''
-			? 'INITIATE RATE REVISE'
+			? 'Initiate Rate Revise'
 			: rateStatus === 'completed'
-				? 'CONFIRM RATE REVISE'
-				: 'INITIATED RATE REVISE';
+				? 'Confirm Rate Revise'
+				: 'Initiate Rate Revise';
 	$: inputRate = isInputAmountValid(inputAmountString)
 		? convertHourlyRateToSecondlyRate(
 				stringToBigNumber(inputAmountString, $oysterTokenMetadataStore.decimal) *
@@ -103,7 +103,7 @@
 			)
 		: 0n;
 	$: difference = bigIntAbs(rate - inputRate);
-	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
+	$: submitButtonText = rateStatus === '' ? 'Initiate rate revise' : 'Confirm rate revise';
 	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
 	$: submitEnable =
 		(inputRate > 0n || newRate > 0n) &&
@@ -122,21 +122,22 @@
 		<div class="flex flex-col gap-4">
 			<div class="flex gap-4">
 				<AmountInputWithTitle
-					title="Current Hourly Rate"
+					title="Current hourly rate"
 					inputAmountString={convertRateToPerHourString(rate, $oysterTokenMetadataStore.decimal)}
 					disabled
 					prefix={$oysterTokenMetadataStore.symbol}
 				/>
 				{#if rateStatus === ''}
 					<AmountInputWithTitle
-						title="New Hourly Rate"
+						title="New hourly rate"
 						bind:inputAmountString
 						prefix={$oysterTokenMetadataStore.symbol}
 						{onFocusOut}
+						showLabelFocused
 					/>
 				{:else}
 					<AmountInputWithTitle
-						title="New Hourly Rate"
+						title="New hourly rate"
 						inputAmountString={convertRateToPerHourString(
 							(newRate + ($oysterRateMetadataStore.oysterRateScalingFactor - BigInt(1))) /
 								$oysterRateMetadataStore.oysterRateScalingFactor,
@@ -184,7 +185,7 @@
 						size="large"
 						styleClass="btn-block w-full my-0"
 					>
-						CANCEL
+						Cancel
 					</Button>
 				</div>
 			{/if}

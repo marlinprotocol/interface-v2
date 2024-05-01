@@ -122,21 +122,21 @@
 		<div class="flex flex-col gap-4">
 			<div class="flex gap-4">
 				<AmountInputWithTitle
-					title="Current Hourly Rate"
+					title="Current hourly rate"
 					inputAmountString={convertRateToPerHourString(rate, $oysterTokenMetadataStore.decimal)}
 					disabled
 					prefix={$oysterTokenMetadataStore.symbol}
 				/>
 				{#if rateStatus === ''}
 					<AmountInputWithTitle
-						title="New Hourly Rate"
+						title="New hourly rate"
 						bind:inputAmountString
 						prefix={$oysterTokenMetadataStore.symbol}
 						{onFocusOut}
 					/>
 				{:else}
 					<AmountInputWithTitle
-						title="New Hourly Rate"
+						title="New hourly rate"
 						inputAmountString={convertRateToPerHourString(
 							(newRate + ($oysterRateMetadataStore.oysterRateScalingFactor - BigInt(1))) /
 								$oysterRateMetadataStore.oysterRateScalingFactor,

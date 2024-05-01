@@ -23,10 +23,10 @@
 	$: isOpen = expandedRows.has(id.toString());
 	$: closeButtonText =
 		stopStatus === '' || stopStatus === 'disabled'
-			? 'Initiate Stop'
+			? 'Initiate stop'
 			: stopStatus === 'pending'
-				? 'Cancel Stop'
-				: 'Confirm Stop';
+				? 'Cancel stop'
+				: 'Confirm stop';
 
 	$: amendRateButtonText =
 		rateStatus === ''
@@ -46,7 +46,7 @@
 					modalFor="job-add-funds-modal-{id}"
 					disabled={isJobFinished}
 				>
-					Add Funds
+					Add funds
 				</ModalButton>
 				<ModalButton
 					variant="outlined"

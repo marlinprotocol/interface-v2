@@ -92,10 +92,10 @@
 	} = jobData);
 	$: modalTitle =
 		rateStatus === ''
-			? 'INITIATE RATE REVISE'
+			? 'Initiate Rate Revise'
 			: rateStatus === 'completed'
-				? 'CONFIRM RATE REVISE'
-				: 'INITIATED RATE REVISE';
+				? 'Confirm Rate Revise'
+				: 'Initiate Rate Revise';
 	$: inputRate = isInputAmountValid(inputAmountString)
 		? convertHourlyRateToSecondlyRate(
 				stringToBigNumber(inputAmountString, $oysterTokenMetadataStore.decimal) *
@@ -103,7 +103,7 @@
 			)
 		: 0n;
 	$: difference = bigIntAbs(rate - inputRate);
-	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
+	$: submitButtonText = rateStatus === '' ? 'Initiate Rate Revise' : 'Confirm Rate Revise';
 	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
 	$: submitEnable =
 		(inputRate > 0n || newRate > 0n) &&
@@ -133,6 +133,7 @@
 						bind:inputAmountString
 						prefix={$oysterTokenMetadataStore.symbol}
 						{onFocusOut}
+						showLabelFocused
 					/>
 				{:else}
 					<AmountInputWithTitle

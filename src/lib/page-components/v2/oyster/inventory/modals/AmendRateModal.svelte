@@ -103,7 +103,7 @@
 			)
 		: 0n;
 	$: difference = bigIntAbs(rate - inputRate);
-	$: submitButtonText = rateStatus === '' ? 'Initiate Rate Revise' : 'Confirm Rate Revise';
+	$: submitButtonText = rateStatus === '' ? 'Initiate rate revise' : 'Confirm rate revise';
 	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
 	$: submitEnable =
 		(inputRate > 0n || newRate > 0n) &&
@@ -185,7 +185,7 @@
 						size="large"
 						styleClass="btn-block w-full my-0"
 					>
-						CANCEL
+						Cancel
 					</Button>
 				</div>
 			{/if}

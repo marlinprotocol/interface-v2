@@ -101,7 +101,7 @@
 				styleClass="btn-block w-full my-0"
 				onclick={handleRedeploy}
 			>
-				REDEPLOY
+				Redeploy
 			</Button>
 		</div>
 	</svelte:fragment>

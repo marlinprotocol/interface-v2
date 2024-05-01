@@ -347,7 +347,7 @@
 					size="large"
 					styleClass="btn-block w-full"
 				>
-					{'DEPLOY'}
+					{'Deploy'}
 				</Button>
 			{:else}
 				<Button
@@ -358,7 +358,7 @@
 					size="large"
 					styleClass="btn-block w-full"
 				>
-					{approved ? 'DEPLOY' : 'APPROVE'}
+					{approved ? 'Deploy' : 'Approve'}
 				</Button>
 			{/if}
 		</div>

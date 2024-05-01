@@ -80,7 +80,7 @@
 				? 'Confirm Stop'
 				: 'Initiated Stop';
 	$: submitButtonText =
-		stopStatus === '' || stopStatus === 'disabled' ? 'INITIATE STOP' : 'CONFIRM';
+		stopStatus === '' || stopStatus === 'disabled' ? 'Initiate stop' : 'Confirm';
 	$: submitButtonAction =
 		stopStatus === '' || stopStatus === 'disabled' ? handleInitiateClick : handleConfirmClick;
 	$: submitButtonDisabled = stopStatus === 'pending' || stopStatus === 'disabled';
@@ -132,7 +132,7 @@
 						size="large"
 						styleClass="btn-block w-full my-0"
 					>
-						CANCEL
+						Cancel
 					</Button>
 				</div>
 			{/if}

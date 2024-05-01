@@ -32,7 +32,7 @@
 	$: {
 		const activeChainId = $chainStore.chainId;
 		if (activeChainId !== null) {
-			activeChainImage = environment.valid_chains[activeChainId].chain_image;
+			activeChainImage = environment.valid_chains[activeChainId]?.chain_image;
 		}
 	}
 </script>

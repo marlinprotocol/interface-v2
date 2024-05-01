@@ -67,4 +67,4 @@ export type SubgraphUrls = {
 	OYSTER_CREDIT: string;
 };
 
-type RouteNames = 'bridge' | 'oyster' | 'receiver_staking' | 'receiver_rewards';
+type RouteNames = 'bridge' | 'oyster' | 'receiver_staking' | 'receiver_rewards' | 'dashboard';

@@ -9,6 +9,7 @@ export const ENVIRONMENT_MAINNET: Environment = {
 	valid_chains: { 42161: ARB_ONE, 59144: LINEA, 137: POLYGON },
 	default_chain_id: 42161,
 	supported_chains: {
+		dashboard: [42161, 59144, 137],
 		bridge: [42161],
 		oyster: [42161, 59144, 137],
 		receiver_staking: [42161],

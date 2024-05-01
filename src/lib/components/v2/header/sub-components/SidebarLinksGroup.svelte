@@ -23,7 +23,7 @@
 	}
 
 	function expandMenu(e: Event, label: string) {
-		expandedLinks = label;
+		expandedLinks = expandedLinks === label ? '' : label;
 
 		if (!$isNavOpen) {
 			handleSidebarMenuItemClickWhenCollapsed(e);

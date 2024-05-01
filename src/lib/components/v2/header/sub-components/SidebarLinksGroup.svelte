@@ -10,7 +10,7 @@
 	export let activeLink: string = '';
 
 	let links: SidebarLinks[] = [];
-	let expandedLinks: string[] = [];
+	let expandedLinks: string = '';
 
 	function handleSidebarMenuItemClickWhenCollapsed(e: Event) {
 		$isNavOpen = true;
@@ -21,11 +21,7 @@
 	}
 
 	function expandMenu(e: Event, label: string) {
-		if (expandedLinks.includes(label)) {
-			expandedLinks = expandedLinks.filter((item) => item !== label);
-		} else {
-			expandedLinks = [...expandedLinks, label];
-		}
+		expandedLinks = label;
 
 		if (!$isNavOpen) {
 			handleSidebarMenuItemClickWhenCollapsed(e);

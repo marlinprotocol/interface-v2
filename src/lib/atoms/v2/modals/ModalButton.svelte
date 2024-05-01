@@ -4,7 +4,7 @@
 	import type { IconData } from 'svelte-awesome/components/Icon.svelte';
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import { getButtonStyles } from '$lib/utils/v2/helpers/componentHelper';
-	import { getButtonSize } from '$lib/utils/helpers/componentHelper';
+	import { getButtonSize } from '$lib/utils/v2/helpers/componentHelper';
 
 	export let modalFor: string;
 	export let disabled = false;

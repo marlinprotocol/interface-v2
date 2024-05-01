@@ -5,20 +5,16 @@
 
 	export let modalFor = 'external-link-confirmation';
 	export let href: string = '';
-	export let label: string = 'Link';
+	export let bodyText: string =
+		"You are going to be re-directed to an external link. Don't worry we will open it in a new tab, just make sure you finish up everything important in the hub before moving away.";
 </script>
 
 <Modal {modalFor}>
 	<svelte:fragment slot="title">External Link Confirmation</svelte:fragment>
 	<svelte:fragment slot="content"
-		><span class="text-base font-light text-[#A8A8A8]"
-			>You are going to be re-directed to an external link. Don't worry we will open it in a new
-			tab, just make sure you finish up everything important in the hub before moving away.</span
-		></svelte:fragment
+		><span class="text-base font-light text-[#A8A8A8]">{bodyText}</span></svelte:fragment
 	>
 	<svelte:fragment slot="actionButtons">
-		<a {href} target="_blank" class={cn(buttonClasses.filled, 'h-14')}>
-			VISIT {label.toLocaleUpperCase()}
-		</a>
+		<a {href} target="_blank" class={cn(buttonClasses.filled, 'h-14')}> VISIT EXTERNAL LINK </a>
 	</svelte:fragment>
 </Modal>

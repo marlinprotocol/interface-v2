@@ -55,7 +55,7 @@
 				>{bigNumberToString($walletBalanceStore.pond, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)} POND
 			</span>|
 			<span class="font-bold text-black">
-				{bigNumberToString($walletBalanceStore.mpond, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)} MPOND</span
+				{bigNumberToString($walletBalanceStore.mpond, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)} MPond</span
 			>
 		</div>
 	</svelte:fragment>

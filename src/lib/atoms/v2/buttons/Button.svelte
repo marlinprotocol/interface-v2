@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ButtonModel } from '$lib/types/componentTypes';
+	import type { ButtonModel } from '$lib/types/v2/componentTypes';
 	import { getButtonStyles } from '$lib/utils/v2/helpers/componentHelper';
 	import { getButtonSize } from '$lib/utils/v2/helpers/componentHelper';
 	import { cn } from '$lib/utils/helpers/commonHelper';

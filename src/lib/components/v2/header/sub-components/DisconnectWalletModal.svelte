@@ -42,8 +42,8 @@
 			</div>
 		</div>
 		<div class="flex flex-wrap gap-4">
-			<AddTokenPrompt tokenFor="POND" />
-			<AddTokenPrompt tokenFor="MPOND" />
+			<AddTokenPrompt tokenFor="POND" label="POND" />
+			<AddTokenPrompt tokenFor="MPOND" label="MPond" />
 			<a
 				href="{$chainConfigStore.block_explorer_url}/address/{$walletStore.address}"
 				target="_blank"

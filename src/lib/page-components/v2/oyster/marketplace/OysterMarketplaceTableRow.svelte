@@ -47,6 +47,15 @@
 	{region ?? 'N/A'}
 </td>
 <td class={tableClasses.cell}>
+	{vcpu ? vcpu : 'N/A'}
+</td>
+<td class={tableClasses.cell}>
+	{memory ? `${memory}${MEMORY_SUFFIX}` : 'N/A'}
+</td>
+<td class={tableClasses.cell}>
+	{arch ? arch : 'N/A'}
+</td>
+<td class={tableClasses.cell}>
 	<Tooltip>
 		<span slot="tooltipIcon"
 			>{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
@@ -61,15 +70,6 @@
 			)}
 		</span>
 	</Tooltip>
-</td>
-<td class={tableClasses.cell}>
-	{vcpu ? vcpu : 'N/A'}
-</td>
-<td class={tableClasses.cell}>
-	{memory ? `${memory}${MEMORY_SUFFIX}` : 'N/A'}
-</td>
-<td class={tableClasses.cell}>
-	{arch ? arch : 'N/A'}
 </td>
 <td class={tableClasses.cell}>
 	{#if $connected}

@@ -45,7 +45,7 @@
 				secondText: 'Pond',
 				href: ROUTES.BRIDGE_URL
 			},
-			title: 'Pond to MPond conversion history'
+			title: 'POND to MPond conversion history'
 		}}
 		{loading}
 		{handleSortData}

@@ -12,6 +12,8 @@ export type SubLinks = {
 	postFixLabel?: string;
 	href: string;
 	openInNewTab?: boolean;
+	openInPopup?: boolean;
+	bodyText?: string;
 };
 
 export type SidebarLinks = {
@@ -19,5 +21,5 @@ export type SidebarLinks = {
 	href: string;
 	icon: string;
 	children?: SubLinks[];
-	isExternal?: boolean;
+	openInNewTab?: boolean;
 };

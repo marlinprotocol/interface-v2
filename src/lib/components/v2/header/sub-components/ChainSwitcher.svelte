@@ -46,8 +46,14 @@
 		class="{buttonClasses.whiteFilled} chain-btn m-1 flex h-12"
 	>
 		<div class="flex items-center justify-center">
-			<div class="h-8 w-8">
-				<img src={activeChainImage} alt="current chain" />
+			<div class="flex h-8 w-8 items-center justify-center">
+				{#if activeChainImage}
+					<img src={activeChainImage} alt="current chain" />
+				{:else}
+					<span class="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white"
+						>{$chainStore.chainDisplayName.charAt(0).toLocaleUpperCase()}</span
+					>
+				{/if}
 			</div>
 			<div class="ml-2">
 				<Icon data={chevronDown} size={10} iconColorClass="icon-primary" />

@@ -5,7 +5,7 @@
 	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/v2/texts/NameWithAddress.svelte';
-	import { addToast } from '$lib/data-stores/toastStore';
+	import { addToast } from '$lib/data-stores/v2/toastStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { OysterMarketplaceDataModel } from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
@@ -90,8 +90,11 @@
 		<Button
 			onclick={() =>
 				addToast({
-					message: 'Please connect your wallet to deploy.',
-					variant: 'info'
+					message: {
+						title: 'Connect Wallet',
+						description: 'Please connect your wallet to deploy.'
+					},
+					variant: 'warning'
 				})}
 			variant="text"
 			styleClass="w-fit ml-4"

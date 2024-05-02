@@ -16,48 +16,40 @@ import { isInputAmountValid } from './commonHelper';
  * @returns string
  * @example 12334422 => 4 months 22 days 18 hours 13 mins 42 secs
  */
-
-const SECONDS_IN_MINUTE = 60;
-const SECONDS_IN_DAY = 24 * SECONDS_IN_HOUR;
-const SECONDS_IN_MONTH = 30 * SECONDS_IN_DAY; // Approximation
-const SECONDS_IN_YEAR = 12 * SECONDS_IN_MONTH; // Approximation
-
 export const epochToDurationString = (epoch: number, mini = false) => {
 	if (epoch >= SECONDS_IN_HUNDRED_YEARS) return '100+ years';
 	const seconds = epoch % 60;
-	const minutes = Math.floor(epoch / SECONDS_IN_MINUTE) % 60;
-	const hours = Math.floor(epoch / SECONDS_IN_HOUR) % 24;
-	const days = Math.floor(epoch / SECONDS_IN_DAY) % 30;
-	const months = Math.floor(epoch / SECONDS_IN_MONTH) % 12;
-	const years = Math.floor(epoch / SECONDS_IN_YEAR);
+	const minutes = Math.floor(epoch / 60) % 60;
+	const hours = Math.floor(epoch / (60 * 60)) % 24;
+	const days = Math.floor(epoch / (60 * 60 * 24)) % 30;
+	const months = Math.floor(epoch / (60 * 60 * 24 * 30)) % 12;
+	const years = Math.floor(epoch / (60 * 60 * 24 * 30 * 12));
 
 	let durationString = '';
 	if (years > 0) {
-		durationString += years + 'Y ';
-		if (mini) durationString.trimEnd();
+		durationString += years + (years > 1 ? ' years ' : ' year ');
+		if (mini) return 'hey';
 	}
 	if (months > 0) {
-		durationString += months + 'M ';
-		if (mini) durationString.trimEnd();
+		durationString += months + (months > 1 ? ' months ' : ' month ');
+		if (mini) return durationString.trimEnd();
 	}
 	if (days > 0) {
-		durationString += days + 'D ';
-		if (mini) durationString.trimEnd();
+		durationString += days + (days > 1 ? ' days ' : ' day ');
+		if (mini) return durationString.trimEnd();
 	}
 	if (hours > 0) {
-		durationString += hours + 'H ';
-		if (mini) durationString.trimEnd();
+		durationString += hours + (hours > 1 ? ' hours ' : ' hour ');
+		if (mini) return durationString.trimEnd();
 	}
 	if (minutes > 0) {
-		durationString += minutes + 'M ';
-		if (mini) durationString.trimEnd();
+		durationString += minutes + (minutes > 1 ? ' mins ' : ' min ');
+		if (mini) return durationString.trimEnd();
 	}
-	if (seconds > 0 && durationString === '') {
-		// Only show seconds if no other larger unit is shown
-		durationString += seconds.toFixed() + 'S';
-		if (mini) durationString.trimEnd();
+	if (seconds > 0) {
+		durationString += seconds.toFixed() + ' secs';
+		if (mini) return durationString;
 	}
-
 	return durationString.trimEnd();
 };
 /**

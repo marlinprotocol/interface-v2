@@ -93,6 +93,7 @@ export const OYSTER_MERCHANT_JOB_TABLE_HEADER: TableModel['header'][] = [
 		title: 'DURATION RUN',
 		id: 'durationRun',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Duration for which the job has run so far'
 	},
 	{

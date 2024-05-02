@@ -85,6 +85,10 @@
 		}
 	};
 
+	const onClose = () => {
+		inputAmountString = '';
+	};
+
 	$: ({
 		rate,
 		reviseRate: { newRate = 0n, updatesAt = 0, rateStatus = '' } = {},
@@ -113,7 +117,7 @@
 		rateStatus !== 'pending';
 </script>
 
-<Modal {modalFor}>
+<Modal {modalFor} {onClose}>
 	<svelte:fragment slot="title">
 		{modalTitle}
 	</svelte:fragment>

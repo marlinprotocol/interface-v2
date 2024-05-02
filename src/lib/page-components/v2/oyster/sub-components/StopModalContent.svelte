@@ -5,13 +5,14 @@
 	import { bigNumberToString, epochToDurationString } from '$lib/utils/helpers/conversionHelper';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { cn } from '$lib/utils/helpers/commonHelper';
+	import Timer from '$lib/atoms/v2/timer/Timer.svelte';
 
 	export let jobData: OysterInventoryDataModel;
-
+	export let modalFor: string;
 	$: ({ balance, durationLeft } = jobData);
-
 	const commonStyleClass = 'h-[207px] rounded-xl flex items-center justify-center';
 	const iconStyle = 'w-[64px] h-[64px] rounded-full bg-base-100 flex items-center justify-center ';
+	const handleOnTimerEnd = () => {};
 </script>
 
 <div class="flex flex-col gap-4">
@@ -45,9 +46,18 @@
 							</div>
 						</div>
 						<div class="mt-4 text-lg font-light">Duration Left</div>
-						<div class="text-xl font-semibold">
-							{durationLeft === 0 ? 'Ended' : epochToDurationString(durationLeft, false)}
-						</div>
+						<Timer
+							useGivenTime
+							timerId="timer-for-{modalFor}"
+							endEpochTime={durationLeft}
+							onTimerEnd={() => handleOnTimerEnd()}
+						>
+							<div slot="active" let:timer class="w-full">
+								<div class="text-xl font-semibold">
+									{durationLeft === 0 ? 'Ended' : epochToDurationString(timer, false)}
+								</div>
+							</div>
+						</Timer>
 					</div>
 				</div>
 			</InputCard>

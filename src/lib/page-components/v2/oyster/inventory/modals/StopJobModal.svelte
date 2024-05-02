@@ -91,7 +91,7 @@
 		{modalTitle}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<StopModalContent {jobData} />
+		<StopModalContent {jobData} {modalFor} />
 		{#if stopStatus === 'pending'}
 			<div class="w-full">
 				<Timer

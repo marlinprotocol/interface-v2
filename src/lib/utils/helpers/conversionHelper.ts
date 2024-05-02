@@ -28,7 +28,7 @@ export const epochToDurationString = (epoch: number, mini = false) => {
 	let durationString = '';
 	if (years > 0) {
 		durationString += years + (years > 1 ? ' years ' : ' year ');
-		if (mini) return 'hey';
+		if (mini) return durationString.trimEnd();
 	}
 	if (months > 0) {
 		durationString += months + (months > 1 ? ' months ' : ' month ');

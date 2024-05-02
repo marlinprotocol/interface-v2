@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
-	import { addToast } from '$lib/data-stores/toastStore';
+	import { addToast } from '$lib/data-stores/v2/toastStore';
 	import { shortenText } from '$lib/utils/helpers/conversionHelper';
 	import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
 	import { getColorHexForTableRow } from '$lib/utils/helpers/componentHelper';
@@ -14,7 +14,10 @@
 	const onCopyAddress = () => {
 		copyTextToClipboard(address);
 		addToast({
-			message: `Address copied to clipboard`,
+			message: {
+				title: 'Copied',
+				description: `Address copied to clipboard`
+			},
 			variant: 'success'
 		});
 	};

@@ -1,6 +1,6 @@
 import { buttonClasses } from '$lib/atoms/v2/componentClasses';
 import { staticImages } from '$lib/components/images/staticImages';
-import { addToast } from '$lib/data-stores/toastStore';
+import { addToast } from '$lib/data-stores/v2/toastStore';
 import type { ButtonModel, CommonVariant, InputCardVariant } from '$lib/types/v2/componentTypes';
 import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
 
@@ -119,7 +119,13 @@ export const getColorHexByVariantForTag = (variant: CommonVariant | undefined) =
 export const handleCopyClick = (text: string | undefined, successMessage: string) => {
 	if (text) {
 		copyTextToClipboard(text);
-		addToast({ message: successMessage, variant: 'success' });
+		addToast({
+			message: {
+				title: 'Copied',
+				description: successMessage
+			},
+			variant: 'success'
+		});
 	}
 };
 

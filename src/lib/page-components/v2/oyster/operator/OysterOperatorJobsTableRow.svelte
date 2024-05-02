@@ -13,13 +13,12 @@
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/helpers/conversionHelper';
-	import {
-		getColorHexByVariant,
-		getColorHexByVariantForTag
-	} from '$lib/utils/v2/helpers/componentHelper';
+	import { getColorHexByVariantForTag } from '$lib/utils/v2/helpers/componentHelper';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
 	import { handleClaimAmountFromOysterJob } from '$lib/utils/services/oysterServices';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
+	import { cn } from '$lib/utils/helpers/commonHelper';
+	import { OYSTER_MERCHANT_JOB_TABLE_HEADER } from '$lib/utils/constants/v2/oysterConstants';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -45,7 +44,11 @@
 	$: statusColor = getColorHexByVariantForTag(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
-<td class={tableClasses.cell}>
+<td
+	class={cn(tableClasses.cell, {
+		'text-center': OYSTER_MERCHANT_JOB_TABLE_HEADER[0]?.centered
+	})}
+>
 	<NameWithAddress {name} {address} {rowIndex}>
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
@@ -56,16 +59,32 @@
 		</svelte:fragment>
 	</NameWithAddress>
 </td>
-<td class={tableClasses.cell}>
+<td
+	class={cn(tableClasses.cell, {
+		'text-center': OYSTER_MERCHANT_JOB_TABLE_HEADER[1]?.centered
+	})}
+>
 	{instance ?? 'N/A'}
 </td>
-<td class={tableClasses.cell}>
+<td
+	class={cn(tableClasses.cell, {
+		'text-center': OYSTER_MERCHANT_JOB_TABLE_HEADER[2]?.centered
+	})}
+>
 	{region ?? 'N/A'}
 </td>
-<td class={tableClasses.cell}>
+<td
+	class={cn(tableClasses.cell, {
+		'text-center': OYSTER_MERCHANT_JOB_TABLE_HEADER[3]?.centered
+	})}
+>
 	{epochSecToString(createdAt)}
 </td>
-<td class={tableClasses.cell}>
+<td
+	class={cn(tableClasses.cell, {
+		'text-center': OYSTER_MERCHANT_JOB_TABLE_HEADER[4]?.centered
+	})}
+>
 	<Tooltip>
 		<p slot="tooltipIcon">
 			{epochToDurationString(durationRun, true)}
@@ -73,7 +92,11 @@
 		<span slot="tooltipContent">{epochToDurationString(durationRun)}</span>
 	</Tooltip>
 </td>
-<td class={tableClasses.cell}>
+<td
+	class={cn(tableClasses.cell, {
+		'text-center': OYSTER_MERCHANT_JOB_TABLE_HEADER[5]?.centered
+	})}
+>
 	<Tooltip>
 		<p slot="tooltipIcon">
 			{$oysterTokenMetadataStore.symbol}{bigNumberToString(
@@ -90,7 +113,11 @@
 		>
 	</Tooltip>
 </td>
-<td class={tableClasses.cell}>
+<td
+	class={cn(tableClasses.cell, {
+		'text-center': OYSTER_MERCHANT_JOB_TABLE_HEADER[6]?.centered
+	})}
+>
 	<div
 		class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm capitalize text-[#030115]"
 		style="background-color: {statusColor}"
@@ -99,7 +126,11 @@
 	</div>
 </td>
 
-<td class={tableClasses.cell}>
+<td
+	class={cn(tableClasses.cell, {
+		'text-center': OYSTER_MERCHANT_JOB_TABLE_HEADER[7]?.centered
+	})}
+>
 	<Button onclick={handleClaimClick} variant="text" styleClass="w-fit ml-4 mr-6">
 		<Tooltip>
 			<div slot="tooltipIcon" class="rounded-full border border-[#D9DADE] p-3">

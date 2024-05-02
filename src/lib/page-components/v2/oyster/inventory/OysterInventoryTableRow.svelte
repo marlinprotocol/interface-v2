@@ -7,8 +7,6 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/v2/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { bigNumberToString, epochToDurationString } from '$lib/utils/helpers/conversionHelper';
-	import { getInventoryDurationVariant } from '$lib/utils/v2/helpers/oysterHelpers';
 	import type { BytesLike } from 'ethers';
 	import { refreshJobStatusForJobId } from '$lib/controllers/httpController';
 	import {
@@ -16,6 +14,8 @@
 		updateJobStatusByIdInOysterStore
 	} from '$lib/data-stores/oysterStore';
 	import { handleCopyClick } from '$lib/utils/v2/helpers/componentHelper';
+	import { epochToDurationString, bigNumberToString } from '$lib/utils/v2/helpers/conversionHelper';
+	import { getInventoryDurationVariant } from '$lib/utils/v2/helpers/oysterHelpers';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -74,7 +74,7 @@
 		{ip ?? 'N/A'}
 		{#if ip}
 			<button
-				class="cursor-pointer"
+				class="hidden cursor-pointer group-hover:flex"
 				on:click={() => handleCopyClick(ip, 'IP Address copied to clipboard')}
 			>
 				<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
@@ -110,7 +110,7 @@
 					class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm text-[#030115]"
 					style="background-color: {getInventoryDurationVariant(durationLeft)}"
 				>
-					{epochToDurationString(durationLeft, true)}
+					{epochToDurationString(durationLeft, false)}
 				</div>
 			</Tooltip>
 		</div>

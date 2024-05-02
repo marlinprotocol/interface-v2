@@ -6,15 +6,15 @@
 		OysterInventoryDataModel,
 		OysterOperatorInventorySortKeys
 	} from '$lib/types/oysterComponentType';
-	import { OYSTER_MERCHANT_JOB_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
+	import { OYSTER_MERCHANT_JOB_TABLE_HEADER } from '$lib/utils/constants/v2/oysterConstants';
+
 	import {
 		getSearchedOysterJobsData,
 		sortOysterOperatorInventory
 	} from '$lib/utils/helpers/oysterHelpers';
 	import OysterTableCommon from '$lib/page-components/v2/oyster/inventory/OysterTableCommon.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
-	import { ROUTES } from '$lib/utils/constants/v2/urls';
-	import { buttonClasses, tableClasses } from '$lib/atoms/v2/componentClasses';
+	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	let searchInput = '';

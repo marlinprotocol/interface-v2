@@ -30,6 +30,7 @@ export type TableModel = {
 		tooltipText?: string;
 		id: string;
 		sorting?: boolean;
+		centered?: boolean;
 	};
 };
 

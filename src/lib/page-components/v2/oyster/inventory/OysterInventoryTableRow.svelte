@@ -74,7 +74,7 @@
 		{ip ?? 'N/A'}
 		{#if ip}
 			<button
-				class="cursor-pointer"
+				class="hidden cursor-pointer group-hover:flex"
 				on:click={() => handleCopyClick(ip, 'IP Address copied to clipboard')}
 			>
 				<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
@@ -110,7 +110,7 @@
 					class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm text-[#030115]"
 					style="background-color: {getInventoryDurationVariant(durationLeft)}"
 				>
-					{epochToDurationString(durationLeft, true)}
+					{epochToDurationString(durationLeft, false)}
 				</div>
 			</Tooltip>
 		</div>

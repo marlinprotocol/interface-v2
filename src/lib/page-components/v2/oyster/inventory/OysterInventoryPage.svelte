@@ -15,6 +15,7 @@
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 	import SearchWithSelect from '$lib/components/v2/search/SearchWithSelect.svelte';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -89,10 +90,10 @@
 >
 	{#if paginatedData?.length}
 		{#each paginatedData as rowData, rowIndex (rowData.id)}
-			<tr class="group h-[64px] hover:bg-base-200">
+			<tr class="group peer h-[64px] hover:bg-base-200">
 				<OysterInventoryTableRow {rowData} {rowIndex} bind:expandedRows />
 			</tr>
-			<tr class={tableClasses.row}>
+			<tr class={cn(tableClasses.row, 'peer-hover:bg-base-200')}>
 				<OysterInventoryExpandedTableRow {rowData} {expandedRows} />
 			</tr>
 		{/each}

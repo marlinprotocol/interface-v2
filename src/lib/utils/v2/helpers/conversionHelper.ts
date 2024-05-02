@@ -1,8 +1,7 @@
 import {
 	DEFAULT_CURRENCY_DECIMALS,
 	DEFAULT_PRECISION,
-	SECONDS_IN_HOUR,
-	SECONDS_IN_HUNDRED_YEARS
+	SECONDS_IN_HOUR
 } from '$lib/utils/constants/constants';
 import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 
@@ -17,49 +16,60 @@ import { ethers } from 'ethers';
  * @example 12334422 => 4 months 22 days 18 hours 13 mins 42 secs
  */
 
-const SECONDS_IN_MINUTE = 60;
-const SECONDS_IN_DAY = 24 * SECONDS_IN_HOUR;
-const SECONDS_IN_MONTH = 30 * SECONDS_IN_DAY; // Approximation
-const SECONDS_IN_YEAR = 12 * SECONDS_IN_MONTH; // Approximation
-
 export const epochToDurationString = (epoch: number, mini = false) => {
-	if (epoch >= SECONDS_IN_HUNDRED_YEARS) return '100+ years';
-	const seconds = epoch % 60;
+	const SECONDS_IN_MINUTE = 60;
+	const SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60;
+	const SECONDS_IN_DAY = SECONDS_IN_HOUR * 24;
+	const SECONDS_IN_MONTH = SECONDS_IN_DAY * 30; // Approximate a month as 30 days
+	const SECONDS_IN_YEAR = SECONDS_IN_MONTH * 12;
+	const SECONDS_IN_HUNDRED_YEARS = SECONDS_IN_YEAR * 100;
+
+	if (epoch >= SECONDS_IN_HUNDRED_YEARS) return '+100 Y'; // Changed 'years' to 'Y'
+	const seconds = epoch % SECONDS_IN_MINUTE;
 	const minutes = Math.floor(epoch / SECONDS_IN_MINUTE) % 60;
 	const hours = Math.floor(epoch / SECONDS_IN_HOUR) % 24;
 	const days = Math.floor(epoch / SECONDS_IN_DAY) % 30;
 	const months = Math.floor(epoch / SECONDS_IN_MONTH) % 12;
 	const years = Math.floor(epoch / SECONDS_IN_YEAR);
-
+	let count = 0;
 	let durationString = '';
 	if (years > 0) {
 		durationString += years + 'Y ';
-		if (mini) durationString.trimEnd();
+		if (mini) return durationString.trimEnd();
+		count++;
 	}
 	if (months > 0) {
 		durationString += months + 'M ';
-		if (mini) durationString.trimEnd();
+		if (mini && days === 0) return durationString.trimEnd();
+		count++;
 	}
+	if (count >= 2) return durationString.trimEnd();
 	if (days > 0) {
 		durationString += days + 'D ';
-		if (mini) durationString.trimEnd();
+		if (mini && hours === 0) return durationString.trimEnd();
+		count++;
 	}
+	if (count >= 2) return durationString.trimEnd();
 	if (hours > 0) {
 		durationString += hours + 'H ';
-		if (mini) durationString.trimEnd();
+		if (mini && minutes === 0) return durationString.trimEnd();
+		count++;
 	}
+	if (count >= 2) return durationString.trimEnd();
 	if (minutes > 0) {
 		durationString += minutes + 'M ';
-		if (mini) durationString.trimEnd();
+		if (mini && seconds === 0) return durationString.trimEnd();
+		count++;
 	}
-	if (seconds > 0 && durationString === '') {
-		// Only show seconds if no other larger unit is shown
-		durationString += seconds.toFixed() + 'S';
-		if (mini) durationString.trimEnd();
+	if (count >= 2) return durationString.trimEnd();
+	if (seconds > 0) {
+		durationString += seconds + 'S';
+		if (mini) return durationString;
+		count++;
 	}
-
 	return durationString.trimEnd();
 };
+
 /**
  * Returns string for a bigInt
  * @param value: bigInt

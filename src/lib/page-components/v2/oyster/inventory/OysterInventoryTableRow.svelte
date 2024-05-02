@@ -7,8 +7,6 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/v2/texts/NameWithAddress.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { bigNumberToString, epochToDurationString } from '$lib/utils/helpers/conversionHelper';
-	import { getInventoryDurationVariant } from '$lib/utils/v2/helpers/oysterHelpers';
 	import type { BytesLike } from 'ethers';
 	import { refreshJobStatusForJobId } from '$lib/controllers/httpController';
 	import {
@@ -16,6 +14,8 @@
 		updateJobStatusByIdInOysterStore
 	} from '$lib/data-stores/oysterStore';
 	import { handleCopyClick } from '$lib/utils/v2/helpers/componentHelper';
+	import { epochToDurationString, bigNumberToString } from '$lib/utils/v2/helpers/conversionHelper';
+	import { getInventoryDurationVariant } from '$lib/utils/v2/helpers/oysterHelpers';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;

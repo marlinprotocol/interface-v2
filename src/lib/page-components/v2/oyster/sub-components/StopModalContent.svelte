@@ -2,7 +2,7 @@
 	import InputCard from '$lib/atoms/v2/cards/InputCard.svelte';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { bigNumberToString, epochToDurationString } from '$lib/utils/helpers/conversionHelper';
+	import { bigNumberToString, epochToDurationString } from '$lib/utils/v2/helpers/conversionHelper';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import Timer from '$lib/atoms/v2/timer/Timer.svelte';

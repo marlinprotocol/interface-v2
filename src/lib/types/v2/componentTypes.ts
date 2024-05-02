@@ -73,3 +73,21 @@ export type ModalInputModel = {
 	handleApproveClick?: () => void;
 	inputCardVariant?: InputCardVariant;
 };
+
+export type CardsList = {
+	title: string;
+	description: string;
+	logo: string;
+	logoAlt: string;
+	buttons: CardButton[];
+}[];
+
+export type CardButton = {
+	text: string;
+	href: string;
+	openInPopup?: {
+		modalFor: string;
+		descriptionText: string;
+		popupCtaText: string;
+	};
+};

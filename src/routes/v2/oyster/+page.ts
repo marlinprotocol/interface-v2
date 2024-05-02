@@ -1,6 +1,6 @@
-import { OYSTER_MARKETPLACE_URL } from '$lib/utils/constants/urls';
+import { ROUTES } from '$lib/utils/constants/v2/urls';
 import { redirect } from '@sveltejs/kit';
 
 export function load() {
-	throw redirect(308, OYSTER_MARKETPLACE_URL);
+	throw redirect(308, ROUTES.OYSTER_MARKETPLACE_URL);
 }

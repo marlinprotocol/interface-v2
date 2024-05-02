@@ -105,6 +105,8 @@
 	$: difference = bigIntAbs(rate - inputRate);
 	$: submitButtonText = rateStatus === '' ? 'Initiate rate revise' : 'Confirm rate revise';
 	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
+	$: currentHourlyRate = convertRateToPerHourString(rate, $oysterTokenMetadataStore.decimal);
+	$: newHRlessThancurrentHR = inputAmountString !== '' && currentHourlyRate > inputAmountString;
 	$: submitEnable =
 		(inputRate > 0n || newRate > 0n) &&
 		!showPrecisionError &&
@@ -123,7 +125,7 @@
 			<div class="flex gap-4">
 				<AmountInputWithTitle
 					title="Current hourly rate"
-					inputAmountString={convertRateToPerHourString(rate, $oysterTokenMetadataStore.decimal)}
+					inputAmountString={currentHourlyRate}
 					disabled
 					prefix={$oysterTokenMetadataStore.symbol}
 				/>
@@ -168,10 +170,13 @@
 				</div>
 			{/if}
 		</div>
+
 		<ErrorTextCard
 			styleClass="mt-4"
-			showError={showPrecisionError}
-			errorMessage="Please change the rate by a minimum of 0.001 USDC"
+			showError={newHRlessThancurrentHR || showPrecisionError}
+			errorMessage={newHRlessThancurrentHR
+				? 'Rate revision is less than the current hourly rate'
+				: 'Please change the rate by a minimum of 0.001 USDC'}
 		/>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">

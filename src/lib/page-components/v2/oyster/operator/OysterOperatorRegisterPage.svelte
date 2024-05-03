@@ -50,6 +50,7 @@
 		totalRegions: 0
 	};
 	let loadingInstances = false;
+	let displayCpUrl = '';
 
 	const handleOnRegister = async () => {
 		try {
@@ -58,6 +59,7 @@
 				await registerOysterInfrastructureProvider(sanitizedUpdatedCpURL);
 				updateProviderInOysterStore(updatedCpURL, $walletStore.address);
 				registeredCpURL = updatedCpURL;
+				displayCpUrl = updatedCpURL;
 				registered = true;
 				disableCpURL = true;
 				registerLoading = false;
@@ -84,6 +86,7 @@
 				await updateOysterInfrastructureProvider(sanitizedUpdatedCpURL);
 				updateProviderInOysterStore(updatedCpURL, $walletStore.address);
 				registeredCpURL = updatedCpURL;
+				displayCpUrl = updatedCpURL;
 				updateLoading = false;
 			} else {
 				addToast({
@@ -108,6 +111,7 @@
 			removeProviderFromOysterStore();
 			unregisterLoading = false;
 			registeredCpURL = '';
+			displayCpUrl = '';
 			registered = false;
 			initialInstances = [];
 		} catch (error) {
@@ -183,10 +187,12 @@
 		if (connected && address !== '' && chainId !== null && providerData.data !== undefined) {
 			updatedCpURL = providerData.data?.cp;
 			registeredCpURL = providerData.data?.cp;
+			displayCpUrl = providerData.data?.cp;
 			registered = providerData.registered;
 		} else {
 			updatedCpURL = '';
 			registeredCpURL = '';
+			displayCpUrl = '';
 			registered = false;
 		}
 	}
@@ -291,7 +297,7 @@
 					<TextInputWithEndButton
 						styleClass="w-full bg-[#F4F4F6] py-[5px] pr-[5px] 	rounded-[100px]"
 						placeholder="Paste URL here"
-						bind:input={updatedCpURL}
+						bind:input={displayCpUrl}
 						id="cpurl-main"
 					>
 						<svelte:fragment slot="endInfoBox">

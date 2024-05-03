@@ -196,7 +196,7 @@
 	$: filteredPartners = getFilteredPartners(searchInput, selectedFilter);
 </script>
 
-<div class="mx-[28px] flex w-full flex-col justify-start">
+<div class=" flex w-full flex-col justify-start">
 	<PageTitle title="Explore The Ecosystem" />
 	<SearchBar
 		bind:input={searchInput}

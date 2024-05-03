@@ -273,7 +273,7 @@
 	<svelte:fragment slot="title">CREATE ORDER</svelte:fragment>
 
 	<svelte:fragment slot="content">
-		<div class="flex flex-col gap-2 px-4">
+		<div class="flex flex-col gap-2">
 			<MetadetailsForNewOrder
 				bind:merchant
 				bind:instance

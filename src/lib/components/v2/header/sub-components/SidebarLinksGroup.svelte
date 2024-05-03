@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { isNavOpen } from '$lib/data-stores/v2/navStore';
@@ -22,17 +23,27 @@
 		firstChildCta?.click();
 	}
 
-	function expandMenu(e: Event, label: string) {
-		expandedLinks = expandedLinks === label ? '' : label;
+	function handleParentLinkClick(e: Event, label: string, href: string, hasDashboard?: boolean) {
+		expandMenu(e, label);
+		if (hasDashboard) goto(href);
+	}
 
-		if (!$isNavOpen) {
-			handleSidebarMenuItemClickWhenCollapsed(e);
+	function handleParentLinkKeyPress(
+		e: KeyboardEvent,
+		label: string,
+		href: string,
+		hasDashboard?: boolean
+	) {
+		if (e?.key === 'Enter' || e?.key === ' ') {
+			expandMenu(e, label);
+			if (hasDashboard) goto(href);
 		}
 	}
 
-	function expandMenuWithKey(e: KeyboardEvent, label: string) {
-		if (e?.key === 'Enter' || e?.key === ' ') {
-			expandMenu(e, label);
+	function expandMenu(e: Event, label: string) {
+		expandedLinks = expandedLinks === label ? '' : label;
+		if (!$isNavOpen) {
+			handleSidebarMenuItemClickWhenCollapsed(e);
 		}
 	}
 
@@ -49,6 +60,7 @@
 			icon: activeLink.includes(ROUTES.OYSTER_URL)
 				? staticImages.oysterIconBlue
 				: staticImages.oysterIcon,
+			hasDashboard: true,
 			href: ROUTES.OYSTER_URL,
 			children: [
 				{ preFixLabel: 'Marketplace', href: ROUTES.OYSTER_MARKETPLACE_URL },
@@ -120,7 +132,7 @@
 		class="relative max-h-[calc(100dvh-5rem-176px)] overflow-hidden after:absolute after:bottom-0 after:h-10 after:w-full after:bg-gradient-to-b after:from-transparent after:to-white"
 	>
 		<ul class="menu max-h-full flex-nowrap overflow-y-auto overflow-x-hidden px-0 pb-10 pt-0">
-			{#each links as { icon, label, children, href, openInNewTab }}
+			{#each links as { icon, label, children, href, openInNewTab, hasDashboard }}
 				{#if children}
 					<li>
 						<div
@@ -129,8 +141,8 @@
 								'after:hidden': !$isNavOpen,
 								'menu-dropdown-show': expandedLinks.includes(label)
 							})}
-							on:click|self={(e) => expandMenu(e, label)}
-							on:keydown|self={(e) => expandMenuWithKey(e, label)}
+							on:click|self={(e) => handleParentLinkClick(e, label, href, hasDashboard)}
+							on:keydown|self={(e) => handleParentLinkKeyPress(e, label, href, hasDashboard)}
 							role="button"
 							tabindex="0"
 						>

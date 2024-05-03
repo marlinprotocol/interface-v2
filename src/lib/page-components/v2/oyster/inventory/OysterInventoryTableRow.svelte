@@ -16,6 +16,7 @@
 	import { handleCopyClick } from '$lib/utils/v2/helpers/componentHelper';
 	import { epochToDurationString, bigNumberToString } from '$lib/utils/v2/helpers/conversionHelper';
 	import { getInventoryDurationVariant } from '$lib/utils/v2/helpers/oysterHelpers';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -74,14 +75,16 @@
 		{ip ?? 'N/A'}
 		{#if ip}
 			<button
-				class="hidden cursor-pointer group-hover:flex"
+				class="cursor-pointer opacity-0 group-hover:opacity-100"
 				on:click={() => handleCopyClick(ip, 'IP Address copied to clipboard')}
 			>
 				<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
 			</button>
 		{/if}
 		<button
-			class="{refreshLoading ? 'animate-spin' : ''} flex items-center"
+			class={cn('flex cursor-pointer items-center opacity-0 group-hover:opacity-100', {
+				'animate-spin': refreshLoading
+			})}
 			on:click={() => refreshJobStatus(id)}
 		>
 			<img src={staticImages.refreshV2Icon} alt="Refresh Icon" />

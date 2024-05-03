@@ -111,6 +111,16 @@ const yellowInfo = '/images/information-circle.svg';
 const redAlert = '/images/alert-red.svg';
 const greenTick = '/images/checkmark-circle-green.svg';
 const deployIcon = '/images/deployIcon.svg';
+const arrowUpRight = '/images/arrow-up-right.svg';
+const backendServer = '/images/backend-servers.svg';
+const chains = '/images/chains.svg';
+const frontends = '/images/frontends.svg';
+const instances = '/images/instances.svg';
+const llms = '/images/llms.svg';
+const regions = '/images/regions.svg';
+const dnsLogo = '/images/3dns.svg';
+const bonfidaLogo = '/images/bonfida.svg';
+const spaceIdLogo = '/images/spaceid.svg';
 
 export const staticImages = {
 	Alert,
@@ -222,5 +232,15 @@ export const staticImages = {
 	yellowInfo,
 	redAlert,
 	greenTick,
-	deployIcon
+	deployIcon,
+	backendServer,
+	chains,
+	frontends,
+	instances,
+	llms,
+	regions,
+	arrowUpRight,
+	dnsLogo,
+	bonfidaLogo,
+	spaceIdLogo
 };

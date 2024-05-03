@@ -311,6 +311,27 @@ export function updateJobStatusOnTimerEndInOysterStore(jobData: OysterInventoryD
 	});
 }
 
+export function updateJobInOysterStore(jobData: OysterInventoryDataModel) {
+	const { id } = jobData;
+	const nowTime = Date.now() / 1000;
+
+	oysterStore.update((value: OysterStore) => {
+		const jobToModify = value.jobsData.find((job) => job.id === id);
+		if (!jobToModify) return value;
+		jobToModify.balance = jobData.balance;
+		if (jobToModify?.reviseRate?.updatesAt) jobToModify.reviseRate.updatesAt = nowTime;
+		return {
+			...value,
+			jobsData: value.jobsData.map((job) => {
+				if (job.id === id) {
+					return jobToModify;
+				}
+				return job;
+			})
+		};
+	});
+}
+
 export function updateJobRateInOysterStore(id: BytesLike, newRate: bigint) {
 	oysterStore.update((value) => {
 		return {

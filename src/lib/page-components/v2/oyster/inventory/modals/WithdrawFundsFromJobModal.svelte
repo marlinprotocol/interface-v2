@@ -80,7 +80,9 @@
 		if (rateScaled && balance) {
 			const _rate = rateScaled / $oysterRateMetadataStore.oysterRateScalingFactor;
 			const amountForDownTime = _rate * BigInt($oysterRateMetadataStore.rateReviseWaitingTime);
-			const finalBalance = balance - amountForDownTime;
+			// deduction of some buffer amount, assuming the user will complete the withdrawal within 1 min.
+			const buffer = _rate * BigInt(120);
+			const finalBalance = balance - amountForDownTime - buffer;
 			return finalBalance >= 0n ? finalBalance : 0n;
 		}
 		return 0n;
@@ -105,6 +107,7 @@
 		updatedAmountInputDirty && inputAmount && inputAmount > maxAmount ? 'Insufficient balance' : '';
 	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;
 	$: maxAmount = getMaxAmountForJob(rateScaled, balance);
+	$: console.log({ balance });
 	$: durationReduced = inputAmount > 0 ? inputAmount / rate : 0n;
 	$: maxAmountText = getMaxAmountText(isCreditJob);
 </script>

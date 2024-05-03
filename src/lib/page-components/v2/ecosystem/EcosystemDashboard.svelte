@@ -229,9 +229,9 @@
 		{/each}
 	</div>
 
-	<div class="mt-4 grid grid-cols-5 gap-4">
+	<div class="mt-4 grid grid-cols-7 gap-6">
 		{#each filteredPartners as partner}
-			<a href={partner.website} class="group" target="_blank">
+			<a href={partner.website} class="group w-max" target="_blank">
 				<div
 					class={cn(
 						'flex h-[210px] w-[238px]  items-center justify-center rounded-xl border border-[#D9DADE] bg-white transition-all duration-300 ease-out group-hover:border-2',

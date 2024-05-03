@@ -52,7 +52,7 @@
 		},
 		{
 			title: 'Explore',
-			logo: staticImages.relayIcon,
+			logo: staticImages.exploreIcon,
 			logoAlt: 'Explore Icon',
 			description:
 				'Discover the vast variety of dApps that can leverage Marlin coprocessors and apply for credits to kick start your decentralized infra journey',
@@ -72,7 +72,7 @@
 	];
 </script>
 
-<section class="h-full w-full px-7 pb-4">
+<section class="h-full w-full">
 	<div>
 		<h2 class="text-3xl font-medium leading-[-2px] text-[#030115]">Dashboard</h2>
 		<p class="mt-4 text-lg font-light">

@@ -20,6 +20,7 @@ export type SidebarLinks = {
 	label: string;
 	href: string;
 	icon: string;
+	hasDashboard?: boolean;
 	children?: SubLinks[];
 	openInNewTab?: boolean;
 };

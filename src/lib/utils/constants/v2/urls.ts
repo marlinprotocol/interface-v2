@@ -5,6 +5,7 @@
 const DISCORD_LINK = 'https://discord.gg/invite/heT4sND';
 const MARLIN_BLOG_LINK = 'https://blog.marlin.org/';
 const MARLIN_RESEARCH_FORUM_LINK = 'https://research.marlin.org/';
+const MARLIN_DOCS_LINK = 'https://docs.marlin.org/';
 
 //dashboard page
 const HUB_DASHBOARD_URL = '/v2/dashboard';
@@ -45,6 +46,7 @@ export const ROUTES = {
 	DISCORD_LINK,
 	MARLIN_BLOG_LINK,
 	MARLIN_RESEARCH_FORUM_LINK,
+	MARLIN_DOCS_LINK,
 	HUB_DASHBOARD_URL,
 	BRIDGE_URL,
 	POND_HISTORY_PAGE_URL,

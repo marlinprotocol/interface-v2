@@ -1,4 +1,5 @@
 <script>
+	import PageWrapper from '$lib/components/v2/wrapper/PageWrapper.svelte';
 	import { setAllowedChainsStore } from '$lib/data-stores/chainProviderStore';
 	import { environment } from '$lib/data-stores/environment';
 	import { onMount } from 'svelte';
@@ -8,4 +9,6 @@
 	});
 </script>
 
-<slot />
+<PageWrapper>
+	<slot />
+</PageWrapper>

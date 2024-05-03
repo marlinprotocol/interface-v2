@@ -196,7 +196,7 @@
 	$: filteredPartners = getFilteredPartners(searchInput, selectedFilter);
 </script>
 
-<div class="mx-[28px] flex w-full flex-col justify-start">
+<div class=" flex w-full flex-col justify-start">
 	<PageTitle title="Explore The Ecosystem" />
 	<SearchBar
 		bind:input={searchInput}
@@ -229,12 +229,12 @@
 		{/each}
 	</div>
 
-	<div class="mt-4 grid grid-cols-7 gap-6">
+	<div class="grid grid-cols-5 gap-6 2xl:grid-cols-7">
 		{#each filteredPartners as partner}
-			<a href={partner.website} class="group w-max" target="_blank">
+			<a href={partner.website} class="group w-full" target="_blank">
 				<div
 					class={cn(
-						'flex h-[210px] w-[238px]  items-center justify-center rounded-xl border border-[#D9DADE] bg-white transition-all duration-300 ease-out group-hover:border-2',
+						'flex h-[210px] w-full items-center justify-center rounded-xl border border-[#D9DADE] bg-white transition-all duration-300 ease-out group-hover:border-2',
 						{ 'w-[203px]': $isNavOpen }
 					)}
 				>

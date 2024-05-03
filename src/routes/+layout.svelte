@@ -4,11 +4,12 @@
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 
-	import Toast from '$lib/atoms/toast/Toast.svelte';
-	import Header from '$lib/components/header/Header.svelte';
+	import Toast from '$lib/atoms/v2/toast/Toast.svelte';
+	import Header from '$lib/components/v2/header/Header.svelte';
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
+	import Sidebar from '$lib/components/v2/sidebar/Sidebar.svelte';
 
 	onMount(async () => {
 		// removes console logs in production
@@ -17,6 +18,9 @@
 				// do nothing
 			};
 		}
+
+		const htmlElement = document.documentElement;
+		htmlElement.setAttribute('data-theme', 'v2Theme');
 	});
 </script>
 
@@ -27,15 +31,23 @@
 		href="https://fonts.googleapis.com/css2?family=Orbitron&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,800&display=swap"
 		rel="stylesheet"
 	/>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+		rel="stylesheet"
+	/>
 </svelte:head>
 
-<main
-	class="mx-auto my-0 w-full max-w-[1400px] text-center font-poppins lg:w-[90%] xl:w-[82%]"
-	id="v1-main"
->
+<main class="h-dvh flex w-full font-poppins">
+	<!-- toasts are removed from the normal document flow as it has position fixed   -->
 	<Toast />
-	<Header />
-	<slot />
+
+	<Sidebar />
+	<div class="flex h-full w-full flex-col">
+		<Header />
+		<div class="flex h-full w-full">
+			<slot />
+		</div>
+	</div>
 </main>
 
 <!-- This shows a prompt if the screen size is smaller than 1090px -->

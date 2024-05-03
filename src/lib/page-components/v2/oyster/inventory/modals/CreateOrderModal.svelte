@@ -306,7 +306,7 @@
 			/>
 			<TextInputWithEndButton
 				styleClass="px-4 py-2"
-				title="Enclave Image URL"
+				label="Enclave Image URL"
 				placeholder="Paste URL here"
 				bind:input={enclaveImageUrl.value}
 			/>

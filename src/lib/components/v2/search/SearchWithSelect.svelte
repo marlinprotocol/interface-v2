@@ -47,7 +47,7 @@
 <div class="relative flex flex-1 flex-col bg-white">
 	{#if label}
 		<p
-			class="absolute left-[12px] top-[-10px] z-[1] mb-4 bg-white px-1 font-poppins text-sm font-normal text-[#030115]"
+			class="absolute left-8 top-0 z-[1] bg-white font-poppins text-sm font-normal leading-[1px] text-[#030115]"
 		>
 			{label}
 		</p>

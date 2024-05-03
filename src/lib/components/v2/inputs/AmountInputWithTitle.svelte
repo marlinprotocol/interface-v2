@@ -16,9 +16,9 @@
 	export let showLabelFocused: boolean = false;
 
 	const onBlurStyle = 'top-0 left-0 mt-1.5 font-medium';
-	const onFocusStyle = ' left-[12px] top-[-20px] mb-4 font-light';
+	const onFocusStyle = 'left-[12px] leading-[1px] top-[-20px] font-light';
 	const titleStyleInit =
-		'absolute  cursor-text bg-white px-1 font-poppins  text-sm text-[#030115] transition-all';
+		'absolute cursor-text bg-white font-poppins text-sm text-[#030115] transition-all';
 
 	let titleStyle = onFocusStyle;
 

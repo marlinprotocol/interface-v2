@@ -7,6 +7,9 @@
 	import JobDetailsModal from './modals/JobDetailsModal.svelte';
 	import StopJobModal from './modals/StopJobModal.svelte';
 	import WithdrawFundsFromJobModal from './modals/WithdrawFundsFromJobModal.svelte';
+	import { getOysterJobsFromSubgraphById } from '$lib/controllers/subgraphController';
+	import { oysterRateMetadataStore, updateJobInOysterStore } from '$lib/data-stores/oysterStore';
+	import { modifyOysterJobData } from '$lib/utils/data-modifiers/oysterModifiers';
 
 	export let rowData: OysterInventoryDataModel;
 	export let expandedRows: Set<string>;
@@ -57,6 +60,16 @@
 					{closeButtonText}
 				</ModalButton>
 				<ModalButton
+					onClick={async () => {
+						const updatedJobData = await getOysterJobsFromSubgraphById([`${id}`]);
+						// console.log(updatedJobData[0]);
+						const modifiedOysterJobs = await modifyOysterJobData(
+							updatedJobData,
+							$oysterRateMetadataStore.oysterRateScalingFactor
+						);
+						console.log({ modifiedOysterJobs });
+						updateJobInOysterStore(modifiedOysterJobs[0]);
+					}}
 					variant="outlined"
 					size="small"
 					modalFor="job-withdraw-fund-modal-{id}"

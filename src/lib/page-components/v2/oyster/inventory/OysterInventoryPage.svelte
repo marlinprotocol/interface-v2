@@ -1,9 +1,7 @@
 <script lang="ts">
 	import Pagination from '$lib/components/v2/pagination/Pagination.svelte';
-	import SearchBar from '$lib/components/v2/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/v2/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import { connected } from '$lib/data-stores/walletProviderStore';
 	import OysterInventoryTableRow from '$lib/page-components/v2/oyster/inventory/OysterInventoryTableRow.svelte';
 	import OysterInventoryExpandedTableRow from '$lib/page-components/v2/oyster/inventory/OysterInventoryExpandedTableRow.svelte';
 	import type { OysterInventorySortKeys } from '$lib/types/oysterComponentType';

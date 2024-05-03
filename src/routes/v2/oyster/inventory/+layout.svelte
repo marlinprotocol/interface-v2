@@ -72,7 +72,7 @@
 			getJobStatuses($walletStore.address),
 			getOysterJobsFromSubgraphById(creditJobIdsFromSubgraph)
 		]);
-
+		console.log(oysterJobsFromSubgraph);
 		// add a flag for credit jobs
 		const creditJobsWithFlags = oysterJobsByIdFromSubgraph.map((job: any) => {
 			job.isCreditJob = true;
@@ -106,6 +106,7 @@
 			modifiedOysterJobs
 		);
 		initializeInventoryDataInOysterStore(allOysterJobs);
+		// console.log({ allOysterJobs });
 		console.log('Oyster inventory data is loaded');
 	}
 

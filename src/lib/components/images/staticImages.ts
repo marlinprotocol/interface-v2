@@ -121,6 +121,7 @@ const regions = '/images/regions.svg';
 const dnsLogo = '/images/3dns.svg';
 const bonfidaLogo = '/images/bonfida.svg';
 const spaceIdLogo = '/images/spaceid.svg';
+const exploreIcon = '/images/explore.svg';
 
 export const staticImages = {
 	Alert,
@@ -242,5 +243,6 @@ export const staticImages = {
 	arrowUpRight,
 	dnsLogo,
 	bonfidaLogo,
-	spaceIdLogo
+	spaceIdLogo,
+	exploreIcon
 };

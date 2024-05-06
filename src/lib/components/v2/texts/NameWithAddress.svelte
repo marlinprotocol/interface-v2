@@ -36,15 +36,15 @@
 		{#if name}
 			<Tooltip tooltipText={name}>
 				<Text
-					variant="body"
-					fontWeight="font-medium"
+					variant="mini"
+					fontWeight="font-normal"
 					text={name.length > 13 ? name.slice(0, 13).trim() + '...' : name}
 					styleClass="truncate min-w-[112px]"
 				/>
 			</Tooltip>
-			<div class="flex w-fit items-center gap-1">
+			<div class="mt-1 flex w-fit items-center gap-1">
 				<Text
-					variant="nav"
+					variant="tiny"
 					styleClass="text-grey"
 					fontWeight="font-normal"
 					text={shortenText(address, 6, 6)}

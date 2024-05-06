@@ -21,7 +21,7 @@
 			<AmountInput
 				bind:value={inputAmountString}
 				onChange={handleUpdatedAmount}
-				styleClass="input input-ghost input-primary text-3xl placeholder:text-primary/[.2]"
+				styleClass="input input-ghost input-primary text-3xl placeholder:text-[#030115]/[.2]"
 				disabled={!handleUpdatedAmount || !$connected}
 			/>
 			{#if currency !== ''}
@@ -31,7 +31,8 @@
 		{#if inputCardVariant !== 'none'}
 			<Divider />
 		{/if}
-		{#if showBalance}<div class="mt-[-10px] flex items-center justify-end gap-2">
+		{#if showBalance}
+			<div class="mt-[-10px] flex items-center justify-end gap-2">
 				<div class="flex items-center gap-1">
 					<Text
 						text={maxAmountText}
@@ -51,6 +52,7 @@
 					<Divider direction="divider-vertical" />
 					<slot name="inputMaxButton" />
 				{/if}
-			</div>{/if}
+			</div>
+		{/if}
 	</form>
 </InputCard>

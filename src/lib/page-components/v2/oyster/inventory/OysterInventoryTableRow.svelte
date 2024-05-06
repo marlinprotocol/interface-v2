@@ -46,7 +46,7 @@
 	}
 
 	$: ({
-		provider: { address },
+		provider: { address, name },
 		id,
 		ip,
 		balance,
@@ -60,7 +60,7 @@
 </script>
 
 <td class={tableClasses.cell}>
-	<NameWithAddress {address} {rowIndex}>
+	<NameWithAddress {name} {address} {rowIndex}>
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
 				<div class="hidden cursor-pointer group-hover:flex">
@@ -117,7 +117,12 @@
 				</div>
 			</Tooltip>
 		</div>
-		<div slot="inactive">Ended</div>
+		<div
+			class="mx-auto w-min rounded-full bg-[#0F62FE23] px-[31.5px] py-[10.5px] text-center text-sm text-[#030115]"
+			slot="inactive"
+		>
+			Ended
+		</div>
 	</Timer>
 </td>
 <td class={tableClasses.cell}>

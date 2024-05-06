@@ -17,6 +17,7 @@
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import { tableClasses } from '$lib/atoms/v2/componentClasses';
+	import SearchWithSelect from '$lib/components/v2/search/SearchWithSelect.svelte';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -69,12 +70,20 @@
 	<PageTitle title="My Past Orders" />
 </div>
 <div class="mb-6 flex items-center gap-4 rounded-[24px] bg-white px-8 py-6">
-	<SearchBar
-		disabled={!$connected}
+	<SearchWithSelect
+		dataList={inventoryData?.map((id) => id.provider.address)}
+		searchValue={searchInput}
+		setSearchValue={(value, exactMatch) => {
+			searchInput = value.toString();
+		}}
+		title="Operator"
+		showTitle={false}
+		placeholder="Search"
+		label="Operator name or address"
+		cardVariant="search"
+		styleClass="w-full"
 		{onSearchClick}
-		bind:input={searchInput}
-		placeholder="Operator name or address"
-		styleClass="w-full bg-[#F4F4F6]"
+		isTableFilter={true}
 	/>
 </div>
 <OysterTableCommon
@@ -85,7 +94,7 @@
 >
 	{#if paginatedData?.length}
 		{#each paginatedData as rowData, rowIndex}
-			<tr class={cn(tableClasses.row, 'h-16 hover:bg-base-200')}>
+			<tr class={cn(tableClasses.row, 'group h-16 hover:bg-base-200')}>
 				<OysterInventoryHistoryTableRow {rowData} {rowIndex} />
 			</tr>
 		{/each}

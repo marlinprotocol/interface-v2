@@ -27,7 +27,7 @@
 			on:click={() => handleSortData?.(heading.id)}
 		>
 			<img class="absolute left-[-5px]" src={staticImages.sortV2Icon} alt="sort" width="16px" />
-			<span class="w-fit px-4 tracking-widest">{title}</span>
+			<span class="w-fit pl-4 tracking-widest">{title}</span>
 			{#if tooltipText !== ''}
 				<Tooltip {placement}>
 					<img slot="tooltipIcon" src={staticImages.alertV2Icon} alt="Info" width={iconWidth} />

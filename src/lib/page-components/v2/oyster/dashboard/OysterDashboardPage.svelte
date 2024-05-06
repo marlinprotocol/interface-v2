@@ -68,7 +68,7 @@
 	const partnerLinks = [
 		{
 			label: 'Get an on-chain domain',
-			href: '/v2/#',
+			href: 'https://3dns.box/',
 			img: staticImages.dnsLogo,
 			alt: '3DNS Logo',
 			openInPopup: true,
@@ -76,7 +76,7 @@
 		},
 		{
 			label: 'Decentralized gateways for you',
-			href: '/v2/#',
+			href: 'https://www.bonfida.org/',
 			img: staticImages.bonfidaLogo,
 			alt: 'Bonfida Logo',
 			openInPopup: true,
@@ -84,7 +84,7 @@
 		},
 		{
 			label: 'Link your IPFS URL to your domain',
-			href: '/v2/#',
+			href: 'https://space.id/',
 			img: staticImages.spaceIdLogo,
 			alt: 'Space ID Logo',
 			openInPopup: true,

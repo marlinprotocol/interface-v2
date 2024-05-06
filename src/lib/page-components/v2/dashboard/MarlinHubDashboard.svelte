@@ -15,7 +15,7 @@
 			description: 'Deploy a variety of infrastructure on TEE co-processors',
 			buttons: [
 				{ text: 'dApp', href: ROUTES.OYSTER_URL },
-				{ text: 'Learn', href: '/oyster' }
+				{ text: 'Learn', href: ROUTES.OYSTER_LEARN_LINK }
 			]
 		},
 		{
@@ -25,7 +25,7 @@
 			description: 'Outsource ZKPs to a proof marketplace or join Kalypso as a prover',
 			buttons: [
 				{ text: 'dApp', href: ROUTES.KALYPSO_URL },
-				{ text: 'Learn', href: '/oyster' }
+				{ text: 'Learn', href: ROUTES.KALYPSO_LEARN_LINK }
 			]
 		},
 		{
@@ -36,7 +36,14 @@
 				'Convert POND to MPond and vice-versa to participate in the Marlin network or bridge from Ethereum <-> Arbitrum.',
 			buttons: [
 				{ text: 'POND <-> MPond', href: ROUTES.BRIDGE_URL },
-				{ text: 'Ethereum <-> Arbitrum', href: ROUTES.ETH_ARB_BRIDGE_LINK }
+				{
+					text: 'Ethereum <-> Arbitrum',
+					href: ROUTES.ETH_ARB_BRIDGE_LINK,
+					openInPopup: {
+						modalFor: 'ethArbBridge',
+						popupCtaText: 'Visit'
+					}
+				}
 			]
 		},
 		{
@@ -46,8 +53,8 @@
 			description:
 				'Marlin Relay is a decentralized relay network that transmits blocks and transactions between nodes of different blockchain network.',
 			buttons: [
-				{ text: 'dApp', href: ROUTES.RELAY_URL },
-				{ text: 'Learn', href: '/oyster' }
+				{ text: 'dApp', href: ROUTES.RELAY_CLUSTERS_LINK },
+				{ text: 'Learn', href: ROUTES.RELAY_LEARN_LINK }
 			]
 		},
 		{

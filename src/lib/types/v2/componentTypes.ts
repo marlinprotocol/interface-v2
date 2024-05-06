@@ -87,7 +87,7 @@ export type CardButton = {
 	href: string;
 	openInPopup?: {
 		modalFor: string;
-		descriptionText: string;
+		descriptionText?: string;
 		popupCtaText: string;
 	};
 };

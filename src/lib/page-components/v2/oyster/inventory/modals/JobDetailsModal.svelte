@@ -17,7 +17,6 @@
 	} from '$lib/utils/helpers/oysterHelpers';
 	import PaymentHistoryTable from '$lib/page-components/v2/oyster/sub-components/PaymentHistoryTable.svelte';
 	import { getInstanceMetadatDataForOperator } from '$lib/utils/data-modifiers/oysterModifiers';
-	import SearchWithSelect from '$lib/components/v2/search/SearchWithSelect.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -57,20 +56,15 @@
 	<svelte:fragment slot="title">Order Details</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4">
-			<div data-testid="enclave-image-url" class="flex flex-col gap-4 sm:flex-row">
-				<SearchWithSelect
-					searchValue={enclaveUrl}
-					setSearchValue={() => {}}
-					title="Operator"
-					label="Operator"
-					showTitle={false}
-					styleClass="px-4 py-2.5"
-					cardVariant="v2Input"
-					placeholder="Enter operator name or address"
-					disabled
+			<div data-testid="enclave-image-url" class="flex flex-col gap-2 sm:flex-row">
+				<TextInputCard
+					title="Encalve Image URL"
+					value={enclaveUrl ?? 'N/A'}
+					cliboardContent={enclaveUrl}
+					textStyle="truncate"
 				/>
 			</div>
-			<div class="flex flex-col gap-4 sm:flex-row">
+			<div class="flex flex-col gap-2 sm:flex-row">
 				<TextInputCard title="Operator" value={name !== '' ? name : address} textStyle="truncate" />
 				<TextInputCard
 					title="IP Address"
@@ -79,7 +73,7 @@
 					textStyle="truncate"
 				/>
 			</div>
-			<div class="flex flex-col gap-4 sm:flex-row">
+			<div class="flex flex-col gap-2 sm:flex-row">
 				<TextInputCard
 					title="Start Date"
 					value={epochSecToString(createdAt)}
@@ -93,7 +87,7 @@
 					textStyle="truncate"
 				/>
 			</div>
-			<div class="flex flex-col gap-4 sm:flex-row">
+			<div class="flex flex-col gap-2 sm:flex-row">
 				<TextInputCard
 					title="Hourly Rate"
 					value="{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
@@ -119,12 +113,12 @@
 					textStyle="truncate"
 				/>
 			</div>
-			<div class="flex flex-col gap-4 sm:flex-row">
+			<div class="flex flex-col gap-2 sm:flex-row">
 				<TextInputCard title="Instance" value={instance} textStyle="truncate" />
 				<TextInputCard title="Region" value={region} textStyle="truncate" />
 				<TextInputCard title="Arch" value={arch} textStyle="truncate" />
 			</div>
-			<div class="flex flex-col gap-4 sm:flex-row">
+			<div class="flex flex-col gap-2 sm:flex-row">
 				<TextInputCard title="vCPU" value={vcpu?.toString() ?? ''} textStyle="truncate" />
 				<TextInputCard
 					title="Memory"

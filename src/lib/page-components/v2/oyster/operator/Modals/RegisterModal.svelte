@@ -29,11 +29,11 @@
 	function returnStateComponent(value: string) {
 		switch (value) {
 			case 'bg-[#FDF3DE] text-[#E6B54D]':
-				return 'Your register is loading...';
+				return 'Your control plan URL is loading...';
 			case 'bg-[#FEE6E6] text-[#E00606]':
 				return 'Details are wrong';
 			case 'bg-[#F4F9F0] text-[#68A843]':
-				return 'Your register has been added successfully ';
+				return 'Your control plan URL has been added successfully!';
 			default:
 				break;
 		}
@@ -66,7 +66,6 @@
 			styleClass="w-full  py-4 rounded-[100px]"
 			placeholder="Paste URL here"
 			title="Control Plane URL"
-			id="cpurl-modal"
 			bind:input={updatedCpURL}
 		/>
 		{#if isStateVisiable}

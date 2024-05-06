@@ -184,7 +184,7 @@
 	$: inValidMessage = getInvalidMessage(instanceCostScaled, invalidCost, useMarlinCredits);
 </script>
 
-<div class={cn('flex gap-4', containerClasses)}>
+<div class={cn('flex gap-2', containerClasses)}>
 	<AmountInputWithTitle
 		title="Hourly Rate"
 		id="Hourly-Rate"

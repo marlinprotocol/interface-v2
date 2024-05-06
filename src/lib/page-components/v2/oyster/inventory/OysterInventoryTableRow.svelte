@@ -117,7 +117,12 @@
 				</div>
 			</Tooltip>
 		</div>
-		<div slot="inactive">Ended</div>
+		<div
+			class="mx-auto w-min rounded-full bg-[#0F62FE23] px-[31.5px] py-[10.5px] text-center text-sm text-[#030115]"
+			slot="inactive"
+		>
+			Ended
+		</div>
 	</Timer>
 </td>
 <td class={tableClasses.cell}>

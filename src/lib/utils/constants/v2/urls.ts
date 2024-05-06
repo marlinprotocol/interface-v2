@@ -8,39 +8,39 @@ const MARLIN_RESEARCH_FORUM_LINK = 'https://research.marlin.org/';
 const MARLIN_DOCS_LINK = 'https://docs.marlin.org/';
 
 //dashboard page
-const HUB_DASHBOARD_URL = '/v2/dashboard';
+const HUB_DASHBOARD_URL = '/dashboard';
 
 //bridge
-const BRIDGE_URL = '/v2/bridge';
-const POND_HISTORY_PAGE_URL = '/v2/bridge/pondToMPondHistory';
-const MPOND_HISTORY_PAGE_URL = '/v2/bridge/mPondToPondHistory';
+const BRIDGE_URL = '/bridge';
+const POND_HISTORY_PAGE_URL = '/bridge/pondToMPondHistory';
+const MPOND_HISTORY_PAGE_URL = '/bridge/mPondToPondHistory';
 const ETH_ARB_BRIDGE_LINK =
 	'https://bridge.arbitrum.io/?destinationChain=arbitrum-one&sourceChain=ethereum';
 const BRIDGE_LEARN_LINK = 'https://docs.marlin.org/learn/bridges';
 
 //relay
-const RELAY_URL = '/v2/relay';
+const RELAY_URL = '/relay';
 const RELAY_CLUSTERS_LINK = 'https://arb1.marlin.org/relay/operator';
 const RELAY_REGISTRATION_LINK = 'https://arb1.marlin.org/relay/operator/register';
 const RELAY_DELEGATION_LINK = 'https://arb1.marlin.org/relay/stash';
 const RELAY_RECEIVER_LINK = 'https://receivers.marlin.org/';
 
 //oyster
-const OYSTER_URL = '/v2/oyster';
-const OYSTER_MARKETPLACE_URL = '/v2/oyster/marketplace';
-const OYSTER_OPERATOR_URL = '/v2/oyster/operator';
-const OYSTER_INVENTORY_URL = '/v2/oyster/inventory';
-const OYSTER_AUDITORS_URL = '/v2/oyster/auditors';
-const OYSTER_INVENTORY_HISTORY_URL = '/v2/oyster/inventory/history';
-const OYSTER_OPERATOR_JOBS_URL = '/v2/oyster/operator/jobs';
-const OYSTER_OPERATOR_HISTORY_URL = '/v2/oyster/operator/jobs/history';
+const OYSTER_URL = '/oyster';
+const OYSTER_MARKETPLACE_URL = '/oyster/marketplace';
+const OYSTER_OPERATOR_URL = '/oyster/operator';
+const OYSTER_INVENTORY_URL = '/oyster/inventory';
+const OYSTER_AUDITORS_URL = '/oyster/auditors';
+const OYSTER_INVENTORY_HISTORY_URL = '/oyster/inventory/history';
+const OYSTER_OPERATOR_JOBS_URL = '/oyster/operator/jobs';
+const OYSTER_OPERATOR_HISTORY_URL = '/oyster/operator/jobs/history';
 
 //kalypso
-const KALYPSO_URL = '/v2/kalypso';
-const KALYPSO_LINK_1_URL = '/v2/kalypso';
+const KALYPSO_URL = '/kalypso';
+const KALYPSO_LINK_1_URL = '/kalypso';
 
 //ecosystem
-const ECOSYSTEM_URL = '/v2/ecosystem';
+const ECOSYSTEM_URL = '/ecosystem';
 
 export const ROUTES = {
 	DISCORD_LINK,

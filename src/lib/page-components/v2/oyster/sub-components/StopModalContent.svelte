@@ -22,7 +22,7 @@
 				<div class={cn(commonStyleClass)}>
 					<div>
 						<div class="flex w-full justify-center">
-							<div class={cn(iconStyle)}>
+							<div class={cn(iconStyle, 'bg-[#F4F9F0]')}>
 								<img src={staticImages.walleticonOyster} alt="wallet" />
 							</div>
 						</div>
@@ -41,7 +41,7 @@
 				<div class={cn(commonStyleClass)}>
 					<div>
 						<div class="flex w-full justify-center">
-							<div class={cn(iconStyle)}>
+							<div class={cn(iconStyle, 'bg-[#FCEFD4]')}>
 								<img src={staticImages.clockIcon} alt="wallet" />
 							</div>
 						</div>

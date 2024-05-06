@@ -1,5 +1,7 @@
 <script>
+	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
+	import ExternalLinkConfirmationModal from '$lib/components/v2/modals/ExternalLinkConfirmationModal.svelte';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
 	import { cn } from '$lib/utils/helpers/commonHelper';
@@ -29,7 +31,7 @@
 	const ctaButtons = [
 		{ label: 'Use Oyster', href: ROUTES.OYSTER_MARKETPLACE_URL, openInANewTab: false },
 		{ label: 'Become an operator', href: ROUTES.OYSTER_OPERATOR_URL, openInANewTab: false },
-		{ label: 'Manage', href: ROUTES.OYSTER_OPERATOR_JOBS_URL, openInANewTab: false },
+		{ label: 'Manage', href: ROUTES.OYSTER_INVENTORY_URL, openInANewTab: false },
 		{ label: 'Documentation', href: ROUTES.MARLIN_DOCS_LINK, openInANewTab: true },
 		{ label: 'Credits', href: ROUTES.OYSTER_MARKETPLACE_URL, openInANewTab: false }
 	];
@@ -59,37 +61,38 @@
 		{
 			label: 'View More ->',
 			href: '/v2/#',
-			openInANewTab: true,
 			isViewMore: true
 		}
 	];
 
 	const partnerLinks = [
 		{
+			label: 'Get an on-chain domain',
+			href: '/v2/#',
+			img: staticImages.dnsLogo,
+			alt: '3DNS Logo',
+			openInPopup: true,
+			title: '3DNS'
+		},
+		{
 			label: 'Decentralized gateways for you',
 			href: '/v2/#',
 			img: staticImages.bonfidaLogo,
-			alt: 'Checkmark Icon',
-			openInANewTab: true
+			alt: 'Bonfida Logo',
+			openInPopup: true,
+			title: 'Bonfida'
 		},
 		{
 			label: 'Link your IPFS URL to your domain',
 			href: '/v2/#',
 			img: staticImages.spaceIdLogo,
-			alt: 'Checkmark Icon',
-			openInANewTab: true
-		},
-		{
-			label: 'Get an on-chain domain',
-			href: '/v2/#',
-			img: staticImages.dnsLogo,
-			alt: 'Checkmark Icon',
-			openInANewTab: true
+			alt: 'Space ID Logo',
+			openInPopup: true,
+			title: 'Space ID'
 		},
 		{
 			label: 'View More ->',
 			href: ROUTES.ECOSYSTEM_URL,
-			openInANewTab: false,
 			isViewMore: true
 		}
 	];
@@ -172,32 +175,67 @@
 			<div class="text-xl font-medium">Partners</div>
 			<div class="mt-4 grid grid-cols-2 gap-2">
 				{#each partnerLinks as partnerLink}
-					<a
-						href={partnerLink.href}
-						class="group relative flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl border border-[#D9DADE] bg-white px-8"
-					>
-						<div
-							class="pointer-events-none absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-bl-2xl bg-[#F1F1F4] transition-all duration-300 ease-out group-hover:h-full group-hover:w-full"
+					{#if partnerLink.openInPopup}
+						<ModalButton
+							modalFor="external-link-confirmation-{partnerLink.label}"
+							variant="text"
+							styleClass="p-0 h-48 bg-white rounded-2xl overflow-hidden hover:bg-white hover:border hover:border-[#D9DADE] border border-[#D9DADE] relative group px-8 flex justify-start"
 						>
-							<img
-								class="absolute right-[10px] top-[10px] transition-transform duration-300 ease-out"
-								src={staticImages.arrowUpRight}
-								alt="Arrow Icon"
-							/>
-						</div>
-						<div class="z-[1] flex w-full flex-col items-start justify-center gap-4">
-							{#if partnerLink.img}
-								<div class="flex w-32 shrink-0 items-start">
-									<img src={partnerLink.img} alt={partnerLink.alt} />
-								</div>
-							{/if}
-							<span
-								class={cn('text-xl font-normal', {
-									'mx-auto': partnerLink.isViewMore
-								})}>{partnerLink.label}</span
+							<div
+								class="pointer-events-none absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-bl-2xl bg-[#F1F1F4] transition-all duration-300 ease-out group-hover:h-full group-hover:w-full"
 							>
-						</div>
-					</a>
+								<img
+									class="absolute right-[10px] top-[10px] transition-transform duration-300 ease-out"
+									src={staticImages.arrowUpRight}
+									alt="Arrow Icon"
+								/>
+							</div>
+							<div class="z-[1] flex w-full flex-col items-start justify-center gap-4 text-left">
+								{#if partnerLink.img}
+									<div class="flex w-32 shrink-0 items-start">
+										<img src={partnerLink.img} alt={partnerLink.alt} />
+									</div>
+								{/if}
+								<span
+									class={cn('text-xl font-normal', {
+										'mx-auto': partnerLink.isViewMore
+									})}>{partnerLink.label}</span
+								>
+							</div>
+						</ModalButton>
+						<ExternalLinkConfirmationModal
+							modalFor={`external-link-confirmation-${partnerLink.label}`}
+							href={partnerLink.href}
+							label={partnerLink.title}
+						/>
+					{:else}
+						<a
+							href={partnerLink.href}
+							class="group relative flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl border border-[#D9DADE] bg-white px-8"
+						>
+							<div
+								class="pointer-events-none absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-bl-2xl bg-[#F1F1F4] transition-all duration-300 ease-out group-hover:h-full group-hover:w-full"
+							>
+								<img
+									class="absolute right-[10px] top-[10px] transition-transform duration-300 ease-out"
+									src={staticImages.arrowUpRight}
+									alt="Arrow Icon"
+								/>
+							</div>
+							<div class="z-[1] flex w-full flex-col items-start justify-center gap-4">
+								{#if partnerLink.img}
+									<div class="flex w-32 shrink-0 items-start">
+										<img src={partnerLink.img} alt={partnerLink.alt} />
+									</div>
+								{/if}
+								<span
+									class={cn('text-xl font-normal', {
+										'mx-auto': partnerLink.isViewMore
+									})}>{partnerLink.label}</span
+								>
+							</div>
+						</a>
+					{/if}
 				{/each}
 			</div>
 		</div>

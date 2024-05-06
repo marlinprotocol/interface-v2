@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import { tableClasses } from '$lib/atoms/v2/componentClasses';
-	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/v2/texts/NameWithAddress.svelte';
@@ -34,7 +33,7 @@
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
 				<div class="hidden cursor-pointer group-hover/row:flex">
-					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
+					<img src={staticImages.copyIcon} alt="Copy" />
 				</div>
 			</div>
 		</svelte:fragment>

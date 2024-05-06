@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { tableClasses } from '$lib/atoms/v2/componentClasses';
-	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import CollapseButton from '$lib/components/v2/buttons/CollapseButton.svelte';
@@ -64,7 +63,7 @@
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
 				<div class="hidden cursor-pointer group-hover:flex">
-					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
+					<img src={staticImages.copyIcon} alt="Copy" />
 				</div>
 			</div>
 		</svelte:fragment>
@@ -78,7 +77,7 @@
 				class="cursor-pointer opacity-0 group-hover:opacity-100"
 				on:click={() => handleCopyClick(ip, 'IP Address copied to clipboard')}
 			>
-				<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
+				<img src={staticImages.copyIcon} alt="Copy" />
 			</button>
 		{/if}
 		<button

@@ -122,6 +122,7 @@ const dnsLogo = '/images/3dns.svg';
 const bonfidaLogo = '/images/bonfida.svg';
 const spaceIdLogo = '/images/spaceid.svg';
 const exploreIcon = '/images/explore.svg';
+const copyIcon = '/images/copyIconNew.svg';
 
 export const staticImages = {
 	Alert,
@@ -244,5 +245,6 @@ export const staticImages = {
 	dnsLogo,
 	bonfidaLogo,
 	spaceIdLogo,
-	exploreIcon
+	exploreIcon,
+	copyIcon
 };

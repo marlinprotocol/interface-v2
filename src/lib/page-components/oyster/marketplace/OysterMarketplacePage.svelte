@@ -82,6 +82,7 @@
 		tableHeading={OYSTER_MARKETPLACE_TABLE_HEADER}
 		loading={!$oysterStore.marketplaceLoaded}
 		noDataFound={!paginatedData?.length}
+		emptyTableMessage="No instances found. Clear the selection and try again."
 	>
 		{#if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex (rowData.id)}

@@ -32,8 +32,8 @@ const OYSTER_OPERATOR_URL = '/oyster/operator';
 const OYSTER_INVENTORY_URL = '/oyster/inventory';
 const OYSTER_AUDITORS_URL = '/oyster/auditors';
 const OYSTER_INVENTORY_HISTORY_URL = '/oyster/inventory/history';
-const OYSTER_OPERATOR_JOBS_URL = '/oyster/operator/jobs';
-const OYSTER_OPERATOR_HISTORY_URL = '/oyster/operator/jobs/history';
+const OYSTER_OPERATOR_JOBS_URL = '/oyster/operator';
+const OYSTER_OPERATOR_HISTORY_URL = '/oyster/operator/history';
 
 //kalypso
 const KALYPSO_URL = '/kalypso';

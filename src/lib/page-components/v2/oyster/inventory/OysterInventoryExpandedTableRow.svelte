@@ -62,7 +62,7 @@
 				<ModalButton
 					onClick={async () => {
 						const updatedJobData = await getOysterJobsFromSubgraphById([`${id}`]);
-						// console.log(updatedJobData[0]);
+						if (!updatedJobData.length) return;
 						const modifiedOysterJobs = await modifyOysterJobData(
 							updatedJobData,
 							$oysterRateMetadataStore.oysterRateScalingFactor

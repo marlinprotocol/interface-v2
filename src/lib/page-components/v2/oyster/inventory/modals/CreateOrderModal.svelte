@@ -305,7 +305,7 @@
 				bind:totalCostScaled
 			/>
 			<TextInputWithEndButton
-				styleClass="px-4 py-2"
+				styleClass="px-4 py-3"
 				label="Enclave Image URL"
 				placeholder="Paste URL here"
 				bind:input={enclaveImageUrl.value}

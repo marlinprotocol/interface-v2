@@ -17,6 +17,7 @@
 	} from '$lib/utils/helpers/oysterHelpers';
 	import PaymentHistoryTable from '$lib/page-components/v2/oyster/sub-components/PaymentHistoryTable.svelte';
 	import { getInstanceMetadatDataForOperator } from '$lib/utils/data-modifiers/oysterModifiers';
+	import SearchWithSelect from '$lib/components/v2/search/SearchWithSelect.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -57,11 +58,16 @@
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4">
 			<div data-testid="enclave-image-url" class="flex flex-col gap-4 sm:flex-row">
-				<TextInputCard
-					title="Enclave Image URL"
-					value={enclaveUrl}
-					cliboardContent={enclaveUrl}
-					textStyle="truncate"
+				<SearchWithSelect
+					searchValue={enclaveUrl}
+					setSearchValue={() => {}}
+					title="Operator"
+					label="Operator"
+					showTitle={false}
+					styleClass="px-4 py-2.5"
+					cardVariant="v2Input"
+					placeholder="Enter operator name or address"
+					disabled
 				/>
 			</div>
 			<div class="flex flex-col gap-4 sm:flex-row">

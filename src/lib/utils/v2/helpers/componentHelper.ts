@@ -46,7 +46,7 @@ export const getInputCardVariant = (variant: InputCardVariant | undefined) => {
 		case 'search':
 			return 'bg-white px-4 py-2.5 rounded-[100px]';
 		case 'v2Input':
-			return 'relative border border-[#D9DADE] bg-white py-[20px] px-[18px] rounded-full';
+			return 'relative border border-[#D9DADE] bg-white py-2.5 px-4 rounded-full';
 		default:
 			return 'bg-base-200 p-4';
 	}

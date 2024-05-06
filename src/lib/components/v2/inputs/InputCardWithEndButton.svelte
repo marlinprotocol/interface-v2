@@ -17,7 +17,7 @@
 <InputCard {variant} {styleClass}>
 	{#if label}
 		<p
-			class="absolute left-7 top-[-1px] z-[1] bg-white font-poppins text-sm font-light leading-[1px] text-[#030115]"
+			class="absolute left-7 top-[-1px] z-[1] bg-white font-poppins text-sm font-normal leading-[1px] text-[#030115]"
 		>
 			{label}
 		</p>

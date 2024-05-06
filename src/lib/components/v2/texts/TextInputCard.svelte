@@ -38,7 +38,9 @@
 			variant="body"
 			text={value}
 			fontWeight="font-normal"
-			styleClass="flex {textStyle} {centered ? 'items-center justify-center text-center' : ''}"
+			styleClass="flex py-[3px] {textStyle} {centered
+				? 'items-center justify-center text-center'
+				: ''}"
 		/>
 		{#if cliboardContent !== '' && cliboardContent !== undefined}
 			<button

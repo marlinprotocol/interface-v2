@@ -214,7 +214,6 @@
 	<div class="w-full">
 		<TextInputWithEndButton
 			showTitle={false}
-			styleClass="px-4 py-2.5"
 			title="vCPU"
 			bind:input={vcpu}
 			placeholder="Select"
@@ -224,7 +223,6 @@
 	<div class="w-full">
 		<TextInputWithEndButton
 			showTitle={false}
-			styleClass="px-4 py-2.5"
 			title="Architecture"
 			label="Architecture"
 			bind:input={arch.value}
@@ -238,7 +236,6 @@
 			label="Memory ({MEMORY_SUFFIX.trimStart()})"
 			bind:input={memory}
 			showTitle={false}
-			styleClass="px-4 py-2.5"
 			placeholder="Select"
 		/>
 	</div>

@@ -12,6 +12,7 @@
 	import CreateOrderModal from '$lib/page-components/v2/oyster/inventory/modals/CreateOrderModal.svelte';
 	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let rowData: OysterMarketplaceDataModel;
 	export let rowIndex: number;
@@ -45,7 +46,7 @@
 <td class={tableClasses.cell}>
 	{region ?? 'N/A'}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{vcpu ? vcpu : 'N/A'}
 </td>
 <td class={tableClasses.cell}>

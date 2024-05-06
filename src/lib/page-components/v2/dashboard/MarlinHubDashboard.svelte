@@ -73,13 +73,10 @@
 </script>
 
 <section class="h-full w-full">
-	<div>
-		<h2 class="text-3xl font-medium leading-[-2px] text-[#030115]">Dashboard</h2>
-		<p class="mt-4 text-lg font-light">
-			Marlin is a verifiable computing protocol featuring TEE and ZK-based coprocessors to delegate
-			complex workloads over a decentralized cloud.
-		</p>
-	</div>
+	<p class="text-lg font-light">
+		Marlin is a verifiable computing protocol featuring TEE and ZK-based coprocessors to delegate
+		complex workloads over a decentralized cloud.
+	</p>
 	<div class="mt-6 grid grid-cols-2 gap-5 pb-8">
 		{#each cardsList as card}
 			<div class="flex h-60 w-full flex-col justify-between rounded-2xl bg-white p-6">

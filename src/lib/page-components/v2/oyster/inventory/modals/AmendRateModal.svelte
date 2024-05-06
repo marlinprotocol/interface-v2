@@ -13,7 +13,7 @@
 		epochToDurationString,
 		stringToBigNumber
 	} from '$lib/utils/helpers/conversionHelper';
-	import { bigIntAbs, closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleCreditJobRateReviseCancel,
 		handleFinaliseCreditJobRateRevise,
@@ -77,14 +77,6 @@
 		closeModal(modalFor);
 	};
 
-	const onFocusOut = () => {
-		if (inputAmountString !== '' && difference < 3600n && inputRate >= rate) {
-			showPrecisionError = true;
-		} else {
-			showPrecisionError = false;
-		}
-	};
-
 	const onClose = () => {
 		inputAmountString = '';
 	};
@@ -106,7 +98,6 @@
 					$oysterRateMetadataStore.oysterRateScalingFactor
 			)
 		: 0n;
-	$: difference = bigIntAbs(rate - inputRate);
 	$: submitButtonText = rateStatus === '' ? 'Initiate rate revise' : 'Confirm rate revise';
 	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
 	$: currentHourlyRate = convertRateToPerHourString(rate, $oysterTokenMetadataStore.decimal);
@@ -138,8 +129,6 @@
 						title="New hourly rate"
 						bind:inputAmountString
 						prefix={$oysterTokenMetadataStore.symbol}
-						{onFocusOut}
-						showLabelFocused
 					/>
 				{:else}
 					<AmountInputWithTitle

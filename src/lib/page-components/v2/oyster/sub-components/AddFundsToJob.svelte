@@ -199,7 +199,6 @@
 		bind:inputAmountString={durationString}
 		handleUpdatedAmount={handleDurationChange}
 		onlyInteger
-		showLabelFocused={true}
 		disabled={!instanceRate}
 	>
 		<div slot="endButton">
@@ -215,7 +214,6 @@
 	<AmountInputWithTitle
 		title={isTotalRate ? 'Total Cost' : 'Instance Cost'}
 		id="cost"
-		showLabelFocused={true}
 		bind:inputAmountString={instanceCostString}
 		handleUpdatedAmount={handleCostChange}
 		suffix={useMarlinCredits

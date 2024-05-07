@@ -106,7 +106,7 @@
 	$: confirmEnable = isCreditJob ? approveEnable : approved && approveEnable;
 </script>
 
-<Modal {modalFor} onClose={resetInputs} padding={false} showOverFlow={false}>
+<Modal {modalFor} onClose={resetInputs} padding={false} showOverFlow={false} individualBorderRadius>
 	<svelte:fragment slot="title">Add Funds</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-2">

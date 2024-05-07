@@ -10,23 +10,25 @@
 	};
 	export let padding = false;
 	export let isScrollable = false;
+	export let individualBorderRadius = false;
 </script>
 
 <!-- removing input from tabbing order since its open and close behaviour is being controlled by label and close button respectively  -->
 <input type="checkbox" id={modalFor} class="modal-toggle" tabindex="-1" />
 <div data-testId="modal" class="modal">
 	<div
-		class={cn(
-			'modal-box flex flex-col overflow-x-hidden overflow-y-visible rounded-3xl bg-[#FCFCFC]  p-0 drop-shadow-sm',
-			modalWidth,
-			{ 'overflow-y-auto': showOverFlow }
-		)}
+		class={cn('modal-box flex flex-col rounded-3xl bg-[#FCFCFC]  p-0 drop-shadow-sm', modalWidth, {
+			'overflow-y-auto': showOverFlow,
+			'overflow-x-hidden overflow-y-visible': !individualBorderRadius,
+			'overflow-visible': individualBorderRadius
+		})}
 	>
 		<div
 			class={cn(
 				'modal-header sticky top-0 z-10  flex items-center justify-between bg-[#FCFCFC] px-6 pt-6',
 				{
-					'items-start': $$slots.successmsg
+					'items-start': $$slots.successmsg,
+					'rounded-tl-3xl rounded-tr-3xl': individualBorderRadius
 				}
 			)}
 		>
@@ -89,7 +91,8 @@
 		{#if $$slots.actionButtons}
 			<div
 				class={cn('modal-footer sticky bottom-0 bg-[#FCFCFC] px-6 pb-6 pt-4', {
-					'pt-8': padding
+					'pt-8': padding,
+					'rounded-bl-3xl rounded-br-3xl': individualBorderRadius
 				})}
 			>
 				<slot name="actionButtons" />

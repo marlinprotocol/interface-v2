@@ -91,12 +91,12 @@
 ></AmountInputWithMaxButton>
 {#if $connected}
 	{#if !enableConversion}
-		<Button styleClass="h-14 text-base font-semibold flex gap-1 w-full mt-4" disabled
-			>PROCEED TO CONVERSION</Button
+		<Button styleClass="h-14 text-base font-normal flex gap-1 w-full mt-4" disabled
+			>Proceed to conversion</Button
 		>
 	{:else}
-		<ModalButton {modalFor} styleClass="h-14 text-base font-semibold flex gap-1 w-full mt-4"
-			>PROCEED TO CONVERSION</ModalButton
+		<ModalButton {modalFor} styleClass="h-14 text-base font-normal flex gap-1 w-full mt-4"
+			>Proceed to conversion</ModalButton
 		>
 	{/if}
 {:else}

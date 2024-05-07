@@ -5,7 +5,7 @@
 	import { isNavOpen } from '$lib/data-stores/v2/navStore';
 	import type { SidebarLinks } from '$lib/types/headerTypes';
 	import { menuItems } from '$lib/utils/constants/v2/navigation';
-	import { ROUTES } from '$lib/utils/constants/v2/urls';
+	import { EXTERNAL_LINKS, ROUTES } from '$lib/utils/constants/v2/urls';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import ExternalLinkConfirmationModal from '../../modals/ExternalLinkConfirmationModal.svelte';
 	import MenuItem from './MenuItem.svelte';
@@ -70,15 +70,20 @@
 		},
 		{
 			label: 'Relay',
-			icon: activeLink.includes(ROUTES.RELAY_URL)
-				? staticImages.relayIconBlue
-				: staticImages.relayIcon,
-			href: ROUTES.RELAY_URL,
+			icon: staticImages.relayIcon,
 			children: [
-				{ preFixLabel: 'Clusters', href: ROUTES.RELAY_CLUSTERS_LINK, openInNewTab: true },
-				{ preFixLabel: 'Registration', href: ROUTES.RELAY_REGISTRATION_LINK, openInNewTab: true },
-				{ preFixLabel: 'Delegations', href: ROUTES.RELAY_DELEGATION_LINK, openInNewTab: true },
-				{ preFixLabel: 'Receivers', href: ROUTES.RELAY_RECEIVER_LINK, openInNewTab: true }
+				{ preFixLabel: 'Clusters', href: EXTERNAL_LINKS.RELAY_CLUSTERS_LINK, openInNewTab: true },
+				{
+					preFixLabel: 'Registration',
+					href: EXTERNAL_LINKS.RELAY_REGISTRATION_LINK,
+					openInNewTab: true
+				},
+				{
+					preFixLabel: 'Delegations',
+					href: EXTERNAL_LINKS.RELAY_DELEGATION_LINK,
+					openInNewTab: true
+				},
+				{ preFixLabel: 'Receivers', href: EXTERNAL_LINKS.RELAY_RECEIVER_LINK, openInNewTab: true }
 			]
 		},
 		{
@@ -106,15 +111,15 @@
 				{
 					preFixLabel: 'Ethereum',
 					postFixLabel: 'Arbitrum',
-					href: ROUTES.ETH_ARB_BRIDGE_LINK,
-					icon: activeLink.includes(ROUTES.ETH_ARB_BRIDGE_LINK)
+					href: EXTERNAL_LINKS.ETH_ARB_BRIDGE_LINK,
+					icon: activeLink.includes(EXTERNAL_LINKS.ETH_ARB_BRIDGE_LINK)
 						? staticImages.dataTransferIconBlue
 						: staticImages.dataTransferIcon,
 					openInNewTab: true,
 					openInPopup: true,
 					bodyText: 'You are going to be re-directed to the official Arbitrum bridge.'
 				},
-				{ preFixLabel: 'Learn', href: ROUTES.BRIDGE_LEARN_LINK, openInNewTab: true }
+				{ preFixLabel: 'Learn', href: EXTERNAL_LINKS.BRIDGE_LEARN_LINK, openInNewTab: true }
 			]
 		},
 		{

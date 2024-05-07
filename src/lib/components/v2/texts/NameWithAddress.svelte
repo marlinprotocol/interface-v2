@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
+	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
 	import { addToast } from '$lib/data-stores/v2/toastStore';
 	import { shortenText } from '$lib/utils/helpers/conversionHelper';
 	import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
@@ -34,12 +34,14 @@
 >
 	<div class="flex flex-col items-start">
 		{#if name}
-			<Tooltip tooltipText={name}>
+			<Tooltip>
+				<span slot="tooltipContent">{name}</span>
 				<Text
+					slot="tooltipIcon"
 					variant="mini"
 					fontWeight="font-normal"
 					text={name.length > 13 ? name.slice(0, 13).trim() + '...' : name}
-					styleClass="truncate min-w-[112px]"
+					styleClass="truncate w-min"
 				/>
 			</Tooltip>
 			<div class="mt-1 flex w-fit items-center gap-1">

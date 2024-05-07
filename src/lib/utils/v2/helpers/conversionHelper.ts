@@ -1,7 +1,8 @@
 import {
 	DEFAULT_CURRENCY_DECIMALS,
 	DEFAULT_PRECISION,
-	SECONDS_IN_HOUR
+	SECONDS_IN_HOUR,
+	SECONDS_IN_HUNDRED_YEARS
 } from '$lib/utils/constants/constants';
 import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 
@@ -66,6 +67,43 @@ export const epochToDurationString = (epoch: number, mini = false) => {
 		durationString += seconds + 'S';
 		if (mini) return durationString;
 		count++;
+	}
+	return durationString.trimEnd();
+};
+
+export const epochToDurationStringLong = (epoch: number, mini = false) => {
+	if (epoch >= SECONDS_IN_HUNDRED_YEARS) return '100+ years';
+	const seconds = epoch % 60;
+	const minutes = Math.floor(epoch / 60) % 60;
+	const hours = Math.floor(epoch / (60 * 60)) % 24;
+	const days = Math.floor(epoch / (60 * 60 * 24)) % 30;
+	const months = Math.floor(epoch / (60 * 60 * 24 * 30)) % 12;
+	const years = Math.floor(epoch / (60 * 60 * 24 * 30 * 12));
+
+	let durationString = '';
+	if (years > 0) {
+		durationString += years + (years > 1 ? ' years ' : ' year ');
+		if (mini) return durationString.trimEnd();
+	}
+	if (months > 0) {
+		durationString += months + (months > 1 ? ' months ' : ' month ');
+		if (mini) return durationString.trimEnd();
+	}
+	if (days > 0) {
+		durationString += days + (days > 1 ? ' days ' : ' day ');
+		if (mini) return durationString.trimEnd();
+	}
+	if (hours > 0) {
+		durationString += hours + (hours > 1 ? ' hours ' : ' hour ');
+		if (mini) return durationString.trimEnd();
+	}
+	if (minutes > 0) {
+		durationString += minutes + (minutes > 1 ? ' mins ' : ' min ');
+		if (mini) return durationString.trimEnd();
+	}
+	if (seconds > 0) {
+		durationString += seconds.toFixed() + ' secs';
+		if (mini) return durationString;
 	}
 	return durationString.trimEnd();
 };

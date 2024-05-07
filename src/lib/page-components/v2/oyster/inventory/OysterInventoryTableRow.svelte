@@ -13,7 +13,11 @@
 		updateJobStatusByIdInOysterStore
 	} from '$lib/data-stores/oysterStore';
 	import { handleCopyClick } from '$lib/utils/v2/helpers/componentHelper';
-	import { epochToDurationString, bigNumberToString } from '$lib/utils/v2/helpers/conversionHelper';
+	import {
+		epochToDurationString,
+		bigNumberToString,
+		epochToDurationStringLong
+	} from '$lib/utils/v2/helpers/conversionHelper';
 	import { getInventoryDurationVariant } from '$lib/utils/v2/helpers/oysterHelpers';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 
@@ -113,7 +117,7 @@
 	<Timer timerId="timer-for-inventory-table-row-{id}" {endEpochTime}>
 		<div slot="active">
 			<Tooltip>
-				<span slot="tooltipContent">{epochToDurationString(durationLeft)}</span>
+				<span slot="tooltipContent">{epochToDurationStringLong(durationLeft)}</span>
 				<span slot="tooltipIcon">
 					<div
 						class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm text-[#030115]"

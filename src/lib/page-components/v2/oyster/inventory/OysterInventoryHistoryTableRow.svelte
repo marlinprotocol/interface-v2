@@ -4,7 +4,11 @@
 	import NameWithAddress from '$lib/components/v2/texts/NameWithAddress.svelte';
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { bigNumberToString, epochToDurationString } from '$lib/utils/helpers/conversionHelper';
+	import {
+		bigNumberToString,
+		epochToDurationString,
+		epochToDurationStringLong
+	} from '$lib/utils/v2/helpers/conversionHelper';
 	import { getInventoryStatusVariant } from '$lib/utils/v2/helpers/oysterHelpers';
 	import { getColorHexByVariantForTag } from '$lib/utils/v2/helpers/componentHelper';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
@@ -58,7 +62,7 @@
 			{epochToDurationString(endEpochTime - createdAt, true)}
 		</div>
 		<span class="font-normal" slot="tooltipContent">
-			{epochToDurationString(endEpochTime - createdAt)}
+			{epochToDurationStringLong(endEpochTime - createdAt)}
 		</span>
 	</Tooltip>
 </td>

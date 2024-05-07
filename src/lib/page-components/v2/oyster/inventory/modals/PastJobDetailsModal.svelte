@@ -49,12 +49,12 @@
 				<SearchWithSelect
 					searchValue={enclaveUrl}
 					setSearchValue={() => {}}
-					title="Operator"
-					label="Operator"
+					title="Encalve Image URL"
+					label="Encalve Image URL"
 					showTitle={false}
 					styleClass="px-4 py-2.5"
 					cardVariant="v2Input"
-					placeholder="Enter operator name or address"
+					placeholder="Encalve Image URL"
 					disabled
 				/>
 			</div>

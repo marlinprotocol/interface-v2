@@ -118,8 +118,7 @@
 					openInNewTab: true,
 					openInPopup: true,
 					bodyText: 'You are going to be re-directed to the official Arbitrum bridge.'
-				},
-				{ preFixLabel: 'Learn', href: EXTERNAL_LINKS.BRIDGE_LEARN_LINK, openInNewTab: true }
+				}
 			]
 		},
 		{

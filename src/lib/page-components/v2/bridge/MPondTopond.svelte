@@ -130,7 +130,7 @@
 		styleClass="w-full mt-4"
 		onclick={handleConvertRequest}
 		loading={requestConversionLoading}
-		disabled={!enableConversion}>PLACE CONVERSION REQUEST</Button
+		disabled={!enableConversion}>Place Conversion Request</Button
 	>
 {:else}
 	<ConnectWalletButton styleClass="mt-4" isLarge={true} />

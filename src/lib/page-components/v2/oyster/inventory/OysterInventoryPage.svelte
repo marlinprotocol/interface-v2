@@ -1,9 +1,7 @@
 <script lang="ts">
 	import Pagination from '$lib/components/v2/pagination/Pagination.svelte';
-	import SearchBar from '$lib/components/v2/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/v2/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import { connected } from '$lib/data-stores/walletProviderStore';
 	import OysterInventoryTableRow from '$lib/page-components/v2/oyster/inventory/OysterInventoryTableRow.svelte';
 	import OysterInventoryExpandedTableRow from '$lib/page-components/v2/oyster/inventory/OysterInventoryExpandedTableRow.svelte';
 	import type { OysterInventorySortKeys } from '$lib/types/oysterComponentType';
@@ -90,7 +88,7 @@
 >
 	{#if paginatedData?.length}
 		{#each paginatedData as rowData, rowIndex (rowData.id)}
-			<tr class="group peer h-[64px] hover:bg-base-200">
+			<tr class="group/row peer h-[64px] hover:bg-base-200">
 				<OysterInventoryTableRow {rowData} {rowIndex} bind:expandedRows />
 			</tr>
 			<tr class={cn(tableClasses.row, 'peer-hover:bg-base-200')}>

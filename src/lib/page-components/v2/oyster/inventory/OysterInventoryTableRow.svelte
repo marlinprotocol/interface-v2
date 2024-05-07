@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { tableClasses } from '$lib/atoms/v2/componentClasses';
-	import Timer from '$lib/atoms/timer/Timer.svelte';
-	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
+	import Timer from '$lib/atoms/v2/timer/Timer.svelte';
+	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
 	import CollapseButton from '$lib/components/v2/buttons/CollapseButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/v2/texts/NameWithAddress.svelte';
@@ -13,7 +13,11 @@
 		updateJobStatusByIdInOysterStore
 	} from '$lib/data-stores/oysterStore';
 	import { handleCopyClick } from '$lib/utils/v2/helpers/componentHelper';
-	import { epochToDurationString, bigNumberToString } from '$lib/utils/v2/helpers/conversionHelper';
+	import {
+		epochToDurationString,
+		bigNumberToString,
+		epochToDurationStringLong
+	} from '$lib/utils/v2/helpers/conversionHelper';
 	import { getInventoryDurationVariant } from '$lib/utils/v2/helpers/oysterHelpers';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 
@@ -62,7 +66,9 @@
 	<NameWithAddress {name} {address} {rowIndex}>
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
-				<div class="hidden cursor-pointer group-hover:flex">
+				<div
+					class="invisible cursor-pointer opacity-0 group-hover/row:visible group-hover/row:opacity-100"
+				>
 					<img src={staticImages.copyIcon} alt="Copy" />
 				</div>
 			</div>
@@ -74,14 +80,14 @@
 		{ip ?? 'N/A'}
 		{#if ip}
 			<button
-				class="cursor-pointer opacity-0 group-hover:opacity-100"
+				class="cursor-pointer opacity-0 group-hover/row:opacity-100"
 				on:click={() => handleCopyClick(ip, 'IP Address copied to clipboard')}
 			>
 				<img src={staticImages.copyIcon} alt="Copy" />
 			</button>
 		{/if}
 		<button
-			class={cn('flex cursor-pointer items-center opacity-0 group-hover:opacity-100', {
+			class={cn('flex cursor-pointer items-center opacity-0 group-hover/row:opacity-100', {
 				'animate-spin': refreshLoading
 			})}
 			on:click={() => refreshJobStatus(id)}
@@ -91,29 +97,35 @@
 	</div>
 </td>
 <td class={tableClasses.cell}>
-	<Tooltip
-		tooltipText="{$oysterTokenMetadataStore.symbol}{bigNumberToString(
-			balance,
-			$oysterTokenMetadataStore.decimal,
-			$oysterTokenMetadataStore.precision
-		)}"
-	>
-		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
-			balance,
-			$oysterTokenMetadataStore.decimal
-		)}
+	<Tooltip>
+		<span class="font-normal" slot="tooltipContent"
+			>{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+				balance,
+				$oysterTokenMetadataStore.decimal,
+				$oysterTokenMetadataStore.precision
+			)}</span
+		>
+		<span slot="tooltipIcon"
+			>{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+				balance,
+				$oysterTokenMetadataStore.decimal
+			)}</span
+		>
 	</Tooltip>
 </td>
 <td class={tableClasses.cell}>
 	<Timer timerId="timer-for-inventory-table-row-{id}" {endEpochTime}>
 		<div slot="active">
-			<Tooltip tooltipText={epochToDurationString(durationLeft)} tooltipDirection="tooltip-left">
-				<div
-					class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm text-[#030115]"
-					style="background-color: {getInventoryDurationVariant(durationLeft)}"
-				>
-					{epochToDurationString(durationLeft, false)}
-				</div>
+			<Tooltip>
+				<span slot="tooltipContent">{epochToDurationStringLong(durationLeft)}</span>
+				<span slot="tooltipIcon">
+					<div
+						class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm text-[#030115]"
+						style="background-color: {getInventoryDurationVariant(durationLeft)}"
+					>
+						{epochToDurationString(durationLeft, false)}
+					</div>
+				</span>
 			</Tooltip>
 		</div>
 		<div

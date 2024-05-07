@@ -97,7 +97,7 @@
 			disabled={!submitEnable}
 			styleClass="h-14 btn-block"
 		>
-			PROCEED TO CONVERSION
+			Proceed to conversion
 		</ModalButton>
 	</svelte:fragment>
 </Modal>

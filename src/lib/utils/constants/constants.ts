@@ -5,7 +5,7 @@ export const GET_OPTIONS = {
 	}
 };
 
-export const MEMORY_SUFFIX = ' GB';
+export const MEMORY_SUFFIX = ' MB';
 
 export const TABLE_ITEMS_PER_PAGE = 10;
 

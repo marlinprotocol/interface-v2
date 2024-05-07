@@ -25,6 +25,16 @@ export async function createNewOysterJobWithCredits(
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.CREATE_JOB_WITH_CREDIT.CREATED;
 		const errorTxnMessage = 'Unable to create new Oyster Job with credits.';
 		const parentFunctionName = 'createNewOysterJobWithCredits';
+
+		const initiateTxnTitle = MESSAGES.TOAST.DEPLOY.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.DEPLOY.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.DEPLOY.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
+
 		// using "send" on the base contract method as we want a contractTransactionReceipt to
 		// get the jobId of the newly created job emitted as an event from the contract
 		const { txn, approveReciept } = await createTransaction(
@@ -32,7 +42,8 @@ export async function createNewOysterJobWithCredits(
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 
 		return {

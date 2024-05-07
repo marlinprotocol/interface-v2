@@ -1,11 +1,14 @@
 <script lang="ts">
-	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
-	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
+	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/v2/texts/NameWithAddress.svelte';
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { bigNumberToString, epochToDurationString } from '$lib/utils/helpers/conversionHelper';
+	import {
+		bigNumberToString,
+		epochToDurationString,
+		epochToDurationStringLong
+	} from '$lib/utils/v2/helpers/conversionHelper';
 	import { getInventoryStatusVariant } from '$lib/utils/v2/helpers/oysterHelpers';
 	import { getColorHexByVariantForTag } from '$lib/utils/v2/helpers/componentHelper';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
@@ -35,7 +38,9 @@
 <td class={tableClasses.cell}>
 	<NameWithAddress {name} {address}>
 		<svelte:fragment slot="copyIcon">
-			<div class="hidden cursor-pointer group-hover:flex">
+			<div
+				class="invisible cursor-pointer opacity-0 group-hover/row:visible group-hover/row:opacity-100"
+			>
 				<img src={staticImages.copyIcon} alt="Copy" />
 			</div>
 		</svelte:fragment>
@@ -52,13 +57,18 @@
 	{$oysterTokenMetadataStore.symbol}{bigNumberToString(refund, $oysterTokenMetadataStore.decimal)}
 </td>
 <td class={tableClasses.cell}>
-	<Tooltip tooltipText={epochToDurationString(endEpochTime - createdAt)}>
-		{epochToDurationString(endEpochTime - createdAt, true)}
+	<Tooltip>
+		<div slot="tooltipIcon">
+			{epochToDurationString(endEpochTime - createdAt, true)}
+		</div>
+		<span class="font-normal" slot="tooltipContent">
+			{epochToDurationStringLong(endEpochTime - createdAt)}
+		</span>
 	</Tooltip>
 </td>
 <td class={tableClasses.cell}>
 	<div
-		class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm capitalize text-[#030115]"
+		class="w-[142px] rounded-full px-[31.5px] py-[10.5px] text-center text-sm capitalize text-[#030115]"
 		style="background-color: {statusColor}"
 	>
 		{status}
@@ -70,9 +80,12 @@
 		styleClass="w-fit ml-4 mr-6"
 		modalFor="job-history-details-{rowIndex}"
 	>
-		<div class="rounded-full border border-[#D9DADE] p-3">
-			<img src={staticImages.infoV2Icon} alt="Info Icon" />
-		</div>
+		<Tooltip>
+			<div slot="tooltipIcon" class="rounded-full border border-[#D9DADE] p-3">
+				<img src={staticImages.infoV2Icon} alt="Info Icon" />
+			</div>
+			<span class="font-normal" slot="tooltipContent">Order Details</span>
+		</Tooltip>
 	</ModalButton>
 </td>
 <PastJobDetailsModal modalFor="job-history-details-{rowIndex}" jobData={rowData} {rowIndex} />

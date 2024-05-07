@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Pagination from '$lib/components/v2/pagination/Pagination.svelte';
-	import SearchBar from '$lib/components/v2/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/v2/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
@@ -94,7 +93,7 @@
 >
 	{#if paginatedData?.length}
 		{#each paginatedData as rowData, rowIndex}
-			<tr class={cn(tableClasses.row, 'group h-16 hover:bg-base-200')}>
+			<tr class={cn(tableClasses.row, 'group/row h-16 hover:bg-base-200')}>
 				<OysterInventoryHistoryTableRow {rowData} {rowIndex} />
 			</tr>
 		{/each}

@@ -17,6 +17,7 @@
 		if (event.key === 'Escape') {
 			const input = document.getElementById(modalFor) as HTMLInputElement;
 			if (input?.checked) {
+				onClose();
 				closeModal(modalFor);
 			}
 		}

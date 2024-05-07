@@ -30,7 +30,7 @@
 	import { ROUTES } from '$lib/utils/constants/v2/urls';
 	import { shortenText } from '$lib/utils/helpers/conversionHelper';
 	import Text from '$lib/atoms/v2/texts/Text.svelte';
-	import { checkValidURL, cn, sanitizeUrl } from '$lib/utils/helpers/commonHelper';
+	import { checkValidURL, closeModal, cn, sanitizeUrl } from '$lib/utils/helpers/commonHelper';
 	import RegisterModal from './Modals/RegisterModal.svelte';
 	import LoadingAnimationModal from '$lib/components/loading/LoadingAnimationModal.svelte';
 
@@ -63,6 +63,7 @@
 				registered = true;
 				disableCpURL = true;
 				registerLoading = false;
+				closeModal('oyster-register-url-operator');
 			} else {
 				addToast({
 					variant: 'error',
@@ -88,6 +89,7 @@
 				registeredCpURL = updatedCpURL;
 				displayCpUrl = updatedCpURL;
 				updateLoading = false;
+				closeModal('oyster-register-url-operator');
 			} else {
 				addToast({
 					variant: 'error',
@@ -297,7 +299,7 @@
 				<div class="rounded-3xl bg-white px-8 py-6">
 					<p class="pb-3 text-base font-normal">Control Plane:</p>
 					<TextInputWithEndButton
-						styleClass="w-full bg-[#F4F4F6] py-[5px] pr-[5px] 	rounded-[100px]"
+						styleClass="w-full bg-[#F4F4F6] py-[5px] pr-[5px] rounded-[100px]"
 						placeholder="Paste URL here"
 						bind:input={displayCpUrl}
 						id="cpurl-main"

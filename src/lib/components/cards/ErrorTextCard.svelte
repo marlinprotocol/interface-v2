@@ -9,6 +9,6 @@
 
 {#if showError}
 	<InputCard variant="warning" {styleClass}>
-		<Text variant="small" styleClass="text-red-500 my-2" text={errorMessage} />
+		<Text variant="small" styleClass="text-red-500 my-2 whitespace-normal" text={errorMessage} />
 	</InputCard>
 {/if}

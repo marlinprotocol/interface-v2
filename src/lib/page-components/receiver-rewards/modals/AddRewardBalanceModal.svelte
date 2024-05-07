@@ -4,7 +4,6 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import { walletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
-	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import {
 		closeModal,
@@ -14,15 +13,11 @@
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import { receiverRewardsStore } from '$lib/data-stores/receiverRewardsStore';
-	import {
-		handleAddRewardBalance,
-		handleRewardsPondApproval
-	} from '$lib/utils/services/receiverRewardServices';
+	import { handleAddRewardBalance } from '$lib/utils/services/receiverRewardServices';
 
 	export let modalFor: string;
 	let loading = false;
 	let disabled = false;
-	let approveLoading = false;
 	let updatedAmountInputDirty = false;
 	let inputAmountIsValid = true;
 	let inputAmountString = '';
@@ -71,17 +66,6 @@
 		}
 	}
 
-	async function handleApproveClick() {
-		approveLoading = true;
-		try {
-			await handleRewardsPondApproval(inputAmount);
-			approveLoading = false;
-		} catch (error) {
-			approveLoading = false;
-			console.error('error while approving pond for rewards :>>', error);
-		}
-	}
-
 	$: balanceText = `Balance: ${bigNumberToString(
 		$walletBalanceStore.pond,
 		DEFAULT_CURRENCY_DECIMALS,
@@ -91,11 +75,6 @@
 		? stringToBigNumber(inputAmountString, DEFAULT_CURRENCY_DECIMALS)
 		: 0n;
 	$: approvedAmount = $receiverRewardsStore.amountApproved;
-	$: approveDisabled =
-		!inputAmount ||
-		!(inputAmount > 0) ||
-		!($walletBalanceStore.pond >= inputAmount) ||
-		approvedAmount >= inputAmount;
 	$: pondDisabledText =
 		inputAmount && inputAmount > 0 && !($walletBalanceStore.pond >= inputAmount)
 			? 'Insufficient POND'
@@ -117,14 +96,6 @@
 			maxAmountText={balanceText}
 		>
 			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
-			<ModalApproveButton
-				slot="input-end-button"
-				disabled={approveDisabled}
-				loading={approveLoading}
-				bind:inputAmount
-				bind:approvedAmount
-				{handleApproveClick}
-			/>
 		</AmountInputWithMaxButton>
 		<ErrorTextCard
 			showError={!inputAmountIsValid && updatedAmountInputDirty}

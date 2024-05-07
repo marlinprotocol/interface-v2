@@ -3,7 +3,6 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import ModalApproveButton from '$lib/page-components/receiver-staking/sub-components/ModalApproveButton.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { connected, walletBalanceStore } from '$lib/data-stores/walletProviderStore';
@@ -12,13 +11,9 @@
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
-	import {
-		handleInitiateRewards,
-		handleRewardsPondApproval
-	} from '$lib/utils/services/receiverRewardServices';
+	import { handleInitiateRewards } from '$lib/utils/services/receiverRewardServices';
 
 	export let modalFor: string;
-	let approveLoading = false;
 	let confirmLoading = false;
 	let updatedAmountInputDirty = false;
 	let inputAmountIsValid = true;
@@ -49,17 +44,6 @@
 			console.error('error while submitting pond for rewards :>>', error);
 		}
 	}
-	async function handleApproveClick() {
-		approveLoading = true;
-		try {
-			await handleRewardsPondApproval(inputAmount);
-			approveLoading = false;
-		} catch (error) {
-			approveLoading = false;
-			console.error('error while approving pond for rewards :>>', error);
-		}
-	}
-
 	function handleUpdatedAmount(event: Event) {
 		updatedAmountInputDirty = true;
 		const target = event.target as HTMLInputElement;
@@ -128,17 +112,10 @@
 	$: inputAmount = isInputAmountValid(inputAmountString)
 		? stringToBigNumber(inputAmountString, DEFAULT_CURRENCY_DECIMALS)
 		: 0n;
-	$: approvedAmount = $receiverRewardsStore.amountApproved;
-	$: approveDisabled =
-		!inputAmount ||
-		!(inputAmount > 0) ||
-		!($walletBalanceStore.pond >= inputAmount) ||
-		approvedAmount >= inputAmount;
-	$: pondDisabledText =
-		inputAmount && inputAmount > 0 && !($walletBalanceStore.pond >= inputAmount)
-			? 'Insufficient POND'
-			: '';
-	$: confirmDisabled = !rewardIsValid || !reward || !(reward > 0n) || approvedAmount < inputAmount;
+	inputAmount && inputAmount > 0 && !($walletBalanceStore.pond >= inputAmount)
+		? 'Insufficient POND'
+		: '';
+	$: confirmDisabled = !rewardIsValid || !reward || !(reward > 0n);
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
@@ -155,20 +132,11 @@
 			maxAmountText={balanceText}
 		>
 			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
-			<ModalApproveButton
-				slot="input-end-button"
-				disabled={approveDisabled}
-				loading={approveLoading}
-				bind:inputAmount
-				bind:approvedAmount
-				{handleApproveClick}
-			/>
 		</AmountInputWithMaxButton>
 		<ErrorTextCard
 			showError={!inputAmountIsValid && updatedAmountInputDirty}
 			errorMessage={invalidMessage}
 		/>
-		<ErrorTextCard showError={!!pondDisabledText} errorMessage={pondDisabledText} />
 		<InputCard styleClass="mt-4">
 			<AmountInputWithMaxButton
 				title="Reward per Ticket"

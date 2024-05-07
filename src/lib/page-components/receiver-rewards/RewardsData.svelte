@@ -3,7 +3,6 @@
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import { receiverRewardsStore } from '$lib/data-stores/receiverRewardsStore';
-	import DataRowCard from '$lib/page-components/receiver-staking/sub-components/DataRowCard.svelte';
 	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
 	import { epochToDurationString } from '$lib/utils/helpers/conversionHelper';
 	import { getInventoryDurationVariant } from '$lib/utils/helpers/oysterHelpers';
@@ -33,34 +32,8 @@
 </script>
 
 <div class="flex w-full flex-col items-center justify-center py-8">
-	<div class="mb-2 flex w-full px-2">
-		<DataRowCard
-			data={{
-				title: 'Reward per Ticket',
-				value: $receiverRewardsStore.rewardPerEpoch
-			}}
-		>
-			<TooltipIcon
-				slot="icon"
-				tooltipText="Reward you choose to give the operator per successful ticket."
-				styleClass="ml-1"
-			/>
-		</DataRowCard>
-	</div>
-	<div class="mb-2 flex w-full px-2">
-		<DataRowCard
-			data={{
-				title: 'Rewards Balance',
-				value: $receiverRewardsStore.rewardBalance
-			}}
-		>
-			<TooltipIcon
-				slot="icon"
-				tooltipText="Total amount that you currently have locked in for rewards"
-				styleClass="ml-1"
-			/>
-		</DataRowCard>
-	</div>
+	<div class="mb-2 flex w-full px-2"></div>
+	<div class="mb-2 flex w-full px-2"></div>
 	<div class="mb-2 flex w-full justify-between px-2">
 		<div class="flex items-center">
 			<span> Rewards End in </span>

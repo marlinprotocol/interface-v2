@@ -33,9 +33,6 @@
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
 
-	const subtitle =
-		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';
-
 	let duration = 0; //durationInSecs
 	let instanceCostScaled = 0n;
 	let invalidCost = false;

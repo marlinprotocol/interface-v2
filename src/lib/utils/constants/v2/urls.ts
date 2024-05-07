@@ -35,6 +35,7 @@ const OYSTER_INVENTORY_HISTORY_URL = '/oyster/inventory/history';
 const OYSTER_OPERATOR_JOBS_URL = '/oyster/operator';
 const OYSTER_OPERATOR_HISTORY_URL = '/oyster/operator/history';
 const OYSTER_LEARN_LINK = 'https://docs.marlin.org/learn/what-is-oyster';
+const OYSTER_OPERATOR_DOCS_LINK = 'https://docs.marlin.org/run-your-own-node/oyster/';
 
 //kalypso
 const KALYPSO_URL = '/kalypso';
@@ -73,4 +74,8 @@ export const ROUTES = {
 	KALYPSO_LINK_1_URL,
 	KALYPSO_LEARN_LINK,
 	ECOSYSTEM_URL
+};
+
+export const EXTERNAL_LINKS = {
+	OYSTER_OPERATOR_DOCS_LINK
 };

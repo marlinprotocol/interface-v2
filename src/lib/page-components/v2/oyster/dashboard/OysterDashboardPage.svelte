@@ -3,7 +3,7 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import ExternalLinkConfirmationModal from '$lib/components/v2/modals/ExternalLinkConfirmationModal.svelte';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
-	import { ROUTES } from '$lib/utils/constants/v2/urls';
+	import { EXTERNAL_LINKS, ROUTES } from '$lib/utils/constants/v2/urls';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import { shortenText } from '$lib/utils/v2/helpers/conversionHelper';
 
@@ -32,7 +32,7 @@
 		{ label: 'Use Oyster', href: ROUTES.OYSTER_MARKETPLACE_URL, openInANewTab: false },
 		{ label: 'Become an operator', href: ROUTES.OYSTER_OPERATOR_URL, openInANewTab: false },
 		{ label: 'Manage', href: ROUTES.OYSTER_INVENTORY_URL, openInANewTab: false },
-		{ label: 'Documentation', href: ROUTES.MARLIN_DOCS_LINK, openInANewTab: true },
+		{ label: 'Documentation', href: EXTERNAL_LINKS.MARLIN_DOCS_LINK, openInANewTab: true },
 		{ label: 'Credits', href: ROUTES.OYSTER_MARKETPLACE_URL, openInANewTab: false }
 	];
 

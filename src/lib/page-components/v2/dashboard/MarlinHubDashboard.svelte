@@ -4,7 +4,7 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import ExternalLinkConfirmationModal from '$lib/components/v2/modals/ExternalLinkConfirmationModal.svelte';
 	import type { CardsList } from '$lib/types/v2/componentTypes';
-	import { ROUTES } from '$lib/utils/constants/v2/urls';
+	import { EXTERNAL_LINKS, ROUTES } from '$lib/utils/constants/v2/urls';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	const cardsList: CardsList = [
@@ -15,7 +15,7 @@
 			description: 'Deploy a variety of infrastructure on TEE co-processors',
 			buttons: [
 				{ text: 'dApp', href: ROUTES.OYSTER_URL },
-				{ text: 'Learn', href: ROUTES.OYSTER_LEARN_LINK }
+				{ text: 'Learn', href: EXTERNAL_LINKS.OYSTER_LEARN_LINK }
 			]
 		},
 		{
@@ -25,7 +25,7 @@
 			description: 'Outsource ZKPs to a proof marketplace or join Kalypso as a prover',
 			buttons: [
 				{ text: 'dApp', href: ROUTES.KALYPSO_URL },
-				{ text: 'Learn', href: ROUTES.KALYPSO_LEARN_LINK }
+				{ text: 'Learn', href: EXTERNAL_LINKS.KALYPSO_LEARN_LINK }
 			]
 		},
 		{
@@ -38,7 +38,7 @@
 				{ text: 'POND <-> MPond', href: ROUTES.BRIDGE_URL },
 				{
 					text: 'Ethereum <-> Arbitrum',
-					href: ROUTES.ETH_ARB_BRIDGE_LINK,
+					href: EXTERNAL_LINKS.ETH_ARB_BRIDGE_LINK,
 					openInPopup: {
 						modalFor: 'ethArbBridge',
 						popupCtaText: 'Visit'
@@ -53,8 +53,8 @@
 			description:
 				'Marlin Relay is a decentralized relay network that transmits blocks and transactions between nodes of different blockchain network.',
 			buttons: [
-				{ text: 'dApp', href: ROUTES.RELAY_CLUSTERS_LINK },
-				{ text: 'Learn', href: ROUTES.RELAY_LEARN_LINK }
+				{ text: 'dApp', href: EXTERNAL_LINKS.RELAY_CLUSTERS_LINK },
+				{ text: 'Learn', href: EXTERNAL_LINKS.RELAY_LEARN_LINK }
 			]
 		},
 		{

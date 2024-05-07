@@ -18,8 +18,8 @@
 	export let finalBandwidthRateScaled = 0n;
 	export let totalCostScaled = 0n;
 	export let useMarlinCredits = false;
+	export let bandwidth = '';
 
-	let bandwidth = '';
 	let bandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
 	let bandwidthCostString = '';
 

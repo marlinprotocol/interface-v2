@@ -45,6 +45,8 @@
 	let memory = '';
 	let useMarlinCredits: boolean = false;
 	let notServiceable = false;
+	let bandwidth = '';
+
 	//loading state
 	let submitLoading = false;
 	//initial states
@@ -193,6 +195,7 @@
 		enclaveImageUrl = {
 			...initialStates.enclaveImageUrl
 		};
+		bandwidth = '';
 	};
 
 	const handleMerchantChange = () => {
@@ -301,6 +304,7 @@
 				bind:finalBandwidthRateScaled
 				bind:totalCostScaled
 				bind:useMarlinCredits
+				bind:bandwidth
 			/>
 			<TextInputWithEndButton
 				styleClass="px-4 py-3"

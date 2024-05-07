@@ -25,6 +25,7 @@ const Verified = '/images/verifiedicon.svg';
 const WalletConnect = '/images/walleticon.svg';
 const WalletConnected = '/images/wallet-connected.svg';
 const PolygonLogo = '/images/polygon.svg';
+const PolygonFullLogo = '/images/polygon-full.png';
 const ArbitrumLogo = '/images/arbitrum.webp';
 const EthereumLogo = '/images/eth.webp';
 const LineaLogo = '/images/linea.webp';
@@ -90,6 +91,14 @@ const midaSwapLogo = '/images/MidaswapLogo.png';
 const aspectaLogo = '/images/AspectaLogo.png';
 const echolinkLogo = '/images/EcholinkLogo.png';
 const publicAiLogo = '/images/PublicAIDarkLogo.png';
+const operatorLogo = '/images/operator.svg';
+const sideLogo = '/images/side.svg';
+const injectiveLogo = '/images/injective.png';
+const mellowLogo = '/images/mellow.png';
+const FlashBotsLogo = '/images/FlashBotsLogo.png';
+const gearBoxLogo = '/images/gearbox.png';
+const decimalLogo = '/images/decimal.png';
+const zkbobLogo = '/images/zkbob.svg';
 const p2pLogo = '/images/p2p_logo_white.png';
 const t2t2Logo = '/images/T2T2Logo.png';
 const hashkeyCloudLogo = '/images/HashkeyCloudLogo.png';
@@ -153,6 +162,7 @@ export const staticImages = {
 	WalletConnect,
 	WalletConnected,
 	PolygonLogo,
+	PolygonFullLogo,
 	ArbitrumLogo,
 	EthereumLogo,
 	LineaLogo,
@@ -215,6 +225,14 @@ export const staticImages = {
 	aspectaLogo,
 	echolinkLogo,
 	publicAiLogo,
+	operatorLogo,
+	sideLogo,
+	injectiveLogo,
+	mellowLogo,
+	FlashBotsLogo,
+	gearBoxLogo,
+	decimalLogo,
+	zkbobLogo,
 	p2pLogo,
 	t2t2Logo,
 	hashkeyCloudLogo,

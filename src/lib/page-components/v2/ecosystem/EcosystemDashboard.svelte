@@ -8,8 +8,7 @@
 
 	type filterDataModal = Array<{
 		name: string;
-		link: string;
-		logo: string;
+		logo?: string;
 		website: string;
 		category: Array<string>;
 	}>;
@@ -17,162 +16,249 @@
 	let searchInput = '';
 	let selectedFilter = 'View All';
 	let filteredPartners: filterDataModal;
+
 	const partners: filterDataModal = [
 		{
+			name: 'Myri',
+			logo: undefined,
+			website: '#',
+			category: ['AI']
+		},
+		{
+			name: 'Sigmoid',
+			logo: undefined,
+			website: 'https://www.sigmoid.wtf/',
+			category: ['AI']
+		},
+		{
+			name: 'Operator.io',
+			logo: staticImages.operatorLogo,
+			website: 'https://operator.io/',
+			category: ['AI']
+		},
+		{
+			name: 'PublicAI',
+			logo: staticImages.publicAiLogo,
+			website: 'https://publicai.io/',
+			category: ['AI']
+		},
+		{
+			name: 'SIDE',
+			logo: staticImages.sideLogo,
+			website: 'https://side.one/',
+			category: ['Bitcoin L2']
+		},
+		{
+			name: 'Asula',
+			logo: undefined,
+			website: 'https://asula.fyi/',
+			category: ['Bitcoin L2']
+		},
+		{
+			name: 'Polygon',
+			logo: staticImages.PolygonFullLogo,
+			website: 'https://polygon.technology/',
+			category: ['Blockchain']
+		},
+		{
+			name: 'Arbitrum',
+			logo: staticImages.ArbitrumLogo,
+			website: 'https://arbitrum.io/',
+			category: ['Blockchain']
+		},
+		{
+			name: 'Injective',
+			logo: staticImages.injectiveLogo,
+			website: 'https://injective.com/',
+			category: ['Blockchain']
+		},
+		{
 			name: 'Ankr',
-			link: '#',
 			logo: staticImages.ankrLogo,
 			website: 'https://www.ankr.com/',
 			category: ['Blockchain']
 		},
 		{
-			name: 'Aspecta',
-			link: '#',
-			logo: staticImages.aspectaLogo,
-			website: 'https://www.ankr.com/',
-			category: ['Identity']
+			name: 'StaFi',
+			logo: staticImages.stafiLogo,
+			website: 'https://www.stafi.io/',
+			category: ['DeFi']
 		},
 		{
-			name: 'Avail',
-			link: '#',
-			logo: staticImages.availLogo,
-			website: 'https://avail.global/',
-			category: ['Wallets']
+			name: 'Mellow Protocol',
+			logo: staticImages.mellowLogo,
+			website: 'https://mellow.finance/',
+			category: ['DeFi']
 		},
 		{
-			name: 'Brightly Stake',
-			link: '#',
-			logo: staticImages.brightlyStakeLogo,
-			website: 'https://brightlystake.com/',
-			category: ['Validators']
+			name: 'Mida swap',
+			logo: staticImages.midaSwapLogo,
+			website: 'https://www.midaswap.org/',
+			category: ['DEX']
 		},
-
 		{
 			name: 'Cradles',
-			link: '#',
 			logo: staticImages.cradlesLogo,
 			website: 'https://www.cradles.io/',
 			category: ['Gaming']
 		},
 		{
-			name: 'Chorus One',
-			link: '#',
-			logo: staticImages.chorusOneLogo,
-			website: 'https://chorus.one/',
-			category: ['Validators']
+			name: 'Bonfida',
+			logo: staticImages.bonfidaLogo,
+			website: 'https://www.sns.id/',
+			category: ['Gateways']
 		},
 		{
-			name: 'Dego',
-			link: '#',
-			logo: staticImages.degoLogo,
-			website: 'https://dego.finance/home',
-			category: ['NFT', 'DeFi']
+			name: 'SPACE ID',
+			logo: staticImages.spaceIdLogo,
+			website: 'https://space.id/',
+			category: ['Gateways']
 		},
 		{
-			name: 'Echolink',
-			link: '#',
-			logo: staticImages.echolinkLogo,
-			website: 'https://echolink.network/',
-			category: ['Oracles']
+			name: 'ETH.LIMO',
+			logo: undefined,
+			website: 'https://eth.limo/',
+			category: ['Gateways']
+		},
+		{
+			name: 'Aspecta',
+			logo: staticImages.aspectaLogo,
+			website: 'https://aspecta.id/',
+			category: ['Identity']
+		},
+		{
+			name: 'Flashbots',
+			logo: staticImages.FlashBotsLogo,
+			website: 'https://www.flashbots.net/',
+			category: ['MEV']
+		},
+		{
+			name: 'Gearbox',
+			logo: staticImages.gearBoxLogo,
+			website: 'https://gearbox.fi/',
+			category: ['MEV', 'DeFi']
 		},
 		{
 			name: 'Go Sleep Pro',
-			link: '#',
 			logo: staticImages.goSleepLogo,
 			website: 'https://gosleep.pro/',
 			category: ['NFT']
 		},
 		{
+			name: 'Dego',
+			logo: staticImages.degoLogo,
+			website: 'https://dego.finance/home',
+			category: ['NFT', 'DeFi']
+		},
+		{
+			name: 'Decimal',
+			logo: staticImages.decimalLogo,
+			website: 'https://decimal.at/',
+			category: ['Oracles']
+		},
+		{
+			name: 'Echolink',
+			logo: staticImages.echolinkLogo,
+			website: 'https://echolink.network/',
+			category: ['Oracles']
+		},
+		{
+			name: 'Cambrian',
+			logo: undefined,
+			website: '#',
+			category: ['Restaking']
+		},
+		{
+			name: '3DNS',
+			logo: staticImages.dnsLogo,
+			website: 'https://3dns.box/',
+			category: ['Tokenized Domains']
+		},
+		{
+			name: 'Brightly Stake',
+			logo: staticImages.brightlyStakeLogo,
+			website: 'https://brightlystake.com/',
+			category: ['Validators']
+		},
+		{
+			name: 'Chorus One',
+			logo: staticImages.chorusOneLogo,
+			website: 'https://chorus.one/',
+			category: ['Validators']
+		},
+		{
 			name: 'Hashkey Cloud',
-			link: '#',
 			logo: staticImages.hashkeyCloudLogo,
 			website: 'https://www.hashkey.cloud/',
 			category: ['Validators']
 		},
 		{
 			name: 'Infstones',
-			link: '#',
 			logo: staticImages.infstones,
 			website: 'https://infstones.com/',
 			category: ['Validators']
 		},
 		{
-			name: 'Mida swap',
-			link: '#',
-			logo: staticImages.midaSwapLogo,
-			website: 'https://www.midaswap.org/',
-			category: ['DEX']
+			name: 'McGill University',
+			logo: undefined,
+			website: '#',
+			category: ['Validators']
 		},
 		{
 			name: 'Nodeasy',
-			link: '#',
 			logo: staticImages.nodeasyLogo,
 			website: 'https://www.nodeasy.com/',
 			category: ['Validators']
 		},
 		{
 			name: 'P2P',
-			link: '#',
 			logo: staticImages.p2pLogo,
 			website: 'https://p2p.org/',
 			category: ['Validators']
 		},
 		{
-			name: 'Prom',
-			link: '#',
-			logo: staticImages.promLogo,
-			website: 'https://prom.io/',
-			category: ['Blockchain']
-		},
-		{
-			name: 'Public AI',
-			link: '#',
-			logo: staticImages.publicAiLogo,
-			website: 'https://publicai.io/',
-			category: ['AI']
-		},
-		{
 			name: 'Shanghai Jiao Tong University',
-			link: '#',
 			logo: staticImages.sjtUniversityLogo,
 			website: 'https://en.sjtu.edu.cn/',
 			category: ['Validators']
 		},
 		{
-			name: 'StaFi',
-			link: '#',
-			logo: staticImages.stafiLogo,
-			website: 'https://www.stafi.io/',
-			category: ['DeFi']
-		},
-		{
 			name: 'Staking 4 All',
-			link: '#',
 			logo: staticImages.staking4allLogo,
 			website: 'https://www.staking4all.org/',
 			category: ['Validators']
 		},
 		{
-			name: 'T2T2',
-			link: '#',
-			logo: staticImages.t2t2Logo,
-			website: 'https://www.t2click.com/home',
-			category: ['Blockchain']
+			name: 'Avail',
+			logo: staticImages.availLogo,
+			website: 'https://avail.global/',
+			category: ['Wallets']
+		},
+		{
+			name: 'zkBOB',
+			logo: staticImages.zkbobLogo,
+			website: 'https://www.zkbob.com/',
+			category: ['Wallets']
 		}
 	];
 
 	const filters = [
 		'View All',
-		'Blockchain',
-		'Validators',
-		'DeFi',
 		'AI',
+		'Bitcoin L2',
+		'Blockchain',
+		'DeFi',
 		'DEX',
+		'Gaming',
+		'Gateways',
+		'Identity',
+		'MEV',
 		'NFT',
 		'Oracles',
-		'Gaming',
-		'Wallets',
-		'Identity'
+		'Restaking',
+		'Tokenized Domains',
+		'Validators',
+		'Wallets'
 	];
 
 	function getFilteredPartners(partnerSearchString: string, partnerFilterString: string) {
@@ -238,11 +324,15 @@
 						{ 'w-[203px]': $isNavOpen }
 					)}
 				>
-					<img
-						src={partner.logo}
-						class="transition-transform duration-300 ease-in-out group-hover:scale-110"
-						alt={partner.name + ' Logo'}
-					/>
+					{#if partner.logo}
+						<img
+							src={partner.logo}
+							class="transition-transform duration-300 ease-in-out group-hover:scale-110"
+							alt={partner.name + ' Logo'}
+						/>
+					{:else}
+						<p class="text-3xl font-medium text-black no-underline">{partner.name}</p>
+					{/if}
 				</div>
 			</a>
 		{/each}

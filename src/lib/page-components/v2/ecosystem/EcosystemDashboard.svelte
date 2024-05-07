@@ -280,6 +280,7 @@
 			.filter((partner) => partner.category.includes(partnerFilterString));
 	}
 	$: filteredPartners = getFilteredPartners(searchInput, selectedFilter);
+	$: sortedPartners = filteredPartners.sort((a, b) => a.name.localeCompare(b.name));
 </script>
 
 <div class=" flex w-full flex-col justify-start">
@@ -290,7 +291,7 @@
 		styleClass="w-full"
 	/>
 
-	<div class="my-4 flex gap-1.5">
+	<div class="my-4 flex w-full flex-wrap gap-1.5 overflow-x-hidden">
 		{#each filters as filter}
 			{#if selectedFilter === filter}
 				<Button
@@ -318,12 +319,11 @@
 	</div>
 
 	<div class="grid grid-cols-5 gap-6 2xl:grid-cols-7">
-		{#each filteredPartners as partner}
+		{#each sortedPartners as partner}
 			<a href={partner.website} class="group w-full" target="_blank">
 				<div
 					class={cn(
-						'flex h-[210px] w-full items-center justify-center rounded-xl border border-[#D9DADE] bg-white px-5 transition-all duration-300 ease-out group-hover:border-2',
-						{ 'w-[203px]': $isNavOpen }
+						'flex h-[210px] w-full items-center justify-center rounded-xl border border-[#D9DADE] bg-white px-5 transition-all duration-300 ease-in-out group-hover:border-primary'
 					)}
 				>
 					{#if partner.logo}

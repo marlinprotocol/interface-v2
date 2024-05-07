@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
-	import BackButton from '$lib/components/buttons/BackButton.svelte';
+	import BackButton from '$lib/components/v2/buttons/BackButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 
 	export let firstText: string;

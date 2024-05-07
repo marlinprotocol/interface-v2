@@ -2,7 +2,7 @@
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
+	import MaxButton from '$lib/components/v2/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/v2/inputs/AmountInputWithMaxButton.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
@@ -122,7 +122,7 @@
 			showBalance={false}
 		/>
 		<div class="mt-4 flex items-center justify-end gap-2">
-			<MaxButton styleClass="font-medium" onclick={handleMaxClick} />
+			<MaxButton onclick={handleMaxClick} />
 			<Divider direction="divider-vertical" />
 			<div class="flex items-center gap-1">
 				<Text

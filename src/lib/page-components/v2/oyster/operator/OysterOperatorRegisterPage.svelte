@@ -4,7 +4,7 @@
 	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
-	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
+	import ConnectWalletButton from '$lib/components/v2/header/sub-components/ConnectWalletButton.svelte';
 	import TextInputWithEndButton from '$lib/components/v2/inputs/TextInputWithEndButton.svelte';
 	import {
 		getInstancesFromControlPlaneUsingCpUrl,

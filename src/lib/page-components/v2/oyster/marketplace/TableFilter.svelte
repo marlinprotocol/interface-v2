@@ -1,7 +1,7 @@
 <script lang="ts">
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import Select from '$lib/components/select/Select.svelte';
+	import Select from '$lib/components/v2/select/Select.svelte';
 
 	export let dataList: (string | number)[] = [];
 	export let value: string | number | undefined = '';

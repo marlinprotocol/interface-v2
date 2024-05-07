@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import ChainSwitcher from '$lib/components/header/sub-components/ChainSwitcher.svelte';
+	import ChainSwitcher from '$lib/components/v2/header/sub-components/ChainSwitcher.svelte';
 </script>
 
 <ContainerCard>
@@ -10,6 +10,6 @@
 		>Please switch to one of the chains in the dropdown to continue.</span
 	>
 	<div class="flex items-center justify-center">
-		<ChainSwitcher isDark />
+		<ChainSwitcher />
 	</div>
 </ContainerCard>

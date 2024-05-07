@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
+	import MaxButton from '$lib/components/v2/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ConnectWalletButton from '$lib/components/v2/header/sub-components/ConnectWalletButton.svelte';
 	import { connected, walletBalanceStore } from '$lib/data-stores/walletProviderStore';

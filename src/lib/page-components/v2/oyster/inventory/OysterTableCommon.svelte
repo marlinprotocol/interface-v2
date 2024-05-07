@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 	import Table from '$lib/atoms/v2/table/Table.svelte';
-	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
+	import ConnectWalletButton from '$lib/components/v2/header/sub-components/ConnectWalletButton.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { TableModel } from '$lib/types/componentTypes';

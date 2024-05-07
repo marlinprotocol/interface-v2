@@ -4,7 +4,7 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { InputCardVariant, ModalInputModel } from '$lib/types/componentTypes';
-	import AmountInput from '$lib/components/inputs/AmountInput.svelte';
+	import AmountInput from '$lib/components/v2/inputs/AmountInput.svelte';
 	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
 	export let inputAmountString = '';
 	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance: 0.00';

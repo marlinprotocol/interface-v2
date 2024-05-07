@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { tableClasses } from '$lib/atoms/v2/componentClasses';
-	import Table from '$lib/atoms/table/Table.svelte';
-	import CollapseButton from '$lib/components/buttons/CollapseButton.svelte';
-	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
+	import Table from '$lib/atoms/v2/table/Table.svelte';
+	import CollapseButton from '$lib/components/v2/buttons/CollapseButton.svelte';
+	import InputCardWithEndButton from '$lib/components/v2/inputs/InputCardWithEndButton.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
@@ -16,7 +16,7 @@
 	export let validCPUrl = false;
 </script>
 
-<InputCardWithEndButton styleClass="mt-4" title="Details">
+<InputCardWithEndButton variant="v2Input" styleClass="mt-4" title="Details">
 	{#if isOpen && $connected}
 		<div
 			transition:slide={{ duration: 400 }}
@@ -30,7 +30,6 @@
 				<Table
 					tableHeading={OYSTER_INSTANCES_TABLE_HEADER}
 					headingStyleClass="text-sm"
-					tablePadding="py-4"
 					iconWidth="13px"
 				>
 					<tbody slot="tableBody">

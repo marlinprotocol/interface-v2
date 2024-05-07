@@ -8,7 +8,7 @@
 	} from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import { getInstanceMetadatDataForOperator } from '$lib/utils/data-modifiers/oysterModifiers';
-	import { doNothing } from '$lib/utils/helpers/commonHelper';
+	import { cn, doNothing } from '$lib/utils/helpers/commonHelper';
 	import {
 		getCreateOrderInstanceRegionFilters,
 		getRateForProviderAndFilters
@@ -155,6 +155,8 @@
 	$: set_vcpu(!instance.value ? '' : instanceData?.vcpu?.toString() ?? 'N/A');
 	$: set_arch(!instance.value ? '' : instanceData?.arch?.toString() ?? 'N/A');
 	$: set_memory(!instance.value ? '' : instanceData?.memory?.toString() ?? 'N/A');
+	$: instanceOrRegionError =
+		(instance.isDirty && instance.error !== '') || (region.isDirty && region.error !== '');
 </script>
 
 <SearchWithSelect
@@ -210,7 +212,11 @@
 	errorMessage={region.error}
 	styleClass="mt-0"
 />
-<div class="flex gap-2">
+<div
+	class={cn('flex gap-2', {
+		'mt-4': instanceOrRegionError
+	})}
+>
 	<div class="w-full">
 		<TextInputWithEndButton
 			showTitle={false}

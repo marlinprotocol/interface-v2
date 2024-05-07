@@ -60,13 +60,13 @@
 </script>
 
 <Modal modalFor="oyster-register-url-operator">
-	<svelte:fragment slot="title">Register</svelte:fragment>
+	<svelte:fragment slot="title">{registered ? 'Update' : 'Register'}</svelte:fragment>
 	<svelte:fragment slot="content">
 		<TextInputWithEndButton
-			styleClass="w-full  py-4 rounded-[100px]"
+			styleClass="w-full py-4 rounded-[100px]"
 			placeholder="Paste URL here"
-			title="Control Plane URL"
 			bind:input={updatedCpURL}
+			label="Control Plane URL"
 		/>
 		{#if isStateVisiable}
 			<div class={cn(commonStateClass, currentStateClass)}>
@@ -78,7 +78,7 @@
 	<svelte:fragment slot="actionButtons">
 		<Button
 			variant="filled"
-			styleClass="w-full"
+			styleClass="w-full font-normal"
 			disabled={registered ? isUpdateButtonDisabled : isRegistredButtonDisabled}
 			onclick={registered ? handleOnUpdate : handleOnRegister}
 			loading={registerLoading || updateLoading}

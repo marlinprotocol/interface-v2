@@ -8,12 +8,10 @@
 	import InitiateRewards from '$lib/page-components/receiver-rewards/buttons/InitiateRewards.svelte';
 	import UpdateTicketRewards from './buttons/UpdateTicketRewards.svelte';
 	import AddRewardsBalance from './buttons/AddRewardsBalance.svelte';
-	import ReceiverTabToggle from '$lib/page-components/receiver-portal/ReceiverTabToggle.svelte';
 </script>
 
 <ContainerCard>
 	<Text variant="h3" text="Receiver Rewards" styleClass="text-center" />
-	<ReceiverTabToggle />
 	<RewardsData />
 	{#if $connected}
 		<div class="flex w-full items-center justify-center gap-4">

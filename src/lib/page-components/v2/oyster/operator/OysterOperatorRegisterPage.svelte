@@ -27,7 +27,7 @@
 	import Divider from '$lib/atoms/v2/divider/Divider.svelte';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
-	import { ROUTES } from '$lib/utils/constants/v2/urls';
+	import { EXTERNAL_LINKS, ROUTES } from '$lib/utils/constants/v2/urls';
 	import { shortenText } from '$lib/utils/helpers/conversionHelper';
 	import Text from '$lib/atoms/v2/texts/Text.svelte';
 	import { checkValidURL, closeModal, cn, sanitizeUrl } from '$lib/utils/helpers/commonHelper';
@@ -276,16 +276,25 @@
 			fontWeight="font-medium"
 			text="Hello, {shortenText($walletStore.address, 6, 6)}"
 		/>
-		{#if !registered && $oysterStore.merchantJobsLoaded}
-			<ModalButton
-				variant="filled"
-				size="large"
-				styleClass="w-[170px] text-base font-normal"
-				modalFor="oyster-register-url-operator"
+		<div class="flex gap-4">
+			{#if !registered && $oysterStore.merchantJobsLoaded}
+				<ModalButton
+					variant="filled"
+					size="large"
+					styleClass="w-[170px] text-base font-normal"
+					modalFor="oyster-register-url-operator"
+				>
+					Register
+				</ModalButton>
+			{/if}
+			<a
+				href={EXTERNAL_LINKS.OYSTER_OPERATOR_DOCS_LINK}
+				target="_blank"
+				referrerpolicy="no-referrer"
 			>
-				Register
-			</ModalButton>
-		{/if}
+				<Button variant="outlined" styleClass="w-[190px]" size="large">Documentation</Button>
+			</a>
+		</div>
 	</div>
 	<div
 		class={cn('mt-6', {
@@ -302,7 +311,6 @@
 						styleClass="w-full bg-[#F4F4F6] py-[5px] pr-[5px] rounded-[100px]"
 						placeholder="Paste URL here"
 						bind:input={displayCpUrl}
-						id="cpurl-main"
 					>
 						<svelte:fragment slot="endInfoBox">
 							<div

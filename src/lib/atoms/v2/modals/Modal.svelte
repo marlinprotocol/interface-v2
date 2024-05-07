@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { closeModal, cn, doNothing } from '$lib/utils/helpers/commonHelper';
+	import { onDestroy, onMount } from 'svelte';
 
 	export let modalFor = '';
 	export let modalWidth = 'w-11/12 sm:w-3/4 sm:max-w-[607px]';
@@ -11,6 +12,21 @@
 	export let padding = false;
 	export let isScrollable = false;
 	export let individualBorderRadius = false;
+
+	const handleKeydown = (event: KeyboardEvent) => {
+		if (event.key === 'Escape') {
+			const input = document.getElementById(modalFor) as HTMLInputElement;
+			if (input?.checked) {
+				closeModal(modalFor);
+			}
+		}
+	};
+	onMount(() => {
+		window.addEventListener('keydown', handleKeydown);
+	});
+	onDestroy(() => {
+		window.removeEventListener('keydown', handleKeydown);
+	});
 </script>
 
 <!-- removing input from tabbing order since its open and close behaviour is being controlled by label and close button respectively  -->

@@ -298,6 +298,7 @@
 						selectedFilter = filter;
 					}}
 					variant="filled"
+					size="small"
 				>
 					{filter}
 				</Button>
@@ -308,6 +309,7 @@
 					}}
 					variant="greyOutlined"
 					styleClass="font-normal"
+					size="small"
 				>
 					{filter}
 				</Button>
@@ -320,7 +322,7 @@
 			<a href={partner.website} class="group w-full" target="_blank">
 				<div
 					class={cn(
-						'flex h-[210px] w-full items-center justify-center rounded-xl border border-[#D9DADE] bg-white transition-all duration-300 ease-out group-hover:border-2',
+						'flex h-[210px] w-full items-center justify-center rounded-xl border border-[#D9DADE] bg-white px-5 transition-all duration-300 ease-out group-hover:border-2',
 						{ 'w-[203px]': $isNavOpen }
 					)}
 				>
@@ -331,7 +333,9 @@
 							alt={partner.name + ' Logo'}
 						/>
 					{:else}
-						<p class="text-3xl font-medium text-black no-underline">{partner.name}</p>
+						<p class="px-5 text-center text-3xl font-semibold text-black no-underline">
+							{partner.name}
+						</p>
 					{/if}
 				</div>
 			</a>

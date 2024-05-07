@@ -6,7 +6,7 @@
 </script>
 
 <td class={cn(styleClass, firstRow ? 'pl-4' : '')} data-testid="table-data-with-button">
-	<div class={tableClasses.rowNormal}>
+	<div class={tableClasses.row}>
 		<div class="m-auto flex h-[35px] items-center">
 			<slot name="line1" />
 		</div>

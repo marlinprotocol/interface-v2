@@ -128,11 +128,12 @@ describe('AddTokenPrompt', () => {
 	it('renders the name of the token passed in', async () => {
 		const { getByText } = render(AddTokenPrompt, {
 			props: {
+				label: 'Add POND',
 				tokenFor: 'POND'
 			}
 		});
 		expect(getByText('Add POND')).toBeTruthy();
-		render(AddTokenPrompt, { props: { tokenFor: 'MPOND' } });
+		render(AddTokenPrompt, { props: { label: 'Add MPOND', tokenFor: 'MPOND' } });
 		expect(getByText('Add MPOND')).toBeTruthy();
 	});
 

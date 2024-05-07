@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import CollapseButton from '$lib/components/v2/buttons/CollapseButton.svelte';
 
@@ -48,11 +47,7 @@
 		{#if showLabel}
 			<span class="mr-2 text-sm text-primary">{value}</span>
 		{/if}
-		<CollapseButton
-			isOpen={showSuggestions}
-			disabled={dataList.length === 0}
-			styleClass={buttonClasses.dropdownIcon}
-		/>
+		<CollapseButton isOpen={showSuggestions} disabled={dataList.length === 0} />
 	</div>
 
 	{#if showSuggestions && suggestions.length > 0}

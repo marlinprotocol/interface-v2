@@ -4,7 +4,6 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import AddTokenPrompt from '$lib/components/prompts/AddTokenPrompt.svelte';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import { handleCopyClick } from '$lib/utils/helpers/componentHelper';
@@ -41,8 +40,6 @@
 			</div>
 		</div>
 		<div class="flex flex-wrap gap-4">
-			<AddTokenPrompt tokenFor="POND" />
-			<AddTokenPrompt tokenFor="MPOND" />
 			<a
 				href="{$chainConfigStore.block_explorer_url}/address/{$walletStore.address}"
 				target="_blank"

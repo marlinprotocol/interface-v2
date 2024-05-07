@@ -13,7 +13,6 @@ describe('TextInputWithEndButton', () => {
 	it("render's the component properly", () => {
 		const { container } = render(TextInputWithEndButton, {
 			styleClass,
-			tooltipText,
 			title,
 			placeholder,
 			input: inputValue,
@@ -25,7 +24,6 @@ describe('TextInputWithEndButton', () => {
 	it('passes props correctly to InputCardWithEndButton and renders input elements', () => {
 		const { getByPlaceholderText, getByText } = render(TextInputWithEndButton, {
 			styleClass,
-			tooltipText,
 			title,
 			placeholder,
 			input: inputValue,
@@ -61,7 +59,6 @@ describe('TextInputWithEndButton', () => {
 		const placeholder = 'Enter something...';
 		const { getByPlaceholderText } = render(TextInputWithEndButton, {
 			styleClass,
-			tooltipText,
 			title,
 			placeholder,
 			input: inputValue,

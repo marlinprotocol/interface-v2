@@ -9,7 +9,6 @@
 	export let name = '';
 	export let address = '';
 	export let rowIndex = -1;
-	export let isCreditJob = false;
 
 	const onCopyAddress = () => {
 		copyTextToClipboard(address);

@@ -70,6 +70,7 @@
 		},
 		{
 			label: 'Relay',
+			href: ROUTES.RELAY_URL,
 			icon: staticImages.relayIcon,
 			children: [
 				{ preFixLabel: 'Clusters', href: EXTERNAL_LINKS.RELAY_CLUSTERS_LINK, openInNewTab: true },
@@ -344,7 +345,7 @@
 	{/if}
 {/each}
 
-<style>
+<!-- <style>
 	.toggle,
 	.toggle[checked='false'],
 	.toggle[aria-checked='false'] .bg-base-content {
@@ -378,4 +379,4 @@
 		opacity: 1;
 		visibility: visible;
 	}
-</style>
+</style> -->

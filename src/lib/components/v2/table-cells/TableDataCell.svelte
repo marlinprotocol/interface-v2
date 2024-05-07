@@ -4,6 +4,6 @@
 	export let styleClass = '';
 </script>
 
-<td class={cn(tableClasses.rowNormal, styleClass)} data-testid="table-data-cell">
+<td class={cn(tableClasses.row, styleClass)} data-testid="table-data-cell">
 	<slot />
 </td>

@@ -19,6 +19,7 @@ const ETH_ARB_BRIDGE_LINK =
 const BRIDGE_LEARN_LINK = 'https://docs.marlin.org/learn/bridges';
 
 //relay
+const RELAY_URL = '/relay';
 const RELAY_CLUSTERS_LINK = 'https://arb1.marlin.org/relay/operator';
 const RELAY_REGISTRATION_LINK = 'https://arb1.marlin.org/relay/operator/register';
 const RELAY_DELEGATION_LINK = 'https://arb1.marlin.org/relay/stash';
@@ -49,6 +50,7 @@ export const ROUTES = {
 	BRIDGE_URL,
 	POND_HISTORY_PAGE_URL,
 	MPOND_HISTORY_PAGE_URL,
+	RELAY_URL,
 	OYSTER_URL,
 	OYSTER_MARKETPLACE_URL,
 	OYSTER_OPERATOR_URL,

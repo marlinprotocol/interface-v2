@@ -4,6 +4,7 @@
 	import SidebarLinksGroup from '../header/sub-components/SidebarLinksGroup.svelte';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import { isNavOpen } from '$lib/data-stores/v2/navStore';
+	import { ROUTES } from '$lib/utils/constants/v2/urls';
 
 	const toggleNavbar = () => isNavOpen.set(!$isNavOpen);
 </script>
@@ -21,9 +22,12 @@
 		})}
 	>
 		{#if $isNavOpen}
-			<img src={staticImages.marlinLgLogo} alt="large logo" />
+			<a href={ROUTES.HUB_DASHBOARD_URL}><img src={staticImages.marlinLgLogo} alt="large logo" /></a
+			>
 		{:else}
-			<img src={staticImages.marlinSmLogo} alt="small logo" />
+			<a href={ROUTES.HUB_DASHBOARD_URL}>
+				<img src={staticImages.marlinSmLogo} alt="small logo" />
+			</a>
 		{/if}
 	</div>
 	<SidebarLinksGroup activeLink={$page.url.pathname} />

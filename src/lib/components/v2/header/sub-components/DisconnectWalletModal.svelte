@@ -1,13 +1,12 @@
 <script lang="ts">
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
-	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import AddTokenPrompt from '$lib/components/prompts/AddTokenPrompt.svelte';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
-	import { handleCopyClick } from '$lib/utils/helpers/componentHelper';
+	import { handleCopyClick } from '$lib/utils/v2/helpers/componentHelper';
 
 	export let modalFor: string;
 	export let disconnect: () => void;
@@ -37,7 +36,7 @@
 					class="shrink-0 cursor-pointer"
 					on:click={() => handleCopyClick($walletStore.address, 'Address copied to clipboard')}
 				>
-					<ImageColored width={14} src={staticImages.CopyGrey} alt="Copy" variant="grey" />
+					<img width={18} src={staticImages.copyIcon} alt="Copy" />
 				</button>
 			</div>
 		</div>

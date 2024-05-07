@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import { tableClasses } from '$lib/atoms/v2/componentClasses';
-	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/v2/texts/NameWithAddress.svelte';
@@ -13,6 +12,7 @@
 	import CreateOrderModal from '$lib/page-components/v2/oyster/inventory/modals/CreateOrderModal.svelte';
 	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let rowData: OysterMarketplaceDataModel;
 	export let rowIndex: number;
@@ -34,7 +34,7 @@
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
 				<div class="hidden cursor-pointer group-hover/row:flex">
-					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
+					<img src={staticImages.copyIcon} alt="Copy" />
 				</div>
 			</div>
 		</svelte:fragment>
@@ -46,7 +46,7 @@
 <td class={tableClasses.cell}>
 	{region ?? 'N/A'}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{vcpu ? vcpu : 'N/A'}
 </td>
 <td class={tableClasses.cell}>

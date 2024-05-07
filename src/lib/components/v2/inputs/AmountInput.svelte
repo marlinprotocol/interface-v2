@@ -2,11 +2,8 @@
 	export let disabled = false;
 	export let value = '';
 	export let onChange: (e: Event) => void = () => {};
-	export let onFocusOut = () => {};
 	export let styleClass = '';
 	export let onlyInteger = false;
-	export let onFocus = () => {};
-	export let onBlur = () => {};
 	export let id = '';
 
 	const validateInput = (
@@ -37,11 +34,8 @@
 	id="pond-input-amount-{id}"
 	bind:value
 	on:input={onChange}
-	on:focusout={onFocusOut}
 	on:keydown={validateInput}
 	on:keyup={validateInput}
-	on:focus={onFocus}
-	on:blur={onBlur}
 	class="hideInputNumberAppearance {styleClass}"
 	placeholder={onlyInteger ? '0' : '0.00'}
 	autocomplete="off"

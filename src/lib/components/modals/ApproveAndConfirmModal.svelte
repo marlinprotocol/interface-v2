@@ -2,7 +2,6 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import SuccessfulConversionModal from '$lib/page-components/bridge/modals/SuccessfulConversionModal.svelte';
 	import { DEFAULT_CURRENCY_DECIMALS } from '$lib/utils/constants/constants';
 	import { bigNumberToString, mPondToPond, pondToMPond } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
@@ -135,8 +134,3 @@
 		{/if}
 	</svelte:fragment>
 </Modal>
-<SuccessfulConversionModal
-	modalFor={modalForSuccessConversion}
-	{amountConverted}
-	{conversionFrom}
-/>

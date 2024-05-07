@@ -218,6 +218,7 @@
 			bind:input={vcpu}
 			placeholder="Select"
 			label="vCPU"
+			disabled
 		/>
 	</div>
 	<div class="w-full">
@@ -237,6 +238,7 @@
 			bind:input={memory}
 			showTitle={false}
 			placeholder="Select"
+			disabled
 		/>
 	</div>
 </div>

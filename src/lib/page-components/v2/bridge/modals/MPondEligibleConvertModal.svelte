@@ -12,6 +12,7 @@
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
 	import MPondApproveConfirmModal from '$lib/page-components/v2/bridge/modals/MPondApproveConfirmModal.svelte';
+	import { removeTrailingZeros } from '$lib/utils/v2/helpers/commonHelper';
 
 	export let modalFor: string;
 	export let maxAmount: bigint;
@@ -38,7 +39,7 @@
 
 	const handleMaxClick = () => {
 		if (maxAmount) {
-			inputAmountString = bigNumberToString(maxAmount);
+			inputAmountString = removeTrailingZeros(bigNumberToString(maxAmount, 18, 18));
 			//reset input error message
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
@@ -77,7 +78,7 @@
 	<svelte:fragment slot="title">Enter an amount</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
-			currency="POND"
+			currency="MPond"
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			maxAmountText={balanceText}

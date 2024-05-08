@@ -1,14 +1,12 @@
 <script lang="ts">
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
 	import SuccessfulConversionModal from '$lib/page-components/v2/bridge/modals/SuccessfulConversionModal.svelte';
 	import { DEFAULT_CURRENCY_DECIMALS } from '$lib/utils/constants/constants';
 	import { bigNumberToString, mPondToPond, pondToMPond } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal, cn, openModal } from '$lib/utils/helpers/commonHelper';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import LoadingAnimationModal from '$lib/components/loading/LoadingAnimationModal.svelte';
-	import { getAmountPrecision } from '$lib/utils/helpers/bridgeHelpers';
+	import { removeTrailingZeros } from '$lib/utils/v2/helpers/commonHelper';
 
 	export let handleApproveClick: () => Promise<void>;
 	export let handleConfirmClick: () => Promise<void>;
@@ -51,15 +49,15 @@
 	};
 	// const modalWidth = 'max-w-[500px]';
 
-	$: amountConvertedFrom = bigNumberToString(
-		amountConverted,
-		DEFAULT_CURRENCY_DECIMALS,
-		getAmountPrecision(conversionFrom)
+	$: amountConvertedFrom = removeTrailingZeros(
+		bigNumberToString(amountConverted, DEFAULT_CURRENCY_DECIMALS, 18)
 	);
-	$: amountConvertedTo = bigNumberToString(
-		conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted),
-		DEFAULT_CURRENCY_DECIMALS,
-		getAmountPrecision(conversionFrom === 'pond' ? 'mPond' : 'pond')
+	$: amountConvertedTo = removeTrailingZeros(
+		bigNumberToString(
+			conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted),
+			DEFAULT_CURRENCY_DECIMALS,
+			18
+		)
 	);
 	$: conversionFromText = conversionFrom === 'pond' ? 'POND' : 'MPond';
 	$: conversionToText = conversionFrom === 'pond' ? 'MPond' : 'POND';

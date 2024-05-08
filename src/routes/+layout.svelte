@@ -8,8 +8,8 @@
 	import Header from '$lib/components/v2/header/Header.svelte';
 	import { onMount } from 'svelte';
 	import '../app.css';
-	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
 	import Sidebar from '$lib/components/v2/sidebar/Sidebar.svelte';
+	import SmallScreenPrompt from '$lib/components/v2/prompts/SmallScreenPrompt.svelte';
 
 	onMount(async () => {
 		// removes console logs in production

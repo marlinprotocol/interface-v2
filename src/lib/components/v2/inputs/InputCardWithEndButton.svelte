@@ -1,7 +1,7 @@
 <script lang="ts">
 	import InputCard from '$lib/atoms/v2/cards/InputCard.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
-	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
+	import Text from '$lib/atoms/v2/texts/Text.svelte';
+	import TooltipIcon from '$lib/atoms/v2/tooltips/TooltipIcon.svelte';
 	import type { InputCardVariant } from '$lib/types/v2/componentTypes';
 
 	export let styleClass = '';

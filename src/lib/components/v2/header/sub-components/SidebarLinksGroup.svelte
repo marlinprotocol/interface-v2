@@ -178,13 +178,13 @@
 										<ModalButton
 											modalFor="external-link-confirmation-{subLink.preFixLabel}"
 											variant="text"
-											styleClass="p-0  h-auto justify-start"
+											styleClass="p-0 h-auto justify-start hover:bg-base-content/[.1]"
 										>
 											<div
 												class={cn(
 													'pointer-events-none relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
 													activeLink.includes(subLink.href)
-														? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
+														? 'font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
 														: 'text-[#26272c]'
 												)}
 											>
@@ -211,7 +211,7 @@
 												class={cn(
 													'pointer-events-none relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
 													activeLink.includes(subLink.href)
-														? ' font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
+														? 'font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
 														: 'text-[#26272c]'
 												)}
 											>

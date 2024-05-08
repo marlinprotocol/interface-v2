@@ -1,6 +1,6 @@
 <script lang="ts">
 	import InputCard from '$lib/atoms/v2/cards/InputCard.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
+	import Text from '$lib/atoms/v2/texts/Text.svelte';
 	import AmountInput from '$lib/components/v2/inputs/AmountInput.svelte';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 

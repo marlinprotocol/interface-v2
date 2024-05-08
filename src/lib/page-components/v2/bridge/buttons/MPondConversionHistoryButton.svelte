@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 	import MPondConversionHistoryModal from '$lib/page-components/v2/bridge/modals/MPondConversionHistoryModal.svelte';

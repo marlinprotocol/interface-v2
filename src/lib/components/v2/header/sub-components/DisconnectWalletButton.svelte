@@ -1,11 +1,10 @@
 <script lang="ts">
-	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import { web3WalletStore } from '$lib/data-stores/walletProviderStore';
 	import DisconnectWalletModal from '$lib/components/v2/header/sub-components/DisconnectWalletModal.svelte';
 	import { disconnectWallet } from '$lib/controllers/walletController';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import ChainSwitcher from '$lib/components/v2/header/sub-components/ChainSwitcher.svelte';
 
 	export let lastAddress: string | undefined = undefined;

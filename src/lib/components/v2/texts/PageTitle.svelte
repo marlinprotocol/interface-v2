@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Text from '$lib/atoms/texts/Text.svelte';
+	import Text from '$lib/atoms/v2/texts/Text.svelte';
 	import BackButton from '$lib/components/v2/buttons/BackButton.svelte';
 
 	export let title: string;

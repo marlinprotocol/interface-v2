@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { tableClasses } from '$lib/atoms/v2/componentClasses';
-	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
+	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/v2/texts/NameWithAddress.svelte';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
@@ -47,7 +47,8 @@
 	{epochSecToString(endEpochTime)}
 </td>
 <td class={tableClasses.cell}>
-	<Tooltip tooltipText={epochToDurationString(durationRun)}>
+	<Tooltip>
+		<span slot="tooltipContent">{epochToDurationString(durationRun)}</span>
 		{epochToDurationString(durationRun, true)}
 	</Tooltip>
 </td>

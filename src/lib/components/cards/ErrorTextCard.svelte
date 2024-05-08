@@ -1,6 +1,6 @@
 <script lang="ts">
-	import InputCard from '$lib/atoms/cards/InputCard.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
+	import InputCard from '$lib/atoms/v2/cards/InputCard.svelte';
+	import Text from '$lib/atoms/v2/texts/Text.svelte';
 
 	export let showError = false;
 	export let errorMessage = 'Error Message';

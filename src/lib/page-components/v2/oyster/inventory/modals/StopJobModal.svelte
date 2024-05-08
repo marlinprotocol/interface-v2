@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
-	import InputCard from '$lib/atoms/cards/InputCard.svelte';
+	import InputCard from '$lib/atoms/v2/cards/InputCard.svelte';
 	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
-	import Timer from '$lib/atoms/timer/Timer.svelte';
+	import Text from '$lib/atoms/v2/texts/Text.svelte';
+	import Timer from '$lib/atoms/v2/timer/Timer.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import { epochToDurationString } from '$lib/utils/helpers/conversionHelper';
 	import { closeModal } from '$lib/utils/helpers/commonHelper';

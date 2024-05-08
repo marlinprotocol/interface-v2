@@ -2,8 +2,8 @@
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import InputCard from '$lib/atoms/v2/cards/InputCard.svelte';
 	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
-	import Timer from '$lib/atoms/timer/Timer.svelte';
+	import Text from '$lib/atoms/v2/texts/Text.svelte';
+	import Timer from '$lib/atoms/v2/timer/Timer.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithTitle from '$lib/components/v2/inputs/AmountInputWithTitle.svelte';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';

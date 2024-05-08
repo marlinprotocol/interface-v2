@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/svelte';
 import BackButton from './BackButton.svelte';
 import MaxButton from './MaxButton.svelte';
 import CollapseButton from './CollapseButton.svelte';
-import { buttonClasses } from '$lib/atoms/componentClasses';
+import { buttonClasses } from '$lib/atoms/v2/componentClasses';
 
 describe('Back button', () => {
 	it('renders the back button component properly', () => {

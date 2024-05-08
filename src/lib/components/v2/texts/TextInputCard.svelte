@@ -1,7 +1,7 @@
 <script lang="ts">
 	import InputCard from '$lib/atoms/v2/cards/InputCard.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
-	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
+	import Text from '$lib/atoms/v2/texts/Text.svelte';
+	import TooltipIcon from '$lib/atoms/v2/tooltips/TooltipIcon.svelte';
 	import { handleCopyClick } from '$lib/utils/v2/helpers/componentHelper';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { cn } from '$lib/utils/helpers/commonHelper';

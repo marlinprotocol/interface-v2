@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { buttonClasses } from '$lib/atoms/componentClasses';
+	import { buttonClasses } from '$lib/atoms/v2/componentClasses';
 	import { switchChain } from '$lib/utils/helpers/networkHelper';
 	import { environment } from '$lib/data-stores/environment';
 	import { staticImages } from '$lib/components/images/staticImages';

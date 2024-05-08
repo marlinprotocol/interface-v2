@@ -12,7 +12,7 @@
 	import { getInventoryStatusVariant } from '$lib/utils/v2/helpers/oysterHelpers';
 	import { getColorHexByVariantForTag } from '$lib/utils/v2/helpers/componentHelper';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
-	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
 	import PastJobDetailsModal from './modals/PastJobDetailsModal.svelte';
 	import CreateOrderModal from './modals/CreateOrderModal.svelte';
 	import { tableClasses } from '$lib/atoms/v2/componentClasses';

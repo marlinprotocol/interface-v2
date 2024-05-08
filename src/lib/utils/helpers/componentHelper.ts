@@ -13,7 +13,7 @@ import timesCircle from 'svelte-awesome/icons/timesCircle';
 import { staticImages } from '$lib/components/images/staticImages';
 import { copyTextToClipboard } from './commonHelper';
 import { addToast } from '$lib/data-stores/toastStore';
-import { buttonClasses } from '$lib/atoms/componentClasses';
+import { buttonClasses } from '$lib/atoms/v2/componentClasses';
 
 // -------------------------------------------- IMAGE HELPERS --------------------------------------
 export const getIconbyVariant = (variant: CommonVariant | undefined) => {

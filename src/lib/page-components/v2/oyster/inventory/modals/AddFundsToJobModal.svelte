@@ -16,11 +16,11 @@
 	} from '$lib/utils/services/oysterServices';
 	import AddFundsToJob from '$lib/page-components/v2/oyster/sub-components/AddFundsToJob.svelte';
 	import MaxButton from '$lib/components/v2/buttons/MaxButton.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
+	import Text from '$lib/atoms/v2/texts/Text.svelte';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import type { WalletBalanceStore } from '$lib/types/storeTypes';
-	import Divider from '$lib/atoms/divider/Divider.svelte';
+	import Divider from '$lib/atoms/v2/divider/Divider.svelte';
 	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
 
 	export let modalFor: string;

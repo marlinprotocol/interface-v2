@@ -21,7 +21,7 @@ import infoCircle from 'svelte-awesome/icons/infoCircle';
 import warning from 'svelte-awesome/icons/warning';
 import timesCircle from 'svelte-awesome/icons/timesCircle';
 import { staticImages } from '$lib/components/images/staticImages';
-import { buttonClasses } from '$lib/atoms/componentClasses';
+import { buttonClasses } from '$lib/atoms/v2/componentClasses';
 
 describe('getIconByVariant', () => {
 	it('should return checkCircle when argument is success', () => {

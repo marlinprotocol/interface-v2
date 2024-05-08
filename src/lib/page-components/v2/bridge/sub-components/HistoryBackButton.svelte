@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { buttonClasses } from '$lib/atoms/componentClasses';
-	import Divider from '$lib/atoms/divider/Divider.svelte';
+	import { buttonClasses } from '$lib/atoms/v2/componentClasses';
+	import Divider from '$lib/atoms/v2/divider/Divider.svelte';
 	import BackButton from '$lib/components/v2/buttons/BackButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 

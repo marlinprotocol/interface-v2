@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
+	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 
 	export let showSmallScreenPrompt = false;
 

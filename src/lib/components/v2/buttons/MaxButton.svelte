@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { buttonClasses } from '$lib/atoms/componentClasses';
+	import { buttonClasses } from '$lib/atoms/v2/componentClasses';
 
 	export let disabled = false;
 	export let onclick: (() => void) | undefined = undefined;

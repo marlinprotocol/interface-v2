@@ -23,9 +23,8 @@
 	import { cancelMPondConversionRequest } from '$lib/controllers/contract/bridge';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { getTxnUrl } from '$lib/utils/helpers/commonHelper';
-	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import ModalButton from '$lib/atoms/v2/modals/ModalButton.svelte';
 	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
-	import { tableClasses } from '$lib/atoms/v2/componentClasses';
 
 	export let rowData: MPondToPondHistoryDataModel;
 	export let rowIndex: number;

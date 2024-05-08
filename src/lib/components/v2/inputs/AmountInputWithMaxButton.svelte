@@ -1,7 +1,7 @@
 <script lang="ts">
 	import InputCard from '$lib/atoms/v2/cards/InputCard.svelte';
-	import Divider from '$lib/atoms/divider/Divider.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
+	import Divider from '$lib/atoms/v2/divider/Divider.svelte';
+	import Text from '$lib/atoms/v2/texts/Text.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { InputCardVariant, ModalInputModel } from '$lib/types/componentTypes';
 	import AmountInput from '$lib/components/v2/inputs/AmountInput.svelte';

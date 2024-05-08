@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
-	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
+	import Text from '$lib/atoms/v2/texts/Text.svelte';
+	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import type { CommonVariant, TextModel } from '$lib/types/componentTypes';
 	import { getTextColorClassByVariant } from '$lib/utils/helpers/componentHelper';
@@ -29,7 +29,8 @@
 		<Text {text} variant="tiny" {fontWeight} />
 	{/if}
 	{#if tooltipText}
-		<Tooltip tooltipDirection="tooltip-left" {tooltipText} styleClass="text-left">
+		<Tooltip placement="left">
+			<span slot="tooltipContent">{tooltipText} </span>
 			<img src={staticImages.BlueAlert} alt="tooltip" />
 		</Tooltip>
 	{/if}

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import Modal from '$lib/atoms/v2/modals/Modal.svelte';
-	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
+	import TooltipIcon from '$lib/atoms/v2/tooltips/TooltipIcon.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import AddTokenPrompt from '$lib/components/prompts/AddTokenPrompt.svelte';
+	import AddTokenPrompt from '$lib/components/v2/prompts/AddTokenPrompt.svelte';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
 	import { handleCopyClick } from '$lib/utils/v2/helpers/componentHelper';

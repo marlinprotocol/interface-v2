@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Text from '$lib/atoms/texts/Text.svelte';
+	import Text from '$lib/atoms/v2/texts/Text.svelte';
 	import CollapseButton from '$lib/components/v2/buttons/CollapseButton.svelte';
 
 	export let dataList: (string | number)[] = [];

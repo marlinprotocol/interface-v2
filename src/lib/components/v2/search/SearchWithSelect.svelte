@@ -1,7 +1,7 @@
 <script lang="ts">
 	import InputCard from '$lib/atoms/v2/cards/InputCard.svelte';
 	import { inputClasses } from '$lib/atoms/v2/componentClasses';
-	import Text from '$lib/atoms/texts/Text.svelte';
+	import Text from '$lib/atoms/v2/texts/Text.svelte';
 	import type { InputCardVariant } from '$lib/types/v2/componentTypes';
 	import Select from '$lib/components/v2/select/Select.svelte';
 

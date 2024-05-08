@@ -1,11 +1,11 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
+	import Button from '$lib/atoms/v2/buttons/Button.svelte';
 	import { chainConfigStore, chainStore } from '$lib/data-stores/chainProviderStore';
 	import { web3WalletStore } from '$lib/data-stores/walletProviderStore';
 	import type { Eip1193Provider } from 'ethers';
-	import { staticImages } from '../images/staticImages';
 	import type { TokenMetadata } from '$lib/types/environmentTypes';
 	import { addToast } from '$lib/data-stores/toastStore';
+	import { staticImages } from '$lib/components/images/staticImages';
 
 	export let tokenFor: 'POND' | 'MPOND' = 'POND';
 	export let label: string;

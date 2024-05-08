@@ -1,4 +1,4 @@
-import { addToast } from '$lib/data-stores/v2/toastStore';
+import { addToast } from '$lib/data-stores/toastStore';
 
 export async function fetchHttpData(url: string, options: RequestInit) {
 	return fetch(url, options)

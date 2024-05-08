@@ -1,8 +1,8 @@
 <script>
-	import Button from '$lib/atoms/v2/buttons/Button.svelte';
-	import ContainerCard from '$lib/atoms/v2/cards/ContainerCard.svelte';
-	import Text from '$lib/atoms/v2/texts/Text.svelte';
-	import PageWrapper from '$lib/components/v2/wrapper/PageWrapper.svelte';
+	import Button from '$lib/atoms/buttons/Button.svelte';
+	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
+	import Text from '$lib/atoms/texts/Text.svelte';
+	import PageWrapper from '$lib/components/wrapper/PageWrapper.svelte';
 
 	const styles = {
 		subtitle: 'text-[15px] font-medium text-left mt-1 text-black/50 mt-4 px-2'

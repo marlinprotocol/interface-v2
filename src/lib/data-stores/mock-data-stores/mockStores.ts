@@ -3,7 +3,7 @@ import { DEFAULT_CHAIN_STORE, DEFAULT_WALLET_STORE } from '$lib/utils/constants/
 import type { WalletState } from '@web3-onboard/core';
 import { writable, type Writable } from 'svelte/store';
 import { environment } from '../environment';
-import type { ToastModel } from '$lib/types/v2/componentTypes';
+import type { ToastModel } from '$lib/types/componentTypes';
 
 const connectedValue = writable<boolean>();
 export const walletStoreValue: Writable<WalletStore> = writable(DEFAULT_WALLET_STORE);

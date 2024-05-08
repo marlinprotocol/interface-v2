@@ -26,7 +26,7 @@ import {
 
 import type { ChainConfig } from '$lib/types/environmentTypes';
 import type { ProviderData } from '$lib/types/oysterComponentType';
-import { addToast } from '$lib/data-stores/v2/toastStore';
+import { addToast } from '$lib/data-stores/toastStore';
 import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 import { contractAddressStore } from '$lib/data-stores/contractStore';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';

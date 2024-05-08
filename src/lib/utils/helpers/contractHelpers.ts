@@ -1,7 +1,7 @@
 import type { Address } from '@web3-onboard/core/dist/types';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import type { WalletStore } from '$lib/types/storeTypes';
-import { addToast } from '$lib/data-stores/v2/toastStore';
+import { addToast } from '$lib/data-stores/toastStore';
 import { capitalizeFirstLetter } from '$lib/utils/helpers/commonHelper';
 import { ethers } from 'ethers';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
@@ -71,15 +71,17 @@ export async function createTransaction(
 		let description = error.reason
 			? capitalizeFirstLetter(error.reason)
 			: MESSAGES.TOAST.TRANSACTION.FAILED;
+		let title = '';
 
 		if (error.shortMessage === 'user rejected action') {
 			description = 'Transaction rejected by the user';
+			title = 'Transaction Rejected';
 		}
 
 		addToast({
 			message: {
 				description,
-				title: titles?.failedTxnTitle || ''
+				title: titles?.failedTxnTitle || title
 			},
 			variant: 'error'
 		});

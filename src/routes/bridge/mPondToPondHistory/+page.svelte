@@ -6,7 +6,7 @@
 		walletStore,
 		connected
 	} from '$lib/data-stores/walletProviderStore';
-	import MPondToPondHistoryData from '$lib/page-components/v2/bridge/history/MPondToPondHistoryData.svelte';
+	import MPondToPondHistoryData from '$lib/page-components/bridge/history/MPondToPondHistoryData.svelte';
 	import { modifyMPondToPondConversionHistory } from '$lib/utils/data-modifiers/subgraphModifier';
 	import type { Address } from '@web3-onboard/core/dist/types';
 

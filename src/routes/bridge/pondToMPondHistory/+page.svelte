@@ -6,7 +6,7 @@
 		walletAddressHasChanged,
 		walletStore
 	} from '$lib/data-stores/walletProviderStore';
-	import PondToMPondHistoryData from '$lib/page-components/v2/bridge/history/PondToMPondHistoryData.svelte';
+	import PondToMPondHistoryData from '$lib/page-components/bridge/history/PondToMPondHistoryData.svelte';
 	import type { Address } from '$lib/types/storeTypes';
 	import { modifyPondToMpondConversionHistory } from '$lib/utils/data-modifiers/subgraphModifier';
 

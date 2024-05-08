@@ -2,7 +2,7 @@ import { render } from '@testing-library/svelte';
 import ImageComponent from './ImageColored.svelte';
 import { describe, it, afterEach } from 'vitest';
 import { cleanup } from '@testing-library/svelte';
-import type { CommonVariant } from '$lib/types/v2/componentTypes';
+import type { CommonVariant } from '$lib/types/componentTypes';
 
 describe('ImageComponent', () => {
 	afterEach(cleanup);

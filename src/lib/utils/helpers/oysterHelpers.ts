@@ -14,16 +14,16 @@ import type {
 	OysterOperatorInventorySortKeys
 } from '$lib/types/oysterComponentType';
 
-import { addToast } from '$lib/data-stores/v2/toastStore';
+import { addToast } from '$lib/data-stores/toastStore';
 import {
 	getBandwidthRateForRegion,
 	parseMetadata
 } from '$lib/utils/data-modifiers/oysterModifiers';
 import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
-import type { SortDirection } from '$lib/types/v2/componentTypes';
-import { REGION_NAME_CONSTANTS } from '../constants/regionNameConstants';
+import type { SortDirection } from '$lib/types/componentTypes';
 import type { BytesLike } from 'ethers';
 import type { Address } from '$lib/types/storeTypes';
+import { REGION_NAME_CONSTANTS } from '$lib/utils/constants/regionNameConstants';
 
 export const getSearchedInventoryData = (
 	searchInput: string,
@@ -107,11 +107,11 @@ export const getInventoryStatusVariant = (status: string) => {
 
 export const getInventoryDurationVariant = (duration: number) => {
 	if (duration < OYSTER_CAUTION_DURATION) {
-		return 'error';
+		return '#FEE6E6';
 	} else if (duration < OYSTER_WARNING_DURATION) {
-		return 'warning';
+		return '#FCEFD4';
 	} else {
-		return 'success';
+		return '#F4F9F0';
 	}
 };
 
@@ -347,20 +347,14 @@ export const getSearchAndFilteredMarketplaceData = (
 };
 
 export function getAllFiltersListforMarketplaceData(
-	filteredData: (OysterMarketplaceDataModel | OysterInventoryDataModel)[],
+	filteredData: OysterMarketplaceDataModel[],
 	addAllOption = true
 ) {
 	const providers = filteredData.map((item) =>
 		item.provider.name && item.provider.name !== '' ? item.provider.name : item.provider.address
 	);
-
 	// array of arrays where the first element is the region name and the second element is the region code
-	const regions = filteredData.map((item) => {
-		if ('regionName' in item) {
-			return [item.regionName, item.region];
-		} else return ['', item.region];
-	});
-
+	const regions = filteredData.map((item) => [item.regionName, item.region]);
 	// remove duplicate regions
 	const filteredRegions = regions.filter(
 		(region, index, self) => index === self.findIndex((t) => t[1] === region[1])
@@ -426,7 +420,7 @@ export const getRateForProviderAndFilters = (
 
 export const getCreateOrderInstanceRegionFilters = (
 	providerAddress: string | undefined,
-	allMarketplaceData: OysterMarketplaceDataModel[] | OysterInventoryDataModel[]
+	allMarketplaceData: OysterMarketplaceDataModel[] | undefined
 ) => {
 	if (!providerAddress || !allMarketplaceData || allMarketplaceData.length === 0) return {};
 	const filteredData = allMarketplaceData.filter(

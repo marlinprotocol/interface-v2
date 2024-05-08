@@ -16,10 +16,14 @@
 	export let roundedBorders: boolean = true;
 </script>
 
-<div class="card max-w-full rounded-[18px] bg-base-100">
+<div
+	class={cn('card max-w-full rounded-[18px] bg-base-100', {
+		'rounded-tl-none': !roundedBorders
+	})}
+>
 	{#if !$connected && walletConnectionRequired}
-		<div class="my-4 flex justify-center text-center">
-			<ConnectWalletButton />
+		<div class="my-4 flex h-96 flex-col items-center justify-center text-center">
+			<ConnectWalletButton styleClass="bg-[#F4F4F6] h-fit px-8 py-4 rounded-2xl" />
 		</div>
 	{:else if loading}
 		<div class="my-4 flex justify-center text-center">

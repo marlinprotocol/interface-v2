@@ -4,6 +4,7 @@
 	import SearchWithSelect from '$lib/components/v2/search/SearchWithSelect.svelte';
 	import type {
 		OysterFiltersModel,
+		OysterInventoryDataModel,
 		OysterMarketplaceDataModel
 	} from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
@@ -14,7 +15,7 @@
 		getRateForProviderAndFilters
 	} from '$lib/utils/helpers/oysterHelpers';
 
-	export let allMarketplaceData: OysterMarketplaceDataModel[];
+	export let allMarketplaceData: OysterMarketplaceDataModel[] | OysterInventoryDataModel[];
 	export let merchant: any;
 	export let instance: any;
 	export let region: any;

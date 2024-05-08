@@ -89,4 +89,8 @@
 	</ModalButton>
 </td>
 <PastJobDetailsModal modalFor="job-history-details-{rowIndex}" jobData={rowData} {rowIndex} />
-<CreateOrderModal modalFor="create-order-modal-{rowIndex}" preFilledData={rowData} />
+<CreateOrderModal
+	modalFor="create-order-modal-{rowIndex}"
+	bind:preFilledData={rowData}
+	isRedeploy
+/>

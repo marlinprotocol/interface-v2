@@ -347,14 +347,20 @@ export const getSearchAndFilteredMarketplaceData = (
 };
 
 export function getAllFiltersListforMarketplaceData(
-	filteredData: OysterMarketplaceDataModel[],
+	filteredData: (OysterMarketplaceDataModel | OysterInventoryDataModel)[],
 	addAllOption = true
 ) {
 	const providers = filteredData.map((item) =>
 		item.provider.name && item.provider.name !== '' ? item.provider.name : item.provider.address
 	);
+
 	// array of arrays where the first element is the region name and the second element is the region code
-	const regions = filteredData.map((item) => [item.regionName, item.region]);
+	const regions = filteredData.map((item) => {
+		if ('regionName' in item) {
+			return [item.regionName, item.region];
+		} else return ['', item.region];
+	});
+
 	// remove duplicate regions
 	const filteredRegions = regions.filter(
 		(region, index, self) => index === self.findIndex((t) => t[1] === region[1])
@@ -404,7 +410,7 @@ export const getRateForProviderAndFilters = (
 	providerAddress: string | undefined,
 	instance: string | undefined,
 	region: string | undefined,
-	allMarketplaceData: OysterMarketplaceDataModel[]
+	allMarketplaceData: OysterMarketplaceDataModel[] | OysterInventoryDataModel[]
 ) => {
 	if (!providerAddress) return undefined;
 	if (!instance || !region) return undefined;
@@ -420,7 +426,7 @@ export const getRateForProviderAndFilters = (
 
 export const getCreateOrderInstanceRegionFilters = (
 	providerAddress: string | undefined,
-	allMarketplaceData: OysterMarketplaceDataModel[] | undefined
+	allMarketplaceData: OysterMarketplaceDataModel[] | OysterInventoryDataModel[]
 ) => {
 	if (!providerAddress || !allMarketplaceData || allMarketplaceData.length === 0) return {};
 	const filteredData = allMarketplaceData.filter(

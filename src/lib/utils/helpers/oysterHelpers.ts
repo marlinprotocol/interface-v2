@@ -14,13 +14,13 @@ import type {
 	OysterOperatorInventorySortKeys
 } from '$lib/types/oysterComponentType';
 
-import { addToast } from '$lib/data-stores/toastStore';
+import { addToast } from '$lib/data-stores/v2/toastStore';
 import {
 	getBandwidthRateForRegion,
 	parseMetadata
 } from '$lib/utils/data-modifiers/oysterModifiers';
 import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
-import type { SortDirection } from '$lib/types/componentTypes';
+import type { SortDirection } from '$lib/types/v2/componentTypes';
 import { REGION_NAME_CONSTANTS } from '../constants/regionNameConstants';
 import type { BytesLike } from 'ethers';
 import type { Address } from '$lib/types/storeTypes';
@@ -445,7 +445,10 @@ export const computeCost = (duration: number, rate?: bigint) => {
 	} catch (e) {
 		addToast({
 			variant: 'error',
-			message: `Error computing cost, please try again.`
+			message: {
+				title: 'Error',
+				description: 'Error computing cost, please try again.'
+			}
 		});
 		return 0n;
 	}

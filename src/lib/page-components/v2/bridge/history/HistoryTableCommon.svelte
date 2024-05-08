@@ -5,7 +5,7 @@
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import PageTitle from '$lib/components/v2/texts/PageTitle.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
-	import type { TableModel } from '$lib/types/componentTypes';
+	import type { TableModel } from '$lib/types/v2/componentTypes';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 

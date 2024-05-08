@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { staticImages } from '$lib/components/images/staticImages';
-	import type { TooltipDirection, TooltipVariant } from '$lib/types/componentTypes';
+	import type { TooltipDirection, TooltipVariant } from '$lib/types/v2/componentTypes';
 
 	export let tooltipText: string;
 	export let styleClass = '';

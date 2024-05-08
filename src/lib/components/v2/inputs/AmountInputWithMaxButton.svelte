@@ -3,7 +3,7 @@
 	import Divider from '$lib/atoms/v2/divider/Divider.svelte';
 	import Text from '$lib/atoms/v2/texts/Text.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
-	import type { InputCardVariant, ModalInputModel } from '$lib/types/componentTypes';
+	import type { InputCardVariant, ModalInputModel } from '$lib/types/v2/componentTypes';
 	import AmountInput from '$lib/components/v2/inputs/AmountInput.svelte';
 	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
 	export let inputAmountString = '';

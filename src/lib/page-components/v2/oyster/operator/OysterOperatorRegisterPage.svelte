@@ -15,7 +15,7 @@
 		removeProviderFromOysterStore,
 		updateProviderInOysterStore
 	} from '$lib/data-stores/oysterStore';
-	import { addToast } from '$lib/data-stores/toastStore';
+	import { addToast } from '$lib/data-stores/v2/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 
 	import { getModifiedInstances } from '$lib/utils/data-modifiers/oysterModifiers';
@@ -67,7 +67,7 @@
 			} else {
 				addToast({
 					variant: 'error',
-					message: 'Please connect your wallet'
+					message: { description: 'Please connect your wallet', title: 'Connect Wallet' }
 				});
 			}
 		} catch (error) {
@@ -75,7 +75,10 @@
 			console.error(error);
 			addToast({
 				variant: 'error',
-				message: 'Oops! Something went wrong.'
+				message: {
+					description: 'Oops! Something went wrong. Please try again.',
+					title: 'Error'
+				}
 			});
 		}
 	};
@@ -93,7 +96,7 @@
 			} else {
 				addToast({
 					variant: 'error',
-					message: 'Please connect your wallet'
+					message: { description: 'Please connect your wallet', title: 'Connect Wallet' }
 				});
 			}
 		} catch (error) {
@@ -101,7 +104,10 @@
 			console.error(error);
 			addToast({
 				variant: 'error',
-				message: 'Oops! Something went wrong.'
+				message: {
+					description: 'Oops! Something went wrong. Please try again.',
+					title: 'Error'
+				}
 			});
 		}
 	};
@@ -122,7 +128,10 @@
 			console.error(error);
 			addToast({
 				variant: 'error',
-				message: 'Oops! Something went wrong.'
+				message: {
+					description: 'Oops! Something went wrong. Please try again.',
+					title: 'Error'
+				}
 			});
 		}
 	};

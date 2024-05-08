@@ -4,7 +4,7 @@
 	import { addToast } from '$lib/data-stores/v2/toastStore';
 	import { shortenText } from '$lib/utils/helpers/conversionHelper';
 	import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
-	import { getColorHexForTableRow } from '$lib/utils/helpers/componentHelper';
+	import { getColorHexForTableRow } from '$lib/utils/v2/helpers/componentHelper';
 
 	export let name = '';
 	export let address = '';

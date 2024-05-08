@@ -1,4 +1,4 @@
-import type { TableModel } from '$lib/types/componentTypes';
+import type { TableModel } from '$lib/types/v2/componentTypes';
 
 export const POND_TO_MPOND_TABLE_HEADER: TableModel['header'][] = [
 	{

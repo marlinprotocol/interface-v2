@@ -1,5 +1,5 @@
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
-import * as toastStore from '$lib/data-stores/toastStore';
+import * as toastStore from '$lib/data-stores/v2/toastStore';
 
 describe('fetchHttpData', () => {
 	afterEach(() => {

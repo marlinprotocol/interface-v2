@@ -19,6 +19,7 @@ export type TableModel = {
 		tooltipText?: string;
 		id: string;
 		sorting?: boolean;
+		centered?: boolean;
 	};
 };
 
@@ -91,3 +92,27 @@ export type CardButton = {
 		popupCtaText: string;
 	};
 };
+
+export type TooltipVariant =
+	| 'tooltip-primary'
+	| 'tooltip-secondary'
+	| 'tooltip-accent'
+	| 'tooltip-info'
+	| 'tooltip-success'
+	| 'tooltip-warning'
+	| 'tooltip-error';
+
+export type TooltipDirection = 'tooltip-top' | 'tooltip-right' | 'tooltip-bottom' | 'tooltip-left';
+
+export type DividerDirection = 'divider-horizontal' | 'divider-vertical';
+
+export type TextModel = {
+	variant: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body' | 'small' | 'mini' | 'tiny' | 'nav';
+	fontWeight?: 'font-normal' | 'font-bold' | 'font-medium' | 'font-semibold';
+	text: string;
+	styleClass?: string;
+};
+
+export type AppVariant = 'primary' | 'secondary';
+
+export type SortDirection = 'asc' | 'desc';

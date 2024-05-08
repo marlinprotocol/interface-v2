@@ -1,5 +1,5 @@
 import { SECONDS_IN_DAY } from '$lib/utils/constants/constants';
-import type { TableModel } from '$lib/types/componentTypes';
+import type { TableModel } from '$lib/types/v2/componentTypes';
 import type { OysterDurationUnitList, OysterJobMetadata } from '$lib/types/oysterComponentType';
 import type { TokenMetadata } from '$lib/types/environmentTypes';
 

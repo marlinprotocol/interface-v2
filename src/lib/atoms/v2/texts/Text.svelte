@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { TextModel } from '$lib/types/componentTypes';
-	import { getDefaultFontWeight, getFontSize } from '$lib/utils/helpers/componentHelper';
+	import type { TextModel } from '$lib/types/v2/componentTypes';
+	import { getDefaultFontWeight, getFontSize } from '$lib/utils/v2/helpers/componentHelper';
 
 	export let variant: TextModel['variant'] = 'body';
 	export let styleClass: TextModel['styleClass'] = '';

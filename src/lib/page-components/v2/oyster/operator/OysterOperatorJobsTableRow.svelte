@@ -5,7 +5,7 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 
 	import NameWithAddress from '$lib/components/v2/texts/NameWithAddress.svelte';
-	import type { CommonVariant } from '$lib/types/componentTypes';
+	import type { CommonVariant } from '$lib/types/v2/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
 	import {
 		bigNumberToString,

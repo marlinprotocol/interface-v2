@@ -2,7 +2,6 @@
 	import Pagination from '$lib/components/v2/pagination/Pagination.svelte';
 	import PageTitle from '$lib/components/v2/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type {
 		OysterInventoryDataModel,
 		OysterInventorySortKeys

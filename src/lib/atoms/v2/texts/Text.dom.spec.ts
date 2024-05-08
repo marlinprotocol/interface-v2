@@ -1,8 +1,8 @@
 import TextComponent from './Text.svelte';
-import { getDefaultFontWeight, getFontSize } from '$lib/utils/helpers/componentHelper';
+import { getDefaultFontWeight, getFontSize } from '$lib/utils/v2/helpers/componentHelper';
 import { render, cleanup } from '@testing-library/svelte';
 import { describe, it, expect, afterEach } from 'vitest';
-import type { TextModel } from '$lib/types/componentTypes';
+import type { TextModel } from '$lib/types/v2/componentTypes';
 
 describe('TextComponent', () => {
 	afterEach(() => cleanup());

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { DividerDirection } from '$lib/types/componentTypes';
+	import type { DividerDirection } from '$lib/types/v2/componentTypes';
 	import {
 		getDividerColor,
 		getDividerHeight,
 		getDividerWidth
-	} from '$lib/utils/helpers/componentHelper';
+	} from '$lib/utils/v2/helpers/componentHelper';
 
 	export let direction: DividerDirection = 'divider-horizontal';
 	export let margin = 'my-0';

@@ -3,8 +3,8 @@
 	import Text from '$lib/atoms/v2/texts/Text.svelte';
 	import Tooltip from '$lib/atoms/v2/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import type { CommonVariant, TextModel } from '$lib/types/componentTypes';
-	import { getTextColorClassByVariant } from '$lib/utils/helpers/componentHelper';
+	import type { CommonVariant, TextModel } from '$lib/types/v2/componentTypes';
+	import { getTextColorClassByVariant } from '$lib/utils/v2/helpers/componentHelper';
 
 	export let src = '';
 	export let imgWidth = 13;

@@ -172,7 +172,7 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 			durationRun: _lastSettled - _createdAt,
 			endEpochTime: _lastSettled,
 			live: true,
-			status: 'closed',
+			status: 'stopped',
 			amountToBeSettled: _totalDeposit - _refund - _totalSettledAmount
 		};
 	}
@@ -188,7 +188,7 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 			durationRun: _lastSettled - _createdAt,
 			endEpochTime: _lastSettled,
 			live: true,
-			status: 'closed',
+			status: 'stopped',
 			amountToBeSettled: 0n
 		};
 	}

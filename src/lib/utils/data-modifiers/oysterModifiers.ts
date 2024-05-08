@@ -27,7 +27,6 @@ export const parseMetadata = (metadata: string) => {
 		return DEFAULT_JOB_METADATA;
 	}
 };
-
 export const getInstanceMetadatDataForOperator = (
 	operator: Address,
 	instance: string,

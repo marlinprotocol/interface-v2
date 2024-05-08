@@ -129,7 +129,7 @@
 			</Tooltip>
 		</div>
 		<div
-			class="mx-auto w-min rounded-full bg-[#0F62FE23] px-[31.5px] py-[10.5px] text-center text-sm text-[#030115]"
+			class="w-min rounded-full bg-[#0F62FE23] px-[31.5px] py-[10.5px] text-center text-sm text-[#030115]"
 			slot="inactive"
 		>
 			Ended

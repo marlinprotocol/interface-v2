@@ -32,6 +32,7 @@
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
+	export let isRedeploy: boolean = false;
 
 	let duration = 0; //durationInSecs
 	let instanceCostScaled = 0n;
@@ -209,7 +210,7 @@
 		providerAddress,
 		instance.value,
 		region.value,
-		$oysterStore.allMarketplaceData
+		isRedeploy ? $oysterStore.jobsData : $oysterStore.allMarketplaceData
 	);
 	$: walletBalance =
 		$oysterStore.credits.isWhitelisted && useMarlinCredits
@@ -270,7 +271,7 @@
 </script>
 
 <Modal {modalFor} onClose={resetInputs} padding={false} isScrollable={true}>
-	<svelte:fragment slot="title">CREATE ORDER</svelte:fragment>
+	<svelte:fragment slot="title">Create Order</svelte:fragment>
 
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-2">
@@ -284,7 +285,7 @@
 				bind:memory
 				bind:notServiceable
 				bind:arch
-				allMarketplaceData={$oysterStore.allMarketplaceData}
+				allMarketplaceData={isRedeploy ? $oysterStore.jobsData : $oysterStore.allMarketplaceData}
 				handleChange={handleMerchantChange}
 			/>
 			<AddFundsToJob
@@ -295,6 +296,7 @@
 				bind:duration
 				bind:invalidCost
 				bind:useMarlinCredits
+				isRedeploy
 			/>
 			<BandwidthSelector
 				bind:region

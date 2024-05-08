@@ -39,6 +39,7 @@
 	export let durationUnitInSec = getDurationInSecondsForUnit(DEFAULT_OYSTER_DURATION_UNIT);
 	export let useMarlinCredits = false;
 	export let containerClasses: string = '';
+	export let isRedeploy: boolean = false;
 
 	let durationUnit = DEFAULT_OYSTER_DURATION_UNIT;
 	let instanceRateString = '';
@@ -219,7 +220,7 @@
 		suffix={useMarlinCredits
 			? OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]
 			: $oysterTokenMetadataStore.currency}
-		disabled={!instanceRate}
+		disabled={!instanceRate || isRedeploy}
 	/>
 </div>
 <ErrorTextCard

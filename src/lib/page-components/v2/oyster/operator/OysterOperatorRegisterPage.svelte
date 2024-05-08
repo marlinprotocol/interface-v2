@@ -296,12 +296,12 @@
 			</a>
 		</div>
 	</div>
-	<div
-		class={cn('mt-6', {
-			'h-[224px]': !$oysterStore.merchantJobsLoaded
-		})}
-	>
-		{#if $connected}
+	{#if $connected}
+		<div
+			class={cn('mt-6', {
+				'h-[224px]': !$oysterStore.merchantJobsLoaded
+			})}
+		>
 			{#if !$oysterStore.merchantJobsLoaded}
 				<LoadingAnimatedPing />
 			{:else if registered}
@@ -361,8 +361,8 @@
 					{/if}
 				</div>
 			{/if}
-		{/if}
-	</div>
+		</div>
+	{/if}
 
 	<div class="mt-[40px] flex w-min gap-[10px] rounded-tl-[18px] rounded-tr-[18px] bg-white">
 		<a

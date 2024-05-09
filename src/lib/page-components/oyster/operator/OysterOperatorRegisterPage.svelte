@@ -3,114 +3,31 @@
 	import { page } from '$app/stores';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
-	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
-	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
-	import {
-		getInstancesFromControlPlaneUsingCpUrl,
-		getInstancesFromControlPlaneUsingOperatorAddress
-	} from '$lib/controllers/httpController';
-	import {
-		oysterStore,
-		removeProviderFromOysterStore,
-		updateProviderInOysterStore
-	} from '$lib/data-stores/oysterStore';
+	import { oysterStore, removeProviderFromOysterStore } from '$lib/data-stores/oysterStore';
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
-
-	import { getModifiedInstances } from '$lib/utils/data-modifiers/oysterModifiers';
-	import {
-		updateOysterInfrastructureProvider,
-		registerOysterInfrastructureProvider,
-		removeOysterInfrastructureProvider
-	} from '$lib/controllers/contract/oyster';
+	import { removeOysterInfrastructureProvider } from '$lib/controllers/contract/oyster';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
-	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
 	import { EXTERNAL_LINKS, ROUTES } from '$lib/utils/constants/urls';
 	import { shortenText } from '$lib/utils/helpers/conversionHelper';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import { checkValidURL, closeModal, cn, sanitizeUrl } from '$lib/utils/helpers/commonHelper';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 	import RegisterModal from './Modals/RegisterModal.svelte';
-	import LoadingAnimationModal from '$lib/components/loading/LoadingAnimationModal.svelte';
+	import { getModifiedInstances } from '$lib/utils/data-modifiers/oysterModifiers';
+	import { getInstancesFromControlPlaneUsingOperatorAddress } from '$lib/controllers/httpController';
 
-	let enableRegisterButton = false;
-	let updatedCpURL = '';
-	let registeredCpURL = '';
-	let registered = false;
-	let disableCpURL = true;
-	let openInstanceTable = false;
 	let unregisterLoading = false;
 	let registerLoading = false;
 	let updateLoading = false;
-	let initialInstances: CPUrlDataModel[] = [];
 	let instancesLoading = false;
+	let initialInstances: any[] = [];
+	let loadedInitialInstances = false;
 	let instancesData = {
 		totalInstances: 0,
 		totalRegions: 0
 	};
 	let loadingInstances = false;
-	let displayCpUrl = '';
-
-	const handleOnRegister = async () => {
-		try {
-			if (connected) {
-				registerLoading = true;
-				await registerOysterInfrastructureProvider(sanitizedUpdatedCpURL);
-				updateProviderInOysterStore(updatedCpURL, $walletStore.address);
-				registeredCpURL = updatedCpURL;
-				displayCpUrl = updatedCpURL;
-				registered = true;
-				disableCpURL = true;
-				registerLoading = false;
-				closeModal('oyster-register-url-operator');
-			} else {
-				addToast({
-					variant: 'error',
-					message: { description: 'Please connect your wallet', title: 'Connect Wallet' }
-				});
-			}
-		} catch (error) {
-			registerLoading = false;
-			console.error(error);
-			addToast({
-				variant: 'error',
-				message: {
-					description: 'Oops! Something went wrong. Please try again.',
-					title: 'Error'
-				}
-			});
-		}
-	};
-
-	const handleOnUpdate = async () => {
-		try {
-			if (connected) {
-				updateLoading = true;
-				await updateOysterInfrastructureProvider(sanitizedUpdatedCpURL);
-				updateProviderInOysterStore(updatedCpURL, $walletStore.address);
-				registeredCpURL = updatedCpURL;
-				displayCpUrl = updatedCpURL;
-				updateLoading = false;
-				closeModal('oyster-register-url-operator');
-			} else {
-				addToast({
-					variant: 'error',
-					message: { description: 'Please connect your wallet', title: 'Connect Wallet' }
-				});
-			}
-		} catch (error) {
-			updateLoading = false;
-			console.error(error);
-			addToast({
-				variant: 'error',
-				message: {
-					description: 'Oops! Something went wrong. Please try again.',
-					title: 'Error'
-				}
-			});
-		}
-	};
 
 	const handleOnUnregister = async () => {
 		try {
@@ -118,163 +35,49 @@
 			await removeOysterInfrastructureProvider();
 			removeProviderFromOysterStore();
 			unregisterLoading = false;
-			registeredCpURL = '';
-			displayCpUrl = '';
-			registered = false;
-			initialInstances = [];
 		} catch (error) {
 			unregisterLoading = false;
-			initialInstances = [];
 			console.error(error);
 			addToast({
 				variant: 'error',
 				message: {
-					description: 'Oops! Something went wrong. Please try again.',
-					title: 'Error'
+					title: 'Error',
+					description: 'Oops! Something went wrong. Please try again.'
 				}
 			});
 		}
 	};
 
-	async function getInstances(apiType: string) {
+	async function getInitialInstances() {
 		try {
 			loadingInstances = true;
-			if (apiType === 'proxy') {
-				const instances = await getInstancesFromControlPlaneUsingCpUrl(sanitizedUpdatedCpURL);
-				initialInstances = getModifiedInstances(instances);
-				loadingInstances = false;
-				return initialInstances;
-			} else if (registeredCpURL !== '' && apiType === 'wallet') {
-				const instances = await getInstancesFromControlPlaneUsingOperatorAddress(
-					$walletStore.address
-				);
-				initialInstances = getModifiedInstances(instances);
-				loadingInstances = false;
-				return initialInstances;
-			} else if (registeredCpURL) {
-				loadingInstances = false;
-				return initialInstances;
-			} else {
-				loadingInstances = false;
-				return [];
-			}
+			const instances = await getInstancesFromControlPlaneUsingOperatorAddress(
+				$walletStore.address
+			);
+			initialInstances = getModifiedInstances(instances);
+			const uniqueRegions = [...new Set(initialInstances.map((instance) => instance.region))];
+			instancesData.totalInstances = initialInstances.length;
+			instancesData.totalRegions = uniqueRegions.length;
+			loadedInitialInstances = true;
+			loadingInstances = false;
 		} catch (error) {
-			console.log('error from getInstances', error);
-			loadingInstances = true;
-			throw error;
-		}
-	}
-
-	function debounce<F extends (...args: any[]) => Promise<any>>(func: F, delay: number): F {
-		enableRegisterButton = false;
-		let timeoutID: ReturnType<typeof setTimeout> | undefined;
-
-		return async function (this: any, ...args: Parameters<F>): Promise<ReturnType<F>> {
-			const context = this;
-
-			// Return a Promise that resolves with the result of the original function
-			return new Promise<ReturnType<F>>((resolve, reject) => {
-				clearTimeout(timeoutID);
-				timeoutID = setTimeout(async () => {
-					try {
-						const result = await func.apply(context, args);
-
-						resolve(result);
-					} catch (error) {
-						console.log('error from debounce');
-						reject(error);
-					}
-				}, delay);
-			});
-		} as F;
-	}
-
-	function updateCpUrls(
-		address: string,
-		chainId: number | null,
-		connected: boolean,
-		providerData: any
-	) {
-		if (connected && address !== '' && chainId !== null && providerData.data !== undefined) {
-			updatedCpURL = providerData.data?.cp;
-			registeredCpURL = providerData.data?.cp;
-			displayCpUrl = providerData.data?.cp;
-			registered = providerData.registered;
-		} else {
-			updatedCpURL = '';
-			registeredCpURL = '';
-			displayCpUrl = '';
-			registered = false;
-		}
-	}
-
-	// Define the debounced version of getInstances
-	const debouncedGetInstances = debounce(getInstances, 200);
-	const memoizeInstances = (updatedUrl: string) => {
-		if (!validCPUrl) {
-			return debouncedGetInstances('');
-		}
-		// initial case while adding cpUrl : invoke PROXY api call
-		if (!registeredCpURL && updatedUrl) {
-			return debouncedGetInstances('proxy');
-		}
-		// While cpUrl registered already: invoke api call using wallet only if required
-		if (registeredCpURL && initialInstances.length === 0) {
-			return debouncedGetInstances('wallet');
-		}
-		return debouncedGetInstances('');
-	};
-
-	$: updateCpUrls($walletStore.address, $chainStore.chainId, $connected, $oysterStore.providerData);
-	$: if (updatedCpURL !== registeredCpURL) {
-		enableRegisterButton = false;
-	}
-	$: sanitizedUpdatedCpURL = sanitizeUrl(updatedCpURL);
-	// using regex to validate CP URL
-	$: validCPUrl = checkValidURL(sanitizedUpdatedCpURL);
-	$: instances = memoizeInstances(updatedCpURL);
-	$: instances
-		.then((data) => {
-			if (data.length > 0) {
-				const uniqueRegions = [...new Set(data.map((instance) => instance.region))];
-				instancesData.totalInstances = data.length;
-				instancesData.totalRegions = uniqueRegions.length;
-				enableRegisterButton = true;
-				openInstanceTable = true;
-			} else {
-				enableRegisterButton = false;
-				openInstanceTable = false;
-			}
-			instancesLoading = false;
-		})
-		.catch((error) => {
+			loadingInstances = false;
 			console.error(error);
-			instancesLoading = false;
-			enableRegisterButton = false;
-		});
-
-	$: if (validCPUrl && updatedCpURL !== registeredCpURL) {
-		fetchInstances();
-	}
-
-	async function fetchInstances() {
-		instancesLoading = true;
-		await instances;
-		instancesLoading = false;
-	}
-
-	const isDisabledCpUrl = (connected: boolean, cpUrl: string) => {
-		if (connected) {
-			return Boolean(cpUrl);
-		} else {
-			return true;
+			addToast({
+				variant: 'error',
+				message: {
+					title: 'Error',
+					description: 'Oops! Something went wrong. Please try again.'
+				}
+			});
 		}
-	};
+	}
 
-	$: disableCpURL = isDisabledCpUrl($connected, registeredCpURL);
-	$: path = $page.url.pathname;
-	$: detailsActive = path === ROUTES.OYSTER_OPERATOR_JOBS_URL + '/';
-	$: historyActive = path === ROUTES.OYSTER_OPERATOR_HISTORY_URL + '/';
+	$: if ($connected && $oysterStore.providerData.registered && !loadedInitialInstances) {
+		getInitialInstances();
+	}
+	$: detailsActive = $page.url.pathname === ROUTES.OYSTER_OPERATOR_JOBS_URL + '/';
+	$: historyActive = $page.url.pathname === ROUTES.OYSTER_OPERATOR_HISTORY_URL + '/';
 </script>
 
 <div>
@@ -283,10 +86,10 @@
 			styleClass="font-poppins leading-[-2px] text-[#030115]"
 			variant="h2"
 			fontWeight="font-medium"
-			text="Hello, {shortenText($walletStore.address, 6, 6)}"
+			text="Hello, {$connected ? shortenText($walletStore.address, 6, 6) : 'Fishy'}"
 		/>
 		<div class="flex gap-4">
-			{#if !registered && $oysterStore.merchantJobsLoaded}
+			{#if !$oysterStore.providerData.registered && $oysterStore.merchantJobsLoaded}
 				<ModalButton
 					variant="filled"
 					size="large"
@@ -313,13 +116,14 @@
 		>
 			{#if !$oysterStore.merchantJobsLoaded}
 				<LoadingAnimatedPing />
-			{:else if registered}
+			{:else if $oysterStore.providerData.registered}
 				<div class="rounded-3xl bg-white px-8 py-6">
 					<p class="pb-3 text-base font-normal">Control Plane:</p>
 					<TextInputWithEndButton
 						styleClass="w-full bg-[#F4F4F6] py-[5px] pr-[5px] rounded-[100px]"
 						placeholder="Paste URL here"
-						bind:input={displayCpUrl}
+						disabled
+						input={$oysterStore.providerData?.data?.cp ?? ''}
 					>
 						<svelte:fragment slot="endInfoBox">
 							<div
@@ -329,44 +133,34 @@
 									<p>loading...</p>
 								{:else}
 									<p>Instances: {instancesData.totalInstances}</p>
-									<Divider direction="divider-vertical" />
+									<Divider height="h-6" direction="divider-vertical" />
 									<p>Regions: {instancesData.totalRegions}</p>
 								{/if}
 							</div>
 						</svelte:fragment>
 					</TextInputWithEndButton>
-					<ErrorTextCard
-						showError={!validCPUrl && updatedCpURL !== ''}
-						errorMessage="Invalid control plane URL. Make sure to use the full URL along with http:// or https:// and remove any trailing slashes."
-					/>
-
 					<div class="mt-4" />
-					{#if $connected}
-						{#if registered}
-							<div class="flex gap-4">
-								<ModalButton
-									variant="filled"
-									size="large"
-									styleClass="w-[190.5px]"
-									modalFor="oyster-register-url-operator"
-								>
-									Update
-								</ModalButton>
+					{#if $oysterStore.providerData.registered}
+						<div class="flex gap-4">
+							<ModalButton
+								variant="filled"
+								size="large"
+								styleClass="w-[190.5px]"
+								modalFor="oyster-register-url-operator"
+							>
+								Update
+							</ModalButton>
 
-								<Button
-									variant="outlined"
-									size="large"
-									styleClass="w-[190.5px]"
-									disabled={!validCPUrl || registeredCpURL !== updatedCpURL}
-									onclick={handleOnUnregister}
-									loading={unregisterLoading}
-								>
-									Unregister
-								</Button>
-							</div>
-						{/if}
-					{:else}
-						<ConnectWalletButton isLarge={true} />
+							<Button
+								variant="outlined"
+								size="large"
+								styleClass="w-[190.5px]"
+								onclick={handleOnUnregister}
+								loading={unregisterLoading}
+							>
+								Unregister
+							</Button>
+						</div>
 					{/if}
 				</div>
 			{/if}
@@ -396,14 +190,9 @@
 </div>
 
 <RegisterModal
-	{handleOnRegister}
-	{handleOnUpdate}
-	{updateLoading}
-	{registered}
-	bind:registeredCpURL
+	bind:loadedInitialInstances
+	bind:updateLoading
 	bind:registerLoading
-	bind:updatedCpURL
-	bind:validCPUrl
-	bind:enableRegisterButton
+	bind:instancesData
 	bind:instancesLoading
 />

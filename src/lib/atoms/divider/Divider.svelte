@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { DividerDirection } from '$lib/types/componentTypes';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 	import {
 		getDividerColor,
 		getDividerHeight,
@@ -17,4 +18,7 @@
 	$: dividerColor = color !== '' ? color : getDividerColor(direction);
 </script>
 
-<div class="{dividerHeight} {dividerWidth} {dividerColor} {margin}" data-testid="divider" />
+<div
+	class={cn(dividerHeight, dividerWidth, dividerColor, margin, 'shrink-0')}
+	data-testid="divider"
+/>

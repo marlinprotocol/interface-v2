@@ -43,7 +43,7 @@
 		activePage = 1;
 	};
 
-	$: merchantJobsData = $oysterStore.merchantJobsData?.filter((job) => job.status !== 'closed');
+	$: merchantJobsData = $oysterStore.merchantJobsData?.filter((job) => job.status !== 'stopped');
 	// get searched data based on searchInput
 	$: searchedData = getSearchedOysterJobsData(searchInput, merchantJobsData);
 

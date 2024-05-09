@@ -98,8 +98,6 @@ export const getInventoryStatusVariant = (status: string) => {
 			return 'error';
 		case 'pending':
 			return 'warning';
-		case 'closed':
-			return 'primary';
 		default:
 			return 'primary';
 	}

@@ -1,11 +1,10 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
-	import Icon from '$lib/atoms/icons/Icon.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
+	import { page } from '$app/stores';
+	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
-	import { staticImages } from '$lib/components/images/staticImages';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import {
 		getInstancesFromControlPlaneUsingCpUrl,
@@ -17,16 +16,7 @@
 		updateProviderInOysterStore
 	} from '$lib/data-stores/oysterStore';
 	import { addToast } from '$lib/data-stores/toastStore';
-	import { addToast as addToastV2 } from '$lib/data-stores/v2/toastStore';
 	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
-	import { checkValidURL, sanitizeUrl } from '$lib/utils/helpers/commonHelper';
-	import edit from 'svelte-awesome/icons/edit';
-	import InstancesTable from '$lib/page-components/oyster/sub-components/InstancesTable.svelte';
-	import {
-		OYSTER_OPERATOR_JOBS_URL,
-		OYSTER_DOC_LINK,
-		DISCORD_LINK
-	} from '$lib/utils/constants/urls';
 
 	import { getModifiedInstances } from '$lib/utils/data-modifiers/oysterModifiers';
 	import {
@@ -37,6 +27,12 @@
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import type { CPUrlDataModel } from '$lib/types/oysterComponentType';
+	import { EXTERNAL_LINKS, ROUTES } from '$lib/utils/constants/urls';
+	import { shortenText } from '$lib/utils/helpers/conversionHelper';
+	import Text from '$lib/atoms/texts/Text.svelte';
+	import { checkValidURL, closeModal, cn, sanitizeUrl } from '$lib/utils/helpers/commonHelper';
+	import RegisterModal from './Modals/RegisterModal.svelte';
+	import LoadingAnimationModal from '$lib/components/loading/LoadingAnimationModal.svelte';
 
 	let enableRegisterButton = false;
 	let updatedCpURL = '';
@@ -44,11 +40,17 @@
 	let registered = false;
 	let disableCpURL = true;
 	let openInstanceTable = false;
-	// loading states
 	let unregisterLoading = false;
 	let registerLoading = false;
 	let updateLoading = false;
 	let initialInstances: CPUrlDataModel[] = [];
+	let instancesLoading = false;
+	let instancesData = {
+		totalInstances: 0,
+		totalRegions: 0
+	};
+	let loadingInstances = false;
+	let displayCpUrl = '';
 
 	const handleOnRegister = async () => {
 		try {
@@ -57,16 +59,15 @@
 				await registerOysterInfrastructureProvider(sanitizedUpdatedCpURL);
 				updateProviderInOysterStore(updatedCpURL, $walletStore.address);
 				registeredCpURL = updatedCpURL;
+				displayCpUrl = updatedCpURL;
 				registered = true;
 				disableCpURL = true;
 				registerLoading = false;
+				closeModal('oyster-register-url-operator');
 			} else {
-				addToastV2({
+				addToast({
 					variant: 'error',
-					message: {
-						title: 'Connect Wallet',
-						description: 'Please connect your wallet'
-					}
+					message: { description: 'Please connect your wallet', title: 'Connect Wallet' }
 				});
 			}
 		} catch (error) {
@@ -74,7 +75,10 @@
 			console.error(error);
 			addToast({
 				variant: 'error',
-				message: 'Oops! Something went wrong.'
+				message: {
+					description: 'Oops! Something went wrong. Please try again.',
+					title: 'Error'
+				}
 			});
 		}
 	};
@@ -86,21 +90,23 @@
 				await updateOysterInfrastructureProvider(sanitizedUpdatedCpURL);
 				updateProviderInOysterStore(updatedCpURL, $walletStore.address);
 				registeredCpURL = updatedCpURL;
+				displayCpUrl = updatedCpURL;
 				updateLoading = false;
+				closeModal('oyster-register-url-operator');
 			} else {
 				addToast({
 					variant: 'error',
-					message: 'Please connect your wallet'
+					message: { description: 'Please connect your wallet', title: 'Connect Wallet' }
 				});
 			}
 		} catch (error) {
 			updateLoading = false;
 			console.error(error);
-			addToastV2({
+			addToast({
 				variant: 'error',
 				message: {
-					title: 'Unregistering Failed',
-					description: 'Oops! Something went wrong.'
+					description: 'Oops! Something went wrong. Please try again.',
+					title: 'Error'
 				}
 			});
 		}
@@ -113,19 +119,18 @@
 			removeProviderFromOysterStore();
 			unregisterLoading = false;
 			registeredCpURL = '';
+			displayCpUrl = '';
 			registered = false;
 			initialInstances = [];
 		} catch (error) {
 			unregisterLoading = false;
-			registeredCpURL = '';
-			registered = false;
 			initialInstances = [];
 			console.error(error);
-			addToastV2({
+			addToast({
 				variant: 'error',
 				message: {
-					title: 'Unregistering Failed',
-					description: 'Oops! Something went wrong.'
+					description: 'Oops! Something went wrong. Please try again.',
+					title: 'Error'
 				}
 			});
 		}
@@ -133,23 +138,29 @@
 
 	async function getInstances(apiType: string) {
 		try {
+			loadingInstances = true;
 			if (apiType === 'proxy') {
 				const instances = await getInstancesFromControlPlaneUsingCpUrl(sanitizedUpdatedCpURL);
 				initialInstances = getModifiedInstances(instances);
+				loadingInstances = false;
 				return initialInstances;
 			} else if (registeredCpURL !== '' && apiType === 'wallet') {
 				const instances = await getInstancesFromControlPlaneUsingOperatorAddress(
 					$walletStore.address
 				);
 				initialInstances = getModifiedInstances(instances);
+				loadingInstances = false;
 				return initialInstances;
 			} else if (registeredCpURL) {
+				loadingInstances = false;
 				return initialInstances;
 			} else {
+				loadingInstances = false;
 				return [];
 			}
 		} catch (error) {
 			console.log('error from getInstances', error);
+			loadingInstances = true;
 			throw error;
 		}
 	}
@@ -187,16 +198,18 @@
 		if (connected && address !== '' && chainId !== null && providerData.data !== undefined) {
 			updatedCpURL = providerData.data?.cp;
 			registeredCpURL = providerData.data?.cp;
+			displayCpUrl = providerData.data?.cp;
 			registered = providerData.registered;
 		} else {
 			updatedCpURL = '';
 			registeredCpURL = '';
+			displayCpUrl = '';
 			registered = false;
 		}
 	}
 
 	// Define the debounced version of getInstances
-	const debouncedGetInstances = debounce(getInstances, 4000);
+	const debouncedGetInstances = debounce(getInstances, 200);
 	const memoizeInstances = (updatedUrl: string) => {
 		if (!validCPUrl) {
 			return debouncedGetInstances('');
@@ -211,6 +224,7 @@
 		}
 		return debouncedGetInstances('');
 	};
+
 	$: updateCpUrls($walletStore.address, $chainStore.chainId, $connected, $oysterStore.providerData);
 	$: if (updatedCpURL !== registeredCpURL) {
 		enableRegisterButton = false;
@@ -222,18 +236,32 @@
 	$: instances
 		.then((data) => {
 			if (data.length > 0) {
+				const uniqueRegions = [...new Set(data.map((instance) => instance.region))];
+				instancesData.totalInstances = data.length;
+				instancesData.totalRegions = uniqueRegions.length;
 				enableRegisterButton = true;
 				openInstanceTable = true;
 			} else {
 				enableRegisterButton = false;
 				openInstanceTable = false;
 			}
+			instancesLoading = false;
 		})
 		.catch((error) => {
 			console.error(error);
+			instancesLoading = false;
 			enableRegisterButton = false;
-			openInstanceTable = true;
 		});
+
+	$: if (validCPUrl && updatedCpURL !== registeredCpURL) {
+		fetchInstances();
+	}
+
+	async function fetchInstances() {
+		instancesLoading = true;
+		await instances;
+		instancesLoading = false;
+	}
 
 	const isDisabledCpUrl = (connected: boolean, cpUrl: string) => {
 		if (connected) {
@@ -244,128 +272,138 @@
 	};
 
 	$: disableCpURL = isDisabledCpUrl($connected, registeredCpURL);
+	$: path = $page.url.pathname;
+	$: detailsActive = path === ROUTES.OYSTER_OPERATOR_JOBS_URL + '/';
+	$: historyActive = path === ROUTES.OYSTER_OPERATOR_HISTORY_URL + '/';
 </script>
 
-<ContainerCard>
-	<svelte:fragment slot="header">
-		<Text variant="h2" text="Operator Registration" styleClass="text-left" />
-		<div class="mb-4 mt-2 flex flex-col gap-1 text-left text-grey-700">
-			<div class="flex items-center gap-2">
-				<Text variant="body" text="Quick access:" />
-				<a href={OYSTER_DOC_LINK} target="_blank">
-					<Text styleClass="text-primary" fontWeight="font-medium" text="Documentation" />
-				</a>
-				<Divider direction="divider-vertical" />
-				<a href={DISCORD_LINK} target="_blank">
-					<Text styleClass="text-primary" fontWeight="font-medium" text="Support" />
-				</a>
-			</div>
-		</div>
-	</svelte:fragment>
-	<TextInputWithEndButton
-		title="Address"
-		tooltipText="Address of oyster operator"
-		placeholder="Enter your address here"
-		bind:input={$walletStore.address}
-		disabled={true}
-	/>
-	<TextInputWithEndButton
-		styleClass="mt-4"
-		title="Control Plane URL"
-		tooltipText="URL of the control plane which is used to provide pricing data"
-		placeholder="Paste URL here"
-		bind:input={updatedCpURL}
-		bind:disabled={disableCpURL}
-	>
-		<svelte:fragment slot="titleEndButton">
-			{#if $connected}
-				<Button
-					onclick={() => (disableCpURL = !disableCpURL)}
-					disabled={!$connected}
-					variant="text"
-					size="tiniest"
-				>
-					<Icon data={edit} size={18} />
-				</Button>
-			{:else}
-				<button
-					type="button"
-					on:click={() => {
-						addToast({
-							message: 'Please connect your wallet.',
-							variant: 'error'
-						});
-					}}
-				>
-					<Icon data={edit} size={18} />
-				</button>
-			{/if}
-		</svelte:fragment>
-	</TextInputWithEndButton>
-	<ErrorTextCard
-		showError={!validCPUrl && updatedCpURL !== ''}
-		errorMessage="Invalid control plane URL. Make sure to use the full URL along with http:// or https:// and remove any trailing slashes."
-	/>
-	{#await instances catch error}
-		<ErrorTextCard
-			showError={error}
-			errorMessage="Uh-oh seems like the url you entered is incorrect."
+<div>
+	<div class="flex items-center justify-between">
+		<Text
+			styleClass="font-poppins leading-[-2px] text-[#030115]"
+			variant="h2"
+			fontWeight="font-medium"
+			text="Hello, {shortenText($walletStore.address, 6, 6)}"
 		/>
-	{/await}
-	<InstancesTable isOpen={openInstanceTable} {validCPUrl} bind:tableData={instances} />
-
-	<div class="mt-4" />
-	{#if $connected}
-		{#if registered}
-			<div class="flex justify-center gap-4">
-				<div class="w-1/2">
-					<Button
-						variant="filled"
-						size="large"
-						styleClass="w-full"
-						disabled={!validCPUrl || registeredCpURL === updatedCpURL || !enableRegisterButton}
-						onclick={handleOnUpdate}
-						loading={updateLoading}
-					>
-						UPDATE
-					</Button>
-				</div>
-				<div class="w-1/2">
-					<Button
-						variant="outlined"
-						size="large"
-						styleClass="w-full"
-						disabled={!validCPUrl || registeredCpURL !== updatedCpURL}
-						onclick={handleOnUnregister}
-						loading={unregisterLoading}
-					>
-						UNREGISTER
-					</Button>
-				</div>
-			</div>
-		{:else}
-			<Button
-				variant="filled"
-				size="large"
-				styleClass="w-full"
-				disabled={!validCPUrl || !enableRegisterButton}
-				onclick={handleOnRegister}
-				loading={registerLoading}
+		<div class="flex gap-4">
+			{#if !registered && $oysterStore.merchantJobsLoaded}
+				<ModalButton
+					variant="filled"
+					size="large"
+					styleClass="w-[170px] text-base font-normal"
+					modalFor="oyster-register-url-operator"
+				>
+					Register
+				</ModalButton>
+			{/if}
+			<a
+				href={EXTERNAL_LINKS.OYSTER_OPERATOR_DOCS_LINK}
+				target="_blank"
+				referrerpolicy="no-referrer"
 			>
-				REGISTER
-			</Button>
-		{/if}
-	{:else}
-		<ConnectWalletButton isLarge={true} />
+				<Button variant="outlined" styleClass="w-[190px]" size="large">Documentation</Button>
+			</a>
+		</div>
+	</div>
+	{#if $connected}
+		<div
+			class={cn('mt-6', {
+				'h-[224px]': !$oysterStore.merchantJobsLoaded
+			})}
+		>
+			{#if !$oysterStore.merchantJobsLoaded}
+				<LoadingAnimatedPing />
+			{:else if registered}
+				<div class="rounded-3xl bg-white px-8 py-6">
+					<p class="pb-3 text-base font-normal">Control Plane:</p>
+					<TextInputWithEndButton
+						styleClass="w-full bg-[#F4F4F6] py-[5px] pr-[5px] rounded-[100px]"
+						placeholder="Paste URL here"
+						bind:input={displayCpUrl}
+					>
+						<svelte:fragment slot="endInfoBox">
+							<div
+								class="flex w-full max-w-[300px] items-center justify-between gap-3 rounded-[100px] bg-white px-[18px] py-4"
+							>
+								{#if loadingInstances}
+									<p>loading...</p>
+								{:else}
+									<p>Instances: {instancesData.totalInstances}</p>
+									<Divider direction="divider-vertical" />
+									<p>Regions: {instancesData.totalRegions}</p>
+								{/if}
+							</div>
+						</svelte:fragment>
+					</TextInputWithEndButton>
+					<ErrorTextCard
+						showError={!validCPUrl && updatedCpURL !== ''}
+						errorMessage="Invalid control plane URL. Make sure to use the full URL along with http:// or https:// and remove any trailing slashes."
+					/>
+
+					<div class="mt-4" />
+					{#if $connected}
+						{#if registered}
+							<div class="flex gap-4">
+								<ModalButton
+									variant="filled"
+									size="large"
+									styleClass="w-[190.5px]"
+									modalFor="oyster-register-url-operator"
+								>
+									Update
+								</ModalButton>
+
+								<Button
+									variant="outlined"
+									size="large"
+									styleClass="w-[190.5px]"
+									disabled={!validCPUrl || registeredCpURL !== updatedCpURL}
+									onclick={handleOnUnregister}
+									loading={unregisterLoading}
+								>
+									Unregister
+								</Button>
+							</div>
+						{/if}
+					{:else}
+						<ConnectWalletButton isLarge={true} />
+					{/if}
+				</div>
+			{/if}
+		</div>
 	{/if}
-</ContainerCard>
-{#if $connected}
-	<a href={OYSTER_OPERATOR_JOBS_URL}>
-		<Button variant="whiteFilled" size="large" styleClass="w-full sm:w-130 mt-4 mx-auto">
-			<div class="flex w-full justify-between">
-				<div class="flex w-full justify-center">TRACK USAGE</div>
-				<img src={staticImages.RightArrow} alt="Right Arrow" />
-			</div>
-		</Button>
-	</a>
-{/if}
+
+	<div class="mt-[40px] flex w-min gap-[10px] rounded-tl-[18px] rounded-tr-[18px] bg-white">
+		<a
+			href={ROUTES.OYSTER_OPERATOR_JOBS_URL}
+			class={cn('block w-[172px] rounded-tl-[18px] rounded-tr-[18px] py-[27px] text-center', {
+				'bg-white font-light text-[#A8A8A8]': historyActive,
+				'bg-[#F0F0F0] font-medium text-primary': detailsActive
+			})}
+		>
+			Details
+		</a>
+		<a
+			href={ROUTES.OYSTER_OPERATOR_HISTORY_URL}
+			class={cn('block w-[172px] rounded-tl-[18px] rounded-tr-[18px] py-[27px] text-center', {
+				'bg-white font-light text-[#A8A8A8]': detailsActive,
+				'bg-[#F0F0F0] font-medium text-primary': historyActive
+			})}
+		>
+			History
+		</a>
+	</div>
+</div>
+
+<RegisterModal
+	{handleOnRegister}
+	{handleOnUpdate}
+	{updateLoading}
+	{registered}
+	bind:registeredCpURL
+	bind:registerLoading
+	bind:updatedCpURL
+	bind:validCPUrl
+	bind:enableRegisterButton
+	bind:instancesLoading
+/>

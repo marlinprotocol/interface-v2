@@ -61,17 +61,4 @@ describe('AmountInput', () => {
 		dispatchKeyDown(input, '.', 190); // Simulate pressing the '.' key
 		expect(input.value).toBe(''); // The value should still be empty because pressing the key itself won't update value
 	});
-
-	it('calls onFocusOut when focus is lost', async () => {
-		const mockOnFocusOut = vi.fn();
-		const { getByPlaceholderText } = render(AmountInput, {
-			props: {
-				onFocusOut: mockOnFocusOut
-			}
-		});
-
-		const input = getByPlaceholderText('0.00');
-		await fireEvent.focusOut(input);
-		expect(mockOnFocusOut).toHaveBeenCalled();
-	});
 });

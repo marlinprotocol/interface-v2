@@ -34,7 +34,7 @@ describe('Tabs', () => {
 
 	it('renders the tab with all atributes', () => {
 		const { getByTestId } = render(Tab, {
-			props: { buttonClass: 'primary-class', liClass: 'list', id: 'tab_test' }
+			props: { liClass: 'list', id: 'tab_test' }
 		});
 		const tabElement = getByTestId('tab');
 		expect(tabElement.classList.contains('list')).toBeTruthy();

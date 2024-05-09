@@ -8,7 +8,10 @@ export async function fetchHttpData(url: string, options: RequestInit) {
 		})
 		.catch((error) => {
 			addToast({
-				message: 'Error fetching data. Please try again later.',
+				message: {
+					title: 'HTTP Error',
+					description: 'Error fetching data. Please try again later.'
+				},
 				variant: 'error'
 			});
 			console.error('error from the fetch call');

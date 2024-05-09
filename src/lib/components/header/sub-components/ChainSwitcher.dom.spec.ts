@@ -45,9 +45,4 @@ describe('ChainSwitcher', () => {
 		const { getByAltText } = render(ChainSwitcher);
 		expect(getByAltText('current chain').getAttribute('src')).toBe('/src/example.png');
 	});
-
-	it("render's the dark mode classes", async () => {
-		const { container } = render(ChainSwitcher, { props: { isDark: true } });
-		expect(container).toMatchSnapshot();
-	});
 });

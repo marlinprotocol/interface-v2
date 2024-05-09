@@ -31,7 +31,7 @@ export const getInstanceMetadatDataForOperator = (
 	operator: Address,
 	instance: string,
 	region: string,
-	allInstances: OysterMarketplaceDataModel[]
+	allInstances: OysterMarketplaceDataModel[] | OysterInventoryDataModel[]
 ) => {
 	if (operator !== '' && instance !== '' && region !== '') {
 		const operatorInstance = allInstances.filter((instanceData) => {

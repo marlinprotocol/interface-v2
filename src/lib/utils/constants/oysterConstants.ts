@@ -93,6 +93,7 @@ export const OYSTER_MERCHANT_JOB_TABLE_HEADER: TableModel['header'][] = [
 		title: 'DURATION RUN',
 		id: 'durationRun',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Duration for which the job has run so far'
 	},
 	{
@@ -165,24 +166,6 @@ export const OYSTER_INVENTORY_TABLE_HEADER: TableModel['header'][] = [
 		tooltipText: 'Ip address of the deployed instance'
 	},
 	{
-		title: 'INSTANCE',
-		id: 'instance',
-		sorting: true,
-		tooltipText: 'Instance type used for the job'
-	},
-	{
-		title: 'REGION',
-		id: 'region',
-		sorting: true,
-		tooltipText: 'Region in which the enclave is deployed.'
-	},
-	{
-		title: 'HOURLY RATE',
-		id: 'rate',
-		sorting: true,
-		tooltipText: 'Rate that the operator charges for each hour of usage.'
-	},
-	{
 		title: 'BALANCE',
 		id: 'balance',
 		sorting: true,
@@ -209,10 +192,6 @@ export const OYSTER_PAYMENT_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'AMOUNT',
 		id: 'amount'
-	},
-	{
-		title: 'TX HASH',
-		id: 'txHash'
 	}
 ];
 
@@ -221,21 +200,6 @@ export const OYSTER_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'OPERATOR',
 		id: 'provider'
-	},
-	{
-		title: 'INSTANCE',
-		id: 'instance',
-		sorting: true
-	},
-	{
-		title: 'REGION',
-		id: 'region',
-		sorting: true
-	},
-	{
-		title: 'AMOUNT PAID',
-		id: 'totalDeposit',
-		sorting: true
 	},
 	{
 		title: 'AMOUNT USED',
@@ -266,27 +230,21 @@ export const OYSTER_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 // make sure the id matches the id in Data Model
 export const OYSTER_MARKETPLACE_TABLE_HEADER: TableModel['header'][] = [
 	{
-		title: 'OPERATOR',
+		title: 'Operator',
 		id: 'provider',
 		tooltipText: 'Address of oyster operator'
 	},
 	{
-		title: 'INSTANCE',
+		title: 'Instance',
 		id: 'instance',
 		sorting: true,
 		tooltipText: 'Instance type used for the job'
 	},
 	{
-		title: 'REGION',
+		title: 'Region',
 		id: 'region',
 		sorting: true,
 		tooltipText: 'Region in which the enclave is deployed.'
-	},
-	{
-		title: 'RATE',
-		id: 'rateScaled',
-		sorting: true,
-		tooltipText: 'Rate that the operator charges for each hour of usage.'
 	},
 	{
 		title: 'vCPU',
@@ -295,15 +253,21 @@ export const OYSTER_MARKETPLACE_TABLE_HEADER: TableModel['header'][] = [
 		tooltipText: 'Number of vCPUs in the instance'
 	},
 	{
-		title: 'MEMORY',
+		title: 'Memory',
 		id: 'memory',
 		sorting: true,
 		tooltipText: 'Memory allocated to the instance'
 	},
 	{
-		title: 'ARCH',
+		title: 'Arch',
 		id: 'arch',
 		tooltipText: 'Architecture of the instance'
+	},
+	{
+		title: 'Rate',
+		id: 'rateScaled',
+		sorting: true,
+		tooltipText: 'Rate that the operator charges for each hour of usage.'
 	},
 	{
 		title: '',

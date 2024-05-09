@@ -2,9 +2,9 @@ import { cleanup, fireEvent, render } from '@testing-library/svelte';
 import NameWithAddress from './NameWithAddress.svelte';
 import PageTitle from './PageTitle.svelte';
 import TableHeadingText from './TableHeadingText.svelte';
-import { staticImages } from '../images/staticImages';
 import TextInputCard from './TextInputCard.svelte';
 import TxnHashText from './TxnHashText.svelte';
+import { staticImages } from '$lib/components/images/staticImages';
 
 describe('Text', () => {
 	afterEach(() => {
@@ -77,8 +77,7 @@ describe('Text', () => {
 					sorting: true
 				},
 				iconWidth: '14px',
-				styleClass: 'additional-child-class',
-				tooltipDirection: 'tooltip-bottom'
+				styleClass: 'additional-child-class'
 			}
 		});
 		expect(getByTestId('table-heading-text').contains(getByAltText('sort'))).toBeTruthy();

@@ -1,82 +1,37 @@
+import { buttonClasses } from '$lib/atoms/componentClasses';
+import { staticImages } from '$lib/components/images/staticImages';
+import { addToast } from '$lib/data-stores/toastStore';
 import type {
-	AppVariant,
 	ButtonModel,
 	CommonVariant,
 	DividerDirection,
 	InputCardVariant,
 	TextModel
 } from '$lib/types/componentTypes';
-import infoCircle from 'svelte-awesome/icons/infoCircle';
-import checkCircle from 'svelte-awesome/icons/checkCircle';
-import warning from 'svelte-awesome/icons/warning';
-import timesCircle from 'svelte-awesome/icons/timesCircle';
-import { staticImages } from '$lib/components/images/staticImages';
-import { copyTextToClipboard } from './commonHelper';
-import { addToast } from '$lib/data-stores/toastStore';
-import { buttonClasses } from '$lib/atoms/componentClasses';
+import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
 
-// -------------------------------------------- IMAGE HELPERS --------------------------------------
-export const getIconbyVariant = (variant: CommonVariant | undefined) => {
+export const getButtonStyles = (variant: ButtonModel['variant']) => {
 	switch (variant) {
-		case 'success':
-			return checkCircle;
-		case 'info':
-			return infoCircle;
-		case 'warning':
-			return warning;
+		case 'filled':
+			return buttonClasses.filled;
+		case 'outlined':
+			return buttonClasses.outlined;
+		case 'greyOutlined':
+			return buttonClasses.greyOutlined;
 		case 'error':
-			return timesCircle;
-		default:
-			return '';
-	}
-};
-
-export const getImagebyWalletProvider = (walletProvider: string) => {
-	switch (walletProvider?.toLowerCase()) {
-		case 'metamask':
-			return staticImages.Metamask;
-		case 'walletconnect':
-			return staticImages.WalletConnect;
-		default:
-			return '';
-	}
-};
-
-// -------------------------------------------- CLASS HELPERS --------------------------------------
-export const getColorClassByVariant = (variant: CommonVariant | undefined) => {
-	switch (variant) {
-		case 'success':
-			return 'primary-content';
+			return buttonClasses.error;
+		case 'text':
+			return buttonClasses.text;
 		case 'info':
-			return 'primary-content';
-		case 'warning':
-			return 'primary-content';
-		case 'error':
-			return 'error-content';
+			return buttonClasses.lightblueFilled;
+		case 'greyFilled':
+			return buttonClasses.greyFilled;
+		case 'whiteFilled':
+			return buttonClasses.whiteFilled;
+		case 'tableConvertButton':
+			return buttonClasses.tableConvertButton;
 		default:
-			return '';
-	}
-};
-
-export const getImageClassByVariant = (variant: CommonVariant | undefined) => {
-	switch (variant) {
-		case 'primary':
-			return 'primary-img';
-		case 'info':
-		case 'secondary':
-			return 'secondary-img';
-		case 'warning':
-			return 'warning-img';
-		case 'error':
-			return 'error-img';
-		case 'success':
-			return 'success-img';
-		case 'disabled':
-			return 'disabled-img';
-		case 'grey':
-			return 'grey-img';
-		default:
-			return 'primary-img';
+			return buttonClasses.filled;
 	}
 };
 
@@ -98,30 +53,6 @@ export const getTextColorClassByVariant = (variant: CommonVariant | undefined) =
 			return 'text-primary opacity-40';
 		case 'grey':
 			return 'text-grey-500';
-		default:
-			return '';
-	}
-};
-
-// -------------------------------------------- COLOR HELPERS --------------------------------------
-export const getColorHexByVariant = (variant: CommonVariant | undefined) => {
-	switch (variant) {
-		case 'primary':
-			return '#0F62FE';
-		case 'secondary':
-			return '#6F6F6F';
-		case 'success':
-			return '#24A148';
-		case 'info':
-			return '#0062FF';
-		case 'warning':
-			return '#f1861b';
-		case 'error':
-			return '#DA1E28';
-		case 'disabled':
-			return '#0F62FE';
-		case 'grey':
-			return '#6F6F6F';
 		default:
 			return '';
 	}
@@ -154,80 +85,111 @@ export const getColorHexForTableRow = (index: number) => {
 	}
 };
 
-// -------------------------------------------- BUTTON HELPERS --------------------------------------
-export const getButtonStyles = (variant: ButtonModel['variant']) => {
-	switch (variant) {
-		case 'filled':
-			return buttonClasses.filled;
-		case 'outlined':
-			return buttonClasses.outlined;
-		case 'error':
-			return buttonClasses.error;
-		case 'text':
-			return buttonClasses.text;
-		case 'info':
-			return buttonClasses.lightblueFilled;
-		case 'greyFilled':
-			return buttonClasses.greyFilled;
-		case 'whiteFilled':
-			return buttonClasses.whiteFilled;
-		case 'tableConvertButton':
-			return buttonClasses.tableConvertButton;
-		default:
-			return buttonClasses.filled;
-	}
-};
-
-export const getButtonSize = (size: ButtonModel['size']) => {
-	switch (size) {
-		case 'tiniest':
-			return '';
-		case 'tiny':
-			return 'h-8';
-		case 'smaller':
-			return 'h-9';
-		case 'small':
-			return 'h-10';
-		case 'medium':
-			return 'h-12';
-		case 'large':
-			return 'h-14 text-base font-semibold';
-		default:
-			return undefined;
-	}
-};
-
-// -------------------------------------------- INPUT CARD HELPERS ----------------------------------
 export const getInputCardVariant = (variant: InputCardVariant | undefined) => {
 	switch (variant) {
 		case 'primary':
-			return 'bg-base-200 p-4';
-
+			return 'bg-white px-6 py-[30px] rounded-3xl border border-[#D9DADE]';
 		case 'primary-mini':
 			return 'bg-base-200 py-2 px-4';
-
 		case 'warning':
 			return 'bg-red-100 px-4 py-1';
-
+		case 'yellow':
+			return 'bg-[#EDBE59]';
+		case 'green':
+			return 'bg-[#68A843]';
 		case 'none':
 			return '';
-
 		case 'search':
-			return 'bg-[#dfedf9] px-4 py-2.5';
-
+			return 'bg-white px-4 py-2.5 rounded-[100px]';
+		case 'v2Input':
+			return 'relative border border-[#D9DADE] bg-white py-2.5 px-4 rounded-full';
 		default:
 			return 'bg-base-200 p-4';
 	}
 };
 
-// -------------------------------------------- CHIP HELPERS -----------------------------------------
-export const getChipVariant = (variant: AppVariant) => {
+export const getColorClassByVariant = (variant: CommonVariant | undefined) => {
+	switch (variant) {
+		case 'success':
+			return 'bg-[#F4F9F0]';
+		case 'warning':
+			return 'bg-[#FCEFD4]';
+		case 'error':
+			return 'bg-[#FEE6E6]';
+		default:
+			return '';
+	}
+};
+
+export const getIconbyVariant = (variant: CommonVariant | undefined) => {
+	switch (variant) {
+		case 'success':
+			return staticImages.toastSuccessAlert;
+		case 'warning':
+			return staticImages.toastWarningAlert;
+		case 'error':
+			return staticImages.toastErrorAlert;
+		default:
+			return '';
+	}
+};
+
+export const getImageClassByVariant = (variant: CommonVariant | undefined) => {
 	switch (variant) {
 		case 'primary':
-			return 'bg-base-200 text-primary font-semibold';
-
+			return 'primary-img';
+		case 'info':
 		case 'secondary':
-			return 'bg-grey-200 text-[#6f6f71]';
+			return 'secondary-img';
+		case 'warning':
+			return 'warning-img';
+		case 'error':
+			return 'error-img';
+		case 'success':
+			return 'success-img';
+		case 'disabled':
+			return 'disabled-img';
+		case 'grey':
+			return 'grey-img';
+		default:
+			return 'primary-img';
+	}
+};
+
+export const getColorHexByVariant = (variant: CommonVariant | undefined) => {
+	switch (variant) {
+		case 'primary':
+			return '#0F62FE';
+		case 'secondary':
+			return '#6F6F6F';
+		case 'success':
+			return '#24A148';
+		case 'info':
+			return '#0062FF';
+		case 'warning':
+			return '#f1861b';
+		case 'error':
+			return '#DA1E28';
+		case 'disabled':
+			return '#0F62FE';
+		case 'grey':
+			return '#6F6F6F';
+		default:
+			return '';
+	}
+};
+export const getColorHexByVariantForTag = (variant: CommonVariant | undefined) => {
+	switch (variant) {
+		case 'primary':
+			return '#0F62FE23';
+		case 'success':
+			return '#F4F9F0';
+		case 'warning':
+			return '#FCEFD4';
+		case 'error':
+			return '#FEE6E6';
+		default:
+			return '';
 	}
 };
 
@@ -260,6 +222,7 @@ export const getDividerHeight = (variant: DividerDirection) => {
 };
 
 // -------------------------------------------- FONT HELPERS ----------------------------------------
+
 export const getFontSize = (variant: TextModel['variant']) => {
 	switch (variant) {
 		case 'h1':
@@ -306,9 +269,35 @@ export const getDefaultFontWeight = (variant: TextModel['variant'] | undefined) 
 };
 
 // -------------------------------------------- USER INTERACTION HELPERS ----------------------------------------
+
 export const handleCopyClick = (text: string | undefined, successMessage: string) => {
 	if (text) {
 		copyTextToClipboard(text);
-		addToast({ message: successMessage, variant: 'success' });
+		addToast({
+			message: {
+				title: 'Copied',
+				description: successMessage
+			},
+			variant: 'success'
+		});
+	}
+};
+
+export const getButtonSize = (size: ButtonModel['size']) => {
+	switch (size) {
+		case 'tiniest':
+			return '';
+		case 'tiny':
+			return 'h-8';
+		case 'smaller':
+			return 'h-9';
+		case 'small':
+			return 'h-10';
+		case 'medium':
+			return 'h-12';
+		case 'large':
+			return 'h-14 text-base font-normal';
+		default:
+			return undefined;
 	}
 };

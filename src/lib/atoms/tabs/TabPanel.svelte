@@ -4,7 +4,13 @@
 </script>
 
 {#if activeTabValue === id}
-	<div id="{id}-tabitem" role="tabpanel" aria-labelledby="{id}-tab" data-testid="tab-panel">
+	<div
+		class="w-full"
+		id="{id}-tabitem"
+		role="tabpanel"
+		aria-labelledby="{id}-tab"
+		data-testid="tab-panel"
+	>
 		<slot />
 	</div>
 {/if}

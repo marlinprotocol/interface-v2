@@ -18,8 +18,7 @@ describe('TableComponent', () => {
 			styleClass: 'custom-table-style',
 			headingStyleClass: 'custom-heading-style',
 			handleSortData: handleSortDataMock,
-			iconWidth: '16px',
-			tablePadding: 'px-8 py-6'
+			iconWidth: '16px'
 		});
 		expect(container).toMatchSnapshot();
 	});
@@ -29,8 +28,7 @@ describe('TableComponent', () => {
 			styleClass: 'custom-table-style',
 			headingStyleClass: 'custom-heading-style',
 			handleSortData: handleSortDataMock,
-			iconWidth: '16px',
-			tablePadding: 'px-8 py-6'
+			iconWidth: '16px'
 		});
 
 		// Check if the table container has the correct classes

@@ -18,6 +18,7 @@
 	export let disabled = false;
 	export let isTableFilter = false;
 	export let textSuffix = '';
+	export let label = '';
 
 	let suggestions: (string | number)[] = [];
 	let showSuggestions = false;
@@ -43,33 +44,45 @@
 	};
 </script>
 
-<InputCard {styleClass} variant={cardVariant}>
-	<div class="search-container">
-		{#if showTitle}
-			<div class="flex items-center justify-between">
-				<div class="flex items-center gap-1">
-					<Text variant="small" text={title} />
+<div class="relative flex flex-1 flex-col bg-white">
+	{#if label}
+		<p
+			class="absolute left-8 top-0 z-[1] bg-white font-poppins text-sm font-normal leading-[1px] text-[#030115]"
+		>
+			{label}
+		</p>
+	{/if}
+
+	<InputCard styleClass="{styleClass} border border-[#D9DADE]" variant={cardVariant}>
+		<div class="search-container">
+			{#if showTitle}
+				<div class="flex items-center justify-between">
+					<div class="flex items-center gap-1">
+						<Text variant="small" text={title} />
+					</div>
 				</div>
+			{/if}
+			<div class="flex items-center">
+				<input
+					class="{isTableFilter
+						? inputClasses.searchInputText
+						: inputClasses.inputText} placeholder-[#A8A8A8]"
+					{placeholder}
+					value={searchValue ?? ''}
+					on:input={handleSearch}
+					disabled={onlyFilters || disabled}
+					on:click={() => onSearchClick?.()}
+				/>
+				<Select
+					{title}
+					{dataList}
+					bind:value={searchValue}
+					setValue={(value) => setSearchValue(value, true)}
+					bind:showSuggestions
+					bind:suggestions
+					{textSuffix}
+				/>
 			</div>
-		{/if}
-		<div class="flex items-center">
-			<input
-				class={isTableFilter ? inputClasses.searchInputText : inputClasses.inputText}
-				{placeholder}
-				value={searchValue ?? ''}
-				on:input={handleSearch}
-				disabled={onlyFilters || disabled}
-				on:click={() => onSearchClick?.()}
-			/>
-			<Select
-				{title}
-				{dataList}
-				bind:value={searchValue}
-				setValue={(value) => setSearchValue(value, true)}
-				bind:showSuggestions
-				bind:suggestions
-				{textSuffix}
-			/>
 		</div>
-	</div>
-</InputCard>
+	</InputCard>
+</div>

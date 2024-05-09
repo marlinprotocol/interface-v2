@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import Divider from '$lib/atoms/divider/Divider.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
@@ -21,8 +19,12 @@
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import { MPOND_HISTORY_PAGE_URL } from '$lib/utils/constants/urls';
+	import { ROUTES } from '$lib/utils/constants/urls';
 	import { requestMPondConversion } from '$lib/controllers/contract/bridge';
+	import Tab from '$lib/atoms/tabs/Tab.svelte';
+	import ConversionHistoryButton from './sub-components/ConversionHistoryButton.svelte';
+
+	export let activeTabValue = 'mPond';
 
 	const maxAmountTooltipText =
 		'Unrequested is the amount of MPond for which a conversion request is not placed. MPond conversion requests placed is categorised as Requested. Conversion requests for staked MPond can also be placed.';
@@ -39,7 +41,7 @@
 
 	const handleMaxClick = () => {
 		if (unrequestedMPondBalance) {
-			inputAmountString = bigNumberToString(unrequestedMPondBalance, 18, 18, false);
+			inputAmountString = bigNumberToString(unrequestedMPondBalance, 18, MPOND_PRECISIONS, false);
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
 			inValidMessage = '';
@@ -59,7 +61,7 @@
 			await requestMPondConversion(inputAmount);
 			resetInputs();
 			requestConversionLoading = false;
-			goto(MPOND_HISTORY_PAGE_URL);
+			goto(ROUTES.MPOND_HISTORY_PAGE_URL);
 		} catch (error: any) {
 			requestConversionLoading = false;
 			console.log('error:', error);
@@ -89,7 +91,14 @@
 				DEFAULT_CURRENCY_DECIMALS,
 				MPOND_PRECISIONS
 			)}`
-		: 'Unrequested: 0 | Requested: 0';
+		: 'Unrequested: 0.00 | Requested: 0.00';
+	$: pondBalanceText = $connected
+		? `Balance: ${bigNumberToString(
+				$walletBalanceStore.pond,
+				DEFAULT_CURRENCY_DECIMALS,
+				POND_PRECISIONS
+			)}`
+		: 'Balance: 0.00';
 	$: mPondDisabledText =
 		inputAmount && inputAmount > 0 && !(unrequestedMPondBalance >= inputAmount)
 			? 'Insufficient MPond'
@@ -97,41 +106,40 @@
 	$: enableConversion = inputAmount && inputAmount > 0 && unrequestedMPondBalance >= inputAmount;
 </script>
 
-<div class="mx-2 my-2">
-	<AmountInputWithMaxButton
-		title="From"
-		bind:inputAmountString
-		{handleUpdatedAmount}
-		maxAmountText={balanceText}
-		inputCardVariant="none"
-		{maxAmountTooltipText}
-	>
-		<Text slot="input-end-button" text="MPond" fontWeight="font-medium" />
-		<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
-	</AmountInputWithMaxButton>
-	<ErrorTextCard
-		showError={!inputAmountIsValid && updatedAmountInputDirty}
-		errorMessage={inValidMessage}
-	/>
-	<ErrorTextCard showError={!!mPondDisabledText} errorMessage={mPondDisabledText} />
-	<Divider margin="mt-2 mb-3" />
-	<AmountInputWithMaxButton
-		title="To"
-		inputCardVariant="none"
-		inputAmountString={convertedAmountString}
-	>
-		<Text slot="input-end-button" text="POND" fontWeight="font-medium" />
-	</AmountInputWithMaxButton>
-</div>
+<AmountInputWithMaxButton
+	currency="MPond"
+	bind:inputAmountString
+	{handleUpdatedAmount}
+	maxAmountText={balanceText}
+	inputCardVariant="none"
+	{maxAmountTooltipText}
+>
+	<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
+</AmountInputWithMaxButton>
+<Tab id="mPond" on:click={() => (activeTabValue = 'pond')}>Pond</Tab>
+<AmountInputWithMaxButton
+	currency="POND"
+	inputCardVariant="none"
+	inputAmountString={convertedAmountString}
+	maxAmountText={pondBalanceText}
+></AmountInputWithMaxButton>
 {#if $connected}
 	<Button
 		variant="filled"
 		size="large"
-		styleClass="w-full"
+		styleClass="w-full mt-4"
 		onclick={handleConvertRequest}
 		loading={requestConversionLoading}
-		disabled={!enableConversion}>PLACE CONVERSION REQUEST</Button
+		disabled={!enableConversion}>Place conversion request</Button
 	>
 {:else}
-	<ConnectWalletButton isLarge={true} />
+	<ConnectWalletButton styleClass="mt-4" isLarge={true} />
 {/if}
+<a class="mt-4 block" href={ROUTES.MPOND_HISTORY_PAGE_URL}>
+	<ConversionHistoryButton firstText="MPond" secondText="POND" />
+</a>
+<ErrorTextCard
+	showError={!inputAmountIsValid && updatedAmountInputDirty}
+	errorMessage={inValidMessage}
+/>
+<ErrorTextCard showError={!!mPondDisabledText} errorMessage={mPondDisabledText} />

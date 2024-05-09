@@ -6,18 +6,20 @@
 		OysterMarketplaceDataModel,
 		OysterMarketplaceSortKeys
 	} from '$lib/types/oysterComponentType';
-	import { OYSTER_MARKETPLACE_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { sortOysterMarketplace } from '$lib/utils/helpers/oysterHelpers';
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
 	import OysterMarketplaceFilters from '$lib/page-components/oyster/marketplace/OysterMarketplaceFilters.svelte';
 	import OysterMarketplaceTableRow from '$lib/page-components/oyster/marketplace/OysterMarketplaceTableRow.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 	import { chainIdHasChanged, chainStore } from '$lib/data-stores/chainProviderStore';
+	import { OYSTER_MARKETPLACE_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
+	import { tableClasses } from '$lib/atoms/componentClasses';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	let activePage = 1;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
 	let filterMap: Record<string, string> = {};
-	let filteredData: OysterMarketplaceDataModel[];
+	let filteredData: OysterMarketplaceDataModel[] | [];
 	let previousChainId: number | null = null;
 
 	const handleSortData = (id: string) => {
@@ -27,7 +29,7 @@
 			sortingMap[id] = 'asc';
 		}
 		filteredData = sortOysterMarketplace(
-			filteredData,
+			filteredData?.length > 0 ? filteredData : $oysterStore.allMarketplaceData,
 			id as OysterMarketplaceSortKeys,
 			sortingMap[id]
 		);
@@ -44,16 +46,19 @@
 	function getTableData(
 		currentChainId: number | null,
 		_filterMap: Record<string, string>,
-		_filteredData: OysterMarketplaceDataModel[],
+		_filteredData: OysterMarketplaceDataModel[] | [],
 		_allMarketplaceData: OysterMarketplaceDataModel[]
 	) {
 		if (chainIdHasChanged(currentChainId, previousChainId)) {
 			previousChainId = currentChainId;
 			filterMap = {};
+			filteredData = [];
 			return _allMarketplaceData;
 		} else if (_filterMap && Object.keys(_filterMap).length > 0) {
+			filteredData = _filteredData;
 			return _filteredData;
 		} else {
+			filteredData = _allMarketplaceData;
 			return _allMarketplaceData;
 		}
 	}
@@ -82,17 +87,14 @@
 		tableHeading={OYSTER_MARKETPLACE_TABLE_HEADER}
 		loading={!$oysterStore.marketplaceLoaded}
 		noDataFound={!paginatedData?.length}
-		emptyTableMessage="No instances found. Clear the selection and try again."
 	>
 		{#if paginatedData?.length}
 			{#each paginatedData as rowData, rowIndex (rowData.id)}
-				<OysterMarketplaceTableRow {rowData} {rowIndex} />
+				<tr class={cn(tableClasses.row, 'group/row h-[64px] hover:bg-base-200')}>
+					<OysterMarketplaceTableRow {rowData} {rowIndex} />
+				</tr>
 			{/each}
-			<tr>
-				<td colspan="12">
-					<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
-				</td>
-			</tr>
 		{/if}
 	</OysterTableCommon>
+	<Pagination {pageCount} {activePage} {handlePageChange} />
 </div>

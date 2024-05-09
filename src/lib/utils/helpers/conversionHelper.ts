@@ -4,9 +4,9 @@ import {
 	SECONDS_IN_HOUR,
 	SECONDS_IN_HUNDRED_YEARS
 } from '$lib/utils/constants/constants';
+import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 
 import { ethers } from 'ethers';
-import { isInputAmountValid } from './commonHelper';
 
 /**
  * Returns duration string for a epoch
@@ -16,7 +16,62 @@ import { isInputAmountValid } from './commonHelper';
  * @returns string
  * @example 12334422 => 4 months 22 days 18 hours 13 mins 42 secs
  */
+
 export const epochToDurationString = (epoch: number, mini = false) => {
+	const SECONDS_IN_MINUTE = 60;
+	const SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60;
+	const SECONDS_IN_DAY = SECONDS_IN_HOUR * 24;
+	const SECONDS_IN_MONTH = SECONDS_IN_DAY * 30; // Approximate a month as 30 days
+	const SECONDS_IN_YEAR = SECONDS_IN_MONTH * 12;
+	const SECONDS_IN_HUNDRED_YEARS = SECONDS_IN_YEAR * 100;
+
+	if (epoch >= SECONDS_IN_HUNDRED_YEARS) return '+100 Y'; // Changed 'years' to 'Y'
+	const seconds = epoch % SECONDS_IN_MINUTE;
+	const minutes = Math.floor(epoch / SECONDS_IN_MINUTE) % 60;
+	const hours = Math.floor(epoch / SECONDS_IN_HOUR) % 24;
+	const days = Math.floor(epoch / SECONDS_IN_DAY) % 30;
+	const months = Math.floor(epoch / SECONDS_IN_MONTH) % 12;
+	const years = Math.floor(epoch / SECONDS_IN_YEAR);
+	let count = 0;
+	let durationString = '';
+	if (years > 0) {
+		durationString += years + 'Y ';
+		if (mini) return durationString.trimEnd();
+		count++;
+	}
+	if (months > 0) {
+		durationString += months + 'M ';
+		if (mini && days === 0) return durationString.trimEnd();
+		count++;
+	}
+	if (count >= 2) return durationString.trimEnd();
+	if (days > 0) {
+		durationString += days + 'D ';
+		if (mini && hours === 0) return durationString.trimEnd();
+		count++;
+	}
+	if (count >= 2) return durationString.trimEnd();
+	if (hours > 0) {
+		durationString += hours + 'H ';
+		if (mini && minutes === 0) return durationString.trimEnd();
+		count++;
+	}
+	if (count >= 2) return durationString.trimEnd();
+	if (minutes > 0) {
+		durationString += minutes + 'M ';
+		if (mini && seconds === 0) return durationString.trimEnd();
+		count++;
+	}
+	if (count >= 2) return durationString.trimEnd();
+	if (seconds > 0) {
+		durationString += seconds + 'S';
+		if (mini) return durationString;
+		count++;
+	}
+	return durationString.trimEnd();
+};
+
+export const epochToDurationStringLong = (epoch: number, mini = false) => {
 	if (epoch >= SECONDS_IN_HUNDRED_YEARS) return '100+ years';
 	const seconds = epoch % 60;
 	const minutes = Math.floor(epoch / 60) % 60;
@@ -52,6 +107,7 @@ export const epochToDurationString = (epoch: number, mini = false) => {
 	}
 	return durationString.trimEnd();
 };
+
 /**
  * Returns string for a bigInt
  * @param value: bigInt

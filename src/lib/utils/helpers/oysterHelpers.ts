@@ -318,7 +318,7 @@ export const getSearchAndFilteredMarketplaceData = (
 		});
 	}
 
-	if (filterMap.instance) {
+	if (!!filterMap?.instance?.length) {
 		const value = filterMap.instance?.toLowerCase();
 		allMarketplaceData = allMarketplaceData.filter((item) => {
 			return exactMatch
@@ -344,6 +344,98 @@ export const getSearchAndFilteredMarketplaceData = (
 	return allMarketplaceData;
 };
 
+export const getFiltersListForOysterMarketPlace = (
+	allMarketplaceData: OysterMarketplaceDataModel[],
+	filterMap: Partial<OysterMarketplaceFilterModel>,
+	exactMatch = false
+) => {
+	let ogFilters: any = getAllFiltersListforMarketplaceData(allMarketplaceData);
+	// for provider, we are checking substring match and need do check on both name and address
+	if (filterMap.provider) {
+		const value = filterMap.provider.toLowerCase();
+		const intitFilters = allMarketplaceData.filter((item) => {
+			return exactMatch
+				? item.provider.address.toLowerCase() === value ||
+						item.provider.name?.toLowerCase() === value
+				: item.provider.address.toLowerCase().includes(value) ||
+						item.provider.name?.toLowerCase()?.includes(value);
+		});
+
+		const modifiedFilters = getAllFiltersListforMarketplaceData(intitFilters);
+		ogFilters = updateObjectExceptKey('provider', ogFilters, modifiedFilters);
+	}
+
+	if (filterMap.region) {
+		const value = filterMap.region.toLowerCase();
+		const intitFilters = allMarketplaceData.filter((item) => {
+			return exactMatch
+				? item.region.toLowerCase() === value || item.regionName.toLowerCase() === value
+				: item.region.toLowerCase().includes(value) ||
+						item.regionName.toLowerCase().includes(value);
+		});
+		const modifiedFilters = getAllFiltersListforMarketplaceData(intitFilters);
+		ogFilters = updateObjectExceptKey('region', ogFilters, modifiedFilters);
+	}
+
+	if (filterMap.memory) {
+		const value = filterMap.memory?.toString();
+		const intitFilters = allMarketplaceData.filter((item) => {
+			return exactMatch
+				? item.memory?.toString() === value
+				: item.memory?.toString()?.includes(value);
+		});
+		const modifiedFilters = getAllFiltersListforMarketplaceData(intitFilters);
+		ogFilters = updateObjectExceptKey('memory', ogFilters, modifiedFilters);
+	}
+
+	if (filterMap.vcpu) {
+		const value = filterMap.vcpu.toString();
+		const intitFilters = allMarketplaceData.filter((item) => {
+			return exactMatch ? item.vcpu?.toString() === value : item.vcpu?.toString()?.includes(value);
+		});
+		const modifiedFilters = getAllFiltersListforMarketplaceData(intitFilters);
+		ogFilters = updateObjectExceptKey('vcpu', ogFilters, modifiedFilters);
+	}
+
+	if (filterMap.instance) {
+		const value = filterMap.instance?.toLowerCase();
+		const intitFilters = allMarketplaceData.filter((item) => {
+			return exactMatch
+				? item.instance?.toLowerCase() === value
+				: item.instance.toLowerCase()?.includes(value);
+		});
+		const modifiedFilters = getAllFiltersListforMarketplaceData(intitFilters);
+		ogFilters = updateObjectExceptKey('instance', ogFilters, modifiedFilters);
+	}
+
+	if (filterMap.arch) {
+		const value = filterMap.arch.toString();
+		const intitFilters = allMarketplaceData.filter((item) => {
+			return exactMatch ? item.arch?.toString() === value : item.arch?.toString()?.includes(value);
+		});
+		const modifiedFilters = getAllFiltersListforMarketplaceData(intitFilters);
+		ogFilters = updateObjectExceptKey('arch', ogFilters, modifiedFilters);
+	}
+
+	// if (filterMap.rate) {
+	// 	const value = filterMap.rate;
+	// 	allMarketplaceData = allMarketplaceData.filter((item) => {
+	// 		return value && item.rate?.toString()?.includes(value.toString());
+	// 	});
+	// }
+
+	return ogFilters;
+};
+
+function updateObjectExceptKey(immutableKey: string, originalObject: any, updatedObject: any) {
+	for (const key in updatedObject) {
+		if (key !== immutableKey) {
+			originalObject[key] = updatedObject[key];
+		}
+	}
+	return originalObject;
+}
+
 export function getAllFiltersListforMarketplaceData(
 	filteredData: OysterMarketplaceDataModel[],
 	addAllOption = true
@@ -351,9 +443,7 @@ export function getAllFiltersListforMarketplaceData(
 	const providers = filteredData.map((item) =>
 		item.provider.name && item.provider.name !== '' ? item.provider.name : item.provider.address
 	);
-	// array of arrays where the first element is the region name and the second element is the region code
 	const regions = filteredData.map((item) => [item.regionName, item.region]);
-	// remove duplicate regions
 	const filteredRegions = regions.filter(
 		(region, index, self) => index === self.findIndex((t) => t[1] === region[1])
 	);
@@ -371,18 +461,23 @@ export function getAllFiltersListforMarketplaceData(
 
 	return {
 		allMarketplaceData: filteredData,
-		provider: addAllToList(providers, addAllOption),
-		instance: addAllToList(instances, addAllOption),
-		region: addAllToList(filteredRegions, addAllOption),
-		vcpu: addAllToList(vcpus, addAllOption),
-		memory: addAllToList(memories, addAllOption),
-		arch: addAllToList(arch, addAllOption)
+		provider: addAllToList('providers', providers, addAllOption),
+		instance: addAllToList('instances', instances, addAllOption),
+		region: addAllToList('region', filteredRegions, addAllOption),
+		vcpu: addAllToList('vcpu', vcpus, addAllOption),
+		memory: addAllToList('memory', memories, addAllOption),
+		arch: addAllToList('arch', arch, addAllOption)
 		// rate: addAllToList(rates, addAllOption)
 	} as OysterFiltersModel;
 }
 
-export const addAllToList = (data: (string | number | string[])[], addAllOption: boolean) => {
+export const addAllToList = (
+	type: any,
+	data: (string | number | string[])[],
+	addAllOption: boolean
+) => {
 	const setData = [...new Set(data)];
+	// console.log(type,{setData})
 	if (!addAllOption || setData.length === 0) return setData;
 	return ['All', ...setData];
 };

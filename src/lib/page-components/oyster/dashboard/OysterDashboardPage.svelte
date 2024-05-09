@@ -68,7 +68,7 @@
 	const partnerLinks = [
 		{
 			label: 'Get an on-chain domain',
-			href: 'https://3dns.box/',
+			href: 'https://spindl.link/5rx222',
 			img: staticImages.dnsLogo,
 			alt: '3DNS Logo',
 			openInPopup: true,

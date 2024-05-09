@@ -383,21 +383,17 @@ export function getAllFiltersListforMarketplaceData(
 
 	return {
 		allMarketplaceData: filteredData,
-		provider: addAllToList('providers', providers, addAllOption),
-		instance: addAllToList('instances', instances, addAllOption),
-		region: addAllToList('region', filteredRegions, addAllOption),
-		vcpu: addAllToList('vcpu', vcpus, addAllOption),
-		memory: addAllToList('memory', memories, addAllOption),
-		arch: addAllToList('arch', arch, addAllOption)
+		provider: addAllToList(providers, addAllOption),
+		instance: addAllToList(instances, addAllOption),
+		region: addAllToList(filteredRegions, addAllOption),
+		vcpu: addAllToList(vcpus, addAllOption),
+		memory: addAllToList(memories, addAllOption),
+		arch: addAllToList(arch, addAllOption)
 		// rate: addAllToList(rates, addAllOption)
 	} as OysterFiltersModel;
 }
 
-export const addAllToList = (
-	type: any,
-	data: (string | number | string[])[],
-	addAllOption: boolean
-) => {
+export const addAllToList = (data: (string | number | string[])[], addAllOption: boolean) => {
 	const setData = [...new Set(data)];
 	if (!addAllOption || setData.length === 0) return setData;
 	return ['All', ...setData];

@@ -43,7 +43,7 @@
 	};
 
 	$: operatorHistoryData = $oysterStore.merchantJobsData?.filter(
-		(data) => data.status === 'closed'
+		(data) => data.status === 'stopped'
 	);
 	// get searched data based on searchInput
 	$: searchedData = getSearchedOysterJobsData(searchInput, operatorHistoryData);

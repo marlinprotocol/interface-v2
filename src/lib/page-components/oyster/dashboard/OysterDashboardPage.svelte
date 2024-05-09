@@ -129,7 +129,7 @@
 	<div class="mt-4 flex gap-2">
 		{#each ctaButtons as ctaButton}
 			<a
-				class="text-md flex h-16 w-full items-center justify-center rounded-full border border-[#D9DADE] bg-white font-normal text-[#030115] hover:border-primary"
+				class="text-md flex h-16 w-full items-center justify-center rounded-full border border-[#D9DADE] bg-white font-normal text-[#030115] transition-colors hover:border-primary hover:text-primary"
 				href={ctaButton.href}
 				target={ctaButton.openInANewTab ? '_blank' : ''}>{ctaButton.label}</a
 			>
@@ -190,7 +190,9 @@
 									alt="Arrow Icon"
 								/>
 							</div>
-							<div class="z-[1] flex w-full flex-col items-start justify-center gap-4 text-left">
+							<div
+								class="z-[1] flex h-[136px] w-full flex-col items-start justify-between gap-4 text-left"
+							>
 								{#if partnerLink.img}
 									<div class="flex w-32 shrink-0 items-start">
 										<img src={partnerLink.img} alt={partnerLink.alt} />

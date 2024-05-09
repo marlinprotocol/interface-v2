@@ -30,16 +30,16 @@
 			{title}
 		</button>
 	</div>
-	<div class="flex items-center">
+	<div class="mt-1 flex items-center">
 		{#if !!prefix.length}
-			<Text text={prefix} styleClass="text-sm text-[#030115] mt-1" />
+			<Text text={prefix} styleClass="text-sm text-[#030115]" />
 		{/if}
 
 		<AmountInput
 			{id}
 			bind:value={inputAmountString}
 			onChange={handleChange}
-			styleClass="input input-ghost min-w-[20px] w-full input-primary text-sm p-0 ml-0.5 placeholder:text-primary/[.2] h-[30px] mt-1"
+			styleClass="input input-ghost min-w-[20px] w-full input-primary text-sm p-0 ml-0.5 placeholder:text-primary/[.2] h-[30px]"
 			{onlyInteger}
 			{disabled}
 		/>

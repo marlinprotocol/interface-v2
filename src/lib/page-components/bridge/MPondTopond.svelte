@@ -127,7 +127,7 @@
 	<Button
 		variant="filled"
 		size="large"
-		styleClass="w-full mt-4"
+		styleClass="w-full mt-4 font-medium"
 		onclick={handleConvertRequest}
 		loading={requestConversionLoading}
 		disabled={!enableConversion}>Place conversion request</Button

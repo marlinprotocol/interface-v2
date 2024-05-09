@@ -9,8 +9,7 @@
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import {
 		getAllFiltersListforMarketplaceData,
-		getSearchAndFilteredMarketplaceData,
-		getFiltersListForOysterMarketPlace
+		getSearchAndFilteredMarketplaceData
 	} from '$lib/utils/helpers/oysterHelpers';
 
 	export let filterMap: Record<string, string | number> = {};
@@ -33,17 +32,14 @@
 			filterIdOrders.push(id);
 		}
 
-		filteredData = getSearchAndFilteredMarketplaceData(
+		const { allMarketplaceData, finalFilters } = getSearchAndFilteredMarketplaceData(
 			$oysterStore.allMarketplaceData,
 			filterMap,
 			exactMatch
 		);
 
-		allFilters = getFiltersListForOysterMarketPlace(
-			$oysterStore.allMarketplaceData,
-			filterMap,
-			exactMatch
-		);
+		filteredData = allMarketplaceData;
+		allFilters = finalFilters;
 	};
 
 	const handleClearFilters = () => {

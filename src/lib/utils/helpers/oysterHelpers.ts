@@ -280,6 +280,7 @@ export const getSearchAndFilteredMarketplaceData = (
 	filterMap: Partial<OysterMarketplaceFilterModel>,
 	exactMatch = false
 ) => {
+	let finalFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
 	// for provider, we are checking substring match and need do check on both name and address
 	if (filterMap.provider) {
 		const value = filterMap.provider.toLowerCase();
@@ -290,6 +291,8 @@ export const getSearchAndFilteredMarketplaceData = (
 				: item.provider.address.toLowerCase().includes(value) ||
 						item.provider.name?.toLowerCase()?.includes(value);
 		});
+		const modifiedFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
+		finalFilters = updateObjectExceptKey('provider', finalFilters, modifiedFilters);
 	}
 
 	if (filterMap.region) {
@@ -300,6 +303,8 @@ export const getSearchAndFilteredMarketplaceData = (
 				: item.region.toLowerCase().includes(value) ||
 						item.regionName.toLowerCase().includes(value);
 		});
+		const modifiedFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
+		finalFilters = updateObjectExceptKey('region', finalFilters, modifiedFilters);
 	}
 
 	if (filterMap.memory) {
@@ -309,6 +314,8 @@ export const getSearchAndFilteredMarketplaceData = (
 				? item.memory?.toString() === value
 				: item.memory?.toString()?.includes(value);
 		});
+		const modifiedFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
+		finalFilters = updateObjectExceptKey('memory', finalFilters, modifiedFilters);
 	}
 
 	if (filterMap.vcpu) {
@@ -316,115 +323,30 @@ export const getSearchAndFilteredMarketplaceData = (
 		allMarketplaceData = allMarketplaceData.filter((item) => {
 			return exactMatch ? item.vcpu?.toString() === value : item.vcpu?.toString()?.includes(value);
 		});
-	}
-
-	if (!!filterMap?.instance?.length) {
-		const value = filterMap.instance?.toLowerCase();
-		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return exactMatch
-				? item.instance?.toLowerCase() === value
-				: item.instance.toLowerCase()?.includes(value);
-		});
-	}
-
-	if (filterMap.arch) {
-		const value = filterMap.arch.toString();
-		allMarketplaceData = allMarketplaceData.filter((item) => {
-			return exactMatch ? item.arch?.toString() === value : item.arch?.toString()?.includes(value);
-		});
-	}
-
-	// if (filterMap.rate) {
-	// 	const value = filterMap.rate;
-	// 	allMarketplaceData = allMarketplaceData.filter((item) => {
-	// 		return value && item.rate?.toString()?.includes(value.toString());
-	// 	});
-	// }
-
-	return allMarketplaceData;
-};
-
-export const getFiltersListForOysterMarketPlace = (
-	allMarketplaceData: OysterMarketplaceDataModel[],
-	filterMap: Partial<OysterMarketplaceFilterModel>,
-	exactMatch = false
-) => {
-	let ogFilters: any = getAllFiltersListforMarketplaceData(allMarketplaceData);
-	// for provider, we are checking substring match and need do check on both name and address
-	if (filterMap.provider) {
-		const value = filterMap.provider.toLowerCase();
-		const intitFilters = allMarketplaceData.filter((item) => {
-			return exactMatch
-				? item.provider.address.toLowerCase() === value ||
-						item.provider.name?.toLowerCase() === value
-				: item.provider.address.toLowerCase().includes(value) ||
-						item.provider.name?.toLowerCase()?.includes(value);
-		});
-
-		const modifiedFilters = getAllFiltersListforMarketplaceData(intitFilters);
-		ogFilters = updateObjectExceptKey('provider', ogFilters, modifiedFilters);
-	}
-
-	if (filterMap.region) {
-		const value = filterMap.region.toLowerCase();
-		const intitFilters = allMarketplaceData.filter((item) => {
-			return exactMatch
-				? item.region.toLowerCase() === value || item.regionName.toLowerCase() === value
-				: item.region.toLowerCase().includes(value) ||
-						item.regionName.toLowerCase().includes(value);
-		});
-		const modifiedFilters = getAllFiltersListforMarketplaceData(intitFilters);
-		ogFilters = updateObjectExceptKey('region', ogFilters, modifiedFilters);
-	}
-
-	if (filterMap.memory) {
-		const value = filterMap.memory?.toString();
-		const intitFilters = allMarketplaceData.filter((item) => {
-			return exactMatch
-				? item.memory?.toString() === value
-				: item.memory?.toString()?.includes(value);
-		});
-		const modifiedFilters = getAllFiltersListforMarketplaceData(intitFilters);
-		ogFilters = updateObjectExceptKey('memory', ogFilters, modifiedFilters);
-	}
-
-	if (filterMap.vcpu) {
-		const value = filterMap.vcpu.toString();
-		const intitFilters = allMarketplaceData.filter((item) => {
-			return exactMatch ? item.vcpu?.toString() === value : item.vcpu?.toString()?.includes(value);
-		});
-		const modifiedFilters = getAllFiltersListforMarketplaceData(intitFilters);
-		ogFilters = updateObjectExceptKey('vcpu', ogFilters, modifiedFilters);
+		const modifiedFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
+		finalFilters = updateObjectExceptKey('vcpu', finalFilters, modifiedFilters);
 	}
 
 	if (filterMap.instance) {
 		const value = filterMap.instance?.toLowerCase();
-		const intitFilters = allMarketplaceData.filter((item) => {
+		allMarketplaceData = allMarketplaceData.filter((item) => {
 			return exactMatch
 				? item.instance?.toLowerCase() === value
 				: item.instance.toLowerCase()?.includes(value);
 		});
-		const modifiedFilters = getAllFiltersListforMarketplaceData(intitFilters);
-		ogFilters = updateObjectExceptKey('instance', ogFilters, modifiedFilters);
+		const modifiedFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
+		finalFilters = updateObjectExceptKey('instance', finalFilters, modifiedFilters);
 	}
 
 	if (filterMap.arch) {
 		const value = filterMap.arch.toString();
-		const intitFilters = allMarketplaceData.filter((item) => {
+		allMarketplaceData = allMarketplaceData.filter((item) => {
 			return exactMatch ? item.arch?.toString() === value : item.arch?.toString()?.includes(value);
 		});
-		const modifiedFilters = getAllFiltersListforMarketplaceData(intitFilters);
-		ogFilters = updateObjectExceptKey('arch', ogFilters, modifiedFilters);
+		const modifiedFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
+		finalFilters = updateObjectExceptKey('arch', finalFilters, modifiedFilters);
 	}
-
-	// if (filterMap.rate) {
-	// 	const value = filterMap.rate;
-	// 	allMarketplaceData = allMarketplaceData.filter((item) => {
-	// 		return value && item.rate?.toString()?.includes(value.toString());
-	// 	});
-	// }
-
-	return ogFilters;
+	return { allMarketplaceData, finalFilters };
 };
 
 function updateObjectExceptKey(immutableKey: string, originalObject: any, updatedObject: any) {
@@ -477,7 +399,6 @@ export const addAllToList = (
 	addAllOption: boolean
 ) => {
 	const setData = [...new Set(data)];
-	// console.log(type,{setData})
 	if (!addAllOption || setData.length === 0) return setData;
 	return ['All', ...setData];
 };

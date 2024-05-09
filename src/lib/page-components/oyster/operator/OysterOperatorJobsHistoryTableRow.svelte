@@ -8,7 +8,8 @@
 	import {
 		bigNumberToString,
 		epochSecToString,
-		epochToDurationString
+		epochToDurationString,
+		epochToDurationStringLong
 	} from '$lib/utils/helpers/conversionHelper';
 
 	export let rowData: OysterInventoryDataModel;
@@ -48,8 +49,8 @@
 </td>
 <td class={tableClasses.cell}>
 	<Tooltip>
-		<span slot="tooltipContent">{epochToDurationString(durationRun)}</span>
-		{epochToDurationString(durationRun, true)}
+		<span slot="tooltipContent">{epochToDurationStringLong(durationRun)}</span>
+		<span slot="tooltipIcon">{epochToDurationString(durationRun, true)}</span>
 	</Tooltip>
 </td>
 <td class={tableClasses.cell}>

@@ -29,7 +29,8 @@
 		<Text {text} variant="tiny" {fontWeight} />
 	{/if}
 	{#if tooltipText}
-		<Tooltip tooltipDirection="tooltip-left" {tooltipText} styleClass="text-left">
+		<Tooltip placement="left">
+			<span slot="tooltipContent">{tooltipText} </span>
 			<img src={staticImages.BlueAlert} alt="tooltip" />
 		</Tooltip>
 	{/if}

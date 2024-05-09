@@ -5,7 +5,7 @@
 	export let tooltipText: string;
 	export let styleClass = '';
 	export let iconWidth = '14px';
-	export let iconSrc = staticImages.Alert;
+	export let iconSrc = staticImages.alertV2Icon;
 	export let tooltipVariant: TooltipVariant = 'tooltip-secondary';
 	export let tooltipDirection: TooltipDirection = 'tooltip-top';
 
@@ -14,7 +14,7 @@
 
 <div
 	data-testid="tooltip-icon"
-	class="tooltip flex shrink-0 text-left font-normal {tooltipClass}"
+	class="tooltip ml-[14px] flex shrink-0 text-left font-normal {tooltipClass}"
 	data-tip={tooltipText}
 >
 	<img src={iconSrc} alt="Info" width={iconWidth} />

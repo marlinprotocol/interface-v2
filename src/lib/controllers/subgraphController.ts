@@ -92,7 +92,10 @@ export async function getPondBalanceFromSubgraph(address: Address): Promise<bigi
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error fetching POND balance. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error fetching POND balance. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.log('Error fetching POND balance', error);
@@ -124,7 +127,10 @@ export async function getMPondBalanceFromSubgraph(address: Address): Promise<big
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error fetching MPond balance. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error fetching MPond balance. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.log('Error fetching MPond balance', error);
@@ -151,7 +157,10 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error fetching receiver POND balance from subgraph. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error fetching receiver POND balance from subgraph. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.log('Error fetching receiver POND balance from subgraph', error);
@@ -190,7 +199,10 @@ export async function getReceiverStakingDataFromSubgraph(
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error fetching receiver staked, in queue data from subgraph. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error fetching receiver staked, in queue data from subgraph. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.log('Error fetching receiver staked, in queue data from subgraph', error);
@@ -218,7 +230,10 @@ export async function checkIfSignerExistsInSubgraph(address: Address): Promise<b
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error checking if signer exists in subgraph. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error checking if signer exists in subgraph. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.log('Error checking if signer exists in subgraph', error);
@@ -252,7 +267,10 @@ export async function getPondAndMPondBridgeAllowancesFromSubgraph(
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error fetching receiver POND and MPond allowances from subgraph. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error fetching receiver POND and MPond allowances from subgraph. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.log('Error fetching receiver POND and mPond allowances from subgraph', error);
@@ -285,7 +303,10 @@ export async function getRequestedMPondForConversionFromSubgraph(address: Addres
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error fetching requested MPond from subgraph. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error fetching requested MPond from subgraph. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.log('Error fetching requested MPond from subgraph', error);
@@ -316,7 +337,10 @@ export async function getPondToMPondConversionHistoryFromSubgraph(address: Addre
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error getting POND to MPond history data from subgraph. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error getting POND to MPond history data from subgraph. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.log('Error getting POND to MPond history data from subgraph', error);
@@ -346,7 +370,10 @@ export async function getMPondToPondConversionHistoryFromSubgraph(address: Addre
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error getting MPond to POND history data from subgraph. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error getting MPond to POND history data from subgraph. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.log('Error getting MPond to POND history data from subgraph', error);
@@ -379,7 +406,10 @@ export async function getOysterJobsFromSubgraph(address: Address) {
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error getting oyster jobs from subgraph. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error getting oyster jobs from subgraph. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.error('Error getting oyster jobs from subgraph', error);
@@ -410,7 +440,10 @@ export async function getOysterJobsFromSubgraphById(id: string[]) {
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error getting oyster jobs by id from subgraph. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error getting oyster jobs by id from subgraph. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.error('Error getting oyster jobs by id from subgraph', error);
@@ -441,7 +474,10 @@ export async function getProviderDetailsFromSubgraph(address: Address) {
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error getting provider details from subgraph. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error getting provider details from subgraph. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.log('Error getting provider details from subgraph', error);
@@ -468,7 +504,10 @@ export async function getAllProvidersDetailsFromSubgraph() {
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error getting all provider details from subgraph. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error getting all provider details from subgraph. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.log('Error getting all provider details from subgraph', error);
@@ -498,7 +537,10 @@ export async function getApprovedOysterAllowancesFromSubgraph(address: Address) 
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error fetching oyster allowances from subgraph. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error fetching oyster allowances from subgraph. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.log('Error fetching oyster allowances from subgraph', error);
@@ -529,7 +571,10 @@ export async function getOysterMerchantJobsFromSubgraph(address: Address) {
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error getting oyster jobs from subgraph. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error getting oyster jobs from subgraph. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.error('Error getting oyster jobs from subgraph', error);
@@ -563,7 +608,10 @@ export async function getReceiverRewardsDataFromSubgraph(address: Address) {
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error getting receiver rewards data from subgraph. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error getting receiver rewards data from subgraph. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.error('Error getting receiver rewards data from subgraph', error);
@@ -598,7 +646,10 @@ export async function getOysterCreditFromSubgraph(address: Address) {
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error getting oyster user credit from subgraph. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error getting oyster user credit from subgraph. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.error('Error getting oyster user credit from subgraph', error);
@@ -629,7 +680,10 @@ export async function getOysterCreditJobsFromSubgraph(address: Address) {
 	} catch (error: any) {
 		addToast({
 			variant: 'error',
-			message: `Error getting oyster credit jobs from subgraph. ${error.message}`,
+			message: {
+				title: 'Contract Error',
+				description: `Error getting oyster credit jobs from subgraph. ${error.message}`
+			},
 			timeout: 6000
 		});
 		console.error('Error getting oyster credit jobs from subgraph', error);

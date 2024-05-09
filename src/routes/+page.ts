@@ -1,4 +1,4 @@
-import { ROUTES } from '$lib/utils/constants/v2/urls';
+import { ROUTES } from '$lib/utils/constants/urls';
 import { redirect } from '@sveltejs/kit';
 
 export function load() {

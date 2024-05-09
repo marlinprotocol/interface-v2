@@ -5,12 +5,18 @@ import html from '@playpilot/svelte-htm';
 
 describe('InputCardWithEndButton', () => {
 	it("render's the component properly", () => {
-		const { container } = render(InputCardWithEndButton, { title: 'Test Title' });
+		const { container } = render(InputCardWithEndButton, {
+			title: 'Test Title',
+			variant: 'v2Input'
+		});
 		expect(container).toMatchSnapshot();
 	});
 
 	it('renders the title properly', () => {
-		const { getByText } = render(InputCardWithEndButton, { title: 'Test Title' });
+		const { getByText } = render(InputCardWithEndButton, {
+			title: 'Test Title',
+			variant: 'v2Input'
+		});
 
 		// Check if the title is rendered
 		const titleElement = getByText('Test Title');
@@ -21,14 +27,18 @@ describe('InputCardWithEndButton', () => {
 		// Render the component with a tooltip
 		const { container } = render(InputCardWithEndButton, {
 			tooltipText: 'Tooltip Information',
-			title: 'Test Title'
+			title: 'Test Title',
+			variant: 'v2Input'
 		});
 		expect(container.innerHTML).contain('Tooltip Information');
 	});
 
 	it('does not render the tooltip when tooltipText is not provided', () => {
 		// Render the component without passing tooltipText
-		const { queryByAltText } = render(InputCardWithEndButton, { title: 'Test Title' });
+		const { queryByAltText } = render(InputCardWithEndButton, {
+			title: 'Test Title',
+			variant: 'v2Input'
+		});
 
 		// Check if the tooltip is not rendered
 		expect(queryByAltText('Info')).not.toBeTruthy();

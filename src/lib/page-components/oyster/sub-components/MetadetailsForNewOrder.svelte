@@ -4,11 +4,12 @@
 	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
 	import type {
 		OysterFiltersModel,
+		OysterInventoryDataModel,
 		OysterMarketplaceDataModel
 	} from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import { getInstanceMetadatDataForOperator } from '$lib/utils/data-modifiers/oysterModifiers';
-	import { doNothing } from '$lib/utils/helpers/commonHelper';
+	import { cn, doNothing } from '$lib/utils/helpers/commonHelper';
 	import {
 		getCreateOrderInstanceRegionFilters,
 		getRateForProviderAndFilters
@@ -155,6 +156,8 @@
 	$: set_vcpu(!instance.value ? '' : instanceData?.vcpu?.toString() ?? 'N/A');
 	$: set_arch(!instance.value ? '' : instanceData?.arch?.toString() ?? 'N/A');
 	$: set_memory(!instance.value ? '' : instanceData?.memory?.toString() ?? 'N/A');
+	$: instanceOrRegionError =
+		(instance.isDirty && instance.error !== '') || (region.isDirty && region.error !== '');
 </script>
 
 <SearchWithSelect
@@ -162,6 +165,9 @@
 	searchValue={merchant.value}
 	setSearchValue={handleMerchantChange}
 	title="Operator"
+	label="Operator"
+	showTitle={false}
+	cardVariant="v2Input"
 	placeholder="Enter operator name or address"
 />
 <ErrorTextCard
@@ -169,13 +175,16 @@
 	errorMessage={merchant.error}
 	styleClass="mt-0"
 />
-<div class="flex gap-2">
+<div class="my-4 flex gap-2">
 	<div class="w-full">
 		<SearchWithSelect
 			dataList={filters?.instance ?? []}
 			searchValue={instance.value}
 			setSearchValue={handleInstanceChange}
 			title="Instance"
+			label="Instance"
+			cardVariant="v2Input"
+			showTitle={false}
 			placeholder="Select instance"
 			disabled={!merchant.value}
 		/>
@@ -186,6 +195,9 @@
 			searchValue={region.value}
 			setSearchValue={handleRegionChange}
 			title="Region"
+			label="Region"
+			cardVariant="v2Input"
+			showTitle={false}
 			placeholder="Select region"
 			disabled={!merchant.value}
 		/>
@@ -201,13 +213,26 @@
 	errorMessage={region.error}
 	styleClass="mt-0"
 />
-<div class="flex gap-2">
+<div
+	class={cn('flex gap-2', {
+		'mt-4': instanceOrRegionError
+	})}
+>
 	<div class="w-full">
-		<TextInputWithEndButton title="vCPU" bind:input={vcpu} placeholder="Select" />
+		<TextInputWithEndButton
+			showTitle={false}
+			title="vCPU"
+			bind:input={vcpu}
+			placeholder="Select"
+			label="vCPU"
+			disabled
+		/>
 	</div>
 	<div class="w-full">
 		<TextInputWithEndButton
+			showTitle={false}
 			title="Architecture"
+			label="Architecture"
 			bind:input={arch.value}
 			placeholder="Select"
 			disabled
@@ -216,8 +241,11 @@
 	<div class="w-full">
 		<TextInputWithEndButton
 			title="Memory ({MEMORY_SUFFIX.trimStart()})"
+			label="Memory ({MEMORY_SUFFIX.trimStart()})"
 			bind:input={memory}
+			showTitle={false}
 			placeholder="Select"
+			disabled
 		/>
 	</div>
 </div>

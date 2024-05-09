@@ -1,9 +1,6 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
-	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import TableDataWithButton from '$lib/components/table-cells/TableDataWithButton.svelte';
-	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
 	import type {
 		MPondEligibleCyclesModel,
 		MPondToPondHistoryDataModel
@@ -16,7 +13,6 @@
 	import {
 		bigNumberToString,
 		epochSecToString,
-		epochToDurationString,
 		mPondToPond,
 		pondToMPond
 	} from '$lib/utils/helpers/conversionHelper';
@@ -24,11 +20,11 @@
 	import MPondConversionCycleButton from '$lib/page-components/bridge/buttons/MPondConversionCycleButton.svelte';
 	import MPondConversionHistoryButton from '$lib/page-components/bridge/buttons/MPondConversionHistoryButton.svelte';
 	import MPondEligibleConvertModal from '$lib/page-components/bridge/modals/MPondEligibleConvertModal.svelte';
-	import HistoryDataIconButton from '$lib/page-components/bridge/sub-components/HistoryDataIconButton.svelte';
 	import { cancelMPondConversionRequest } from '$lib/controllers/contract/bridge';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { getTxnUrl } from '$lib/utils/helpers/commonHelper';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 
 	export let rowData: MPondToPondHistoryDataModel;
 	export let rowIndex: number;
@@ -89,7 +85,8 @@
 		pondEligible,
 		conversionHistory,
 		requestEpoch,
-		mpondConverted
+		mpondConverted,
+		endTimestamp
 	} = rowData);
 
 	$: cancelDisabled =
@@ -99,109 +96,92 @@
 	$: endEpochTime = getTimerEpoch(currentCycle, eligibleCycles);
 </script>
 
-<tr class="border-b border-[#e5e5e5] last:border-b-0">
-	<TableDataWithButton>
-		<svelte:fragment slot="line1">
+<TableDataWithButton firstRow>
+	<svelte:fragment slot="line1">
+		<div class="flex items-center gap-2">
 			{epochSecToString(timestamp)}
-		</svelte:fragment>
-	</TableDataWithButton>
-	<TableDataWithButton>
-		<svelte:fragment slot="line1">
-			<TxnHashText
-				txnHash={transactionHash}
-				txnHashUrl={getTxnUrl($chainConfigStore.block_explorer_url, transactionHash)}
-			/>
-		</svelte:fragment>
-	</TableDataWithButton>
-	<TableDataWithButton>
-		<svelte:fragment slot="line1">
-			{bigNumberToString(mpondAmount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)}
-		</svelte:fragment>
-	</TableDataWithButton>
-	<TableDataWithButton>
-		<svelte:fragment slot="line1">
-			{bigNumberToString(pondAmount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
-		</svelte:fragment>
-	</TableDataWithButton>
-	<TableDataWithButton>
-		<svelte:fragment slot="line1">
-			{bigNumberToString(pondPending, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
-		</svelte:fragment>
-		<svelte:fragment slot="line2">
-			<MPondConversionCycleButton
-				{eligibleCycles}
-				{endEpochTime}
-				{currentCycle}
-				modalFor="mpond-conversion-cycle-modal-{rowIndex}"
-			/>
-		</svelte:fragment>
-	</TableDataWithButton>
-	<TableDataWithButton>
-		<svelte:fragment slot="line1">
-			{bigNumberToString(pondInProcess, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
-		</svelte:fragment>
-		<Timer
-			timerId="timer-for-mpond-table-{rowIndex}"
-			slot="line2"
-			{endEpochTime}
-			onTimerEnd={handleOnTimerEnd}
-		>
-			<div slot="active" let:timer class="mx-auto">
-				<HistoryDataIconButton
-					disabled={true}
-					src={staticImages.Timer}
-					fontWeight="font-normal"
-					variant="grey"
-					text={epochToDurationString(timer, true)}
-				/>
-			</div>
-		</Timer>
-	</TableDataWithButton>
-	<TableDataWithButton>
-		<svelte:fragment slot="line1">
-			{bigNumberToString(pondEligible, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
-		</svelte:fragment>
-		<svelte:fragment slot="line2">
-			<MPondConversionHistoryButton
-				{conversionHistory}
-				modalFor="mpond-conversion-history-modal-{rowIndex}"
-			/>
-		</svelte:fragment>
-	</TableDataWithButton>
-	<TableDataWithButton>
-		<svelte:fragment slot="line1">
-			<ModalButton
-				disabled={!(pondEligible > 0n)}
-				variant="tableConvertButton"
-				modalFor="mpond-convert-modal-{rowIndex}">CONVERT</ModalButton
+			<a
+				class="shrink-0"
+				href={getTxnUrl($chainConfigStore.block_explorer_url, transactionHash)}
+				target="_blank"
+				rel="noopener noreferrer"
 			>
-			<MPondEligibleConvertModal
-				maxAmount={pondToMPond(pondEligible)}
-				modalFor="mpond-convert-modal-{rowIndex}"
-				{requestEpoch}
-				handleOnSuccess={handleUpdateOnConvert}
-				{rowIndex}
-			/>
-		</svelte:fragment>
-		<svelte:fragment slot="line2">
-			{#if cancelDisabled}
-				<HistoryDataIconButton
-					disabled={true}
-					text="Cancel"
-					variant="disabled"
-					tooltipText="Cancel"
-				/>
-			{:else}
-				<Button
-					size="tiny"
+				<img src={staticImages.externalLinkIcon} alt="txn link" width="18px" />
+			</a>
+		</div>
+	</svelte:fragment>
+</TableDataWithButton>
+
+<TableDataWithButton>
+	<svelte:fragment slot="line1">
+		{bigNumberToString(pondAmount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}
+	</svelte:fragment>
+</TableDataWithButton>
+<TableDataWithButton>
+	<svelte:fragment slot="line1">
+		{bigNumberToString(mpondAmount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)}
+	</svelte:fragment>
+</TableDataWithButton>
+<TableDataWithButton>
+	<svelte:fragment slot="line1">
+		<div class="flex gap-3">
+			<Tooltip>
+				<ModalButton
+					slot="tooltipIcon"
+					disabled={!(pondEligible > 0n)}
+					size="tiniest"
 					variant="text"
-					onclick={async () => {
+					modalFor="mpond-convert-modal-{rowIndex}"
+				>
+					<div
+						class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE] hover:bg-[#F0F0F0]"
+					>
+						<img src={staticImages.exchangeIcon} alt="" />
+					</div>
+				</ModalButton>
+				<span slot="tooltipContent">Convert</span>
+			</Tooltip>
+
+			<Tooltip>
+				<MPondConversionCycleButton
+					slot="tooltipIcon"
+					{pondEligible}
+					{pondInProcess}
+					{pondPending}
+					{endTimestamp}
+					modalFor="mpond-conversion-cycle-modal-{rowIndex}"
+				/>
+				<span slot="tooltipContent">See conversion cycle</span>
+			</Tooltip>
+			<Tooltip>
+				<MPondConversionHistoryButton
+					slot="tooltipIcon"
+					{conversionHistory}
+					modalFor="mpond-conversion-history-modal-{rowIndex}"
+				/>
+				<span slot="tooltipContent">History</span>
+			</Tooltip>
+			<Tooltip>
+				<button
+					slot="tooltipIcon"
+					type="button"
+					class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE] hover:bg-[#F0F0F0]"
+					on:click={async () => {
 						await handleCancelConversionRequest(requestEpoch);
 					}}
 				>
-					<HistoryDataIconButton text="Cancel" variant="primary" tooltipText={cancelTooltipText} />
-				</Button>
-			{/if}
-		</svelte:fragment>
-	</TableDataWithButton>
-</tr>
+					<img src={staticImages.cancelIcon} alt="Cancel Icon" />
+				</button>
+				<span slot="tooltipContent">Cancel</span>
+			</Tooltip>
+		</div>
+	</svelte:fragment>
+</TableDataWithButton>
+
+<MPondEligibleConvertModal
+	maxAmount={pondToMPond(pondEligible)}
+	modalFor="mpond-convert-modal-{rowIndex}"
+	{requestEpoch}
+	handleOnSuccess={handleUpdateOnConvert}
+	{rowIndex}
+/>

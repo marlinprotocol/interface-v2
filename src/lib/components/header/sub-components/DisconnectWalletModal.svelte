@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
@@ -15,6 +14,7 @@
 
 <Modal {modalFor}>
 	<svelte:fragment slot="title">Your wallet</svelte:fragment>
+	<!-- <svelte:fragment slot="successmsg">Conversion Successful</svelte:fragment> -->
 	<svelte:fragment slot="content">
 		<div class="mb-4 rounded-lg bg-base-200 p-4 text-left">
 			<div class="flex items-center text-sm font-normal">
@@ -36,13 +36,13 @@
 					class="shrink-0 cursor-pointer"
 					on:click={() => handleCopyClick($walletStore.address, 'Address copied to clipboard')}
 				>
-					<ImageColored width={14} src={staticImages.CopyGrey} alt="Copy" variant="grey" />
+					<img width={18} src={staticImages.copyIcon} alt="Copy" />
 				</button>
 			</div>
 		</div>
 		<div class="flex flex-wrap gap-4">
-			<AddTokenPrompt tokenFor="POND" />
-			<AddTokenPrompt tokenFor="MPOND" />
+			<AddTokenPrompt tokenFor="POND" label="POND" />
+			<AddTokenPrompt tokenFor="MPOND" label="MPond" />
 			<a
 				href="{$chainConfigStore.block_explorer_url}/address/{$walletStore.address}"
 				target="_blank"
@@ -65,4 +65,8 @@
 			LOGOUT
 		</Button>
 	</svelte:fragment>
+
+	<!-- <svelte:fragment slot="errorMessage">
+		Insufficient MPOND
+	</svelte:fragment> -->
 </Modal>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import KalypsoDashboard from '$lib/page-components/v2/kalypso/KalypsoDashboard.svelte';
+	import KalypsoDashboard from '$lib/page-components/kalypso/KalypsoDashboard.svelte';
 </script>
 
 <KalypsoDashboard />

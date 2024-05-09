@@ -1,23 +1,35 @@
 <script lang="ts">
-	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import { dismissToast, toastsStore } from '$lib/data-stores/toastStore';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 	import { fade, slide } from 'svelte/transition';
 </script>
 
 {#if $toastsStore.length > 0}
-	<div class="toast toast-end toast-top z-[9999] items-end" data-testid="toast">
+	<div class="toast toast-end toast-top z-[9999] items-end p-10" data-testid="toast">
 		{#each $toastsStore as toast (toast.id)}
 			<button
 				in:slide
 				out:fade
 				data-testid="toast-btn"
 				on:click={() => dismissToast(toast.id)}
-				class="alert flex w-fit flex-row items-start justify-start gap-1 whitespace-normal rounded px-4 py-2 font-medium shadow-lg {toast.className}"
+				class={cn(
+					'alert flex w-fit flex-row items-start justify-start gap-3 whitespace-normal !rounded-[15px] border-0 py-[17.5px] pl-[13px] pr-[46px] font-medium shadow-lg',
+					toast.className
+				)}
 			>
-				<div class={'flex h-5 w-5 items-center justify-center'}>
-					<Icon iconColorClass={toast.iconColor} data={toast.iconData} size={18} />
+				<div class={'flex h-[54px] w-[54px] items-center justify-center rounded-full bg-white'}>
+					<img src={toast.iconData} alt={toast.iconData} />
 				</div>
-				<span class="max-w-[330px] grow text-left text-sm">{toast.message}</span>
+				<span class="max-w-[330px] grow text-left text-sm">
+					{#if toast.message.title}
+						<div class="font-poppins text-lg text-[#000000]">{toast.message.title}</div>
+					{/if}
+					{#if toast.message.description}
+						<p class="text-base font-light text-[#707070]">
+							{toast.message.description}
+						</p>
+					{/if}
+				</span>
 			</button>
 		{/each}
 	</div>

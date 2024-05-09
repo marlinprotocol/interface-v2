@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { ButtonModel } from '$lib/types/componentTypes';
-	import { getButtonSize, getButtonStyles } from '$lib/utils/helpers/componentHelper';
+	import { getButtonStyles } from '$lib/utils/helpers/componentHelper';
+	import { getButtonSize } from '$lib/utils/helpers/componentHelper';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let variant: ButtonModel['variant'] = 'filled';
 	export let size: ButtonModel['size'] = 'medium';
@@ -11,11 +13,9 @@
 
 	const buttonStyles = getButtonStyles(variant);
 	const buttonSize = getButtonSize(size);
-
-	$: buttonStyleClass = `${styleClass} ${buttonSize} ${buttonStyles} gap-1.5`;
 </script>
 
-<button {disabled} on:click={onclick} class={buttonStyleClass}>
+<button {disabled} on:click={onclick} class={cn('gap-1.5', buttonSize, buttonStyles, styleClass)}>
 	{#if loading}
 		<span data-testid="loading-spinner" class="loading loading-spinner loading-sm" />
 	{/if}

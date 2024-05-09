@@ -1,6 +1,6 @@
 <script>
-	import PageWrapper from '$lib/components/v2/wrapper/PageWrapper.svelte';
-	import EcosystemDashboard from '$lib/page-components/v2/ecosystem/EcosystemDashboard.svelte';
+	import PageWrapper from '$lib/components/wrapper/PageWrapper.svelte';
+	import EcosystemDashboard from '$lib/page-components/ecosystem/EcosystemDashboard.svelte';
 </script>
 
 <PageWrapper>

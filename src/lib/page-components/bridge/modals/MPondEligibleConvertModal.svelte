@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
@@ -13,6 +12,7 @@
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
 	import MPondApproveConfirmModal from '$lib/page-components/bridge/modals/MPondApproveConfirmModal.svelte';
+	import { removeTrailingZeros } from '$lib/utils/helpers/commonHelper';
 
 	export let modalFor: string;
 	export let maxAmount: bigint;
@@ -39,7 +39,7 @@
 
 	const handleMaxClick = () => {
 		if (maxAmount) {
-			inputAmountString = bigNumberToString(maxAmount);
+			inputAmountString = removeTrailingZeros(bigNumberToString(maxAmount, 18, 18));
 			//reset input error message
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
@@ -78,13 +78,12 @@
 	<svelte:fragment slot="title">Enter an amount</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
-			title="From"
+			currency="MPond"
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			maxAmountText={balanceText}
 			inputCardVariant="none"
 		>
-			<Text slot="input-end-button" text="MPond" fontWeight="font-medium" />
 			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
 		</AmountInputWithMaxButton>
 		<ErrorTextCard
@@ -99,10 +98,11 @@
 			disabled={!submitEnable}
 			styleClass="h-14 btn-block"
 		>
-			PROCEED TO CONVERSION
+			Proceed to conversion
 		</ModalButton>
 	</svelte:fragment>
 </Modal>
+
 <MPondApproveConfirmModal
 	modalFor={modalIdWithRowIndex}
 	{requestEpoch}

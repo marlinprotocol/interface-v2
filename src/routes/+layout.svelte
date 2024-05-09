@@ -4,12 +4,12 @@
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
 
-	import Toast from '$lib/atoms/v2/toast/Toast.svelte';
-	import Header from '$lib/components/v2/header/Header.svelte';
+	import Toast from '$lib/atoms/toast/Toast.svelte';
+	import Header from '$lib/components/header/Header.svelte';
 	import { onMount } from 'svelte';
 	import '../app.css';
+	import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
-	import Sidebar from '$lib/components/v2/sidebar/Sidebar.svelte';
 
 	onMount(async () => {
 		// removes console logs in production

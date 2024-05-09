@@ -1,9 +1,7 @@
 <script lang="ts">
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
-	import SearchBar from '$lib/components/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
-	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type {
 		OysterInventoryDataModel,
 		OysterInventorySortKeys
@@ -13,7 +11,11 @@
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
 	import OysterInventoryHistoryTableRow from '$lib/page-components/oyster/inventory/OysterInventoryHistoryTableRow.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
-	import { OYSTER_OWNER_INVENTORY_URL } from '$lib/utils/constants/urls';
+	import { staticImages } from '$lib/components/images/staticImages';
+	import { ROUTES } from '$lib/utils/constants/urls';
+	import { cn } from '$lib/utils/helpers/commonHelper';
+	import { tableClasses } from '$lib/atoms/componentClasses';
+	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -43,7 +45,7 @@
 
 	// fiter inventory data based on job status
 	$: inventoryData = $oysterStore.jobsData?.filter(
-		(data) => data.status === 'completed' || data.status === 'closed'
+		(data) => data.status === 'completed' || data.status === 'stopped'
 	);
 	// get searched data based on searchInput
 	$: searchedData = getSearchedInventoryData(searchInput, inventoryData);
@@ -56,32 +58,44 @@
 	);
 </script>
 
-<div class="mx-auto">
-	<PageTitle title="My Past Orders" backHref={OYSTER_OWNER_INVENTORY_URL} />
-	<div class="mb-6 flex items-center gap-4">
-		<SearchBar
-			disabled={!$connected}
-			{onSearchClick}
-			bind:input={searchInput}
-			placeholder="Search for operator, instance or region"
-			styleClass="w-full"
-		/>
-	</div>
-	<OysterTableCommon
-		{handleSortData}
-		loading={!$oysterStore.oysterStoreLoaded}
-		tableHeading={OYSTER_HISTORY_TABLE_HEADER}
-		noDataFound={paginatedData?.length ? false : true}
+<div class="flex gap-[14px]">
+	<a
+		class="mb-8 flex h-[56px] w-[56px] items-center justify-center rounded-full border border-[#D9DADE] bg-white"
+		href={ROUTES.OYSTER_INVENTORY_URL}
 	>
-		{#if paginatedData?.length}
-			{#each paginatedData as rowData, rowIndex}
-				<OysterInventoryHistoryTableRow {rowData} {rowIndex} />
-			{/each}
-		{/if}
-		<tr>
-			<td colspan="12">
-				<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
-			</td>
-		</tr>
-	</OysterTableCommon>
+		<img src={staticImages.backIcon} alt="Back Icon" />
+	</a>
+	<PageTitle title="My Past Orders" />
 </div>
+<div class="mb-6 flex items-center gap-4 rounded-[24px] bg-white px-8 py-6">
+	<SearchWithSelect
+		dataList={inventoryData?.map((id) => id.provider.address)}
+		searchValue={searchInput}
+		setSearchValue={(value, exactMatch) => {
+			searchInput = value.toString();
+		}}
+		title="Operator"
+		showTitle={false}
+		placeholder="Search"
+		label="Operator name or address"
+		cardVariant="search"
+		styleClass="w-full"
+		{onSearchClick}
+		isTableFilter={true}
+	/>
+</div>
+<OysterTableCommon
+	{handleSortData}
+	loading={!$oysterStore.oysterStoreLoaded}
+	tableHeading={OYSTER_HISTORY_TABLE_HEADER}
+	noDataFound={paginatedData?.length ? false : true}
+>
+	{#if paginatedData?.length}
+		{#each paginatedData as rowData, rowIndex}
+			<tr class={cn(tableClasses.row, 'group/row h-16 hover:bg-base-200')}>
+				<OysterInventoryHistoryTableRow {rowData} {rowIndex} />
+			</tr>
+		{/each}
+	{/if}
+</OysterTableCommon>
+<Pagination {pageCount} {activePage} {handlePageChange} />

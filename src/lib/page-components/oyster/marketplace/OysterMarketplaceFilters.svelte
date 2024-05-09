@@ -61,24 +61,27 @@
 	$: allFilters = getAllFiltersListforMarketplaceData($oysterStore.allMarketplaceData);
 </script>
 
-<div class="mb-6 flex w-full flex-col items-end gap-2">
-	<div class="flex w-full gap-4">
+<div class="mb-6 flex w-full flex-col items-end gap-2 rounded-[24px] bg-white px-8 py-6">
+	<div class="flex w-full items-stretch gap-4">
 		<SearchWithSelect
 			dataList={allFilters?.provider}
 			searchValue={filterMap.provider}
 			setSearchValue={(value, exactMatch) => handleFilterData('provider', value, exactMatch)}
 			title="Operator"
 			showTitle={false}
-			placeholder="Enter operator name or address"
+			placeholder="Search"
+			label="Operator name or address"
 			cardVariant="search"
 			styleClass="w-full"
 			onSearchClick={onFilterClick}
 			isTableFilter={true}
 		/>
-
-		<Button variant="outlined" size="medium" styleClass="w-[140px]" onclick={handleClearFilters}>
-			CLEAR
-		</Button>
+		<Button
+			variant="filled"
+			size="medium"
+			styleClass="w-[140px] h-auto font-normal font-poppins"
+			onclick={handleClearFilters}>Clear</Button
+		>
 	</div>
 	<div class="mt-4 flex w-full flex-col items-center gap-4 md:flex-row">
 		<SearchWithSelect
@@ -88,7 +91,8 @@
 			showTitle={false}
 			cardVariant="search"
 			title="Instance"
-			placeholder="Select Instance"
+			placeholder="Select"
+			label="Instance"
 			isTableFilter={true}
 		/>
 		<SearchWithSelect
@@ -96,7 +100,8 @@
 			searchValue={filterMap.region ?? ''}
 			setSearchValue={(value, exactMatch) => handleFilterData('region', value, exactMatch)}
 			title="Region"
-			placeholder="Filter by Region"
+			placeholder="Select"
+			label="Region"
 			showTitle={false}
 			cardVariant="search"
 			isTableFilter={true}
@@ -106,7 +111,8 @@
 			searchValue={filterMap.vcpu ?? ''}
 			setSearchValue={(value, exactMatch) => handleFilterData('vcpu', value, exactMatch)}
 			title="vCPU"
-			placeholder="Filter by vCPU"
+			placeholder="Select"
+			label="vCPU"
 			showTitle={false}
 			cardVariant="search"
 			isTableFilter={true}
@@ -116,7 +122,8 @@
 			searchValue={filterMap.memory ?? ''}
 			setSearchValue={(value, exactMatch) => handleFilterData('memory', value, exactMatch)}
 			title="Memory"
-			placeholder="Filter by Memory"
+			placeholder="Select"
+			label="Memory"
 			showTitle={false}
 			cardVariant="search"
 			isTableFilter={true}
@@ -127,7 +134,8 @@
 			searchValue={filterMap.arch ?? ''}
 			setSearchValue={(value, exactMatch) => handleFilterData('arch', value, exactMatch)}
 			title="Arch"
-			placeholder="Filter by Arch"
+			placeholder="Select"
+			label="Architecture"
 			showTitle={false}
 			cardVariant="search"
 			isTableFilter={true}

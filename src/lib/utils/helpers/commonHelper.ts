@@ -223,3 +223,12 @@ export const bigIntAbs = (n: bigint) => {
 export function cn(...args: ClassValue[]) {
 	return twMerge(clsx(args));
 }
+
+export const removeTrailingZeros = (decimalString: string): string => {
+	// Check if the input contains a decimal point
+	if (decimalString.includes('.')) {
+		// Remove trailing zeros after the decimal point and remove the decimal point if not necessary
+		decimalString = decimalString.replace(/(\.\d*?[1-9])0+$/, '$1').replace(/\.$/, '');
+	}
+	return decimalString;
+};

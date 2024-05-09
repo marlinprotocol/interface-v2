@@ -1,9 +1,5 @@
 import { writable, type Writable } from 'svelte/store';
-import {
-	getColorClassByVariant,
-	getIconbyVariant,
-	getTextColorClassByVariant
-} from '$lib/utils/helpers/componentHelper';
+import { getColorClassByVariant, getIconbyVariant } from '$lib/utils/helpers/componentHelper';
 import type { Toast, ToastModel } from '$lib/types/componentTypes';
 
 /**
@@ -16,6 +12,7 @@ export const toastsStore: Writable<ToastModel[]> = writable([]);
  * @param id
  */
 export const dismissToast = (id: number) => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	toastsStore.update((all: any) => all.filter((t: Toast) => t.id !== id));
 };
 
@@ -27,7 +24,7 @@ export const dismissToast = (id: number) => {
  * @param variant the color of the toast
  */
 export const addToast = ({
-	message = 'Set Toast Message',
+	message = { title: 'Set Toast Message Title', description: 'Set Toast Message Description' },
 	dismissible = true,
 	timeout = 2800,
 	variant
@@ -37,17 +34,15 @@ export const addToast = ({
 	const id = Math.floor(Math.random() * 10000);
 
 	const defaults: Toast = {
-		variant: 'info',
+		variant: 'success',
 		timeout: 2800,
-		message: 'Set Toast message.'
+		message: { title: 'Set Toast Message Title', description: 'Set Toast Message Description' }
 	};
 
-	const iconColor = getColorClassByVariant(variant ? variant : defaults.variant);
-	const textColor = getTextColorClassByVariant(variant ? variant : defaults.variant);
+	const bgColor = getColorClassByVariant(variant ? variant : defaults.variant);
 	const iconData = getIconbyVariant(variant ? variant : defaults.variant);
-	const alertVariant = variant ? `alert-${variant}` : 'alert-info';
 
-	const className = `${alertVariant ?? ''} ${textColor}`;
+	const className = `${bgColor} `;
 
 	// Push the toast to the top of the list of toasts
 	const t: ToastModel = {
@@ -58,7 +53,7 @@ export const addToast = ({
 		timeout,
 		className,
 		iconData,
-		iconColor
+		bgColor
 	};
 	toastsStore.update((all) => [t, ...all]);
 

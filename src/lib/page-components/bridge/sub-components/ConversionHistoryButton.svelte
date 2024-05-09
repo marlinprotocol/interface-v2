@@ -15,12 +15,10 @@
 	size="large"
 	styleClass="w-full"
 >
-	<div class="flex w-full justify-between">
-		<div class="flex w-full justify-center gap-1">
-			{firstText}
-			<img src={staticImages.Arrow} alt="Copy" width="8px" />
-			{secondText} conversion History
-		</div>
-		<img src={staticImages.RightArrow} alt="Copy" />
+	<div class="flex w-full justify-center gap-1">
+		<img src={staticImages.conversionIcon} alt="Conversion" />
+		{firstText}
+		to
+		{secondText} conversion history
 	</div>
 </Button>

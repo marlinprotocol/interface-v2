@@ -10,6 +10,11 @@
 	{#if !!backHref}
 		<BackButton href={backHref} text="" />
 	{/if}
-	<Text variant="h2" text={title} />
+	<Text
+		styleClass="font-poppins leading-[-2px] text-[#030115]"
+		variant="h2"
+		fontWeight="font-medium"
+		text={title}
+	/>
 	<slot name="button" />
 </div>

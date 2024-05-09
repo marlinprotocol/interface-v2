@@ -19,6 +19,7 @@
 	import { DEFAULT_PRECISION } from '$lib/utils/constants/constants';
 	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
 	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
+	import Divider from '$lib/atoms/divider/Divider.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -90,7 +91,7 @@
 			? `Available balance: ${bigNumberToString(
 					maxAmount,
 					OYSTER_MARLIN_CREDIT_METADATA.decimal
-				)} ${OYSTER_MARLIN_CREDIT_METADATA.symbol.split('_')[1]}`
+				)} ${OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]}`
 			: `Available balance: ${bigNumberToString(maxAmount, $oysterTokenMetadataStore.decimal)} ${
 					$oysterTokenMetadataStore.currency
 				}`;
@@ -109,21 +110,29 @@
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
-	<svelte:fragment slot="title">WITHDRAW FUNDS</svelte:fragment>
-	<svelte:fragment slot="subtitle">
-		Enter the amount you'd like to withdraw from this job.
-	</svelte:fragment>
+	<svelte:fragment slot="title">Withdraw Funds</svelte:fragment>
+
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
-			title="Amount"
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			inputCardVariant="none"
 			{maxAmountText}
-		>
-			<Text slot="input-end-button" text="Amount" fontWeight="font-medium" />
-			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
-		</AmountInputWithMaxButton>
+			currency="Amount"
+			showBalance={false}
+		/>
+		<div class="mt-4 flex items-center justify-end gap-2">
+			<MaxButton onclick={handleMaxClick} />
+			<Divider direction="divider-vertical" />
+			<div class="flex items-center gap-1">
+				<Text
+					text={maxAmountText}
+					variant="small"
+					styleClass="text-[#030115]"
+					fontWeight="font-normal"
+				/>
+			</div>
+		</div>
 		<ErrorTextCard
 			showError={!inputAmountIsValid && updatedAmountInputDirty}
 			errorMessage={inValidMessage}

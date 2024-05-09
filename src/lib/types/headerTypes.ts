@@ -18,7 +18,7 @@ export type SubLinks = {
 
 export type SidebarLinks = {
 	label: string;
-	href?: string;
+	href: string;
 	icon: string;
 	hasDashboard?: boolean;
 	children?: SubLinks[];

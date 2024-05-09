@@ -16,7 +16,6 @@ beforeAll(() => {
 });
 
 describe('AmountInputWithMaxButton', () => {
-	const title = 'Test Title';
 	const tooltipText = 'Info Tooltip';
 	const inputAmountString = '123';
 	const maxAmountText = 'Balance: 1000';
@@ -25,8 +24,6 @@ describe('AmountInputWithMaxButton', () => {
 
 	it("render's the component properly", () => {
 		const { container } = render(AmountInputWithMaxButton, {
-			title,
-			tooltipText,
 			inputAmountString,
 			maxAmountText,
 			maxAmountTooltipText,
@@ -38,8 +35,6 @@ describe('AmountInputWithMaxButton', () => {
 
 	it('renders correctly based on props and slots', async () => {
 		const { getByDisplayValue, container } = render(AmountInputWithMaxButton, {
-			title,
-			tooltipText,
 			inputAmountString,
 			maxAmountText,
 			maxAmountTooltipText,
@@ -62,7 +57,6 @@ describe('AmountInputWithMaxButton', () => {
 	it('disables the input when handleUpdatedAmount is undefined or connected is false', async () => {
 		connected.mockSetSubscribeValue(false);
 		const { getByDisplayValue } = render(AmountInputWithMaxButton, {
-			title: 'Disabled Test',
 			inputAmountString: '0',
 			handleUpdatedAmount: undefined // Not providing handleUpdatedAmount makes the input disabled
 		});
@@ -76,7 +70,6 @@ describe('AmountInputWithMaxButton', () => {
 		connected.mockSetSubscribeValue(true);
 		await tick();
 		const { getByPlaceholderText } = render(AmountInputWithMaxButton, {
-			title: 'Disabled Test',
 			inputAmountString: '0',
 			handleUpdatedAmount: vi.fn() // Providing this should enable the input
 		});

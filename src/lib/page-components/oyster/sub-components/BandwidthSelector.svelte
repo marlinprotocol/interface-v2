@@ -8,6 +8,7 @@
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
+	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
 
 	export let region: any;
 	export let bandwidthRateForRegionScaled = 0n;
@@ -16,8 +17,9 @@
 	export let instanceCostScaled = 0n;
 	export let finalBandwidthRateScaled = 0n;
 	export let totalCostScaled = 0n;
+	export let useMarlinCredits = false;
+	export let bandwidth = '';
 
-	let bandwidth = '';
 	let bandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
 	let bandwidthCostString = '';
 
@@ -57,7 +59,7 @@
 		: '';
 </script>
 
-<div class="flex gap-2">
+<div class="mb-4 flex gap-2">
 	<AmountInputWithTitle
 		title="Bandwidth"
 		bind:inputAmountString={bandwidth}
@@ -71,13 +73,17 @@
 	<AmountInputWithTitle
 		title="Bandwidth Cost"
 		bind:inputAmountString={bandwidthCostString}
-		suffix={$oysterTokenMetadataStore.currency}
+		suffix={useMarlinCredits
+			? OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]
+			: $oysterTokenMetadataStore.currency}
 		disabled={true}
 	/>
 	<AmountInputWithTitle
 		title="Total Cost"
 		bind:inputAmountString={totalAmountString}
-		suffix={$oysterTokenMetadataStore.currency}
+		suffix={useMarlinCredits
+			? OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]
+			: $oysterTokenMetadataStore.currency}
 		disabled={true}
 	/>
 </div>

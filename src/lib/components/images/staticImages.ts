@@ -17,6 +17,7 @@ const Lock = '/images/lockicon.svg';
 const Metamask = '/images/metamaskicon.svg';
 const OpenInNew = '/images/openinnew.svg';
 const RightArrow = '/images/rightarrow.svg';
+const RightArrowWhite = '/images/rightarrowwhite.svg';
 const Sheild = '/images/shield.svg';
 const Sort = '/images/sort.svg';
 const Timer = '/images/timerclock.svg';
@@ -154,6 +155,7 @@ export const staticImages = {
 	Metamask,
 	OpenInNew,
 	RightArrow,
+	RightArrowWhite,
 	Sheild,
 	Sort,
 	Timer,

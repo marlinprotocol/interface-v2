@@ -132,8 +132,11 @@
 >
 	<Button onclick={handleClaimClick} variant="text" styleClass="w-fit ml-4 mr-6">
 		<Tooltip>
-			<div slot="tooltipIcon" class="rounded-full border border-[#D9DADE] p-3">
-				<img src={staticImages.Verified} alt="Claim" />
+			<div
+				slot="tooltipIcon"
+				class="flex h-[45px] w-[45px] items-center justify-center rounded-full bg-primary"
+			>
+				<img src={staticImages.RightArrowWhite} alt="Claim" />
 			</div>
 			<span class="font-normal" slot="tooltipContent">Claim</span>
 		</Tooltip>

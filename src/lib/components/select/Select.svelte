@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import CollapseButton from '$lib/components/buttons/CollapseButton.svelte';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let dataList: (string | number)[] = [];
 	export let title = '';
@@ -10,6 +11,7 @@
 	export let suggestions: (string | number)[] | string[][] = [];
 	export let textSuffix = '';
 	export let showLabel = false;
+	export let disabled = false;
 
 	let windowWidth: number;
 	let searchContainer: HTMLDivElement;
@@ -21,6 +23,7 @@
 	};
 
 	const handleToggleShowAllSuggestions = () => {
+		if (disabled) return;
 		suggestions = dataList;
 		showSuggestions = !showSuggestions;
 	};
@@ -41,13 +44,17 @@
 	data-testid="select"
 	bind:this={searchContainer}
 	on:click={handleToggleShowAllSuggestions}
-	class="search-container relative flex w-fit cursor-pointer items-baseline"
+	class={cn('search-container relative flex w-fit items-baseline', {
+		'cursor-not-allowed': disabled
+	})}
 >
 	<div class="flex h-auto items-center">
 		{#if showLabel}
 			<span class="mr-2 text-sm text-primary">{value}</span>
 		{/if}
-		<CollapseButton isOpen={showSuggestions} disabled={dataList.length === 0} />
+		{#if !disabled}
+			<CollapseButton isOpen={showSuggestions} disabled={dataList.length === 0} />
+		{/if}
 	</div>
 
 	{#if showSuggestions && suggestions.length > 0}

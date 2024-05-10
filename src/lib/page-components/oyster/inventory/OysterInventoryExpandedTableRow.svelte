@@ -7,6 +7,7 @@
 	import JobDetailsModal from './modals/JobDetailsModal.svelte';
 	import StopJobModal from './modals/StopJobModal.svelte';
 	import WithdrawFundsFromJobModal from './modals/WithdrawFundsFromJobModal.svelte';
+	import ChangeBandwidthModal from './modals/ChangeBandwidthModal.svelte';
 
 	export let rowData: OysterInventoryDataModel;
 	export let expandedRows: Set<string>;
@@ -45,6 +46,7 @@
 					size="small"
 					modalFor="job-add-funds-modal-{id}"
 					disabled={isJobFinished}
+					styleClass="font-normal"
 				>
 					Add funds
 				</ModalButton>
@@ -55,6 +57,14 @@
 					disabled={isJobFinished}
 				>
 					{closeButtonText}
+				</ModalButton>
+				<ModalButton
+					variant="outlined"
+					size="small"
+					modalFor="change-bandwidth-modal-{id}"
+					disabled={isJobFinished}
+				>
+					Change Bandwidth
 				</ModalButton>
 				<ModalButton
 					variant="outlined"
@@ -85,3 +95,4 @@
 <WithdrawFundsFromJobModal bind:jobData={rowData} modalFor="job-withdraw-fund-modal-{id}" />
 <StopJobModal bind:jobData={rowData} modalFor="job-stop-modal-{id}" />
 <AmendRateModal bind:jobData={rowData} modalFor="job-amend-rate-modal-{id}" />
+<ChangeBandwidthModal bind:jobData={rowData} modalFor="change-bandwidth-modal-{id}" />

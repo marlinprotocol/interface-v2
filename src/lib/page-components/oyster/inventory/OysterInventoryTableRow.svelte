@@ -60,6 +60,7 @@
 		reviseRate: { newRate = null, rateStatus = '', stopStatus = '' } = {}
 	} = rowData);
 	$: isOpen = expandedRows.has(id.toString());
+	console.log({ rowData });
 </script>
 
 <td class={tableClasses.cell}>

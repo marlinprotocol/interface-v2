@@ -3,15 +3,13 @@
 	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type {
-		OysterFiltersModel,
 		OysterMarketplaceDataModel,
 		OysterMarketplaceFilterModel
 	} from '$lib/types/oysterComponentType';
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import {
 		getAllFiltersListforMarketplaceData,
-		getSearchAndFilteredMarketplaceData,
-		getUpdatedFiltersList
+		getSearchAndFilteredMarketplaceData
 	} from '$lib/utils/helpers/oysterHelpers';
 
 	export let filterMap: Record<string, string | number> = {};
@@ -33,22 +31,15 @@
 			filterMap[id] = value;
 			filterIdOrders.push(id);
 		}
-		const previousFilters = {
-			...allFilters
-		};
 
-		filteredData = getSearchAndFilteredMarketplaceData(
+		const { allMarketplaceData, finalFilters } = getSearchAndFilteredMarketplaceData(
 			$oysterStore.allMarketplaceData,
 			filterMap,
 			exactMatch
 		);
 
-		const currentFilters = getAllFiltersListforMarketplaceData(filteredData);
-		allFilters = getUpdatedFiltersList(
-			previousFilters,
-			currentFilters,
-			filterIdOrders as (keyof OysterFiltersModel)[]
-		);
+		filteredData = allMarketplaceData;
+		allFilters = finalFilters;
 	};
 
 	const handleClearFilters = () => {

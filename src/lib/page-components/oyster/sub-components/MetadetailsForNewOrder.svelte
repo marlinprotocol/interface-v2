@@ -41,6 +41,7 @@
 			instance.error = `${value} is not a valid Instance`;
 		} else {
 			instance.error = '';
+			region.error = '';
 		}
 		instanceRate = getRateForProviderAndFilters(
 			providerAddress,
@@ -59,6 +60,7 @@
 		} else if (instanceRate !== undefined && instance.value !== '' && region.value !== '') {
 			notServiceable = false;
 			instance.error = '';
+			region.error = '';
 		}
 	};
 
@@ -71,6 +73,7 @@
 			region.error = `${value} is not a valid Region`;
 		} else {
 			region.error = '';
+			instance.error = '';
 		}
 
 		instanceRate = getRateForProviderAndFilters(
@@ -91,6 +94,7 @@
 		} else if (instanceRate !== undefined && instance.value !== '' && region.value !== '') {
 			notServiceable = false;
 			region.error = '';
+			instance.error = '';
 		}
 	};
 

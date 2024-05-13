@@ -26,7 +26,7 @@
 		},
 		{
 			name: 'Sigmoid',
-			logo: undefined,
+			logo: staticImages.sigmoIdLogo,
 			website: 'https://www.sigmoid.wtf/',
 			category: ['AI']
 		},
@@ -62,7 +62,7 @@
 		},
 		{
 			name: 'Arbitrum',
-			logo: staticImages.ArbitrumLogo,
+			logo: staticImages.ArbitrumFullLogo,
 			website: 'https://arbitrum.io/',
 			category: ['Blockchain']
 		},
@@ -116,7 +116,7 @@
 		},
 		{
 			name: 'ETH.LIMO',
-			logo: undefined,
+			logo: staticImages.limoLogo,
 			website: 'https://eth.limo/',
 			category: ['Gateways']
 		},
@@ -200,7 +200,7 @@
 		},
 		{
 			name: 'McGill University',
-			logo: undefined,
+			logo: staticImages.mcGrillUni,
 			website: '#',
 			category: ['Validators']
 		},

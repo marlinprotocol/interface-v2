@@ -28,6 +28,8 @@ const WalletConnected = '/images/wallet-connected.svg';
 const PolygonLogo = '/images/polygon.svg';
 const PolygonFullLogo = '/images/polygon-full.webp';
 const ArbitrumLogo = '/images/arbitrum.webp';
+const ArbitrumFullLogo = '/images/arbitrum-full.webp';
+const limoLogo = '/images/limo.webp';
 const EthereumLogo = '/images/eth.webp';
 const LineaLogo = '/images/linea.webp';
 const MarlinLogo = 'https://blog.marlin.org/wp-content/uploads/2024/01/200x200.png';
@@ -134,6 +136,8 @@ const spaceIdLogo = '/images/spaceid.svg';
 const exploreIcon = '/images/explore.svg';
 const copyIcon = '/images/copyIconNew.svg';
 const infoIconPurple = '/images/information-purple.svg';
+const sigmoIdLogo = '/images/sigmoid.svg';
+const mcGrillUni = '/images/mcgill-university.webp';
 
 export const staticImages = {
 	Alert,
@@ -166,6 +170,8 @@ export const staticImages = {
 	PolygonLogo,
 	PolygonFullLogo,
 	ArbitrumLogo,
+	ArbitrumFullLogo,
+	limoLogo,
 	EthereumLogo,
 	LineaLogo,
 	MarlinLogo,
@@ -268,5 +274,7 @@ export const staticImages = {
 	spaceIdLogo,
 	exploreIcon,
 	copyIcon,
-	infoIconPurple
+	infoIconPurple,
+	sigmoIdLogo,
+	mcGrillUni
 };

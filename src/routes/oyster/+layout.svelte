@@ -57,9 +57,11 @@
 		initializeAllowanceInOysterStore(allowance);
 		console.log('Oyster allowances data is loaded', $oysterStore.allowance);
 
-		const marlinCredits = await getOysterCreditFromSubgraph($walletStore.address);
-		initializeMarlinCreditsInOysterStore(marlinCredits);
-		console.log('Marlin credits data is loaded', $oysterStore.credits.balance);
+		if ($chainConfigStore.subgraph_urls.OYSTER_CREDIT !== '') {
+			const marlinCredits = await getOysterCreditFromSubgraph($walletStore.address);
+			initializeMarlinCreditsInOysterStore(marlinCredits);
+			console.log('Marlin credits data is loaded', $oysterStore.credits.balance);
+		}
 	}
 
 	async function loadMarketplaceData() {

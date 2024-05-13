@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import ExternalLinkConfirmationModal from '$lib/components/modals/ExternalLinkConfirmationModal.svelte';
@@ -10,19 +10,19 @@
 	const infoStats = [
 		{
 			title: 'Regions',
-			value: 100,
+			value: '25+',
 			img: staticImages.regions,
 			alt: 'Regions Icon'
 		},
 		{
 			title: 'Instances',
-			value: 50,
+			value: '140+',
 			img: staticImages.instances,
 			alt: 'Instances Icon'
 		},
 		{
 			title: 'Chains',
-			value: 4,
+			value: '4',
 			img: staticImages.chains,
 			alt: 'Chains Icon'
 		}
@@ -32,36 +32,36 @@
 		{ label: 'Use Oyster', href: ROUTES.OYSTER_MARKETPLACE_URL, openInANewTab: false },
 		{ label: 'Become an operator', href: ROUTES.OYSTER_OPERATOR_URL, openInANewTab: false },
 		{ label: 'Manage', href: ROUTES.OYSTER_INVENTORY_URL, openInANewTab: false },
-		{ label: 'Documentation', href: EXTERNAL_LINKS.MARLIN_DOCS_LINK, openInANewTab: true },
-		{ label: 'Credits', href: ROUTES.OYSTER_MARKETPLACE_URL, openInANewTab: false }
+		{ label: 'Documentation', href: EXTERNAL_LINKS.MARLIN_DOCS_LINK, openInANewTab: true }
 	];
 
 	const deployAndRunLinks = [
 		{
 			label: 'Decentralize your Frontends',
-			href: '/#',
+			href: 'https://blog.marlin.org/deploying-decentralized-frontends-with-oyster-a-step-by-step-guide',
 			img: staticImages.frontends,
 			alt: 'Frontends',
 			openInANewTab: true
 		},
 		{
 			label: 'Backend Servers for heavy lifting',
-			href: '/#',
+			href: 'https://docs.marlin.org/category/deploy-a-nodejs-server',
 			img: staticImages.backendServer,
 			alt: 'Backend Server',
 			openInANewTab: true
 		},
 		{
 			label: 'LLMs for decentralized ML',
-			href: '/#',
+			href: 'https://docs.marlin.org/category/deploy-llama2',
 			img: staticImages.llms,
 			alt: 'LLMs',
 			openInANewTab: true
 		},
 		{
 			label: 'View More ->',
-			href: '/#',
-			isViewMore: true
+			href: 'https://docs.marlin.org/user-guides/',
+			isViewMore: true,
+			openInANewTab: true
 		}
 	];
 
@@ -75,7 +75,7 @@
 			title: '3DNS'
 		},
 		{
-			label: 'Decentralized gateways for you',
+			label: 'Link your Solana names to IPFS',
 			href: 'https://www.bonfida.org/',
 			img: staticImages.bonfidaLogo,
 			alt: 'Bonfida Logo',
@@ -83,7 +83,7 @@
 			title: 'Bonfida'
 		},
 		{
-			label: 'Link your IPFS URL to your domain',
+			label: 'Link IPFS URLs to Arb and Manta domains',
 			href: 'https://space.id/',
 			img: staticImages.spaceIdLogo,
 			alt: 'Space ID Logo',
@@ -142,6 +142,7 @@
 				{#each deployAndRunLinks as deployAndRunLink}
 					<a
 						href={deployAndRunLink.href}
+						target={deployAndRunLink.openInANewTab ? '_blank' : ''}
 						class="group relative flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl border border-[#D9DADE] bg-white px-8"
 					>
 						<div
@@ -162,7 +163,7 @@
 								</div>
 							{/if}
 							<span
-								class={cn('text-xl font-normal', {
+								class={cn('text-lg font-normal', {
 									'm-auto': deployAndRunLink.isViewMore
 								})}>{deployAndRunLink.label}</span
 							>
@@ -199,7 +200,7 @@
 									</div>
 								{/if}
 								<span
-									class={cn('text-xl font-normal', {
+									class={cn('text-lg font-normal', {
 										'mx-auto': partnerLink.isViewMore
 									})}>{partnerLink.label}</span
 								>
@@ -231,7 +232,7 @@
 									</div>
 								{/if}
 								<span
-									class={cn('text-xl font-normal', {
+									class={cn('text-lg font-normal', {
 										'mx-auto': partnerLink.isViewMore
 									})}>{partnerLink.label}</span
 								>

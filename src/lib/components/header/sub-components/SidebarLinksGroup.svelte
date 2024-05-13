@@ -96,6 +96,7 @@
 		},
 		{
 			label: 'Bridge',
+			hasDashboard: true,
 			icon: activeLink.includes(ROUTES.BRIDGE_URL)
 				? staticImages.bridgeIconBlue
 				: staticImages.bridgeIcon,

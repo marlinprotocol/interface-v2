@@ -32,8 +32,8 @@
 		{ label: 'Use Oyster', href: ROUTES.OYSTER_MARKETPLACE_URL, openInANewTab: false },
 		{ label: 'Become an operator', href: ROUTES.OYSTER_OPERATOR_URL, openInANewTab: false },
 		{ label: 'Manage', href: ROUTES.OYSTER_INVENTORY_URL, openInANewTab: false },
-		{ label: 'Documentation', href: EXTERNAL_LINKS.MARLIN_DOCS_LINK, openInANewTab: true },
-		{ label: 'Credits', href: ROUTES.OYSTER_MARKETPLACE_URL, openInANewTab: false }
+		{ label: 'Documentation', href: EXTERNAL_LINKS.MARLIN_DOCS_LINK, openInANewTab: true }
+		// { label: 'Credits', href: ROUTES.OYSTER_MARKETPLACE_URL, openInANewTab: false }
 	];
 
 	const deployAndRunLinks = [

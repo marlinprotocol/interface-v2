@@ -139,6 +139,9 @@ const infoIconPurple = '/images/information-purple.svg';
 const sigmoIdLogo = '/images/sigmoid.svg';
 const mcGrillUni = '/images/mcgill-university.webp';
 const fishingMan = '/images/fishing-man.svg';
+const KontosLogo = '/images/Kontos.svg';
+const NuLinkLogo = '/images/NuLink.svg';
+const lighthouseLogo = '/images/lighthouse.svg';
 
 export const staticImages = {
 	Alert,
@@ -278,5 +281,8 @@ export const staticImages = {
 	infoIconPurple,
 	sigmoIdLogo,
 	mcGrillUni,
-	fishingMan
+	fishingMan,
+	KontosLogo,
+	NuLinkLogo,
+	lighthouseLogo
 };

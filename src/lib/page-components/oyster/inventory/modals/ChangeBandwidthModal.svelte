@@ -55,7 +55,9 @@
 		totalDeposit,
 		amountUsed,
 		endEpochTime,
-		durationLeft
+
+		durationLeft,
+		durationRun
 	} = jobData);
 
 	$: instanceRate = getRateForProviderAndFilters(
@@ -119,8 +121,9 @@
 					4
 				)
 			: '';
-
+	// totaldeposit = totalCostScaled
 	$: totalCostScaled = bandwidthCostScaled + instanceCostScaled;
+	// $: total -> bcs = totalDeposit - instanceCostScaled;
 	$: totalCost = totalCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor;
 	$: totalAmountString = !(totalCost === 0n)
 		? bigNumberToString(totalCost, $oysterTokenMetadataStore.decimal, 4)
@@ -165,6 +168,12 @@
 			// a: balanceLeft / newTotalCost
 		});
 	}
+
+	$: totalRate = (instanceRate || 0n) + bandwidthRateForRegionScaled;
+	$: newD = (totalDeposit / totalRate).toString();
+	$: console.log({ totalDeposit, totalRate, Durr: totalDeposit / totalRate });
+	// on approve =  handleApproveFundForOysterJob
+	// hide error. opacity
 </script>
 
 <Modal {modalFor} {onClose}>
@@ -190,13 +199,13 @@
 					</div>
 				</AmountInputWithTitle>
 				<AmountInputWithTitle
-					title="Total Cost"
+					title="Current Total Cost"
 					bind:inputAmountString={totalAmountString}
 					suffix={$oysterTokenMetadataStore.currency}
 					disabled={true}
 				/>
 				<AmountInputWithTitle
-					title="Current Duration"
+					title="Duration Left"
 					inputAmountString={nowTime > endEpochTime
 						? 'Ended'
 						: epochToDurationString(endEpochTime - nowTime, true)}
@@ -227,8 +236,8 @@
 					disabled
 				/>
 				<AmountInputWithTitle
-					title="New Duration"
-					bind:inputAmountString={newDurationString}
+					title="Duration Left"
+					bind:inputAmountString={newD}
 					suffix={durationUnit}
 					disabled
 				/>

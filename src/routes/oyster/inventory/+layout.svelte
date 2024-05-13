@@ -72,7 +72,11 @@
 			getJobStatuses($walletStore.address),
 			getOysterJobsFromSubgraphById(creditJobIdsFromSubgraph)
 		]);
-
+		console.log({
+			oysterJobsFromSubgraph,
+			jobStatuses,
+			oysterJobsByIdFromSubgraph
+		});
 		// add a flag for credit jobs
 		const creditJobsWithFlags = oysterJobsByIdFromSubgraph.map((job: any) => {
 			job.isCreditJob = true;
@@ -93,6 +97,7 @@
 				data.ip = jobStatusLookup[data.id.toString()];
 			}
 		});
+		console.log(allOysterJobsFromSubgraph);
 		const modifiedOysterJobs = await modifyOysterJobData(
 			allOysterJobsFromSubgraph,
 			$oysterRateMetadataStore.oysterRateScalingFactor
@@ -101,6 +106,7 @@
 			$chainStore.chainId,
 			$walletStore.address
 		);
+		console.log({ modifiedOysterJobs });
 		const allOysterJobs = mergeLocalStorageJobsWithSubgraphJobs(
 			localStorageJobs,
 			modifiedOysterJobs

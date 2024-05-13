@@ -274,11 +274,11 @@
 		'NFT',
 		'Oracles',
 		'Restaking',
+		'Storage',
 		'Tokenized Domains',
 		'Validators',
 		'Wallets',
-		'Zero Knowledge',
-		'Storage'
+		'Zero Knowledge'
 	];
 
 	function getFilteredPartners(partnerSearchString: string, partnerFilterString: string) {
@@ -311,7 +311,7 @@
 		styleClass="w-full"
 	/>
 
-	<div class="my-4 flex w-full gap-1.5 overflow-x-auto pb-1">
+	<div class="my-4 flex w-full flex-wrap gap-2 overflow-x-hidden">
 		{#each filters as filter}
 			{#if selectedFilter === filter}
 				<Button

@@ -47,7 +47,7 @@
 		initializeBridgeStore(allowances, requestedMPond);
 	}
 
-	$: if ($connected) {
+	$: if ($connected && chainSupported) {
 		if (
 			walletAddressHasChanged($walletStore.address, previousWalletAddress) ||
 			chainIdHasChanged($chainStore.chainId, previousChainId)

@@ -60,7 +60,8 @@
 		{
 			label: 'View More ->',
 			href: 'https://docs.marlin.org/user-guides/',
-			isViewMore: true
+			isViewMore: true,
+			openInANewTab: true
 		}
 	];
 
@@ -141,6 +142,7 @@
 				{#each deployAndRunLinks as deployAndRunLink}
 					<a
 						href={deployAndRunLink.href}
+						target={deployAndRunLink.openInANewTab ? '_blank' : ''}
 						class="group relative flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl border border-[#D9DADE] bg-white px-8"
 					>
 						<div

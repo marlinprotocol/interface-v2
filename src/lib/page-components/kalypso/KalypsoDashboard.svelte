@@ -7,10 +7,9 @@
 
 <ContainerCard>
 	<Text variant="h3" text="Kalypso is under construction" styleClass="text-center" />
-	<span class="my-4 px-2 text-center text-[15px] font-medium text-black/50"
-		>You curious fishes can visit the link below to understand on how we are decentralizing ZK
-		proofs.</span
-	>
+	<span class="my-4 px-2 text-center text-[15px] font-medium text-black/50">
+		Curious fishies can visit the link below to learn more about Marlin's ZK proof marketplace.
+	</span>
 	<img src={staticImages.fishingMan} alt="Fishing Man" class="mx-auto" />
 	<a
 		class="mt-4 w-full"

@@ -239,6 +239,24 @@
 			logo: staticImages.zkbobLogo,
 			website: 'https://www.zkbob.com/',
 			category: ['Wallets']
+		},
+		{
+			name: 'Kontos',
+			logo: staticImages.KontosLogo,
+			website: 'https://www.kontos.io/',
+			category: ['Zero Knowledge']
+		},
+		{
+			name: 'NuLink',
+			logo: staticImages.NuLinkLogo,
+			website: 'https://www.nulink.org',
+			category: ['Zero Knowledge']
+		},
+		{
+			name: 'Lighthouse',
+			logo: staticImages.lighthouseLogo,
+			website: 'https://www.lighthouse.storage',
+			category: ['Storage']
 		}
 	];
 
@@ -258,7 +276,9 @@
 		'Restaking',
 		'Tokenized Domains',
 		'Validators',
-		'Wallets'
+		'Wallets',
+		'Zero Knowledge',
+		'Storage'
 	];
 
 	function getFilteredPartners(partnerSearchString: string, partnerFilterString: string) {
@@ -291,7 +311,7 @@
 		styleClass="w-full"
 	/>
 
-	<div class="my-4 flex w-full flex-wrap gap-1.5 overflow-x-hidden">
+	<div class="my-4 flex w-full gap-1.5 overflow-x-auto pb-1">
 		{#each filters as filter}
 			{#if selectedFilter === filter}
 				<Button

@@ -75,7 +75,7 @@
 			title: '3DNS'
 		},
 		{
-			label: 'Decentralized gateways for you',
+			label: 'Link your Solana names to IPFS',
 			href: 'https://www.bonfida.org/',
 			img: staticImages.bonfidaLogo,
 			alt: 'Bonfida Logo',
@@ -83,7 +83,7 @@
 			title: 'Bonfida'
 		},
 		{
-			label: 'Link your IPFS URL to your domain',
+			label: 'Link IPFS URLs to your Arbitrum and Manta domain names',
 			href: 'https://space.id/',
 			img: staticImages.spaceIdLogo,
 			alt: 'Space ID Logo',

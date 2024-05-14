@@ -115,6 +115,7 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 	};
 	ip?: string;
 	isCreditJob?: boolean;
+	regionName?: string;
 }
 
 export interface CreateOrderPreFilledModel extends CPUrlDataModel {

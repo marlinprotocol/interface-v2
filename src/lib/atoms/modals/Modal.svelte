@@ -99,7 +99,7 @@
 		</div>
 		<div
 			class={cn('modal-body px-6 pt-4', {
-				'flex flex-col overflow-y-auto overflow-x-hidden': isScrollable,
+				'flex flex-col': isScrollable,
 				'pb-6': !$$slots.actionButtons
 			})}
 		>
@@ -107,7 +107,7 @@
 		</div>
 		{#if $$slots.actionButtons}
 			<div
-				class={cn('modal-footer sticky bottom-0 bg-[#FCFCFC] px-6 pb-6 pt-4', {
+				class={cn('modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4', {
 					'pt-8': padding,
 					'rounded-bl-3xl rounded-br-3xl': individualBorderRadius
 				})}

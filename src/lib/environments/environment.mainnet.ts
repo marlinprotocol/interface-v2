@@ -8,7 +8,7 @@ export const ENVIRONMENT_MAINNET: Environment = {
 	environment_name: 'mainnet',
 	production: true,
 	valid_chains: { 1: ETH, 42161: ARB_ONE, 59144: LINEA, 137: POLYGON },
-	default_chain_id: 1,
+	default_chain_id: 42161,
 	supported_chains: {
 		dashboard: [1, 42161, 59144, 137],
 		bridge: [1],

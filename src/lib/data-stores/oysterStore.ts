@@ -48,6 +48,7 @@ export function resetOysterStore() {
 			allowance: 0n,
 			merchantJobsData: [],
 			marketplaceLoaded: true,
+			merchantJobsLoaded: true,
 			credits: {
 				isWhitelisted: false,
 				balance: 0n

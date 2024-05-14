@@ -6,6 +6,7 @@
 		getOysterJobsFromSubgraphById
 	} from '$lib/controllers/subgraphController';
 	import {
+		allowedChainsStore,
 		chainConfigStore,
 		chainIdHasChanged,
 		chainStore
@@ -118,7 +119,10 @@
 		console.log('Oyster inventory data is loaded');
 	}
 
-	$: if ($connected) {
+	$: chainSupported = $chainStore.chainId
+		? $allowedChainsStore.includes($chainStore.chainId)
+		: true;
+	$: if ($connected && chainSupported) {
 		if (
 			walletAddressHasChanged($walletStore.address, previousWalletAddress) ||
 			chainIdHasChanged($chainStore.chainId, previousChainId)

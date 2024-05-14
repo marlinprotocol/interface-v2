@@ -359,7 +359,7 @@ function updateObjectExceptKey(immutableKey: string, originalObject: any, update
 }
 
 export function getAllFiltersListforMarketplaceData(
-	filteredData: OysterMarketplaceDataModel[],
+	filteredData: OysterMarketplaceDataModel[] | OysterInventoryDataModel[],
 	addAllOption = true
 ) {
 	const providers = filteredData.map((item) =>
@@ -430,7 +430,7 @@ export const getRateForProviderAndFilters = (
 
 export const getCreateOrderInstanceRegionFilters = (
 	providerAddress: string | undefined,
-	allMarketplaceData: OysterMarketplaceDataModel[] | undefined
+	allMarketplaceData: OysterMarketplaceDataModel[] | OysterInventoryDataModel[]
 ) => {
 	if (!providerAddress || !allMarketplaceData || allMarketplaceData.length === 0) return {};
 	const filteredData = allMarketplaceData.filter(

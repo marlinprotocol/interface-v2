@@ -3,7 +3,8 @@
 	import Select from '$lib/components/select/Select.svelte';
 	import {
 		DEFAULT_BANDWIDTH_UNIT,
-		OYSTER_BANDWIDTH_UNITS_LIST
+		OYSTER_BANDWIDTH_UNITS_LIST,
+		OYSTER_MARLIN_CREDIT_METADATA
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';

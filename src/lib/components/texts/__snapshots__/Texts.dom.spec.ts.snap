@@ -1,38 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Text > renders NameWithAddress with default props 1`] = `
-<body>
-  <div>
-    <div
-      class="ml-6 flex w-fit items-center justify-start"
-      data-testid="name-with-address"
-      id="name-with-address"
-    >
-      <div />
-       
-      <div
-        class="flex flex-col items-start"
-      >
-        <div
-          class="my-2 flex w-fit min-w-[150px] items-center gap-1"
-        >
-          <div
-            class=" text-base font-medium"
-            data-testid="text"
-          >
-            
-          </div>
-          <!--&lt;Text&gt;-->
-           
-          <button />
-        </div>
-      </div>
-    </div>
-    <!--&lt;NameWithAddress&gt;-->
-  </div>
-</body>
-`;
-
 exports[`Text > renders PageTitle with default props 1`] = `
 <body>
   <div>
@@ -42,7 +9,7 @@ exports[`Text > renders PageTitle with default props 1`] = `
     >
        
       <div
-        class=" text-3xl font-bold"
+        class="font-poppins leading-[-2px] text-[#030115] text-3xl font-medium"
         data-testid="text"
       >
         
@@ -59,11 +26,11 @@ exports[`Text > renders TableHeadingText with default props 1`] = `
 <body>
   <div>
     <div
-      class="mt-0.5 flex flex-nowrap items-center justify-center gap-1 text-center text-xs text-primary xl:text-sm "
+      class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-center text-[14px] font-normal text-[#030115]"
       data-testid="table-heading-text"
     >
       <div
-        class="relative flex items-start gap-1"
+        class="relative flex items-center gap-1"
       >
         <span
           class="w-fit tracking-widest"
@@ -82,14 +49,14 @@ exports[`Text > renders TextInputCard with default props 1`] = `
 <body>
   <div>
     <div
-      class=" w-full rounded-lg bg-base-200 p-4"
+      class="w-full relative border border-[#D9DADE] bg-white py-2.5 px-4 rounded-full"
       data-testid="input-card"
     >
       <div
-        class="mb-1 flex items-center gap-1 "
+        class="mb-1 flex items-center gap-1"
       >
         <div
-          class=" text-sm font-normal"
+          class="absolute left-[18px] top-[-10px] mb-4 bg-white px-2 font-poppins text-sm font-light text-[#030115] text-sm font-normal"
           data-testid="text"
         >
           
@@ -99,10 +66,10 @@ exports[`Text > renders TextInputCard with default props 1`] = `
       </div>
        
       <div
-        class="flex  "
+        class="flex"
       >
         <div
-          class="flex   text-sm font-medium"
+          class="flex py-[3px] text-base font-normal"
           data-testid="text"
         >
           
@@ -121,7 +88,7 @@ exports[`Text > renders TxnHashText with default props 1`] = `
 <body>
   <div>
     <div
-      class="flex items-center justify-center gap-2"
+      class="flex items-center justify-start gap-2"
       data-testid="txn-hash-text"
     >
       

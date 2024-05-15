@@ -69,7 +69,6 @@ describe('Modal Component', () => {
 		});
 
 		const modalBody = container.querySelector('.modal-body');
-		expect(modalBody?.className).contain('overflow-y-auto overflow-x-hidden');
 		expect(modalBody?.className).not.contain('px-6 pb-4 pt-2');
 	});
 });

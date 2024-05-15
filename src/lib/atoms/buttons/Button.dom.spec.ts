@@ -10,6 +10,7 @@ describe('Button', () => {
 	});
 
 	it('renders a button successfully', () => {
+		console.log('rebdered btn ');
 		const { getByRole } = render(Button);
 		expect(getByRole('button')).toMatchSnapshot();
 	});

@@ -67,7 +67,7 @@
 				{ text: 'Ecosystem', href: ROUTES.ECOSYSTEM_URL },
 				{
 					text: 'Apply for credits',
-					href: 'bit.ly/3bls71b',
+					href: 'https://bit.ly/3BlS71b',
 					openInPopup: {
 						modalFor: 'applyForCredits',
 						descriptionText: 'Apply for credits to kick start your decentralized infra journey',

@@ -106,10 +106,6 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Marlin Oyster</title>
-</svelte:head>
-
 {#if $chainStore.isValidChain && chainSupported}
 	<PageWrapper>
 		<slot />

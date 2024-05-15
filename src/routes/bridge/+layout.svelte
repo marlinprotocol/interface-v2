@@ -66,10 +66,6 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Marlin Bridge</title>
-</svelte:head>
-
 {#if $chainStore.isValidChain && chainSupported}
 	<PageWrapper>
 		<slot />

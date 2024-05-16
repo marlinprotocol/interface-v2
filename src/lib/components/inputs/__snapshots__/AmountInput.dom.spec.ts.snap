@@ -1,0 +1,15 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AmountInput > renders with correct attributes 1`] = `
+<body>
+  <div>
+    <input
+      autocomplete="off"
+      class="hideInputNumberAppearance test-class"
+      id="pond-input-amount-"
+      placeholder="0.00"
+    />
+    <!--&lt;AmountInput&gt;-->
+  </div>
+</body>
+`;

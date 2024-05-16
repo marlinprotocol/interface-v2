@@ -250,7 +250,7 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
               <span
                 class="font-bold text-black"
               >
-                0.00
+                0
                 
 					POND
 				
@@ -260,7 +260,7 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
               <span
                 class="font-bold text-black"
               >
-                0.00
+                0
                  MPond
               </span>
             </div>

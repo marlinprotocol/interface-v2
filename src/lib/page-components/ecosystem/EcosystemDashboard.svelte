@@ -201,7 +201,7 @@
 		{
 			name: 'McGill University',
 			logo: staticImages.mcGrillUni,
-			website: '#',
+			website: 'https://www.mcgill.ca',
 			category: ['Validators']
 		},
 		{

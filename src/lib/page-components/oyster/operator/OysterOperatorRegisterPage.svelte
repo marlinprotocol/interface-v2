@@ -93,6 +93,7 @@
 				<ModalButton
 					variant="filled"
 					size="large"
+					disabled={!$connected}
 					styleClass="w-[170px] text-base font-normal"
 					modalFor="oyster-register-url-operator"
 				>

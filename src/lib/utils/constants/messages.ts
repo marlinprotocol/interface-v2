@@ -259,6 +259,10 @@ export const MESSAGES = {
 				SETTLING: 'Settling job.',
 				SETTLED: 'Job Settled.'
 			},
+			UPDATE_ENCLAVE_URL_JOB: {
+				UPDATING: 'Updating enclave url.',
+				UPDATED: 'Updated enclave url.'
+			},
 			RECEIVER_REWARDS: {
 				INITIATING: 'Initiating receiver rewards.',
 				INITIATED: 'Receiver rewards initiated.',

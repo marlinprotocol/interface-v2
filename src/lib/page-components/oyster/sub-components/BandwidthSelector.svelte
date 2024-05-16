@@ -3,12 +3,12 @@
 	import Select from '$lib/components/select/Select.svelte';
 	import {
 		DEFAULT_BANDWIDTH_UNIT,
-		OYSTER_BANDWIDTH_UNITS_LIST
+		OYSTER_BANDWIDTH_UNITS_LIST,
+		OYSTER_MARLIN_CREDIT_METADATA
 	} from '$lib/utils/constants/oysterConstants';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { getBandwidthRateForRegion } from '$lib/utils/data-modifiers/oysterModifiers';
 	import { oysterTokenMetadataStore, oysterRateMetadataStore } from '$lib/data-stores/oysterStore';
-	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
 
 	export let region: any;
 	export let bandwidthRateForRegionScaled = 0n;

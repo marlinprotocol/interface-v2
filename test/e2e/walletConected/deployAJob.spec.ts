@@ -1,9 +1,6 @@
 import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress';
 import BasicSetup from '../../wallet-setup/basic.setup';
-import {
-	OYSTER_MARKETPLACE_URL,
-	OYSTER_OWNER_INVENTORY_URL
-} from '../../../src/lib/utils/constants/urls';
+import { ROUTES } from '../../../src/lib/utils/constants/urls';
 import { loginToMetamask } from '../../helpers/metamask';
 
 const test = testWithSynpress(BasicSetup, unlockForFixture);
@@ -15,7 +12,7 @@ test('connect wallet -> deploy a job -> check if it navigated to inventory', asy
 	metamaskPage,
 	extensionId
 }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);
@@ -40,7 +37,7 @@ test('connect wallet -> deploy a job -> check if it navigated to inventory', asy
 
 	// duration in minutes
 	await page.locator('div:nth-child(4) > .search-container > .btn').first().click();
-	await page.getByRole('button', { name: 'Minutes' }).click();
+	await page.getByRole('button', { name: 'Hours' }).click();
 
 	// Bandwidth
 	await page
@@ -67,5 +64,5 @@ test('connect wallet -> deploy a job -> check if it navigated to inventory', asy
 		await metamask.notificationPage.confirmTransactionAndWaitForMining(extensionId);
 	}
 
-	await page.waitForURL(OYSTER_OWNER_INVENTORY_URL + '/');
+	await page.waitForURL(ROUTES.OYSTER_INVENTORY_URL + '/');
 });

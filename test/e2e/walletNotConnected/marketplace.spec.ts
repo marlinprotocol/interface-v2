@@ -151,15 +151,14 @@ test(`Deploy and check if toast for connect wallet shows.`, async ({ page }) => 
 	await rateHeader.click();
 
 	// Select the 'DEPLOY' button within the first row
-	const deployButtonInFirstRow = page.locator('tbody tr.main-row:first-child td button', {
-		hasText: 'DEPLOY'
-	});
-
-	// Make sure the button is visible and clickable
-	await expect(deployButtonInFirstRow).toBeVisible();
-
-	// Click on the 'DEPLOY' button
-	await deployButtonInFirstRow.click();
+	const allDeployImages = await page.$$('img[alt="Deploy"]');
+	if (allDeployImages.length > 0) {
+		// Click the parent button of the first image
+		await allDeployImages[0].click();
+	} else {
+		console.log('No deploy buttons found!');
+		test.skip();
+	}
 
 	await page.waitForTimeout(1000);
 

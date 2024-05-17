@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('navigating to /oyster/operator/', async ({ page }) => {
 	await page.goto('/oyster/operator/', { waitUntil: 'networkidle' });
 
-	const hasText = await page.textContent('text=Operator Registration');
+	const hasText = await page.textContent('text=Hello, Fishy');
 	expect(hasText).toBeTruthy();
 });
 

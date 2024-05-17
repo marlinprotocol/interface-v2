@@ -4,47 +4,31 @@ exports[`TextInputWithEndButton > render's the component properly 1`] = `
 <body>
   <div>
     <div
-      class="test-style w-full rounded-lg bg-base-200 p-4"
+      class="w-full border border-[#D9DADE] bg-white py-2.5 px-4 rounded-full test-style relative"
       data-testid="input-card"
     >
+       
       <div
         class="flex items-center justify-between"
       >
-        <div
-          class="flex items-center gap-1"
-        >
-          <div
-            class=" text-sm font-normal"
-            data-testid="text"
-          >
-            Test Title
-          </div>
-          <!--&lt;Text&gt;-->
-           
-          <div
-            class="tooltip flex shrink-0 text-left font-normal  tooltip-secondary tooltip-top"
-            data-testid="tooltip-icon"
-            data-tip="Test Tooltip"
-          >
-            <img
-              alt="Info"
-              src="/images/alert.svg"
-              width="14px"
-            />
-          </div>
-          <!--&lt;TooltipIcon&gt;-->
-        </div>
          
       </div>
        
       <div
         class="flex items-center justify-between"
       >
+        <button
+          class="left-10% top-[-10px] hidden font-normal bg-white absolute cursor-text px-1 font-poppins text-sm text-[#030115] transition-all"
+        >
+          Test Title
+        </button>
+         
         <input
-          class="hideInputNumberAppearance input input-ghost h-[30px] w-full text-lg mt-1 p-0 font-semibold text-primary disabled:opacity-70 disabled:text-primary disabled:placeholder:text-primary/[.2] focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent"
+          class="input input-ghost h-[30px] w-full p-0 font-normal text-[#030115] disabled:opacity-70 disabled:text-[#030115] disabled:placeholder:text-[#030115]/[.2] focus-within:text-[#030115] placeholder:text-[#030115]/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent hideInputNumberAppearance"
           id="address-display"
           placeholder="Enter something..."
         />
+         
          
       </div>
     </div>

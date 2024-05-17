@@ -24,33 +24,15 @@ exports[`CollapseButton > renders the collapse button component properly 1`] = `
 <body>
   <div>
     <button
-      class=" btn btn-xs btn-circle p-0 bg-base-300 hover:bg-base-300 border-none disabled:bg-base-200 disabled:cursor-not-allowed"
+      class="w-max"
       data-testid="collapse-button"
       id=""
     >
-      <svg
-        aria-label=""
-        class="fa-icon icon-primary s-T5YyQewRBd7n"
-        data-testid="icon"
-        height="16"
-        role="presentation"
-        style="width:12px; height:12px; cursor:pointer;  "
-        version="1.1"
-        viewBox="0 0 1792 1792"
-        width="16"
-      >
-        <path
-          d="M1683 808l-742 741q-19 19-45 19t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"
-        />
-        
-         
-         
-        
-        
-      </svg>
-      <!--&lt;Svg&gt;-->
-      <!--&lt;Icon&gt;-->
-      <!--&lt;Icon&gt;-->
+      <img
+        alt="Collapse Icon"
+        class="rotate-0 transform transition duration-200"
+        src="/images/chevronDownIcon.svg"
+      />
     </button>
     <!--&lt;CollapseButton&gt;-->
   </div>

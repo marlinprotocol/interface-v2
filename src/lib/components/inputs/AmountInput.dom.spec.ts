@@ -18,7 +18,7 @@ describe('AmountInput', () => {
 
 		const input = getByPlaceholderText('0.00');
 		expect(input).toBeTruthy();
-		expect(input.getAttribute('id')).toBe('pond-input-amount');
+		expect(input.getAttribute('id')).toBe('pond-input-amount-');
 		expect(input.className).toBe('hideInputNumberAppearance test-class');
 		expect(container).toMatchSnapshot();
 	});

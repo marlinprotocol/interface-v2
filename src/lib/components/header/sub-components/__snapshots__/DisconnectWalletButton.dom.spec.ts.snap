@@ -23,19 +23,20 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
       class="flex gap-2"
       data-testid="disconnect-wallet-button"
     >
-      <details
-        class="dropdown"
+      <div
+        class="dropdown dropdown-end"
         id="chain-dropdown"
       >
-        <summary
-          class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-white text-primary border-none hover:bg-base-200 h-[50px] border border-sky-500 shadow-sm"
+        <div
+          class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-white text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"
+          role="button"
           tabindex="0"
         >
           <div
-            class="flex h-8 w-fit items-center"
+            class="flex items-center justify-center"
           >
             <div
-              class="h-8 w-8"
+              class="flex h-8 w-8 items-center justify-center"
             >
               <img
                 alt="current chain"
@@ -52,7 +53,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
                 data-testid="icon"
                 height="16"
                 role="presentation"
-                style="width:12px; height:12px; cursor:pointer;  "
+                style="width:10px; height:10px; cursor:pointer;  "
                 version="1.1"
                 viewBox="0 0 1792 1792"
                 width="16"
@@ -71,7 +72,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
               <!--&lt;Icon&gt;-->
             </div>
           </div>
-        </summary>
+        </div>
          
         <ul
           class="menu dropdown-content rounded-box z-[1] mt-4 w-52 bg-base-100 p-2 shadow"
@@ -95,32 +96,24 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
              
           </li>
         </ul>
-      </details>
+      </div>
       <!--&lt;ChainSwitcher&gt;-->
        
       <label
-        class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-white text-primary border-none hover:bg-base-200 h-12 bg-base-100 h-[50px] cursor-pointer text-primary rounded-lg shadow-sm flex gap-4 items-center  gap-1.5"
-        for="disconnect-wallet-modal"
+        class="gap-1.5 font-normal btn btn-theme btn-sm disabled:cursor-not-allowed !rounded-[100px] bg-white text-black border border-[#D9DADE] hover:bg-base-200 h-12 chain-btn m-1 flex items-center justify-center"
+        for="disconnect-wallet-modal-v2"
         tabindex="0"
       >
          
          
         <img
           alt="Metamask Logo"
-          src="/images/wallet-connected.svg"
+          src="/images/discChain.svg"
         />
          
-        <div
-          class="flex flex-col text-left"
-        >
-          <span
-            class="text-sm font-bold text-[#07617d]"
-          >
-            ARBITRUM SEPOLIA
-          </span>
-           
+        <div>
           <p
-            class="text-2xs font-medium text-[#008295]"
+            class="text-sm font-medium text-[#030115]"
           >
             ...
           </p>
@@ -131,7 +124,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
      
     <input
       class="modal-toggle s-GZwqZrPaBy6h"
-      id="disconnect-wallet-modal"
+      id="disconnect-wallet-modal-v2"
       tabindex="-1"
       type="checkbox"
     />
@@ -141,44 +134,39 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
       data-testid="modal"
     >
       <div
-        class="w-11/12 sm:w-3/4 sm:max-w-[607px] modal-box rounded-lg bg-base-100 px-0 py-0 shadow-none s-GZwqZrPaBy6h"
+        class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
       >
         <div
-          class="modal-header sticky top-0 z-10 flex items-center bg-white px-6 pb-4 pt-8 s-GZwqZrPaBy6h"
+          class="modal-header sticky top-0 z-10 flex items-center justify-between bg-[#FCFCFC] px-6 pt-6 s-GZwqZrPaBy6h"
         >
           <div
             class="flex w-full flex-col s-GZwqZrPaBy6h"
           >
              
-            <div
-              class="text-left text-[15px] font-medium text-[#0a0e3099] s-GZwqZrPaBy6h"
-            />
+             
              
             <div
-              class="text-left text-2xl font-bold s-GZwqZrPaBy6h"
+              class="text-left text-[22px] font-medium tracking-[-1px] s-GZwqZrPaBy6h"
             >
               Your wallet
             </div>
              
-            <div
-              class="mt-1 text-left text-[15px] font-medium text-[#767676] s-GZwqZrPaBy6h"
-            />
           </div>
            
           <button
-            class="flex h-12 min-w-[3rem] cursor-pointer items-center justify-center self-start text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+            class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
             data-testid="modal-close-button"
           >
             <img
               alt="Close"
               class="s-GZwqZrPaBy6h"
-              src="/images/close-circle-icon.svg"
+              src="/images/closeIcon.svg"
             />
           </button>
         </div>
          
         <div
-          class="modal-body  px-6 pb-4 pt-2 s-GZwqZrPaBy6h"
+          class="modal-body px-6 pt-4 s-GZwqZrPaBy6h"
         >
           <div
             class="mb-4 rounded-lg bg-base-200 p-4 text-left"
@@ -189,13 +177,13 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
               My Address
 				
               <div
-                class="tooltip flex shrink-0 text-left font-normal ml-1 tooltip-secondary tooltip-right"
+                class="tooltip ml-[14px] flex shrink-0 text-left font-normal ml-1 tooltip-secondary tooltip-right"
                 data-testid="tooltip-icon"
                 data-tip="Connected wallet address"
               >
                 <img
                   alt="Info"
-                  src="/images/alert.svg"
+                  src="/images/alertV2Icon.svg"
                   width="14px"
                 />
               </div>
@@ -217,11 +205,9 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
               >
                 <img
                   alt="Copy"
-                  class="grey-img s-jqivLxfXFImT"
-                  src="/images/copy-btn.svg"
-                  width="14"
+                  src="/images/copyIconNew.svg"
+                  width="18"
                 />
-                <!--&lt;ImageColored&gt;-->
               </button>
             </div>
           </div>
@@ -230,7 +216,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
             class="flex flex-wrap gap-4"
           >
             <button
-              class="font-medium gap-3 h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
+              class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3"
             >
                
               <span
@@ -245,7 +231,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
             <!--&lt;AddTokenPrompt&gt;-->
              
             <button
-              class="font-medium gap-3 h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
+              class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3"
             >
                
               <span
@@ -254,7 +240,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
                 +
               </span>
                Add 
-              MPOND
+              MPond
             </button>
             <!--&lt;Button&gt;-->
             <!--&lt;AddTokenPrompt&gt;-->
@@ -265,7 +251,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
               target="_blank"
             >
               <button
-                class="font-medium gap-3  flex-nowrap h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
+                class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3 flex-nowrap"
               >
                  
                 <img
@@ -281,16 +267,17 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
         </div>
          
         <div
-          class="modal-footer sticky bottom-0 bg-white mb-6 mt-4 px-6 s-GZwqZrPaBy6h"
+          class="modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
         >
           <button
-            class="w-full font-semibold text-base h-14 text-base font-semibold btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white gap-1.5"
+            class="gap-1.5 h-14 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full font-semibold text-base"
           >
              
             LOGOUT
           </button>
           <!--&lt;Button&gt;-->
         </div>
+         
       </div>
     </div>
     <!--&lt;Modal&gt;-->

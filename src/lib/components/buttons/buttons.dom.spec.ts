@@ -67,7 +67,7 @@ describe('CollapseButton', () => {
 		});
 		const button = getByTestId('collapse-button') as HTMLButtonElement;
 		expect(button).toBeTruthy();
-		expect(button.className).contain(buttonClasses.iconLightBlue);
+		expect(button.className).contain('w-max');
 		expect(button.id).contain(testingId);
 		expect(button.disabled).toBe(false);
 	});

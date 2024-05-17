@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('navigating to / redirects to /relay/receiver/staking', async ({ page }) => {
+test('navigating to /  to /dashboard', async ({ page }) => {
 	await page.goto('/');
 
 	await page.waitForURL('/dashboard/');

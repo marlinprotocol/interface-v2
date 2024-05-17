@@ -18,7 +18,7 @@ test('show connect wallet and no table', async ({ page }) => {
 test('inputs disabled when wallet connected', async ({ page }) => {
 	await page.goto('/oyster/inventory/', { waitUntil: 'networkidle' });
 
-	const searchInput = page.getByPlaceholder('Search for operator, instance or region');
+	const searchInput = page.getByPlaceholder('Search');
 
 	expect(searchInput).toBeDisabled();
 });

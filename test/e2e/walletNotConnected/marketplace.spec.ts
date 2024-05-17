@@ -5,17 +5,17 @@ import {
 	extractVcpuColumnData,
 	isSortedNumerically
 } from '../../helpers/marketplace';
-import { OYSTER_MARKETPLACE_URL } from '../../../src/lib/utils/constants/urls';
+import { ROUTES } from '../../../src/lib/utils/constants/urls';
 
 test('navigating to /oyster/marketplace/', async ({ page }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL);
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL);
 
 	const hasText = await page.textContent('text=Infrastructure Providers');
 	expect(hasText).toBeTruthy();
 });
 
 test('Renders the table', async ({ page }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	// Check if the table is present
 	const table = await page.$('table');
@@ -23,14 +23,14 @@ test('Renders the table', async ({ page }) => {
 });
 
 test('Renders the table with a maximum of 10 rows.', async ({ page }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	const rowCount = await page.$$eval('tbody > tr.main-row', (rows) => rows.length);
 	expect(rowCount).toBeLessThanOrEqual(10);
 });
 
 test('Sorting of rate works', async ({ page }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	// const dataBeforeSorting = await extractRateColumnData(page);
 
@@ -48,7 +48,7 @@ test('Sorting of rate works', async ({ page }) => {
 });
 
 test('Sorting of vCPU works', async ({ page }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	// const dataBeforeSorting = await extractVcpuColumnData(page);
 
@@ -67,7 +67,7 @@ test('Sorting of vCPU works', async ({ page }) => {
 });
 
 test('Sorting of memory works', async ({ page }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	// const dataBeforeSorting = await extractMemoryColumnData(page);
 
@@ -83,11 +83,11 @@ test('Sorting of memory works', async ({ page }) => {
 });
 
 test('Searching random operator gives no result text', async ({ page }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 	await page.waitForTimeout(1000);
 
 	// there are 11 elements with the same placeholder.
-	const inputElement = page.getByPlaceholder('Enter operator name or address').first();
+	const inputElement = page.getByPlaceholder('Search').first();
 
 	await inputElement.fill('Some thing random');
 	await expect(inputElement).toBeVisible();
@@ -96,10 +96,10 @@ test('Searching random operator gives no result text', async ({ page }) => {
 });
 
 test('Clear button works', async ({ page }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 	await page.waitForTimeout(1000);
 
-	const inputElement = page.getByPlaceholder('Enter operator name or address').first();
+	const inputElement = page.getByPlaceholder('Search').first();
 	await inputElement.fill('Some thing random');
 	await expect(inputElement).toBeVisible();
 	await expect(inputElement).toHaveValue('Some thing random');
@@ -111,10 +111,10 @@ test('Clear button works', async ({ page }) => {
 
 test('Searching an operator shows relevant results', async ({ page }) => {
 	const testInput = 'Kiv';
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 	await page.waitForTimeout(1000);
 
-	const inputElement = page.getByPlaceholder('Enter operator name or address').first();
+	const inputElement = page.getByPlaceholder('Search').first();
 	console.log(inputElement);
 	await inputElement.fill('Kiv');
 	await expect(inputElement).toBeVisible();
@@ -142,7 +142,7 @@ test('Searching an operator shows relevant results', async ({ page }) => {
 });
 
 test(`Deploy and check if toast for connect wallet shows.`, async ({ page }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	// const dataBeforeSorting = await extractRateColumnData(page);
 
@@ -173,7 +173,7 @@ test(`Copy button on row is working`, async ({ page, context }) => {
 	// Grant permissions for clipboard-read
 	await context.grantPermissions(['clipboard-read', 'clipboard-write']);
 
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	const firstRowSelector = 'tbody tr:first-child';
 	await page.hover(firstRowSelector);
@@ -200,7 +200,7 @@ test(`Copy button on row is working`, async ({ page, context }) => {
 });
 
 test(`filter by instance`, async ({ page }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	// Select the input field for instance filtering
 	const inputElement = page.getByPlaceholder('Select Instance', { exact: true });
@@ -239,7 +239,7 @@ test(`filter by instance`, async ({ page }) => {
 });
 
 test(`filter by region`, async ({ page }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	// The input element for region filtering, adjust the selector accordingly
 	const inputElement = page.getByPlaceholder('Filter by Region', { exact: true });
@@ -277,7 +277,7 @@ test(`filter by region`, async ({ page }) => {
 });
 
 test(`filter by vCPU`, async ({ page }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	// Select the input field for vCPU filtering
 	const inputElement = page.getByPlaceholder('Filter by vCPU', { exact: true });
@@ -315,7 +315,7 @@ test(`filter by vCPU`, async ({ page }) => {
 });
 
 test('filter by memory', async ({ page }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	const memoryFilterSelector = 'input[placeholder="Filter by Memory"]';
 
@@ -346,7 +346,7 @@ test('filter by memory', async ({ page }) => {
 });
 
 test('filter by all fields using first row values', async ({ page }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	// Retrieve the first row's criteria for filtering
 	const firstRowSelector = 'tbody tr:first-child';

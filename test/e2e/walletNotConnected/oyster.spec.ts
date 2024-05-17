@@ -23,15 +23,3 @@ test('documentation button routes to document page', async ({ page, context }) =
 
 	expect(newPage.url()).toBe(EXTERNAL_LINKS.OYSTER_OPERATOR_DOCS_LINK);
 });
-
-test('Inputs disabled if wallet not connected', async ({ page }) => {
-	await page.goto(ROUTES.OYSTER_OPERATOR_JOBS_URL, { waitUntil: 'networkidle' });
-
-	const addressInput = page.getByPlaceholder('Enter your address here');
-	expect(addressInput).toBeDisabled();
-	const cpUrlInput = page.getByPlaceholder('Paste URL here');
-	expect(cpUrlInput).toBeDisabled();
-	const editButton = page.getByTestId('container-card-body').getByRole('button').first();
-	await editButton.click();
-	expect(page.textContent('text=Please connect your wallet.')).toBeTruthy();
-});

@@ -202,7 +202,7 @@ test(`filter by instance`, async ({ page }) => {
 	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	// Select the input field for instance filtering
-	const inputElement = page.getByPlaceholder('Select Instance', { exact: true });
+	const inputElement = page.locator('.mt-4 > div > div > div > div > .input').first();
 
 	const firstRowInstanceSelector = 'tbody tr:first-child td:nth-child(2)';
 	const instanceToFilter = await page
@@ -231,8 +231,9 @@ test(`filter by instance`, async ({ page }) => {
 		}, instanceColumnSelector);
 
 		// Check if all instances match the one you filtered by
-		const allInstancesMatch = instancesOnPage.every((instance) => instance === instanceToFilter);
-
+		const allInstancesMatch = instancesOnPage.every(
+			(instance) => instance?.endsWith(instanceToFilter)
+		);
 		expect(allInstancesMatch).toBeTruthy();
 	}
 });
@@ -241,7 +242,7 @@ test(`filter by region`, async ({ page }) => {
 	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	// The input element for region filtering, adjust the selector accordingly
-	const inputElement = page.getByPlaceholder('Filter by Region', { exact: true });
+	const inputElement = page.locator('div:nth-child(2) > div > div > div > .input').first();
 
 	// Selector for the first row's region column
 	const firstRowRegionSelector = 'tbody tr:first-child td:nth-child(3)';
@@ -269,7 +270,7 @@ test(`filter by region`, async ({ page }) => {
 		}, regionColumnSelector);
 
 		// Check if all regions match the one you filtered by
-		const allRegionsMatch = regionsOnPage.every((region) => region === regionToFilter);
+		const allRegionsMatch = regionsOnPage.every((region) => region?.endsWith(regionToFilter));
 
 		expect(allRegionsMatch).toBeTruthy();
 	}
@@ -279,10 +280,10 @@ test(`filter by vCPU`, async ({ page }) => {
 	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	// Select the input field for vCPU filtering
-	const inputElement = page.getByPlaceholder('Filter by vCPU', { exact: true });
+	const inputElement = page.locator('div:nth-child(3) > div > div > div > .input').first();
 
 	// Selector for the first row's vCPU column
-	const firstRowvCPUSelector = 'tbody tr:first-child td:nth-child(5)';
+	const firstRowvCPUSelector = 'tbody tr:first-child td:nth-child(4)';
 	const vCPUToFilter = await page
 		.$(firstRowvCPUSelector)
 		.then(async (res) => await res?.innerText());
@@ -298,7 +299,7 @@ test(`filter by vCPU`, async ({ page }) => {
 		await page.waitForTimeout(1000); // Or use waitForSelector, waitForFunction, etc.
 
 		// Selector for the column containing the vCPU numbers to fetch from all rows
-		const vCPUColumnSelector = 'tbody tr td:nth-child(5)';
+		const vCPUColumnSelector = 'tbody tr td:nth-child(4)';
 
 		// Retrieve text from all vCPU columns
 		const vCPUsOnPage = await page.evaluate((selector) => {
@@ -307,7 +308,7 @@ test(`filter by vCPU`, async ({ page }) => {
 		}, vCPUColumnSelector);
 
 		// Check if all vCPU cells match the one you filtered by
-		const allvCPUsMatch = vCPUsOnPage.every((vCPU) => vCPU === vCPUToFilter);
+		const allvCPUsMatch = vCPUsOnPage.every((vCPU) => vCPU?.endsWith(vCPUToFilter));
 
 		expect(allvCPUsMatch).toBeTruthy();
 	}
@@ -316,9 +317,9 @@ test(`filter by vCPU`, async ({ page }) => {
 test('filter by memory', async ({ page }) => {
 	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
-	const memoryFilterSelector = 'input[placeholder="Filter by Memory"]';
+	const memoryFilter = page.locator('div:nth-child(4) > div > div > div > .input');
 
-	const firstRowMemorySelector = 'tbody tr:first-child td:nth-child(6)';
+	const firstRowMemorySelector = 'tbody tr:first-child td:nth-child(5)';
 	const memoryToFilter = await page
 		.$(firstRowMemorySelector)
 		.then(async (res) => (await res?.innerText())?.split(' ')[0]);
@@ -326,13 +327,13 @@ test('filter by memory', async ({ page }) => {
 
 	if (memoryToFilter) {
 		// Enter the memory to filter by in the filter field
-		await page.fill(memoryFilterSelector, memoryToFilter);
+		await memoryFilter.fill(memoryToFilter);
 
 		// Wait for the table to update after filtering
 		await page.waitForTimeout(1000);
 
 		// The selector for all table cells in the memory column
-		const memoryColumnCellsSelector = 'tbody tr td:nth-child(6)';
+		const memoryColumnCellsSelector = 'tbody tr td:nth-child(5)';
 
 		// Retrieve the memory values for each row by evaluating the content of each relevant cell
 		const memoryValues = await page.$$eval(memoryColumnCellsSelector, (tds) =>
@@ -340,28 +341,36 @@ test('filter by memory', async ({ page }) => {
 		);
 
 		// Check if all the memory values in the table match the filtered memory value
-		memoryValues.every((memoryValue) => expect(memoryValue).toBe(memoryToFilter + ' GB'));
+		memoryValues.every((memoryValue) =>
+			expect(memoryValue?.endsWith(memoryToFilter + ' MB')).toBeTruthy()
+		);
 	}
 });
 
 test('filter by all fields using first row values', async ({ page }) => {
 	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
+	const instanceFilterInput = page.locator('.mt-4 > div > div > div > div > .input').first();
+	const regionFilterInput = page.locator('div:nth-child(2) > div > div > div > .input').first();
+	const vCPUFilterInput = page.locator('div:nth-child(3) > div > div > div > .input').first();
+	const memoryFilterInput = page.locator('div:nth-child(4) > div > div > div > .input');
+	const archFilterInput = page.locator('div:nth-child(5) > div > div > div > .input');
+
 	// Retrieve the first row's criteria for filtering
 	const firstRowSelector = 'tbody tr:first-child';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [operator, instance, region, rate, vcpu, memory, arch] = await page.$$eval(
+	const [operator, instance, region, vcpu, memory, arch] = await page.$$eval(
 		`${firstRowSelector} td`,
 		(tds) => tds.map((td) => td.textContent?.trim())
 	);
 
 	if (instance && region && vcpu && memory && arch) {
 		// Fill in the filter inputs with the retrieved values
-		await page.fill('input[placeholder="Select Instance"]', instance);
-		await page.fill('input[placeholder="Filter by Region"]', region);
-		await page.fill('input[placeholder="Filter by vCPU"]', vcpu);
-		await page.fill('input[placeholder="Filter by Memory"]', memory.split(' ')[0]);
-		await page.fill('input[placeholder="Filter by Arch"]', arch);
+		await instanceFilterInput.fill(instance);
+		await regionFilterInput.fill(region);
+		await vCPUFilterInput.fill(vcpu);
+		await memoryFilterInput.fill(memory.split(' ')[0]);
+		await archFilterInput.fill(arch);
 
 		// Wait for the filters to be applied and the table to refresh
 		await page.waitForTimeout(1000);

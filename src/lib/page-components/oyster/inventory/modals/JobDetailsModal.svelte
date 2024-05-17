@@ -37,7 +37,8 @@
 		createdAt,
 		endEpochTime,
 		depositHistory,
-		rate
+		rate,
+		inputs
 	} = jobData);
 	$: instanceRate = getRateForProviderAndFilters(
 		address,
@@ -62,6 +63,12 @@
 					value={enclaveUrl ?? 'N/A'}
 					cliboardContent={enclaveUrl}
 					textStyle="truncate"
+				/>
+				<TextInputCard
+					title="Enclave Image Inputs"
+					value={inputs ? inputs : 'N/A'}
+					cliboardContent={inputs ? inputs : 'N/A'}
+					textStyle="text-primary truncate"
 				/>
 			</div>
 			<div class="flex flex-col gap-2 sm:flex-row">

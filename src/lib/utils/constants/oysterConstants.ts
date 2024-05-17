@@ -29,7 +29,8 @@ export const DEFAULT_JOB_METADATA: OysterJobMetadata = {
 	region: 'N/A',
 	vcpu: 0,
 	memory: 0,
-	arch: 'N/A'
+	arch: 'N/A',
+	inputs: 'N/A'
 };
 
 // explicit keys in the oyster inventory data model which are of type bigint

@@ -87,7 +87,7 @@ test('Searching random operator gives no result text', async ({ page }) => {
 	await page.waitForTimeout(1000);
 
 	// there are 11 elements with the same placeholder.
-	const inputElement = page.getByPlaceholder('Enter operator name or address').first();
+	const inputElement = page.getByPlaceholder('Search').first();
 
 	await inputElement.fill('Some thing random');
 	await expect(inputElement).toBeVisible();
@@ -99,7 +99,7 @@ test('Clear button works', async ({ page }) => {
 	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 	await page.waitForTimeout(1000);
 
-	const inputElement = page.getByPlaceholder('Enter operator name or address').first();
+	const inputElement = page.getByPlaceholder('Search').first();
 	await inputElement.fill('Some thing random');
 	await expect(inputElement).toBeVisible();
 	await expect(inputElement).toHaveValue('Some thing random');
@@ -114,7 +114,7 @@ test('Searching an operator shows relevant results', async ({ page }) => {
 	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 	await page.waitForTimeout(1000);
 
-	const inputElement = page.getByPlaceholder('Enter operator name or address').first();
+	const inputElement = page.getByPlaceholder('Search').first();
 	console.log(inputElement);
 	await inputElement.fill('Kiv');
 	await expect(inputElement).toBeVisible();

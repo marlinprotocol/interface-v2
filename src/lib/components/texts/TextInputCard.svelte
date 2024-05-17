@@ -50,6 +50,7 @@
 		/>
 		{#if cliboardContent !== '' && cliboardContent !== undefined}
 			<button
+				id="text-input-card-button"
 				class="ml-2 w-6 cursor-pointer"
 				on:click={() => {
 					handleCopyClick(cliboardContent, successMessage);

@@ -2,7 +2,6 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import SearchBar from '$lib/components/search/SearchBar.svelte';
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
-	import { isNavOpen } from '$lib/data-stores/navStore';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import Button from '$lib/atoms/buttons/Button.svelte';
 
@@ -10,8 +9,10 @@
 		name: string;
 		logo?: string;
 		website: string;
-		category: Array<string>;
+		category: FilterCategory[];
 	}>;
+
+	type FilterCategory = (typeof filters)[number];
 
 	let searchInput = '';
 	let selectedFilter = 'View All';
@@ -29,6 +30,12 @@
 			logo: staticImages.sigmoIdLogo,
 			website: 'https://www.sigmoid.wtf/',
 			category: ['AI']
+		},
+		{
+			name: 'Accseal',
+			logo: staticImages.accsealLogo,
+			website: 'https://www.accseal.com/',
+			category: ['Zero Knowledge', 'Bitcoin L2', 'AI']
 		},
 		{
 			name: 'Operator.io',
@@ -279,9 +286,9 @@
 		'Validators',
 		'Wallets',
 		'Zero Knowledge'
-	];
+	] as const;
 
-	function getFilteredPartners(partnerSearchString: string, partnerFilterString: string) {
+	function getFilteredPartners(partnerSearchString: string, partnerFilterString: FilterCategory) {
 		if (partnerFilterString === 'View All' && !partnerSearchString.length) {
 			return partners;
 		}

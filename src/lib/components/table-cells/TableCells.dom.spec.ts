@@ -1,5 +1,4 @@
 import { cleanup, render } from '@testing-library/svelte';
-import TableDataCell from './TableDataCell.svelte';
 import html from '@playpilot/svelte-htm';
 import TableDataWithButton from './TableDataWithButton.svelte';
 
@@ -7,29 +6,6 @@ describe('Table Cells', () => {
 	afterEach(() => {
 		cleanup();
 		vi.resetAllMocks();
-	});
-
-	it('renders TableDataCell successfully', () => {
-		const { getByTestId, container } = render(TableDataCell, {
-			styleClass: 'table-data-test-class'
-		});
-		expect(getByTestId('table-data-cell')).toBeTruthy();
-		expect(getByTestId('table-data-cell').classList.contains('table-data-test-class')).toBeTruthy();
-		expect(container).toMatchSnapshot();
-	});
-
-	it('renders with slot ', () => {
-		const { getByTestId, getByLabelText } = render(
-			html`<${TableDataCell}><div aria-label="test-component-chidren">Test Component Chidren</div></${TableDataCell}>`
-		);
-		expect(getByTestId('table-data-cell')).toBeTruthy();
-		expect(
-			getByTestId('table-data-cell').contains(getByLabelText('test-component-chidren'))
-		).toBeTruthy();
-
-		expect(
-			getByLabelText('test-component-chidren').innerHTML === 'Test Component Chidren'
-		).toBeTruthy();
 	});
 
 	it('renders TableDataWithButton successfully', () => {

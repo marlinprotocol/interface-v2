@@ -317,8 +317,8 @@
 				bind:input={enclaveImageUrl.value}
 			/>
 			<TextInputWithEndButton
-				styleClass="px-4 py-2"
-				title="Enclave Inputs (Optional)"
+				styleClass="px-4 py-2 mt-4"
+				label="Enclave Inputs (Optional)"
 				placeholder="Paste enclave inputs here"
 				bind:input={enaclaveImageInputs}
 			/>

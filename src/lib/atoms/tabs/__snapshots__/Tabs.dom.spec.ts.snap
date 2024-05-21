@@ -3,6 +3,7 @@
 exports[`Tabs > renders TabPanel 1`] = `
 <div
   aria-labelledby="10-tab"
+  class="w-full"
   data-testid="tab-panel"
   id="10-tabitem"
   role="tabpanel"
@@ -23,15 +24,20 @@ exports[`Tabs > renders the default tablist 1`] = `
 
 exports[`Tabs > renders the tab 1`] = `
 <li
-  class="mr-2"
+  class="relative flex w-full list-none justify-center mr-2"
   data-testid="tab"
   role="presentation"
 >
   <button
-    class=""
+    class="-my-5 flex h-14 w-14 items-center justify-center rounded-full border border-[#D9DADE] bg-white"
     id="tab_test-tabhead"
     role="tab"
     type="button"
-  />
+  >
+    <img
+      alt="Conversion"
+      src="/images/arrowConversion.svg"
+    />
+  </button>
 </li>
 `;

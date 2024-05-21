@@ -15,7 +15,7 @@
 		getRateForProviderAndFilters
 	} from '$lib/utils/helpers/oysterHelpers';
 
-	export let allMarketplaceData: OysterMarketplaceDataModel[];
+	export let allMarketplaceData: OysterMarketplaceDataModel[] | OysterInventoryDataModel[];
 	export let merchant: any;
 	export let instance: any;
 	export let region: any;

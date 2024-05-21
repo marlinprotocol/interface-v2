@@ -14,7 +14,9 @@ describe('Text', () => {
 
 	it('renders NameWithAddress with default props', () => {
 		const { getByTestId, container } = render(NameWithAddress);
-		expect(getByTestId('name-with-address').firstElementChild?.innerHTML).toBeFalsy();
+		expect(
+			getByTestId('name-with-address').firstElementChild?.getElementsByTagName('span')[0]
+		).toBeFalsy();
 		expect(getByTestId('name-with-address').id === 'name-with-address').toBe(true);
 		expect(container).toMatchSnapshot();
 	});
@@ -24,15 +26,16 @@ describe('Text', () => {
 			props: { address: 'xyz street , city:abc', name: 'Robert', rowIndex: 2 }
 		});
 		expect(getByTestId('name-with-address').id === 'name-with-address').toBe(true);
-		console.log(getByTestId('name-with-address').firstElementChild?.firstElementChild?.innerHTML);
 		expect(
-			getByTestId('name-with-address').firstElementChild?.firstElementChild?.innerHTML === 'Ro '
+			getByTestId('name-with-address').firstElementChild?.firstElementChild?.getElementsByTagName(
+				'span'
+			)[0].innerHTML === 'Robert'
 		).toBe(true);
 
 		expect(
-			getByTestId('name-with-address').lastElementChild?.firstElementChild?.getAttribute(
-				'data-tip'
-			) === 'Robert'
+			getByTestId('name-with-address').lastElementChild?.firstElementChild?.getElementsByTagName(
+				'span'
+			)[0].innerHTML === 'Robert'
 		).toBe(true);
 	});
 
@@ -82,8 +85,8 @@ describe('Text', () => {
 		});
 		expect(getByTestId('table-heading-text').contains(getByAltText('sort'))).toBeTruthy();
 		expect(getByTestId('table-heading-text').contains(getByAltText('Info'))).toBeTruthy();
-		expect(getByAltText('sort').getAttribute('src') === staticImages.Sort).toBeTruthy();
-		expect(getByAltText('Info').getAttribute('src') === staticImages.Alert).toBeTruthy();
+		expect(getByAltText('sort').getAttribute('src') === staticImages.sortV2Icon).toBeTruthy();
+		expect(getByAltText('Info').getAttribute('src') === staticImages.alertV2Icon).toBeTruthy();
 	});
 
 	it('renders TextInputCard with default props', () => {
@@ -127,7 +130,7 @@ describe('Text', () => {
 		expect(getByTestId('input-card').contains(getAllByTestId('text')[0])).toBeTruthy();
 		expect(getAllByTestId('text')[0].innerHTML === 'Text input card title').toBeTruthy();
 		const button = getByAltText('Copy').parentElement as Element;
-		expect(button.id).toBeFalsy();
+		expect(button.id).toBeTruthy();
 		await fireEvent.click(button);
 		expect(button.id === 'text-input-card-button').toBeTruthy();
 	});

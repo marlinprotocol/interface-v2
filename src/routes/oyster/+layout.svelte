@@ -1,4 +1,11 @@
 <script lang="ts">
+	import {
+		chainConfigStore,
+		chainStore,
+		allowedChainsStore,
+		setAllowedChainsStore,
+		chainIdHasChanged
+	} from '$lib/data-stores/chainProviderStore';
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import PageWrapper from '$lib/components/wrapper/PageWrapper.svelte';
 	import { getAllowance } from '$lib/controllers/contract/usdc';
@@ -7,13 +14,6 @@
 		getApprovedOysterAllowancesFromSubgraph,
 		getOysterCreditFromSubgraph
 	} from '$lib/controllers/subgraphController';
-	import {
-		chainConfigStore,
-		chainStore,
-		allowedChainsStore,
-		setAllowedChainsStore,
-		chainIdHasChanged
-	} from '$lib/data-stores/chainProviderStore';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { environment } from '$lib/data-stores/environment';
 	import {
@@ -57,9 +57,11 @@
 		initializeAllowanceInOysterStore(allowance);
 		console.log('Oyster allowances data is loaded', $oysterStore.allowance);
 
-		const marlinCredits = await getOysterCreditFromSubgraph($walletStore.address);
-		initializeMarlinCreditsInOysterStore(marlinCredits);
-		console.log('Marlin credits data is loaded', $oysterStore.credits.balance);
+		if ($chainConfigStore.subgraph_urls.OYSTER_CREDIT !== '') {
+			const marlinCredits = await getOysterCreditFromSubgraph($walletStore.address);
+			initializeMarlinCreditsInOysterStore(marlinCredits);
+			console.log('Marlin credits data is loaded', $oysterStore.credits.balance);
+		}
 	}
 
 	async function loadMarketplaceData() {
@@ -81,7 +83,7 @@
 		: true;
 
 	// load marketplace data based on chain change, and connected data based on wallet address+chain change
-	$: if ($connected) {
+	$: if ($connected && chainSupported) {
 		if (chainIdHasChanged($chainStore.chainId, previousChainId)) {
 			loadMarketplaceData();
 			loadConnectedData();
@@ -103,10 +105,6 @@
 		setAllowedChainsStore([]);
 	});
 </script>
-
-<svelte:head>
-	<title>Marlin Oyster</title>
-</svelte:head>
 
 {#if $chainStore.isValidChain && chainSupported}
 	<PageWrapper>

@@ -38,11 +38,11 @@ describe('ChainSwitcher', () => {
 		chainStore.mockSetSubscribeValue({
 			chainDisplayName: '',
 			chainId: 43,
-			chainImage: '/src/example.png',
+			chainImage: '/images/arbitrum.webp',
 			chainName: '',
 			isValidChain: true
 		});
 		const { getByAltText } = render(ChainSwitcher);
-		expect(getByAltText('current chain').getAttribute('src')).toBe('/src/example.png');
+		expect(getByAltText('Chain Logo').getAttribute('src')).toBe('/images/arbitrum.webp');
 	});
 });

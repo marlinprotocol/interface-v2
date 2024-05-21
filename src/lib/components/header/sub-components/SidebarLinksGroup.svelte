@@ -42,7 +42,7 @@
 
 	function expandMenu(e: Event, label: string) {
 		expandedLinks = expandedLinks === label ? '' : label;
-		if (!$isNavOpen) {
+		if (label !== 'Relay') {
 			handleSidebarMenuItemClickWhenCollapsed(e);
 		}
 	}

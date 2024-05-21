@@ -35,10 +35,15 @@
 			description:
 				'Convert POND to MPond and vice-versa to participate in the Marlin network or bridge from Ethereum <-> Arbitrum.',
 			buttons: [
-				{ text: 'POND <-> MPond', href: ROUTES.BRIDGE_URL },
 				{
-					text: 'Ethereum <-> Arbitrum',
+					text: 'POND MPond',
+					href: ROUTES.BRIDGE_URL,
+					icon: { src: staticImages.dataTransferIcon, alt: 'Swap' }
+				},
+				{
+					text: 'Ethereum Arbitrum',
 					href: EXTERNAL_LINKS.ETH_ARB_BRIDGE_LINK,
+					icon: { src: staticImages.dataTransferIcon, alt: 'Swap' },
 					openInPopup: {
 						modalFor: 'ethArbBridge',
 						popupCtaText: 'Visit'
@@ -99,13 +104,31 @@
 							<ModalButton
 								modalFor={button.openInPopup.modalFor}
 								variant="greyOutlined"
-								styleClass="flex h-16 flex-1 text-base font-normal">{button.text}</ModalButton
+								styleClass="flex h-16 flex-1 text-base font-normal"
 							>
+								{#if button.icon}
+									{button.text.split(' ')[0]}<img
+										src={button.icon.src}
+										alt={button.icon.alt}
+									/>{button.text.split(' ')[1]}
+								{:else}
+									{button.text}
+								{/if}
+							</ModalButton>
 						{:else}
 							<a
 								class={cn(buttonClasses.greyOutlined, 'flex h-16 flex-1 text-base font-normal')}
-								href={button.href}>{button.text}</a
+								href={button.href}
 							>
+								{#if button.icon}
+									{button.text.split(' ')[0]}<img
+										src={button.icon.src}
+										alt={button.icon.alt}
+									/>{button.text.split(' ')[1]}
+								{:else}
+									{button.text}
+								{/if}
+							</a>
 						{/if}
 					{/each}
 				</div>

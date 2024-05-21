@@ -86,6 +86,10 @@ export type CardsList = {
 export type CardButton = {
 	text: string;
 	href: string;
+	icon?: {
+		src: string;
+		alt: string;
+	};
 	openInPopup?: {
 		modalFor: string;
 		descriptionText?: string;

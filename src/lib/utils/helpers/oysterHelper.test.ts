@@ -339,15 +339,15 @@ describe('getInventoryStatusVariant', () => {
 
 describe('getInventoryDurationVariant', () => {
 	it('should return error variant if duration is less than OYSTER_CAUTION_DURATION', () => {
-		expect(getInventoryDurationVariant(1)).toBe('error');
+		expect(getInventoryDurationVariant(1)).toBe('#FEE6E6'); // error
 	});
 
 	it('should return warning variant if duration is less than OYSTER_WARNING_DURATION', () => {
-		expect(getInventoryDurationVariant(86401)).toBe('warning');
+		expect(getInventoryDurationVariant(86401)).toBe('#FCEFD4'); // warning
 	});
 
-	it('should return success variant if duration is greater than OYSTER_WARNING_DURATION', () => {
-		expect(getInventoryDurationVariant(259201)).toBe('success');
+	it('should return success variant if duration is greater than OYSTER_SUCCESS_DURATION', () => {
+		expect(getInventoryDurationVariant(259201)).toBe('#F4F9F0');
 	});
 });
 
@@ -3657,12 +3657,18 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 	];
 
 	it('should return all the mock data when filter map is an empty object', () => {
-		expect(getSearchAndFilteredMarketplaceData(mockData, {}, true)).toStrictEqual(mockData);
-		expect(getSearchAndFilteredMarketplaceData(mockData, {}, false)).toStrictEqual(mockData);
+		expect(
+			getSearchAndFilteredMarketplaceData(mockData, {}, true).allMarketplaceData
+		).toStrictEqual(mockData);
+		expect(
+			getSearchAndFilteredMarketplaceData(mockData, {}, false).allMarketplaceData
+		).toStrictEqual(mockData);
 	});
 
 	it('should return exact matched values when exactMatch is true', () => {
-		expect(getSearchAndFilteredMarketplaceData(mockData, { arch: 'amd64' }, true)).toStrictEqual([
+		expect(
+			getSearchAndFilteredMarketplaceData(mockData, { arch: 'amd64' }, true).allMarketplaceData
+		).toStrictEqual([
 			{
 				arch: 'amd64',
 				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
@@ -3690,6 +3696,7 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 		]);
 		expect(
 			getSearchAndFilteredMarketplaceData(mockData, { instance: 'c6g.large' }, true)
+				.allMarketplaceData
 		).toStrictEqual([
 			{
 				arch: 'arch64',
@@ -3730,6 +3737,7 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 		]);
 		expect(
 			getSearchAndFilteredMarketplaceData(mockData, { region: 'ap-southeast-1' }, true)
+				.allMarketplaceData
 		).toStrictEqual([
 			{
 				arch: 'arch64',
@@ -3744,7 +3752,9 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 				vcpu: 4
 			}
 		]);
-		expect(getSearchAndFilteredMarketplaceData(mockData, { vcpu: 32 }, true)).toStrictEqual([
+		expect(
+			getSearchAndFilteredMarketplaceData(mockData, { vcpu: 32 }, true).allMarketplaceData
+		).toStrictEqual([
 			{
 				arch: 'amd64',
 				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
@@ -3758,7 +3768,9 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 				vcpu: 32
 			}
 		]);
-		expect(getSearchAndFilteredMarketplaceData(mockData, { memory: 128 }, true)).toStrictEqual([
+		expect(
+			getSearchAndFilteredMarketplaceData(mockData, { memory: 128 }, true).allMarketplaceData
+		).toStrictEqual([
 			{
 				arch: 'amd64',
 				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
@@ -3774,6 +3786,7 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 		]);
 		expect(
 			getSearchAndFilteredMarketplaceData(mockData, { provider: 'Kivous Mirash' }, true)
+				.allMarketplaceData
 		).toStrictEqual([
 			{
 				arch: 'amd64',
@@ -3863,7 +3876,9 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 	});
 
 	it('should return results which contain filter map value when exactMatch is false', () => {
-		expect(getSearchAndFilteredMarketplaceData(mockData, { arch: '64' }, false)).toStrictEqual([
+		expect(
+			getSearchAndFilteredMarketplaceData(mockData, { arch: '64' }, false).allMarketplaceData
+		).toStrictEqual([
 			{
 				arch: 'amd64',
 				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
@@ -3973,100 +3988,100 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 				vcpu: 64
 			}
 		]);
-		expect(getSearchAndFilteredMarketplaceData(mockData, { instance: 'm5a' }, false)).toStrictEqual(
-			[
-				{
-					arch: 'amd64',
-					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
-					instance: 'm5a.16xlarge',
-					memory: 256,
-					provider: {
-						name: 'Kivous Mirash',
-						address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
-					},
-					rate: 0n,
-					rateScaled: 810833333333333n,
-					region: 'us-east-1',
-					regionName: 'US East (N. Virginia)',
-					vcpu: 64
-				},
-				{
-					arch: 'amd64',
-					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
-					instance: 'm5a.8xlarge',
-					memory: 128,
-					provider: {
-						name: 'Kivous Mirash',
-						address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
-					},
-					rate: 0n,
-					rateScaled: 810833333333333n,
-					region: 'us-east-1',
-					regionName: 'US East (N. Virginia)',
-					vcpu: 32
-				},
-				{
-					arch: 'arch64',
-					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
-					instance: 'm5a.16xlarge',
-					memory: 256,
-					provider: {
-						name: 'Kivous Mirash',
-						address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
-					},
-					rate: 0n,
-					rateScaled: 810833333333333n,
-					region: 'us-east-1',
-					regionName: 'US East (N. Virginia)',
-					vcpu: 64
-				},
-				{
-					arch: 'arch64',
-					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
-					instance: 'm5a.16xlarge',
-					memory: 256,
-					provider: { name: '', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
-					rate: 0n,
-					rateScaled: 810833333333333n,
-					region: 'us-east-1',
-					regionName: 'US East (N. Virginia)',
-					vcpu: 64
-				},
-
-				{
-					arch: 'arch64',
-					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
-					instance: 'm5a.16xlarge',
-					memory: 256,
-					provider: {
-						name: 'Kivous Mirash',
-						address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
-					},
-					rate: 0n,
-					rateScaled: 810833333333333n,
-					region: 'us-east-1',
-					regionName: 'US East (N. Virginia)',
-					vcpu: 64
-				},
-				{
-					arch: 'arch64',
-					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
-					instance: 'm5a.16xlarge',
-					memory: 256,
-					provider: {
-						name: 'Kivous Mirash',
-						address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
-					},
-					rate: 0n,
-					rateScaled: 810833333333333n,
-					region: 'us-east-1',
-					regionName: 'US East (N. Virginia)',
-					vcpu: 64
-				}
-			]
-		);
 		expect(
-			getSearchAndFilteredMarketplaceData(mockData, { region: 'us-east' }, false)
+			getSearchAndFilteredMarketplaceData(mockData, { instance: 'm5a' }, false).allMarketplaceData
+		).toStrictEqual([
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: {
+					name: 'Kivous Mirash',
+					address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
+				},
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.8xlarge',
+				memory: 128,
+				provider: {
+					name: 'Kivous Mirash',
+					address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
+				},
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 32
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: {
+					name: 'Kivous Mirash',
+					address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
+				},
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: { name: '', address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8' },
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: {
+					name: 'Kivous Mirash',
+					address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
+				},
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: {
+					name: 'Kivous Mirash',
+					address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
+				},
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			}
+		]);
+		expect(
+			getSearchAndFilteredMarketplaceData(mockData, { region: 'us-east' }, false).allMarketplaceData
 		).toStrictEqual([
 			{
 				arch: 'amd64',
@@ -4153,7 +4168,9 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 				vcpu: 64
 			}
 		]);
-		expect(getSearchAndFilteredMarketplaceData(mockData, { vcpu: '4' }, false)).toStrictEqual([
+		expect(
+			getSearchAndFilteredMarketplaceData(mockData, { vcpu: '4' }, false).allMarketplaceData
+		).toStrictEqual([
 			{
 				arch: 'amd64',
 				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
@@ -4240,7 +4257,9 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 				vcpu: 64
 			}
 		]);
-		expect(getSearchAndFilteredMarketplaceData(mockData, { memory: '2' }, false)).toStrictEqual([
+		expect(
+			getSearchAndFilteredMarketplaceData(mockData, { memory: '2' }, false).allMarketplaceData
+		).toStrictEqual([
 			{
 				arch: 'amd64',
 				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
@@ -4314,115 +4333,115 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 				vcpu: 64
 			}
 		]);
-		expect(getSearchAndFilteredMarketplaceData(mockData, { provider: 'kiv' }, false)).toStrictEqual(
-			[
-				{
-					arch: 'amd64',
-					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
-					instance: 'm5a.16xlarge',
-					memory: 256,
-					provider: {
-						name: 'Kivous Mirash',
-						address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
-					},
-					rate: 0n,
-					rateScaled: 810833333333333n,
-					region: 'us-east-1',
-					regionName: 'US East (N. Virginia)',
-					vcpu: 64
+		expect(
+			getSearchAndFilteredMarketplaceData(mockData, { provider: 'kiv' }, false).allMarketplaceData
+		).toStrictEqual([
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: {
+					name: 'Kivous Mirash',
+					address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
 				},
-				{
-					arch: 'amd64',
-					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
-					instance: 'm5a.8xlarge',
-					memory: 128,
-					provider: {
-						name: 'Kivous Mirash',
-						address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
-					},
-					rate: 0n,
-					rateScaled: 810833333333333n,
-					region: 'us-east-1',
-					regionName: 'US East (N. Virginia)',
-					vcpu: 32
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'amd64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.8xlarge',
+				memory: 128,
+				provider: {
+					name: 'Kivous Mirash',
+					address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
 				},
-				{
-					arch: 'arch64',
-					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
-					instance: 'm5a.16xlarge',
-					memory: 256,
-					provider: {
-						name: 'Kivous Mirash',
-						address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
-					},
-					rate: 0n,
-					rateScaled: 810833333333333n,
-					region: 'us-east-1',
-					regionName: 'US East (N. Virginia)',
-					vcpu: 64
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 32
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: {
+					name: 'Kivous Mirash',
+					address: '0x47d40316867853189e1e04dc1eb53dc71c8eb946'
 				},
-				{
-					arch: 'arch64',
-					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
-					instance: 'c6g.large',
-					memory: 4,
-					provider: {
-						name: 'Kivous Mirash',
-						address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
-					},
-					rate: 0n,
-					rateScaled: 810833333333333n,
-					region: 'us-east-1',
-					regionName: 'US East (N. Virginia)',
-					vcpu: 4
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'c6g.large',
+				memory: 4,
+				provider: {
+					name: 'Kivous Mirash',
+					address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
 				},
-				{
-					arch: 'arch64',
-					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
-					instance: 'c6g.large',
-					memory: 4,
-					provider: {
-						name: 'Kivous Mirash',
-						address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
-					},
-					rate: 0n,
-					rateScaled: 810833333333333n,
-					region: 'ap-southeast-1',
-					regionName: 'Asia Pacific (Singapore)',
-					vcpu: 4
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 4
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'c6g.large',
+				memory: 4,
+				provider: {
+					name: 'Kivous Mirash',
+					address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
 				},
-				{
-					arch: 'arch64',
-					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
-					instance: 'm5a.16xlarge',
-					memory: 256,
-					provider: {
-						name: 'Kivous Mirash',
-						address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
-					},
-					rate: 0n,
-					rateScaled: 810833333333333n,
-					region: 'us-east-1',
-					regionName: 'US East (N. Virginia)',
-					vcpu: 64
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'ap-southeast-1',
+				regionName: 'Asia Pacific (Singapore)',
+				vcpu: 4
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: {
+					name: 'Kivous Mirash',
+					address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
 				},
-				{
-					arch: 'arch64',
-					id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
-					instance: 'm5a.16xlarge',
-					memory: 256,
-					provider: {
-						name: 'Kivous Mirash',
-						address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
-					},
-					rate: 0n,
-					rateScaled: 810833333333333n,
-					region: 'us-east-1',
-					regionName: 'US East (N. Virginia)',
-					vcpu: 64
-				}
-			]
-		);
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			},
+			{
+				arch: 'arch64',
+				id: '0x47d40316867853189e1e04dc1eb53dc71c8eb946-0',
+				instance: 'm5a.16xlarge',
+				memory: 256,
+				provider: {
+					name: 'Kivous Mirash',
+					address: '0x89f52915bd3bacdc15fc0eaba922d9f7727090a8'
+				},
+				rate: 0n,
+				rateScaled: 810833333333333n,
+				region: 'us-east-1',
+				regionName: 'US East (N. Virginia)',
+				vcpu: 64
+			}
+		]);
 	});
 });
 

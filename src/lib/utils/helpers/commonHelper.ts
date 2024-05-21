@@ -227,8 +227,8 @@ export function cn(...args: ClassValue[]) {
 export const removeTrailingZeros = (decimalString: string): string => {
 	// Check if the input contains a decimal point
 	if (decimalString.includes('.')) {
-		// Remove trailing zeros after the decimal point and remove the decimal point if not necessary
-		decimalString = decimalString.replace(/(\.\d*?[1-9])0+$/, '$1').replace(/\.$/, '');
+		decimalString = decimalString.replace(/(\.\d*?[1-9])0+$/, '$1'); // Remove trailing zeros after a decimal point
+		decimalString = decimalString.replace(/\.0+$/, ''); // Remove trailing decimal part if it's all zeros
 	}
 	return decimalString;
 };

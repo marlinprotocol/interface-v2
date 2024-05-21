@@ -1,7 +1,7 @@
 import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress';
 import BasicSetup from '../../wallet-setup/basic.setup';
 // import ConnectedSetup from '../../wallet-setup/connected.setup'
-import { OYSTER_OWNER_INVENTORY_URL } from '../../../src/lib/utils/constants/urls';
+import { ROUTES } from '../../../src/lib/utils/constants/urls';
 import { loginToMetamask } from '../../helpers/metamask';
 import { MESSAGES } from '../../../src/lib/utils/constants/messages';
 import {
@@ -17,7 +17,7 @@ const test = testWithSynpress(BasicSetup, unlockForFixture);
 const { expect } = test;
 
 test('Copy Enclave Image URL', async ({ context, page, metamaskPage, extensionId }) => {
-	await page.goto(OYSTER_OWNER_INVENTORY_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_INVENTORY_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);
@@ -42,7 +42,7 @@ test('Copy Enclave Image URL', async ({ context, page, metamaskPage, extensionId
 });
 
 test('Initiate Stop', async ({ context, page, metamaskPage, extensionId }) => {
-	await page.goto(OYSTER_OWNER_INVENTORY_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_INVENTORY_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);
@@ -145,7 +145,7 @@ test('Copy Operator Address', async ({ page, context, metamaskPage, extensionId 
 // });
 
 test('Sorting by Balance', async ({ context, page, metamaskPage, extensionId }) => {
-	await page.goto(OYSTER_OWNER_INVENTORY_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_INVENTORY_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);
@@ -167,7 +167,7 @@ test('Sorting by Balance', async ({ context, page, metamaskPage, extensionId }) 
 });
 
 test('Sorting by Region', async ({ context, page, metamaskPage, extensionId }) => {
-	await page.goto(OYSTER_OWNER_INVENTORY_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_INVENTORY_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);
@@ -188,7 +188,7 @@ test('Sorting by Region', async ({ context, page, metamaskPage, extensionId }) =
 });
 
 test('Sorting by Hourly Rate', async ({ context, page, metamaskPage, extensionId }) => {
-	await page.goto(OYSTER_OWNER_INVENTORY_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_INVENTORY_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);
@@ -215,7 +215,7 @@ test('Withdraw funds more than available balance should not be allowed', async (
 	metamaskPage,
 	extensionId
 }) => {
-	await page.goto(OYSTER_OWNER_INVENTORY_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_INVENTORY_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);
@@ -254,7 +254,7 @@ test('Withdraw funds less than available balance should be allowed', async ({
 	metamaskPage,
 	extensionId
 }) => {
-	await page.goto(OYSTER_OWNER_INVENTORY_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_INVENTORY_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);

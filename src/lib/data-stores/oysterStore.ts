@@ -48,6 +48,7 @@ export function resetOysterStore() {
 			allowance: 0n,
 			merchantJobsData: [],
 			marketplaceLoaded: true,
+			merchantJobsLoaded: true,
 			credits: {
 				isWhitelisted: false,
 				balance: 0n
@@ -453,6 +454,25 @@ export function setInventoryDataLoadedInOysterStore(status: boolean) {
 		return {
 			...value,
 			oysterStoreLoaded: status
+		};
+	});
+}
+
+export function updateEnclaveUrlForOysterJobInOysterStore(jobId: BytesLike, metadata: string) {
+	const enclaveUrl = JSON.parse(metadata).url;
+	oysterStore.update((value) => {
+		return {
+			...value,
+			jobsData: value.jobsData.map((job) => {
+				if (job.id === jobId) {
+					return {
+						...job,
+						metadata: metadata,
+						enclaveUrl: enclaveUrl
+					};
+				}
+				return job;
+			})
 		};
 	});
 }

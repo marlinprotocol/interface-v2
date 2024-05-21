@@ -4,49 +4,78 @@ exports[`AmountInputWithMaxButton > render's the component properly 1`] = `
 <body>
   <div>
     <div
-      class=" w-full rounded-lg bg-base-200 p-4"
+      class="w-full bg-white px-6 py-[30px] rounded-3xl border border-[#D9DADE]"
       data-testid="input-card"
     >
-      <div
-        class="flex items-center gap-1"
-      >
-        <div
-          class=" text-sm font-normal"
-          data-testid="text"
-        >
-          Test Title
-        </div>
-        <!--&lt;Text&gt;-->
-         
-        <div
-          class="tooltip flex shrink-0 text-left font-normal  tooltip-secondary tooltip-right"
-          data-testid="tooltip-icon"
-          data-tip="Info Tooltip"
-        >
-          <img
-            alt="Info"
-            src="/images/alert.svg"
-            width="14px"
-          />
-        </div>
-        <!--&lt;TooltipIcon&gt;-->
-      </div>
-       
       <form>
         <div
-          class="flex items-center gap-2"
+          class="flex items-center justify-between gap-2"
         >
           <input
             autocomplete="off"
-            class="hideInputNumberAppearance input input-ghost input-primary text-[1.4rem] p-0 ml-0.5 placeholder:text-primary/[.2]"
+            class="hideInputNumberAppearance input input-ghost input-primary text-3xl placeholder:text-[#030115]/[.2]"
             disabled=""
-            id="pond-input-amount"
+            id="pond-input-amount-"
             placeholder="0.00"
           />
           <!--&lt;AmountInput&gt;-->
            
         </div>
          
+        <div
+          class="h-[1px] w-full bg-black/[0.1] my-0 shrink-0"
+          data-testid="divider"
+        />
+        <!--&lt;Divider&gt;-->
+         
+        <div
+          class="mt-[-10px] flex items-center justify-end gap-2"
+        >
+          <div
+            class="flex items-center gap-1"
+          >
+            <div
+              class="text-[#657183] text-sm font-normal"
+              data-testid="text"
+            >
+              Balance: 1000
+            </div>
+            <!--&lt;Text&gt;-->
+             
+            <div
+              class="group relative inline-block cursor-pointer text-left"
+              data-testid="tooltip"
+            >
+              <img
+                alt="Info"
+                src="/images/alertV2Icon.svg"
+                width="16px"
+              />
+               
+               
+              <div
+                class="absolute z-100 box-border hidden w-max max-w-[320px] rounded-xl bg-white p-3 shadow-[0px_12px_16px_-4px_#10182814] group-hover:block -top-5 left-1/2 -translate-x-1/2 -translate-y-full"
+              >
+                <span
+                  class="text-sm leading-[18px]"
+                  slot="tooltipContent"
+                >
+                  Your total balance
+                </span>
+                 
+                <i
+                  class="absolute overflow-hidden after:absolute after:h-[15px] after:w-[15px] after:rotate-45 after:bg-white after:shadow-[0px_12px_16px_-4px_#10182814] after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 top-full left-1/2 -ml-[15px] w-[30px] h-[15px]"
+                />
+                 
+                <div
+                  class="after:left-0 after:top-1/2 after:-translate-y-1/2 after:translate-x-1/2"
+                />
+              </div>
+            </div>
+            <!--&lt;Tooltip&gt;-->
+          </div>
+           
+        </div>
       </form>
     </div>
     <!--&lt;InputCard&gt;-->

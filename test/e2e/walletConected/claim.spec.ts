@@ -1,6 +1,6 @@
 import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress';
 import BasicSetup from '../../wallet-setup/basic.setup';
-import { OYSTER_OPERATOR_JOBS_URL } from '../../../src/lib/utils/constants/urls';
+import { ROUTES } from '../../../src/lib/utils/constants/urls';
 import { loginToMetamask } from '../../helpers/metamask';
 import { MESSAGES } from '../../../src/lib/utils/constants/messages';
 
@@ -8,7 +8,7 @@ const test = testWithSynpress(BasicSetup, unlockForFixture);
 const { expect } = test;
 
 test('Claim Job Reward', async ({ context, page, metamaskPage, extensionId }) => {
-	await page.goto(OYSTER_OPERATOR_JOBS_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_OPERATOR_JOBS_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);

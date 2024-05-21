@@ -11,7 +11,7 @@ describe('InputCard component', () => {
 
 	it('applies the correct classes for primary variant', () => {
 		const { getByTestId } = render(InputCard, { variant: 'primary' });
-		expect(getByTestId('input-card').className).contain('bg-base-200 p-4');
+		expect(getByTestId('input-card').className).contain('bg-white px-6 py-[30px]');
 	});
 
 	it('applies the correct classes for primary-mini variant', () => {
@@ -31,12 +31,12 @@ describe('InputCard component', () => {
 
 	it('applies the correct classes for search variant', () => {
 		const { getByTestId } = render(InputCard, { variant: 'search' });
-		expect(getByTestId('input-card').className).contain('bg-[#dfedf9] px-4 py-2.5');
+		expect(getByTestId('input-card').className).contain('bg-white px-4 py-2.5');
 	});
 
 	it('applies default classes when variant is undefined', () => {
-		const { getByTestId } = render(InputCard);
-		expect(getByTestId('input-card').className).contain('bg-base-200 p-4');
+		const { getByTestId } = render(InputCard, { variant: undefined });
+		expect(getByTestId('input-card').className).contain('w-full bg-white px-6');
 	});
 
 	it('should render component inside slot properly', async () => {

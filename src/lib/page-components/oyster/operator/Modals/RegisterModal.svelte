@@ -161,8 +161,9 @@
 	}
 
 	// Define the debounced version of getInstances
-	const debouncedGetInstances = debounce(getInstances, 200);
+	const debouncedGetInstances = debounce(getInstances, 1000);
 	function memoizeInstances(updatedUrl: string) {
+		instancesLoading = true;
 		if (!validCPUrl) {
 			return debouncedGetInstances('');
 		}
@@ -181,8 +182,11 @@
 	// using regex to validate CP URL
 	$: validCPUrl = checkValidURL(sanitizedUpdatedCpURL);
 	$: instances = memoizeInstances(sanitizedUpdatedCpURL);
+	$: isErrorFound = false;
+
 	$: instances
 		.then((data) => {
+			isErrorFound = false;
 			if (data.length > 0) {
 				const uniqueRegions = [...new Set(data.map((instance) => instance.region))];
 				updatedInstancesData.totalInstances = data.length;
@@ -197,13 +201,14 @@
 			console.error(error);
 			instancesLoading = false;
 			enableRegisterButton = false;
+			isErrorFound = true;
 		});
 
 	$: if (instancesLoading) {
 		isStateVisible = true;
 		iconName = staticImages.yellowInfo;
 		currentStateClass = 'bg-[#FDF3DE] text-[#E6B54D]';
-	} else if (!validCPUrl && !!updatedCpUrl.length) {
+	} else if ((!validCPUrl || isErrorFound) && !!updatedCpUrl.length) {
 		isStateVisible = true;
 		iconName = staticImages.redAlert;
 		currentStateClass = 'bg-[#FEE6E6] text-[#E00606]';
@@ -250,9 +255,9 @@
 		<Button
 			variant="filled"
 			styleClass="w-full font-normal"
-			disabled={$oysterStore.providerData.registered
+			disabled={($oysterStore.providerData.registered
 				? isUpdateButtonDisabled
-				: isRegistredButtonDisabled}
+				: isRegistredButtonDisabled) || instancesLoading}
 			onclick={$oysterStore.providerData.registered ? handleOnUpdate : handleOnRegister}
 			loading={registerLoading || updateLoading}
 		>

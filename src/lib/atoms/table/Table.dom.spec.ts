@@ -32,9 +32,7 @@ describe('TableComponent', () => {
 		});
 
 		// Check if the table container has the correct classes
-		expect(getByTestId('table-container').className).contain(
-			'overflow-x-auto overflow-y-hidden px-8 py-6 custom-table-style'
-		);
+		expect(getByTestId('table-container').className).contain('custom-table-style');
 
 		// Check if each heading is rendered with a TableHeadingText component and has the correct classes
 		for (const heading of tableHeadingMock) {

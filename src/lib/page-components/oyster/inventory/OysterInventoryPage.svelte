@@ -14,6 +14,7 @@
 	import { tableClasses } from '$lib/atoms/componentClasses';
 	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
 	import { cn } from '$lib/utils/helpers/commonHelper';
+	import { connected } from '$lib/data-stores/walletProviderStore';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -52,6 +53,7 @@
 		(activePage - 1) * TABLE_ITEMS_PER_PAGE,
 		activePage * TABLE_ITEMS_PER_PAGE
 	);
+	$: isSearchInputDisabled = !$connected;
 </script>
 
 <PageTitle title="My Active Orders" />
@@ -63,6 +65,7 @@
 			searchInput = value.toString();
 		}}
 		title="Operator"
+		disabled={isSearchInputDisabled}
 		showTitle={false}
 		placeholder="Search"
 		label="Operator name or address"

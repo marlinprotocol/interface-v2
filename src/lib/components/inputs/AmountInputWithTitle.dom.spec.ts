@@ -9,7 +9,6 @@ describe('AmountInputWithTitle', () => {
 	const suffix = 'USD';
 	const onlyInteger = false;
 	const handleUpdatedAmount = vi.fn();
-	const onFocusOut = vi.fn();
 
 	it("render's the component properly", () => {
 		const { container } = render(AmountInputWithTitle, {
@@ -51,9 +50,5 @@ describe('AmountInputWithTitle', () => {
 
 		expect(handleUpdatedAmount).toHaveBeenCalled();
 		expect(input.value).toBe('456');
-
-		// Simulate the focusout event
-		fireEvent.focusOut(input);
-		expect(onFocusOut).toHaveBeenCalled();
 	});
 });

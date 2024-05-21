@@ -33,7 +33,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-	background: #f4f4f6;
+	background: transparent;
 }
 
 ::-webkit-scrollbar-thumb:active {
@@ -60,7 +60,7 @@ body {
 /* For Internet Explorer 11 */
 * {
 	scrollbar-face-color: #d9dade;
-	scrollbar-track-color: #f4f4f6;
+	scrollbar-track-color: transparent;
 	scrollbar-arrow-color: #d9dade;
 }
 

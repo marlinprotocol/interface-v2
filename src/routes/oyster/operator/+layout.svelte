@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { getJobStatuses } from '$lib/controllers/httpController';
 	import { getOysterMerchantJobsFromSubgraph } from '$lib/controllers/subgraphController';
-	import { chainIdHasChanged, chainStore } from '$lib/data-stores/chainProviderStore';
+	import {
+		allowedChainsStore,
+		chainIdHasChanged,
+		chainStore
+	} from '$lib/data-stores/chainProviderStore';
 	import {
 		oysterRateMetadataStore,
 		setMerchantJobsLoadedInOysterStore,
@@ -66,7 +70,10 @@
 		console.log('operator details loaded');
 	}
 
-	$: if ($connected) {
+	$: chainSupported = $chainStore.chainId
+		? $allowedChainsStore.includes($chainStore.chainId)
+		: true;
+	$: if ($connected && chainSupported) {
 		if (
 			walletAddressHasChanged($walletStore.address, previousWalletAddress) ||
 			chainIdHasChanged($chainStore.chainId, previousChainId)

@@ -1,7 +1,7 @@
 import Button from './Button.svelte';
 import { describe, it, afterEach } from 'vitest';
 import { cleanup, render, screen, fireEvent } from '@testing-library/svelte';
-import TestButton from './TestButton.svelte';
+import html from '@playpilot/svelte-htm';
 
 describe('Button', () => {
 	afterEach(() => {
@@ -14,12 +14,10 @@ describe('Button', () => {
 		expect(getByRole('button')).toMatchSnapshot();
 	});
 
-	it('renders a button with text passed as its child', () => {
-		// we have created a test button component since svelte does not offer good testing support for slots
-		const { getByTestId } = render(TestButton, { Component: Button });
+	it('renders a button with text passed as its child', async () => {
+		const { findByText } = render(html`<${Button}>test</${Button}>`);
 
-		expect(() => getByTestId('slot')).not.toThrow();
-		expect(getByTestId('slot').textContent).toBe('Test Data');
+		expect((await findByText('test')).innerHTML.trim()).toBe('test');
 	});
 
 	it('renders a spinner when loading is true', () => {

@@ -46,7 +46,7 @@ describe('DisconnectWalletButton', () => {
 			signer: undefined
 		});
 		chainStore.mockSetSubscribeValue({
-			chainDisplayName: 'display-name',
+			chainDisplayName: 'Arbitrum Sepolia',
 			chainId: 39,
 			chainName: '',
 			isValidChain: true,
@@ -56,7 +56,7 @@ describe('DisconnectWalletButton', () => {
 		await tick();
 		expect(getByText(testAddress)).toBeTruthy();
 		expect(getByText(shortenAddress)).toBeTruthy();
-		expect(getByText('DISPLAY-NAME')).toBeTruthy();
+		expect(getByText('Arbitrum Sepolia')).toBeTruthy();
 		expect(image).toBeTruthy();
 	});
 });

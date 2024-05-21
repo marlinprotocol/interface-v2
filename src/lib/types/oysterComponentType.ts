@@ -91,6 +91,7 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 	};
 	metadata: string;
 	enclaveUrl: string;
+	inputs?: string;
 	totalDeposit: bigint;
 	amountUsed: bigint;
 	balance: bigint;
@@ -115,6 +116,7 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 	};
 	ip?: string;
 	isCreditJob?: boolean;
+	regionName?: string;
 }
 
 export interface CreateOrderPreFilledModel extends CPUrlDataModel {
@@ -172,4 +174,5 @@ export type OysterJobMetadata = {
 	vcpu: number;
 	memory: number;
 	arch: string;
+	inputs?: string;
 };

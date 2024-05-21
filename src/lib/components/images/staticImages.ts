@@ -26,9 +26,9 @@ const Verified = '/images/verifiedicon.svg';
 const WalletConnect = '/images/walleticon.svg';
 const WalletConnected = '/images/wallet-connected.svg';
 const PolygonLogo = '/images/polygon.svg';
-const PolygonFullLogo = '/images/polygon-full.webp';
+const PolygonFullLogo = '/images/polygon-full.svg';
 const ArbitrumLogo = '/images/arbitrum.webp';
-const ArbitrumFullLogo = '/images/arbitrum-full.webp';
+const ArbitrumFullLogo = '/images/arbitrum-full.svg';
 const limoLogo = '/images/limo.webp';
 const EthereumLogo = '/images/eth.webp';
 const LineaLogo = '/images/linea.webp';
@@ -87,31 +87,31 @@ const externalLinkIcon = '/images/externalLinkV2Icon.svg';
 const searchV2Icon = '/images/searchV2Icon.svg';
 const refreshV2Icon = '/images/refreshV2Icon.svg';
 const infoV2Icon = '/images/infoV2Icon.svg';
-const ankrLogo = '/images/ankr-blue-logo.webp';
+const ankrLogo = '/images/ankr-blue-logo.svg';
 const cradlesLogo = '/images/CradlesLogo.webp';
 const brightlyStakeLogo = '/images/Brightlystakelogo.webp';
-const midaSwapLogo = '/images/MidaswapLogo.webp';
-const aspectaLogo = '/images/AspectaLogo.webp';
-const echolinkLogo = '/images/EcholinkLogo.webp';
+const midaSwapLogo = '/images/MidaswapLogo.svg';
+const aspectaLogo = '/images/AspectaLogo.svg';
+const echolinkLogo = '/images/EcholinkLogo.svg';
 const publicAiLogo = '/images/PublicAIDarkLogo.webp';
 const operatorLogo = '/images/operator.svg';
 const sideLogo = '/images/side.svg';
-const injectiveLogo = '/images/injective.webp';
+const injectiveLogo = '/images/injective.svg';
 const mellowLogo = '/images/mellow.webp';
-const FlashBotsLogo = '/images/FlashBotsLogo.webp';
-const gearBoxLogo = '/images/gearbox.webp';
+const FlashBotsLogo = '/images/FlashBotsLogo.svg';
+const gearBoxLogo = '/images/gearbox.svg';
 const decimalLogo = '/images/decimal.webp';
 const zkbobLogo = '/images/zkbob.svg';
-const p2pLogo = '/images/p2p_logo_white.webp';
+const p2pLogo = '/images/p2p_logo.svg';
 const t2t2Logo = '/images/T2T2Logo.png';
-const hashkeyCloudLogo = '/images/HashkeyCloudLogo.webp';
+const hashkeyCloudLogo = '/images/HashkeyCloudLogo.svg';
 const nodeasyLogo = '/images/NodeEasyLogo.webp';
-const chorusOneLogo = '/images/ChorusOneLogo.webp';
-const availLogo = '/images/availLogo.webp';
-const stafiLogo = '/images/StafiLogo.webp';
+const chorusOneLogo = '/images/ChorusOneLogo.svg';
+const availLogo = '/images/availLogo.svg';
+const stafiLogo = '/images/StafiLogo.svg';
 const sjtUniversityLogo = '/images/sjtUni.webp';
-const goSleepLogo = '/images/GoSleepLogo.webp';
-const infstones = '/images/InfstonesLogo.webp';
+const goSleepLogo = '/images/GoSleepLogo.svg';
+const infstones = '/images/InfstonesLogo.svg';
 const staking4allLogo = '/images/Staking4AllLogo.webp';
 const degoLogo = '/images/DegoFinance.webp';
 const promLogo = '/images/PromLogo.png';
@@ -137,11 +137,12 @@ const exploreIcon = '/images/explore.svg';
 const copyIcon = '/images/copyIconNew.svg';
 const infoIconPurple = '/images/information-purple.svg';
 const sigmoIdLogo = '/images/sigmoid.svg';
-const mcGrillUni = '/images/mcgill-university.webp';
+const mcGrillUni = '/images/mcgill-university.svg';
 const fishingMan = '/images/fishing-man.svg';
 const KontosLogo = '/images/Kontos.svg';
 const NuLinkLogo = '/images/NuLink.svg';
 const lighthouseLogo = '/images/lighthouse.svg';
+const accsealLogo = '/images/accsealLogo.svg';
 
 export const staticImages = {
 	Alert,
@@ -284,5 +285,6 @@ export const staticImages = {
 	fishingMan,
 	KontosLogo,
 	NuLinkLogo,
-	lighthouseLogo
+	lighthouseLogo,
+	accsealLogo
 };

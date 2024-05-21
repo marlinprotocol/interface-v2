@@ -74,14 +74,6 @@
 				>
 					Withdraw
 				</ModalButton>
-				<ModalButton
-					variant="outlined"
-					size="small"
-					modalFor="job-amend-rate-modal-{id}"
-					disabled={isJobFinished}
-				>
-					{amendRateButtonText}
-				</ModalButton>
 			{/if}
 			<ModalButton variant="outlined" size="small" modalFor="job-details-modal-{id}">
 				Details

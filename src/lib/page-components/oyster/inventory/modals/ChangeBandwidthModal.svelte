@@ -8,6 +8,12 @@
 		oysterStore,
 		oysterTokenMetadataStore
 	} from '$lib/data-stores/oysterStore';
+	import {
+		handleFinaliseCreditJobRateRevise,
+		handleFinaliseJobRateRevise,
+		handleInitiateCreditJobRateRevise,
+		handleInitiateJobRateRevise
+	} from '$lib/utils/services/oysterServices';
 	import Select from '$lib/components/select/Select.svelte';
 	import {
 		DEFAULT_BANDWIDTH_UNIT,
@@ -23,10 +29,10 @@
 		getRateForProviderAndFilters
 	} from '$lib/utils/helpers/oysterHelpers';
 	import { closeModal, cn } from '$lib/utils/helpers/commonHelper';
-	import {
-		handleFinaliseCreditJobRateRevise,
-		handleFinaliseJobRateRevise
-	} from '$lib/utils/services/oysterServices';
+
+	import Timer from '$lib/atoms/timer/Timer.svelte';
+	import InputCard from '$lib/atoms/cards/InputCard.svelte';
+	import Text from '$lib/atoms/texts/Text.svelte';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -88,7 +94,7 @@
 	let submitLoading = false;
 	$: btnText = rateStatus === '' ? 'Initiate' : 'Confirm';
 
-	let onSubmit = async () => {
+	let onConfirm = async () => {
 		submitLoading = true;
 
 		if (isCreditJob) {
@@ -96,9 +102,29 @@
 		} else {
 			await handleFinaliseJobRateRevise(jobData, newHourlyRate);
 		}
+		closeModal(modalFor);
+		submitLoading = false;
+	};
+
+	let onInit = async () => {
+		submitLoading = true;
+
+		if (isCreditJob) {
+			await handleInitiateCreditJobRateRevise(jobData, newHourlyRate, 0);
+		} else {
+			await handleInitiateJobRateRevise(jobData, newHourlyRate, 0);
+		}
 		btnText = 'Confirm';
 		closeModal(modalFor);
 		submitLoading = false;
+	};
+
+	let onSubmit = () => {
+		if (btnText === 'Initiate') {
+			onInit();
+		} else {
+			onConfirm();
+		}
 	};
 </script>
 
@@ -184,6 +210,25 @@
 				</label>
 			</div>
 		</div>
+		{#if rateStatus === 'pending'}
+			<div class="w-full">
+				<Timer
+					timerId="timer-for-{modalFor}"
+					endEpochTime={updatesAt}
+					onTimerEnd={() => (submitLoading = false)}
+				>
+					<div slot="active" let:timer class="w-full">
+						<InputCard variant="warning">
+							<Text
+								styleClass="py-2"
+								text="Time left to confirm: {epochToDurationString(timer)}"
+								variant="small"
+							/>
+						</InputCard>
+					</div>
+				</Timer>
+			</div>
+		{/if}
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		<div class="flex gap-4">

@@ -22,7 +22,7 @@
 		getBandwidthFromRateAndRegion,
 		getRateForProviderAndFilters
 	} from '$lib/utils/helpers/oysterHelpers';
-	import { cn } from '$lib/utils/helpers/commonHelper';
+	import { closeModal, cn } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleFinaliseCreditJobRateRevise,
 		handleFinaliseJobRateRevise
@@ -92,7 +92,7 @@
 		} else {
 			await handleFinaliseJobRateRevise(jobData, newHourlyRate);
 		}
-
+		closeModal(modalFor);
 		submitLoading = false;
 	};
 </script>
@@ -183,7 +183,10 @@
 			<div class="w-full">
 				<Button
 					bind:onclick={onSubmit}
-					disabled={newBandwidth === '' || newBandwidth === bandwidth || !checkboxAcknowledge}
+					disabled={newBandwidth === '' ||
+						newBandwidth === bandwidth ||
+						!checkboxAcknowledge ||
+						submitLoading}
 					variant="filled"
 					size="large"
 					styleClass="btn-block w-full my-0">Confirm</Button

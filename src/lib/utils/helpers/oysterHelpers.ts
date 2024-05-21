@@ -1,4 +1,5 @@
 import {
+	DEFAULT_BANDWIDTH_UNIT,
 	OYSTER_CAUTION_DURATION,
 	OYSTER_DURATION_UNITS_LIST,
 	OYSTER_WARNING_DURATION
@@ -577,4 +578,13 @@ export const transformOysterJobDataToInventoryDataModel = (
 		settlementHistory: []
 	};
 	return newJob;
+};
+
+export const calculatBandwidthRate = (bandwidth: string, region: string, bandwidthUnit: string) => {
+	return (
+		(BigInt(bandwidth) * getBandwidthRateForRegion(region)) /
+		BigInt(
+			bandwidthUnit === DEFAULT_BANDWIDTH_UNIT ? 1024 * 1024 : bandwidthUnit === 'MB/s' ? 1024 : 1
+		)
+	);
 };

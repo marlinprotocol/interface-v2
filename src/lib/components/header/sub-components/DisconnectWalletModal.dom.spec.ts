@@ -56,7 +56,7 @@ describe('DisconnectWalletModal', () => {
 
 	it('has the button to add MPond to the users wallet', () => {
 		const { getByText } = render(DisconnectWalletModal, { modalFor: 'wallet', disconnect: mockFn });
-		expect(getByText('Add MPOND')).toBeTruthy();
+		expect(getByText('Add MPond')).toBeTruthy();
 	});
 
 	it('displays the wallet address from the store', async () => {

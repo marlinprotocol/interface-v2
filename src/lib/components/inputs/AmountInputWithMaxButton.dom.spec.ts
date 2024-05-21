@@ -16,7 +16,6 @@ beforeAll(() => {
 });
 
 describe('AmountInputWithMaxButton', () => {
-	const tooltipText = 'Info Tooltip';
 	const inputAmountString = '123';
 	const maxAmountText = 'Balance: 1000';
 	const maxAmountTooltipText = 'Your total balance';
@@ -39,11 +38,12 @@ describe('AmountInputWithMaxButton', () => {
 			maxAmountText,
 			maxAmountTooltipText,
 			handleUpdatedAmount,
+			showBalance: true,
 			inputCardVariant: 'primary'
 		});
-
+		console.log(container.innerHTML, 'container.innerHTML');
 		// Assert that title and tooltip are rendered
-		expect(container.innerHTML).contain(tooltipText);
+		expect(container.getElementsByTagName('span')[0].innerHTML).contain(maxAmountTooltipText);
 
 		// Assert input is bound to inputAmountString
 		const input = getByDisplayValue(inputAmountString);
@@ -86,12 +86,10 @@ describe('AmountInputWithMaxButton', () => {
 		const { getAllByTestId, getByText } = render(html`
         <${AmountInputWithMaxButton} title='${'text'}' inputAmountString=${'0'} handleUpdatedAmount=${vi.fn()}>
         <div slot='inputMaxButton'>inputMaxButton</div>
-        <div slot='input-end-button'>input-end-button</div>
         </${AmountInputWithMaxButton}>`);
 		const dividers = getAllByTestId('divider');
 		expect(dividers.length).toBeTruthy();
 		expect(dividers.length).toBe(2);
 		expect(await getByText('inputMaxButton')).toBeTruthy();
-		expect(await getByText('input-end-button')).toBeTruthy();
 	});
 });

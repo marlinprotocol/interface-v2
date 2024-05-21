@@ -17,7 +17,10 @@ describe('fetchHttpData', () => {
 		await expect(fetchHttpData('https://jsonplaceholder.typicode.com', {})).rejects.toThrow();
 
 		expect(addToastSpy).toHaveBeenCalledWith({
-			message: 'Error fetching data. Please try again later.',
+			message: {
+				description: 'Error fetching data. Please try again later.',
+				title: 'HTTP Error'
+			},
 			variant: 'error'
 		});
 	});

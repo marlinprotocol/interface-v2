@@ -1,6 +1,7 @@
 import Button from './Button.svelte';
 import { describe, it, afterEach } from 'vitest';
 import { cleanup, render, screen, fireEvent } from '@testing-library/svelte';
+import html from '@playpilot/svelte-htm';
 
 describe('Button', () => {
 	afterEach(() => {
@@ -13,13 +14,10 @@ describe('Button', () => {
 		expect(getByRole('button')).toMatchSnapshot();
 	});
 
-	it('renders a button with text passed as its child', () => {
-		const { getByTestId } = render(Button, {
-			props: { loading: false }
-		});
+	it('renders a button with text passed as its child', async () => {
+		const { findByText } = render(html`<${Button}>test</${Button}>`);
 
-		expect(() => getByTestId('slot')).not.toThrow();
-		expect(getByTestId('slot').textContent).toBe('Test Data');
+		expect((await findByText('test')).innerHTML.trim()).toBe('test');
 	});
 
 	it('renders a spinner when loading is true', () => {

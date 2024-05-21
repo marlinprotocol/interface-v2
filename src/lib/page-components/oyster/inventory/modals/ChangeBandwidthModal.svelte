@@ -42,6 +42,7 @@
 
 	$: ({
 		provider: { address },
+		reviseRate: { newRate = 0n, updatesAt = 0, rateStatus = '' } = {},
 		instance,
 		region,
 		rateScaled,
@@ -82,7 +83,10 @@
 	$: balanceLeft = totalDeposit - amountUsed;
 	$: newDuration = Number(balanceLeft / (newHourlyRate || 1n));
 	$: newDurationString = newBandwidth ? epochToDurationString(newDuration) : '';
+
+	// UI
 	let submitLoading = false;
+	$: btnText = rateStatus === '' ? 'Initiate' : 'Confirm';
 
 	let onSubmit = async () => {
 		submitLoading = true;
@@ -92,6 +96,7 @@
 		} else {
 			await handleFinaliseJobRateRevise(jobData, newHourlyRate);
 		}
+		btnText = 'Confirm';
 		closeModal(modalFor);
 		submitLoading = false;
 	};
@@ -138,6 +143,7 @@
 					title="New Bandwidth"
 					bind:inputAmountString={newBandwidth}
 					onlyInteger
+					disabled={btnText === 'Confirm'}
 				>
 					<div slot="endButton">
 						<Select
@@ -145,6 +151,7 @@
 							dataList={bandwidthUnitList}
 							bind:value={newBandwidthUnit}
 							showLabel
+							disabled={btnText === 'Confirm'}
 						/>
 					</div>
 				</AmountInputWithTitle>
@@ -189,8 +196,10 @@
 						submitLoading}
 					variant="filled"
 					size="large"
-					styleClass="btn-block w-full my-0">Confirm</Button
+					styleClass="btn-block w-full my-0"
 				>
+					{btnText}
+				</Button>
 			</div>
 		</div>
 	</svelte:fragment>

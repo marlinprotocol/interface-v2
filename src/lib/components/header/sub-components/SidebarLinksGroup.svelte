@@ -40,20 +40,6 @@
 		}
 	}
 
-	function expandMenu(e: Event, label: string) {
-		expandedLinks = expandedLinks === label ? '' : label;
-		if (label !== 'Relay') {
-			handleSidebarMenuItemClickWhenCollapsed(e);
-		}
-		// const isRouteConfig = openDropDown.find((config) => config[label]);
-		// if (isRouteConfig && isRouteConfig[label]) {
-		// 	openDropDown = openDropDown.map((config) => {
-		// 		config[label] = !config[label];
-		// 		return config;
-		// 	});
-		// }
-	}
-
 	$: links = [
 		{
 			label: 'Dashboard',
@@ -157,6 +143,24 @@
 		};
 	});
 
+	function expandMenu(e: Event, label: string) {
+		expandedLinks = expandedLinks === label ? '' : label;
+		if (label !== 'Relay') {
+			handleSidebarMenuItemClickWhenCollapsed(e);
+		}
+		// const isRouteConfig = openDropDown.find((config) => config[label]);
+		// if (isRouteConfig && isRouteConfig[label]) {
+		// 	openDropDown = openDropDown.map((config) => {
+		// 		if (config.hasOwnProperty(label)) {
+		// 			config[label] = !config[label];
+		// 		}
+		// 		return config;
+		// 	});
+		// }
+		// console.log(openDropDown);
+	}
+
+	// $: console.log(openDropDown);
 	// $: console.log(openDropDown);
 	// console.log(links);
 </script>

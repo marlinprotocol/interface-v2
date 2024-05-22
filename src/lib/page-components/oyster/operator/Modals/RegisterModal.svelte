@@ -55,6 +55,8 @@
 		}
 	}
 
+	const onCloseModal = () => (updatedCpUrl = '');
+
 	const handleOnRegister = async () => {
 		try {
 			if ($connected) {
@@ -229,14 +231,14 @@
 	$: enableRegisterButton = validCPUrl && instancesData.totalInstances > 0;
 </script>
 
-<Modal modalFor="oyster-register-url-operator">
+<Modal modalFor="oyster-register-url-operator" onClose={onCloseModal}>
 	<svelte:fragment slot="title"
 		>{$oysterStore.providerData.registered ? 'Update' : 'Register'}</svelte:fragment
 	>
 	<svelte:fragment slot="content">
 		<TextInputWithEndButton
 			styleClass="w-full py-4 rounded-[100px]"
-			placeholder="Paste URL here"
+			placeholder="Paste {$oysterStore.providerData.registered ? 'updated URL' : 'URL'} here"
 			bind:input={updatedCpUrl}
 			label="Control Plane URL"
 		/>
@@ -247,7 +249,7 @@
 			</div>
 		{/if}
 		<ErrorTextCard
-			showError={$oysterStore.providerData.data?.cp === updatedCpUrl}
+			showError={updatedCpUrl !== '' && $oysterStore.providerData.data?.cp === updatedCpUrl}
 			errorMessage="Registered CP URL and updated CP URL cannot be the same. Please update the CP URL."
 		/>
 	</svelte:fragment>

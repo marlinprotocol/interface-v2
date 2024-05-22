@@ -222,18 +222,10 @@
 				];
 
 	$: walletBalanceText = useMarlinCredits
-		? bigNumberToString(
-				walletBalance,
-				OYSTER_MARLIN_CREDIT_METADATA.decimal,
-				OYSTER_MARLIN_CREDIT_METADATA.precision
-			) +
+		? bigNumberToString(walletBalance, OYSTER_MARLIN_CREDIT_METADATA.decimal, 2) +
 			' ' +
 			OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]
-		: bigNumberToString(
-				walletBalance,
-				$oysterTokenMetadataStore.decimal,
-				$oysterTokenMetadataStore.precision
-			) +
+		: bigNumberToString(walletBalance, $oysterTokenMetadataStore.decimal, 2) +
 			' ' +
 			$oysterTokenMetadataStore.currency;
 	$: approved =

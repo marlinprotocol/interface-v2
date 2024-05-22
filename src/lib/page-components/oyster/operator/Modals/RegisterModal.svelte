@@ -204,8 +204,6 @@
 			isErrorFound = true;
 		});
 
-	$: console.log({ updatedCpUrl }, updatedCpUrl.replace(/\s+/g, '').length);
-
 	$: if (instancesLoading && !!updatedCpUrl.replace(/\s+/g, '').length) {
 		isStateVisible = true;
 		iconName = staticImages.yellowInfo;

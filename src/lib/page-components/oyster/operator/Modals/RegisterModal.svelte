@@ -247,7 +247,8 @@
 			</div>
 		{/if}
 		<ErrorTextCard
-			showError={$oysterStore.providerData.data?.cp === updatedCpUrl}
+			showError={$oysterStore.providerData.data?.cp !== '' &&
+				$oysterStore.providerData.data?.cp === updatedCpUrl}
 			errorMessage="Registered CP URL and updated CP URL cannot be the same. Please update the CP URL."
 		/>
 	</svelte:fragment>

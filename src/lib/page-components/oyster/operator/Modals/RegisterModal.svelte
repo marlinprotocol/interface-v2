@@ -116,6 +116,10 @@
 
 	async function getInstances(apiType: string) {
 		try {
+			if (!sanitizedUpdatedCpURL.trim().length) {
+				return [];
+			}
+			instancesLoading = true;
 			if (apiType === 'proxy') {
 				const instances = await getInstancesFromControlPlaneUsingCpUrl(sanitizedUpdatedCpURL);
 				updatedInstances = getModifiedInstances(instances);
@@ -163,7 +167,6 @@
 	// Define the debounced version of getInstances
 	const debouncedGetInstances = debounce(getInstances, 1000);
 	function memoizeInstances(updatedUrl: string) {
-		instancesLoading = true;
 		if (!validCPUrl) {
 			return debouncedGetInstances('');
 		}
@@ -204,19 +207,18 @@
 			isErrorFound = true;
 		});
 
-	$: if (instancesLoading && !!updatedCpUrl.replace(/\s+/g, '').length) {
+	$: if (instancesLoading) {
 		isStateVisible = true;
 		iconName = staticImages.yellowInfo;
 		currentStateClass = 'bg-[#FDF3DE] text-[#E6B54D]';
-	} else if ((!validCPUrl || isErrorFound) && !!updatedCpUrl.replace(/\s+/g, '').length) {
+	} else if ((!validCPUrl || isErrorFound) && !!updatedCpUrl.trim().length) {
 		isStateVisible = true;
 		iconName = staticImages.redAlert;
 		currentStateClass = 'bg-[#FEE6E6] text-[#E00606]';
 	} else if (
 		validCPUrl &&
 		enableRegisterButton &&
-		updatedCpUrl !== $oysterStore.providerData.data?.cp &&
-		!!updatedCpUrl.replace(/\s+/g, '').length
+		updatedCpUrl !== $oysterStore.providerData.data?.cp
 	) {
 		isStateVisible = true;
 		iconName = staticImages.greenTick;

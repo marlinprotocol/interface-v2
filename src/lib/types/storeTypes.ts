@@ -85,7 +85,7 @@ export type OysterStore = {
 		registered?: boolean;
 		data?: {
 			id: string;
-			cp: string;
+			cp: string | undefined;
 			live: boolean;
 		};
 	};

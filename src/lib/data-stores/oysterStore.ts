@@ -90,7 +90,7 @@ export function removeProviderFromOysterStore() {
 	oysterStore.update((value) => {
 		value.providerData.registered = false;
 		if (value.providerData.data) {
-			value.providerData.data.cp = '';
+			value.providerData.data.cp = undefined;
 			value.providerData.data.id = '';
 			value.providerData.data.live = false;
 		}

@@ -41,7 +41,6 @@
 
 	const TEXT = `Increasing the bandwidth reduces the total duration of the instance. Add more funds to increase the duration whereas reducing the bandwidth increases the total duration of the instance.`;
 
-	let newBandwidth = '';
 	let checkboxAcknowledge = false;
 
 	const onClose = () => {};
@@ -59,15 +58,30 @@
 		isCreditJob
 	} = jobData);
 
-	$: instanceRate = getRateForProviderAndFilters(
+	$: isRateRevisionInitiated = rateStatus === 'completed' || rateStatus === 'pending';
+
+	$: instanceRateScaled = getRateForProviderAndFilters(
 		address,
 		instance,
 		region,
 		$oysterStore.allMarketplaceData
 	);
 
-	$: bandwidthRate = instanceRate !== undefined ? rateScaled - instanceRate : 0n;
+	$: bandwidthRate = instanceRateScaled !== undefined ? rateScaled - instanceRateScaled : 0n;
 	$: bandwidth = getBandwidthFromRateAndRegion(bandwidthRate, region).toString();
+
+	$: newBandwidthRateAfterInit =
+		rateStatus !== '' && instanceRateScaled !== undefined
+			? newRate * $oysterRateMetadataStore.oysterRateScalingFactor - instanceRateScaled
+			: 0n;
+
+	$: newBandwidthAfterInit = getBandwidthFromRateAndRegion(
+		newBandwidthRateAfterInit,
+		region
+	).toString();
+
+	$: newBandwidth = isRateRevisionInitiated ? newBandwidthAfterInit : '';
+
 	const bandwidthUnitList = OYSTER_BANDWIDTH_UNITS_LIST.map((unit) => unit.label);
 	let currentBandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
 	let newBandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
@@ -77,10 +91,11 @@
 	// new and current hourly rate
 	$: currentHourlyRate = convertRateToPerHourString(rate, $oysterTokenMetadataStore.decimal);
 	$: newHourlyRate =
-		(newBandwidthRate + (instanceRate || 0n)) / $oysterRateMetadataStore.oysterRateScalingFactor;
+		(newBandwidthRate + (instanceRateScaled || 0n)) /
+		$oysterRateMetadataStore.oysterRateScalingFactor;
 	$: newHourlyRateString = newBandwidth
 		? convertRateToPerHourString(
-				(newBandwidthRate + (instanceRate || 0n)) /
+				(newBandwidthRate + (instanceRateScaled || 0n)) /
 					$oysterRateMetadataStore.oysterRateScalingFactor,
 				$oysterTokenMetadataStore.decimal
 			)
@@ -108,11 +123,18 @@
 
 	let onInit = async () => {
 		submitLoading = true;
-
 		if (isCreditJob) {
-			await handleInitiateCreditJobRateRevise(jobData, newHourlyRate, 0);
+			await handleInitiateCreditJobRateRevise(
+				jobData,
+				newHourlyRate,
+				$oysterRateMetadataStore.rateReviseWaitingTime
+			);
 		} else {
-			await handleInitiateJobRateRevise(jobData, newHourlyRate, 0);
+			await handleInitiateJobRateRevise(
+				jobData,
+				newHourlyRate,
+				$oysterRateMetadataStore.rateReviseWaitingTime
+			);
 		}
 		btnText = 'Confirm';
 		closeModal(modalFor);

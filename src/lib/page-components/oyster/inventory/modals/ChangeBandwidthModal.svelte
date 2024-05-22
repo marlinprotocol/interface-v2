@@ -124,8 +124,8 @@
 	$: newBandwidthRate = calculatBandwidthRate(newBandwidth, region, newBandwidthUnit);
 	// new and current hourly rate
 	$: currentHourlyRate = convertRateToPerHourString(rate, $oysterTokenMetadataStore.decimal);
-	$: newHourlyRateScaled = newBandwidthRate + (instanceRateScaled || 0n);
 
+	$: newHourlyRateScaled = newBandwidthRate + (instanceRateScaled || 0n);
 	$: newHourlyRateString = newBandwidth
 		? convertRateToPerHourString(
 				newHourlyRateScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
@@ -135,33 +135,19 @@
 
 	$: balanceLeft = totalDeposit - amountUsed;
 
+	$: currentDuration = Number(
+		(balanceLeft * $oysterRateMetadataStore.oysterRateScalingFactor) / rateScaled
+	);
+	$: currentDurationString = epochToDurationString(currentDuration);
 	$: newDuration =
 		newBandwidthRate + (instanceRateScaled || 0n) !== 0n
 			? Number(
 					(balanceLeft * $oysterRateMetadataStore.oysterRateScalingFactor) / newHourlyRateScaled
 				)
 			: 0;
-
 	$: newDurationString = newBandwidth ? epochToDurationString(newDuration) : '';
 	// UI
 	$: btnText = rateStatus === '' ? 'Initiate' : 'Confirm';
-	$: console.log({
-		reviseRate: { newRateScaled, updatesAt, rateStatus },
-		rateScaled: rateScaled, // this is valid
-		totalDeposit: totalDeposit, // this is valid
-		amountUsed: amountUsed, // this is valid
-		rate: rate, // this is valid
-		bandwidthRateScaled: bandwidthRateScaled, // this is valid
-		bandwidth: bandwidth, // this is valid
-		instanceRateScaled: instanceRateScaled,
-		newBandwidth: newBandwidth, // this is valid
-		newBandwidthRate: newBandwidthRate, // this is valid
-		currentHourlyRate: currentHourlyRate, // this is valid
-		newHourlyRateString: newHourlyRateString, // this is valid
-		newDuration: newDuration, // this is valid
-		currentDuration: endEpochTime - nowTime, // this is valid
-		newHourlyRate: newHourlyRateScaled / $oysterRateMetadataStore.oysterRateScalingFactor // this is valid
-	});
 </script>
 
 <Modal {modalFor} {onClose}>
@@ -194,9 +180,7 @@
 				/>
 				<AmountInputWithTitle
 					title="Duration Left"
-					inputAmountString={nowTime > endEpochTime
-						? 'Ended'
-						: epochToDurationString(endEpochTime - nowTime, true)}
+					inputAmountString={nowTime > endEpochTime ? 'Ended' : currentDurationString}
 					disabled={true}
 				/>
 			</div>

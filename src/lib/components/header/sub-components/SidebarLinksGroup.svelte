@@ -45,6 +45,13 @@
 		if (label !== 'Relay') {
 			handleSidebarMenuItemClickWhenCollapsed(e);
 		}
+		// const isRouteConfig = openDropDown.find((config) => config[label]);
+		// if (isRouteConfig && isRouteConfig[label]) {
+		// 	openDropDown = openDropDown.map((config) => {
+		// 		config[label] = !config[label];
+		// 		return config;
+		// 	});
+		// }
 	}
 
 	$: links = [
@@ -149,8 +156,9 @@
 			[link.label]: isActive
 		};
 	});
-	$: console.log(openDropDown);
-	console.log(links);
+
+	// $: console.log(openDropDown);
+	// console.log(links);
 </script>
 
 <div class="flex h-[calc(100dvh-5rem)] flex-1 flex-col justify-between px-6">
@@ -165,10 +173,7 @@
 							class={cn('menu-dropdown-toggle px-[14px] py-4 after:text-[#26272c]', {
 								'after:text-[#2DB8E3]': activeLink.includes(href),
 								'after:hidden': !$isNavOpen,
-								'menu-dropdown-show':
-									label === 'Relay'
-										? expandedLinks.includes(label)
-										: openDropDown.find((_label) => _label[label])
+								'menu-dropdown-show': expandedLinks.includes(label)
 							})}
 							on:click|self={(e) => handleParentLinkClick(e, label, href, hasDashboard)}
 							on:keydown|self={(e) => handleParentLinkKeyPress(e, label, href, hasDashboard)}
@@ -193,10 +198,7 @@
 						<ul
 							class={cn('menu-dropdown ml-[25px] px-3', {
 								hidden: !$isNavOpen,
-								'menu-dropdown-show':
-									label === 'Relay'
-										? expandedLinks.includes(label)
-										: openDropDown.find((_label) => _label[label])
+								'menu-dropdown-show': expandedLinks.includes(label)
 							})}
 						>
 							{#each children as subLink}

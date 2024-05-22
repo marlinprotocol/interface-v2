@@ -40,22 +40,22 @@
 		</svelte:fragment>
 	</NameWithAddress>
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{instance ?? 'N/A'}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{region ?? 'N/A'}
 </td>
 <td class={cn(tableClasses.cell, 'text-center')}>
 	{vcpu ? vcpu : 'N/A'}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{memory ? `${memory}${MEMORY_SUFFIX}` : 'N/A'}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{arch ? arch : 'N/A'}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	<Tooltip>
 		<span slot="tooltipIcon"
 			>{$oysterTokenMetadataStore.symbol}{convertRateToPerHourString(
@@ -71,7 +71,7 @@
 		</span>
 	</Tooltip>
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{#if $connected}
 		<Tooltip>
 			<ModalButton

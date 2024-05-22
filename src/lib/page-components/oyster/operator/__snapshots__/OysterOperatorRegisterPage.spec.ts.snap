@@ -1,0 +1,172 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`OysterOperatorRegistration > renders the component 1`] = `
+<body>
+  <div>
+    <div>
+      <div
+        class="flex items-center justify-between"
+      >
+        <div
+          class="font-poppins leading-[-2px] text-[#030115] text-3xl font-medium"
+          data-testid="text"
+        >
+          Hello, Fishy
+        </div>
+        <!--&lt;Text&gt;-->
+         
+        <div
+          class="flex gap-4"
+        >
+           
+          <a
+            href="https://docs.marlin.org/run-your-own-node/oyster/"
+            referrerpolicy="no-referrer"
+            target="_blank"
+          >
+            <button
+              class="gap-1.5 h-14 text-base font-normal btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed w-[190px]"
+            >
+               
+              Documentation
+            </button>
+            <!--&lt;Button&gt;-->
+          </a>
+        </div>
+      </div>
+       
+       
+      <div
+        class="mt-[40px] flex w-min gap-[10px] rounded-tl-[18px] rounded-tr-[18px] bg-white"
+      >
+        <a
+          class="block w-[172px] rounded-tl-[18px] rounded-tr-[18px] py-[27px] text-center"
+          href="/oyster/operator"
+        >
+          Details
+        </a>
+         
+        <a
+          class="block w-[172px] rounded-tl-[18px] rounded-tr-[18px] py-[27px] text-center"
+          href="/oyster/operator/history"
+        >
+          History
+        </a>
+      </div>
+    </div>
+     
+    <input
+      class="modal-toggle s-GZwqZrPaBy6h"
+      id="oyster-register-url-operator"
+      tabindex="-1"
+      type="checkbox"
+    />
+     
+    <div
+      class="modal s-GZwqZrPaBy6h"
+      data-testid="modal"
+    >
+      <div
+        class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
+      >
+        <div
+          class="modal-header sticky top-0 z-10 flex items-center justify-between bg-[#FCFCFC] px-6 pt-6 s-GZwqZrPaBy6h"
+        >
+          <div
+            class="flex w-full flex-col s-GZwqZrPaBy6h"
+          >
+             
+             
+             
+            <div
+              class="text-left text-[22px] font-medium tracking-[-1px] s-GZwqZrPaBy6h"
+            >
+              Register
+            </div>
+             
+          </div>
+           
+          <button
+            class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+            data-testid="modal-close-button"
+          >
+            <img
+              alt="Close"
+              class="s-GZwqZrPaBy6h"
+              src="/images/closeIcon.svg"
+            />
+          </button>
+        </div>
+         
+        <div
+          class="modal-body px-6 pt-4 s-GZwqZrPaBy6h"
+        >
+          <div
+            class="border border-[#D9DADE] bg-white px-4 w-full py-4 rounded-[100px] relative"
+            data-testid="input-card"
+          >
+            <p
+              class="absolute left-7 top-[-1px] z-[1] bg-white font-poppins text-sm font-normal leading-[1px] text-[#030115]"
+            >
+              Control Plane URL
+            </p>
+             
+            <div
+              class="flex items-center justify-between"
+            >
+               
+            </div>
+             
+            <div
+              class="flex items-center justify-between"
+            >
+               
+              <input
+                class="input input-ghost h-[30px] w-full p-0 font-normal text-[#030115] disabled:opacity-70 disabled:text-[#030115] disabled:placeholder:text-[#030115]/[.2] focus-within:text-[#030115] placeholder:text-[#030115]/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent hideInputNumberAppearance"
+                id="address-display"
+                placeholder="Paste URL here"
+              />
+               
+               
+            </div>
+          </div>
+          <!--&lt;InputCard&gt;-->
+          <!--&lt;InputCardWithEndButton&gt;-->
+          <!--&lt;TextInputWithEndButton&gt;-->
+           
+          <div
+            class="mt-4 w-full rounded-[18px] py-6 flex items-center justify-center gap-[7px] bg-[#FDF3DE] text-[#E6B54D]"
+          >
+            <img
+              alt="state-icon"
+              src="/images/information-circle.svg"
+            />
+             
+            Your control plane URL is loading...
+          </div>
+           
+          
+          <!--&lt;ErrorTextCard&gt;-->
+        </div>
+         
+        <div
+          class="modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
+        >
+          <button
+            class="gap-1.5 h-12 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full font-normal"
+            disabled=""
+          >
+             
+            Register
+          </button>
+          <!--&lt;Button&gt;-->
+        </div>
+         
+      </div>
+    </div>
+    <!--&lt;Modal&gt;-->
+    <!--&lt;RegisterModal&gt;-->
+    <!--&lt;OysterOperatorRegisterPage&gt;-->
+  </div>
+</body>
+`;

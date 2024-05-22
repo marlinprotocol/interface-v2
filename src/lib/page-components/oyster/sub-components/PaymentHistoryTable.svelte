@@ -16,7 +16,9 @@
 <div>
 	<div class="flex items-center justify-between">
 		<span class="text-base">Transaction History</span>
-		<Button variant="text" styleClass="text-primary text-base font-medium h-fit">See more</Button>
+		{#if tableData.length > 5}
+			<Button variant="text" styleClass="text-primary text-base font-medium h-fit">See more</Button>
+		{/if}
 	</div>
 	<div class="max-h-40 w-full overflow-y-auto overflow-x-hidden">
 		<Table

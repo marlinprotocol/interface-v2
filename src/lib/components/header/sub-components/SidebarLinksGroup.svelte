@@ -149,6 +149,8 @@
 			[link.label]: isActive
 		};
 	});
+	$: console.log(openDropDown);
+	console.log(links);
 </script>
 
 <div class="flex h-[calc(100dvh-5rem)] flex-1 flex-col justify-between px-6">
@@ -163,7 +165,10 @@
 							class={cn('menu-dropdown-toggle px-[14px] py-4 after:text-[#26272c]', {
 								'after:text-[#2DB8E3]': activeLink.includes(href),
 								'after:hidden': !$isNavOpen,
-								'menu-dropdown-show': openDropDown.find((_label) => _label[label])
+								'menu-dropdown-show':
+									label === 'Relay'
+										? expandedLinks.includes(label)
+										: openDropDown.find((_label) => _label[label])
 							})}
 							on:click|self={(e) => handleParentLinkClick(e, label, href, hasDashboard)}
 							on:keydown|self={(e) => handleParentLinkKeyPress(e, label, href, hasDashboard)}
@@ -188,7 +193,10 @@
 						<ul
 							class={cn('menu-dropdown ml-[25px] px-3', {
 								hidden: !$isNavOpen,
-								'menu-dropdown-show': openDropDown.find((_label) => _label[label])
+								'menu-dropdown-show':
+									label === 'Relay'
+										? expandedLinks.includes(label)
+										: openDropDown.find((_label) => _label[label])
 							})}
 						>
 							{#each children as subLink}

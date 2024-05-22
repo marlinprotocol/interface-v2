@@ -138,13 +138,13 @@ export async function handleFundsWithdrawFromCreditJob(
 
 export async function handleInitiateJobRateRevise(
 	jobData: OysterInventoryDataModel,
-	newRate: bigint,
+	newRateScaled: bigint,
 	waitingTime: number
 ) {
 	const { id } = jobData;
 	try {
-		await initiateRateReviseOysterJob(id, newRate);
-		initiateRateReviseInOysterStore(id, jobData, newRate, waitingTime);
+		await initiateRateReviseOysterJob(id, newRateScaled);
+		initiateRateReviseInOysterStore(id, jobData, newRateScaled, waitingTime);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}
@@ -152,13 +152,13 @@ export async function handleInitiateJobRateRevise(
 
 export async function handleInitiateCreditJobRateRevise(
 	jobData: OysterInventoryDataModel,
-	newRate: bigint,
+	newRateScaled: bigint,
 	waitingTime: number
 ) {
 	const { id } = jobData;
 	try {
-		await initiateRateReviseOysterCreditJob(id, newRate);
-		initiateRateReviseInOysterStore(id, jobData, newRate, waitingTime);
+		await initiateRateReviseOysterCreditJob(id, newRateScaled);
+		initiateRateReviseInOysterStore(id, jobData, newRateScaled, waitingTime);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}
@@ -194,12 +194,12 @@ export function handleJobStatusOnStopTimerEnd(jobData: OysterInventoryDataModel)
 
 export async function handleFinaliseJobRateRevise(
 	jobData: OysterInventoryDataModel,
-	newRate: bigint
+	newRateScaled: bigint
 ) {
 	const { id } = jobData;
 	try {
 		await finaliseRateReviseOysterJob(id);
-		updateJobRateInOysterStore(id, newRate);
+		updateJobRateInOysterStore(id, newRateScaled);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}
@@ -207,12 +207,12 @@ export async function handleFinaliseJobRateRevise(
 
 export async function handleFinaliseCreditJobRateRevise(
 	jobData: OysterInventoryDataModel,
-	newRate: bigint
+	newRateScaled: bigint
 ) {
 	const { id } = jobData;
 	try {
 		await finaliseRateReviseOysterCreditJob(id);
-		updateJobRateInOysterStore(id, newRate);
+		updateJobRateInOysterStore(id, newRateScaled);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}

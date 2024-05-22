@@ -15,9 +15,9 @@
 	$: ({
 		id,
 		endEpochTime, // epoch time in seconds based on duration left,
-		// newRate is being passed to the modal for the amend rate modal and is not used here
+		// newRateScaled is being passed to the modal for the amend rate modal and is not used here
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		reviseRate: { newRate = null, rateStatus = '', stopStatus = '' } = {}
+		reviseRate: { newRateScaled = null, rateStatus = '', stopStatus = '' } = {}
 	} = rowData);
 
 	$: isJobFinished = !(Math.floor(endEpochTime - Date.now() / 1000) > 0);

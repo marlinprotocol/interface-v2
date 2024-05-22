@@ -58,9 +58,9 @@
 	const handleConfirmClick = async () => {
 		submitLoading = true;
 		if (isCreditJob) {
-			await handleFinaliseCreditJobRateRevise(jobData, newRate);
+			await handleFinaliseCreditJobRateRevise(jobData, newRateScaled);
 		} else {
-			await handleFinaliseJobRateRevise(jobData, newRate);
+			await handleFinaliseJobRateRevise(jobData, newRateScaled);
 		}
 		submitLoading = false;
 		closeModal(modalFor);
@@ -83,7 +83,7 @@
 
 	$: ({
 		rate,
-		reviseRate: { newRate = 0n, updatesAt = 0, rateStatus = '' } = {},
+		reviseRate: { newRateScaled = 0n, updatesAt = 0, rateStatus = '' } = {},
 		isCreditJob
 	} = jobData);
 	$: modalTitle =
@@ -103,7 +103,7 @@
 	$: currentHourlyRate = convertRateToPerHourString(rate, $oysterTokenMetadataStore.decimal);
 	$: newHRlessThancurrentHR = inputAmountString !== '' && currentHourlyRate > inputAmountString;
 	$: submitEnable =
-		(inputRate > 0n || newRate > 0n) &&
+		(inputRate > 0n || newRateScaled > 0n) &&
 		!showPrecisionError &&
 		isInputAmountValid(inputAmountString) &&
 		!(inputRate === rate) &&
@@ -134,7 +134,7 @@
 					<AmountInputWithTitle
 						title="New hourly rate"
 						inputAmountString={convertRateToPerHourString(
-							(newRate + ($oysterRateMetadataStore.oysterRateScalingFactor - BigInt(1))) /
+							(newRateScaled + ($oysterRateMetadataStore.oysterRateScalingFactor - BigInt(1))) /
 								$oysterRateMetadataStore.oysterRateScalingFactor,
 							$oysterTokenMetadataStore.decimal
 						)}

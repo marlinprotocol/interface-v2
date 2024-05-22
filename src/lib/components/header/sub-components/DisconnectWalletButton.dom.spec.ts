@@ -56,7 +56,7 @@ describe('DisconnectWalletButton', () => {
 		await tick();
 		expect(getByText(testAddress)).toBeTruthy();
 		expect(getByText(shortenAddress)).toBeTruthy();
-		expect(getByText('Arbitrum Sepolia')).toBeTruthy();
+		expect(getByText('A')).toBeTruthy(); // Display initial if image is not there
 		expect(image).toBeTruthy();
 	});
 });

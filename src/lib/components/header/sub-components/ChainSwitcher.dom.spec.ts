@@ -34,7 +34,7 @@ describe('ChainSwitcher', () => {
 		expect(container).toMatchSnapshot();
 	});
 
-	it('displays correct the chain image', async () => {
+	it('displays the correct chain image', async () => {
 		chainStore.mockSetSubscribeValue({
 			chainDisplayName: '',
 			chainId: 43,
@@ -42,7 +42,12 @@ describe('ChainSwitcher', () => {
 			chainName: '',
 			isValidChain: true
 		});
-		const { getByAltText } = render(ChainSwitcher);
-		expect(getByAltText('Chain Logo').getAttribute('src')).toBe('/images/arbitrum.webp');
+
+		const { getByAltText, findByRole } = render(ChainSwitcher);
+		const button = await findByRole('button');
+		await button.click(); // Wait for the button and then click it
+
+		const chainLogo = getByAltText('Chain Logo');
+		expect(chainLogo.getAttribute('src')).toBe('/images/arbitrum.webp');
 	});
 });

@@ -204,18 +204,21 @@
 			isErrorFound = true;
 		});
 
-	$: if (instancesLoading) {
+	$: console.log({ updatedCpUrl }, updatedCpUrl.replace(/\s+/g, '').length);
+
+	$: if (instancesLoading && !!updatedCpUrl.replace(/\s+/g, '').length) {
 		isStateVisible = true;
 		iconName = staticImages.yellowInfo;
 		currentStateClass = 'bg-[#FDF3DE] text-[#E6B54D]';
-	} else if ((!validCPUrl || isErrorFound) && !!updatedCpUrl.length) {
+	} else if ((!validCPUrl || isErrorFound) && !!updatedCpUrl.replace(/\s+/g, '').length) {
 		isStateVisible = true;
 		iconName = staticImages.redAlert;
 		currentStateClass = 'bg-[#FEE6E6] text-[#E00606]';
 	} else if (
 		validCPUrl &&
 		enableRegisterButton &&
-		updatedCpUrl !== $oysterStore.providerData.data?.cp
+		updatedCpUrl !== $oysterStore.providerData.data?.cp &&
+		!!updatedCpUrl.replace(/\s+/g, '').length
 	) {
 		isStateVisible = true;
 		iconName = staticImages.greenTick;
@@ -247,7 +250,8 @@
 			</div>
 		{/if}
 		<ErrorTextCard
-			showError={$oysterStore.providerData.data?.cp === updatedCpUrl}
+			showError={$oysterStore.providerData.data?.cp === updatedCpUrl &&
+				!!updatedCpUrl.replace(/\s+/g, '').length}
 			errorMessage="Registered CP URL and updated CP URL cannot be the same. Please update the CP URL."
 		/>
 	</svelte:fragment>

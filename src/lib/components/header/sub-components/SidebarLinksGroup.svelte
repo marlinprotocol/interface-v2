@@ -130,6 +130,25 @@
 				: staticImages.ecosystemIcon
 		}
 	];
+
+	$: openDropDown = links.map((link) => {
+		let isActive = false;
+
+		// Check if there is a 'children' property with nested routes
+		if (link.children && link.children.length > 0) {
+			link.children.forEach((child) => {
+				if (activeLink.includes(child.href)) {
+					isActive = true;
+				}
+			});
+		}
+		// Check if the parent link's href matches the activeLink
+		isActive = activeLink.includes(link.href);
+
+		return {
+			[link.label]: isActive
+		};
+	});
 </script>
 
 <div class="flex h-[calc(100dvh-5rem)] flex-1 flex-col justify-between px-6">
@@ -144,7 +163,7 @@
 							class={cn('menu-dropdown-toggle px-[14px] py-4 after:text-[#26272c]', {
 								'after:text-[#2DB8E3]': activeLink.includes(href),
 								'after:hidden': !$isNavOpen,
-								'menu-dropdown-show': expandedLinks.includes(label)
+								'menu-dropdown-show': openDropDown.find((_label) => _label[label])
 							})}
 							on:click|self={(e) => handleParentLinkClick(e, label, href, hasDashboard)}
 							on:keydown|self={(e) => handleParentLinkKeyPress(e, label, href, hasDashboard)}
@@ -169,7 +188,7 @@
 						<ul
 							class={cn('menu-dropdown ml-[25px] px-3', {
 								hidden: !$isNavOpen,
-								'menu-dropdown-show': expandedLinks.includes(label)
+								'menu-dropdown-show': openDropDown.find((_label) => _label[label])
 							})}
 						>
 							{#each children as subLink}

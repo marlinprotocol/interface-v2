@@ -55,6 +55,8 @@
 		}
 	}
 
+	const onCloseModal = () => (updatedCpUrl = '');
+
 	const handleOnRegister = async () => {
 		try {
 			if ($connected) {
@@ -116,6 +118,10 @@
 
 	async function getInstances(apiType: string) {
 		try {
+			if (!updatedCpUrl.trim().length) {
+				return [];
+			}
+			instancesLoading = true;
 			if (apiType === 'proxy') {
 				const instances = await getInstancesFromControlPlaneUsingCpUrl(sanitizedUpdatedCpURL);
 				updatedInstances = getModifiedInstances(instances);
@@ -163,7 +169,6 @@
 	// Define the debounced version of getInstances
 	const debouncedGetInstances = debounce(getInstances, 1000);
 	function memoizeInstances(updatedUrl: string) {
-		instancesLoading = true;
 		if (!validCPUrl) {
 			return debouncedGetInstances('');
 		}
@@ -208,7 +213,7 @@
 		isStateVisible = true;
 		iconName = staticImages.yellowInfo;
 		currentStateClass = 'bg-[#FDF3DE] text-[#E6B54D]';
-	} else if ((!validCPUrl || isErrorFound) && !!updatedCpUrl.length) {
+	} else if ((!validCPUrl || isErrorFound) && !!updatedCpUrl.trim().length) {
 		isStateVisible = true;
 		iconName = staticImages.redAlert;
 		currentStateClass = 'bg-[#FEE6E6] text-[#E00606]';
@@ -229,14 +234,14 @@
 	$: enableRegisterButton = validCPUrl && instancesData.totalInstances > 0;
 </script>
 
-<Modal modalFor="oyster-register-url-operator">
+<Modal modalFor="oyster-register-url-operator" onClose={onCloseModal}>
 	<svelte:fragment slot="title"
 		>{$oysterStore.providerData.registered ? 'Update' : 'Register'}</svelte:fragment
 	>
 	<svelte:fragment slot="content">
 		<TextInputWithEndButton
 			styleClass="w-full py-4 rounded-[100px]"
-			placeholder="Paste URL here"
+			placeholder="Paste {$oysterStore.providerData.registered ? 'updated URL' : 'URL'} here"
 			bind:input={updatedCpUrl}
 			label="Control Plane URL"
 		/>
@@ -247,7 +252,7 @@
 			</div>
 		{/if}
 		<ErrorTextCard
-			showError={$oysterStore.providerData.data?.cp === updatedCpUrl}
+			showError={updatedCpUrl !== '' && $oysterStore.providerData.data?.cp === updatedCpUrl}
 			errorMessage="Registered CP URL and updated CP URL cannot be the same. Please update the CP URL."
 		/>
 	</svelte:fragment>

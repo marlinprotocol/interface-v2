@@ -1,17 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Table Cells > renders TableDataCell successfully 1`] = `
-<body>
-  <div>
-    <td
-      class="border-b border-[#D9DADE] font-normal whitespace-nowrap last:border-b-0 table-data-test-class"
-      data-testid="table-data-cell"
-    />
-    <!--&lt;TableDataCell&gt;-->
-  </div>
-</body>
-`;
-
 exports[`Table Cells > renders TableDataWithButton successfully 1`] = `
 <body>
   <div>

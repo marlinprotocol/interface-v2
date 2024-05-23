@@ -119,37 +119,44 @@ export const OYSTER_OPERATOR_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'USER',
 		id: 'owner',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Address of user who created the job'
 	},
 	{
 		title: 'INSTANCE',
 		id: 'instance',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Instance type used for the job'
 	},
 	{
 		title: 'REGION',
 		id: 'region',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Region in which the enclave is deployed.'
 	},
 	{
 		title: 'STARTED',
 		id: 'createdAt',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Time when the job was started'
 	},
 	{
 		title: 'ENDED',
 		id: 'createdAt',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Time when the job was ended'
 	},
 	{
 		title: 'DURATION RUN',
 		id: 'durationRun',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Duration for which the job has run so far'
 	},
 	{
 		title: 'CLAIMED',
 		id: 'amountToBeSettled',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Amount claimed'
 	}
 ];
 
@@ -238,6 +245,7 @@ export const OYSTER_MARKETPLACE_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'Instance',
 		id: 'instance',
+		centered: true,
 		sorting: true,
 		tooltipText: 'Instance type used for the job'
 	},
@@ -245,33 +253,39 @@ export const OYSTER_MARKETPLACE_TABLE_HEADER: TableModel['header'][] = [
 		title: 'Region',
 		id: 'region',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Region in which the enclave is deployed.'
 	},
 	{
 		title: 'vCPU',
 		id: 'vcpu',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Number of vCPUs in the instance'
 	},
 	{
 		title: 'Memory',
 		id: 'memory',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Memory allocated to the instance'
 	},
 	{
 		title: 'Arch',
 		id: 'arch',
+		centered: true,
 		tooltipText: 'Architecture of the instance'
 	},
 	{
 		title: 'Rate',
 		id: 'rateScaled',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Rate that the operator charges for each hour of usage.'
 	},
 	{
 		title: '',
+		centered: true,
 		id: 'action'
 	}
 ];

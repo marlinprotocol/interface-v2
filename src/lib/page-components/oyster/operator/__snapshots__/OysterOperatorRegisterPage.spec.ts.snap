@@ -134,16 +134,6 @@ exports[`OysterOperatorRegistration > renders the component 1`] = `
           <!--&lt;InputCardWithEndButton&gt;-->
           <!--&lt;TextInputWithEndButton&gt;-->
            
-          <div
-            class="mt-4 w-full rounded-[18px] py-6 flex items-center justify-center gap-[7px] bg-[#FDF3DE] text-[#E6B54D]"
-          >
-            <img
-              alt="state-icon"
-              src="/images/information-circle.svg"
-            />
-             
-            Your control plane URL is loading...
-          </div>
            
           
           <!--&lt;ErrorTextCard&gt;-->

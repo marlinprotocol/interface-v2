@@ -57,6 +57,7 @@
 
 <OysterTableCommon
 	{handleSortData}
+	flexibleHeight
 	roundedBorders={false}
 	tableHeading={OYSTER_MERCHANT_JOB_TABLE_HEADER}
 	loading={!$oysterStore.merchantJobsLoaded}

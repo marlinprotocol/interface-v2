@@ -3,6 +3,7 @@
 	import Table from '$lib/atoms/table/Table.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
+	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { TableModel } from '$lib/types/componentTypes';
 	import { cn } from '$lib/utils/helpers/commonHelper';
@@ -14,6 +15,7 @@
 	export let walletConnectionRequired = true;
 	export let emptyTableMessage = 'No data found!';
 	export let roundedBorders: boolean = true;
+	export let flexibleHeight: boolean = false;
 </script>
 
 <div
@@ -22,8 +24,14 @@
 	})}
 >
 	{#if !$connected && walletConnectionRequired}
-		<div class="my-4 flex h-96 flex-col items-center justify-center text-center">
-			<ConnectWalletButton styleClass="bg-[#F4F4F6] h-fit px-8 py-4 rounded-2xl" />
+		<div
+			class={cn('my-4 flex flex-col items-center justify-center text-center', {
+				'h-96': !flexibleHeight
+			})}
+		>
+			<NetworkPrompt variant="white">
+				<ConnectWalletButton slot="cta" styleClass="bg-white h-fit mt-4 px-8 py-4 rounded-2xl" />
+			</NetworkPrompt>
 		</div>
 	{:else if loading}
 		<div class="my-4 flex justify-center text-center">

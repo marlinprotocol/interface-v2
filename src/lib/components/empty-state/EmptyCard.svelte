@@ -8,15 +8,20 @@
 	export let imageAlt: string;
 	export let buttonText: string;
 	export let href: string;
+	export let description: string;
 </script>
 
 <ContainerCard>
-	<Text variant="h3" text="Kalypso is under construction" styleClass="text-center" />
+	<Text variant="h3" text={title} styleClass="text-center" />
 	<span class="my-4 px-2 text-center text-[15px] font-medium text-black/50">
-		{title}
+		{description}
 	</span>
 	<img src={imageSrc} alt={imageAlt} class="mx-auto" />
-	<a class="mt-4 w-full" target="_blank" {href}>
-		<Button styleClass="w-full" variant="filled" size="large">{buttonText}</Button>
-	</a>
+	{#if $$slots.cta}
+		<slot name="cta" />
+	{:else}
+		<a class="mt-4 w-full" target="_blank" {href}>
+			<Button styleClass="w-full" variant="filled" size="large">{buttonText}</Button>
+		</a>
+	{/if}
 </ContainerCard>

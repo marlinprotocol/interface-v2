@@ -34,13 +34,11 @@
 	{:else if noDataFound}
 		<Table {roundedBorders} {tableHeading} {handleSortData} headingStyleClass="h-[32px]" />
 		<div class={cn(tableClasses.empty, 'mb-8')}>
-			<EmptyCard
-				title="Curious fishies can visit the link below to learn more about Marlin's ZK proof marketplace."
-				imageSrc={staticImages.fishingMan}
-				imageAlt="Fishing Man"
-				href="https://docs.marlin.org/learn/what-is-kalypso"
-				buttonText="Learn about Kalypso"
-			/>
+			{#if $$slots.emptyState}
+				<slot name="emptyState" />
+			{:else}
+				{emptyTableMessage}
+			{/if}
 		</div>
 	{:else}
 		<Table {roundedBorders} {tableHeading} {handleSortData} headingStyleClass="h-[32px]">

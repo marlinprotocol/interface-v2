@@ -18,6 +18,9 @@
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import EmptyCard from '$lib/components/empty-state/EmptyCard.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
+	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+
+	import { connected } from '$lib/data-stores/walletProviderStore';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -73,5 +76,28 @@
 			</tr>
 		{/each}
 	{/if}
+	<EmptyCard
+		slot="emptyState"
+		description="Register as an operator and provide infra on Oyster"
+		title="Operator"
+		imageSrc={staticImages.fishingMan}
+		imageAlt="Fishing Man"
+		href="https://docs.marlin.org/learn/what-is-kalypso"
+		buttonText="Learn about Kalypso"
+	>
+		<div slot="cta" class="flex justify-center">
+			{#if !$oysterStore.providerData.registered && $oysterStore.merchantJobsLoaded}
+				<ModalButton
+					variant="filled"
+					size="large"
+					disabled={!$connected}
+					styleClass="w-[170px] text-base font-normal"
+					modalFor="oyster-register-url-operator"
+				>
+					Register
+				</ModalButton>
+			{/if}
+		</div>
+	</EmptyCard>
 </OysterTableCommon>
-<Pagination {pageCount} {activePage} {handlePageChange} />
+<Pagination pageCount={0} {activePage} {handlePageChange} />

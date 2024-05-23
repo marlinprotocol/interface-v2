@@ -264,6 +264,12 @@
 			logo: staticImages.lighthouseLogo,
 			website: 'https://www.lighthouse.storage',
 			category: ['Storage']
+		},
+		{
+			name: 'Filecoin Foundation',
+			logo: staticImages.filLogo,
+			website: 'https://fil.org',
+			category: ['Storage']
 		}
 	];
 

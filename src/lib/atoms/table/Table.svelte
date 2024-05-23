@@ -22,7 +22,9 @@
 						})}
 					>
 						<TableHeadingText
-							styleClass={cn(headingStyleClass, i === 0 ? 'ml-4' : '')}
+							styleClass={cn(headingStyleClass, {
+								'ml-4': i === 0
+							})}
 							heading={columnHeading}
 							placement={i > tableHeading.length - 3 ? 'left' : i === 0 ? 'right' : 'bottom'}
 							{handleSortData}

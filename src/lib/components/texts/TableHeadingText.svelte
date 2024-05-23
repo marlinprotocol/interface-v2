@@ -10,13 +10,13 @@
 	export let styleClass = '';
 	export let iconWidth = '16px';
 	export let handleSortData: ((id: string) => void) | undefined = undefined;
-
-	const { title = '', tooltipText = '', sorting = false } = heading;
+	const { title = '', tooltipText = '', sorting = false, centered = false } = heading;
 </script>
 
 <div
 	class={cn(
 		'mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-center text-[14px] font-normal text-[#030115]',
+		centered && 'justify-center',
 		styleClass
 	)}
 	data-testid="table-heading-text"

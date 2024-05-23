@@ -9,6 +9,7 @@
 	export let name = '';
 	export let address = '';
 	export let rowIndex = -1;
+	export let long: boolean = false;
 
 	const onCopyAddress = () => {
 		copyTextToClipboard(address);
@@ -24,6 +25,8 @@
 	//get first 2 letters of name or address if name is empty
 	const startLetters = name ? name.slice(0, 2) : address.slice(0, 2);
 	const bgColor = getColorHexForTableRow(rowIndex);
+
+	let addressText = shortenText(address, long ? 10 : 6, long ? 10 : 6);
 </script>
 
 <div
@@ -48,7 +51,7 @@
 					variant="tiny"
 					styleClass="text-grey"
 					fontWeight="font-normal"
-					text={shortenText(address, 6, 6)}
+					bind:text={addressText}
 				/>
 				<button on:keypress={onCopyAddress} on:click={onCopyAddress}>
 					<slot name="copyIcon" />
@@ -56,7 +59,7 @@
 			</div>
 		{:else}
 			<div class="flex w-fit min-w-[150px] items-center gap-1">
-				<Text variant="nav" fontWeight="font-normal" text={shortenText(address, 6, 6)} />
+				<Text variant="nav" fontWeight="font-normal" text={addressText} />
 				<button on:keypress={onCopyAddress} on:click={onCopyAddress}>
 					<slot name="copyIcon" />
 				</button>

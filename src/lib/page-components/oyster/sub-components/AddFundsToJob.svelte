@@ -162,12 +162,13 @@
 		}
 		if (invalidCost) {
 			const walletBalanceString = useMarlinCredits
-				? bigNumberToString($oysterStore.credits.balance, OYSTER_MARLIN_CREDIT_METADATA.decimal)
+				? bigNumberToString($oysterStore.credits.balance, OYSTER_MARLIN_CREDIT_METADATA.decimal, 2)
 				: bigNumberToString(
 						$walletBalanceStore[
 							$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
 						],
-						$oysterTokenMetadataStore.decimal
+						$oysterTokenMetadataStore.decimal,
+						2
 					);
 			const currency = useMarlinCredits
 				? OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]

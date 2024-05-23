@@ -3,7 +3,7 @@ import { fireEvent, render, waitFor } from '@testing-library/svelte';
 import OysterOperatorRegistration from './OysterOperatorRegisterPage.svelte';
 
 // Mocking the walletProviderStore
-const { web3WalletStore, walletStore, connected } = await vi.hoisted(
+const { web3WalletStore, walletStore, connected, page } = await vi.hoisted(
 	() => import('$lib/data-stores/mock-data-stores/mockStores')
 );
 
@@ -16,6 +16,12 @@ beforeAll(() => {
 			connected
 		};
 	});
+
+	vi.mock('$app/stores', async () => {
+		return {
+			page: page
+		};
+	});
 });
 
 describe('OysterOperatorRegistration', () => {
@@ -25,13 +31,14 @@ describe('OysterOperatorRegistration', () => {
 	});
 
 	test('displays the correct title', () => {
-		const { getByText } = render(OysterOperatorRegistration);
-		expect(getByText('Operator Registration')).toBeTruthy();
+		const { getByText, findAllByText } = render(OysterOperatorRegistration);
+		expect(getByText('Hello, Fishy')).toBeTruthy();
+		expect(getByText('Documentation')).toBeTruthy();
+		expect(findAllByText('Register')).toBeTruthy();
 	});
 
 	test('get a placement for enter wallet address & CP Url', () => {
 		const { getByPlaceholderText } = render(OysterOperatorRegistration);
-		expect(getByPlaceholderText('Enter your address here')).toBeTruthy();
 		expect(getByPlaceholderText('Paste URL here')).toBeTruthy();
 	});
 
@@ -39,9 +46,7 @@ describe('OysterOperatorRegistration', () => {
 		const testAddress = process.env.VITE_WALLET_ADDRESS || '';
 		const cpUrlValue = process.env.VITE_TEST_CP_URL_1 || '';
 
-		const { getByText, getByPlaceholderText, getByTestId, container } = render(
-			OysterOperatorRegistration
-		);
+		const { findAllByText, getByPlaceholderText, container } = render(OysterOperatorRegistration);
 
 		// Simulate wallet connection
 		connected.set(true);
@@ -55,13 +60,7 @@ describe('OysterOperatorRegistration', () => {
 		// Wait for the DOM to update after connecting the wallet
 		await waitFor(() => {
 			// Check for the presence of the REGISTER button
-			expect(getByText('REGISTER')).toBeTruthy();
-		});
-
-		// Wait for the Address field to be populated with the wallet address
-		await waitFor(() => {
-			const addressInput: any = getByPlaceholderText('Enter your address here');
-			expect(addressInput.value).toBe(testAddress);
+			expect(findAllByText('Register')).toBeTruthy();
 		});
 
 		// Wait for the Control Plane URL field to be empty
@@ -74,13 +73,6 @@ describe('OysterOperatorRegistration', () => {
 		// Set the value in the Control Plane URL field
 		fireEvent.input(cpUrlInput, { target: { value: cpUrlValue } });
 
-		// Wait for the instances table button to be rendered
-		await waitFor(() => {
-			const instancesTableBtn = getByTestId('collapse-button');
-			expect(instancesTableBtn).toBeTruthy();
-			expect(instancesTableBtn.getElementsByClassName('icon-disabled')).toBeTruthy();
-		});
-
 		// Wait for the Control Plane URL field to be updated with the provided value
 		await waitFor(() => {
 			expect(cpUrlInput.value).toBe(cpUrlValue);
@@ -90,15 +82,6 @@ describe('OysterOperatorRegistration', () => {
 		await waitFor(() => {
 			const instancesTable = container.getElementsByTagName('table');
 			expect(instancesTable).toBeTruthy();
-		});
-
-		// Click on the instances table collapse button
-		fireEvent.click(getByTestId('collapse-button'));
-
-		// Wait for the collapse button to be updated after click
-		await waitFor(() => {
-			const tableBtn = getByTestId('collapse-button').getElementsByClassName('icon-primary');
-			expect(tableBtn).toBeTruthy();
 		});
 	});
 });

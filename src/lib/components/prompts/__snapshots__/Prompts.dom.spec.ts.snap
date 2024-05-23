@@ -106,28 +106,6 @@ exports[`NetworkPrompt > render's the Network Prompt properly 1`] = `
               </div>
             </div>
              
-            <ul
-              class="menu dropdown-content rounded-box z-[1] mt-4 w-52 bg-base-100 p-2 shadow"
-              tabindex="0"
-            >
-              <li
-                class="flex rounded-lg bg-primary text-white"
-              >
-                <button>
-                  <div
-                    class="h-6 w-6 rounded-full ring-1 ring-white"
-                  >
-                    <img
-                      alt="Chain Logo"
-                      src="/images/arbitrum.webp"
-                    />
-                  </div>
-                   
-                  Arbitrum Sepolia
-                </button>
-                 
-              </li>
-            </ul>
           </div>
           <!--&lt;ChainSwitcher&gt;-->
         </div>

@@ -42,7 +42,7 @@ export const OYSTER_INVENTORY_DATA_MODEL_BIG_INT_KEYS = [
 	'amountToBeSettled',
 	'rate',
 	'amount',
-	'newRate',
+	'newRateScaled',
 	'rateScaled'
 ];
 

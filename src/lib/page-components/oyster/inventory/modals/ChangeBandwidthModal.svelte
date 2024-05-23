@@ -37,17 +37,59 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	const nowTime = new Date().getTime() / 1000;
-
-	const TEXT = `Increasing the bandwidth reduces the total duration of the instance. Add more funds to increase the duration whereas reducing the bandwidth increases the total duration of the instance.`;
-
 	let checkboxAcknowledge = false;
+	let currentBandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
+	let newBandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
+	let submitLoading = false;
 
 	const onClose = () => {};
+	const BANDWIDTH_UNIT_LIST = OYSTER_BANDWIDTH_UNITS_LIST.map((unit) => unit.label);
+	const TEXT = `Increasing the bandwidth reduces the total duration of the instance. Add more funds to increase the duration whereas reducing the bandwidth increases the total duration of the instance.`;
+	const nowTime = new Date().getTime() / 1000;
+
+	let onConfirm = async () => {
+		submitLoading = true;
+
+		if (isCreditJob) {
+			await handleFinaliseCreditJobRateRevise(jobData, newHourlyRateScaled);
+		} else {
+			await handleFinaliseJobRateRevise(jobData, newHourlyRateScaled);
+		}
+		closeModal(modalFor);
+		submitLoading = false;
+	};
+
+	let onInit = async () => {
+		submitLoading = true;
+		if (isCreditJob) {
+			await handleInitiateCreditJobRateRevise(
+				jobData,
+				newHourlyRateScaled,
+				$oysterRateMetadataStore.rateReviseWaitingTime
+			);
+		} else {
+			await handleInitiateJobRateRevise(
+				jobData,
+				newHourlyRateScaled,
+				$oysterRateMetadataStore.rateReviseWaitingTime
+			);
+		}
+		btnText = 'Confirm';
+		closeModal(modalFor);
+		submitLoading = false;
+	};
+
+	let onSubmit = () => {
+		if (btnText === 'Initiate') {
+			onInit();
+		} else {
+			onConfirm();
+		}
+	};
 
 	$: ({
 		provider: { address },
-		reviseRate: { newRate = 0n, updatesAt = 0, rateStatus = '' } = {},
+		reviseRate: { newRateScaled = 0n, updatesAt = 0, rateStatus = '' } = {},
 		instance,
 		region,
 		rateScaled,
@@ -67,13 +109,11 @@
 		$oysterStore.allMarketplaceData
 	);
 
-	$: bandwidthRate = instanceRateScaled !== undefined ? rateScaled - instanceRateScaled : 0n;
-	$: bandwidth = getBandwidthFromRateAndRegion(bandwidthRate, region).toString();
+	$: bandwidthRateScaled = instanceRateScaled !== undefined ? rateScaled - instanceRateScaled : 0n;
+	$: bandwidth = getBandwidthFromRateAndRegion(bandwidthRateScaled, region).toString();
 
 	$: newBandwidthRateAfterInit =
-		rateStatus !== '' && instanceRateScaled !== undefined
-			? newRate * $oysterRateMetadataStore.oysterRateScalingFactor - instanceRateScaled
-			: 0n;
+		rateStatus !== '' && instanceRateScaled !== undefined ? newRateScaled - instanceRateScaled : 0n;
 
 	$: newBandwidthAfterInit = getBandwidthFromRateAndRegion(
 		newBandwidthRateAfterInit,
@@ -81,73 +121,33 @@
 	).toString();
 
 	$: newBandwidth = isRateRevisionInitiated ? newBandwidthAfterInit : '';
-
-	const bandwidthUnitList = OYSTER_BANDWIDTH_UNITS_LIST.map((unit) => unit.label);
-	let currentBandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
-	let newBandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
-
 	$: newBandwidthRate = calculatBandwidthRate(newBandwidth, region, newBandwidthUnit);
-
 	// new and current hourly rate
 	$: currentHourlyRate = convertRateToPerHourString(rate, $oysterTokenMetadataStore.decimal);
-	$: newHourlyRate =
-		(newBandwidthRate + (instanceRateScaled || 0n)) /
-		$oysterRateMetadataStore.oysterRateScalingFactor;
+
+	$: newHourlyRateScaled = newBandwidthRate + (instanceRateScaled || 0n);
 	$: newHourlyRateString = newBandwidth
 		? convertRateToPerHourString(
-				(newBandwidthRate + (instanceRateScaled || 0n)) /
-					$oysterRateMetadataStore.oysterRateScalingFactor,
+				newHourlyRateScaled / $oysterRateMetadataStore.oysterRateScalingFactor,
 				$oysterTokenMetadataStore.decimal
 			)
 		: '';
 
 	$: balanceLeft = totalDeposit - amountUsed;
-	$: newDuration = Number(balanceLeft / (newHourlyRate || 1n));
+
+	$: currentDuration = Number(
+		(balanceLeft * $oysterRateMetadataStore.oysterRateScalingFactor) / rateScaled
+	);
+	$: currentDurationString = epochToDurationString(currentDuration);
+	$: newDuration =
+		newBandwidthRate + (instanceRateScaled || 0n) !== 0n
+			? Number(
+					(balanceLeft * $oysterRateMetadataStore.oysterRateScalingFactor) / newHourlyRateScaled
+				)
+			: 0;
 	$: newDurationString = newBandwidth ? epochToDurationString(newDuration) : '';
-
 	// UI
-	let submitLoading = false;
 	$: btnText = rateStatus === '' ? 'Initiate' : 'Confirm';
-
-	let onConfirm = async () => {
-		submitLoading = true;
-
-		if (isCreditJob) {
-			await handleFinaliseCreditJobRateRevise(jobData, newHourlyRate);
-		} else {
-			await handleFinaliseJobRateRevise(jobData, newHourlyRate);
-		}
-		closeModal(modalFor);
-		submitLoading = false;
-	};
-
-	let onInit = async () => {
-		submitLoading = true;
-		if (isCreditJob) {
-			await handleInitiateCreditJobRateRevise(
-				jobData,
-				newHourlyRate,
-				$oysterRateMetadataStore.rateReviseWaitingTime
-			);
-		} else {
-			await handleInitiateJobRateRevise(
-				jobData,
-				newHourlyRate,
-				$oysterRateMetadataStore.rateReviseWaitingTime
-			);
-		}
-		btnText = 'Confirm';
-		closeModal(modalFor);
-		submitLoading = false;
-	};
-
-	let onSubmit = () => {
-		if (btnText === 'Initiate') {
-			onInit();
-		} else {
-			onConfirm();
-		}
-	};
 </script>
 
 <Modal {modalFor} {onClose}>
@@ -165,7 +165,7 @@
 					<div slot="endButton">
 						<Select
 							title="Bandwidth"
-							dataList={bandwidthUnitList}
+							dataList={BANDWIDTH_UNIT_LIST}
 							bind:value={currentBandwidthUnit}
 							showLabel
 							disabled
@@ -175,14 +175,12 @@
 				<AmountInputWithTitle
 					title="Current Total Rate"
 					bind:inputAmountString={currentHourlyRate}
-					suffix={Boolean(isCreditJob) ? 'CREDIT' : $oysterTokenMetadataStore.currency}
+					suffix={isCreditJob ? 'CREDIT' : $oysterTokenMetadataStore.currency}
 					disabled={true}
 				/>
 				<AmountInputWithTitle
 					title="Duration Left"
-					inputAmountString={nowTime > endEpochTime
-						? 'Ended'
-						: epochToDurationString(endEpochTime - nowTime, true)}
+					inputAmountString={nowTime > endEpochTime ? 'Ended' : currentDurationString}
 					disabled={true}
 				/>
 			</div>
@@ -196,7 +194,7 @@
 					<div slot="endButton">
 						<Select
 							title="Bandwidth"
-							dataList={bandwidthUnitList}
+							dataList={BANDWIDTH_UNIT_LIST}
 							bind:value={newBandwidthUnit}
 							showLabel
 							disabled={btnText === 'Confirm'}
@@ -207,7 +205,7 @@
 				<AmountInputWithTitle
 					title="New Total Rate"
 					bind:inputAmountString={newHourlyRateString}
-					suffix={Boolean(isCreditJob) ? 'CREDIT' : $oysterTokenMetadataStore.currency}
+					suffix={isCreditJob ? 'CREDIT' : $oysterTokenMetadataStore.currency}
 					disabled
 				/>
 

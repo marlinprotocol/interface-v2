@@ -40,14 +40,14 @@
 		rate,
 		inputs
 	} = jobData);
-	$: instanceRate = getRateForProviderAndFilters(
+	$: instanceRateScaled = getRateForProviderAndFilters(
 		address,
 		instance,
 		region,
 		$oysterStore.allMarketplaceData
 	);
-	$: bandwidthRate = instanceRate !== undefined ? rateScaled - instanceRate : 0n;
-	$: bandwidth = getBandwidthFromRateAndRegion(bandwidthRate, region).toString() + 'KB/s';
+	$: bandwidthRateScaled = instanceRateScaled !== undefined ? rateScaled - instanceRateScaled : 0n;
+	$: bandwidth = getBandwidthFromRateAndRegion(bandwidthRateScaled, region).toString() + 'KB/s';
 	$: arch =
 		getInstanceMetadatDataForOperator(address, instance, region, $oysterStore.allMarketplaceData)
 			?.arch ?? 'N/A';

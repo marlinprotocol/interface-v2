@@ -243,16 +243,16 @@ export function withdrawFundsFromJobInOysterStore(
 export function initiateRateReviseInOysterStore(
 	id: BytesLike,
 	jobData: OysterInventoryDataModel,
-	newRate: bigint,
+	newRateScaled: bigint,
 	waitingTime: number
 ) {
 	const nowTime = Date.now() / 1000;
 	const modifiedJobData = {
 		...jobData,
 		reviseRate: {
-			newRate: newRate,
+			newRateScaled: newRateScaled,
 			rateStatus: 'pending',
-			stopStatus: newRate > 0n ? 'disabled' : 'pending',
+			stopStatus: newRateScaled > 0n ? 'disabled' : 'pending',
 			updatesAt: nowTime + waitingTime
 		}
 	};
@@ -293,7 +293,7 @@ export function updateJobStatusOnTimerEndInOysterStore(jobData: OysterInventoryD
 	const modifiedJobData = {
 		...jobData,
 		reviseRate: {
-			newRate: 0n,
+			newRateScaled: 0n,
 			rateStatus: 'pending',
 			stopStatus: 'completed',
 			updatesAt: nowTime
@@ -312,7 +312,7 @@ export function updateJobStatusOnTimerEndInOysterStore(jobData: OysterInventoryD
 	});
 }
 
-export function updateJobRateInOysterStore(id: BytesLike, newRate: bigint) {
+export function updateJobRateInOysterStore(id: BytesLike, newRateScaled: bigint) {
 	oysterStore.update((value) => {
 		return {
 			...value,
@@ -320,7 +320,7 @@ export function updateJobRateInOysterStore(id: BytesLike, newRate: bigint) {
 				if (job.id === id) {
 					return {
 						...job,
-						rate: newRate,
+						rateScaled: newRateScaled,
 						reviseRate: undefined
 					};
 				}

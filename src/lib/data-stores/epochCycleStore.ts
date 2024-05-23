@@ -23,7 +23,7 @@ receiverStakingStore.subscribe(async (value) => {
 		epochCycleStore.set(data);
 	} catch (e) {
 		addToast({
-			message: 'Error fetching epoch cycle data',
+			message: { title: 'Error', description: 'Error fetching epoch cycle data' },
 			variant: 'error'
 		});
 		console.error(e);

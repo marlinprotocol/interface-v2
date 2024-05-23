@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
+	import { tableClasses } from '$lib/atoms/componentClasses';
 	import Table from '$lib/atoms/table/Table.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { TableModel } from '$lib/types/componentTypes';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let loading = false;
 	export let handleSortData: (id: string) => void;
@@ -12,24 +13,29 @@
 	export let tableHeading: TableModel['header'][];
 	export let walletConnectionRequired = true;
 	export let emptyTableMessage = 'No data found!';
+	export let roundedBorders: boolean = true;
 </script>
 
-<div class="card max-w-full rounded-lg bg-base-100">
+<div
+	class={cn('card max-w-full rounded-[18px] bg-base-100', {
+		'rounded-tl-none': !roundedBorders
+	})}
+>
 	{#if !$connected && walletConnectionRequired}
-		<div class="my-4 flex justify-center text-center">
-			<ConnectWalletButton />
+		<div class="my-4 flex h-96 flex-col items-center justify-center text-center">
+			<ConnectWalletButton styleClass="bg-[#F4F4F6] h-fit px-8 py-4 rounded-2xl" />
 		</div>
 	{:else if loading}
 		<div class="my-4 flex justify-center text-center">
 			<LoadingAnimatedPing />
 		</div>
 	{:else if noDataFound}
-		<Table {tableHeading} {handleSortData} tablePadding="py-6" headingStyleClass="h-[32px]" />
-		<div class="mb-8 {tableCellClasses.empty}">
+		<Table {roundedBorders} {tableHeading} {handleSortData} headingStyleClass="h-[32px]" />
+		<div class={cn(tableClasses.empty, 'mb-8')}>
 			{emptyTableMessage}
 		</div>
 	{:else}
-		<Table {tableHeading} {handleSortData} tablePadding="py-6" headingStyleClass="h-[32px]">
+		<Table {roundedBorders} {tableHeading} {handleSortData} headingStyleClass="h-[32px]">
 			<tbody slot="tableBody">
 				<slot />
 			</tbody>

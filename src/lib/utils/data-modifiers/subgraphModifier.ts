@@ -285,7 +285,8 @@ export function modifyMPondToPondConversionHistory(mpondToPondHistoryData: any) 
 			transactionHash,
 			requestEpoch: BigInt(requestEpoch),
 			isCancelled,
-			cancelHash
+			cancelHash,
+			endTimestamp: eligibleCycles[eligibleCycles.length - 1].endTimestamp
 		};
 	});
 	return ret;

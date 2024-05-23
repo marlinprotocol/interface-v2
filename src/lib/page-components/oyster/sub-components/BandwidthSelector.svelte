@@ -18,8 +18,8 @@
 	export let finalBandwidthRateScaled = 0n;
 	export let totalCostScaled = 0n;
 	export let useMarlinCredits = false;
+	export let bandwidth = '';
 
-	let bandwidth = '';
 	let bandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
 	let bandwidthCostString = '';
 
@@ -28,8 +28,7 @@
 	function calculateBandwidthCost(
 		bandwidth: string | number,
 		bandwidthUnit: string,
-		bandwidthRateForRegionScaled: bigint,
-		duration: number // in seconds
+		bandwidthRateForRegionScaled: bigint
 	) {
 		const unitConversionDivisor = BigInt(
 			OYSTER_BANDWIDTH_UNITS_LIST.find((unit) => unit.label === bandwidthUnit)?.value ?? 1
@@ -42,7 +41,7 @@
 	$: bandwidthRateForRegionScaled = getBandwidthRateForRegion(region.value);
 	$: bandwidthCostScaled =
 		bandwidth !== ''
-			? calculateBandwidthCost(bandwidth, bandwidthUnit, bandwidthRateForRegionScaled, duration)
+			? calculateBandwidthCost(bandwidth, bandwidthUnit, bandwidthRateForRegionScaled)
 			: 0n;
 	$: bandwidthCostString =
 		bandwidth !== ''
@@ -59,7 +58,7 @@
 		: '';
 </script>
 
-<div class="flex gap-2">
+<div class="mb-4 flex gap-2">
 	<AmountInputWithTitle
 		title="Bandwidth"
 		bind:inputAmountString={bandwidth}

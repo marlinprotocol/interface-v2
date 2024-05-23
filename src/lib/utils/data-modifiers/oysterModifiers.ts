@@ -27,12 +27,11 @@ export const parseMetadata = (metadata: string) => {
 		return DEFAULT_JOB_METADATA;
 	}
 };
-
 export const getInstanceMetadatDataForOperator = (
 	operator: Address,
 	instance: string,
 	region: string,
-	allInstances: OysterMarketplaceDataModel[]
+	allInstances: OysterMarketplaceDataModel[] | OysterInventoryDataModel[]
 ) => {
 	if (operator !== '' && instance !== '' && region !== '') {
 		const operatorInstance = allInstances.filter((instanceData) => {
@@ -173,7 +172,7 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 			durationRun: _lastSettled - _createdAt,
 			endEpochTime: _lastSettled,
 			live: true,
-			status: 'closed',
+			status: 'stopped',
 			amountToBeSettled: _totalDeposit - _refund - _totalSettledAmount
 		};
 	}
@@ -189,7 +188,7 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 			durationRun: _lastSettled - _createdAt,
 			endEpochTime: _lastSettled,
 			live: true,
-			status: 'closed',
+			status: 'stopped',
 			amountToBeSettled: 0n
 		};
 	}

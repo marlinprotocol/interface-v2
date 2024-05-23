@@ -13,6 +13,7 @@
 	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
 	import PaymentHistoryTable from '$lib/page-components/oyster/sub-components/PaymentHistoryTable.svelte';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
+	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
 
 	export let modalFor: string;
 	export let rowIndex: number;
@@ -36,51 +37,46 @@
 		createdAt,
 		depositHistory,
 		endEpochTime,
-		inputs
+		ip
 	} = jobData);
 </script>
 
-<Modal {modalFor} modalWidth="w-11/12 sm:max-w-[700px]" padding={false}>
-	<svelte:fragment slot="title">PAST ORDER DETAILS</svelte:fragment>
-	<svelte:fragment slot="subtitle">View the details of your past order</svelte:fragment>
+<Modal isScrollable {modalFor} modalWidth="w-11/12 sm:max-w-[607px]" padding={false}>
+	<svelte:fragment slot="title">Past Order Details</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex flex-col gap-4 px-4">
+		<div class="flex flex-col gap-4">
 			<div data-testid="enclave-image-url" class="flex flex-col gap-4 sm:flex-row">
-				<TextInputCard
-					title="Enclave Image URL"
-					value={enclaveUrl}
-					cliboardContent={enclaveUrl}
-					textStyle="text-primary truncate"
+				<SearchWithSelect
+					searchValue={enclaveUrl}
+					setSearchValue={() => {}}
+					title="Encalve Image URL"
+					label="Encalve Image URL"
+					showTitle={false}
+					styleClass="px-4 py-2.5"
+					cardVariant="v2Input"
+					placeholder="Encalve Image URL"
+					disabled
 				/>
+			</div>
+
+			<div class="flex flex-col gap-4 sm:flex-row">
+				<TextInputCard title="Operator" value={name !== '' ? name : address} />
+			</div>
+			<div class="flex flex-col gap-4 sm:flex-row">
+				<TextInputCard title="Region" value={region} />
 				<TextInputCard
-					title="Enclave Image Inputs"
-					value={inputs ? inputs : 'N/A'}
-					cliboardContent={inputs ? inputs : 'N/A'}
-					textStyle="text-primary truncate"
+					title="IP Address"
+					value={ip ?? 'N/A'}
+					cliboardContent={ip}
+					textStyle="truncate"
 				/>
 			</div>
 			<div class="flex flex-col gap-4 sm:flex-row">
-				<TextInputCard
-					title="Operator"
-					value={name !== '' ? name : address}
-					centered
-					textStyle="text-primary"
-				/>
-				<TextInputCard title="Region" value={region} centered textStyle="text-primary" />
-			</div>
-			<div class="flex flex-col gap-4 sm:flex-row">
-				<TextInputCard title="Instance" value={instance} centered textStyle="text-primary" />
-				<TextInputCard
-					title="vCPU"
-					value={vcpu?.toString() ?? ''}
-					centered
-					textStyle="text-primary"
-				/>
+				<TextInputCard title="Instance" value={instance} />
+				<TextInputCard title="vCPU" value={vcpu?.toString() ?? ''} />
 				<TextInputCard
 					title="Memory"
 					value={(memory?.toString() ?? '') + (memory ? MEMORY_SUFFIX : '')}
-					centered
-					textStyle="text-primary"
 				/>
 				<TextInputCard
 					title="Hourly Rate"
@@ -88,55 +84,34 @@
 						rate,
 						$oysterTokenMetadataStore.decimal
 					)}"
-					centered
-					textStyle="text-primary"
 				/>
 			</div>
 			<div class="flex flex-col gap-4 sm:flex-row">
-				<TextInputCard
-					title="Start Date"
-					value={epochSecToString(createdAt)}
-					centered
-					textStyle="text-primary"
-				/>
-				<TextInputCard
-					title="End Date"
-					value={epochSecToString(endEpochTime)}
-					centered
-					textStyle="text-primary"
-				/>
+				<TextInputCard title="Start Date" value={epochSecToString(createdAt)} />
+				<TextInputCard title="End Date" value={epochSecToString(endEpochTime)} />
 				<TextInputCard
 					title="Amount Used"
 					value="{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 						amountUsed,
 						$oysterTokenMetadataStore.decimal
 					)}"
-					centered
-					textStyle="text-primary"
 				/>
-				<TextInputCard
-					title="Duration Run"
-					value={epochToDurationString(durationRun, true)}
-					centered
-					textStyle="text-primary"
-				/>
+				<TextInputCard title="Duration Run" value={epochToDurationString(durationRun, true)} />
 			</div>
 
 			<PaymentHistoryTable tableData={depositHistory} />
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<div class="p-4">
-			<div class="w-full">
-				<Button
-					variant="filled"
-					size="large"
-					styleClass="btn-block w-full my-0"
-					onclick={handleRedeploy}
-				>
-					REDEPLOY
-				</Button>
-			</div>
+		<div class="w-full">
+			<Button
+				variant="filled"
+				size="large"
+				styleClass="btn-block w-full my-0"
+				onclick={handleRedeploy}
+			>
+				Redeploy
+			</Button>
 		</div>
 	</svelte:fragment>
 </Modal>

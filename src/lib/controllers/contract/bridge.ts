@@ -24,13 +24,21 @@ export async function convertPondToMPond(expectedMPond: bigint) {
 		);
 		const errorTxnMessage = 'Unable to convert POND to MPond';
 		const parentFunctionName = 'convertPondToMPond';
-
+		const initiateTxnTitle = MESSAGES.TOAST.CONVERSION.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.CONVERSION.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.CONVERSION.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 		const { txn } = await createTransaction(
 			() => bridgeContract.getMpond(expectedMPond),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 		return txn;
 	} catch (error: any) {
@@ -49,13 +57,21 @@ export async function requestMPondConversion(amount: bigint) {
 		);
 		const errorTxnMessage = 'Unable to place request for converting MPond to POND.';
 		const parentFunctionName = 'requestMPondConversion';
-
+		const initiateTxnTitle = MESSAGES.TOAST.CONVERSION.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.CONVERSION.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.CONVERSION.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 		const { txn } = await createTransaction(
 			() => bridgeContract.placeRequest(amount),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 		return txn;
 	} catch (error: any) {
@@ -70,13 +86,21 @@ export async function cancelMPondConversionRequest(epoch: bigint) {
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_CANCELLED;
 		const errorTxnMessage = 'Unable to cancel request for converting MPond to POND.';
 		const parentFunctionName = 'cancelMPondConversionRequest';
-
+		const initiateTxnTitle = MESSAGES.TOAST.CANCEL_CONVERSION.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.CANCEL_CONVERSION.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.CANCEL_CONVERSION.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 		const { txn } = await createTransaction(
 			() => bridgeContract.cancelRequest(epoch),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 		return txn;
 	} catch (error: any) {
@@ -95,13 +119,21 @@ export async function confirmMPondConversion(epoch: bigint, amount: bigint) {
 		);
 		const errorTxnMessage = 'Unable to convert MPond to POND.';
 		const parentFunctionName = 'confirmMPondConversion';
-
+		const initiateTxnTitle = MESSAGES.TOAST.CONVERSION.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.CONVERSION.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.CONVERSION.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 		const { txn } = await createTransaction(
 			() => bridgeContract.convert(epoch, amount),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 		return txn;
 	} catch (error: any) {

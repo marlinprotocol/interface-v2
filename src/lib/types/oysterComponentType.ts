@@ -101,7 +101,7 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 	durationLeft: number;
 	endEpochTime: number;
 	live: boolean;
-	status: 'closed' | 'running' | 'pending' | 'completed' | 'stopped';
+	status: 'running' | 'pending' | 'completed' | 'stopped';
 	settlementHistory: OysterSettlementHistoryDataModel[];
 	depositHistory: OysterDepositHistoryDataModel[];
 	durationRun: number;
@@ -116,6 +116,7 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 	};
 	ip?: string;
 	isCreditJob?: boolean;
+	regionName?: string;
 }
 
 export interface CreateOrderPreFilledModel extends CPUrlDataModel {

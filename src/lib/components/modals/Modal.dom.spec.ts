@@ -22,7 +22,7 @@ describe('Modal', () => {
 			getAllByTestId('modal')[0].previousElementSibling?.id === 'Approve And Confirm Modal'
 		).toBe(true);
 		expect(getByText('Confirm Transaction')).toBeTruthy();
-		expect(getAllByTestId('modal')[0].contains(getByAltText('Copy'))).toBeTruthy();
+		expect(getAllByTestId('modal')[0].contains(getByAltText('checkmark'))).toBeTruthy();
 		expect(container).toMatchSnapshot();
 	});
 

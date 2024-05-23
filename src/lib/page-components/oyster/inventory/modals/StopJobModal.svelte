@@ -75,24 +75,23 @@
 	$: ({ reviseRate: { stopStatus = '', updatesAt = 0 } = {}, isCreditJob } = jobData);
 	$: modalTitle =
 		stopStatus === '' || stopStatus === 'disabled'
-			? 'INITIATE STOP'
+			? 'Initiate Stop'
 			: stopStatus === 'completed'
-				? 'CONFIRM STOP'
-				: 'INITIATED STOP';
+				? 'Confirm Stop'
+				: 'Initiated Stop';
 	$: submitButtonText =
-		stopStatus === '' || stopStatus === 'disabled' ? 'INITIATE STOP' : 'CONFIRM';
+		stopStatus === '' || stopStatus === 'disabled' ? 'Initiate stop' : 'Confirm';
 	$: submitButtonAction =
 		stopStatus === '' || stopStatus === 'disabled' ? handleInitiateClick : handleConfirmClick;
 	$: submitButtonDisabled = stopStatus === 'pending' || stopStatus === 'disabled';
 </script>
 
-<Modal {modalFor}>
+<Modal {modalFor} modalWidth="w-11/12 sm:max-w-[700px]">
 	<svelte:fragment slot="title">
 		{modalTitle}
 	</svelte:fragment>
-	<svelte:fragment slot="subtitle">You can stop your job here</svelte:fragment>
 	<svelte:fragment slot="content">
-		<StopModalContent {jobData} />
+		<StopModalContent {jobData} {modalFor} />
 		{#if stopStatus === 'pending'}
 			<div class="w-full">
 				<Timer
@@ -133,7 +132,7 @@
 						size="large"
 						styleClass="btn-block w-full my-0"
 					>
-						CANCEL
+						Cancel
 					</Button>
 				</div>
 			{/if}

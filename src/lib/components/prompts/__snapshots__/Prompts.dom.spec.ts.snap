@@ -1,42 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AddTokenPrompt > renders the AddTokenPrompt properly 1`] = `
-<body>
-  <onboard-v2
-    style="all: initial;"
-  />
-  <style>
-    
-    
-@font-face {
-  font-family: 'Inter';
-  font-style:  normal;
-  font-weight: 300 600;
-  font-display: swap;
-  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
-}
-
-  
-  </style>
-  <div>
-    <button
-      class="font-medium gap-3 h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
-    >
-       
-      <span
-        class="text-2xl font-light"
-      >
-        +
-      </span>
-       Add 
-      POND
-    </button>
-    <!--&lt;Button&gt;-->
-    <!--&lt;AddTokenPrompt&gt;-->
-  </div>
-</body>
-`;
-
 exports[`NetworkPrompt > render's the Network Prompt properly 1`] = `
 <body>
   <onboard-v2
@@ -57,44 +20,55 @@ exports[`NetworkPrompt > render's the Network Prompt properly 1`] = `
   </style>
   <div>
     <div
-      class="mx-auto w-full sm:w-130"
-      data-testid="container-card-root"
+      class="flex h-full w-full items-center justify-center"
     >
-       
       <div
-        class="card mx-auto rounded-lg bg-base-100 px-4 py-4 text-center sm:px-6 sm:py-6 "
-        data-testid="container-card-body"
+        class="flex h-[460px] w-130 flex-col items-center justify-center rounded-3xl border border-[#D9DADE] bg-[#3840C7]"
       >
         <div
-          class="text-center text-2xl font-bold"
-          data-testid="text"
+          class="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-white"
         >
-          Unsupported Network
+          <img
+            alt="Info Icon"
+            src="/images/information-purple.svg"
+          />
         </div>
-        <!--&lt;Text&gt;-->
          
         <span
-          class="mb-8 mt-4 px-2 text-center text-[15px] font-medium text-black/50"
+          class="mt-2 text-3xl font-medium text-[#D9DADE]"
         >
-          Please switch to one of the chains in the dropdown to continue.
+          Unsupported Network
         </span>
          
-        <div
-          class="flex items-center justify-center"
+        <p
+          class="text-md mx-auto mt-2 max-w-[400px] text-center font-light leading-6 text-[#D9DADE]"
         >
-          <details
-            class="dropdown"
+          Please switch to one of the chains in the dropdown to continue.
+        </p>
+         
+        <div
+          class="mt-12 flex w-64 items-center justify-between rounded-full border border-white"
+        >
+          <span
+            class="pl-4 font-medium text-[#D9DADE]"
+          >
+            Switch
+          </span>
+           
+          <div
+            class="dropdown dropdown-end"
             id="chain-dropdown"
           >
-            <summary
-              class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 h-[50px] border border-sky-500 shadow-sm"
+            <div
+              class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-white text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"
+              role="button"
               tabindex="0"
             >
               <div
-                class="flex h-8 w-fit items-center"
+                class="flex items-center justify-center"
               >
                 <div
-                  class="h-8 w-8"
+                  class="flex h-8 w-8 items-center justify-center"
                 >
                   <img
                     alt="current chain"
@@ -111,7 +85,7 @@ exports[`NetworkPrompt > render's the Network Prompt properly 1`] = `
                     data-testid="icon"
                     height="16"
                     role="presentation"
-                    style="width:12px; height:12px; cursor:pointer;  "
+                    style="width:10px; height:10px; cursor:pointer;  "
                     version="1.1"
                     viewBox="0 0 1792 1792"
                     width="16"
@@ -130,114 +104,14 @@ exports[`NetworkPrompt > render's the Network Prompt properly 1`] = `
                   <!--&lt;Icon&gt;-->
                 </div>
               </div>
-            </summary>
+            </div>
              
-            <ul
-              class="menu dropdown-content rounded-box z-[1] mt-4 w-52 bg-base-100 p-2 shadow"
-              tabindex="0"
-            >
-              <li
-                class="flex rounded-lg bg-primary text-white"
-              >
-                <button>
-                  <div
-                    class="h-6 w-6 rounded-full ring-1 ring-white"
-                  >
-                    <img
-                      alt="Chain Logo"
-                      src="/images/arbitrum.webp"
-                    />
-                  </div>
-                   
-                  Arbitrum Sepolia
-                </button>
-                 
-              </li>
-            </ul>
-          </details>
+          </div>
           <!--&lt;ChainSwitcher&gt;-->
         </div>
       </div>
     </div>
-    <!--&lt;ContainerCard&gt;-->
     <!--&lt;NetworkPrompt&gt;-->
-  </div>
-</body>
-`;
-
-exports[`SmallScreePrompt > should not show the small screen prompt by default 1`] = `
-<body>
-  <onboard-v2
-    style="all: initial;"
-  />
-  <style>
-    
-    
-@font-face {
-  font-family: 'Inter';
-  font-style:  normal;
-  font-weight: 300 600;
-  font-display: swap;
-  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
-}
-
-  
-  </style>
-  <div>
-    
-    <!--&lt;SmallScreenPrompt&gt;-->
-  </div>
-</body>
-`;
-
-exports[`SmallScreePrompt > should show the small screen prompt when innerWidth is less than 950 1`] = `
-<body>
-  <onboard-v2
-    style="all: initial;"
-  />
-  <style>
-    
-    
-@font-face {
-  font-family: 'Inter';
-  font-style:  normal;
-  font-weight: 300 600;
-  font-display: swap;
-  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
-}
-
-  
-  </style>
-  <div>
-    <div
-      class="fixed left-0 top-0 z-20 h-full w-full bg-white"
-    >
-      <div
-        class="flex h-full flex-col items-center justify-center px-10"
-      >
-        <h1
-          class="text-center text-4xl font-bold"
-        >
-          Please note that this site is not optimized for mobile devices.
-        </h1>
-         
-        <h2
-          class="mt-4 text-center text-2xl font-bold"
-        >
-          For the best user experience, it is recommended to access the site via a desktop or laptop.
-        </h2>
-         
-        <button
-          class="mt-8 w-80 h-14 text-base font-semibold btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white gap-1.5"
-        >
-           
-          Enter Site
-        </button>
-        <!--&lt;Button&gt;-->
-      </div>
-    </div>
-    
-    <!--&lt;SmallScreenPrompt&gt;-->
   </div>
 </body>
 `;

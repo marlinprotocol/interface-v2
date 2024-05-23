@@ -1,15 +1,14 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
+	import { tableClasses } from '$lib/atoms/componentClasses';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 	export let styleClass = '';
+	export let firstRow: boolean = false;
 </script>
 
-<td class="pb-8 pt-6 {styleClass} {tableCellClasses.row}" data-testid="table-data-with-button">
-	<div class={tableCellClasses.rowWithIcon}>
+<td class={cn(styleClass, firstRow ? 'pl-4' : '')} data-testid="table-data-with-button">
+	<div class={tableClasses.row}>
 		<div class="m-auto flex h-[35px] items-center">
 			<slot name="line1" />
-		</div>
-		<div class="flex h-[18px] items-center pt-[10px]">
-			<slot name="line2" />
 		</div>
 	</div>
 </td>

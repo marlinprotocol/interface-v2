@@ -9,12 +9,14 @@
 	export let name = '';
 	export let address = '';
 	export let rowIndex = -1;
-	export let isCreditJob = false;
 
 	const onCopyAddress = () => {
 		copyTextToClipboard(address);
 		addToast({
-			message: `Address copied to clipboard`,
+			message: {
+				title: 'Copied',
+				description: `Address copied to clipboard`
+			},
 			variant: 'success'
 		});
 	};
@@ -25,38 +27,23 @@
 </script>
 
 <div
-	class="ml-6 flex w-fit items-center justify-start"
+	class="ml-4 flex w-fit items-center justify-start"
 	data-testid="name-with-address"
 	id="name-with-address"
 >
-	<div>
-		{#if rowIndex > -1}
-			<div
-				class="relative mr-3 flex h-[32px] w-[32px] flex-col items-center justify-center rounded-md text-sm font-medium text-white"
-				style="background-color:{bgColor};"
-			>
-				{startLetters}
-				{#if isCreditJob}
-					<div
-						class="absolute -bottom-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-yellow-500"
-					>
-						<span class="text-xs">C</span>
-					</div>
-				{/if}
-			</div>
-		{/if}
-	</div>
 	<div class="flex flex-col items-start">
 		{#if name}
-			<Tooltip tooltipText={name}>
+			<Tooltip>
+				<span slot="tooltipContent">{name}</span>
 				<Text
-					variant="body"
-					fontWeight="font-medium"
+					slot="tooltipIcon"
+					variant="mini"
+					fontWeight="font-normal"
 					text={name.length > 13 ? name.slice(0, 13).trim() + '...' : name}
-					styleClass="truncate min-w-[150px]"
+					styleClass="truncate w-min"
 				/>
 			</Tooltip>
-			<div class="flex w-fit items-center gap-1">
+			<div class="mt-1 flex w-fit items-center gap-1">
 				<Text
 					variant="tiny"
 					styleClass="text-grey"
@@ -68,8 +55,8 @@
 				</button>
 			</div>
 		{:else}
-			<div class="my-2 flex w-fit min-w-[150px] items-center gap-1">
-				<Text variant="body" fontWeight="font-medium" text={shortenText(address, 6, 6)} />
+			<div class="flex w-fit min-w-[150px] items-center gap-1">
+				<Text variant="nav" fontWeight="font-normal" text={shortenText(address, 6, 6)} />
 				<button on:keypress={onCopyAddress} on:click={onCopyAddress}>
 					<slot name="copyIcon" />
 				</button>

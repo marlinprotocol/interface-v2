@@ -14,7 +14,7 @@
 		convertRateToPerHourString,
 		stringToBigNumber
 	} from '$lib/utils/helpers/conversionHelper';
-	import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import { cn, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		computeCost,
 		computeDuration,
@@ -38,6 +38,8 @@
 	export let isTotalRate = false;
 	export let durationUnitInSec = getDurationInSecondsForUnit(DEFAULT_OYSTER_DURATION_UNIT);
 	export let useMarlinCredits = false;
+	export let containerClasses: string = '';
+	export let isRedeploy: boolean = false;
 
 	let durationUnit = DEFAULT_OYSTER_DURATION_UNIT;
 	let instanceRateString = '';
@@ -160,12 +162,13 @@
 		}
 		if (invalidCost) {
 			const walletBalanceString = useMarlinCredits
-				? bigNumberToString($oysterStore.credits.balance, OYSTER_MARLIN_CREDIT_METADATA.decimal)
+				? bigNumberToString($oysterStore.credits.balance, OYSTER_MARLIN_CREDIT_METADATA.decimal, 2)
 				: bigNumberToString(
 						$walletBalanceStore[
 							$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
 						],
-						$oysterTokenMetadataStore.decimal
+						$oysterTokenMetadataStore.decimal,
+						2
 					);
 			const currency = useMarlinCredits
 				? OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]
@@ -183,9 +186,10 @@
 	$: inValidMessage = getInvalidMessage(instanceCostScaled, invalidCost, useMarlinCredits);
 </script>
 
-<div class="flex gap-2">
+<div class={cn('flex gap-2', containerClasses)}>
 	<AmountInputWithTitle
 		title="Hourly Rate"
+		id="Hourly-Rate"
 		bind:inputAmountString={instanceRateString}
 		prefix={$oysterTokenMetadataStore.symbol}
 		handleUpdatedAmount={handleRateChange}
@@ -193,6 +197,7 @@
 	/>
 	<AmountInputWithTitle
 		title="Duration"
+		id="Duration"
 		bind:inputAmountString={durationString}
 		handleUpdatedAmount={handleDurationChange}
 		onlyInteger
@@ -210,12 +215,17 @@
 	</AmountInputWithTitle>
 	<AmountInputWithTitle
 		title={isTotalRate ? 'Total Cost' : 'Instance Cost'}
+		id="cost"
 		bind:inputAmountString={instanceCostString}
 		handleUpdatedAmount={handleCostChange}
 		suffix={useMarlinCredits
 			? OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]
 			: $oysterTokenMetadataStore.currency}
-		disabled={!instanceRate}
+		disabled={!instanceRate || isRedeploy}
 	/>
 </div>
-<ErrorTextCard styleClass="mt-0" showError={inValidMessage !== ''} errorMessage={inValidMessage} />
+<ErrorTextCard
+	styleClass="mt-0 mb-4"
+	showError={inValidMessage !== ''}
+	errorMessage={inValidMessage}
+/>

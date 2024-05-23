@@ -3,7 +3,67 @@ export const MESSAGES = {
 		TRANSACTION: {
 			CREATED: 'Transaction created, waiting for it to be mined.',
 			SUCCESS: 'Transaction successfully mined!',
-			FAILED: 'Uh-Oh, Transaction was not successful!'
+			FAILED: 'Uh-Oh, transaction was not successful!'
+		},
+		CONVERSION: {
+			SUCCESS: 'Conversion successful',
+			FAILED: 'Rejected conversion',
+			CREATED: 'Conversion in progress...'
+		},
+		CANCEL_CONVERSION: {
+			SUCCESS: 'Cancellation successful',
+			FAILED: 'Conversion cancelled',
+			CREATED: 'Cancellation in progress...'
+		},
+		INIT_STOP: {
+			SUCCESS: 'Initiated stop',
+			FAILED: 'Initiate stop failed',
+			CREATED: 'Initiating stop'
+		},
+		STOP_JOB: {
+			SUCCESS: 'Job stopped',
+			FAILED: 'Job stop failed',
+			CREATED: 'Stopping Job'
+		},
+		WITHDRAW: {
+			SUCCESS: 'Withdrawal successful',
+			FAILED: 'Failed withdrawal',
+			CREATED: 'Withdrawal in progress'
+		},
+		ADD_FUND: {
+			SUCCESS: 'Adding funds successfully',
+			FAILED: 'Adding funds failed',
+			CREATED: 'Adding funds'
+		},
+		CANCEL_STOP: {
+			SUCCESS: 'Job canceled',
+			FAILED: 'Cancel failed',
+			CREATED: 'Cancelling job'
+		},
+		APPROVAL: {
+			SUCCESS: 'Approved',
+			FAILED: 'Rejected',
+			CREATED: 'Approval in progress...'
+		},
+		DEPLOY: {
+			SUCCESS: 'Deployed successfully',
+			FAILED: 'Rejected deployment',
+			CREATED: 'Deployment in progress'
+		},
+		UNREGISTER_OPERATOR: {
+			SUCCESS: 'Unregistered',
+			FAILED: 'Unregistration failed',
+			CREATED: 'Unregistration in progress'
+		},
+		REGISTER_OPERATOR: {
+			SUCCESS: 'Registration successful',
+			FAILED: 'Registration failed',
+			CREATED: 'Registration in progress'
+		},
+		UPDATE_OPERATOR: {
+			SUCCESS: 'Update successful',
+			FAILED: 'Update failed',
+			CREATED: 'Update in progress'
 		},
 		ACTIONS: {
 			DEPOSIT: {
@@ -21,12 +81,12 @@ export const MESSAGES = {
 				 * @param value
 				 * @returns `Depositing ${value} MPOND`
 				 */
-				MPOND: (value: string | number) => `Depositing ${value} MPOND.`,
+				MPOND: (value: string | number) => `Depositing ${value} MPond.`,
 				/**
 				 * @param value
 				 * @returns `Deposited ${value} MPOND`
 				 */
-				MPOND_DEPOSITED: (value: string | number) => `Deposited ${value} MPOND.`
+				MPOND_DEPOSITED: (value: string | number) => `Deposited ${value} MPond.`
 			},
 			APPROVE: {
 				/**
@@ -43,12 +103,11 @@ export const MESSAGES = {
 				 * @param value
 				 * @returns `Approving ${value} MPOND.`
 				 */
-				MPOND: (value: string | number) => `Approving ${value} MPOND.`,
+				MPOND: (value: string | number) => `Approving ${value} MPond.`,
 				/**
 				 * @param value
-				 * @returns `Approved ${value} MPOND.`
-				 */
-				MPOND_APPROVED: (value: string | number) => `Approved ${value} MPOND.`,
+				 * @returns `Approved ${value} MPONDond				 */
+				MPOND_APPROVED: (value: string | number) => `Approved ${value} MPond.`,
 				/**
 				 * @param value
 				 * @returns `Approving ${value} POND.`
@@ -77,12 +136,12 @@ export const MESSAGES = {
 				 * @param value
 				 * @returns `Withdrawing ${value} MPOND.`
 				 */
-				MPOND: (value: string | number) => `Withdrawing ${value} MPOND.`,
+				MPOND: (value: string | number) => `Withdrawing ${value} MPond.`,
 				/**
 				 * @param value
 				 * @returns `Withdrew ${value} MPOND.`
 				 */
-				MPOND_WITHDREW: (value: string | number) => `Withdrew ${value} MPOND.`
+				MPOND_WITHDREW: (value: string | number) => `Withdrew ${value} MPond.`
 			},
 			UPDATE_SIGNER: {
 				/**
@@ -101,22 +160,22 @@ export const MESSAGES = {
 				 * @param value
 				 * @returns `Converting ${value} POND`
 				 */
-				POND_TO_MPOND_CONVERTING: (value: string | number) => `Converting to ${value} MPOND.`,
+				POND_TO_MPOND_CONVERTING: (value: string | number) => `Converting to ${value} MPond.`,
 				/**
 				 * @param value
 				 * @returns `Converting ${value} MPOND`
 				 */
-				MPOND_TO_POND_CONVERTING: (value: string | number) => `Converting ${value} MPOND.`,
+				MPOND_TO_POND_CONVERTING: (value: string | number) => `Converting ${value} MPond.`,
 				/**
 				 * @param value
 				 * @returns `Converted ${value} POND`
 				 */
-				POND_TO_MPOND_CONVERTED: (value: string | number) => `Converted to ${value} MPOND.`,
+				POND_TO_MPOND_CONVERTED: (value: string | number) => `Converted to ${value} MPond.`,
 				/**
 				 * @param value
 				 * @returns `Converted ${value} MPOND`
 				 */
-				MPOND_TO_POND_CONVERTED: (value: string | number) => `Converted ${value} MPOND.`
+				MPOND_TO_POND_CONVERTED: (value: string | number) => `Converted ${value} MPond.`
 			},
 			REQUEST: {
 				/**
@@ -124,21 +183,21 @@ export const MESSAGES = {
 				 * @returns `Requesting ${value} MPOND to be converted to POND`
 				 */
 				MPOND_TO_POND_REQUESTING: (value: string | number) =>
-					`Requesting ${value} MPOND to be converted to POND.`,
+					`Requesting ${value} MPond to be converted to POND.`,
 				/**
 				 * @param value
 				 * @returns `Requested ${value} MPOND to be converted to POND`
 				 */
 				MPOND_TO_POND_REQUESTED: (value: string | number) =>
-					`Requested ${value} MPOND to be converted to POND.`,
+					`Requested ${value} MPond to be converted to POND.`,
 				/**
 				 * @returns 'Cancelling request for conversion of MPOND to POND.'
 				 */
-				MPOND_TO_POND_CANCELLING: 'Cancelling request for conversion of MPOND to POND.',
+				MPOND_TO_POND_CANCELLING: 'Cancelling request for conversion of MPond to POND.',
 				/**
 				 * @returns 'Cancelled request for conversion of MPOND to POND.'
 				 */
-				MPOND_TO_POND_CANCELLED: 'Cancelled request for conversion of MPOND to POND.'
+				MPOND_TO_POND_CANCELLED: 'Cancelled request for conversion of MPond to POND.'
 			},
 			REGISTER: {
 				REGISTERING: 'Registering as an operator on Oyster.',

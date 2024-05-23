@@ -17,7 +17,8 @@
 		"update": "ncu -u && npm i",
 		"prepare": "node .husky/install.mjs",
 		"test:integration": "synpress && playwright test --ui",
-		"synpress-test": "rm -rf .cache-synpress && synpress && playwright test --ui"
+		"synpress-test": "rm -rf .cache-synpress && synpress && playwright test --ui",
+		"cleanup": "lilmolly"
 	},
 	"devDependencies": {
 		"@playpilot/svelte-htm": "^1.0.1",
@@ -38,6 +39,7 @@
 		"htm": "^3.1.1",
 		"husky": "^9.0.10",
 		"jsdom": "^23.0.1",
+		"lilmolly": "^1.3.7",
 		"lint-staged": "^15.2.2",
 		"npm-check-updates": "^16.13.2",
 		"postcss": "^8.4.29",
@@ -67,10 +69,12 @@
 		"@web3-onboard/walletconnect": "^2.4.6",
 		"assert": "^2.0.0",
 		"buffer": "^6.0.3",
+		"clsx": "^2.1.0",
 		"crypto-browserify": "^3.12.0",
 		"daisyui": "^3.6.4",
-		"ethers": "^6.7.1",
+		"ethers": "^6.12.1",
 		"stream-browserify": "^3.0.0",
-		"svelte-awesome": "^3.2.1"
+		"svelte-awesome": "^3.2.1",
+		"tailwind-merge": "^2.2.2"
 	}
 }

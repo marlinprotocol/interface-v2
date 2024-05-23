@@ -2,12 +2,13 @@
 	import { doNothing } from '$lib/utils/helpers/commonHelper';
 
 	export let endEpochTime: number;
+	export let useGivenTime: boolean = false;
 	export let onTimerEnd: () => void = () => {
 		doNothing();
 	};
 	export let timerId: string;
 
-	$: original = Math.floor(endEpochTime - Date.now() / 1000);
+	$: original = useGivenTime ? endEpochTime : Math.floor(endEpochTime - Date.now() / 1000);
 
 	setInterval(() => {
 		if (original > 0) {

@@ -16,8 +16,6 @@ beforeAll(() => {
 });
 
 describe('AmountInputWithMaxButton', () => {
-	const title = 'Test Title';
-	const tooltipText = 'Info Tooltip';
 	const inputAmountString = '123';
 	const maxAmountText = 'Balance: 1000';
 	const maxAmountTooltipText = 'Your total balance';
@@ -25,8 +23,6 @@ describe('AmountInputWithMaxButton', () => {
 
 	it("render's the component properly", () => {
 		const { container } = render(AmountInputWithMaxButton, {
-			title,
-			tooltipText,
 			inputAmountString,
 			maxAmountText,
 			maxAmountTooltipText,
@@ -38,17 +34,16 @@ describe('AmountInputWithMaxButton', () => {
 
 	it('renders correctly based on props and slots', async () => {
 		const { getByDisplayValue, container } = render(AmountInputWithMaxButton, {
-			title,
-			tooltipText,
 			inputAmountString,
 			maxAmountText,
 			maxAmountTooltipText,
 			handleUpdatedAmount,
+			showBalance: true,
 			inputCardVariant: 'primary'
 		});
-
+		console.log(container.innerHTML, 'container.innerHTML');
 		// Assert that title and tooltip are rendered
-		expect(container.innerHTML).contain(tooltipText);
+		expect(container.getElementsByTagName('span')[0].innerHTML).contain(maxAmountTooltipText);
 
 		// Assert input is bound to inputAmountString
 		const input = getByDisplayValue(inputAmountString);
@@ -62,7 +57,6 @@ describe('AmountInputWithMaxButton', () => {
 	it('disables the input when handleUpdatedAmount is undefined or connected is false', async () => {
 		connected.mockSetSubscribeValue(false);
 		const { getByDisplayValue } = render(AmountInputWithMaxButton, {
-			title: 'Disabled Test',
 			inputAmountString: '0',
 			handleUpdatedAmount: undefined // Not providing handleUpdatedAmount makes the input disabled
 		});
@@ -76,7 +70,6 @@ describe('AmountInputWithMaxButton', () => {
 		connected.mockSetSubscribeValue(true);
 		await tick();
 		const { getByPlaceholderText } = render(AmountInputWithMaxButton, {
-			title: 'Disabled Test',
 			inputAmountString: '0',
 			handleUpdatedAmount: vi.fn() // Providing this should enable the input
 		});
@@ -93,12 +86,10 @@ describe('AmountInputWithMaxButton', () => {
 		const { getAllByTestId, getByText } = render(html`
         <${AmountInputWithMaxButton} title='${'text'}' inputAmountString=${'0'} handleUpdatedAmount=${vi.fn()}>
         <div slot='inputMaxButton'>inputMaxButton</div>
-        <div slot='input-end-button'>input-end-button</div>
         </${AmountInputWithMaxButton}>`);
 		const dividers = getAllByTestId('divider');
 		expect(dividers.length).toBeTruthy();
 		expect(dividers.length).toBe(2);
 		expect(await getByText('inputMaxButton')).toBeTruthy();
-		expect(await getByText('input-end-button')).toBeTruthy();
 	});
 });

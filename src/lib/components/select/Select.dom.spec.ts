@@ -21,7 +21,9 @@ describe('Select', () => {
 		const { getByTestId } = render(Select, { props: { showLabel: true, dataList } });
 		expect(getByTestId('select')).toBeTruthy();
 		expect(getByTestId('select').contains(getByTestId('collapse-button'))).toBeTruthy();
-		expect(getByTestId('select').firstElementChild?.innerHTML).toBeFalsy();
+		expect(
+			getByTestId('select').firstElementChild?.getElementsByTagName('span')[0].innerHTML
+		).toBeFalsy();
 	});
 
 	it('renders with List Toggle', async () => {
@@ -45,7 +47,10 @@ describe('Select', () => {
 		const firstListItem = getByTestId('select').lastElementChild?.children[1]
 			.firstElementChild as Element;
 		await fireEvent.click(firstListItem);
-		expect(getByTestId('select').firstElementChild?.innerHTML === 'test1').toBeTruthy();
+		expect(
+			getByTestId('select').firstElementChild?.getElementsByTagName('span')[0]?.innerHTML ===
+				'test1'
+		).toBe(true);
 	});
 
 	it('default open select and use setValue props', async () => {
@@ -68,7 +73,10 @@ describe('Select', () => {
 			.firstElementChild as Element;
 		expect(selectedItem).toBeFalsy();
 		await fireEvent.click(firstListItem);
-		expect(getByTestId('select').firstElementChild?.innerHTML === selectedItem).toBeTruthy();
+		expect(
+			getByTestId('select').firstElementChild?.getElementsByTagName('span')[0].innerHTML ===
+				selectedItem
+		).toBeTruthy();
 	});
 
 	it('closes the select list when clicked outside', async () => {

@@ -19,19 +19,20 @@ exports[`ChainSwitcher > renders the ChainSwitcher component properly 1`] = `
   
   </style>
   <div>
-    <details
-      class="dropdown"
+    <div
+      class="dropdown dropdown-end"
       id="chain-dropdown"
     >
-      <summary
-        class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-white text-primary border-none hover:bg-base-200 h-[50px] border border-sky-500 shadow-sm"
+      <div
+        class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-white text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"
+        role="button"
         tabindex="0"
       >
         <div
-          class="flex h-8 w-fit items-center"
+          class="flex items-center justify-center"
         >
           <div
-            class="h-8 w-8"
+            class="flex h-8 w-8 items-center justify-center"
           >
             <img
               alt="current chain"
@@ -48,7 +49,7 @@ exports[`ChainSwitcher > renders the ChainSwitcher component properly 1`] = `
               data-testid="icon"
               height="16"
               role="presentation"
-              style="width:12px; height:12px; cursor:pointer;  "
+              style="width:10px; height:10px; cursor:pointer;  "
               version="1.1"
               viewBox="0 0 1792 1792"
               width="16"
@@ -67,73 +68,10 @@ exports[`ChainSwitcher > renders the ChainSwitcher component properly 1`] = `
             <!--&lt;Icon&gt;-->
           </div>
         </div>
-      </summary>
+      </div>
        
-      <ul
-        class="menu dropdown-content rounded-box z-[1] mt-4 w-52 bg-base-100 p-2 shadow"
-        tabindex="0"
-      >
-        <li
-          class="flex rounded-lg bg-primary text-white"
-        >
-          <button>
-            <div
-              class="h-6 w-6 rounded-full ring-1 ring-white"
-            >
-              <img
-                alt="Chain Logo"
-                src="/images/arbitrum.webp"
-              />
-            </div>
-             
-            Arbitrum Sepolia
-          </button>
-           
-        </li>
-      </ul>
-    </details>
+    </div>
     <!--&lt;ChainSwitcher&gt;-->
-  </div>
-</body>
-`;
-
-exports[`ConnectWalletButton > renders the ConnectWalletButton component properly 1`] = `
-<body>
-  <onboard-v2
-    style="all: initial;"
-  />
-  <style>
-    
-    
-@font-face {
-  font-family: 'Inter';
-  font-style:  normal;
-  font-weight: 300 600;
-  font-display: swap;
-  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
-}
-
-  
-  </style>
-  <div>
-    <a
-      href="/"
-    >
-      <img
-        alt="Marlin Logo"
-        class="hidden sm:block"
-        src="/logo/logo-name.svg"
-        width="140"
-      />
-       
-      <img
-        alt="Marlin Logo"
-        class="block sm:hidden"
-        src="/logo/marlin-logo.svg"
-        width="40"
-      />
-    </a>
-    <!--&lt;HeaderLogo&gt;-->
   </div>
 </body>
 `;
@@ -169,44 +107,39 @@ exports[`Disconnect Wallet Modal > renders the Disconnect Wallet Modal component
       data-testid="modal"
     >
       <div
-        class="w-11/12 sm:w-3/4 sm:max-w-[607px] modal-box rounded-lg bg-base-100 px-0 py-0 shadow-none s-GZwqZrPaBy6h"
+        class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
       >
         <div
-          class="modal-header sticky top-0 z-10 flex items-center bg-white px-6 pb-4 pt-8 s-GZwqZrPaBy6h"
+          class="modal-header sticky top-0 z-10 flex items-center justify-between bg-[#FCFCFC] px-6 pt-6 s-GZwqZrPaBy6h"
         >
           <div
             class="flex w-full flex-col s-GZwqZrPaBy6h"
           >
              
-            <div
-              class="text-left text-[15px] font-medium text-[#0a0e3099] s-GZwqZrPaBy6h"
-            />
+             
              
             <div
-              class="text-left text-2xl font-bold s-GZwqZrPaBy6h"
+              class="text-left text-[22px] font-medium tracking-[-1px] s-GZwqZrPaBy6h"
             >
               Your wallet
             </div>
              
-            <div
-              class="mt-1 text-left text-[15px] font-medium text-[#767676] s-GZwqZrPaBy6h"
-            />
           </div>
            
           <button
-            class="flex h-12 min-w-[3rem] cursor-pointer items-center justify-center self-start text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+            class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
             data-testid="modal-close-button"
           >
             <img
               alt="Close"
               class="s-GZwqZrPaBy6h"
-              src="/images/close-circle-icon.svg"
+              src="/images/closeIcon.svg"
             />
           </button>
         </div>
          
         <div
-          class="modal-body  px-6 pb-4 pt-2 s-GZwqZrPaBy6h"
+          class="modal-body px-6 pt-4 s-GZwqZrPaBy6h"
         >
           <div
             class="mb-4 rounded-lg bg-base-200 p-4 text-left"
@@ -217,13 +150,13 @@ exports[`Disconnect Wallet Modal > renders the Disconnect Wallet Modal component
               My Address
 				
               <div
-                class="tooltip flex shrink-0 text-left font-normal ml-1 tooltip-secondary tooltip-right"
+                class="tooltip ml-[14px] flex shrink-0 text-left font-normal ml-1 tooltip-secondary tooltip-right"
                 data-testid="tooltip-icon"
                 data-tip="Connected wallet address"
               >
                 <img
                   alt="Info"
-                  src="/images/alert.svg"
+                  src="/images/alertV2Icon.svg"
                   width="14px"
                 />
               </div>
@@ -245,11 +178,9 @@ exports[`Disconnect Wallet Modal > renders the Disconnect Wallet Modal component
               >
                 <img
                   alt="Copy"
-                  class="grey-img s-jqivLxfXFImT"
-                  src="/images/copy-btn.svg"
-                  width="14"
+                  src="/images/copyIconNew.svg"
+                  width="18"
                 />
-                <!--&lt;ImageColored&gt;-->
               </button>
             </div>
           </div>
@@ -258,7 +189,7 @@ exports[`Disconnect Wallet Modal > renders the Disconnect Wallet Modal component
             class="flex flex-wrap gap-4"
           >
             <button
-              class="font-medium gap-3 h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
+              class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3"
             >
                
               <span
@@ -273,7 +204,7 @@ exports[`Disconnect Wallet Modal > renders the Disconnect Wallet Modal component
             <!--&lt;AddTokenPrompt&gt;-->
              
             <button
-              class="font-medium gap-3 h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
+              class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3"
             >
                
               <span
@@ -282,7 +213,7 @@ exports[`Disconnect Wallet Modal > renders the Disconnect Wallet Modal component
                 +
               </span>
                Add 
-              MPOND
+              MPond
             </button>
             <!--&lt;Button&gt;-->
             <!--&lt;AddTokenPrompt&gt;-->
@@ -293,7 +224,7 @@ exports[`Disconnect Wallet Modal > renders the Disconnect Wallet Modal component
               target="_blank"
             >
               <button
-                class="font-medium gap-3  flex-nowrap h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed bg-base-200 text-primary border-none hover:bg-base-300 gap-1.5"
+                class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3 flex-nowrap"
               >
                  
                 <img
@@ -309,103 +240,21 @@ exports[`Disconnect Wallet Modal > renders the Disconnect Wallet Modal component
         </div>
          
         <div
-          class="modal-footer sticky bottom-0 bg-white mb-6 mt-4 px-6 s-GZwqZrPaBy6h"
+          class="modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
         >
           <button
-            class="w-full font-semibold text-base h-14 text-base font-semibold btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white gap-1.5"
+            class="gap-1.5 h-14 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full font-semibold text-base"
           >
              
             LOGOUT
           </button>
           <!--&lt;Button&gt;-->
         </div>
+         
       </div>
     </div>
     <!--&lt;Modal&gt;-->
     <!--&lt;DisconnectWalletModal&gt;-->
-  </div>
-</body>
-`;
-
-exports[`HeaderLogo > renders the HeaderLogo component properly 1`] = `
-<body>
-  <onboard-v2
-    style="all: initial;"
-  />
-  <style>
-    
-    
-@font-face {
-  font-family: 'Inter';
-  font-style:  normal;
-  font-weight: 300 600;
-  font-display: swap;
-  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
-}
-
-  
-  </style>
-  <div>
-    <a
-      href="/"
-    >
-      <img
-        alt="Marlin Logo"
-        class="hidden sm:block"
-        src="/logo/logo-name.svg"
-        width="140"
-      />
-       
-      <img
-        alt="Marlin Logo"
-        class="block sm:hidden"
-        src="/logo/marlin-logo.svg"
-        width="40"
-      />
-    </a>
-    <!--&lt;HeaderLogo&gt;-->
-  </div>
-</body>
-`;
-
-exports[`WalletCard > renders the WalletCard component properly 1`] = `
-<body>
-  <onboard-v2
-    style="all: initial;"
-  />
-  <style>
-    
-    
-@font-face {
-  font-family: 'Inter';
-  font-style:  normal;
-  font-weight: 300 600;
-  font-display: swap;
-  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
-}
-
-  
-  </style>
-  <div>
-    <div
-      class="flex w-1/2 flex-col items-center overflow-hidden rounded-lg bg-base-200 p-4"
-    >
-      <img
-        alt="small card"
-        src="example.png"
-        width="64px"
-      />
-       
-      <div
-        class="mt-4 mb-6 font-semibold font-sans text-xl font-bold"
-        data-testid="text"
-      >
-        small card
-      </div>
-      <!--&lt;Text&gt;-->
-       
-    </div>
-    <!--&lt;WalletCard&gt;-->
   </div>
 </body>
 `;

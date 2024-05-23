@@ -34,20 +34,20 @@ describe('ChainSwitcher', () => {
 		expect(container).toMatchSnapshot();
 	});
 
-	it('displays correct the chain image', async () => {
+	it('displays the correct chain image', async () => {
 		chainStore.mockSetSubscribeValue({
 			chainDisplayName: '',
 			chainId: 43,
-			chainImage: '/src/example.png',
+			chainImage: '/images/arbitrum.webp',
 			chainName: '',
 			isValidChain: true
 		});
-		const { getByAltText } = render(ChainSwitcher);
-		expect(getByAltText('current chain').getAttribute('src')).toBe('/src/example.png');
-	});
 
-	it("render's the dark mode classes", async () => {
-		const { container } = render(ChainSwitcher, { props: { isDark: true } });
-		expect(container).toMatchSnapshot();
+		const { getByAltText, findByRole } = render(ChainSwitcher);
+		const button = await findByRole('button');
+		await button.click(); // Wait for the button and then click it
+
+		const chainLogo = getByAltText('Chain Logo');
+		expect(chainLogo.getAttribute('src')).toBe('/images/arbitrum.webp');
 	});
 });

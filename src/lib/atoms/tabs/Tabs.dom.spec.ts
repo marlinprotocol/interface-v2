@@ -18,13 +18,11 @@ describe('Tabs', () => {
 	});
 
 	it('renders the tab with slot', () => {
-		const { getByTestId, getByText } = render(
-			html`<${Tab} id="tab_test" ><div id="tab-slot">Tab</div></${Tab}>`
-		);
+		const { getByTestId } = render(html`<${Tab} id="tab_test">Tab</${Tab}>`);
 		const tabElement = getByTestId('tab');
+		expect(tabElement).toBeTruthy();
 		expect(tabElement.childNodes).toHaveLength(1);
 		expect((tabElement.firstChild as Element)?.id === 'tab_test-tabhead').toBe(true);
-		expect(getByText('Tab').id === 'tab-slot').toBeTruthy();
 	});
 
 	it('renders the tab and verifies it using getByTestId & getByRole ', () => {
@@ -34,11 +32,11 @@ describe('Tabs', () => {
 
 	it('renders the tab with all atributes', () => {
 		const { getByTestId } = render(Tab, {
-			props: { buttonClass: 'primary-class', liClass: 'list', id: 'tab_test' }
+			props: { liClass: 'list', id: 'tab_test' }
 		});
 		const tabElement = getByTestId('tab');
 		expect(tabElement.classList.contains('list')).toBeTruthy();
-		expect((tabElement.firstChild as Element)?.classList.contains('primary-class')).toBe(true);
+		expect((tabElement.firstChild as Element).classList.contains('bg-white')).toBe(true);
 	});
 
 	it('renders the default tabs', () => {

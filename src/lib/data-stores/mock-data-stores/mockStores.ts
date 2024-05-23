@@ -60,3 +60,10 @@ export const toastsStore = {
 	mockSetSubscribeValue: (value: ToastModel[]): void => toastsValue.set(value),
 	dismissToast: vi.fn()
 };
+
+export const page = {
+	subscribe: vi.fn().mockImplementation((callback) => {
+		callback({ url: { pathname: '/mock-path' } });
+		return vi.fn();
+	})
+};

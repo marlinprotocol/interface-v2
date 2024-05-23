@@ -6,7 +6,7 @@ exports[`AmountInput > renders with correct attributes 1`] = `
     <input
       autocomplete="off"
       class="hideInputNumberAppearance test-class"
-      id="pond-input-amount"
+      id="pond-input-amount-"
       placeholder="0.00"
     />
     <!--&lt;AmountInput&gt;-->

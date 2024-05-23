@@ -1,3 +1,6 @@
-<div class="px-4 pb-4 pt-10 lg:px-0" data-testid="page-wrapper">
+<div
+	class="flex max-h-[calc(100dvh-5rem)] w-full items-start justify-start overflow-auto px-7 py-8"
+	data-testid="page-wrapper"
+>
 	<slot />
 </div>

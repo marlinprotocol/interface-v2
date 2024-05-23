@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
-	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
+	import { tableClasses } from '$lib/atoms/componentClasses';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
@@ -9,7 +8,8 @@
 	import {
 		bigNumberToString,
 		epochSecToString,
-		epochToDurationString
+		epochToDurationString,
+		epochToDurationStringLong
 	} from '$lib/utils/helpers/conversionHelper';
 
 	export let rowData: OysterInventoryDataModel;
@@ -26,56 +26,36 @@
 	} = rowData);
 </script>
 
-<tr class="main-row hover:bg-base-200">
-	<td class={tableCellClasses.row}>
-		<NameWithAddress {address} {name} {rowIndex}>
-			<svelte:fragment slot="copyIcon">
-				<div class="copy-icon cursor-pointer">
-					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
-				</div>
-			</svelte:fragment>
-		</NameWithAddress>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{instance ?? 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{region ?? 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{epochSecToString(createdAt)}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{epochSecToString(endEpochTime)}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={epochToDurationString(durationRun)}>
-			{epochToDurationString(durationRun, true)}
-		</Tooltip>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
-			totalDeposit,
-			$oysterTokenMetadataStore.decimal
-		)}
-	</td>
-</tr>
-
-<style>
-	/* TODO: migrate these classes to tailwind and then refactor the copy to clipboard functionality */
-	/* show icon only on hover on table-row */
-	.main-row {
-		border-bottom: 1px solid #e5e5e5;
-	}
-
-	.main-row:last-child {
-		border-bottom: none;
-	}
-
-	.main-row:hover .copy-icon {
-		display: flex;
-	}
-	.main-row .copy-icon {
-		display: none;
-	}
-</style>
+<td class={tableClasses.cell}>
+	<NameWithAddress {address} {name} {rowIndex}>
+		<svelte:fragment slot="copyIcon">
+			<div class="hidden cursor-pointer group-hover:flex">
+				<img src={staticImages.copyIcon} alt="Copy" />
+			</div>
+		</svelte:fragment>
+	</NameWithAddress>
+</td>
+<td class={tableClasses.cell}>
+	{instance ?? 'N/A'}
+</td>
+<td class={tableClasses.cell}>
+	{region ?? 'N/A'}
+</td>
+<td class={tableClasses.cell}>
+	{epochSecToString(createdAt)}
+</td>
+<td class={tableClasses.cell}>
+	{epochSecToString(endEpochTime)}
+</td>
+<td class={tableClasses.cell}>
+	<Tooltip>
+		<span slot="tooltipContent">{epochToDurationStringLong(durationRun)}</span>
+		<span slot="tooltipIcon">{epochToDurationString(durationRun, true)}</span>
+	</Tooltip>
+</td>
+<td class={tableClasses.cell}>
+	{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+		totalDeposit,
+		$oysterTokenMetadataStore.decimal
+	)}
+</td>

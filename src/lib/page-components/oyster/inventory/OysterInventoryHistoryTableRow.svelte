@@ -1,18 +1,21 @@
 <script lang="ts">
-	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import type { CommonVariant } from '$lib/types/componentTypes';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
-	import { bigNumberToString, epochToDurationString } from '$lib/utils/helpers/conversionHelper';
+	import {
+		bigNumberToString,
+		epochToDurationString,
+		epochToDurationStringLong
+	} from '$lib/utils/helpers/conversionHelper';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
-	import CreateOrderModal from '$lib/page-components/oyster/inventory/modals/CreateOrderModal.svelte';
-	import PastJobDetailsModal from '$lib/page-components/oyster/inventory/modals/PastJobDetailsModal.svelte';
-	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
+	import { getColorHexByVariantForTag } from '$lib/utils/helpers/componentHelper';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
+	import PastJobDetailsModal from './modals/PastJobDetailsModal.svelte';
+	import CreateOrderModal from './modals/CreateOrderModal.svelte';
+	import { tableClasses } from '$lib/atoms/componentClasses';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -29,78 +32,65 @@
 		endEpochTime,
 		isCreditJob
 	} = rowData);
-	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
+	$: statusColor = getColorHexByVariantForTag(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
-<tr class="main-row hover:bg-base-200">
-	<td class={tableCellClasses.row}>
-		<NameWithAddress {name} {address} {rowIndex} {isCreditJob}>
-			<svelte:fragment slot="copyIcon">
-				<div class="copy-icon cursor-pointer">
-					<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
-				</div>
-			</svelte:fragment>
-		</NameWithAddress>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{instance ?? 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{region ?? 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
-			totalDeposit,
-			$oysterTokenMetadataStore.decimal
-		)}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{$oysterTokenMetadataStore.symbol}{bigNumberToString(
-			amountUsed,
-			$oysterTokenMetadataStore.decimal
-		)}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{$oysterTokenMetadataStore.symbol}{bigNumberToString(refund, $oysterTokenMetadataStore.decimal)}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={epochToDurationString(endEpochTime - createdAt)}>
+<td class={tableClasses.cell}>
+	<NameWithAddress {name} {address}>
+		<svelte:fragment slot="copyIcon">
+			<div
+				class="invisible cursor-pointer opacity-0 group-hover/row:visible group-hover/row:opacity-100"
+			>
+				<img src={staticImages.copyIcon} alt="Copy" />
+			</div>
+		</svelte:fragment>
+	</NameWithAddress>
+</td>
+
+<td class={tableClasses.cell}>
+	{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+		amountUsed,
+		$oysterTokenMetadataStore.decimal
+	)}
+</td>
+<td class={tableClasses.cell}>
+	{$oysterTokenMetadataStore.symbol}{bigNumberToString(refund, $oysterTokenMetadataStore.decimal)}
+</td>
+<td class={tableClasses.cell}>
+	<Tooltip>
+		<div slot="tooltipIcon">
 			{epochToDurationString(endEpochTime - createdAt, true)}
-		</Tooltip>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<div
-			class="mx-auto w-24 rounded py-1 text-sm capitalize text-white"
-			style="background-color: {statusColor}"
-		>
-			{status}
 		</div>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<ModalButton
-			variant="tableConvertButton"
-			styleClass="w-fit ml-4 mr-6"
-			modalFor="job-history-details-{rowIndex}">DETAILS</ModalButton
-		>
-	</td>
-</tr>
+		<span class="font-normal" slot="tooltipContent">
+			{epochToDurationStringLong(endEpochTime - createdAt)}
+		</span>
+	</Tooltip>
+</td>
+<td class={tableClasses.cell}>
+	<div
+		class="w-[142px] rounded-full px-[31.5px] py-[10.5px] text-center text-sm capitalize text-[#030115]"
+		style="background-color: {statusColor}"
+	>
+		{status}
+	</div>
+</td>
+<td class={tableClasses.cell}>
+	<ModalButton
+		variant="text"
+		styleClass="w-fit ml-4 mr-6"
+		modalFor="job-history-details-{rowIndex}"
+	>
+		<Tooltip>
+			<div slot="tooltipIcon" class="rounded-full border border-[#D9DADE] p-3">
+				<img src={staticImages.infoV2Icon} alt="Info Icon" />
+			</div>
+			<span class="font-normal" slot="tooltipContent">Order Details</span>
+		</Tooltip>
+	</ModalButton>
+</td>
 <PastJobDetailsModal modalFor="job-history-details-{rowIndex}" jobData={rowData} {rowIndex} />
-<CreateOrderModal modalFor="create-order-modal-{rowIndex}" preFilledData={rowData} />
-
-<style>
-	/* TODO: migrate these classes to tailwind and then refactor the copy to clipboard functionality */
-	.main-row {
-		border-bottom: 1px solid #e5e5e5;
-	}
-
-	.main-row:last-child {
-		border-bottom: none;
-	}
-
-	.main-row:hover .copy-icon {
-		display: flex;
-	}
-	.main-row .copy-icon {
-		display: none;
-	}
-</style>
+<CreateOrderModal
+	modalFor="create-order-modal-{rowIndex}"
+	bind:preFilledData={rowData}
+	isRedeploy
+/>

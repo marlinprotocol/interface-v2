@@ -5,7 +5,12 @@
 		getOysterJobsFromSubgraph,
 		getOysterJobsFromSubgraphById
 	} from '$lib/controllers/subgraphController';
-	import { chainIdHasChanged, chainStore } from '$lib/data-stores/chainProviderStore';
+	import {
+		allowedChainsStore,
+		chainConfigStore,
+		chainIdHasChanged,
+		chainStore
+	} from '$lib/data-stores/chainProviderStore';
 	import {
 		oysterLocalStorageStore,
 		removeJobFromOysterLocalStorageStore
@@ -60,24 +65,29 @@
 	async function loadOysterInventoryData() {
 		console.log('Loading oyster inventory data');
 		setInventoryDataLoadedInOysterStore(false);
-		// get job ids of credit jobs for this wallet from the subgraph
-		const oysterCreditJobsFromSubgraph = await getOysterCreditJobsFromSubgraph(
-			$walletStore.address
-		);
-		const creditJobIdsFromSubgraph = oysterCreditJobsFromSubgraph.map((job: any) => job.jobId);
+		let creditJobsWithFlags: OysterInventoryDataModel[] = [];
 
-		// get oyster jobs by wallet address, and using the job ids from the credit jobs
-		const [oysterJobsFromSubgraph, jobStatuses, oysterJobsByIdFromSubgraph] = await Promise.all([
+		if ($chainConfigStore.subgraph_urls.OYSTER_CREDIT !== '') {
+			// get job ids of credit jobs for this wallet from the subgraph
+			const oysterCreditJobsFromSubgraph = await getOysterCreditJobsFromSubgraph(
+				$walletStore.address
+			);
+			const creditJobIdsFromSubgraph = oysterCreditJobsFromSubgraph.map((job: any) => job.jobId);
+			// get oyster jobs using the job ids from the credit jobs
+			const oysterJobsByIdFromSubgraph =
+				await getOysterJobsFromSubgraphById(creditJobIdsFromSubgraph);
+			// add a flag for credit jobs
+			creditJobsWithFlags = oysterJobsByIdFromSubgraph.map((job: any) => {
+				job.isCreditJob = true;
+				return job;
+			});
+		}
+
+		// get oyster jobs by wallet address
+		const [oysterJobsFromSubgraph, jobStatuses] = await Promise.all([
 			getOysterJobsFromSubgraph($walletStore.address),
-			getJobStatuses($walletStore.address),
-			getOysterJobsFromSubgraphById(creditJobIdsFromSubgraph)
+			getJobStatuses($walletStore.address)
 		]);
-
-		// add a flag for credit jobs
-		const creditJobsWithFlags = oysterJobsByIdFromSubgraph.map((job: any) => {
-			job.isCreditJob = true;
-			return job;
-		});
 
 		// combine the two arrays of oyster jobs
 		const allOysterJobsFromSubgraph = oysterJobsFromSubgraph.concat(creditJobsWithFlags);
@@ -109,7 +119,10 @@
 		console.log('Oyster inventory data is loaded');
 	}
 
-	$: if ($connected) {
+	$: chainSupported = $chainStore.chainId
+		? $allowedChainsStore.includes($chainStore.chainId)
+		: true;
+	$: if ($connected && chainSupported) {
 		if (
 			walletAddressHasChanged($walletStore.address, previousWalletAddress) ||
 			chainIdHasChanged($chainStore.chainId, previousChainId)
@@ -125,4 +138,6 @@
 	}
 </script>
 
-<slot />
+<div class="w-full">
+	<slot />
+</div>

@@ -1,8 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
@@ -20,7 +18,11 @@
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import PondApproveConfirmModal from '$lib/page-components/bridge/PondApproveConfirmModal.svelte';
+	import Tab from '$lib/atoms/tabs/Tab.svelte';
+	import ConversionHistoryButton from './sub-components/ConversionHistoryButton.svelte';
+	import { ROUTES } from '$lib/utils/constants/urls';
 
+	export let activeTabValue = 'pond';
 	let modalFor = 'pond-approve-confirm-modal';
 	//initial amount states
 	let inputAmount: bigint;
@@ -34,7 +36,7 @@
 
 	const handleMaxClick = () => {
 		if ($walletBalanceStore.pond) {
-			inputAmountString = bigNumberToString($walletBalanceStore.pond, 18, 18, false);
+			inputAmountString = bigNumberToString($walletBalanceStore.pond, 18, POND_PRECISIONS, false);
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
 			inValidMessage = '';
@@ -59,6 +61,11 @@
 		DEFAULT_CURRENCY_DECIMALS,
 		POND_PRECISIONS
 	)}`;
+	$: mpondBalanceText = `Balance: ${bigNumberToString(
+		$walletBalanceStore.mpond,
+		DEFAULT_CURRENCY_DECIMALS,
+		MPOND_PRECISIONS
+	)}`;
 	$: pondDisabledText =
 		inputAmount && inputAmount > 0 && !($walletBalanceStore.pond >= inputAmount)
 			? 'Insufficient POND'
@@ -66,42 +73,41 @@
 	$: enableConversion = inputAmount && inputAmount > 0 && $walletBalanceStore.pond >= inputAmount;
 </script>
 
-<div class="mx-2 my-2">
-	<AmountInputWithMaxButton
-		title="From"
-		bind:inputAmountString
-		{handleUpdatedAmount}
-		maxAmountText={balanceText}
-		inputCardVariant="none"
-	>
-		<Text slot="input-end-button" text="POND" fontWeight="font-medium" />
-		<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
-	</AmountInputWithMaxButton>
-	<ErrorTextCard
-		showError={!inputAmountIsValid && updatedAmountInputDirty}
-		errorMessage={inValidMessage}
-	/>
-	<ErrorTextCard showError={!!pondDisabledText} errorMessage={pondDisabledText} />
-	<Divider margin="mt-2 mb-3" />
-	<AmountInputWithMaxButton
-		title="To"
-		inputCardVariant="none"
-		inputAmountString={convertedAmountString}
-	>
-		<Text slot="input-end-button" text="MPond" fontWeight="font-medium" />
-	</AmountInputWithMaxButton>
-</div>
+<AmountInputWithMaxButton
+	currency="POND"
+	bind:inputAmountString
+	{handleUpdatedAmount}
+	maxAmountText={balanceText}
+	inputCardVariant="none"
+>
+	<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
+</AmountInputWithMaxButton>
+<Tab id="pond" on:click={() => (activeTabValue = 'mPond')}>MPond</Tab>
+<AmountInputWithMaxButton
+	currency="MPond"
+	inputCardVariant="none"
+	inputAmountString={convertedAmountString}
+	maxAmountText={mpondBalanceText}
+></AmountInputWithMaxButton>
 {#if $connected}
 	{#if !enableConversion}
-		<Button styleClass="h-14 text-base font-semibold flex gap-1 w-full" disabled
-			>PROCEED TO CONVERSION</Button
+		<Button styleClass="h-14 text-base font-medium flex gap-1 w-full mt-4" disabled
+			>Proceed to conversion</Button
 		>
 	{:else}
-		<ModalButton {modalFor} styleClass="h-14 text-base font-semibold flex gap-1 w-full"
-			>PROCEED TO CONVERSION</ModalButton
+		<ModalButton {modalFor} styleClass="h-14 text-base font-medium flex gap-1 w-full mt-4"
+			>Proceed to conversion</ModalButton
 		>
 	{/if}
 {:else}
-	<ConnectWalletButton isLarge={true} />
+	<ConnectWalletButton styleClass="mt-4" isLarge={true} />
 {/if}
+<a class="mt-4 block" href={ROUTES.POND_HISTORY_PAGE_URL}>
+	<ConversionHistoryButton firstText="POND" secondText="MPond" />
+</a>
+<ErrorTextCard
+	showError={!inputAmountIsValid && updatedAmountInputDirty}
+	errorMessage={inValidMessage}
+/>
+<ErrorTextCard showError={!!pondDisabledText} errorMessage={pondDisabledText} />
 <PondApproveConfirmModal pond={inputAmount} {modalFor} />

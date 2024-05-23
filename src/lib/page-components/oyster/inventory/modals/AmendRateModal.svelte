@@ -13,7 +13,7 @@
 		epochToDurationString,
 		stringToBigNumber
 	} from '$lib/utils/helpers/conversionHelper';
-	import { bigIntAbs, closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import { closeModal, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import {
 		handleCreditJobRateReviseCancel,
 		handleFinaliseCreditJobRateRevise,
@@ -77,12 +77,8 @@
 		closeModal(modalFor);
 	};
 
-	const onFocusOut = () => {
-		if (inputAmountString !== '' && difference < 3600n && inputRate >= rate) {
-			showPrecisionError = true;
-		} else {
-			showPrecisionError = false;
-		}
+	const onClose = () => {
+		inputAmountString = '';
 	};
 
 	$: ({
@@ -92,19 +88,20 @@
 	} = jobData);
 	$: modalTitle =
 		rateStatus === ''
-			? 'INITIATE RATE REVISE'
+			? 'Initiate Rate Revise'
 			: rateStatus === 'completed'
-				? 'CONFIRM RATE REVISE'
-				: 'INITIATED RATE REVISE';
+				? 'Confirm Rate Revise'
+				: 'Initiate Rate Revise';
 	$: inputRate = isInputAmountValid(inputAmountString)
 		? convertHourlyRateToSecondlyRate(
 				stringToBigNumber(inputAmountString, $oysterTokenMetadataStore.decimal) *
 					$oysterRateMetadataStore.oysterRateScalingFactor
 			)
 		: 0n;
-	$: difference = bigIntAbs(rate - inputRate);
-	$: submitButtonText = rateStatus === '' ? 'INITIATE RATE REVISE' : 'CONFIRM RATE REVISE';
+	$: submitButtonText = rateStatus === '' ? 'Initiate rate revise' : 'Confirm rate revise';
 	$: submitButtonAction = rateStatus === '' ? handleInitiateClick : handleConfirmClick;
+	$: currentHourlyRate = convertRateToPerHourString(rate, $oysterTokenMetadataStore.decimal);
+	$: newHRlessThancurrentHR = inputAmountString !== '' && currentHourlyRate > inputAmountString;
 	$: submitEnable =
 		(inputRate > 0n || newRate > 0n) &&
 		!showPrecisionError &&
@@ -113,32 +110,29 @@
 		rateStatus !== 'pending';
 </script>
 
-<Modal {modalFor}>
+<Modal {modalFor} {onClose}>
 	<svelte:fragment slot="title">
 		{modalTitle}
 	</svelte:fragment>
-	<svelte:fragment slot="subtitle">
-		You're about to revise the hourly rate for this job.
-	</svelte:fragment>
+
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-4">
 			<div class="flex gap-4">
 				<AmountInputWithTitle
-					title="Current Hourly Rate"
-					inputAmountString={convertRateToPerHourString(rate, $oysterTokenMetadataStore.decimal)}
+					title="Current hourly rate"
+					inputAmountString={currentHourlyRate}
 					disabled
 					prefix={$oysterTokenMetadataStore.symbol}
 				/>
 				{#if rateStatus === ''}
 					<AmountInputWithTitle
-						title="New Hourly Rate"
+						title="New hourly rate"
 						bind:inputAmountString
 						prefix={$oysterTokenMetadataStore.symbol}
-						{onFocusOut}
 					/>
 				{:else}
 					<AmountInputWithTitle
-						title="New Hourly Rate"
+						title="New hourly rate"
 						inputAmountString={convertRateToPerHourString(
 							(newRate + ($oysterRateMetadataStore.oysterRateScalingFactor - BigInt(1))) /
 								$oysterRateMetadataStore.oysterRateScalingFactor,
@@ -169,10 +163,13 @@
 				</div>
 			{/if}
 		</div>
+
 		<ErrorTextCard
 			styleClass="mt-4"
-			showError={showPrecisionError}
-			errorMessage="Please change the rate by a minimum of 0.001 USDC"
+			showError={newHRlessThancurrentHR || showPrecisionError}
+			errorMessage={newHRlessThancurrentHR
+				? 'Rate revision is less than the current hourly rate'
+				: 'Please change the rate by a minimum of 0.001 USDC'}
 		/>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
@@ -186,7 +183,7 @@
 						size="large"
 						styleClass="btn-block w-full my-0"
 					>
-						CANCEL
+						Cancel
 					</Button>
 				</div>
 			{/if}

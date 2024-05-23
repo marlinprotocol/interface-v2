@@ -1,14 +1,12 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
 	import SuccessfulConversionModal from '$lib/page-components/bridge/modals/SuccessfulConversionModal.svelte';
 	import { DEFAULT_CURRENCY_DECIMALS } from '$lib/utils/constants/constants';
 	import { bigNumberToString, mPondToPond, pondToMPond } from '$lib/utils/helpers/conversionHelper';
-	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
+	import { closeModal, cn, openModal } from '$lib/utils/helpers/commonHelper';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import LoadingAnimationModal from '$lib/components/loading/LoadingAnimationModal.svelte';
-	import { getAmountPrecision } from '$lib/utils/helpers/bridgeHelpers';
+	import { removeTrailingZeros } from '$lib/utils/helpers/commonHelper';
 
 	export let handleApproveClick: () => Promise<void>;
 	export let handleConfirmClick: () => Promise<void>;
@@ -51,15 +49,15 @@
 	};
 	// const modalWidth = 'max-w-[500px]';
 
-	$: amountConvertedFrom = bigNumberToString(
-		amountConverted,
-		DEFAULT_CURRENCY_DECIMALS,
-		getAmountPrecision(conversionFrom)
+	$: amountConvertedFrom = removeTrailingZeros(
+		bigNumberToString(amountConverted, DEFAULT_CURRENCY_DECIMALS, 18)
 	);
-	$: amountConvertedTo = bigNumberToString(
-		conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted),
-		DEFAULT_CURRENCY_DECIMALS,
-		getAmountPrecision(conversionFrom === 'pond' ? 'mPond' : 'pond')
+	$: amountConvertedTo = removeTrailingZeros(
+		bigNumberToString(
+			conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted),
+			DEFAULT_CURRENCY_DECIMALS,
+			18
+		)
 	);
 	$: conversionFromText = conversionFrom === 'pond' ? 'POND' : 'MPond';
 	$: conversionToText = conversionFrom === 'pond' ? 'MPond' : 'POND';
@@ -71,40 +69,58 @@
 		{!approved ? 'Approve Transaction' : 'Confirm Transaction'}
 	</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex h-[50px] gap-5">
+		<div class="mb-2 flex h-20 items-center gap-3 rounded-xl bg-[#F7F7F7] p-3 font-poppins">
 			<div class="flex flex-col items-center">
-				{#if approved}
-					<img src={staticImages.Check} alt="Copy" width="20px" height="20px" />
-				{:else}
-					<LoadingAnimationModal loading={true}>
-						<Text variant="small" styleClass="font-semibold" text="1" />
-					</LoadingAnimationModal>
-				{/if}
-				{#if approved}
-					<div class="h-full w-[0.1px] bg-grey-400" />
-				{/if}
+				<div
+					class={cn(
+						'flex h-14 w-14 items-center justify-center rounded-full text-xl font-semibold text-white',
+						{
+							'bg-[#68A843]': approved,
+							'bg-[#EDBE59]': !approved
+						}
+					)}
+				>
+					{#if approved}
+						<img src={staticImages.checkmark} alt="checkmark" width="25px" height="25px" />
+					{:else}
+						1
+					{/if}
+				</div>
 			</div>
-			<div class="grow text-left font-normal text-grey-500">
+			<div class="grow text-left text-xl font-normal text-[#030115]">
 				Approve
-				<span class="font-semibold text-black">
+				<span class="font-semibold">
 					{amountConvertedFrom}
 					{conversionFromText}
 				</span>
 				for conversion
 			</div>
 		</div>
-		<div class="flex gap-5">
-			<LoadingAnimationModal loading={confirmLoading}>
-				<Text variant="small" styleClass="font-semibold" text="2" />
-			</LoadingAnimationModal>
-			<div class="grow text-left font-normal {approved ? 'text-grey-500' : 'text-grey-300'}">
+		<div
+			class={cn('flex h-20 items-center gap-3 rounded-xl p-3 font-poppins', {
+				'bg-[#F7F7F7]': approved,
+				'border border-[#D9DADE]': !approved
+			})}
+		>
+			<div
+				class={cn(
+					'flex h-14 w-14 items-center justify-center rounded-full text-xl font-semibold text-white',
+					{
+						'bg-[#EDBE59]': approved,
+						'bg-[#F7F7F7] text-[#939393]': !approved
+					}
+				)}
+			>
+				2
+			</div>
+			<div class="grow text-left text-xl font-normal text-[#030115]">
 				Convert
-				<span class={approved ? 'font-semibold text-black' : 'font-semibold text-grey-300'}>
+				<span class="font-semibold">
 					{amountConvertedFrom}
 					{conversionFromText}
 				</span>
 				to
-				<span class={approved ? 'font-semibold text-black' : 'font-semibold text-grey-300'}>
+				<span class="font-semibold">
 					{amountConvertedTo}
 					{conversionToText}
 				</span>

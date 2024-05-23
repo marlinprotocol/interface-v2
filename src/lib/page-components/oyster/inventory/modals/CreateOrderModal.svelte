@@ -21,7 +21,6 @@
 	import AddFundsToJob from '$lib/page-components/oyster/sub-components/AddFundsToJob.svelte';
 	import MetadetailsForNewOrder from '$lib/page-components/oyster/sub-components/MetadetailsForNewOrder.svelte';
 	import BandwidthSelector from '$lib/page-components/oyster/sub-components/BandwidthSelector.svelte';
-	import { OYSTER_OWNER_INVENTORY_URL } from '$lib/utils/constants/urls';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { walletBalanceStore } from '$lib/data-stores/walletProviderStore';
@@ -29,12 +28,11 @@
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
 	import { chainStore } from '$lib/data-stores/chainProviderStore';
+	import { ROUTES } from '$lib/utils/constants/urls';
 
 	export let modalFor: string;
 	export let preFilledData: Partial<CreateOrderPreFilledModel> = {};
-
-	const subtitle =
-		'Create a new order for a new job. You can create a new job by selecting the operator, instance type, region, and enclave image URL, and then approve and add funds to the job.';
+	export let isRedeploy: boolean = false;
 
 	let duration = 0; //durationInSecs
 	let instanceCostScaled = 0n;
@@ -48,6 +46,8 @@
 	let memory = '';
 	let useMarlinCredits: boolean = false;
 	let notServiceable = false;
+	let bandwidth = '';
+
 	//loading state
 	let submitLoading = false;
 	//initial states
@@ -166,7 +166,7 @@
 		}
 		resetInputs();
 		closeModal(modalFor);
-		goto(OYSTER_OWNER_INVENTORY_URL);
+		goto(ROUTES.OYSTER_INVENTORY_URL);
 	};
 
 	const handleApproveClick = async () => {
@@ -198,7 +198,7 @@
 		enclaveImageUrl = {
 			...initialStates.enclaveImageUrl
 		};
-		enaclaveImageInputs = '';
+		bandwidth = '';
 	};
 
 	const handleMerchantChange = () => {
@@ -212,7 +212,7 @@
 		providerAddress,
 		instance.value,
 		region.value,
-		$oysterStore.allMarketplaceData
+		isRedeploy ? $oysterStore.jobsData : $oysterStore.allMarketplaceData
 	);
 	$: walletBalance =
 		$oysterStore.credits.isWhitelisted && useMarlinCredits
@@ -222,18 +222,10 @@
 				];
 
 	$: walletBalanceText = useMarlinCredits
-		? bigNumberToString(
-				walletBalance,
-				OYSTER_MARLIN_CREDIT_METADATA.decimal,
-				OYSTER_MARLIN_CREDIT_METADATA.precision
-			) +
+		? bigNumberToString(walletBalance, OYSTER_MARLIN_CREDIT_METADATA.decimal, 2) +
 			' ' +
 			OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]
-		: bigNumberToString(
-				walletBalance,
-				$oysterTokenMetadataStore.decimal,
-				$oysterTokenMetadataStore.precision
-			) +
+		: bigNumberToString(walletBalance, $oysterTokenMetadataStore.decimal, 2) +
 			' ' +
 			$oysterTokenMetadataStore.currency;
 	$: approved =
@@ -273,12 +265,10 @@
 </script>
 
 <Modal {modalFor} onClose={resetInputs} padding={false} isScrollable={true}>
-	<svelte:fragment slot="title">CREATE ORDER</svelte:fragment>
-	<svelte:fragment slot="subtitle">
-		{subtitle}
-	</svelte:fragment>
+	<svelte:fragment slot="title">Create Order</svelte:fragment>
+
 	<svelte:fragment slot="content">
-		<div class="flex flex-col gap-2 px-4">
+		<div class="flex flex-col gap-2">
 			<MetadetailsForNewOrder
 				bind:merchant
 				bind:instance
@@ -289,16 +279,18 @@
 				bind:memory
 				bind:notServiceable
 				bind:arch
-				allMarketplaceData={$oysterStore.allMarketplaceData}
+				allMarketplaceData={isRedeploy ? $oysterStore.jobsData : $oysterStore.allMarketplaceData}
 				handleChange={handleMerchantChange}
 			/>
 			<AddFundsToJob
+				containerClasses="my-4"
 				bind:instanceRate
 				bind:instanceCostScaled
 				bind:instanceCostString
 				bind:duration
 				bind:invalidCost
 				bind:useMarlinCredits
+				isRedeploy
 			/>
 			<BandwidthSelector
 				bind:region
@@ -308,16 +300,17 @@
 				bind:finalBandwidthRateScaled
 				bind:totalCostScaled
 				bind:useMarlinCredits
+				bind:bandwidth
 			/>
 			<TextInputWithEndButton
-				styleClass="px-4 py-2"
-				title="Enclave Image URL"
+				styleClass="px-4 py-3"
+				label="Enclave Image URL"
 				placeholder="Paste URL here"
 				bind:input={enclaveImageUrl.value}
 			/>
 			<TextInputWithEndButton
-				styleClass="px-4 py-2"
-				title="Enclave Inputs (Optional)"
+				styleClass="px-4 py-2 mt-4"
+				label="Enclave Inputs (Optional)"
 				placeholder="Paste enclave inputs here"
 				bind:input={enaclaveImageInputs}
 			/>
@@ -329,7 +322,7 @@
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<div class="flex items-center justify-between px-4 pt-2">
+		<div class="flex items-center justify-between">
 			<Text
 				variant="small"
 				id="wallet-credits"
@@ -349,7 +342,7 @@
 			</div>
 		</div>
 
-		<div class="px-4 py-2 pb-4">
+		<div class="mt-3">
 			{#if useMarlinCredits}
 				<Button
 					variant="filled"
@@ -359,7 +352,7 @@
 					size="large"
 					styleClass="btn-block w-full"
 				>
-					{'DEPLOY'}
+					{'Deploy'}
 				</Button>
 			{:else}
 				<Button
@@ -370,7 +363,7 @@
 					size="large"
 					styleClass="btn-block w-full"
 				>
-					{approved ? 'DEPLOY' : 'APPROVE'}
+					{approved ? 'Deploy' : 'Approve'}
 				</Button>
 			{/if}
 		</div>

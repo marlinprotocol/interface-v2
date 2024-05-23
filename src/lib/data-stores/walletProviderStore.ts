@@ -4,10 +4,6 @@ import {
 	DEFAULT_WALLET_BALANCE_STORE,
 	DEFAULT_WALLET_STORE
 } from '$lib/utils/constants/storeDefaults';
-import {
-	getMPondBalanceFromSubgraph,
-	getPondBalanceFromSubgraph
-} from '$lib/controllers/subgraphController';
 import onboard from '$lib/controllers/web3OnboardController';
 import type { WalletState } from '@web3-onboard/core';
 import type { BrowserProvider, ethers } from 'ethers';
@@ -126,24 +122,22 @@ export async function initializeWalletBalancesStore(
 		let balances = DEFAULT_WALLET_BALANCE_STORE;
 
 		if (tokens.includes('POND')) {
-			// get balance from subgraph if subgraph url is provided else get it from contract
-			if (chainConfig.subgraph_urls.POND !== '') {
-				const pondBalance = await getPondBalanceFromSubgraph(walletAddress);
-				balances = { ...balances, pond: pondBalance };
-			} else {
-				const pondBalance = await getBalanceOfToken(
-					walletAddress,
-					chainConfig.contract_addresses.POND,
-					walletProvider
-				);
-				balances = { ...balances, pond: pondBalance };
-			}
+			const pondBalance = await getBalanceOfToken(
+				walletAddress,
+				chainConfig.contract_addresses.POND,
+				walletProvider
+			);
+			balances = { ...balances, pond: pondBalance };
 		} else {
 			balances = { ...balances, pond: 0n };
 		}
 
 		if (tokens.includes('MPOND')) {
-			const mpondBalance = await getMPondBalanceFromSubgraph(walletAddress);
+			const mpondBalance = await getBalanceOfToken(
+				walletAddress,
+				chainConfig.contract_addresses.MPOND,
+				walletProvider
+			);
 			balances = { ...balances, mpond: mpondBalance };
 		} else {
 			balances = { ...balances, mpond: 0n };

@@ -4,7 +4,9 @@
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import onboard from '$lib/controllers/web3OnboardController';
 	import ChainSwitcher from '$lib/components/header/sub-components/ChainSwitcher.svelte';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
+	export let styleClass = '';
 	export let isLarge = false;
 	export let connectButtonText = 'Connect Wallet';
 
@@ -16,20 +18,22 @@
 </script>
 
 {#if isLarge}
-	<Button onclick={connect} styleClass="flex gap-[10.3px] w-full h-14 text-base font-semibold">
+	<Button
+		onclick={connect}
+		styleClass={cn('flex gap-[10.3px] w-full h-14 text-base font-semibold', styleClass)}
+	>
 		<Icon data={lock} size={20} iconColorClass="icon-white" />
 		Connect Wallet
 	</Button>
 {:else}
-	<div data-testid="connect-wallet-button" class="flex items-center gap-2">
+	<div data-testid="connect-wallet-button" class={cn('flex items-center gap-2', styleClass)}>
 		<ChainSwitcher />
 		<Button
 			onclick={connect}
 			size="small"
-			variant="outlined"
-			styleClass="flex gap-[10.3px] w-fit text-sm h-12 flex items-center"
+			variant="filled"
+			styleClass="flex gap-[10.3px] w-fit text-sm h-12 flex items-center cnt-btn"
 		>
-			<img src="/images/lockicon.svg" alt="Connect" />
 			{connectButtonText}
 		</Button>
 	</div>

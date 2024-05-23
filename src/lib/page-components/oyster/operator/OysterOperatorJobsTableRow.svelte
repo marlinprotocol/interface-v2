@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
-	import ImageColored from '$lib/atoms/images/ImageColored.svelte';
+	import { tableClasses } from '$lib/atoms/componentClasses';
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 
@@ -13,10 +12,12 @@
 		epochSecToString,
 		epochToDurationString
 	} from '$lib/utils/helpers/conversionHelper';
-	import { getColorHexByVariant } from '$lib/utils/helpers/componentHelper';
+	import { getColorHexByVariantForTag } from '$lib/utils/helpers/componentHelper';
 	import { getInventoryStatusVariant } from '$lib/utils/helpers/oysterHelpers';
 	import { handleClaimAmountFromOysterJob } from '$lib/utils/services/oysterServices';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
+	import { cn } from '$lib/utils/helpers/commonHelper';
+	import { OYSTER_MERCHANT_JOB_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -39,85 +40,105 @@
 		durationRun,
 		amountToBeSettled
 	} = rowData);
-	$: statusColor = getColorHexByVariant(getInventoryStatusVariant(status) as CommonVariant);
+	$: statusColor = getColorHexByVariantForTag(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
-<tr class="main-row hover:bg-base-200">
-	<td class={tableCellClasses.row}>
-		<NameWithAddress {address} {name} {rowIndex}>
-			<svelte:fragment slot="copyIcon">
-				<div class="w-4">
-					<div class="copy-icon cursor-pointer">
-						<ImageColored src={staticImages.CopyGrey} alt="Copy" variant="grey" />
-					</div>
+<td
+	class={cn(tableClasses.cell, {
+		'text-center': OYSTER_MERCHANT_JOB_TABLE_HEADER[0]?.centered
+	})}
+>
+	<NameWithAddress {name} {address} {rowIndex}>
+		<svelte:fragment slot="copyIcon">
+			<div class="w-4">
+				<div class="hidden cursor-pointer group-hover/row:flex">
+					<img src={staticImages.copyIcon} alt="Copy" />
 				</div>
-			</svelte:fragment>
-		</NameWithAddress>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{instance ?? 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{region ?? 'N/A'}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		{epochSecToString(createdAt)}
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<Tooltip tooltipText={epochToDurationString(durationRun)}>
+			</div>
+		</svelte:fragment>
+	</NameWithAddress>
+</td>
+<td
+	class={cn(tableClasses.cell, {
+		'text-center': OYSTER_MERCHANT_JOB_TABLE_HEADER[1]?.centered
+	})}
+>
+	{instance ?? 'N/A'}
+</td>
+<td
+	class={cn(tableClasses.cell, {
+		'text-center': OYSTER_MERCHANT_JOB_TABLE_HEADER[2]?.centered
+	})}
+>
+	{region ?? 'N/A'}
+</td>
+<td
+	class={cn(tableClasses.cell, {
+		'text-center': OYSTER_MERCHANT_JOB_TABLE_HEADER[3]?.centered
+	})}
+>
+	{epochSecToString(createdAt)}
+</td>
+<td
+	class={cn(tableClasses.cell, {
+		'text-center': OYSTER_MERCHANT_JOB_TABLE_HEADER[4]?.centered
+	})}
+>
+	<Tooltip>
+		<p slot="tooltipIcon">
 			{epochToDurationString(durationRun, true)}
-		</Tooltip>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<Tooltip
-			tooltipText="{$oysterTokenMetadataStore.symbol}${bigNumberToString(
-				amountToBeSettled,
-				$oysterTokenMetadataStore.decimal,
-				$oysterTokenMetadataStore.precision
-			)}"
-		>
+		</p>
+		<span slot="tooltipContent">{epochToDurationString(durationRun)}</span>
+	</Tooltip>
+</td>
+<td
+	class={cn(tableClasses.cell, {
+		'text-center': OYSTER_MERCHANT_JOB_TABLE_HEADER[5]?.centered
+	})}
+>
+	<Tooltip>
+		<p slot="tooltipIcon">
 			{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 				amountToBeSettled,
 				$oysterTokenMetadataStore.decimal
 			)}
+		</p>
+		<span slot="tooltipContent"
+			>{$oysterTokenMetadataStore.symbol}${bigNumberToString(
+				amountToBeSettled,
+				$oysterTokenMetadataStore.decimal,
+				$oysterTokenMetadataStore.precision
+			)}</span
+		>
+	</Tooltip>
+</td>
+<td
+	class={cn(tableClasses.cell, {
+		'text-center': OYSTER_MERCHANT_JOB_TABLE_HEADER[6]?.centered
+	})}
+>
+	<div
+		class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm capitalize text-[#030115]"
+		style="background-color: {statusColor}"
+	>
+		{status}
+	</div>
+</td>
+
+<td
+	class={cn(tableClasses.cell, {
+		'text-center': OYSTER_MERCHANT_JOB_TABLE_HEADER[7]?.centered
+	})}
+>
+	<Button onclick={handleClaimClick} variant="text" styleClass="w-fit ml-4 mr-6">
+		<Tooltip>
+			<div
+				slot="tooltipIcon"
+				class="flex h-[45px] w-[45px] items-center justify-center rounded-full bg-primary"
+			>
+				<img src={staticImages.RightArrowWhite} alt="Claim" />
+			</div>
+			<span class="font-normal" slot="tooltipContent">Claim</span>
 		</Tooltip>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<div
-			class="mx-auto w-24 rounded py-1 text-sm capitalize text-white"
-			style="background-color: {statusColor}"
-		>
-			{status}
-		</div>
-	</td>
-	<td class={tableCellClasses.rowNormal}>
-		<Button
-			variant="tableConvertButton"
-			onclick={handleClaimClick}
-			size="smaller"
-			disabled={submitLoading || status === 'closed'}
-			styleClass="w-fit px-8 rounded text-xs mr-6"
-		>
-			CLAIM
-		</Button>
-	</td>
-</tr>
-
-<style>
-	/* TODO: migrate these classes to tailwind and then refactor the copy to clipboard functionality */
-	/* show icon only on hover on table-row */
-	.main-row {
-		border-bottom: 1px solid #e5e5e5;
-	}
-
-	.main-row:last-child {
-		border-bottom: none;
-	}
-
-	.main-row:hover .copy-icon {
-		display: flex;
-	}
-	.main-row .copy-icon {
-		display: none;
-	}
-</style>
+	</Button>
+</td>

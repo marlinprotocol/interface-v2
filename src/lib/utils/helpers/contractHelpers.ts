@@ -21,19 +21,26 @@ export async function createTransaction(
 	initiateTxnMessage: string,
 	successTxnMessage: string,
 	errorTxnMessage: string,
-	parentFunctionName: string
+	parentFunctionName: string,
+	titles?: { initiateTxnTitle?: string; successTxnTitle?: string; failedTxnTitle?: string }
 ) {
 	try {
 		addToast({
-			message: initiateTxnMessage,
-			variant: 'info'
+			message: {
+				description: initiateTxnMessage,
+				title: titles?.initiateTxnTitle || ''
+			},
+			variant: 'warning'
 		});
 
 		const txn = await contractFunctionCall();
 
 		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.CREATED,
-			variant: 'info'
+			message: {
+				title: titles?.initiateTxnTitle || '',
+				description: MESSAGES.TOAST.TRANSACTION.CREATED
+			},
+			variant: 'warning'
 		});
 
 		// waiting for the transaction to be mined
@@ -42,7 +49,10 @@ export async function createTransaction(
 		// if the transaction is not mined, throw an error and show a toast
 		if (!approveReciept) {
 			addToast({
-				message: MESSAGES.TOAST.TRANSACTION.FAILED,
+				message: {
+					description: MESSAGES.TOAST.TRANSACTION.FAILED,
+					title: titles?.failedTxnTitle || ''
+				},
 				variant: 'error'
 			});
 			throw new Error(errorTxnMessage);
@@ -50,15 +60,29 @@ export async function createTransaction(
 
 		// if the transaction is mined, show a toast with success message and return the txn
 		addToast({
-			message: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + successTxnMessage,
+			message: {
+				title: titles?.successTxnTitle || '',
+				description: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + successTxnMessage
+			},
 			variant: 'success'
 		});
 		return { txn: txn, approveReciept: approveReciept };
 	} catch (error: any) {
+		let description = error.reason
+			? capitalizeFirstLetter(error.reason)
+			: MESSAGES.TOAST.TRANSACTION.FAILED;
+		let title = '';
+
+		if (error.shortMessage === 'user rejected action') {
+			description = 'Transaction rejected by the user';
+			title = 'Transaction Rejected';
+		}
+
 		addToast({
-			message: error.reason
-				? capitalizeFirstLetter(error.reason)
-				: MESSAGES.TOAST.TRANSACTION.FAILED,
+			message: {
+				description,
+				title: titles?.failedTxnTitle || title
+			},
 			variant: 'error'
 		});
 		console.log('error :>> ', error);

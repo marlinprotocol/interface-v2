@@ -30,6 +30,14 @@ export async function approveToken(
 			bigNumberToString(amount, tokenToApprove.decimal, tokenToApprove.precision),
 			tokenToApprove.currency
 		);
+		const initiateTxnTitle = MESSAGES.TOAST.APPROVAL.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.APPROVAL.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.APPROVAL.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
 		const errorTxnMessage = 'Unable to approve staking token';
 		const parentFunctionName = 'approveToken';
 		const { txn } = await createTransaction(
@@ -37,7 +45,8 @@ export async function approveToken(
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 		return txn;
 	} catch (error: any) {

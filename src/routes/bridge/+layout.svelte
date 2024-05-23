@@ -47,7 +47,7 @@
 		initializeBridgeStore(allowances, requestedMPond);
 	}
 
-	$: if ($connected) {
+	$: if ($connected && chainSupported) {
 		if (
 			walletAddressHasChanged($walletStore.address, previousWalletAddress) ||
 			chainIdHasChanged($chainStore.chainId, previousChainId)
@@ -65,10 +65,6 @@
 		setAllowedChainsStore([]);
 	});
 </script>
-
-<svelte:head>
-	<title>Marlin Bridge</title>
-</svelte:head>
 
 {#if $chainStore.isValidChain && chainSupported}
 	<PageWrapper>

@@ -1,5 +1,7 @@
 import { checkIfSignerExistsInSubgraph } from '$lib/controllers/subgraphController';
 import { shortenText } from '$lib/utils/helpers/conversionHelper';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function copyTextToClipboard(text: string) {
 	if (navigator.clipboard) {
@@ -216,4 +218,17 @@ export const doNothing = () => {
 
 export const bigIntAbs = (n: bigint) => {
 	return n < 0n ? -n : n;
+};
+
+export function cn(...args: ClassValue[]) {
+	return twMerge(clsx(args));
+}
+
+export const removeTrailingZeros = (decimalString: string): string => {
+	// Check if the input contains a decimal point
+	if (decimalString.includes('.')) {
+		decimalString = decimalString.replace(/(\.\d*?[1-9])0+$/, '$1'); // Remove trailing zeros after a decimal point
+		decimalString = decimalString.replace(/\.0+$/, ''); // Remove trailing decimal part if it's all zeros
+	}
+	return decimalString;
 };

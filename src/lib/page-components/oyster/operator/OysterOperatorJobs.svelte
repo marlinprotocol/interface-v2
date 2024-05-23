@@ -1,7 +1,5 @@
 <script lang="ts">
 	import Pagination from '$lib/components/pagination/Pagination.svelte';
-	import SearchBar from '$lib/components/search/SearchBar.svelte';
-	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import OysterOperatorJobsTableRow from '$lib/page-components/oyster/operator/OysterOperatorJobsTableRow.svelte';
 	import type {
@@ -9,14 +7,15 @@
 		OysterOperatorInventorySortKeys
 	} from '$lib/types/oysterComponentType';
 	import { OYSTER_MERCHANT_JOB_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
+
 	import {
 		getSearchedOysterJobsData,
 		sortOysterOperatorInventory
 	} from '$lib/utils/helpers/oysterHelpers';
 	import OysterTableCommon from '$lib/page-components/oyster/inventory/OysterTableCommon.svelte';
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
-	import { OYSTER_OPERATOR_HISTORY_URL, OYSTER_OPERATOR_URL } from '$lib/utils/constants/urls';
-	import { buttonClasses } from '$lib/atoms/componentClasses';
+	import { tableClasses } from '$lib/atoms/componentClasses';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -44,7 +43,7 @@
 		activePage = 1;
 	};
 
-	$: merchantJobsData = $oysterStore.merchantJobsData?.filter((job) => job.status !== 'closed');
+	$: merchantJobsData = $oysterStore.merchantJobsData?.filter((job) => job.status !== 'stopped');
 	// get searched data based on searchInput
 	$: searchedData = getSearchedOysterJobsData(searchInput, merchantJobsData);
 
@@ -56,15 +55,9 @@
 	);
 </script>
 
-<PageTitle title="My Job List" backHref={OYSTER_OPERATOR_URL} />
-<div class="mb-6 flex items-center gap-4">
-	<SearchBar {onSearchClick} bind:input={searchInput} placeholder="Search" styleClass="w-full" />
-	<a href={OYSTER_OPERATOR_HISTORY_URL}>
-		<div class="{buttonClasses.outlined} h-12 whitespace-nowrap">ORDER HISTORY</div>
-	</a>
-</div>
 <OysterTableCommon
 	{handleSortData}
+	roundedBorders={false}
 	tableHeading={OYSTER_MERCHANT_JOB_TABLE_HEADER}
 	loading={!$oysterStore.merchantJobsLoaded}
 	noDataFound={paginatedData?.length ? false : true}
@@ -72,12 +65,10 @@
 >
 	{#if paginatedData?.length}
 		{#each paginatedData as rowData, rowIndex (rowData.id)}
-			<OysterOperatorJobsTableRow {rowData} {rowIndex} />
+			<tr class={cn(tableClasses.row, 'group/row h-[64px] hover:bg-base-200')}>
+				<OysterOperatorJobsTableRow {rowData} {rowIndex} />
+			</tr>
 		{/each}
-		<tr>
-			<td colspan="12">
-				<Pagination {pageCount} {activePage} {handlePageChange} styleClass="mt-6" />
-			</td>
-		</tr>
 	{/if}
 </OysterTableCommon>
+<Pagination {pageCount} {activePage} {handlePageChange} />

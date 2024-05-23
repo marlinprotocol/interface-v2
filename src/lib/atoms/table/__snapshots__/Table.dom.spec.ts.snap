@@ -4,23 +4,25 @@ exports[`TableComponent > render's table correctly 1`] = `
 <body>
   <div>
     <div
-      class="overflow-x-auto overflow-y-hidden px-8 py-6 custom-table-style"
+      class="custom-table-style"
       data-testid="table-container"
     >
       <table
-        class="w-full text-center"
+        class="w-full rounded-[18px] text-center"
       >
         <thead
           class="w-full"
         >
           <tr>
-            <th>
+            <th
+              class="bg-[#F0F0F0] py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]"
+            >
               <div
-                class="mt-0.5 flex flex-nowrap items-center justify-center gap-1 text-center text-xs text-primary xl:text-sm custom-heading-style"
+                class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-center text-[14px] font-normal text-[#030115] custom-heading-style ml-4"
                 data-testid="table-heading-text"
               >
                 <div
-                  class="relative flex items-start gap-1"
+                  class="relative flex items-center gap-1"
                 >
                   <span
                     class="w-fit tracking-widest"
@@ -33,13 +35,15 @@ exports[`TableComponent > render's table correctly 1`] = `
               <!--&lt;TableHeadingText&gt;-->
                
             </th>
-            <th>
+            <th
+              class="bg-[#F0F0F0] py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]"
+            >
               <div
-                class="mt-0.5 flex flex-nowrap items-center justify-center gap-1 text-center text-xs text-primary xl:text-sm custom-heading-style"
+                class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-center text-[14px] font-normal text-[#030115] custom-heading-style"
                 data-testid="table-heading-text"
               >
                 <div
-                  class="relative flex items-start gap-1"
+                  class="relative flex items-center gap-1"
                 >
                   <span
                     class="w-fit tracking-widest"
@@ -52,13 +56,15 @@ exports[`TableComponent > render's table correctly 1`] = `
               <!--&lt;TableHeadingText&gt;-->
                
             </th>
-            <th>
+            <th
+              class="bg-[#F0F0F0] py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]"
+            >
               <div
-                class="mt-0.5 flex flex-nowrap items-center justify-center gap-1 text-center text-xs text-primary xl:text-sm custom-heading-style"
+                class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-center text-[14px] font-normal text-[#030115] custom-heading-style"
                 data-testid="table-heading-text"
               >
                 <div
-                  class="relative flex items-start gap-1"
+                  class="relative flex items-center gap-1"
                 >
                   <span
                     class="w-fit tracking-widest"

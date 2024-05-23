@@ -21,9 +21,9 @@ import {
 } from '$lib/utils/data-modifiers/oysterModifiers';
 import { isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 import type { SortDirection } from '$lib/types/componentTypes';
-import { REGION_NAME_CONSTANTS } from '../constants/regionNameConstants';
 import type { BytesLike } from 'ethers';
 import type { Address } from '$lib/types/storeTypes';
+import { REGION_NAME_CONSTANTS } from '$lib/utils/constants/regionNameConstants';
 
 export const getSearchedInventoryData = (
 	searchInput: string,
@@ -98,8 +98,6 @@ export const getInventoryStatusVariant = (status: string) => {
 			return 'error';
 		case 'pending':
 			return 'warning';
-		case 'closed':
-			return 'primary';
 		default:
 			return 'primary';
 	}
@@ -107,11 +105,11 @@ export const getInventoryStatusVariant = (status: string) => {
 
 export const getInventoryDurationVariant = (duration: number) => {
 	if (duration < OYSTER_CAUTION_DURATION) {
-		return 'error';
+		return '#FEE6E6';
 	} else if (duration < OYSTER_WARNING_DURATION) {
-		return 'warning';
+		return '#FCEFD4';
 	} else {
-		return 'success';
+		return '#F4F9F0';
 	}
 };
 
@@ -282,6 +280,7 @@ export const getSearchAndFilteredMarketplaceData = (
 	filterMap: Partial<OysterMarketplaceFilterModel>,
 	exactMatch = false
 ) => {
+	let finalFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
 	// for provider, we are checking substring match and need do check on both name and address
 	if (filterMap.provider) {
 		const value = filterMap.provider.toLowerCase();
@@ -292,6 +291,8 @@ export const getSearchAndFilteredMarketplaceData = (
 				: item.provider.address.toLowerCase().includes(value) ||
 						item.provider.name?.toLowerCase()?.includes(value);
 		});
+		const modifiedFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
+		finalFilters = updateObjectExceptKey('provider', finalFilters, modifiedFilters);
 	}
 
 	if (filterMap.region) {
@@ -302,6 +303,8 @@ export const getSearchAndFilteredMarketplaceData = (
 				: item.region.toLowerCase().includes(value) ||
 						item.regionName.toLowerCase().includes(value);
 		});
+		const modifiedFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
+		finalFilters = updateObjectExceptKey('region', finalFilters, modifiedFilters);
 	}
 
 	if (filterMap.memory) {
@@ -311,6 +314,8 @@ export const getSearchAndFilteredMarketplaceData = (
 				? item.memory?.toString() === value
 				: item.memory?.toString()?.includes(value);
 		});
+		const modifiedFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
+		finalFilters = updateObjectExceptKey('memory', finalFilters, modifiedFilters);
 	}
 
 	if (filterMap.vcpu) {
@@ -318,6 +323,8 @@ export const getSearchAndFilteredMarketplaceData = (
 		allMarketplaceData = allMarketplaceData.filter((item) => {
 			return exactMatch ? item.vcpu?.toString() === value : item.vcpu?.toString()?.includes(value);
 		});
+		const modifiedFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
+		finalFilters = updateObjectExceptKey('vcpu', finalFilters, modifiedFilters);
 	}
 
 	if (filterMap.instance) {
@@ -327,6 +334,8 @@ export const getSearchAndFilteredMarketplaceData = (
 				? item.instance?.toLowerCase() === value
 				: item.instance.toLowerCase()?.includes(value);
 		});
+		const modifiedFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
+		finalFilters = updateObjectExceptKey('instance', finalFilters, modifiedFilters);
 	}
 
 	if (filterMap.arch) {
@@ -334,28 +343,29 @@ export const getSearchAndFilteredMarketplaceData = (
 		allMarketplaceData = allMarketplaceData.filter((item) => {
 			return exactMatch ? item.arch?.toString() === value : item.arch?.toString()?.includes(value);
 		});
+		const modifiedFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
+		finalFilters = updateObjectExceptKey('arch', finalFilters, modifiedFilters);
 	}
-
-	// if (filterMap.rate) {
-	// 	const value = filterMap.rate;
-	// 	allMarketplaceData = allMarketplaceData.filter((item) => {
-	// 		return value && item.rate?.toString()?.includes(value.toString());
-	// 	});
-	// }
-
-	return allMarketplaceData;
+	return { allMarketplaceData, finalFilters };
 };
 
+function updateObjectExceptKey(immutableKey: string, originalObject: any, updatedObject: any) {
+	for (const key in updatedObject) {
+		if (key !== immutableKey) {
+			originalObject[key] = updatedObject[key];
+		}
+	}
+	return originalObject;
+}
+
 export function getAllFiltersListforMarketplaceData(
-	filteredData: OysterMarketplaceDataModel[],
+	filteredData: OysterMarketplaceDataModel[] | OysterInventoryDataModel[],
 	addAllOption = true
 ) {
 	const providers = filteredData.map((item) =>
 		item.provider.name && item.provider.name !== '' ? item.provider.name : item.provider.address
 	);
-	// array of arrays where the first element is the region name and the second element is the region code
 	const regions = filteredData.map((item) => [item.regionName, item.region]);
-	// remove duplicate regions
 	const filteredRegions = regions.filter(
 		(region, index, self) => index === self.findIndex((t) => t[1] === region[1])
 	);
@@ -404,7 +414,7 @@ export const getRateForProviderAndFilters = (
 	providerAddress: string | undefined,
 	instance: string | undefined,
 	region: string | undefined,
-	allMarketplaceData: OysterMarketplaceDataModel[]
+	allMarketplaceData: OysterMarketplaceDataModel[] | OysterInventoryDataModel[]
 ) => {
 	if (!providerAddress) return undefined;
 	if (!instance || !region) return undefined;
@@ -420,7 +430,7 @@ export const getRateForProviderAndFilters = (
 
 export const getCreateOrderInstanceRegionFilters = (
 	providerAddress: string | undefined,
-	allMarketplaceData: OysterMarketplaceDataModel[] | undefined
+	allMarketplaceData: OysterMarketplaceDataModel[] | OysterInventoryDataModel[]
 ) => {
 	if (!providerAddress || !allMarketplaceData || allMarketplaceData.length === 0) return {};
 	const filteredData = allMarketplaceData.filter(
@@ -439,7 +449,10 @@ export const computeCost = (duration: number, rate?: bigint) => {
 	} catch (e) {
 		addToast({
 			variant: 'error',
-			message: `Error computing cost, please try again.`
+			message: {
+				title: 'Error',
+				description: 'Error computing cost, please try again.'
+			}
 		});
 		return 0n;
 	}

@@ -30,7 +30,6 @@
 	let instanceCostScaled = 0n;
 	let invalidCost = false;
 	let durationUnitInSec: number;
-	//loading states
 	let submitLoading = false;
 	let approvedLoading = false;
 	let approved = false;
@@ -107,11 +106,8 @@
 	$: confirmEnable = isCreditJob ? approveEnable : approved && approveEnable;
 </script>
 
-<Modal {modalFor} onClose={resetInputs}>
-	<svelte:fragment slot="title">ADD FUNDS</svelte:fragment>
-	<svelte:fragment slot="subtitle">
-		Add funds by approving and depositing tokens for the job
-	</svelte:fragment>
+<Modal {modalFor} onClose={resetInputs} padding={false} showOverFlow={false} individualBorderRadius>
+	<svelte:fragment slot="title">Add Funds</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-2">
 			<AddFundsToJob
@@ -125,7 +121,7 @@
 				isTotalRate={true}
 			/>
 		</div>
-		<div class="mt-2 flex items-center justify-between">
+		<div class="mt-4 flex items-center justify-end">
 			<div class="flex items-center gap-2">
 				<MaxButton onclick={handleMaxClick} />
 				<Divider direction="divider-vertical" />

@@ -2,9 +2,9 @@
 	export let disabled = false;
 	export let value = '';
 	export let onChange: (e: Event) => void = () => {};
-	export let onFocusOut = () => {};
 	export let styleClass = '';
 	export let onlyInteger = false;
+	export let id = '';
 
 	const validateInput = (
 		e: KeyboardEvent & {
@@ -31,10 +31,9 @@
 
 <input
 	{disabled}
-	id="pond-input-amount"
+	id="pond-input-amount-{id}"
 	bind:value
 	on:input={onChange}
-	on:focusout={onFocusOut}
 	on:keydown={validateInput}
 	on:keyup={validateInput}
 	class="hideInputNumberAppearance {styleClass}"

@@ -5,12 +5,11 @@
 	import { web3WalletStore } from '$lib/data-stores/walletProviderStore';
 	import DisconnectWalletModal from '$lib/components/header/sub-components/DisconnectWalletModal.svelte';
 	import { disconnectWallet } from '$lib/controllers/walletController';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
 	import ChainSwitcher from '$lib/components/header/sub-components/ChainSwitcher.svelte';
 
 	export let lastAddress: string | undefined = undefined;
 
-	let modalFor = 'disconnect-wallet-modal';
+	let modalFor = 'disconnect-wallet-modal-v2';
 
 	const disconnect = () => {
 		disconnectWallet($web3WalletStore);
@@ -28,14 +27,11 @@
 	<ModalButton
 		{modalFor}
 		variant="whiteFilled"
-		styleClass="bg-base-100 h-[50px] cursor-pointer text-primary rounded-lg shadow-sm flex gap-4 items-center"
+		styleClass="chain-btn m-1 flex items-center justify-center"
 	>
-		<img src={staticImages.WalletConnected} alt="Metamask Logo" />
-		<div class={'flex flex-col text-left'}>
-			<span class="text-sm font-bold text-[#07617d]"
-				>{$chainStore?.chainDisplayName?.toLocaleUpperCase()}</span
-			>
-			<p class="text-2xs font-medium text-[#008295]">{shortAddress}</p>
+		<img src={staticImages.discChainLog} alt="Metamask Logo" />
+		<div>
+			<p class="text-sm font-medium text-[#030115]">{shortAddress}</p>
 		</div>
 	</ModalButton>
 </div>

@@ -48,10 +48,43 @@
 </td>
 
 <td class={tableClasses.cell}>
-	{$oysterTokenMetadataStore.symbol}{bigNumberToString(
-		amountUsed,
-		$oysterTokenMetadataStore.decimal
-	)}
+	{#if isCreditJob}
+		<Tooltip>
+			<span slot="tooltipContent">This instance was using credits</span>
+			<span
+				class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-yellow-300 text-white"
+				slot="tooltipIcon">C</span
+			>
+		</Tooltip>
+		<Tooltip>
+			<span slot="tooltipContent"
+				>{bigNumberToString(
+					amountUsed,
+					$oysterTokenMetadataStore.decimal,
+					$oysterTokenMetadataStore.precision
+				)}</span
+			>
+			<span class="flex items-center" slot="tooltipIcon">
+				{bigNumberToString(amountUsed, $oysterTokenMetadataStore.decimal)}
+			</span>
+		</Tooltip>
+	{:else}
+		<Tooltip>
+			<span class="font-normal" slot="tooltipContent"
+				>{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+					amountUsed,
+					$oysterTokenMetadataStore.decimal,
+					$oysterTokenMetadataStore.precision
+				)}</span
+			>
+			<span slot="tooltipIcon"
+				>{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+					amountUsed,
+					$oysterTokenMetadataStore.decimal
+				)}</span
+			>
+		</Tooltip>
+	{/if}
 </td>
 <td class={tableClasses.cell}>
 	{$oysterTokenMetadataStore.symbol}{bigNumberToString(refund, $oysterTokenMetadataStore.decimal)}

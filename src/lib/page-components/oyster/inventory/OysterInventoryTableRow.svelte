@@ -54,6 +54,7 @@
 		ip,
 		balance,
 		durationLeft,
+		isCreditJob,
 		endEpochTime, // epoch time in seconds based on duration left,
 		// newRate is being passed to the modal for the amend rate modal and is not used here
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -97,21 +98,43 @@
 	</div>
 </td>
 <td class={tableClasses.cell}>
-	<Tooltip>
-		<span class="font-normal" slot="tooltipContent"
-			>{$oysterTokenMetadataStore.symbol}{bigNumberToString(
-				balance,
-				$oysterTokenMetadataStore.decimal,
-				$oysterTokenMetadataStore.precision
-			)}</span
-		>
-		<span slot="tooltipIcon"
-			>{$oysterTokenMetadataStore.symbol}{bigNumberToString(
-				balance,
-				$oysterTokenMetadataStore.decimal
-			)}</span
-		>
-	</Tooltip>
+	{#if isCreditJob}
+		<Tooltip>
+			<span slot="tooltipContent">This instance is using credits</span>
+			<span
+				class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-yellow-300 text-white"
+				slot="tooltipIcon">C</span
+			>
+		</Tooltip>
+		<Tooltip>
+			<span slot="tooltipContent"
+				>{bigNumberToString(
+					balance,
+					$oysterTokenMetadataStore.decimal,
+					$oysterTokenMetadataStore.precision
+				)}</span
+			>
+			<span class="flex items-center" slot="tooltipIcon">
+				{bigNumberToString(balance, $oysterTokenMetadataStore.decimal)}
+			</span>
+		</Tooltip>
+	{:else}
+		<Tooltip>
+			<span class="font-normal" slot="tooltipContent"
+				>{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+					balance,
+					$oysterTokenMetadataStore.decimal,
+					$oysterTokenMetadataStore.precision
+				)}</span
+			>
+			<span slot="tooltipIcon"
+				>{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+					balance,
+					$oysterTokenMetadataStore.decimal
+				)}</span
+			>
+		</Tooltip>
+	{/if}
 </td>
 <td class={tableClasses.cell}>
 	<Timer timerId="timer-for-inventory-table-row-{id}" {endEpochTime}>

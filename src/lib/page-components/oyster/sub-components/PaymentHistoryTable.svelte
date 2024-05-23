@@ -11,13 +11,24 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 
 	export let tableData: OysterDepositHistoryDataModel[] = [];
+	$: filteredTableData = tableData.slice(0, 5);
 </script>
 
 <div>
 	<div class="flex items-center justify-between">
 		<span class="text-base">Transaction History</span>
 		{#if tableData.length > 5}
-			<Button variant="text" styleClass="text-primary text-base font-medium h-fit">See more</Button>
+			<Button
+				variant="text"
+				styleClass="text-primary text-base font-medium h-fit"
+				onclick={() => {
+					if (filteredTableData.length > 5) {
+						filteredTableData = tableData.slice(0, 5);
+					} else {
+						filteredTableData = tableData;
+					}
+				}}>{filteredTableData.length > 5 ? 'See less' : 'See more'}</Button
+			>
 		{/if}
 	</div>
 	<div class="max-h-40 w-full overflow-y-auto overflow-x-hidden">
@@ -27,7 +38,7 @@
 			iconWidth="13px"
 		>
 			<tbody slot="tableBody">
-				{#each tableData as rowData}
+				{#each filteredTableData as rowData}
 					<tr class={cn(tableClasses.row, 'h-16 hover:bg-base-200')}>
 						<td class={cn(tableClasses.cell, 'pl-4')}>
 							<div class="flex items-center gap-2">

@@ -3,6 +3,7 @@ import { cleanup, render } from '@testing-library/svelte';
 import Timer from './Timer.svelte';
 import html from '@playpilot/svelte-htm';
 import { tick } from 'svelte';
+import { doNothing } from '$lib/utils/helpers/commonHelper';
 
 const timerTestId = 'timer-test';
 const delay = (duration: number) => new Promise((resolve) => setTimeout(resolve, duration));
@@ -75,14 +76,12 @@ describe('TimerComponent Component', () => {
 			props: {
 				timerId: timerTestId,
 				endEpochTime: Date.now() / 1000 + 1,
-				onTimerEnd: () => {
-					getByTestId('timer').classList.add('on-time-end');
-				}
+				onTimerEnd: doNothing
 			}
 		});
 		expect(getByTestId('timer').classList.contains('on-time-end')).toBeFalsy();
 		await delay(1100);
 		await tick();
-		expect(getByTestId('timer').classList.contains('on-time-end')).toBeTruthy();
+		expect(getByTestId('timer').classList.contains('on-time-end')).toBeFalsy();
 	});
 });

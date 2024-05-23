@@ -24,7 +24,7 @@ export const dismissToast = (id: number) => {
  * @param variant the color of the toast
  */
 export const addToast = ({
-	message = { title: 'Set Toast Message Title', description: 'Set Toast Message Description' },
+	message = { title: 'Set Toast Message Title' },
 	dismissible = true,
 	timeout = 2800,
 	variant
@@ -36,7 +36,7 @@ export const addToast = ({
 	const defaults: Toast = {
 		variant: 'success',
 		timeout: 2800,
-		message: { title: 'Set Toast Message Title', description: 'Set Toast Message Description' }
+		message: { title: 'Set Toast Message Title' }
 	};
 
 	const bgColor = getColorClassByVariant(variant ? variant : defaults.variant);

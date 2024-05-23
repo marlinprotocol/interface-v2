@@ -68,7 +68,7 @@
 					title="Enclave Image Inputs"
 					value={inputs ? inputs : 'N/A'}
 					cliboardContent={inputs ? inputs : 'N/A'}
-					textStyle="text-primary truncate"
+					textStyle="truncate"
 				/>
 			</div>
 			<div class="flex flex-col gap-2 sm:flex-row">

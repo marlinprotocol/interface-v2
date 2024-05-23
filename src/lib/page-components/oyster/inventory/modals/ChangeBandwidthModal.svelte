@@ -28,7 +28,7 @@
 		epochToDurationString
 	} from '$lib/utils/helpers/conversionHelper';
 	import {
-		calculatBandwidthRate,
+		calculateBandwidthRate,
 		getBandwidthFromRateAndRegion,
 		getRateForProviderAndFilters
 	} from '$lib/utils/helpers/oysterHelpers';
@@ -130,7 +130,7 @@
 	).toString();
 
 	$: newBandwidth = isRateRevisionInitiated ? newBandwidthAfterInit : '';
-	$: newBandwidthRate = calculatBandwidthRate(newBandwidth, region, newBandwidthUnit);
+	$: newBandwidthRate = calculateBandwidthRate(newBandwidth, region, newBandwidthUnit);
 	// new and current hourly rate
 	$: currentHourlyRate = convertRateToPerHourString(rate, $oysterTokenMetadataStore.decimal);
 

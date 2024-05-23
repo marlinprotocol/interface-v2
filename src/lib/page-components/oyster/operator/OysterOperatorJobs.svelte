@@ -16,6 +16,8 @@
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 	import { tableClasses } from '$lib/atoms/componentClasses';
 	import { cn } from '$lib/utils/helpers/commonHelper';
+	import EmptyCard from '$lib/components/empty-state/EmptyCard.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -49,10 +51,11 @@
 
 	$: pageCount = Math.ceil((searchedData?.length ?? 0) / TABLE_ITEMS_PER_PAGE);
 
-	$: paginatedData = searchedData?.slice(
-		(activePage - 1) * TABLE_ITEMS_PER_PAGE,
-		activePage * TABLE_ITEMS_PER_PAGE
-	);
+	// $: paginatedData = searchedData?.slice(
+	// 	(activePage - 1) * TABLE_ITEMS_PER_PAGE,
+	// 	activePage * TABLE_ITEMS_PER_PAGE
+	// );
+	$: paginatedData = [];
 </script>
 
 <OysterTableCommon

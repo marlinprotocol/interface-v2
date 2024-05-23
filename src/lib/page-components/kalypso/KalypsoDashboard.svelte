@@ -1,20 +1,12 @@
 <script>
-	import Button from '$lib/atoms/buttons/Button.svelte';
-	import ContainerCard from '$lib/atoms/cards/ContainerCard.svelte';
+	import EmptyCard from '$lib/components/empty-state/EmptyCard.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import Text from '$lib/atoms/texts/Text.svelte';
 </script>
 
-<ContainerCard>
-	<Text variant="h3" text="Kalypso is under construction" styleClass="text-center" />
-	<span class="my-4 px-2 text-center text-[15px] font-medium text-black/50">
-		Curious fishies can visit the link below to learn more about Marlin's ZK proof marketplace.
-	</span>
-	<img src={staticImages.fishingMan} alt="Fishing Man" class="mx-auto" />
-	<a
-		class="mt-4 w-full"
-		target="_blank"
-		href="https://docs.marlin.org/learn/what-is-kalypso
-		"><Button styleClass="w-full" variant="filled" size="large">Learn about Kalypso</Button></a
-	>
-</ContainerCard>
+<EmptyCard
+	title="Curious fishies can visit the link below to learn more about Marlin's ZK proof marketplace."
+	imageSrc={staticImages.fishingMan}
+	imageAlt="Fishing Man"
+	href="https://docs.marlin.org/learn/what-is-kalypso"
+	buttonText="Learn about Kalypso"
+/>

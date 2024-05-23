@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { tableClasses } from '$lib/atoms/componentClasses';
 	import Table from '$lib/atoms/table/Table.svelte';
+	import EmptyCard from '$lib/components/empty-state/EmptyCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { TableModel } from '$lib/types/componentTypes';
@@ -32,7 +34,13 @@
 	{:else if noDataFound}
 		<Table {roundedBorders} {tableHeading} {handleSortData} headingStyleClass="h-[32px]" />
 		<div class={cn(tableClasses.empty, 'mb-8')}>
-			{emptyTableMessage}
+			<EmptyCard
+				title="Curious fishies can visit the link below to learn more about Marlin's ZK proof marketplace."
+				imageSrc={staticImages.fishingMan}
+				imageAlt="Fishing Man"
+				href="https://docs.marlin.org/learn/what-is-kalypso"
+				buttonText="Learn about Kalypso"
+			/>
 		</div>
 	{:else}
 		<Table {roundedBorders} {tableHeading} {handleSortData} headingStyleClass="h-[32px]">

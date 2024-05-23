@@ -54,10 +54,19 @@
 							</div>
 						</td>
 						<td class={tableClasses.cell}
-							>{$oysterTokenMetadataStore.symbol}{bigNumberToString(
-								rowData.amount,
-								$oysterTokenMetadataStore.decimal
-							)}
+							><div
+								class={cn('w-fit rounded-full px-4 py-4', {
+									'bg-[#F4F9F0]': !rowData.isWithdrawal,
+									'bg-[#FEE6E6]': rowData.isWithdrawal
+								})}
+							>
+								{rowData.isWithdrawal
+									? '-'
+									: '+'}&nbsp;{$oysterTokenMetadataStore.symbol}{bigNumberToString(
+									rowData.amount,
+									$oysterTokenMetadataStore.decimal
+								)}
+							</div>
 						</td>
 					</tr>
 				{/each}

@@ -1,11 +1,21 @@
 <script lang="ts">
+	import Button from '$lib/atoms/buttons/Button.svelte';
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import ExternalLinkConfirmationModal from '$lib/components/modals/ExternalLinkConfirmationModal.svelte';
 	import type { CardsList } from '$lib/types/componentTypes';
+	import type { SidebarDropdownLinkIds } from '$lib/types/headerTypes';
+	import { SIDEBAR_DROPDOWN_LINK_IDS } from '$lib/utils/constants/constants';
 	import { EXTERNAL_LINKS, ROUTES } from '$lib/utils/constants/urls';
 	import { cn } from '$lib/utils/helpers/commonHelper';
+
+	function clickNavLink(elementId: SidebarDropdownLinkIds) {
+		const navLink = document.getElementById(elementId);
+		if (navLink) {
+			navLink.click();
+		}
+	}
 
 	const cardsList: CardsList = [
 		{
@@ -14,7 +24,7 @@
 			logoAlt: 'Oyster Icon',
 			description: 'Deploy a variety of infrastructure on TEE co-processors',
 			buttons: [
-				{ text: 'dApp', href: ROUTES.OYSTER_URL },
+				{ text: 'dApp', onclick: () => clickNavLink(SIDEBAR_DROPDOWN_LINK_IDS.oyster) },
 				{ text: 'Learn', href: EXTERNAL_LINKS.OYSTER_LEARN_LINK }
 			]
 		},
@@ -37,7 +47,7 @@
 			buttons: [
 				{
 					text: 'POND MPond',
-					href: ROUTES.BRIDGE_URL,
+					onclick: () => clickNavLink(SIDEBAR_DROPDOWN_LINK_IDS.bridge),
 					icon: { src: staticImages.dataTransferIcon, alt: 'Swap' }
 				},
 				{
@@ -58,7 +68,7 @@
 			description:
 				'Marlin Relay is a decentralized relay network that transmits blocks and transactions between nodes of different blockchain network.',
 			buttons: [
-				{ text: 'dApp', href: EXTERNAL_LINKS.RELAY_CLUSTERS_LINK },
+				{ text: 'dApp', onclick: () => clickNavLink(SIDEBAR_DROPDOWN_LINK_IDS.relay) },
 				{ text: 'Learn', href: EXTERNAL_LINKS.RELAY_LEARN_LINK }
 			]
 		},
@@ -115,6 +125,20 @@
 									{button.text}
 								{/if}
 							</ModalButton>
+						{:else if button.onclick}
+							<Button
+								onclick={button.onclick}
+								variant="greyOutlined"
+								styleClass="flex h-16 flex-1 text-base font-normal"
+								>{#if button.icon}
+									{button.text.split(' ')[0]}<img
+										src={button.icon.src}
+										alt={button.icon.alt}
+									/>{button.text.split(' ')[1]}
+								{:else}
+									{button.text}
+								{/if}</Button
+							>
 						{:else}
 							<a
 								class={cn(buttonClasses.greyOutlined, 'flex h-16 flex-1 text-base font-normal')}

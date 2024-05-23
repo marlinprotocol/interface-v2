@@ -41,11 +41,6 @@
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
 
-	let checkboxAcknowledge = false;
-	let currentBandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
-	let newBandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
-	$: submitLoading = false || rateStatus === 'pending';
-
 	const onClose = () => {};
 	const BANDWIDTH_UNIT_LIST = OYSTER_BANDWIDTH_UNITS_LIST.map((unit) => unit.label);
 	const TEXT = `Increasing the bandwidth reduces the total duration of the instance. Add more funds to increase the duration whereas reducing the bandwidth increases the total duration of the instance.`;
@@ -108,6 +103,11 @@
 		rate,
 		isCreditJob
 	} = jobData);
+
+	let checkboxAcknowledge = false;
+	let currentBandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
+	let newBandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
+	$: submitLoading = false || rateStatus === 'pending';
 
 	$: isRateRevisionInitiated = rateStatus === 'completed' || rateStatus === 'pending';
 

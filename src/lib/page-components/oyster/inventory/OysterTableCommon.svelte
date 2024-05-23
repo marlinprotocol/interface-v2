@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { tableClasses } from '$lib/atoms/componentClasses';
 	import Table from '$lib/atoms/table/Table.svelte';
+	import EmptyCard from '$lib/components/empty-state/EmptyCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
@@ -44,7 +46,11 @@
 	{:else if noDataFound}
 		<Table {roundedBorders} {tableHeading} {handleSortData} headingStyleClass="h-[32px]" />
 		<div class={cn(tableClasses.empty, 'mb-8')}>
-			{emptyTableMessage}
+			{#if $$slots.emptyState}
+				<slot name="emptyState" />
+			{:else}
+				{emptyTableMessage}
+			{/if}
 		</div>
 	{:else}
 		<Table {roundedBorders} {tableHeading} {handleSortData} headingStyleClass="h-[32px]">

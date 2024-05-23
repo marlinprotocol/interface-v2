@@ -16,6 +16,11 @@
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 	import { tableClasses } from '$lib/atoms/componentClasses';
 	import { cn } from '$lib/utils/helpers/commonHelper';
+	import EmptyCard from '$lib/components/empty-state/EmptyCard.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
+	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+
+	import { connected } from '$lib/data-stores/walletProviderStore';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -71,5 +76,13 @@
 			</tr>
 		{/each}
 	{/if}
+	<EmptyCard
+		slot="emptyState"
+		description={$oysterStore.providerData.registered
+			? "There aren't any active jobs at the moment."
+			: 'You aren’t providing infra on Oyster. Join the network.'}
+		imageSrc={staticImages.fishingMan}
+		imageAlt="Fishing Man"
+	></EmptyCard>
 </OysterTableCommon>
 <Pagination {pageCount} {activePage} {handlePageChange} />

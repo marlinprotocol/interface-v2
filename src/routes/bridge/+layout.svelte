@@ -72,6 +72,9 @@
 	</PageWrapper>
 {:else}
 	<PageWrapper>
-		<NetworkPrompt />
+		<NetworkPrompt
+			title="Unsupported Network"
+			description="Please switch to one of the chains in the dropdown to continue."
+		/>
 	</PageWrapper>
 {/if}

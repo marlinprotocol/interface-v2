@@ -29,7 +29,11 @@
 				'h-96': !flexibleHeight
 			})}
 		>
-			<NetworkPrompt variant="white">
+			<NetworkPrompt
+				description="Switch to the appropriate network and connect your wallet to get started."
+				variant="white"
+				showIcon={false}
+			>
 				<ConnectWalletButton slot="cta" styleClass="bg-white h-fit mt-4 px-8 py-4 rounded-2xl" />
 			</NetworkPrompt>
 		</div>

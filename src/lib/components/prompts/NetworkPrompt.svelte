@@ -3,9 +3,11 @@
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import ChainSwitcher from '../header/sub-components/ChainSwitcher.svelte';
 
-	export let title = 'Unsupported Network';
-	export let description = 'Please switch to one of the chains in the dropdown to continue.';
+	export let title: string = '';
+	export let description: string = '';
 	export let variant: 'white' | 'purple' = 'purple';
+	export let showIcon: boolean = true;
+
 	const isVariantWhite = variant === 'white';
 	const imageSrc = isVariantWhite ? staticImages.infoIconWhite : staticImages.infoIconPurple;
 </script>
@@ -17,26 +19,37 @@
 			isVariantWhite ? 'bg-white' : 'bg-[#3840C7]'
 		)}
 	>
-		<div
-			class={cn(
-				'flex h-[84px] w-[84px] items-center justify-center rounded-full',
-				isVariantWhite ? 'bg-[#3840C7]' : 'bg-white'
-			)}
-		>
-			<img src={imageSrc} alt="Info Icon" />
-		</div>
-		<span
-			class={cn('mt-2 text-3xl font-medium', isVariantWhite ? 'text-[#26272C]' : 'text-[#D9DADE]')}
-			>{title}</span
-		>
-		<p
-			class={cn(
-				'text-md mx-auto mt-2 max-w-[400px] text-center font-light leading-6',
-				isVariantWhite ? 'text-[#A8A8A8]' : 'text-[#D9DADE]'
-			)}
-		>
-			{description}
-		</p>
+		{#if showIcon}
+			<div
+				class={cn(
+					'flex h-[84px] w-[84px] items-center justify-center rounded-full',
+					isVariantWhite ? 'bg-[#3840C7]' : 'bg-white'
+				)}
+			>
+				<img src={imageSrc} alt="Info Icon" />
+			</div>
+		{/if}
+
+		{#if title}
+			<span
+				class={cn(
+					'mt-2 text-3xl font-medium',
+					isVariantWhite ? 'text-[#26272C]' : 'text-[#D9DADE]'
+				)}>{title}</span
+			>
+		{/if}
+
+		{#if description}
+			<p
+				class={cn(
+					'text-md mx-auto mt-2 max-w-[400px] text-center font-light leading-6',
+					isVariantWhite ? 'text-[#A8A8A8]' : 'text-[#D9DADE]'
+				)}
+			>
+				{description}
+			</p>
+		{/if}
+
 		{#if $$slots.cta}
 			<slot name="cta" />
 		{:else}

@@ -15,6 +15,8 @@
 	import { TABLE_ITEMS_PER_PAGE } from '$lib/utils/constants/constants';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import { tableClasses } from '$lib/atoms/componentClasses';
+	import EmptyCard from '$lib/components/empty-state/EmptyCard.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -70,5 +72,13 @@
 			</tr>
 		{/each}
 	{/if}
+	<EmptyCard
+		slot="emptyState"
+		description={$oysterStore.providerData.registered
+			? 'There isn’t any history to be displayed	.'
+			: 'You aren’t providing infra on Oyster. Join the network.'}
+		imageSrc={staticImages.fishingMan}
+		imageAlt="Fishing Man"
+	></EmptyCard>
 </OysterTableCommon>
 <Pagination {pageCount} {activePage} {handlePageChange} />

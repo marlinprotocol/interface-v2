@@ -54,11 +54,10 @@
 
 	$: pageCount = Math.ceil((searchedData?.length ?? 0) / TABLE_ITEMS_PER_PAGE);
 
-	// $: paginatedData = searchedData?.slice(
-	// 	(activePage - 1) * TABLE_ITEMS_PER_PAGE,
-	// 	activePage * TABLE_ITEMS_PER_PAGE
-	// );
-	$: paginatedData = [];
+	$: paginatedData = searchedData?.slice(
+		(activePage - 1) * TABLE_ITEMS_PER_PAGE,
+		activePage * TABLE_ITEMS_PER_PAGE
+	);
 </script>
 
 <OysterTableCommon
@@ -78,26 +77,11 @@
 	{/if}
 	<EmptyCard
 		slot="emptyState"
-		description="Register as an operator and provide infra on Oyster"
-		title="Operator"
+		description={$oysterStore.providerData.registered
+			? "There aren't any active jobs at the moment."
+			: 'You aren’t providing infra on Oyster. Join the network.'}
 		imageSrc={staticImages.fishingMan}
 		imageAlt="Fishing Man"
-		href="https://docs.marlin.org/learn/what-is-kalypso"
-		buttonText="Learn about Kalypso"
-	>
-		<div slot="cta" class="flex justify-center">
-			{#if !$oysterStore.providerData.registered && $oysterStore.merchantJobsLoaded}
-				<ModalButton
-					variant="filled"
-					size="large"
-					disabled={!$connected}
-					styleClass="w-[170px] text-base font-normal"
-					modalFor="oyster-register-url-operator"
-				>
-					Register
-				</ModalButton>
-			{/if}
-		</div>
-	</EmptyCard>
+	></EmptyCard>
 </OysterTableCommon>
-<Pagination pageCount={0} {activePage} {handlePageChange} />
+<Pagination {pageCount} {activePage} {handlePageChange} />

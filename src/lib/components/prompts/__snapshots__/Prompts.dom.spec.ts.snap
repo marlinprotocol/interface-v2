@@ -34,17 +34,7 @@ exports[`NetworkPrompt > render's the Network Prompt properly 1`] = `
           />
         </div>
          
-        <span
-          class="mt-2 text-3xl font-medium text-[#D9DADE]"
-        >
-          Unsupported Network
-        </span>
          
-        <p
-          class="text-md mx-auto mt-2 max-w-[400px] text-center font-light leading-6 text-[#D9DADE]"
-        >
-          Please switch to one of the chains in the dropdown to continue.
-        </p>
          
         <div
           class="mt-12 flex w-64 items-center justify-between rounded-full border border-white"

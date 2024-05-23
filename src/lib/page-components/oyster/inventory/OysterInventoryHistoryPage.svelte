@@ -86,6 +86,7 @@
 </div>
 <OysterTableCommon
 	{handleSortData}
+	flexibleHeight
 	loading={!$oysterStore.oysterStoreLoaded}
 	tableHeading={OYSTER_HISTORY_TABLE_HEADER}
 	noDataFound={paginatedData?.length ? false : true}

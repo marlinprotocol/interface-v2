@@ -18,7 +18,9 @@ import {
 	addFundsToOysterJob,
 	cancelRateReviseOysterJob,
 	createNewOysterJob,
+	finaliseBandwidthRateReviseOysterJob,
 	finaliseRateReviseOysterJob,
+	initiateBandwidthRateReviseOysterJob,
 	initiateRateReviseOysterJob,
 	settleOysterJob,
 	stopOysterJob,
@@ -36,7 +38,9 @@ import {
 	addCreditsToOysterJob,
 	cancelRateReviseOysterCreditJob,
 	createNewOysterJobWithCredits,
+	finaliseBandwidthRateReviseOysterCreditJob,
 	finaliseRateReviseOysterCreditJob,
+	initiateBandwidthRateReviseOysterCreditJob,
 	initiateRateReviseOysterCreditJob,
 	stopOysterCreditJob,
 	withdrawFundsFromOysterCreditJob
@@ -150,6 +154,22 @@ export async function handleInitiateJobRateRevise(
 	}
 }
 
+export async function handleInitiateBandwidthRateRevise(
+	jobData: OysterInventoryDataModel,
+	newRateScaled: bigint,
+	waitingTime: number
+) {
+	const { id } = jobData;
+	try {
+		await initiateBandwidthRateReviseOysterJob(id, newRateScaled);
+		initiateRateReviseInOysterStore(id, jobData, newRateScaled, waitingTime);
+		return { status: true };
+	} catch (e) {
+		console.log('e :>> ', e);
+		return { status: false };
+	}
+}
+
 export async function handleInitiateCreditJobRateRevise(
 	jobData: OysterInventoryDataModel,
 	newRateScaled: bigint,
@@ -159,8 +179,26 @@ export async function handleInitiateCreditJobRateRevise(
 	try {
 		await initiateRateReviseOysterCreditJob(id, newRateScaled);
 		initiateRateReviseInOysterStore(id, jobData, newRateScaled, waitingTime);
+		return { status: true };
 	} catch (e) {
 		console.log('e :>> ', e);
+		return { status: false };
+	}
+}
+
+export async function handleInitiateCreditBandwidthRateRevise(
+	jobData: OysterInventoryDataModel,
+	newRateScaled: bigint,
+	waitingTime: number
+) {
+	const { id } = jobData;
+	try {
+		await initiateBandwidthRateReviseOysterCreditJob(id, newRateScaled);
+		initiateRateReviseInOysterStore(id, jobData, newRateScaled, waitingTime);
+		return { status: true };
+	} catch (e) {
+		console.log('e :>> ', e);
+		return { status: false };
 	}
 }
 
@@ -206,6 +244,20 @@ export async function handleFinaliseJobRateRevise(
 	}
 }
 
+export async function handleFinaliseJobBandwidthRateRevise(
+	jobData: OysterInventoryDataModel,
+	newRateScaled: bigint,
+	newDuration: number
+) {
+	const { id } = jobData;
+	try {
+		await finaliseBandwidthRateReviseOysterJob(id);
+		updateJobRateInOysterStore(id, newRateScaled, newDuration);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
 export async function handleFinaliseCreditJobRateRevise(
 	jobData: OysterInventoryDataModel,
 	newRateScaled: bigint,
@@ -214,6 +266,20 @@ export async function handleFinaliseCreditJobRateRevise(
 	const { id } = jobData;
 	try {
 		await finaliseRateReviseOysterCreditJob(id);
+		updateJobRateInOysterStore(id, newRateScaled, newDuration);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+export async function handleFinaliseCreditJobBandwidthRateRevise(
+	jobData: OysterInventoryDataModel,
+	newRateScaled: bigint,
+	newDuration: number
+) {
+	const { id } = jobData;
+	try {
+		await finaliseBandwidthRateReviseOysterCreditJob(id);
 		updateJobRateInOysterStore(id, newRateScaled, newDuration);
 	} catch (e) {
 		console.log('e :>> ', e);

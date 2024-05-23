@@ -262,6 +262,38 @@ export async function initiateRateReviseOysterJob(jobId: BytesLike, rate: bigint
 	}
 }
 
+export async function initiateBandwidthRateReviseOysterJob(jobId: BytesLike, rate: bigint) {
+	const oysterContract = createSignerContract(contractAddresses.OYSTER, OYSTER_MARKET_ABI);
+	try {
+		const initiateTxnMessage = '';
+		const successTxnMessage = '';
+		const errorTxnMessage = 'Unable to initiate rate revision for Oyster Job.';
+		const parentFunctionName = 'initiateRateReviseOysterJob';
+		const initiateTxnTitle = MESSAGES.TOAST.INIT_CHANGE_BANDWIDTH.CREATED;
+		const successTxnTitle = MESSAGES.TOAST.INIT_CHANGE_BANDWIDTH.SUCCESS;
+		const failedTxnTitle = MESSAGES.TOAST.INIT_CHANGE_BANDWIDTH.FAILED;
+		const titles = {
+			initiateTxnTitle,
+			successTxnTitle,
+			failedTxnTitle
+		};
+
+		const { txn } = await createTransaction(
+			() => oysterContract.jobReviseRateInitiate(jobId, rate),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName,
+			titles,
+			{ disableToastDescription: true }
+		);
+
+		return txn;
+	} catch (error: any) {
+		throw new Error('Transaction Error');
+	}
+}
+
 export async function cancelRateReviseOysterJob(jobId: BytesLike) {
 	const oysterContract = createSignerContract(contractAddresses.OYSTER, OYSTER_MARKET_ABI);
 	try {
@@ -306,6 +338,36 @@ export async function finaliseRateReviseOysterJob(jobId: BytesLike) {
 			successTxnMessage,
 			errorTxnMessage,
 			parentFunctionName
+		);
+
+		return txn;
+	} catch (error: any) {
+		throw new Error('Transaction Error');
+	}
+}
+
+export async function finaliseBandwidthRateReviseOysterJob(jobId: BytesLike) {
+	const oysterContract = createSignerContract(contractAddresses.OYSTER, OYSTER_MARKET_ABI);
+	try {
+		const initiateTxnMessage = '';
+		const successTxnMessage = '';
+		const errorTxnMessage = 'Unable to finalise rate revision for Oyster Job.';
+		const parentFunctionName = 'finaliseRateReviseOysterJob';
+
+		const titles = {
+			initiateTxnTitle: MESSAGES.TOAST.FINAL_CHANGE_BANDWIDTH.CREATED,
+			successTxnTitle: MESSAGES.TOAST.FINAL_CHANGE_BANDWIDTH.SUCCESS,
+			failedTxnTitle: MESSAGES.TOAST.FINAL_CHANGE_BANDWIDTH.FAILED
+		};
+
+		const { txn } = await createTransaction(
+			() => oysterContract.jobReviseRateFinalize(jobId),
+			initiateTxnMessage,
+			successTxnMessage,
+			errorTxnMessage,
+			parentFunctionName,
+			titles,
+			{ disableToastDescription: true }
 		);
 
 		return txn;

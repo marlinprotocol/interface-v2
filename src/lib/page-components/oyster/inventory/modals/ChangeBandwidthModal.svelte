@@ -9,8 +9,12 @@
 		oysterTokenMetadataStore
 	} from '$lib/data-stores/oysterStore';
 	import {
+		handleFinaliseCreditJobBandwidthRateRevise,
 		handleFinaliseCreditJobRateRevise,
+		handleFinaliseJobBandwidthRateRevise,
 		handleFinaliseJobRateRevise,
+		handleInitiateBandwidthRateRevise,
+		handleInitiateCreditBandwidthRateRevise,
 		handleInitiateCreditJobRateRevise,
 		handleInitiateJobRateRevise
 	} from '$lib/utils/services/oysterServices';
@@ -51,9 +55,9 @@
 		submitLoading = true;
 
 		if (isCreditJob) {
-			await handleFinaliseCreditJobRateRevise(jobData, newHourlyRateScaled, newDuration);
+			await handleFinaliseCreditJobBandwidthRateRevise(jobData, newHourlyRateScaled, newDuration);
 		} else {
-			await handleFinaliseJobRateRevise(jobData, newHourlyRateScaled, newDuration);
+			await handleFinaliseJobBandwidthRateRevise(jobData, newHourlyRateScaled, newDuration);
 		}
 		closeModal(modalFor);
 		submitLoading = false;
@@ -61,20 +65,25 @@
 
 	let onInit = async () => {
 		submitLoading = true;
+		let finalStatus = false;
 		if (isCreditJob) {
-			await handleInitiateCreditJobRateRevise(
+			const { status } = await handleInitiateCreditBandwidthRateRevise(
 				jobData,
 				newHourlyRateScaled,
 				$oysterRateMetadataStore.rateReviseWaitingTime
 			);
+			finalStatus = status;
 		} else {
-			await handleInitiateJobRateRevise(
+			const { status } = await handleInitiateBandwidthRateRevise(
 				jobData,
 				newHourlyRateScaled,
 				$oysterRateMetadataStore.rateReviseWaitingTime
 			);
+			finalStatus = status;
 		}
-		btnText = 'Confirm';
+		if (finalStatus) {
+			btnText = 'Confirm';
+		}
 		closeModal(modalFor);
 		submitLoading = false;
 	};
@@ -241,7 +250,7 @@
 						<InputCard variant="warning">
 							<Text
 								styleClass="py-2"
-								text="Time left to confirm: {epochToDurationString(timer)}"
+								text="Time left to finalize bandwidth revision:: {epochToDurationString(timer)}"
 								variant="small"
 							/>
 						</InputCard>

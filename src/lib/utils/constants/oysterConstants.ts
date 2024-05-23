@@ -171,7 +171,7 @@ export const OYSTER_INVENTORY_TABLE_HEADER: TableModel['header'][] = [
 		title: 'IP ADDRESS',
 		id: 'ip',
 		sorting: true,
-		tooltipText: 'Ip address of the deployed instance'
+		tooltipText: 'IP address of the deployed instance'
 	},
 	{
 		title: 'BALANCE',

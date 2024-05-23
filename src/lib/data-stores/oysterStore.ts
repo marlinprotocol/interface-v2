@@ -312,7 +312,11 @@ export function updateJobStatusOnTimerEndInOysterStore(jobData: OysterInventoryD
 	});
 }
 
-export function updateJobRateInOysterStore(id: BytesLike, newRateScaled: bigint) {
+export function updateJobRateInOysterStore(
+	id: BytesLike,
+	newRateScaled: bigint,
+	newDuration?: number
+) {
 	oysterStore.update((value) => {
 		return {
 			...value,
@@ -320,6 +324,7 @@ export function updateJobRateInOysterStore(id: BytesLike, newRateScaled: bigint)
 				if (job.id === id) {
 					return {
 						...job,
+						durationLeft: newDuration || job.durationLeft,
 						rateScaled: newRateScaled,
 						reviseRate: undefined
 					};

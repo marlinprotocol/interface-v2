@@ -194,12 +194,13 @@ export function handleJobStatusOnStopTimerEnd(jobData: OysterInventoryDataModel)
 
 export async function handleFinaliseJobRateRevise(
 	jobData: OysterInventoryDataModel,
-	newRateScaled: bigint
+	newRateScaled: bigint,
+	newDuration: number
 ) {
 	const { id } = jobData;
 	try {
 		await finaliseRateReviseOysterJob(id);
-		updateJobRateInOysterStore(id, newRateScaled);
+		updateJobRateInOysterStore(id, newRateScaled, newDuration);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}
@@ -207,12 +208,13 @@ export async function handleFinaliseJobRateRevise(
 
 export async function handleFinaliseCreditJobRateRevise(
 	jobData: OysterInventoryDataModel,
-	newRateScaled: bigint
+	newRateScaled: bigint,
+	newDuration: number
 ) {
 	const { id } = jobData;
 	try {
 		await finaliseRateReviseOysterCreditJob(id);
-		updateJobRateInOysterStore(id, newRateScaled);
+		updateJobRateInOysterStore(id, newRateScaled, newDuration);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}

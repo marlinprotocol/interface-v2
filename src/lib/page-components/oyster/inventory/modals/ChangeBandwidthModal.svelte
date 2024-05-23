@@ -40,20 +40,20 @@
 	let checkboxAcknowledge = false;
 	let currentBandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
 	let newBandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
-	let submitLoading = false;
+	$: submitLoading = false || rateStatus === 'pending';
 
 	const onClose = () => {};
 	const BANDWIDTH_UNIT_LIST = OYSTER_BANDWIDTH_UNITS_LIST.map((unit) => unit.label);
 	const TEXT = `Increasing the bandwidth reduces the total duration of the instance. Add more funds to increase the duration whereas reducing the bandwidth increases the total duration of the instance.`;
 	const nowTime = new Date().getTime() / 1000;
 
-	let onConfirm = async () => {
+	let onConfirm = async (newDuration: number) => {
 		submitLoading = true;
 
 		if (isCreditJob) {
-			await handleFinaliseCreditJobRateRevise(jobData, newHourlyRateScaled);
+			await handleFinaliseCreditJobRateRevise(jobData, newHourlyRateScaled, newDuration);
 		} else {
-			await handleFinaliseJobRateRevise(jobData, newHourlyRateScaled);
+			await handleFinaliseJobRateRevise(jobData, newHourlyRateScaled, newDuration);
 		}
 		closeModal(modalFor);
 		submitLoading = false;
@@ -79,11 +79,11 @@
 		submitLoading = false;
 	};
 
-	let onSubmit = () => {
+	$: onSubmit = () => {
 		if (btnText === 'Initiate') {
 			onInit();
 		} else {
-			onConfirm();
+			onConfirm(newDuration);
 		}
 	};
 

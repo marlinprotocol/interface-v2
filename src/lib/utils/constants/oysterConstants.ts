@@ -245,6 +245,7 @@ export const OYSTER_MARKETPLACE_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'Instance',
 		id: 'instance',
+		centered: true,
 		sorting: true,
 		tooltipText: 'Instance type used for the job'
 	},
@@ -252,33 +253,39 @@ export const OYSTER_MARKETPLACE_TABLE_HEADER: TableModel['header'][] = [
 		title: 'Region',
 		id: 'region',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Region in which the enclave is deployed.'
 	},
 	{
 		title: 'vCPU',
 		id: 'vcpu',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Number of vCPUs in the instance'
 	},
 	{
 		title: 'Memory',
 		id: 'memory',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Memory allocated to the instance'
 	},
 	{
 		title: 'Arch',
 		id: 'arch',
+		centered: true,
 		tooltipText: 'Architecture of the instance'
 	},
 	{
 		title: 'Rate',
 		id: 'rateScaled',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Rate that the operator charges for each hour of usage.'
 	},
 	{
 		title: '',
+		centered: true,
 		id: 'action'
 	}
 ];

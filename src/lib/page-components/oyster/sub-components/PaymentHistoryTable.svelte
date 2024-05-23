@@ -11,7 +11,6 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 
 	export let tableData: OysterDepositHistoryDataModel[] = [];
-	$: console.log('table data', tableData);
 	$: filteredTableData = tableData.slice(0, 5);
 </script>
 

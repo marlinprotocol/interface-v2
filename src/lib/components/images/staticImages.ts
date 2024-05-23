@@ -144,6 +144,7 @@ const NuLinkLogo = '/images/NuLink.svg';
 const lighthouseLogo = '/images/lighthouse.svg';
 const accsealLogo = '/images/accsealLogo.svg';
 const filLogo = '/images/fil.svg';
+const talusLogo = '/images/talus.svg';
 
 export const staticImages = {
 	Alert,
@@ -288,5 +289,6 @@ export const staticImages = {
 	NuLinkLogo,
 	lighthouseLogo,
 	accsealLogo,
-	filLogo
+	filLogo,
+	talusLogo
 };

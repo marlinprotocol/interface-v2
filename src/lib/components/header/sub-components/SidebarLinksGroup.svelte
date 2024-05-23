@@ -4,6 +4,7 @@
 	import { staticImages } from '$lib/components/images/staticImages';
 	import { isNavOpen } from '$lib/data-stores/navStore';
 	import type { SidebarLinks } from '$lib/types/headerTypes';
+	import { SIDEBAR_DROPDOWN_LINK_IDS } from '$lib/utils/constants/constants';
 	import { menuItems } from '$lib/utils/constants/navigation';
 	import { EXTERNAL_LINKS, ROUTES } from '$lib/utils/constants/urls';
 	import { cn } from '$lib/utils/helpers/commonHelper';
@@ -57,6 +58,7 @@
 		},
 		{
 			label: 'Oyster',
+			id: SIDEBAR_DROPDOWN_LINK_IDS.oyster,
 			icon: activeLink.includes(ROUTES.OYSTER_URL)
 				? staticImages.oysterIconBlue
 				: staticImages.oysterIcon,
@@ -70,6 +72,7 @@
 		},
 		{
 			label: 'Relay',
+			id: SIDEBAR_DROPDOWN_LINK_IDS.relay,
 			href: ROUTES.RELAY_URL,
 			icon: staticImages.relayIcon,
 			children: [
@@ -96,6 +99,7 @@
 		},
 		{
 			label: 'Bridge',
+			id: SIDEBAR_DROPDOWN_LINK_IDS.bridge,
 			icon: activeLink.includes(ROUTES.BRIDGE_URL)
 				? staticImages.bridgeIconBlue
 				: staticImages.bridgeIcon,
@@ -137,7 +141,7 @@
 		class="relative max-h-[calc(100dvh-5rem-176px)] overflow-hidden after:absolute after:bottom-0 after:h-10 after:w-full after:bg-gradient-to-b after:from-transparent after:to-white"
 	>
 		<ul class="menu max-h-full flex-nowrap overflow-y-auto overflow-x-hidden px-0 pb-10 pt-0">
-			{#each links as { icon, label, children, href, openInNewTab, hasDashboard }}
+			{#each links as { icon, label, children, href, openInNewTab, hasDashboard, id }}
 				{#if children}
 					<li>
 						<div
@@ -150,6 +154,7 @@
 							on:keydown|self={(e) => handleParentLinkKeyPress(e, label, href, hasDashboard)}
 							role="button"
 							tabindex="0"
+							{id}
 						>
 							<div class="pointer-events-none flex items-start gap-3">
 								<div class="flex h-6 w-6 items-center justify-center">

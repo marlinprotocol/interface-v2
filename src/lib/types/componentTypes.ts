@@ -85,7 +85,8 @@ export type CardsList = {
 
 export type CardButton = {
 	text: string;
-	href: string;
+	href?: string;
+	onclick?: () => void;
 	icon?: {
 		src: string;
 		alt: string;

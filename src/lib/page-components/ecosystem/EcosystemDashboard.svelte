@@ -19,12 +19,12 @@
 	let filteredPartners: filterDataModal;
 
 	const partners: filterDataModal = [
-		{
-			name: 'Myri',
-			logo: undefined,
-			website: '#',
-			category: ['AI']
-		},
+		// {
+		// 	name: 'Myri',
+		// 	logo: undefined,
+		// 	website: '#',
+		// 	category: ['AI']
+		// },
 		{
 			name: 'Sigmoid',
 			logo: staticImages.sigmoIdLogo,
@@ -37,12 +37,12 @@
 			website: 'https://www.accseal.com/',
 			category: ['Zero Knowledge', 'Bitcoin L2', 'AI']
 		},
-		{
-			name: 'Operator.io',
-			logo: staticImages.operatorLogo,
-			website: 'https://operator.io/',
-			category: ['AI']
-		},
+		// {
+		// 	name: 'Operator.io',
+		// 	logo: staticImages.operatorLogo,
+		// 	website: 'https://operator.io/',
+		// 	category: ['AI']
+		// },
 		{
 			name: 'PublicAI',
 			logo: staticImages.publicAiLogo,
@@ -121,12 +121,12 @@
 			website: 'https://space.id/',
 			category: ['Gateways']
 		},
-		{
-			name: 'ETH.LIMO',
-			logo: staticImages.limoLogo,
-			website: 'https://eth.limo/',
-			category: ['Gateways']
-		},
+		// {
+		// 	name: 'ETH.LIMO',
+		// 	logo: staticImages.limoLogo,
+		// 	website: 'https://eth.limo/',
+		// 	category: ['Gateways']
+		// },
 		{
 			name: 'Aspecta',
 			logo: staticImages.aspectaLogo,

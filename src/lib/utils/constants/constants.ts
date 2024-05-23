@@ -18,3 +18,9 @@ export const SECONDS_IN_HUNDRED_YEARS = 60 * 60 * 24 * 365 * 100; //not accounti
 
 export const POND_PRECISIONS = 2;
 export const MPOND_PRECISIONS = 6;
+
+export const SIDEBAR_DROPDOWN_LINK_IDS = {
+	oyster: 'oyster-sidebar-link',
+	relay: 'relay-sidebar-link',
+	bridge: 'bridge-sidebar-link'
+};

@@ -136,6 +136,7 @@ const spaceIdLogo = '/images/spaceid.svg';
 const exploreIcon = '/images/explore.svg';
 const copyIcon = '/images/copyIconNew.svg';
 const infoIconPurple = '/images/information-purple.svg';
+const infoIconWhite = '/images/information-white.svg';
 const sigmoIdLogo = '/images/sigmoid.svg';
 const mcGrillUni = '/images/mcgill-university.svg';
 const fishingMan = '/images/fishing-man.svg';
@@ -286,5 +287,6 @@ export const staticImages = {
 	KontosLogo,
 	NuLinkLogo,
 	lighthouseLogo,
-	accsealLogo
+	accsealLogo,
+	infoIconWhite
 };

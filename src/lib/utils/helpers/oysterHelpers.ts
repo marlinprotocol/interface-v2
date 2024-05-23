@@ -582,8 +582,6 @@ export const transformOysterJobDataToInventoryDataModel = (
 	return newJob;
 };
 
-const DEFAULT_BANDWIDTH_UNIT = 'GB/s';
-
 const BYTES_IN_KB = 1024;
 const BYTES_IN_MB = BYTES_IN_KB * 1024;
 
@@ -609,9 +607,7 @@ export const calculateBandwidthRate = (
 	const rateForRegion = getBandwidthRateForRegion(region);
 
 	// Determine the divisor for the given bandwidth unit
-	const divisor = calculateDivisor(
-		bandwidthUnit === DEFAULT_BANDWIDTH_UNIT ? 'GB/s' : bandwidthUnit
-	);
+	const divisor = calculateDivisor(bandwidthUnit === 'GB/s' ? 'GB/s' : bandwidthUnit);
 
 	return (bandwidthInBigInt * rateForRegion) / BigInt(divisor);
 };

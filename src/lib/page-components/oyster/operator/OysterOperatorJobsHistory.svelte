@@ -75,7 +75,7 @@
 	<EmptyCard
 		slot="emptyState"
 		description={$oysterStore.providerData.registered
-			? 'There isn’t any history to be displayed	.'
+			? 'There isn’t any history to be displayed.'
 			: 'You aren’t providing infra on Oyster. Join the network.'}
 		imageSrc={staticImages.fishingMan}
 		imageAlt="Fishing Man"

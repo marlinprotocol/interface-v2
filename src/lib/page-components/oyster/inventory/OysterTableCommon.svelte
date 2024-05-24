@@ -32,7 +32,7 @@
 			})}
 		>
 			<NetworkPrompt
-				description="Switch to the appropriate network and connect your wallet to get started."
+				description="Switch to the appropriate network and connect your wallet to get started"
 				variant="white"
 				showIcon={false}
 			>

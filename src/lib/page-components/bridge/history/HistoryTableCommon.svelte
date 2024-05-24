@@ -44,7 +44,7 @@
 		<div class="my-4 flex justify-center text-center">
 			<NetworkPrompt
 				showIcon={false}
-				description="Switch to the appropriate network and connect your wallet to get started."
+				description="Switch to the appropriate network and connect your wallet to get started"
 				variant="white"
 			>
 				<ConnectWalletButton

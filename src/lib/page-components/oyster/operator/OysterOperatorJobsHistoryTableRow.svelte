@@ -5,6 +5,7 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 	import {
 		bigNumberToString,
 		epochSecToString,
@@ -37,25 +38,25 @@
 		</svelte:fragment>
 	</NameWithAddress>
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{instance ?? 'N/A'}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{region ?? 'N/A'}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{epochSecToString(createdAt)}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{epochSecToString(endEpochTime)}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	<Tooltip>
 		<span slot="tooltipContent">{epochToDurationStringLong(durationRun)}</span>
 		<span slot="tooltipIcon">{epochToDurationString(durationRun, true)}</span>
 	</Tooltip>
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 		totalDeposit,
 		$oysterTokenMetadataStore.decimal

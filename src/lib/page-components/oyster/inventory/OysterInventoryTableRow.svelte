@@ -76,19 +76,19 @@
 		</svelte:fragment>
 	</NameWithAddress>
 </td>
-<td class={tableClasses.cell}>
-	<div class="flex items-center justify-start gap-2">
+<td class={cn(tableClasses.cell, 'w-[200px]')}>
+	<div class="flex items-center justify-center gap-2 text-center">
 		{ip ?? 'N/A'}
 		{#if ip}
 			<button
-				class="cursor-pointer opacity-0 group-hover/row:opacity-100"
+				class="hidden group-hover/row:block"
 				on:click={() => handleCopyClick(ip, 'IP Address copied to clipboard')}
 			>
 				<img src={staticImages.copyIcon} alt="Copy" />
 			</button>
 		{/if}
 		<button
-			class={cn('flex cursor-pointer items-center opacity-0 group-hover/row:opacity-100', {
+			class={cn('hidden group-hover/row:block', {
 				'animate-spin': refreshLoading
 			})}
 			on:click={() => refreshJobStatus(id)}
@@ -97,7 +97,7 @@
 		</button>
 	</div>
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{#if isCreditJob}
 		<Tooltip>
 			<span slot="tooltipContent">This instance is using credits</span>
@@ -136,9 +136,9 @@
 		</Tooltip>
 	{/if}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'flex h-[64px] items-center justify-center')}>
 	<Timer timerId="timer-for-inventory-table-row-{id}" {endEpochTime}>
-		<div slot="active">
+		<div class="" slot="active">
 			<Tooltip>
 				<span slot="tooltipContent">{epochToDurationStringLong(durationLeft)}</span>
 				<span slot="tooltipIcon">
@@ -159,7 +159,7 @@
 		</div>
 	</Timer>
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	<CollapseButton
 		{isOpen}
 		onclick={() => {

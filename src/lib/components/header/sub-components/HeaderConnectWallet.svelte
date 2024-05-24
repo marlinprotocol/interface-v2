@@ -37,5 +37,5 @@
 {#if $connected}
 	<DisconnectWalletButton bind:lastAddress={previousWalletAddress} />
 {:else}
-	<ConnectWalletButton />
+	<ConnectWalletButton chainDomId="header-chain-switcher-dropdown" />
 {/if}

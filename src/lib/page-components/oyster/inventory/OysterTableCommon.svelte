@@ -36,7 +36,11 @@
 				variant="white"
 				showIcon={false}
 			>
-				<ConnectWalletButton slot="cta" styleClass="bg-white h-fit mt-4 px-8 py-4 rounded-2xl" />
+				<ConnectWalletButton
+					chainDomId="oyster-table-column-chain-switcher-dropdown"
+					slot="cta"
+					styleClass="bg-white h-fit mt-4 px-8 py-4 rounded-2xl"
+				/>
 			</NetworkPrompt>
 		</div>
 	{:else if loading}

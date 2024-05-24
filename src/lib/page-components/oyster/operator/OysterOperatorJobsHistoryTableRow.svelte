@@ -29,7 +29,9 @@
 <td class={tableClasses.cell}>
 	<NameWithAddress {address} {name} {rowIndex}>
 		<svelte:fragment slot="copyIcon">
-			<div class="hidden cursor-pointer group-hover:flex">
+			<div
+				class="invisible cursor-pointer opacity-0 group-hover/row:visible group-hover/row:opacity-100"
+			>
 				<img src={staticImages.copyIcon} alt="Copy" />
 			</div>
 		</svelte:fragment>

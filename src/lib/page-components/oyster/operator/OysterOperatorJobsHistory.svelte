@@ -65,7 +65,7 @@
 >
 	{#if paginatedData?.length}
 		{#each paginatedData as rowData, rowIndex}
-			<tr class={cn(tableClasses.row, 'group h-16 hover:bg-base-200')}>
+			<tr class={cn(tableClasses.row, 'group/row h-16 hover:bg-base-200')}>
 				<OysterOperatorJobsHistoryTableRow {rowData} {rowIndex} />
 			</tr>
 		{/each}

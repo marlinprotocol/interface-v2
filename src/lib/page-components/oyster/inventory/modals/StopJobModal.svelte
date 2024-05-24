@@ -114,7 +114,7 @@
 		{#if stopStatus === 'disabled'}
 			<InputCard variant="warning" styleClass="mt-4">
 				<Text
-					styleClass="py-2"
+					styleClass="py-2 whitespace-normal"
 					text="A non zero rate revision has been initiated. Please wait for it to be confirmed or cancel it using CANCEL RATE AMEND button."
 					variant="small"
 				/>

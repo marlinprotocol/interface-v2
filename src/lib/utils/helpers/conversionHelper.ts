@@ -64,7 +64,7 @@ export const epochToDurationString = (epoch: number, mini = false) => {
 	}
 	if (count >= 2) return durationString.trimEnd();
 	if (seconds > 0) {
-		durationString += seconds + 'S';
+		durationString += seconds.toFixed() + 'S';
 		if (mini) return durationString;
 		count++;
 	}

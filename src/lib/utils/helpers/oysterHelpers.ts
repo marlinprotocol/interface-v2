@@ -1,4 +1,5 @@
 import {
+	DEFAULT_BANDWIDTH_UNIT,
 	OYSTER_CAUTION_DURATION,
 	OYSTER_DURATION_UNITS_LIST,
 	OYSTER_WARNING_DURATION
@@ -483,11 +484,12 @@ export const addRegionNameToMarketplaceData = (objArray: OysterMarketplaceDataMo
 };
 
 // returns bandwidth rate in Kb/s
-export function getBandwidthFromRateAndRegion(bandwidthRate: bigint, region: string) {
+export function getBandwidthFromRateAndRegion(bandwidthRateScaled: bigint, region: string) {
 	const rateForRegion = getBandwidthRateForRegion(region);
 	if (rateForRegion === undefined || rateForRegion === 0n) return 0n;
 	// + 1n is done to ceil the number since in bigInt division we floor the number
-	const bandwidthWithAllPrecision = (bandwidthRate * BigInt(1024 * 1024)) / rateForRegion + 1n;
+	const bandwidthWithAllPrecision =
+		(bandwidthRateScaled * BigInt(1024 * 1024)) / rateForRegion + 1n;
 
 	return bandwidthWithAllPrecision;
 }
@@ -578,4 +580,25 @@ export const transformOysterJobDataToInventoryDataModel = (
 		settlementHistory: []
 	};
 	return newJob;
+};
+
+function getBandwidthDivisor(unit: string): bigint {
+	if (unit === DEFAULT_BANDWIDTH_UNIT) {
+		return BigInt(1024 * 1024);
+	} else if (unit === 'MB/s') {
+		return BigInt(1024);
+	} else {
+		return BigInt(1);
+	}
+}
+
+export const calculateBandwidthRate = (
+	bandwidth: string,
+	region: string,
+	bandwidthUnit: string
+) => {
+	const bandwidthInBigInt = BigInt(bandwidth);
+	const rateForRegion = getBandwidthRateForRegion(region);
+	const divisor = getBandwidthDivisor(bandwidthUnit);
+	return (bandwidthInBigInt * rateForRegion) / divisor;
 };

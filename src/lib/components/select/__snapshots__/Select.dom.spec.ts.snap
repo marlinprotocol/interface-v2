@@ -4,7 +4,7 @@ exports[`Select > renders with default props 1`] = `
 <body>
   <div>
     <div
-      class="search-container relative flex w-fit cursor-pointer items-baseline s-Q2GksoR5hVxS"
+      class="search-container relative flex w-fit items-baseline s-Q2GksoR5hVxS"
       data-testid="select"
     >
       <div

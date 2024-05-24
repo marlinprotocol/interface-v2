@@ -18,7 +18,9 @@ import {
 	addFundsToOysterJob,
 	cancelRateReviseOysterJob,
 	createNewOysterJob,
+	finaliseBandwidthRateReviseOysterJob,
 	finaliseRateReviseOysterJob,
+	initiateBandwidthRateReviseOysterJob,
 	initiateRateReviseOysterJob,
 	settleOysterJob,
 	stopOysterJob,
@@ -36,7 +38,9 @@ import {
 	addCreditsToOysterJob,
 	cancelRateReviseOysterCreditJob,
 	createNewOysterJobWithCredits,
+	finaliseBandwidthRateReviseOysterCreditJob,
 	finaliseRateReviseOysterCreditJob,
+	initiateBandwidthRateReviseOysterCreditJob,
 	initiateRateReviseOysterCreditJob,
 	stopOysterCreditJob,
 	withdrawFundsFromOysterCreditJob
@@ -138,29 +142,63 @@ export async function handleFundsWithdrawFromCreditJob(
 
 export async function handleInitiateJobRateRevise(
 	jobData: OysterInventoryDataModel,
-	newRate: bigint,
+	newRateScaled: bigint,
 	waitingTime: number
 ) {
 	const { id } = jobData;
 	try {
-		await initiateRateReviseOysterJob(id, newRate);
-		initiateRateReviseInOysterStore(id, jobData, newRate, waitingTime);
+		await initiateRateReviseOysterJob(id, newRateScaled);
+		initiateRateReviseInOysterStore(id, jobData, newRateScaled, waitingTime);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}
 }
 
-export async function handleInitiateCreditJobRateRevise(
+export async function handleInitiateBandwidthRateRevise(
 	jobData: OysterInventoryDataModel,
-	newRate: bigint,
+	newRateScaled: bigint,
 	waitingTime: number
 ) {
 	const { id } = jobData;
 	try {
-		await initiateRateReviseOysterCreditJob(id, newRate);
-		initiateRateReviseInOysterStore(id, jobData, newRate, waitingTime);
+		await initiateBandwidthRateReviseOysterJob(id, newRateScaled);
+		initiateRateReviseInOysterStore(id, jobData, newRateScaled, waitingTime);
+		return { status: true };
 	} catch (e) {
 		console.log('e :>> ', e);
+		return { status: false };
+	}
+}
+
+export async function handleInitiateCreditJobRateRevise(
+	jobData: OysterInventoryDataModel,
+	newRateScaled: bigint,
+	waitingTime: number
+) {
+	const { id } = jobData;
+	try {
+		await initiateRateReviseOysterCreditJob(id, newRateScaled);
+		initiateRateReviseInOysterStore(id, jobData, newRateScaled, waitingTime);
+		return { status: true };
+	} catch (e) {
+		console.log('e :>> ', e);
+		return { status: false };
+	}
+}
+
+export async function handleInitiateCreditBandwidthRateRevise(
+	jobData: OysterInventoryDataModel,
+	newRateScaled: bigint,
+	waitingTime: number
+) {
+	const { id } = jobData;
+	try {
+		await initiateBandwidthRateReviseOysterCreditJob(id, newRateScaled);
+		initiateRateReviseInOysterStore(id, jobData, newRateScaled, waitingTime);
+		return { status: true };
+	} catch (e) {
+		console.log('e :>> ', e);
+		return { status: false };
 	}
 }
 
@@ -194,12 +232,27 @@ export function handleJobStatusOnStopTimerEnd(jobData: OysterInventoryDataModel)
 
 export async function handleFinaliseJobRateRevise(
 	jobData: OysterInventoryDataModel,
-	newRate: bigint
+	newRateScaled: bigint,
+	newDuration: number
 ) {
 	const { id } = jobData;
 	try {
 		await finaliseRateReviseOysterJob(id);
-		updateJobRateInOysterStore(id, newRate);
+		updateJobRateInOysterStore(id, newRateScaled, newDuration);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+export async function handleFinaliseJobBandwidthRateRevise(
+	jobData: OysterInventoryDataModel,
+	newRateScaled: bigint,
+	newDuration: number
+) {
+	const { id } = jobData;
+	try {
+		await finaliseBandwidthRateReviseOysterJob(id);
+		updateJobRateInOysterStore(id, newRateScaled, newDuration);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}
@@ -207,12 +260,27 @@ export async function handleFinaliseJobRateRevise(
 
 export async function handleFinaliseCreditJobRateRevise(
 	jobData: OysterInventoryDataModel,
-	newRate: bigint
+	newRateScaled: bigint,
+	newDuration: number
 ) {
 	const { id } = jobData;
 	try {
 		await finaliseRateReviseOysterCreditJob(id);
-		updateJobRateInOysterStore(id, newRate);
+		updateJobRateInOysterStore(id, newRateScaled, newDuration);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+export async function handleFinaliseCreditJobBandwidthRateRevise(
+	jobData: OysterInventoryDataModel,
+	newRateScaled: bigint,
+	newDuration: number
+) {
+	const { id } = jobData;
+	try {
+		await finaliseBandwidthRateReviseOysterCreditJob(id);
+		updateJobRateInOysterStore(id, newRateScaled, newDuration);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}

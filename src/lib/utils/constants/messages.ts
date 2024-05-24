@@ -20,6 +20,16 @@ export const MESSAGES = {
 			FAILED: 'Initiate stop failed',
 			CREATED: 'Initiating stop'
 		},
+		INIT_CHANGE_BANDWIDTH: {
+			SUCCESS: 'Initiated bandwidth revision',
+			FAILED: 'Failed initialization',
+			CREATED: 'Initiating bandwidth revision'
+		},
+		FINAL_CHANGE_BANDWIDTH: {
+			SUCCESS: 'Revised bandwidth rate',
+			FAILED: 'Failed revision',
+			CREATED: 'Revising bandwidth rate'
+		},
 		STOP_JOB: {
 			SUCCESS: 'Job stopped',
 			FAILED: 'Job stop failed',

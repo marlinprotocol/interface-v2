@@ -96,7 +96,7 @@ const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInven
 		const _rateUpdatesAt = Number(updatesAt);
 		const _rateStatus = _rateUpdatesAt > nowTime ? 'pending' : 'completed';
 		reviseRateMap = {
-			newRate: BigInt(value),
+			newRateScaled: BigInt(value),
 			rateStatus: _rateStatus,
 			stopStatus: BigInt(value) > 0n ? 'disabled' : _rateStatus,
 			updatesAt: Number(updatesAt)

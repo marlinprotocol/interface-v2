@@ -64,7 +64,7 @@
 </script>
 
 <td class={tableClasses.cell}>
-	<NameWithAddress {name} {address} {rowIndex}>
+	<NameWithAddress {name} {address} long {rowIndex}>
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
 				<div

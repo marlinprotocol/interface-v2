@@ -47,7 +47,7 @@ export type CommonVariant =
 
 export type Toast = {
 	id?: number;
-	message: { title: string; description: string };
+	message: { title: string; description?: string };
 	dismissible?: boolean;
 	timeout?: number;
 	variant: CommonVariant;
@@ -55,7 +55,7 @@ export type Toast = {
 
 export type ToastModel = {
 	bgColor: string;
-	message: { title: string; description: string };
+	message: { title: string; description?: string };
 	className: string;
 	dismissible: boolean;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -85,7 +85,8 @@ export type CardsList = {
 
 export type CardButton = {
 	text: string;
-	href: string;
+	href?: string;
+	onclick?: () => void;
 	icon?: {
 		src: string;
 		alt: string;

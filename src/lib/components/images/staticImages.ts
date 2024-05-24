@@ -136,6 +136,7 @@ const spaceIdLogo = '/images/spaceid.svg';
 const exploreIcon = '/images/explore.svg';
 const copyIcon = '/images/copyIconNew.svg';
 const infoIconPurple = '/images/information-purple.svg';
+const infoIconWhite = '/images/information-white.svg';
 const sigmoIdLogo = '/images/sigmoid.svg';
 const mcGrillUni = '/images/mcgill-university.svg';
 const fishingMan = '/images/fishing-man.svg';
@@ -143,6 +144,8 @@ const KontosLogo = '/images/Kontos.svg';
 const NuLinkLogo = '/images/NuLink.svg';
 const lighthouseLogo = '/images/lighthouse.svg';
 const accsealLogo = '/images/accsealLogo.svg';
+const filLogo = '/images/fil.svg';
+const talusLogo = '/images/talus.svg';
 
 export const staticImages = {
 	Alert,
@@ -286,5 +289,8 @@ export const staticImages = {
 	KontosLogo,
 	NuLinkLogo,
 	lighthouseLogo,
-	accsealLogo
+	accsealLogo,
+	infoIconWhite,
+	filLogo,
+	talusLogo
 };

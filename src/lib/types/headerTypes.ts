@@ -1,3 +1,5 @@
+import type { SIDEBAR_DROPDOWN_LINK_IDS } from '$lib/utils/constants/constants';
+
 export type NavLinkModel = {
 	label: string;
 	href?: string;
@@ -20,7 +22,11 @@ export type SidebarLinks = {
 	label: string;
 	href: string;
 	icon: string;
+	id?: SidebarDropdownLinkIds;
 	hasDashboard?: boolean;
 	children?: SubLinks[];
 	openInNewTab?: boolean;
 };
+
+export type SidebarDropdownLinkIds =
+	(typeof SIDEBAR_DROPDOWN_LINK_IDS)[keyof typeof SIDEBAR_DROPDOWN_LINK_IDS];

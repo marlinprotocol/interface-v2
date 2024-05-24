@@ -22,7 +22,8 @@ export async function createTransaction(
 	successTxnMessage: string,
 	errorTxnMessage: string,
 	parentFunctionName: string,
-	titles?: { initiateTxnTitle?: string; successTxnTitle?: string; failedTxnTitle?: string }
+	titles?: { initiateTxnTitle?: string; successTxnTitle?: string; failedTxnTitle?: string },
+	config?: { disableToastDescription: boolean }
 ) {
 	try {
 		addToast({
@@ -38,7 +39,7 @@ export async function createTransaction(
 		addToast({
 			message: {
 				title: titles?.initiateTxnTitle || '',
-				description: MESSAGES.TOAST.TRANSACTION.CREATED
+				description: !config?.disableToastDescription ? MESSAGES.TOAST.TRANSACTION.CREATED : ''
 			},
 			variant: 'warning'
 		});
@@ -50,7 +51,7 @@ export async function createTransaction(
 		if (!approveReciept) {
 			addToast({
 				message: {
-					description: MESSAGES.TOAST.TRANSACTION.FAILED,
+					description: !config?.disableToastDescription ? MESSAGES.TOAST.TRANSACTION.FAILED : '',
 					title: titles?.failedTxnTitle || ''
 				},
 				variant: 'error'
@@ -62,7 +63,9 @@ export async function createTransaction(
 		addToast({
 			message: {
 				title: titles?.successTxnTitle || '',
-				description: MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + successTxnMessage
+				description: successTxnMessage
+					? MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + successTxnMessage
+					: ''
 			},
 			variant: 'success'
 		});

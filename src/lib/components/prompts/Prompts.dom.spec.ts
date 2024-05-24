@@ -9,7 +9,12 @@ describe('NetworkPrompt', () => {
 	});
 
 	it('should display the proper text and contain the ChainSwitcher component', async () => {
-		const { container, getByText } = render(NetworkPrompt, { props: {} });
+		const { container, getByText } = render(NetworkPrompt, {
+			props: {
+				title: 'Unsupported Network',
+				description: 'Please switch to one of the chains in the dropdown to continue.'
+			}
+		});
 
 		const heading = getByText('Unsupported Network');
 		const instruction = getByText(

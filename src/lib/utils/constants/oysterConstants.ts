@@ -42,7 +42,7 @@ export const OYSTER_INVENTORY_DATA_MODEL_BIG_INT_KEYS = [
 	'amountToBeSettled',
 	'rate',
 	'amount',
-	'newRate',
+	'newRateScaled',
 	'rateScaled'
 ];
 
@@ -119,37 +119,44 @@ export const OYSTER_OPERATOR_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'USER',
 		id: 'owner',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Address of user who created the job'
 	},
 	{
 		title: 'INSTANCE',
 		id: 'instance',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Instance type used for the job'
 	},
 	{
 		title: 'REGION',
 		id: 'region',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Region in which the enclave is deployed.'
 	},
 	{
 		title: 'STARTED',
 		id: 'createdAt',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Time when the job was started'
 	},
 	{
 		title: 'ENDED',
 		id: 'createdAt',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Time when the job was ended'
 	},
 	{
 		title: 'DURATION RUN',
 		id: 'durationRun',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Duration for which the job has run so far'
 	},
 	{
 		title: 'CLAIMED',
 		id: 'amountToBeSettled',
-		sorting: true
+		sorting: true,
+		tooltipText: 'Amount claimed'
 	}
 ];
 
@@ -164,7 +171,7 @@ export const OYSTER_INVENTORY_TABLE_HEADER: TableModel['header'][] = [
 		title: 'IP ADDRESS',
 		id: 'ip',
 		sorting: true,
-		tooltipText: 'Ip address of the deployed instance'
+		tooltipText: 'IP address of the deployed instance'
 	},
 	{
 		title: 'BALANCE',

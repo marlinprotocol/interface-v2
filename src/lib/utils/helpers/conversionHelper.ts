@@ -64,7 +64,7 @@ export const epochToDurationString = (epoch: number, mini = false) => {
 	}
 	if (count >= 2) return durationString.trimEnd();
 	if (seconds > 0) {
-		durationString += seconds + 'S';
+		durationString += seconds.toFixed() + 'S';
 		if (mini) return durationString;
 		count++;
 	}
@@ -114,13 +114,15 @@ export const epochToDurationStringLong = (epoch: number, mini = false) => {
  * @param bigNumberDecimal: decimal of the token, default set to 18
  * @param precision: number of digits after the decimal point, default set to 2
  * @param commify: default set to true
+ * @param locale: Specify the locale here
  * @returns string
  */
 export const bigNumberToString = (
 	value: bigint,
 	bigNumberDecimal = DEFAULT_CURRENCY_DECIMALS,
 	precision = DEFAULT_PRECISION,
-	commify = true
+	commify = true,
+	locale = 'en-US'
 ) => {
 	if (value === undefined || value === null) {
 		throw new Error('Invalid value');
@@ -131,7 +133,7 @@ export const bigNumberToString = (
 
 	const formattedValue = ethers.formatUnits(value, bigNumberDecimal);
 	const [integerPart, decimalPart] = formattedValue.split('.');
-	const commifiedIntegerPart = commify ? BigInt(integerPart).toLocaleString() : integerPart;
+	const commifiedIntegerPart = commify ? BigInt(integerPart).toLocaleString(locale) : integerPart;
 	const truncatedDecimalPart = decimalPart.slice(0, precision).padEnd(precision, '0');
 
 	return `${commifiedIntegerPart}.${truncatedDecimalPart}`;

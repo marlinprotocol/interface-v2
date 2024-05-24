@@ -109,7 +109,7 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 	amountToBeSettled: bigint;
 	rate: bigint;
 	reviseRate?: {
-		newRate: bigint;
+		newRateScaled: bigint;
 		updatesAt: number;
 		rateStatus: string; //'' | 'pending' | 'completed'
 		stopStatus: string; //'' | 'disabled' | 'pending' | 'completed'

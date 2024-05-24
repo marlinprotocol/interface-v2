@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { tableClasses } from '$lib/atoms/componentClasses';
 	import Table from '$lib/atoms/table/Table.svelte';
+	import EmptyCard from '$lib/components/empty-state/EmptyCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
+	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { TableModel } from '$lib/types/componentTypes';
 	import { cn } from '$lib/utils/helpers/commonHelper';
@@ -14,6 +17,7 @@
 	export let walletConnectionRequired = true;
 	export let emptyTableMessage = 'No data found!';
 	export let roundedBorders: boolean = true;
+	export let flexibleHeight: boolean = false;
 </script>
 
 <div
@@ -22,8 +26,18 @@
 	})}
 >
 	{#if !$connected && walletConnectionRequired}
-		<div class="my-4 flex h-96 flex-col items-center justify-center text-center">
-			<ConnectWalletButton styleClass="bg-[#F4F4F6] h-fit px-8 py-4 rounded-2xl" />
+		<div
+			class={cn('my-4 flex flex-col items-center justify-center text-center', {
+				'h-96': !flexibleHeight
+			})}
+		>
+			<NetworkPrompt
+				description="Switch to the appropriate network and connect your wallet to get started."
+				variant="white"
+				showIcon={false}
+			>
+				<ConnectWalletButton slot="cta" styleClass="bg-white h-fit mt-4 px-8 py-4 rounded-2xl" />
+			</NetworkPrompt>
 		</div>
 	{:else if loading}
 		<div class="my-4 flex justify-center text-center">
@@ -32,7 +46,11 @@
 	{:else if noDataFound}
 		<Table {roundedBorders} {tableHeading} {handleSortData} headingStyleClass="h-[32px]" />
 		<div class={cn(tableClasses.empty, 'mb-8')}>
-			{emptyTableMessage}
+			{#if $$slots.emptyState}
+				<slot name="emptyState" />
+			{:else}
+				{emptyTableMessage}
+			{/if}
 		</div>
 	{:else}
 		<Table {roundedBorders} {tableHeading} {handleSortData} headingStyleClass="h-[32px]">

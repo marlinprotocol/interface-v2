@@ -290,7 +290,7 @@
 				bind:duration
 				bind:invalidCost
 				bind:useMarlinCredits
-				isRedeploy
+				{isRedeploy}
 			/>
 			<BandwidthSelector
 				bind:region

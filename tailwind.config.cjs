@@ -41,6 +41,7 @@ module.exports = {
 		}
 	},
 	daisyui: {
+		logs: false,
 		themes: [
 			{
 				mytheme: {

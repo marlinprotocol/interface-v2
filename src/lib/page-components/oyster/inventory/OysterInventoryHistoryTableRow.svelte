@@ -16,6 +16,7 @@
 	import PastJobDetailsModal from './modals/PastJobDetailsModal.svelte';
 	import CreateOrderModal from './modals/CreateOrderModal.svelte';
 	import { tableClasses } from '$lib/atoms/componentClasses';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
@@ -35,7 +36,8 @@
 	$: statusColor = getColorHexByVariantForTag(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
-<td class={tableClasses.cell}>
+
+<td class={cn(tableClasses.cell, 'text-center')}>
 	<NameWithAddress {name} {address} long>
 		<svelte:fragment slot="copyIcon">
 			<div
@@ -47,7 +49,7 @@
 	</NameWithAddress>
 </td>
 
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{#if isCreditJob}
 		<Tooltip>
 			<span slot="tooltipContent">This instance was using credits</span>
@@ -86,10 +88,10 @@
 		</Tooltip>
 	{/if}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{$oysterTokenMetadataStore.symbol}{bigNumberToString(refund, $oysterTokenMetadataStore.decimal)}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	<Tooltip>
 		<div slot="tooltipIcon">
 			{epochToDurationString(endEpochTime - createdAt, true)}
@@ -99,7 +101,7 @@
 		</span>
 	</Tooltip>
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'flex h-[64px] items-center justify-center')}>
 	<div
 		class="w-[142px] rounded-full px-[31.5px] py-[10.5px] text-center text-sm capitalize text-[#030115]"
 		style="background-color: {statusColor}"
@@ -107,7 +109,7 @@
 		{status}
 	</div>
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	<ModalButton
 		variant="text"
 		styleClass="w-fit ml-4 mr-6"

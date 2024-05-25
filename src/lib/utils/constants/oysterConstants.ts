@@ -76,18 +76,21 @@ export const OYSTER_MERCHANT_JOB_TABLE_HEADER: TableModel['header'][] = [
 		title: 'INSTANCE',
 		id: 'instance',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Instance type used for the job'
 	},
 	{
 		title: 'REGION',
 		id: 'region',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Region in which the enclave is deployed.'
 	},
 	{
 		title: 'STARTED',
 		id: 'createdAt',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Time when the job was started'
 	},
 	{
@@ -101,11 +104,13 @@ export const OYSTER_MERCHANT_JOB_TABLE_HEADER: TableModel['header'][] = [
 		title: 'ACCRUED',
 		id: 'amountToBeSettled',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Amount earned so far by this job. You can claim this amount at any time.'
 	},
 	{
 		title: 'STATUS',
 		id: 'status',
+		centered: true,
 		sorting: true
 	},
 	{
@@ -126,36 +131,42 @@ export const OYSTER_OPERATOR_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 		title: 'INSTANCE',
 		id: 'instance',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Instance type used for the job'
 	},
 	{
 		title: 'REGION',
 		id: 'region',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Region in which the enclave is deployed.'
 	},
 	{
 		title: 'STARTED',
 		id: 'createdAt',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Time when the job was started'
 	},
 	{
 		title: 'ENDED',
 		id: 'createdAt',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Time when the job was ended'
 	},
 	{
 		title: 'DURATION RUN',
 		id: 'durationRun',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Duration for which the job has run so far'
 	},
 	{
 		title: 'CLAIMED',
 		id: 'amountToBeSettled',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Amount claimed'
 	}
 ];
@@ -171,22 +182,26 @@ export const OYSTER_INVENTORY_TABLE_HEADER: TableModel['header'][] = [
 		title: 'IP ADDRESS',
 		id: 'ip',
 		sorting: true,
+		centered: true,
 		tooltipText: 'IP address of the deployed instance'
 	},
 	{
 		title: 'BALANCE',
 		id: 'balance',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Amount left in the job'
 	},
 	{
 		title: 'DURATION LEFT',
 		id: 'durationLeft',
 		sorting: true,
+		centered: true,
 		tooltipText: 'Duration left for the job'
 	},
 	{
 		title: '',
+		centered: true,
 		id: 'action'
 	}
 ];
@@ -212,25 +227,30 @@ export const OYSTER_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'AMOUNT USED',
 		id: 'amountUsed',
-		sorting: true
+		sorting: true,
+		centered: true
 	},
 	{
 		title: 'REFUND',
 		id: 'refund',
-		sorting: true
+		sorting: true,
+		centered: true
 	},
 	{
 		title: 'DURATION RUN',
 		id: 'durationRun',
+		centered: true,
 		sorting: true
 	},
 	{
 		title: 'STATUS',
 		id: 'status',
+		centered: true,
 		sorting: true
 	},
 	{
 		title: '',
+		centered: true,
 		id: 'action'
 	}
 ];

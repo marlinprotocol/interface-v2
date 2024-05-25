@@ -7,7 +7,7 @@
 
 <td class={cn(styleClass, firstRow ? 'pl-4' : '')} data-testid="table-data-with-button">
 	<div class={tableClasses.row}>
-		<div class="m-auto flex h-[35px] items-center">
+		<div class={cn('m-auto flex h-[35px] items-center', !firstRow && 'justify-center')}>
 			<slot name="line1" />
 		</div>
 	</div>

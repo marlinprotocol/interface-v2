@@ -68,10 +68,10 @@
 							</a>
 						</div></td
 					>
-					<td class={tableClasses.cell}
+					<td class={cn(tableClasses.cell, 'text-center')}
 						>{bigNumberToString(row.pondConverted, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)}</td
 					>
-					<td class={tableClasses.cell}
+					<td class={cn(tableClasses.cell, 'text-center')}
 						>{bigNumberToString(row.mpondReceived, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)}</td
 					>
 				</tr>

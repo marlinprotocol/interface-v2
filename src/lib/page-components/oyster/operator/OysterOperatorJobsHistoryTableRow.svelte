@@ -5,6 +5,7 @@
 	import NameWithAddress from '$lib/components/texts/NameWithAddress.svelte';
 	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 	import type { OysterInventoryDataModel } from '$lib/types/oysterComponentType';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 	import {
 		bigNumberToString,
 		epochSecToString,
@@ -29,31 +30,33 @@
 <td class={tableClasses.cell}>
 	<NameWithAddress {address} {name} {rowIndex}>
 		<svelte:fragment slot="copyIcon">
-			<div class="hidden cursor-pointer group-hover:flex">
+			<div
+				class="invisible cursor-pointer opacity-0 group-hover/row:visible group-hover/row:opacity-100"
+			>
 				<img src={staticImages.copyIcon} alt="Copy" />
 			</div>
 		</svelte:fragment>
 	</NameWithAddress>
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{instance ?? 'N/A'}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{region ?? 'N/A'}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{epochSecToString(createdAt)}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{epochSecToString(endEpochTime)}
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	<Tooltip>
 		<span slot="tooltipContent">{epochToDurationStringLong(durationRun)}</span>
 		<span slot="tooltipIcon">{epochToDurationString(durationRun, true)}</span>
 	</Tooltip>
 </td>
-<td class={tableClasses.cell}>
+<td class={cn(tableClasses.cell, 'text-center')}>
 	{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 		totalDeposit,
 		$oysterTokenMetadataStore.decimal

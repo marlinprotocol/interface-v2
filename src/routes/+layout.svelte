@@ -38,7 +38,7 @@
 	<title>Marlin Hub</title>
 </svelte:head>
 
-<main class="h-dvh flex w-full font-poppins">
+<main class="flex h-dvh w-full font-poppins">
 	<!-- toasts are removed from the normal document flow as it has position fixed   -->
 	<Toast />
 

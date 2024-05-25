@@ -384,12 +384,19 @@ export async function settleOysterJob(jobId: BytesLike) {
 		const errorTxnMessage = 'Unable to settle Oyster Job.';
 		const parentFunctionName = 'settleOysterJob';
 
+		const titles = {
+			failedTxnTitle: 'Failed to claim',
+			successTxnTitle: 'Claimed',
+			initiateTxnTitle: 'Claiming'
+		};
+
 		const { txn } = await createTransaction(
 			() => oysterContract.jobSettle(jobId),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			titles
 		);
 
 		return txn;

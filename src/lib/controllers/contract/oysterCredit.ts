@@ -178,7 +178,8 @@ export async function initiateBandwidthRateReviseOysterCreditJob(jobId: BytesLik
 			successTxnMessage,
 			errorTxnMessage,
 			parentFunctionName,
-			titles
+			titles,
+			{ disableToastDescription: true }
 		);
 
 		return txn;

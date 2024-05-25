@@ -64,7 +64,7 @@
 </script>
 
 <td class={tableClasses.cell}>
-	<NameWithAddress {name} {address} {rowIndex}>
+	<NameWithAddress {name} {address} long {rowIndex}>
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
 				<div
@@ -100,13 +100,6 @@
 <td class={cn(tableClasses.cell, 'text-center')}>
 	{#if isCreditJob}
 		<Tooltip>
-			<span slot="tooltipContent">This instance is using credits</span>
-			<span
-				class="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-yellow-300 text-white"
-				slot="tooltipIcon">C</span
-			>
-		</Tooltip>
-		<Tooltip>
 			<span slot="tooltipContent"
 				>{bigNumberToString(
 					balance,
@@ -117,6 +110,13 @@
 			<span class="flex items-center" slot="tooltipIcon">
 				{bigNumberToString(balance, $oysterTokenMetadataStore.decimal)}
 			</span>
+		</Tooltip>
+		<Tooltip>
+			<span slot="tooltipContent">This instance is using credits</span>
+			<span
+				class="ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-yellow-300 text-white"
+				slot="tooltipIcon">C</span
+			>
 		</Tooltip>
 	{:else}
 		<Tooltip>

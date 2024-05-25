@@ -36,8 +36,9 @@
 	$: statusColor = getColorHexByVariantForTag(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
+
 <td class={cn(tableClasses.cell, 'text-center')}>
-	<NameWithAddress {name} {address}>
+	<NameWithAddress {name} {address} long>
 		<svelte:fragment slot="copyIcon">
 			<div
 				class="invisible cursor-pointer opacity-0 group-hover/row:visible group-hover/row:opacity-100"

@@ -15,7 +15,7 @@
 	type FilterCategory = (typeof filters)[number];
 
 	let searchInput = '';
-	let selectedFilter = 'View All';
+	let selectedFilter: FilterCategory = 'View All';
 	let filteredPartners: filterDataModal;
 
 	const partners: filterDataModal = [

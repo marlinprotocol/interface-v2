@@ -213,7 +213,7 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
             class="flex flex-col gap-6 text-lg font-light text-[#26272C]"
           >
             <div
-              class="rounded-xl border border-[#D9DADE] p-4"
+              class="whitespace-normal rounded-xl border border-[#D9DADE] p-4"
             >
               <div>
                 You have converted
@@ -241,7 +241,7 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
             </div>
              
             <div
-              class="rounded-xl border border-[#D9DADE] p-4"
+              class="whitespace-normal rounded-xl border border-[#D9DADE] p-4"
             >
               <div>
                 Updated Wallet Balance

@@ -29,7 +29,7 @@
 	<svelte:fragment slot="successmsg">Conversion Successful</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-6 text-lg font-light text-[#26272C]">
-			<div class="rounded-xl border border-[#D9DADE] p-4">
+			<div class="whitespace-normal rounded-xl border border-[#D9DADE] p-4">
 				<div>You have converted</div>
 				<div>
 					<span class="font-bold text-black"
@@ -46,7 +46,7 @@
 				</div>
 			</div>
 
-			<div class="rounded-xl border border-[#D9DADE] p-4">
+			<div class="whitespace-normal rounded-xl border border-[#D9DADE] p-4">
 				<div>Updated Wallet Balance</div>
 				<span class="font-bold text-black"
 					>{removeTrailingZeros(

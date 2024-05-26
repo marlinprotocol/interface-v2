@@ -80,7 +80,7 @@
 			)}
 		</p>
 		<span slot="tooltipContent"
-			>{$oysterTokenMetadataStore.symbol}${bigNumberToString(
+			>{$oysterTokenMetadataStore.symbol}{bigNumberToString(
 				amountToBeSettled,
 				$oysterTokenMetadataStore.decimal,
 				$oysterTokenMetadataStore.precision

@@ -9,7 +9,6 @@
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
-
 	export let tableTitle: {
 		backButton: {
 			firstText: string;
@@ -23,16 +22,24 @@
 	export let noDataFound: boolean;
 	export let tableHeading: TableModel['header'][];
 	export let fullWidth = true;
+	export let type: 'pond-to-mpond' | 'mpond-to-pond' = 'mpond-to-pond';
+	const isPondToMPond = type === 'pond-to-mpond';
 </script>
 
-<div class="flex items-center gap-4">
+<div class="mb-8 flex items-center gap-4">
 	<a
-		class="mb-8 flex h-[56px] w-[56px] items-center justify-center rounded-full border border-[#D9DADE] bg-white"
+		class="flex h-[56px] w-[56px] items-center justify-center rounded-full border border-[#D9DADE] bg-white"
 		href={tableTitle.backButton.href}
 	>
 		<img src={staticImages.backIcon} alt="Back Icon" />
 	</a>
-	<PageTitle title={tableTitle.title} />
+	<PageTitle wrapperClass="mb-0" title={tableTitle.title} />
+	<a
+		class="flex h-[56px] w-[56px] items-center justify-center rounded-full border border-[#D9DADE] bg-white"
+		href={isPondToMPond ? '/bridge/mPondToPondHistory/' : '/bridge/pondToMPondHistory/'}
+	>
+		<img src={staticImages.conversionIcon} alt="Conversion" />
+	</a>
 </div>
 <div
 	class={cn(
@@ -44,10 +51,14 @@
 		<div class="my-4 flex justify-center text-center">
 			<NetworkPrompt
 				showIcon={false}
-				description="Switch to the appropriate network and connect your wallet to get started."
+				description="Switch to the appropriate network and connect your wallet to get started"
 				variant="white"
 			>
-				<ConnectWalletButton slot="cta" styleClass="bg-white h-fit mt-4 px-8 py-4 rounded-2xl" />
+				<ConnectWalletButton
+					chainDomId="history-table-chain-switcher-dropdown"
+					slot="cta"
+					styleClass="bg-white h-fit mt-4 px-8 py-4 rounded-2xl"
+				/>
 			</NetworkPrompt>
 		</div>
 	{:else if loading}

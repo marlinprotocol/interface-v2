@@ -25,7 +25,7 @@ exports[`HeaderConnectWallet > renders ConnectWalletButton if wallet is not conn
     >
       <div
         class="dropdown dropdown-end"
-        id="chain-dropdown"
+        id="header-chain-switcher-dropdown"
       >
         <div
           class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-white text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"
@@ -385,7 +385,7 @@ exports[`HeaderConnectWallet > renders the Header Links Group component properly
     >
       <div
         class="dropdown dropdown-end"
-        id="chain-dropdown"
+        id="header-chain-switcher-dropdown"
       >
         <div
           class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-white text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"

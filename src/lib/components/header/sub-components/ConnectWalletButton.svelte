@@ -9,6 +9,7 @@
 	export let styleClass = '';
 	export let isLarge = false;
 	export let connectButtonText = 'Connect Wallet';
+	export let chainDomId: string = '';
 
 	const connect = async () => {
 		console.log('connecting to the wallet...');
@@ -27,7 +28,7 @@
 	</Button>
 {:else}
 	<div data-testid="connect-wallet-button" class={cn('flex items-center gap-2', styleClass)}>
-		<ChainSwitcher />
+		<ChainSwitcher id={chainDomId} />
 		<Button
 			onclick={connect}
 			size="small"

@@ -47,7 +47,7 @@ exports[`NetworkPrompt > render's the Network Prompt properly 1`] = `
            
           <div
             class="dropdown dropdown-end"
-            id="chain-dropdown"
+            id="network-prompt-chain-switcher-drop-down"
           >
             <div
               class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-white text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"

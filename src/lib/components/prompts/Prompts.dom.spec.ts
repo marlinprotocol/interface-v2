@@ -12,16 +12,14 @@ describe('NetworkPrompt', () => {
 		const { container, getByText } = render(NetworkPrompt, {
 			props: {
 				title: 'Unsupported Network',
-				description: 'Please switch to one of the chains in the dropdown to continue.'
+				description: 'Please switch to one of the chains in the dropdown to continue'
 			}
 		});
 
 		const heading = getByText('Unsupported Network');
-		const instruction = getByText(
-			'Please switch to one of the chains in the dropdown to continue.'
-		);
+		const instruction = getByText('Please switch to one of the chains in the dropdown to continue');
 
-		const chainSwitcher = container.querySelector('#chain-dropdown');
+		const chainSwitcher = container.querySelector('#network-prompt-chain-switcher-drop-down');
 
 		expect(heading).toBeTruthy();
 		expect(instruction).toBeTruthy();

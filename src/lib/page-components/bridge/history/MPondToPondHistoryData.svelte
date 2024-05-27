@@ -40,6 +40,7 @@
 			title: 'MPond to POND conversion history'
 		}}
 		{loading}
+		type="mpond-to-pond"
 		{handleSortData}
 		noDataFound={!paginatedData?.length}
 		tableHeading={MPOND_TO_POND_TABLE_HEADER}

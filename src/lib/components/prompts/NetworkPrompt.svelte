@@ -55,7 +55,7 @@
 		{:else}
 			<div class="mt-12 flex w-64 items-center justify-between rounded-full border border-white">
 				<span class="pl-4 font-medium text-[#D9DADE]">Switch</span>
-				<ChainSwitcher />
+				<ChainSwitcher id="network-prompt-chain-switcher-drop-down" />
 			</div>
 		{/if}
 	</div>

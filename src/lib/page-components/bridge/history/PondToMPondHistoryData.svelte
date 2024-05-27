@@ -47,6 +47,7 @@
 			},
 			title: 'POND to MPond conversion history'
 		}}
+		type="pond-to-mpond"
 		{loading}
 		{handleSortData}
 		noDataFound={!paginatedData?.length}

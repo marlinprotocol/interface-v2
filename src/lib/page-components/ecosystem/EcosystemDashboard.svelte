@@ -15,7 +15,7 @@
 	type FilterCategory = (typeof filters)[number];
 
 	let searchInput = '';
-	let selectedFilter = 'View All';
+	let selectedFilter: FilterCategory = 'View All';
 	let filteredPartners: filterDataModal;
 
 	const partners: filterDataModal = [
@@ -323,12 +323,8 @@
 </script>
 
 <div class=" flex w-full flex-col justify-start">
-	<PageTitle title="Explore The Ecosystem" />
-	<SearchBar
-		bind:input={searchInput}
-		placeholder="Search for the partner you are looking for..."
-		styleClass="w-full"
-	/>
+	<PageTitle title="Explore the ecosystem" />
+	<SearchBar bind:input={searchInput} placeholder="Search in here" styleClass="w-full" />
 
 	<div class="my-4 flex w-full flex-wrap gap-2 overflow-x-hidden">
 		{#each filters as filter}

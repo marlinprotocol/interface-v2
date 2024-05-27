@@ -29,9 +29,9 @@
 	<svelte:fragment slot="successmsg">Conversion Successful</svelte:fragment>
 	<svelte:fragment slot="content">
 		<div class="flex flex-col gap-6 text-lg font-light text-[#26272C]">
-			<div class="rounded-xl border border-[#D9DADE] p-4">
-				<div>You have converted</div>
-				<div>
+			<div class="whitespace-normal rounded-xl border border-[#D9DADE] p-4">
+				<div class="mb-2 text-center">You have converted</div>
+				<div class="text-center">
 					<span class="font-bold text-black"
 						>{amountConvertedFrom}
 						{conversionFrom.toUpperCase()}</span
@@ -46,19 +46,19 @@
 				</div>
 			</div>
 
-			<div class="rounded-xl border border-[#D9DADE] p-4">
-				<div>Updated Wallet Balance</div>
-				<span class="font-bold text-black"
-					>{removeTrailingZeros(
+			<div class="whitespace-normal rounded-xl border border-[#D9DADE] p-4">
+				<div class="mb-2 text-center">Updated Wallet Balance</div>
+				<p class="text-center font-bold text-black">
+					{removeTrailingZeros(
 						bigNumberToString($walletBalanceStore.pond, DEFAULT_CURRENCY_DECIMALS, 18)
 					)}
 					POND
-				</span>|
-				<span class="font-bold text-black">
+				</p>
+				<p class="text-center font-bold text-black">
 					{removeTrailingZeros(
 						bigNumberToString($walletBalanceStore.mpond, DEFAULT_CURRENCY_DECIMALS, 18)
-					)} MPond</span
-				>
+					)} MPond
+				</p>
 			</div>
 		</div>
 	</svelte:fragment>

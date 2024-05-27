@@ -122,10 +122,17 @@ export function updateAmountToBeSettledForJobInOysterStore(
 			...value,
 			merchantJobsData: value.merchantJobsData.map((job) => {
 				if (job.id === jobId) {
-					return {
-						...job,
-						amountToBeSettled: updatedAmount
-					};
+					if (job.status === 'completed') {
+						return {
+							...job,
+							status: 'stopped'
+						};
+					} else {
+						return {
+							...job,
+							amountToBeSettled: updatedAmount
+						};
+					}
 				}
 				return job;
 			})

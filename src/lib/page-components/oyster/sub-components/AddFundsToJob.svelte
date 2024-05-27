@@ -140,12 +140,7 @@
 		}
 	};
 
-	function isCostValid(instanceCostScaled: bigint, useMarlinCredits: boolean) {
-		const walletBalance = useMarlinCredits
-			? $oysterStore.credits.balance
-			: $walletBalanceStore[
-					$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
-				];
+	function isCostValid(instanceCostScaled: bigint, walletBalance: bigint) {
 		return Boolean(
 			instanceCostScaled &&
 				instanceCostScaled / $oysterRateMetadataStore.oysterRateScalingFactor <= walletBalance
@@ -161,15 +156,13 @@
 			return '';
 		}
 		if (invalidCost) {
-			const walletBalanceString = useMarlinCredits
-				? bigNumberToString($oysterStore.credits.balance, OYSTER_MARLIN_CREDIT_METADATA.decimal, 2)
-				: bigNumberToString(
-						$walletBalanceStore[
-							$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
-						],
-						$oysterTokenMetadataStore.decimal,
-						2
-					);
+			const walletBalanceString = bigNumberToString(
+				walletBalance,
+				useMarlinCredits
+					? OYSTER_MARLIN_CREDIT_METADATA.decimal
+					: $oysterTokenMetadataStore.decimal,
+				2
+			);
 			const currency = useMarlinCredits
 				? OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]
 				: $oysterTokenMetadataStore.currency;
@@ -179,10 +172,16 @@
 		return '';
 	}
 
+	$: walletBalance =
+		$oysterStore.credits.isWhitelisted && useMarlinCredits
+			? $oysterStore.credits.balance
+			: $walletBalanceStore[
+					$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
+				];
 	$: updateRateString(instanceRate);
 	$: durationString = computeDurationString(duration, durationUnitInSec);
 	$: instanceCostScaled = computeCost(duration || 0, instanceRate);
-	$: invalidCost = !isCostValid(instanceCostScaled, useMarlinCredits);
+	$: invalidCost = !isCostValid(instanceCostScaled, walletBalance);
 	$: inValidMessage = getInvalidMessage(instanceCostScaled, invalidCost, useMarlinCredits);
 </script>
 

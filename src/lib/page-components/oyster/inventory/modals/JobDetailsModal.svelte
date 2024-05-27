@@ -71,7 +71,7 @@
 					textStyle="truncate"
 				/>
 			</div>
-			<div class="flex flex-col gap-2 sm:flex-row">
+			<div class="flex flex-col flex-wrap gap-4 sm:flex-row md:flex-nowrap md:gap-2">
 				<TextInputCard title="Operator" value={name !== '' ? name : address} textStyle="truncate" />
 				<TextInputCard
 					title="IP Address"

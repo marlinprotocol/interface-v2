@@ -215,11 +215,15 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
             <div
               class="whitespace-normal rounded-xl border border-[#D9DADE] p-4"
             >
-              <div>
+              <div
+                class="mb-2 text-center"
+              >
                 You have converted
               </div>
                
-              <div>
+              <div
+                class="text-center"
+              >
                 <span
                   class="font-bold text-black"
                 >
@@ -243,26 +247,26 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
             <div
               class="whitespace-normal rounded-xl border border-[#D9DADE] p-4"
             >
-              <div>
+              <div
+                class="mb-2 text-center"
+              >
                 Updated Wallet Balance
               </div>
                
-              <span
-                class="font-bold text-black"
+              <p
+                class="text-center font-bold text-black"
               >
                 0
                 
 					POND
-				
-              </span>
-              |
-				
-              <span
-                class="font-bold text-black"
+              </p>
+               
+              <p
+                class="text-center font-bold text-black"
               >
                 0
                  MPond
-              </span>
+              </p>
             </div>
           </div>
         </div>

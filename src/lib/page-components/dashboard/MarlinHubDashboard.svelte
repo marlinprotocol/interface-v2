@@ -11,8 +11,17 @@
 	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	function clickNavLink(elementId: SidebarDropdownLinkIds) {
-		const navLink = document.getElementById(elementId);
+		const navLink = document.getElementById(elementId) as HTMLDivElement | undefined;
 		if (navLink) {
+			// // prevent toggle if already open
+			// const linksNode = navLink.nextElementSibling;
+			// const isDropDownOpen = linksNode
+			// 	? Array.from(linksNode?.classList).includes('menu-dropdown-show')
+			// 	: false;
+			// if (linksNode && isDropDownOpen) {
+			// 	return;
+			// }
+			// trigger
 			navLink.click();
 		}
 	}
@@ -34,7 +43,7 @@
 			logoAlt: 'Kalypso Icon',
 			description: 'Outsource ZKPs to a proof marketplace or join Kalypso as a prover',
 			buttons: [
-				{ text: 'dApp', href: ROUTES.KALYPSO_URL },
+				{ text: 'dApp', href: ROUTES.KALYPSO_URL, inAppRoute: true },
 				{ text: 'Learn', href: EXTERNAL_LINKS.KALYPSO_LEARN_LINK }
 			]
 		},
@@ -68,7 +77,11 @@
 			description:
 				'Marlin Relay is a decentralized relay network that transmits blocks and transactions between nodes of different blockchain network.',
 			buttons: [
-				{ text: 'dApp', onclick: () => clickNavLink(SIDEBAR_DROPDOWN_LINK_IDS.relay) },
+				{
+					text: 'dApp',
+					onclick: () => clickNavLink(SIDEBAR_DROPDOWN_LINK_IDS.relay),
+					inAppRoute: true
+				},
 				{ text: 'Learn', href: EXTERNAL_LINKS.RELAY_LEARN_LINK }
 			]
 		},
@@ -79,7 +92,7 @@
 			description:
 				'Discover the vast variety of dApps that can leverage Marlin coprocessors and apply for credits to kick start your decentralized infra journey',
 			buttons: [
-				{ text: 'Ecosystem', href: ROUTES.ECOSYSTEM_URL },
+				{ text: 'Ecosystem', href: ROUTES.ECOSYSTEM_URL, inAppRoute: true },
 				{
 					text: 'Apply for credits',
 					href: 'https://bit.ly/3BlS71b',
@@ -143,6 +156,7 @@
 							<a
 								class={cn(buttonClasses.greyOutlined, 'flex h-16 flex-1 text-base font-normal')}
 								href={button.href}
+								target={button.inAppRoute ? '_top' : '_blank'}
 							>
 								{#if button.icon}
 									{button.text.split(' ')[0]}<img

@@ -12,8 +12,10 @@
 	import Icon from '$lib/atoms/icons/Icon.svelte';
 	import chevronDown from 'svelte-awesome/icons/chevronDown';
 
+	export let id = 'chain-dropdown';
+
 	let activeChainImage = staticImages.chainLogo;
-	let dropdownOpen = false;
+	$: dropdownOpen = false;
 
 	function handleChainSwitch(chainId: number) {
 		if ($connected && chainId !== $chainStore.chainId) {
@@ -33,7 +35,7 @@
 	}
 
 	function closeSwitcherWhenClickedOutside(event: MouseEvent) {
-		const dropdown = document.getElementById('chain-dropdown');
+		const dropdown = document.getElementById(id);
 		if (!dropdown?.contains(event.target as Node)) {
 			closeDropdown();
 		}
@@ -49,7 +51,7 @@
 
 <svelte:window on:click={(e) => closeSwitcherWhenClickedOutside(e)} />
 
-<div class="dropdown dropdown-end" id="chain-dropdown">
+<div class="dropdown dropdown-end" {id}>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<div
 		tabindex={$allowedChainsStore.length === 0 ? -1 : 0}

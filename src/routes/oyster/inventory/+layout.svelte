@@ -115,6 +115,8 @@
 			localStorageJobs,
 			modifiedOysterJobs
 		);
+		// sort by duration: latest first
+		allOysterJobs.sort((job1, job2) => job1.durationLeft - job2.durationLeft);
 		initializeInventoryDataInOysterStore(allOysterJobs);
 		console.log('Oyster inventory data is loaded');
 	}

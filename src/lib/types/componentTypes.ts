@@ -91,6 +91,7 @@ export type CardButton = {
 		src: string;
 		alt: string;
 	};
+	inAppRoute?: boolean;
 	openInPopup?: {
 		modalFor: string;
 		descriptionText?: string;

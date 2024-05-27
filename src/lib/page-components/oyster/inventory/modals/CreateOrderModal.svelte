@@ -78,7 +78,7 @@
 			value: preFilledData?.arch || ''
 		}
 	};
-	let enaclaveImageInputs: string = '';
+	// let enaclaveImageInputs: string = '';
 
 	// deep copy of initial states
 	let merchant = {
@@ -116,8 +116,8 @@
 			region: region.value,
 			memory: Number(memory.split(' ')[0]),
 			vcpu: Number(vcpu),
-			url: finalEnclaveUrl,
-			inputs: enaclaveImageInputs
+			url: finalEnclaveUrl
+			// inputs: enaclaveImageInputs
 		});
 
 		const provider = {
@@ -308,12 +308,12 @@
 				placeholder="Paste URL here"
 				bind:input={enclaveImageUrl.value}
 			/>
-			<TextInputWithEndButton
-				styleClass="px-4 py-2 mt-4"
-				label="Enclave Inputs (Optional)"
-				placeholder="Paste enclave inputs here"
-				bind:input={enaclaveImageInputs}
-			/>
+			<!-- <TextInputWithEndButton -->
+			<!-- 	styleClass="px-4 py-2 mt-4" -->
+			<!-- 	label="Enclave Inputs (Optional)" -->
+			<!-- 	placeholder="Paste enclave inputs here" -->
+			<!-- 	bind:input={enaclaveImageInputs} -->
+			<!-- /> -->
 			<ErrorTextCard
 				styleClass="mt-0"
 				showError={!validEnclaveUrl}

@@ -35,10 +35,14 @@
 	</a>
 	<PageTitle wrapperClass="mb-0" title={tableTitle.title} />
 	<a
-		class="flex h-[56px] w-[56px] items-center justify-center rounded-full border border-[#D9DADE] bg-white"
+		class="group flex h-[56px] w-[56px] items-center justify-center rounded-full border border-[#D9DADE] bg-white"
 		href={isPondToMPond ? '/bridge/mPondToPondHistory/' : '/bridge/pondToMPondHistory/'}
 	>
-		<img src={staticImages.conversionIcon} alt="Conversion" />
+		<img
+			class="w-[24px] rotate-0 transform transition-transform duration-200 group-hover:rotate-180"
+			src={staticImages.dataTransferIcon}
+			alt="Conversion"
+		/>
 	</a>
 </div>
 <div

@@ -13,14 +13,14 @@
 	function clickNavLink(elementId: SidebarDropdownLinkIds) {
 		const navLink = document.getElementById(elementId) as HTMLDivElement | undefined;
 		if (navLink) {
-			// prevent toggle if already open
-			const linksNode = navLink.nextElementSibling;
-			const isDropDownOpen = linksNode
-				? Array.from(linksNode?.classList).includes('menu-dropdown-show')
-				: false;
-			if (linksNode && isDropDownOpen) {
-				return;
-			}
+			// // prevent toggle if already open
+			// const linksNode = navLink.nextElementSibling;
+			// const isDropDownOpen = linksNode
+			// 	? Array.from(linksNode?.classList).includes('menu-dropdown-show')
+			// 	: false;
+			// if (linksNode && isDropDownOpen) {
+			// 	return;
+			// }
 			// trigger
 			navLink.click();
 		}

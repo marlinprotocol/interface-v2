@@ -379,15 +379,15 @@ export async function finaliseBandwidthRateReviseOysterJob(jobId: BytesLike) {
 export async function settleOysterJob(jobId: BytesLike) {
 	const oysterContract = createSignerContract(contractAddresses.OYSTER, OYSTER_MARKET_ABI);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.SETTLE_JOB.SETTLING;
+		const initiateTxnMessage = '';
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.SETTLE_JOB.SETTLED;
 		const errorTxnMessage = 'Unable to settle Oyster Job.';
 		const parentFunctionName = 'settleOysterJob';
 
 		const titles = {
-			failedTxnTitle: 'Failed to claim',
-			successTxnTitle: 'Claimed',
-			initiateTxnTitle: 'Claiming'
+			initiateTxnTitle: MESSAGES.TOAST.ACTIONS.SETTLE_JOB.SETTLING,
+			failedTxnTitle: MESSAGES.TOAST.ACTIONS.SETTLE_JOB.FAILED,
+			successTxnTitle: MESSAGES.TOAST.ACTIONS.SETTLE_JOB.SETTLED
 		};
 
 		const { txn } = await createTransaction(

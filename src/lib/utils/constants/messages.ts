@@ -266,8 +266,9 @@ export const MESSAGES = {
 				AMENDED: 'Revised rate.'
 			},
 			SETTLE_JOB: {
-				SETTLING: 'Settling job.',
-				SETTLED: 'Job Settled.'
+				SETTLING: 'Settling job',
+				SETTLED: 'Job Settled',
+				FAILED: 'Failed'
 			},
 			UPDATE_ENCLAVE_URL_JOB: {
 				UPDATING: 'Updating enclave url.',

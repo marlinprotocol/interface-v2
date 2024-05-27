@@ -23,19 +23,16 @@
 
 	$: ({
 		provider: { name, address },
-		instance,
-		region,
 		status,
-		totalDeposit,
 		amountUsed,
 		refund,
 		createdAt,
 		endEpochTime,
 		isCreditJob
 	} = rowData);
+
 	$: statusColor = getColorHexByVariantForTag(getInventoryStatusVariant(status) as CommonVariant);
 </script>
-
 
 <td class={cn(tableClasses.cell, 'text-center')}>
 	<NameWithAddress {name} {address} long>

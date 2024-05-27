@@ -212,7 +212,7 @@
 		providerAddress,
 		instance.value,
 		region.value,
-		isRedeploy ? $oysterStore.jobsData : $oysterStore.allMarketplaceData
+		$oysterStore.allMarketplaceData
 	);
 	$: walletBalance =
 		$oysterStore.credits.isWhitelisted && useMarlinCredits

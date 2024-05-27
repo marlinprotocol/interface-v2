@@ -2,6 +2,7 @@
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import SearchWithSelect from '$lib/components/search/SearchWithSelect.svelte';
+	import { oysterStore } from '$lib/data-stores/oysterStore';
 	import type {
 		OysterFiltersModel,
 		OysterInventoryDataModel,
@@ -154,7 +155,7 @@
 				merchant.value,
 				instance.value,
 				region.value,
-				allMarketplaceData
+				$oysterStore.allMarketplaceData
 			)
 		: undefined;
 	$: set_vcpu(!instance.value ? '' : instanceData?.vcpu?.toString() ?? 'N/A');

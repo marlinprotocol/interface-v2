@@ -218,13 +218,17 @@ exports[`Modal > renders with required props 1`] = `
             class="flex flex-col gap-6 text-lg font-light text-[#26272C]"
           >
             <div
-              class="rounded-xl border border-[#D9DADE] p-4"
+              class="whitespace-normal rounded-xl border border-[#D9DADE] p-4"
             >
-              <div>
+              <div
+                class="mb-2 text-center"
+              >
                 You have converted
               </div>
                
-              <div>
+              <div
+                class="text-center"
+              >
                 <span
                   class="font-bold text-black"
                 >
@@ -246,28 +250,28 @@ exports[`Modal > renders with required props 1`] = `
             </div>
              
             <div
-              class="rounded-xl border border-[#D9DADE] p-4"
+              class="whitespace-normal rounded-xl border border-[#D9DADE] p-4"
             >
-              <div>
+              <div
+                class="mb-2 text-center"
+              >
                 Updated Wallet Balance
               </div>
                
-              <span
-                class="font-bold text-black"
+              <p
+                class="text-center font-bold text-black"
               >
                 0
                 
 					POND
-				
-              </span>
-              |
-				
-              <span
-                class="font-bold text-black"
+              </p>
+               
+              <p
+                class="text-center font-bold text-black"
               >
                 0
                  MPond
-              </span>
+              </p>
             </div>
           </div>
         </div>

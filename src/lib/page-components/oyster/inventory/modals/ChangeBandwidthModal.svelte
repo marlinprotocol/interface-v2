@@ -10,13 +10,9 @@
 	} from '$lib/data-stores/oysterStore';
 	import {
 		handleFinaliseCreditJobBandwidthRateRevise,
-		handleFinaliseCreditJobRateRevise,
 		handleFinaliseJobBandwidthRateRevise,
-		handleFinaliseJobRateRevise,
 		handleInitiateBandwidthRateRevise,
-		handleInitiateCreditBandwidthRateRevise,
-		handleInitiateCreditJobRateRevise,
-		handleInitiateJobRateRevise
+		handleInitiateCreditBandwidthRateRevise
 	} from '$lib/utils/services/oysterServices';
 	import Select from '$lib/components/select/Select.svelte';
 	import {
@@ -45,6 +41,10 @@
 	const BANDWIDTH_UNIT_LIST = OYSTER_BANDWIDTH_UNITS_LIST.map((unit) => unit.label);
 	const TEXT = `Increasing the bandwidth reduces the total duration of the instance. Add more funds to increase the duration whereas reducing the bandwidth increases the total duration of the instance.`;
 	const nowTime = new Date().getTime() / 1000;
+
+	let checkboxAcknowledge = false;
+	let currentBandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
+	let newBandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
 
 	let onConfirm = async (newDuration: number) => {
 		submitLoading = true;
@@ -104,9 +104,6 @@
 		isCreditJob
 	} = jobData);
 
-	let checkboxAcknowledge = false;
-	let currentBandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
-	let newBandwidthUnit = DEFAULT_BANDWIDTH_UNIT;
 	$: submitLoading = false || rateStatus === 'pending';
 
 	$: isRateRevisionInitiated = rateStatus === 'completed' || rateStatus === 'pending';
@@ -157,6 +154,8 @@
 	$: newDurationString = newBandwidth ? epochToDurationString(newDuration) : '';
 	// UI
 	$: btnText = rateStatus === '' ? 'Initiate' : 'Confirm';
+	$: disableSubmit =
+		newBandwidth === '' || newBandwidth === bandwidth || !checkboxAcknowledge || submitLoading;
 </script>
 
 <Modal {modalFor} {onClose}>
@@ -264,10 +263,8 @@
 			<div class="w-full">
 				<Button
 					bind:onclick={onSubmit}
-					disabled={newBandwidth === '' ||
-						newBandwidth === bandwidth ||
-						!checkboxAcknowledge ||
-						submitLoading}
+					loading={submitLoading}
+					disabled={disableSubmit}
 					variant="filled"
 					size="large"
 					styleClass="btn-block w-full my-0"

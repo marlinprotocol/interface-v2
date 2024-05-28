@@ -1,26 +1,28 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`SearchBar > render's the component properly 1`] = `
-<div>
-  <div
-    class="w-full bg-white px-4 py-2.5 rounded-[100px] relative flex gap-4 items-center border border-[#D9DADE]"
-    data-testid="input-card"
-  >
-     
-    <img
-      alt="Search Icon"
-      class="h-6 w-6"
-      src="/images/searchV2Icon.svg"
-    />
-     
-    <input
-      class="input input-ghost h-[30px] w-full text-base p-0 font-normal text-[#030115] focus:outline-none focus-within:border-b-2 focus-within:text-[#030115] focus:bg-transparent disabled:text-blue-500 placeholder-[#A8A8A8] hideInputNumberAppearance"
-      id="address-display"
-      placeholder="Search..."
-      prefix="0x"
-    />
+<body>
+  <div>
+    <div
+      class="w-full bg-white px-4 py-2.5 rounded-[100px] relative flex gap-4 items-center border border-[#D9DADE]"
+      data-testid="input-card"
+    >
+       
+      <img
+        alt="Search Icon"
+        class="h-6 w-6"
+        src="/images/searchV2Icon.svg"
+      />
+       
+      <input
+        class="input input-ghost h-[30px] w-full text-base p-0 font-normal text-[#030115] focus:outline-none focus-within:border-b-2 focus-within:text-[#030115] focus:bg-transparent disabled:text-blue-500 placeholder-[#A8A8A8] hideInputNumberAppearance"
+        id="address-display"
+        placeholder="Search..."
+        prefix="0x"
+      />
+    </div>
+    <!--&lt;InputCard&gt;-->
+    <!--&lt;SearchBar&gt;-->
   </div>
-  <!--&lt;InputCard&gt;-->
-  <!--&lt;SearchBar&gt;-->
-</div>
+</body>
 `;

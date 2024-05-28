@@ -1,170 +1,168 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`DisconnectWalletModal > renders properly 1`] = `
-<div>
-  <input
-    class="modal-toggle s-GZwqZrPaBy6h"
-    id="id-testing"
-    tabindex="-1"
-    type="checkbox"
-  />
-   
-  <div
-    class="modal s-GZwqZrPaBy6h"
-    data-testid="modal"
-  >
+<body>
+  <div>
+    <input
+      class="modal-toggle s-GZwqZrPaBy6h"
+      id="id-testing"
+      tabindex="-1"
+      type="checkbox"
+    />
+     
     <div
-      class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
+      class="modal s-GZwqZrPaBy6h"
+      data-testid="modal"
     >
       <div
-        class="modal-header sticky top-0 z-10 flex items-center justify-between bg-[#FCFCFC] px-6 pt-6 s-GZwqZrPaBy6h"
+        class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
       >
         <div
-          class="flex w-full flex-col s-GZwqZrPaBy6h"
+          class="modal-header sticky top-0 z-10 flex items-center justify-between bg-[#FCFCFC] px-6 pt-6 s-GZwqZrPaBy6h"
         >
-           
-           
-           
           <div
-            class="text-left text-[22px] font-medium tracking-[-1px] s-GZwqZrPaBy6h"
+            class="flex w-full flex-col s-GZwqZrPaBy6h"
           >
-            Your wallet
+             
+             
+             
+            <div
+              class="text-left text-[22px] font-medium tracking-[-1px] s-GZwqZrPaBy6h"
+            >
+              Your wallet
+            </div>
+             
           </div>
            
+          <button
+            class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+            data-testid="modal-close-button"
+          >
+            <img
+              alt="Close"
+              class="s-GZwqZrPaBy6h"
+              src="/images/closeIcon.svg"
+            />
+          </button>
         </div>
          
-        <button
-          class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
-          data-testid="modal-close-button"
-        >
-          <img
-            alt="Close"
-            class="s-GZwqZrPaBy6h"
-            src="/images/closeIcon.svg"
-          />
-        </button>
-      </div>
-       
-      <div
-        class="modal-body px-6 pt-4 s-GZwqZrPaBy6h"
-      >
         <div
-          class="mb-4 rounded-lg bg-base-200 p-4 text-left"
+          class="modal-body px-6 pt-4 s-GZwqZrPaBy6h"
         >
           <div
-            class="flex items-center text-sm font-normal"
+            class="mb-4 rounded-lg bg-base-200 p-4 text-left"
           >
-            My Address
+            <div
+              class="flex items-center text-sm font-normal"
+            >
+              My Address
 				
-            <div
-              class="tooltip ml-[14px] flex shrink-0 text-left font-normal ml-1 tooltip-secondary tooltip-right"
-              data-testid="tooltip-icon"
-              data-tip="Connected wallet address"
-            >
-              <img
-                alt="Info"
-                src="/images/alertV2Icon.svg"
-                width="14px"
-              />
+              <div
+                class="tooltip ml-[14px] flex shrink-0 text-left font-normal ml-1 tooltip-secondary tooltip-right"
+                data-testid="tooltip-icon"
+                data-tip="Connected wallet address"
+              >
+                <img
+                  alt="Info"
+                  src="/images/alertV2Icon.svg"
+                  width="14px"
+                />
+              </div>
+              <!--&lt;TooltipIcon&gt;-->
             </div>
-            <!--&lt;TooltipIcon&gt;-->
+             
+            <div
+              class="flex items-center"
+            >
+              <div
+                class="mt-1 w-[98%] overflow-hidden overflow-ellipsis text-xl font-semibold"
+                data-testid="wallet-address"
+              >
+                0x123
+              </div>
+               
+              <button
+                class="shrink-0 cursor-pointer"
+              >
+                <img
+                  alt="Copy"
+                  src="/images/copyIconNew.svg"
+                  width="18"
+                />
+              </button>
+            </div>
           </div>
            
           <div
-            class="flex items-center"
+            class="flex flex-wrap gap-4"
           >
-            <div
-              class="mt-1 w-[98%] overflow-hidden overflow-ellipsis text-xl font-semibold"
-              data-testid="wallet-address"
+            <button
+              class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3"
             >
-              0x123
-            </div>
+               
+              <span
+                class="text-2xl font-light"
+              >
+                +
+              </span>
+               Add 
+              POND
+            </button>
+            <!--&lt;Button&gt;-->
+            <!--&lt;AddTokenPrompt&gt;-->
              
             <button
-              class="shrink-0 cursor-pointer"
+              class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3"
             >
-              <img
-                alt="Copy"
-                src="/images/copyIconNew.svg"
-                width="18"
-              />
+               
+              <span
+                class="text-2xl font-light"
+              >
+                +
+              </span>
+               Add 
+              MPond
             </button>
+            <!--&lt;Button&gt;-->
+            <!--&lt;AddTokenPrompt&gt;-->
+             
+            <a
+              href="https://blockexplorer.com/address/0x123"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <button
+                class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3 flex-nowrap"
+              >
+                 
+                <img
+                  alt="Open"
+                  src="/images/openinnew.svg"
+                />
+                 
+                Block Explorer
+              </button>
+              <!--&lt;Button&gt;-->
+            </a>
           </div>
         </div>
          
         <div
-          class="flex flex-wrap gap-4"
+          class="modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
         >
           <button
-            class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3"
+            class="gap-1.5 h-14 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full font-semibold text-base"
           >
              
-            <span
-              class="text-2xl font-light"
-            >
-              +
-            </span>
-             Add 
-            POND
+            LOGOUT
           </button>
-          
           <!--&lt;Button&gt;-->
-          <!--&lt;AddTokenPrompt&gt;-->
-           
-          <button
-            class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3"
-          >
-             
-            <span
-              class="text-2xl font-light"
-            >
-              +
-            </span>
-             Add 
-            MPond
-          </button>
-          
-          <!--&lt;Button&gt;-->
-          <!--&lt;AddTokenPrompt&gt;-->
-           
-          <a
-            href="https://blockexplorer.com/address/0x123"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <button
-              class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3 flex-nowrap"
-            >
-               
-              <img
-                alt="Open"
-                src="/images/openinnew.svg"
-              />
-               
-              Block Explorer
-            </button>
-            
-            <!--&lt;Button&gt;-->
-          </a>
         </div>
+         
       </div>
-       
-      <div
-        class="modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
-      >
-        <button
-          class="gap-1.5 h-14 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full font-semibold text-base"
-        >
-           
-          LOGOUT
-        </button>
-        
-        <!--&lt;Button&gt;-->
-      </div>
-       
     </div>
+    <!--&lt;Modal&gt;-->
+    <!--&lt;DisconnectWalletModal&gt;-->
   </div>
-  <!--&lt;Modal&gt;-->
-  <!--&lt;DisconnectWalletModal&gt;-->
-</div>
+</body>
 `;

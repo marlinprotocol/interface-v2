@@ -1,52 +1,54 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Modal Component > render's modal correctly 1`] = `
-<div>
-  <input
-    class="modal-toggle s-GZwqZrPaBy6h"
-    id="test-modal"
-    tabindex="-1"
-    type="checkbox"
-  />
-   
-  <div
-    class="modal s-GZwqZrPaBy6h"
-    data-testid="modal"
-  >
+<body>
+  <div>
+    <input
+      class="modal-toggle s-GZwqZrPaBy6h"
+      id="test-modal"
+      tabindex="-1"
+      type="checkbox"
+    />
+     
     <div
-      class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
+      class="modal s-GZwqZrPaBy6h"
+      data-testid="modal"
     >
       <div
-        class="modal-header sticky top-0 z-10 flex items-center justify-between bg-[#FCFCFC] px-6 pt-6 s-GZwqZrPaBy6h"
+        class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
       >
         <div
-          class="flex w-full flex-col s-GZwqZrPaBy6h"
+          class="modal-header sticky top-0 z-10 flex items-center justify-between bg-[#FCFCFC] px-6 pt-6 s-GZwqZrPaBy6h"
         >
+          <div
+            class="flex w-full flex-col s-GZwqZrPaBy6h"
+          >
+             
+             
+             
+             
+          </div>
            
-           
-           
-           
+          <button
+            class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+            data-testid="modal-close-button"
+          >
+            <img
+              alt="Close"
+              class="s-GZwqZrPaBy6h"
+              src="/images/closeIcon.svg"
+            />
+          </button>
         </div>
          
-        <button
-          class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
-          data-testid="modal-close-button"
-        >
-          <img
-            alt="Close"
-            class="s-GZwqZrPaBy6h"
-            src="/images/closeIcon.svg"
-          />
-        </button>
+        <div
+          class="modal-body px-6 pt-4 pb-6 s-GZwqZrPaBy6h"
+        />
+         
+         
       </div>
-       
-      <div
-        class="modal-body px-6 pt-4 pb-6 s-GZwqZrPaBy6h"
-      />
-       
-       
     </div>
+    <!--&lt;Modal&gt;-->
   </div>
-  <!--&lt;Modal&gt;-->
-</div>
+</body>
 `;

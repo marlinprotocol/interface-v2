@@ -1,19 +1,21 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Table Cells > renders TableDataWithButton successfully 1`] = `
-<div>
-  <td
-    class="table-data-with-button-test-class"
-    data-testid="table-data-with-button"
-  >
-    <div
-      class="border-b border-[#D9DADE] font-normal whitespace-nowrap last:border-b-0"
+<body>
+  <div>
+    <td
+      class="table-data-with-button-test-class"
+      data-testid="table-data-with-button"
     >
       <div
-        class="m-auto flex h-[35px] items-center justify-center"
-      />
-    </div>
-  </td>
-  <!--&lt;TableDataWithButton&gt;-->
-</div>
+        class="border-b border-[#D9DADE] font-normal whitespace-nowrap last:border-b-0"
+      >
+        <div
+          class="m-auto flex h-[35px] items-center justify-center"
+        />
+      </div>
+    </td>
+    <!--&lt;TableDataWithButton&gt;-->
+  </div>
+</body>
 `;

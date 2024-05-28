@@ -1,86 +1,88 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`TableComponent > render's table correctly 1`] = `
-<div>
-  <div
-    class="custom-table-style"
-    data-testid="table-container"
-  >
-    <table
-      class="w-full rounded-[18px] text-center"
+<body>
+  <div>
+    <div
+      class="custom-table-style"
+      data-testid="table-container"
     >
-      <thead
-        class="w-full"
+      <table
+        class="w-full rounded-[18px] text-center"
       >
-        <tr>
-          <th
-            class="bg-[#F0F0F0] py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]"
-          >
-            <div
-              class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-center text-[14px] font-normal text-[#030115] custom-heading-style ml-4"
-              data-testid="table-heading-text"
+        <thead
+          class="w-full"
+        >
+          <tr>
+            <th
+              class="bg-[#F0F0F0] py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]"
             >
               <div
-                class="relative flex items-center gap-1"
+                class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-center text-[14px] font-normal text-[#030115] custom-heading-style ml-4"
+                data-testid="table-heading-text"
               >
-                <span
-                  class="w-fit tracking-widest"
+                <div
+                  class="relative flex items-center gap-1"
                 >
-                  Heading 1
-                </span>
-                 
+                  <span
+                    class="w-fit tracking-widest"
+                  >
+                    Heading 1
+                  </span>
+                   
+                </div>
               </div>
-            </div>
-            <!--&lt;TableHeadingText&gt;-->
-             
-          </th>
-          <th
-            class="bg-[#F0F0F0] py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]"
-          >
-            <div
-              class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-[14px] font-normal text-[#030115] custom-heading-style text-center"
-              data-testid="table-heading-text"
+              <!--&lt;TableHeadingText&gt;-->
+               
+            </th>
+            <th
+              class="bg-[#F0F0F0] py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]"
             >
               <div
-                class="relative flex items-center gap-1"
+                class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-[14px] font-normal text-[#030115] custom-heading-style text-center"
+                data-testid="table-heading-text"
               >
-                <span
-                  class="w-fit tracking-widest"
+                <div
+                  class="relative flex items-center gap-1"
                 >
-                  Heading 2
-                </span>
-                 
+                  <span
+                    class="w-fit tracking-widest"
+                  >
+                    Heading 2
+                  </span>
+                   
+                </div>
               </div>
-            </div>
-            <!--&lt;TableHeadingText&gt;-->
-             
-          </th>
-          <th
-            class="bg-[#F0F0F0] py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]"
-          >
-            <div
-              class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-[14px] font-normal text-[#030115] custom-heading-style text-center"
-              data-testid="table-heading-text"
+              <!--&lt;TableHeadingText&gt;-->
+               
+            </th>
+            <th
+              class="bg-[#F0F0F0] py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]"
             >
               <div
-                class="relative flex items-center gap-1"
+                class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-[14px] font-normal text-[#030115] custom-heading-style text-center"
+                data-testid="table-heading-text"
               >
-                <span
-                  class="w-fit tracking-widest"
+                <div
+                  class="relative flex items-center gap-1"
                 >
-                  Heading 3
-                </span>
-                 
+                  <span
+                    class="w-fit tracking-widest"
+                  >
+                    Heading 3
+                  </span>
+                   
+                </div>
               </div>
-            </div>
-            <!--&lt;TableHeadingText&gt;-->
-             
-          </th>
-        </tr>
-      </thead>
-       
-    </table>
+              <!--&lt;TableHeadingText&gt;-->
+               
+            </th>
+          </tr>
+        </thead>
+         
+      </table>
+    </div>
+    <!--&lt;Table&gt;-->
   </div>
-  <!--&lt;Table&gt;-->
-</div>
+</body>
 `;

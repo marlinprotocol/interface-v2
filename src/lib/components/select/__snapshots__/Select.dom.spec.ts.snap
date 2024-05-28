@@ -1,31 +1,33 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Select > renders with default props 1`] = `
-<div>
-  <div
-    class="search-container relative flex w-fit items-baseline s-Q2GksoR5hVxS"
-    data-testid="select"
-  >
+<body>
+  <div>
     <div
-      class="flex h-auto items-center s-Q2GksoR5hVxS"
+      class="search-container relative flex w-fit items-baseline s-Q2GksoR5hVxS"
+      data-testid="select"
     >
-       
-      <button
-        class="w-max"
-        data-testid="collapse-button"
-        disabled=""
-        id=""
+      <div
+        class="flex h-auto items-center s-Q2GksoR5hVxS"
       >
-        <img
-          alt="Collapse Icon"
-          class="rotate-0 transform transition duration-200"
-          src="/images/chevronDownIcon.svg"
-        />
-      </button>
-      <!--&lt;CollapseButton&gt;-->
+         
+        <button
+          class="w-max"
+          data-testid="collapse-button"
+          disabled=""
+          id=""
+        >
+          <img
+            alt="Collapse Icon"
+            class="rotate-0 transform transition duration-200"
+            src="/images/chevronDownIcon.svg"
+          />
+        </button>
+        <!--&lt;CollapseButton&gt;-->
+      </div>
+       
     </div>
-     
+    <!--&lt;Select&gt;-->
   </div>
-  <!--&lt;Select&gt;-->
-</div>
+</body>
 `;

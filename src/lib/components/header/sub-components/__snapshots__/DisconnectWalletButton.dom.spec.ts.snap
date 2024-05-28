@@ -1,250 +1,266 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`DisconnectWalletButton > renders the DisconnectWalletButton component properly 1`] = `
-<div>
-  <div
-    class="flex gap-2"
-    data-testid="disconnect-wallet-button"
-  >
+<body>
+  <onboard-v2
+    style="all: initial;"
+  />
+  <style>
+    
+    
+@font-face {
+  font-family: 'Inter';
+  font-style:  normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
+}
+
+  
+  </style>
+  <div>
     <div
-      class="dropdown dropdown-end"
-      id="chain-dropdown"
+      class="flex gap-2"
+      data-testid="disconnect-wallet-button"
     >
       <div
-        class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-white text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"
-        role="button"
+        class="dropdown dropdown-end"
+        id="chain-dropdown"
+      >
+        <div
+          class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-white text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="flex items-center justify-center"
+          >
+            <div
+              class="flex h-8 w-8 items-center justify-center"
+            >
+              <img
+                alt="current chain"
+                src="/images/arbitrum.webp"
+              />
+            </div>
+             
+            <div
+              class="ml-2"
+            >
+              <svg
+                aria-label=""
+                class="fa-icon icon-primary s-T5YyQewRBd7n"
+                data-testid="icon"
+                height="16"
+                role="presentation"
+                style="width:10px; height:10px; cursor:pointer;  "
+                version="1.1"
+                viewBox="0 0 1792 1792"
+                width="16"
+              >
+                <path
+                  d="M1683 808l-742 741q-19 19-45 19t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"
+                />
+                
+                 
+                 
+                
+                
+              </svg>
+              <!--&lt;Svg&gt;-->
+              <!--&lt;Icon&gt;-->
+              <!--&lt;Icon&gt;-->
+            </div>
+          </div>
+        </div>
+         
+      </div>
+      <!--&lt;ChainSwitcher&gt;-->
+       
+      <label
+        class="gap-1.5 font-normal btn btn-theme btn-sm disabled:cursor-not-allowed !rounded-[100px] bg-white text-black border border-[#D9DADE] hover:bg-base-200 h-12 chain-btn m-1 flex items-center justify-center"
+        for="disconnect-wallet-modal-v2"
         tabindex="0"
       >
+         
+         
+        <img
+          alt="Metamask Logo"
+          src="/images/discChain.svg"
+        />
+         
+        <div>
+          <p
+            class="text-sm font-medium text-[#030115]"
+          >
+            ...
+          </p>
+        </div>
+      </label>
+      <!--&lt;ModalButton&gt;-->
+    </div>
+     
+    <input
+      class="modal-toggle s-GZwqZrPaBy6h"
+      id="disconnect-wallet-modal-v2"
+      tabindex="-1"
+      type="checkbox"
+    />
+     
+    <div
+      class="modal s-GZwqZrPaBy6h"
+      data-testid="modal"
+    >
+      <div
+        class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
+      >
         <div
-          class="flex items-center justify-center"
+          class="modal-header sticky top-0 z-10 flex items-center justify-between bg-[#FCFCFC] px-6 pt-6 s-GZwqZrPaBy6h"
         >
           <div
-            class="flex h-8 w-8 items-center justify-center"
+            class="flex w-full flex-col s-GZwqZrPaBy6h"
+          >
+             
+             
+             
+            <div
+              class="text-left text-[22px] font-medium tracking-[-1px] s-GZwqZrPaBy6h"
+            >
+              Your wallet
+            </div>
+             
+          </div>
+           
+          <button
+            class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+            data-testid="modal-close-button"
           >
             <img
-              alt="current chain"
-              src="/images/arbitrum.webp"
+              alt="Close"
+              class="s-GZwqZrPaBy6h"
+              src="/images/closeIcon.svg"
             />
-          </div>
-           
-          <div
-            class="ml-2"
-          >
-            <svg
-              aria-label=""
-              class="fa-icon icon-primary s-T5YyQewRBd7n"
-              data-testid="icon"
-              height="16"
-              role="presentation"
-              style="width:10px; height:10px; cursor:pointer;  "
-              version="1.1"
-              viewBox="0 0 1792 1792"
-              width="16"
-            >
-              <path
-                d="M1683 808l-742 741q-19 19-45 19t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"
-              />
-               
-               
-              
-            </svg>
-            <!--&lt;Svg&gt;-->
-            <!--&lt;Icon&gt;-->
-            <!--&lt;Icon&gt;-->
-          </div>
-        </div>
-      </div>
-       
-    </div>
-    <!--&lt;ChainSwitcher&gt;-->
-     
-    <label
-      class="gap-1.5 font-normal btn btn-theme btn-sm disabled:cursor-not-allowed !rounded-[100px] bg-white text-black border border-[#D9DADE] hover:bg-base-200 h-12 chain-btn m-1 flex items-center justify-center"
-      for="disconnect-wallet-modal-v2"
-      tabindex="0"
-    >
-       
-       
-      <img
-        alt="Metamask Logo"
-        src="/images/discChain.svg"
-      />
-       
-      <div>
-        <p
-          class="text-sm font-medium text-[#030115]"
-        >
-          ...
-        </p>
-      </div>
-    </label>
-    <!--&lt;ModalButton&gt;-->
-  </div>
-   
-  <input
-    class="modal-toggle s-GZwqZrPaBy6h"
-    id="disconnect-wallet-modal-v2"
-    tabindex="-1"
-    type="checkbox"
-  />
-   
-  <div
-    class="modal s-GZwqZrPaBy6h"
-    data-testid="modal"
-  >
-    <div
-      class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
-    >
-      <div
-        class="modal-header sticky top-0 z-10 flex items-center justify-between bg-[#FCFCFC] px-6 pt-6 s-GZwqZrPaBy6h"
-      >
-        <div
-          class="flex w-full flex-col s-GZwqZrPaBy6h"
-        >
-           
-           
-           
-          <div
-            class="text-left text-[22px] font-medium tracking-[-1px] s-GZwqZrPaBy6h"
-          >
-            Your wallet
-          </div>
-           
+          </button>
         </div>
          
-        <button
-          class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
-          data-testid="modal-close-button"
-        >
-          <img
-            alt="Close"
-            class="s-GZwqZrPaBy6h"
-            src="/images/closeIcon.svg"
-          />
-        </button>
-      </div>
-       
-      <div
-        class="modal-body px-6 pt-4 s-GZwqZrPaBy6h"
-      >
         <div
-          class="mb-4 rounded-lg bg-base-200 p-4 text-left"
+          class="modal-body px-6 pt-4 s-GZwqZrPaBy6h"
         >
           <div
-            class="flex items-center text-sm font-normal"
+            class="mb-4 rounded-lg bg-base-200 p-4 text-left"
           >
-            My Address
+            <div
+              class="flex items-center text-sm font-normal"
+            >
+              My Address
 				
-            <div
-              class="tooltip ml-[14px] flex shrink-0 text-left font-normal ml-1 tooltip-secondary tooltip-right"
-              data-testid="tooltip-icon"
-              data-tip="Connected wallet address"
-            >
-              <img
-                alt="Info"
-                src="/images/alertV2Icon.svg"
-                width="14px"
-              />
+              <div
+                class="tooltip ml-[14px] flex shrink-0 text-left font-normal ml-1 tooltip-secondary tooltip-right"
+                data-testid="tooltip-icon"
+                data-tip="Connected wallet address"
+              >
+                <img
+                  alt="Info"
+                  src="/images/alertV2Icon.svg"
+                  width="14px"
+                />
+              </div>
+              <!--&lt;TooltipIcon&gt;-->
             </div>
-            <!--&lt;TooltipIcon&gt;-->
+             
+            <div
+              class="flex items-center"
+            >
+              <div
+                class="mt-1 w-[98%] overflow-hidden overflow-ellipsis text-xl font-semibold"
+                data-testid="wallet-address"
+              >
+                
+              </div>
+               
+              <button
+                class="shrink-0 cursor-pointer"
+              >
+                <img
+                  alt="Copy"
+                  src="/images/copyIconNew.svg"
+                  width="18"
+                />
+              </button>
+            </div>
           </div>
            
           <div
-            class="flex items-center"
+            class="flex flex-wrap gap-4"
           >
-            <div
-              class="mt-1 w-[98%] overflow-hidden overflow-ellipsis text-xl font-semibold"
-              data-testid="wallet-address"
+            <button
+              class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3"
             >
-              
-            </div>
+               
+              <span
+                class="text-2xl font-light"
+              >
+                +
+              </span>
+               Add 
+              POND
+            </button>
+            <!--&lt;Button&gt;-->
+            <!--&lt;AddTokenPrompt&gt;-->
              
             <button
-              class="shrink-0 cursor-pointer"
+              class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3"
             >
-              <img
-                alt="Copy"
-                src="/images/copyIconNew.svg"
-                width="18"
-              />
+               
+              <span
+                class="text-2xl font-light"
+              >
+                +
+              </span>
+               Add 
+              MPond
             </button>
+            <!--&lt;Button&gt;-->
+            <!--&lt;AddTokenPrompt&gt;-->
+             
+            <a
+              href="https://blockexplorer.com/address/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <button
+                class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3 flex-nowrap"
+              >
+                 
+                <img
+                  alt="Open"
+                  src="/images/openinnew.svg"
+                />
+                 
+                Block Explorer
+              </button>
+              <!--&lt;Button&gt;-->
+            </a>
           </div>
         </div>
          
         <div
-          class="flex flex-wrap gap-4"
+          class="modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
         >
           <button
-            class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3"
+            class="gap-1.5 h-14 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full font-semibold text-base"
           >
              
-            <span
-              class="text-2xl font-light"
-            >
-              +
-            </span>
-             Add 
-            POND
+            LOGOUT
           </button>
-          
           <!--&lt;Button&gt;-->
-          <!--&lt;AddTokenPrompt&gt;-->
-           
-          <button
-            class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3"
-          >
-             
-            <span
-              class="text-2xl font-light"
-            >
-              +
-            </span>
-             Add 
-            MPond
-          </button>
-          
-          <!--&lt;Button&gt;-->
-          <!--&lt;AddTokenPrompt&gt;-->
-           
-          <a
-            href="https://blockexplorer.com/address/"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <button
-              class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3 flex-nowrap"
-            >
-               
-              <img
-                alt="Open"
-                src="/images/openinnew.svg"
-              />
-               
-              Block Explorer
-            </button>
-            
-            <!--&lt;Button&gt;-->
-          </a>
         </div>
+         
       </div>
-       
-      <div
-        class="modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
-      >
-        <button
-          class="gap-1.5 h-14 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full font-semibold text-base"
-        >
-           
-          LOGOUT
-        </button>
-        
-        <!--&lt;Button&gt;-->
-      </div>
-       
     </div>
+    <!--&lt;Modal&gt;-->
+    <!--&lt;DisconnectWalletModal&gt;-->
+    <!--&lt;DisconnectWalletButton&gt;-->
   </div>
-  <!--&lt;Modal&gt;-->
-  <!--&lt;DisconnectWalletModal&gt;-->
-  <!--&lt;DisconnectWalletButton&gt;-->
-</div>
+</body>
 `;

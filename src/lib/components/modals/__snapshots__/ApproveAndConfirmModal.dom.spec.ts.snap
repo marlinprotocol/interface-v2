@@ -139,6 +139,7 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
              
             APPROVE
           </button>
+          
           <!--&lt;Button&gt;-->
           
         </div>
@@ -280,6 +281,7 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
              
             Finish
           </button>
+          
           <!--&lt;Button&gt;-->
         </div>
          

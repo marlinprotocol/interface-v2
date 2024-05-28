@@ -83,6 +83,7 @@ exports[`HeaderConnectWallet > renders ConnectWalletButton if wallet is not conn
          
         Connect Wallet
       </button>
+      
       <!--&lt;Button&gt;-->
     </div>
     
@@ -298,6 +299,7 @@ exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not c
                Add 
               POND
             </button>
+            
             <!--&lt;Button&gt;-->
             <!--&lt;AddTokenPrompt&gt;-->
              
@@ -313,6 +315,7 @@ exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not c
                Add 
               MPond
             </button>
+            
             <!--&lt;Button&gt;-->
             <!--&lt;AddTokenPrompt&gt;-->
              
@@ -332,6 +335,7 @@ exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not c
                  
                 Arbiscan
               </button>
+              
               <!--&lt;Button&gt;-->
             </a>
           </div>
@@ -346,6 +350,7 @@ exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not c
              
             LOGOUT
           </button>
+          
           <!--&lt;Button&gt;-->
         </div>
          
@@ -443,6 +448,7 @@ exports[`HeaderConnectWallet > renders the Header Links Group component properly
          
         Connect Wallet
       </button>
+      
       <!--&lt;Button&gt;-->
     </div>
     

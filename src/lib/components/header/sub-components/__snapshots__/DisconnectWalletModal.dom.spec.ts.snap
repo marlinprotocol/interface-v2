@@ -108,6 +108,7 @@ exports[`DisconnectWalletModal > renders properly 1`] = `
                Add 
               POND
             </button>
+            
             <!--&lt;Button&gt;-->
             <!--&lt;AddTokenPrompt&gt;-->
              
@@ -123,6 +124,7 @@ exports[`DisconnectWalletModal > renders properly 1`] = `
                Add 
               MPond
             </button>
+            
             <!--&lt;Button&gt;-->
             <!--&lt;AddTokenPrompt&gt;-->
              
@@ -142,6 +144,7 @@ exports[`DisconnectWalletModal > renders properly 1`] = `
                  
                 Block Explorer
               </button>
+              
               <!--&lt;Button&gt;-->
             </a>
           </div>
@@ -156,6 +159,7 @@ exports[`DisconnectWalletModal > renders properly 1`] = `
              
             LOGOUT
           </button>
+          
           <!--&lt;Button&gt;-->
         </div>
          

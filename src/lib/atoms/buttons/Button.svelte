@@ -15,9 +15,19 @@
 	const buttonSize = getButtonSize(size);
 </script>
 
-<button {disabled} on:click={onclick} class={cn('gap-1.5', buttonSize, buttonStyles, styleClass)}>
-	{#if loading}
-		<span data-testid="loading-spinner" class="loading loading-spinner loading-sm" />
-	{/if}
-	<slot />
-</button>
+{#if variant === 'icon'}
+	<button {disabled} on:click={onclick} class={cn('gap-1.5', buttonSize, buttonStyles, styleClass)}>
+		{#if loading}
+			<span data-testid="loading-spinner" class="loading loading-spinner loading-sm" />
+		{:else}
+			<slot />
+		{/if}
+	</button>
+{:else}
+	<button {disabled} on:click={onclick} class={cn('gap-1.5', buttonSize, buttonStyles, styleClass)}>
+		{#if loading}
+			<span data-testid="loading-spinner" class="loading loading-spinner loading-sm" />
+		{/if}
+		<slot />
+	</button>
+{/if}

@@ -12,7 +12,7 @@ export const buttonClasses = {
 	error:
 		'btn btn-theme btn-sm text-error px-5 border-error bg-inherit hover:bg-inherit hover:border-error hover:text-error-focus disabled:cursor-not-allowed',
 	text: 'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent disabled:bg-transparent disabled:cursor-not-allowed',
-	icon: 'btn btn-xs btn-ghost btn-circle p-0 bg-transparent hover:bg-transparent flex disabled:cursor-not-allowed',
+	icon: 'btn btn-xs btn-primary btn-circle p-0 rounded-full flex disabled:cursor-not-allowed disabled:bg-primary disabled:bg-opacity-60 disabled:text-white',
 	iconLightBlue:
 		'btn btn-xs btn-circle p-0 bg-base-300 hover:bg-base-300 border-none disabled:bg-base-200 disabled:cursor-not-allowed',
 	dropdownIcon:

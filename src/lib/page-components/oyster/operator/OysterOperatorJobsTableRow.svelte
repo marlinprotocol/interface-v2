@@ -98,15 +98,17 @@
 </td>
 
 <td class={cn(tableClasses.cell, 'text-center')}>
-	<Button onclick={handleClaimClick} variant="text" styleClass="w-fit ml-4 mr-6">
-		<Tooltip>
-			<div
-				slot="tooltipIcon"
-				class="flex h-[45px] w-[45px] items-center justify-center rounded-full bg-primary"
-			>
-				<img src={staticImages.RightArrowWhite} alt="Claim" />
-			</div>
-			<span class="font-normal" slot="tooltipContent">Claim</span>
-		</Tooltip>
-	</Button>
+	<Tooltip>
+		<Button
+			onclick={handleClaimClick}
+			loading={submitLoading}
+			disabled={submitLoading}
+			variant="icon"
+			styleClass="w-fit ml-4 mr-6 h-[45px] w-[45px] rounded-full"
+			slot="tooltipIcon"
+		>
+			<img src={staticImages.RightArrowWhite} alt="Claim" />
+		</Button>
+		<span class="font-normal" slot="tooltipContent">Claim</span>
+	</Tooltip>
 </td>

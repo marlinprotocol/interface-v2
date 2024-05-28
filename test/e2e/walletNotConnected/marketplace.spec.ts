@@ -6,6 +6,7 @@ import {
 	isSortedNumerically
 } from '../../helpers/marketplace';
 import { ROUTES } from '../../../src/lib/utils/constants/urls';
+// import { shortenText } from '../../../src/lib/utils/helpers/conversionHelper'
 
 test('navigating to /oyster/marketplace/', async ({ page }) => {
 	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL);
@@ -180,20 +181,28 @@ test(`Copy button on row is working`, async ({ page, context }) => {
 	const copyButtonSelector = 'tbody tr:first-child button img[alt="Copy"]';
 	await page.click(copyButtonSelector);
 
-	const addressSelector = 'tbody tr:first-child .text-grey.text-xs.font-normal';
+	// Read the clipboard content
+	const clipboardContent = await page.evaluate(() => navigator.clipboard.readText());
+	const shortAddress =
+		clipboardContent.slice(0, 10) + '...' + clipboardContent.slice(clipboardContent.length - 10);
 
-	// Get the text content from the element
-	const address = await page.textContent(addressSelector);
+	const address = await page
+		.getByRole('row', { name: `${shortAddress} Copy` })
+		.getByTestId('text')
+		.first()
+		.textContent();
+	if (!address) {
+		test.fail();
+		return;
+	}
 
 	const expectedAddressArray = (address || '').split('.');
 	const expectedAddressStart = expectedAddressArray[0];
 	const expectedAddressEnd = expectedAddressArray[expectedAddressArray.length - 1];
 
-	// Read the clipboard content
-	const clipboardContent = await page.evaluate(() => navigator.clipboard.readText());
 	await page.waitForSelector('text=Address copied to clipboard');
 
-	// Check if the clipboard content matches the expected data
+	// // Check if the clipboard content matches the expected data
 	expect(clipboardContent.startsWith(expectedAddressStart)).toBeTruthy();
 	expect(clipboardContent.endsWith(expectedAddressEnd)).toBeTruthy();
 });

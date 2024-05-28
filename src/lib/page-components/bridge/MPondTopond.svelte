@@ -103,7 +103,11 @@
 		inputAmount && inputAmount > 0 && !(unrequestedMPondBalance >= inputAmount)
 			? 'Insufficient MPond'
 			: '';
-	$: enableConversion = inputAmount && inputAmount > 0 && unrequestedMPondBalance >= inputAmount;
+	$: enableConversion =
+		inputAmount &&
+		inputAmount > 0 &&
+		unrequestedMPondBalance >= inputAmount &&
+		!requestConversionLoading;
 </script>
 
 <AmountInputWithMaxButton

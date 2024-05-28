@@ -15,10 +15,10 @@
 	const buttonSize = getButtonSize(size);
 </script>
 
-{#if variant === 'icon'}
+{#if variant.includes('icon')}
 	<button {disabled} on:click={onclick} class={cn('gap-1.5', buttonSize, buttonStyles, styleClass)}>
 		{#if loading}
-			<span data-testid="loading-spinner" class="loading loading-spinner loading-sm" />
+			<span data-testid="loading-spinner-icon" class="loading loading-spinner loading-sm" />
 		{:else}
 			<slot />
 		{/if}

@@ -1,5 +1,5 @@
 export type ButtonModel = {
-	variant?:
+	variant:
 		| 'filled'
 		| 'outlined'
 		| 'text'

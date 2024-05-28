@@ -20,13 +20,15 @@ describe('Button', () => {
 		expect((await findByText('test')).innerHTML.trim()).toBe('test');
 	});
 
-	it('renders a spinner when loading is true', () => {
+	it('renders a spinner when loading is true', async () => {
 		const { rerender, getByTestId } = render(Button, {
 			props: { loading: false }
 		});
 
 		expect(() => getByTestId('loading-spinner')).toThrow();
-		rerender({ props: { loading: true } });
+		await rerender({
+			loading: true
+		});
 		expect(() => getByTestId('loading-spinner')).not.toThrow();
 	});
 

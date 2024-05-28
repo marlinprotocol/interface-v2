@@ -252,7 +252,8 @@
 		!invalidCost &&
 		validEnclaveUrl &&
 		!instanceRateDisabled &&
-		enclaveImageUrl.value !== '';
+		enclaveImageUrl.value !== '' &&
+		!submitLoading;
 
 	$: finalEnclaveUrl = sanitizeUrl(enclaveImageUrl.value);
 

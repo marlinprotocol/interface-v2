@@ -1,54 +1,48 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ErrorTextCard > does not render when showError is false 1`] = `
-<body>
-  <div>
-    
-    <!--&lt;ErrorTextCard&gt;-->
-  </div>
-</body>
+<div>
+  
+  <!--&lt;ErrorTextCard&gt;-->
+</div>
 `;
 
 exports[`ErrorTextCard > renders correctly with an error message when showError is true 1`] = `
-<body>
-  <div>
+<div>
+  <div
+    class="w-full rounded-lg bg-red-100 px-4 py-1 mt-4"
+    data-testid="input-card"
+  >
     <div
-      class="w-full rounded-lg bg-red-100 px-4 py-1 mt-4"
-      data-testid="input-card"
+      class="text-red-500 my-2 whitespace-normal text-sm font-normal"
+      data-testid="text"
     >
-      <div
-        class="text-red-500 my-2 whitespace-normal text-sm font-normal"
-        data-testid="text"
-      >
-        This is an error!
-      </div>
-      <!--&lt;Text&gt;-->
+      This is an error!
     </div>
-    <!--&lt;InputCard&gt;-->
-    
-    <!--&lt;ErrorTextCard&gt;-->
+    <!--&lt;Text&gt;-->
   </div>
-</body>
+  <!--&lt;InputCard&gt;-->
+  
+  <!--&lt;ErrorTextCard&gt;-->
+</div>
 `;
 
 exports[`ErrorTextCard > updates the snapshot when the error message changes 1`] = `
-<body>
-  <div>
+<div>
+  <div
+    class="w-full rounded-lg bg-red-100 px-4 py-1 mt-4"
+    data-testid="input-card"
+  >
     <div
-      class="w-full rounded-lg bg-red-100 px-4 py-1 mt-4"
-      data-testid="input-card"
+      class="text-red-500 my-2 whitespace-normal text-sm font-normal"
+      data-testid="text"
     >
-      <div
-        class="text-red-500 my-2 whitespace-normal text-sm font-normal"
-        data-testid="text"
-      >
-        A different error message!
-      </div>
-      <!--&lt;Text&gt;-->
+      A different error message!
     </div>
-    <!--&lt;InputCard&gt;-->
-    
-    <!--&lt;ErrorTextCard&gt;-->
+    <!--&lt;Text&gt;-->
   </div>
-</body>
+  <!--&lt;InputCard&gt;-->
+  
+  <!--&lt;ErrorTextCard&gt;-->
+</div>
 `;

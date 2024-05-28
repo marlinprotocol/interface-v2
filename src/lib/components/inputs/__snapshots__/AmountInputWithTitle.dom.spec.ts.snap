@@ -1,57 +1,55 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`AmountInputWithTitle > render's the component properly 1`] = `
-<body>
-  <div>
+<div>
+  <div
+    class="w-full bg-white px-4 py-2.5 rounded-[100px] border border-[#D9DADE]"
+    data-testid="input-card"
+  >
     <div
-      class="w-full bg-white px-4 py-2.5 rounded-[100px] border border-[#D9DADE]"
-      data-testid="input-card"
+      class="relative flex flex-1 flex-col"
+    >
+      <button
+        class="left-[12px] top-[-20px] font-normal absolute cursor-text bg-white font-poppins text-sm text-[#030115] transition-all"
+        id="title-"
+      >
+        Sample Title
+      </button>
+    </div>
+     
+    <div
+      class="mt-1 flex items-center"
     >
       <div
-        class="relative flex flex-1 flex-col"
+        class="text-sm text-[#030115] text-base font-normal"
+        data-testid="text"
       >
-        <button
-          class="left-[12px] top-[-20px] font-normal absolute cursor-text bg-white font-poppins text-sm text-[#030115] transition-all"
-          id="title-"
-        >
-          Sample Title
-        </button>
+        $
       </div>
+      <!--&lt;Text&gt;-->
+       
+      <input
+        autocomplete="off"
+        class="hideInputNumberAppearance input input-ghost min-w-[20px] w-full input-primary text-sm p-0 ml-0.5 placeholder:text-primary/[.2] h-[30px]"
+        id="pond-input-amount-"
+        placeholder="0.00"
+      />
+      <!--&lt;AmountInput&gt;-->
        
       <div
-        class="mt-1 flex items-center"
+        class="text-sm text-primary ml-1  text-base font-normal"
+        data-testid="text"
       >
-        <div
-          class="text-sm text-[#030115] text-base font-normal"
-          data-testid="text"
-        >
-          $
-        </div>
-        <!--&lt;Text&gt;-->
-         
-        <input
-          autocomplete="off"
-          class="hideInputNumberAppearance input input-ghost min-w-[20px] w-full input-primary text-sm p-0 ml-0.5 placeholder:text-primary/[.2] h-[30px]"
-          id="pond-input-amount-"
-          placeholder="0.00"
-        />
-        <!--&lt;AmountInput&gt;-->
-         
-        <div
-          class="text-sm text-primary ml-1  text-base font-normal"
-          data-testid="text"
-        >
-          USD
-        </div>
-        <!--&lt;Text&gt;-->
-         
-        <div
-          class="w-fit"
-        />
+        USD
       </div>
+      <!--&lt;Text&gt;-->
+       
+      <div
+        class="w-fit"
+      />
     </div>
-    <!--&lt;InputCard&gt;-->
-    <!--&lt;AmountInputWithTitle&gt;-->
   </div>
-</body>
+  <!--&lt;InputCard&gt;-->
+  <!--&lt;AmountInputWithTitle&gt;-->
+</div>
 `;

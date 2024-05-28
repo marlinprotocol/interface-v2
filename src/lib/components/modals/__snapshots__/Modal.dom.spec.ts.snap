@@ -1,298 +1,282 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Modal > renders with required props 1`] = `
-<body>
-  <onboard-v2
-    style="all: initial;"
+<div>
+  <input
+    class="modal-toggle s-GZwqZrPaBy6h"
+    id="Approve And Confirm Modal"
+    tabindex="-1"
+    type="checkbox"
   />
-  <style>
-    
-    
-@font-face {
-  font-family: 'Inter';
-  font-style:  normal;
-  font-weight: 300 600;
-  font-display: swap;
-  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
-}
-
-  
-  </style>
-  <div>
-    <input
-      class="modal-toggle s-GZwqZrPaBy6h"
-      id="Approve And Confirm Modal"
-      tabindex="-1"
-      type="checkbox"
-    />
-     
+   
+  <div
+    class="modal s-GZwqZrPaBy6h"
+    data-testid="modal"
+  >
     <div
-      class="modal s-GZwqZrPaBy6h"
-      data-testid="modal"
+      class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
     >
       <div
-        class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
+        class="modal-header sticky top-0 z-10 flex items-center justify-between bg-[#FCFCFC] px-6 pt-6 s-GZwqZrPaBy6h"
       >
         <div
-          class="modal-header sticky top-0 z-10 flex items-center justify-between bg-[#FCFCFC] px-6 pt-6 s-GZwqZrPaBy6h"
+          class="flex w-full flex-col s-GZwqZrPaBy6h"
         >
+           
+           
+           
           <div
-            class="flex w-full flex-col s-GZwqZrPaBy6h"
+            class="text-left text-[22px] font-medium tracking-[-1px] s-GZwqZrPaBy6h"
           >
-             
-             
-             
-            <div
-              class="text-left text-[22px] font-medium tracking-[-1px] s-GZwqZrPaBy6h"
-            >
-              Confirm Transaction
-            </div>
-             
+            Confirm Transaction
           </div>
            
-          <button
-            class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
-            data-testid="modal-close-button"
+        </div>
+         
+        <button
+          class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+          data-testid="modal-close-button"
+        >
+          <img
+            alt="Close"
+            class="s-GZwqZrPaBy6h"
+            src="/images/closeIcon.svg"
+          />
+        </button>
+      </div>
+       
+      <div
+        class="modal-body px-6 pt-4 s-GZwqZrPaBy6h"
+      >
+        <div
+          class="mb-2 flex h-20 items-center gap-3 rounded-xl bg-[#F7F7F7] p-3 font-poppins"
+        >
+          <div
+            class="flex flex-col items-center"
           >
-            <img
-              alt="Close"
-              class="s-GZwqZrPaBy6h"
-              src="/images/closeIcon.svg"
-            />
-          </button>
+            <div
+              class="flex h-14 w-14 items-center justify-center rounded-full text-xl font-semibold text-white bg-[#68A843]"
+            >
+              <img
+                alt="checkmark"
+                height="25px"
+                src="/images/checkmark.svg"
+                width="25px"
+              />
+            </div>
+          </div>
+           
+          <div
+            class="grow text-left text-xl font-normal text-[#030115]"
+          >
+            Approve
+				
+            <span
+              class="font-semibold"
+            >
+              0
+               
+              POND
+            </span>
+            
+				for conversion
+          </div>
         </div>
          
         <div
-          class="modal-body px-6 pt-4 s-GZwqZrPaBy6h"
+          class="flex h-20 items-center gap-3 rounded-xl p-3 font-poppins bg-[#F7F7F7]"
         >
           <div
-            class="mb-2 flex h-20 items-center gap-3 rounded-xl bg-[#F7F7F7] p-3 font-poppins"
+            class="flex h-14 w-14 items-center justify-center rounded-full text-xl font-semibold text-white bg-[#EDBE59]"
           >
-            <div
-              class="flex flex-col items-center"
-            >
-              <div
-                class="flex h-14 w-14 items-center justify-center rounded-full text-xl font-semibold text-white bg-[#68A843]"
-              >
-                <img
-                  alt="checkmark"
-                  height="25px"
-                  src="/images/checkmark.svg"
-                  width="25px"
-                />
-              </div>
-            </div>
-             
-            <div
-              class="grow text-left text-xl font-normal text-[#030115]"
-            >
-              Approve
-				
-              <span
-                class="font-semibold"
-              >
-                0
-                 
-                POND
-              </span>
-              
-				for conversion
-            </div>
+            2
           </div>
            
           <div
-            class="flex h-20 items-center gap-3 rounded-xl p-3 font-poppins bg-[#F7F7F7]"
+            class="grow text-left text-xl font-normal text-[#030115]"
           >
-            <div
-              class="flex h-14 w-14 items-center justify-center rounded-full text-xl font-semibold text-white bg-[#EDBE59]"
-            >
-              2
-            </div>
-             
-            <div
-              class="grow text-left text-xl font-normal text-[#030115]"
-            >
-              Convert
+            Convert
 				
-              <span
-                class="font-semibold"
-              >
-                0
-                 
-                POND
-              </span>
-              
+            <span
+              class="font-semibold"
+            >
+              0
+               
+              POND
+            </span>
+            
 				to
 				
+            <span
+              class="font-semibold"
+            >
+              0
+               
+              MPond
+            </span>
+          </div>
+        </div>
+      </div>
+       
+      <div
+        class="modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
+      >
+        <button
+          class="gap-1.5 h-14 text-base font-normal btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full"
+        >
+           
+          CONFIRM
+        </button>
+        
+        <!--&lt;Button&gt;-->
+        
+      </div>
+       
+    </div>
+  </div>
+  <!--&lt;Modal&gt;-->
+   
+  <input
+    class="modal-toggle s-GZwqZrPaBy6h"
+    id="success-conversion-modal-2"
+    tabindex="-1"
+    type="checkbox"
+  />
+   
+  <div
+    class="modal s-GZwqZrPaBy6h"
+    data-testid="modal"
+  >
+    <div
+      class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
+    >
+      <div
+        class="modal-header sticky top-0 z-10 flex justify-between bg-[#FCFCFC] px-6 pt-6 items-start s-GZwqZrPaBy6h"
+      >
+        <div
+          class="flex w-full flex-col s-GZwqZrPaBy6h"
+        >
+           
+          <div
+            class="flex w-full flex-col items-center justify-between s-GZwqZrPaBy6h"
+          >
+            <div
+              class="ml-[70px] grid h-[84px] w-[84px] place-items-center rounded-full bg-[#68A843] s-GZwqZrPaBy6h"
+            >
+              <img
+                alt="tick"
+                class="s-GZwqZrPaBy6h"
+                height="60px"
+                src="/images/tick.svg"
+                width="60px"
+              />
+            </div>
+             
+            <div
+              class="ml-[70px] mt-4 text-[26px] font-semibold s-GZwqZrPaBy6h"
+            >
+              Conversion Successful
+            </div>
+          </div>
+           
+           
+           
+        </div>
+         
+        <button
+          class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+          data-testid="modal-close-button"
+        >
+          <img
+            alt="Close"
+            class="s-GZwqZrPaBy6h"
+            src="/images/closeIcon.svg"
+          />
+        </button>
+      </div>
+       
+      <div
+        class="modal-body px-6 pt-4 s-GZwqZrPaBy6h"
+      >
+        <div
+          class="flex flex-col gap-6 text-lg font-light text-[#26272C]"
+        >
+          <div
+            class="whitespace-normal rounded-xl border border-[#D9DADE] p-4"
+          >
+            <div
+              class="mb-2 text-center"
+            >
+              You have converted
+            </div>
+             
+            <div
+              class="text-center"
+            >
               <span
-                class="font-semibold"
+                class="font-bold text-black"
               >
                 0
                  
-                MPond
+                POND
+              </span>
+              
+					to
+					
+              <span
+                class="font-bold text-black"
+              >
+                0
+                 
+                MPOND
               </span>
             </div>
           </div>
-        </div>
-         
-        <div
-          class="modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
-        >
-          <button
-            class="gap-1.5 h-14 text-base font-normal btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full"
-          >
-             
-            CONFIRM
-          </button>
-          <!--&lt;Button&gt;-->
-          
-        </div>
-         
-      </div>
-    </div>
-    <!--&lt;Modal&gt;-->
-     
-    <input
-      class="modal-toggle s-GZwqZrPaBy6h"
-      id="success-conversion-modal-2"
-      tabindex="-1"
-      type="checkbox"
-    />
-     
-    <div
-      class="modal s-GZwqZrPaBy6h"
-      data-testid="modal"
-    >
-      <div
-        class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
-      >
-        <div
-          class="modal-header sticky top-0 z-10 flex justify-between bg-[#FCFCFC] px-6 pt-6 items-start s-GZwqZrPaBy6h"
-        >
-          <div
-            class="flex w-full flex-col s-GZwqZrPaBy6h"
-          >
-             
-            <div
-              class="flex w-full flex-col items-center justify-between s-GZwqZrPaBy6h"
-            >
-              <div
-                class="ml-[70px] grid h-[84px] w-[84px] place-items-center rounded-full bg-[#68A843] s-GZwqZrPaBy6h"
-              >
-                <img
-                  alt="tick"
-                  class="s-GZwqZrPaBy6h"
-                  height="60px"
-                  src="/images/tick.svg"
-                  width="60px"
-                />
-              </div>
-               
-              <div
-                class="ml-[70px] mt-4 text-[26px] font-semibold s-GZwqZrPaBy6h"
-              >
-                Conversion Successful
-              </div>
-            </div>
-             
-             
-             
-          </div>
            
-          <button
-            class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
-            data-testid="modal-close-button"
-          >
-            <img
-              alt="Close"
-              class="s-GZwqZrPaBy6h"
-              src="/images/closeIcon.svg"
-            />
-          </button>
-        </div>
-         
-        <div
-          class="modal-body px-6 pt-4 s-GZwqZrPaBy6h"
-        >
           <div
-            class="flex flex-col gap-6 text-lg font-light text-[#26272C]"
+            class="whitespace-normal rounded-xl border border-[#D9DADE] p-4"
           >
             <div
-              class="whitespace-normal rounded-xl border border-[#D9DADE] p-4"
+              class="mb-2 text-center"
             >
-              <div
-                class="mb-2 text-center"
-              >
-                You have converted
-              </div>
-               
-              <div
-                class="text-center"
-              >
-                <span
-                  class="font-bold text-black"
-                >
-                  0
-                   
-                  POND
-                </span>
-                
-					to
-					
-                <span
-                  class="font-bold text-black"
-                >
-                  0
-                   
-                  MPOND
-                </span>
-              </div>
+              Updated Wallet Balance
             </div>
              
-            <div
-              class="whitespace-normal rounded-xl border border-[#D9DADE] p-4"
+            <p
+              class="text-center font-bold text-black"
             >
-              <div
-                class="mb-2 text-center"
-              >
-                Updated Wallet Balance
-              </div>
-               
-              <p
-                class="text-center font-bold text-black"
-              >
-                0
-                
+              0
+              
 					POND
-              </p>
-               
-              <p
-                class="text-center font-bold text-black"
-              >
-                0
-                 MPond
-              </p>
-            </div>
+            </p>
+             
+            <p
+              class="text-center font-bold text-black"
+            >
+              0
+               MPond
+            </p>
           </div>
         </div>
-         
-        <div
-          class="modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
-        >
-          <button
-            class="gap-1.5 h-14 text-base font-normal btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full"
-          >
-             
-            Finish
-          </button>
-          <!--&lt;Button&gt;-->
-        </div>
-         
       </div>
+       
+      <div
+        class="modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
+      >
+        <button
+          class="gap-1.5 h-14 text-base font-normal btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full"
+        >
+           
+          Finish
+        </button>
+        
+        <!--&lt;Button&gt;-->
+      </div>
+       
     </div>
-    <!--&lt;Modal&gt;-->
-    <!--&lt;SuccessfulConversionModal&gt;-->
-    <!--&lt;ApproveAndConfirmModal&gt;-->
   </div>
-</body>
+  <!--&lt;Modal&gt;-->
+  <!--&lt;SuccessfulConversionModal&gt;-->
+  <!--&lt;ApproveAndConfirmModal&gt;-->
+</div>
 `;

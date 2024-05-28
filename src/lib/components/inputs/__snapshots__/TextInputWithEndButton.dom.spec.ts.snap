@@ -1,40 +1,38 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`TextInputWithEndButton > render's the component properly 1`] = `
-<body>
-  <div>
+<div>
+  <div
+    class="w-full border border-[#D9DADE] bg-white py-2.5 px-4 rounded-full test-style relative"
+    data-testid="input-card"
+  >
+     
     <div
-      class="w-full border border-[#D9DADE] bg-white py-2.5 px-4 rounded-full test-style relative"
-      data-testid="input-card"
+      class="flex items-center justify-between"
     >
        
-      <div
-        class="flex items-center justify-between"
-      >
-         
-      </div>
-       
-      <div
-        class="flex items-center justify-between"
-      >
-        <button
-          class="left-10% top-[-10px] hidden font-normal bg-white absolute cursor-text px-1 font-poppins text-sm text-[#030115] transition-all"
-        >
-          Test Title
-        </button>
-         
-        <input
-          class="input input-ghost h-[30px] w-full p-0 font-normal text-[#030115] disabled:opacity-70 disabled:text-[#030115] disabled:placeholder:text-[#030115]/[.2] focus-within:text-[#030115] placeholder:text-[#030115]/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent hideInputNumberAppearance"
-          id="address-display"
-          placeholder="Enter something..."
-        />
-         
-         
-      </div>
     </div>
-    <!--&lt;InputCard&gt;-->
-    <!--&lt;InputCardWithEndButton&gt;-->
-    <!--&lt;TextInputWithEndButton&gt;-->
+     
+    <div
+      class="flex items-center justify-between"
+    >
+      <button
+        class="left-10% top-[-10px] hidden font-normal bg-white absolute cursor-text px-1 font-poppins text-sm text-[#030115] transition-all"
+      >
+        Test Title
+      </button>
+       
+      <input
+        class="input input-ghost h-[30px] w-full p-0 font-normal text-[#030115] disabled:opacity-70 disabled:text-[#030115] disabled:placeholder:text-[#030115]/[.2] focus-within:text-[#030115] placeholder:text-[#030115]/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent hideInputNumberAppearance"
+        id="address-display"
+        placeholder="Enter something..."
+      />
+       
+       
+    </div>
   </div>
-</body>
+  <!--&lt;InputCard&gt;-->
+  <!--&lt;InputCardWithEndButton&gt;-->
+  <!--&lt;TextInputWithEndButton&gt;-->
+</div>
 `;

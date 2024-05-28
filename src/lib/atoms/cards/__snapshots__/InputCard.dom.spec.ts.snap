@@ -1,13 +1,11 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`InputCard component > applies the correct classes for primary variant 1`] = `
-<body>
-  <div>
-    <div
-      class="w-full bg-white px-6 py-[30px] rounded-3xl border border-[#D9DADE]"
-      data-testid="input-card"
-    />
-    <!--&lt;InputCard&gt;-->
-  </div>
-</body>
+<div>
+  <div
+    class="w-full bg-white px-6 py-[30px] rounded-3xl border border-[#D9DADE]"
+    data-testid="input-card"
+  />
+  <!--&lt;InputCard&gt;-->
+</div>
 `;

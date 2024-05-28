@@ -1,6 +1,5 @@
 import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress';
-// import BasicSetup from '../../wallet-setup/basic.setup';
-import BasicSetup from '../../wallet-setup/connected.setup';
+import BasicSetup from '../../wallet-setup/basic.setup';
 import { ROUTES } from '../../../src/lib/utils/constants/urls';
 import { MESSAGES } from '../../../src/lib/utils/constants/messages';
 import { loginToMetamask } from '../../helpers/metamask';
@@ -15,7 +14,7 @@ test('Operator Registation', async ({ context, page, metamaskPage, extensionId }
 	await page.goto(ROUTES.OYSTER_OPERATOR_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
-	// await loginToMetamask(metamask, page);
+	await loginToMetamask(metamask, page);
 
 	const walletAddress = await getWalletAddress(page);
 	const shortWalletAddress =
@@ -53,7 +52,7 @@ test('Operator Unregistration', async ({ context, page, metamaskPage, extensionI
 	await page.goto(ROUTES.OYSTER_OPERATOR_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
-	// await loginToMetamask(metamask, page);
+	await loginToMetamask(metamask, page);
 
 	const walletAddress = await getWalletAddress(page);
 	const shortWalletAddress =
@@ -77,7 +76,7 @@ test('Operator Edit', async ({ context, page, metamaskPage, extensionId }) => {
 	await page.goto(ROUTES.OYSTER_OPERATOR_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
-	// await loginToMetamask(metamask, page);
+	await loginToMetamask(metamask, page);
 
 	const walletAddress = await getWalletAddress(page);
 	const shortWalletAddress =
@@ -86,11 +85,8 @@ test('Operator Edit', async ({ context, page, metamaskPage, extensionId }) => {
 	const hasText = await page.textContent(`text=Hello, ${shortWalletAddress}`);
 	expect(hasText).toBeTruthy();
 
-	const label = await page.$(`label:text("Update")`);
 	const updateButton = page.getByTestId('page-wrapper').locator('label');
 	if (!updateButton) test.skip();
-
-	console.log({ updateButton, label });
 
 	updateButton.click();
 	const cpURLInput = page.getByPlaceholder('Paste updated URL here');
@@ -141,7 +137,6 @@ test('Operator Registation and Unregistration', async ({
 
 	const [registerButton] = await page.$$('button:has-text("REGISTER")');
 	expect(await registerButton.isDisabled()).toBeTruthy();
-	// await page.getByTestId('container-card-body').getByRole('button').first().click();
 
 	const cpURLInput = page.getByPlaceholder('Paste URL here');
 	expect(cpURLInput).toHaveValue('');

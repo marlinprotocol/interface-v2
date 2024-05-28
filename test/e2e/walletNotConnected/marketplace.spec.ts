@@ -6,7 +6,6 @@ import {
 	isSortedNumerically
 } from '../../helpers/marketplace';
 import { ROUTES } from '../../../src/lib/utils/constants/urls';
-// import { shortenText } from '../../../src/lib/utils/helpers/conversionHelper'
 
 test('navigating to /oyster/marketplace/', async ({ page }) => {
 	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL);

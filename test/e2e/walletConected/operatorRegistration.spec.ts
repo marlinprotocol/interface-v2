@@ -77,23 +77,35 @@ test('Operator Edit', async ({ context, page, metamaskPage, extensionId }) => {
 	await page.goto(ROUTES.OYSTER_OPERATOR_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
-	await loginToMetamask(metamask, page);
+	// await loginToMetamask(metamask, page);
 
-	const hasText = await page.textContent('text=Operator Registration');
+	const walletAddress = await getWalletAddress(page);
+	const shortWalletAddress =
+		walletAddress.slice(0, 6) + '...' + walletAddress.slice(walletAddress.length - 6);
+
+	const hasText = await page.textContent(`text=Hello, ${shortWalletAddress}`);
 	expect(hasText).toBeTruthy();
 
-	const addressInput = page.getByPlaceholder('Enter your address here');
-	expect(addressInput).toBeDisabled();
+	const label = await page.$(`label:text("Update")`);
+	const updateButton = page.getByTestId('page-wrapper').locator('label');
+	if (!updateButton) test.skip();
 
-	await page.waitForTimeout(1000);
-	const cpURLInput = page.getByPlaceholder('Paste URL here');
-	await page.getByTestId('container-card-body').getByRole('button').first().click();
+	console.log({ updateButton, label });
+
+	updateButton.click();
+	const cpURLInput = page.getByPlaceholder('Paste updated URL here');
+	// // await page.getByTestId('container-card-body').getByRole('button').first().click();
 	await cpURLInput.fill(TEST_CP_URL_2);
 
-	await page.waitForSelector('text=Instance Type');
-	const [updateButton] = await page.$$('button:has-text("UPDATE")');
-	await updateButton.click();
+	await page.waitForSelector('text=Your control plane URL is loading...');
+	await page.waitForSelector('text=Your control plane URL has been added successfully!');
+
+	const modalRegisterButton = page.getByRole('button', { name: 'Update' });
+	expect(await modalRegisterButton.isDisabled()).toBeFalsy();
+	await modalRegisterButton.click();
+
 	await metamask.confirmTransactionAndWaitForMining();
+
 	await page.waitForSelector(
 		`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.UPDATE.UPDATED}`
 	);

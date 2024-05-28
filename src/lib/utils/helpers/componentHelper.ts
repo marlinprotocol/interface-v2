@@ -30,6 +30,8 @@ export const getButtonStyles = (variant: ButtonModel['variant']) => {
 			return buttonClasses.whiteFilled;
 		case 'tableConvertButton':
 			return buttonClasses.tableConvertButton;
+		case 'icon':
+			return buttonClasses.icon;
 		default:
 			return buttonClasses.filled;
 	}

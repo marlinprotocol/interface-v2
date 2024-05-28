@@ -144,6 +144,7 @@ exports[`Modal > renders with required props 1`] = `
              
             CONFIRM
           </button>
+          
           <!--&lt;Button&gt;-->
           
         </div>
@@ -285,6 +286,7 @@ exports[`Modal > renders with required props 1`] = `
              
             Finish
           </button>
+          
           <!--&lt;Button&gt;-->
         </div>
          

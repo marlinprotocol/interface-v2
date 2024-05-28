@@ -103,7 +103,7 @@
 		: 0n;
 	$: maxDisabedText =
 		updatedAmountInputDirty && inputAmount && inputAmount > maxAmount ? 'Insufficient balance' : '';
-	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;
+	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount && !submitLoading;
 	$: maxAmount = getMaxAmountForJob(rateScaled, balance);
 	$: durationReduced = inputAmount > 0 ? inputAmount / rate : 0n;
 	$: maxAmountText = getMaxAmountText(isCreditJob);

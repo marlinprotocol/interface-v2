@@ -1,5 +1,5 @@
 export type ButtonModel = {
-	variant?:
+	variant:
 		| 'filled'
 		| 'outlined'
 		| 'text'
@@ -8,6 +8,7 @@ export type ButtonModel = {
 		| 'greyFilled'
 		| 'greyOutlined'
 		| 'whiteFilled'
+		| 'icon'
 		| 'tableConvertButton';
 	size?: 'tiniest' | 'tiny' | 'smaller' | 'small' | 'medium' | 'large';
 	onclick: (() => Promise<void> | void | boolean) | undefined;

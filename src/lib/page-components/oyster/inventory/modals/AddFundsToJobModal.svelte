@@ -102,8 +102,10 @@
 		$oysterStore.allowance >=
 			instanceCostScaled / BigInt($oysterRateMetadataStore.oysterRateScalingFactor) &&
 		instanceCostScaled > 0n;
-	$: approveEnable = connected && !submitLoading && instanceCostScaled > 0n && !invalidCost;
-	$: confirmEnable = isCreditJob ? approveEnable : approved && approveEnable;
+	$: approveEnable = connected && !approvedLoading && instanceCostScaled > 0n && !invalidCost;
+	$: confirmEnable = isCreditJob
+		? approveEnable && !submitLoading
+		: approved && approveEnable && !submitLoading;
 </script>
 
 <Modal {modalFor} onClose={resetInputs} padding={false} showOverFlow={false} individualBorderRadius>

@@ -83,7 +83,7 @@
 		stopStatus === '' || stopStatus === 'disabled' ? 'Initiate stop' : 'Confirm';
 	$: submitButtonAction =
 		stopStatus === '' || stopStatus === 'disabled' ? handleInitiateClick : handleConfirmClick;
-	$: submitButtonDisabled = stopStatus === 'pending' || stopStatus === 'disabled';
+	$: submitButtonDisabled = stopStatus === 'pending' || stopStatus === 'disabled' || submitLoading;
 </script>
 
 <Modal {modalFor} modalWidth="w-11/12 sm:max-w-[700px]">
@@ -128,6 +128,7 @@
 					<Button
 						variant="outlined"
 						loading={cancelLoading}
+						disabled={cancelLoading}
 						onclick={handleCancelInitiate}
 						size="large"
 						styleClass="btn-block w-full my-0"

@@ -132,6 +132,7 @@
 			<Button
 				onclick={approveClick}
 				loading={approveLoading}
+				disabled={approveLoading}
 				variant="filled"
 				size="large"
 				styleClass="w-full"
@@ -142,6 +143,7 @@
 			<Button
 				onclick={confirmClick}
 				loading={confirmLoading}
+				disabled={confirmLoading}
 				variant="filled"
 				size="large"
 				styleClass="w-full"

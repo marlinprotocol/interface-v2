@@ -205,6 +205,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
                Add 
               POND
             </button>
+            
             <!--&lt;Button&gt;-->
             <!--&lt;AddTokenPrompt&gt;-->
              
@@ -220,6 +221,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
                Add 
               MPond
             </button>
+            
             <!--&lt;Button&gt;-->
             <!--&lt;AddTokenPrompt&gt;-->
              
@@ -239,6 +241,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
                  
                 Block Explorer
               </button>
+              
               <!--&lt;Button&gt;-->
             </a>
           </div>
@@ -253,6 +256,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
              
             LOGOUT
           </button>
+          
           <!--&lt;Button&gt;-->
         </div>
          

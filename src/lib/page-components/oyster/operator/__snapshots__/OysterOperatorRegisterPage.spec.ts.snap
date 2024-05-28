@@ -30,6 +30,7 @@ exports[`OysterOperatorRegistration > renders the component 1`] = `
                
               Documentation
             </button>
+            
             <!--&lt;Button&gt;-->
           </a>
         </div>
@@ -149,6 +150,7 @@ exports[`OysterOperatorRegistration > renders the component 1`] = `
              
             Register
           </button>
+          
           <!--&lt;Button&gt;-->
         </div>
          

@@ -28,13 +28,6 @@
 			: stopStatus === 'pending'
 				? 'Cancel stop'
 				: 'Confirm stop';
-
-	$: amendRateButtonText =
-		rateStatus === ''
-			? 'Initiate rate amend'
-			: rateStatus === 'pending'
-				? 'Cancel rate amend'
-				: 'Confirm rate amend';
 </script>
 
 {#if isOpen}

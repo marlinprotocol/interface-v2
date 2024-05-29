@@ -32,3 +32,12 @@ export const getWalletAddress = async (page: Page) => {
 	await page.getByTestId('modal-close-button').nth(1).click();
 	return walletAddress;
 };
+
+export const confirmPageTitle = async (page: Page) => {
+	const walletAddress = await getWalletAddress(page);
+	const shortWalletAddress =
+		walletAddress.slice(0, 6) + '...' + walletAddress.slice(walletAddress.length - 6);
+
+	const hasText = await page.textContent(`text=Hello, ${shortWalletAddress}`);
+	return hasText;
+};

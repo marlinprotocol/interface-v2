@@ -3,6 +3,7 @@ import BasicSetup from '../../wallet-setup/basic.setup';
 import { ROUTES } from '../../../src/lib/utils/constants/urls';
 import { loginToMetamask } from '../../helpers/metamask';
 import { MESSAGES } from '../../../src/lib/utils/constants/messages';
+import { confirmPageTitle } from '../../helpers/common';
 
 const test = testWithSynpress(BasicSetup, unlockForFixture);
 const { expect } = test;
@@ -13,10 +14,9 @@ test('Claim Job Reward', async ({ context, page, metamaskPage, extensionId }) =>
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);
 
-	const hasText = await page.textContent('text=My Job List');
-	expect(hasText).toBeTruthy();
+	expect(await confirmPageTitle(page)).toBeTruthy();
 
-	// Fetch all the rows
+	// // Fetch all the rows
 	const completedRows = await page.$$eval('tbody tr', (rows) => rows);
 
 	if (completedRows.length > 0) {

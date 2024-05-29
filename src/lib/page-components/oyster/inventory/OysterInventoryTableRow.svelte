@@ -56,6 +56,7 @@
 		durationLeft,
 		isCreditJob,
 		endEpochTime, // epoch time in seconds based on duration left,
+		jobName,
 		// newRateScaled is being passed to the modal for the amend rate modal and is not used here
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		reviseRate: { newRateScaled = null, rateStatus = '', stopStatus = '' } = {}
@@ -75,6 +76,7 @@
 			</div>
 		</svelte:fragment>
 	</NameWithAddress>
+	{jobName}
 </td>
 <td class={cn(tableClasses.cell, 'w-[200px]')}>
 	<div class="flex items-center justify-center gap-2 text-center">

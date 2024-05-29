@@ -1,3 +1,5 @@
+import { Page } from '@playwright/test';
+
 export const findSmallerNumber = (num: number) => {
 	// JavaScript provides a constant Number.EPSILON which represents
 	// the smallest interval between two representable numbers.
@@ -17,4 +19,25 @@ export const isSortedAlphabetically = (array: string[]) => {
 		}
 	}
 	return true;
+};
+
+export const getWalletAddress = async (page: Page) => {
+	const labelSelector = `label[for="disconnect-wallet-modal"]`;
+	await page.waitForSelector(labelSelector);
+
+	// Click the label
+	await page.click(labelSelector);
+	await page.textContent('text=Your wallet');
+	const walletAddress = await page.getByTestId('wallet-address').innerText();
+	await page.getByTestId('modal-close-button').nth(1).click();
+	return walletAddress;
+};
+
+export const confirmPageTitle = async (page: Page) => {
+	const walletAddress = await getWalletAddress(page);
+	const shortWalletAddress =
+		walletAddress.slice(0, 6) + '...' + walletAddress.slice(walletAddress.length - 6);
+
+	const hasText = await page.textContent(`text=Hello, ${shortWalletAddress}`);
+	return hasText;
 };

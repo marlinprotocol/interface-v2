@@ -79,7 +79,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
        
       <label
         class="gap-1.5 font-normal btn btn-theme btn-sm disabled:cursor-not-allowed !rounded-[100px] bg-white text-black border border-[#D9DADE] hover:bg-base-200 h-12 chain-btn m-1 flex items-center justify-center"
-        for="disconnect-wallet-modal-v2"
+        for="disconnect-wallet-modal"
         tabindex="0"
       >
          
@@ -102,7 +102,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
      
     <input
       class="modal-toggle s-GZwqZrPaBy6h"
-      id="disconnect-wallet-modal-v2"
+      id="disconnect-wallet-modal"
       tabindex="-1"
       type="checkbox"
     />

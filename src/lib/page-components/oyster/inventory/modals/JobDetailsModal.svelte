@@ -59,7 +59,7 @@
 		<div class="flex flex-col gap-4">
 			<div data-testid="enclave-image-url" class="flex flex-col gap-2 sm:flex-row">
 				<TextInputCard
-					title="Encalve Image URL"
+					title="Enclave Image URL"
 					value={enclaveUrl ?? 'N/A'}
 					cliboardContent={enclaveUrl}
 					textStyle="truncate"

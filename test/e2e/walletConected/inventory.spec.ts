@@ -25,8 +25,10 @@ test('Copy Enclave Image URL', async ({ context, page, metamaskPage, extensionId
 	const hasText = await page.textContent('text=My Active Orders');
 	expect(hasText).toBeTruthy();
 
-	const rows = await page.$$eval('tbody tr', (rows) => rows);
+	// Wait for table data to get fetched
+	await page.waitForSelector(`text=DURATION LEFT`);
 
+	const rows = await page.$$eval('tbody tr', (rows) => rows);
 	if (rows.length > 0) {
 		const expandRowToggleButton = await page.$('tbody tr:nth-child(1) td:last-child button');
 		if (expandRowToggleButton && !(await expandRowToggleButton.isDisabled())) {

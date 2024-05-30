@@ -2,10 +2,7 @@
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import PageWrapper from '$lib/components/wrapper/PageWrapper.svelte';
 	import { getAllowance } from '$lib/controllers/contract/usdc';
-	import {
-		getPondAndMPondBridgeAllowancesFromSubgraph,
-		getRequestedMPondForConversionFromSubgraph
-	} from '$lib/controllers/subgraphController';
+	import { getRequestedMPondForConversionFromSubgraph } from '$lib/controllers/subgraphController';
 	import { initializeBridgeStore } from '$lib/data-stores/bridgeStore';
 	import {
 		chainStore,
@@ -20,10 +17,10 @@
 		walletStore,
 		connected
 	} from '$lib/data-stores/walletProviderStore';
-	import { modifyAllowancesData } from '$lib/utils/data-modifiers/subgraphModifier';
 	import type { BrowserProvider } from 'ethers';
 	import { onDestroy, onMount } from 'svelte';
-	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
+	import { ARB_SEPOLIA } from '$lib/chains/arbSepolia';
+	import type { TokenMetadata } from '$lib/types/environmentTypes';
 
 	let previousChainId: number | null = null;
 	let previousWalletAddress = '';
@@ -38,17 +35,24 @@
 
 	// TODO @souvikmishra : update the allowance function to fetch from correct subgraph
 	async function init() {
-		const [allowancesData, requestedMPond] = await Promise.all([
+		const [MPondAllowances, pondAllowances, requestedMPond] = await Promise.all([
 			getAllowance(
 				$walletStore.address,
 				$contractAddressStore.BRIDGE,
-				$oysterTokenMetadataStore,
+				ARB_SEPOLIA.tokens.MPOND as TokenMetadata,
+				$walletStore.provider as BrowserProvider
+			),
+			getAllowance(
+				$walletStore.address,
+				$contractAddressStore.BRIDGE,
+				ARB_SEPOLIA.tokens.POND as TokenMetadata,
 				$walletStore.provider as BrowserProvider
 			),
 			getRequestedMPondForConversionFromSubgraph($walletStore.address)
 		]);
 
-		const allowances = modifyAllowancesData(allowancesData);
+		const allowances = { mPond: MPondAllowances || 0n, pond: pondAllowances || 0n };
+
 		initializeBridgeStore(allowances, requestedMPond);
 	}
 

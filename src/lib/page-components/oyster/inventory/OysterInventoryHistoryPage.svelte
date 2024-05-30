@@ -74,10 +74,10 @@
 		setSearchValue={(value, exactMatch) => {
 			searchInput = value.toString();
 		}}
-		title="Operator"
+		title="Job Name"
 		showTitle={false}
 		placeholder="Search"
-		label="Operator name or address"
+		label="Job name or id"
 		cardVariant="search"
 		styleClass="w-full"
 		{onSearchClick}

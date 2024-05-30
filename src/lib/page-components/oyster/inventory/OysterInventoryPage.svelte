@@ -59,16 +59,16 @@
 <PageTitle title="My Active Orders" />
 <div class="mb-6 flex items-stretch gap-4 rounded-[24px] bg-white px-8 py-6">
 	<SearchWithSelect
-		dataList={inventoryData?.map((id) => id.provider.address)}
+		dataList={inventoryData?.map((id) => id.id.toString())}
 		searchValue={searchInput}
 		setSearchValue={(value, exactMatch) => {
 			searchInput = value.toString();
 		}}
-		title="Operator"
+		title="Job Name"
 		disabled={isSearchInputDisabled}
 		showTitle={false}
 		placeholder="Search"
-		label="Operator name or address"
+		label="Job name or id"
 		cardVariant="search"
 		styleClass="w-full"
 		{onSearchClick}

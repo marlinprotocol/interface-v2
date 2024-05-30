@@ -76,9 +76,14 @@
 		},
 		arch: {
 			value: preFilledData?.arch || ''
+		},
+		jobName: {
+			value: preFilledData?.jobName || '',
+			error: '',
+			isDirty: false,
+			title: 'Job Name'
 		}
 	};
-	let jobName: string = '';
 
 	// deep copy of initial states
 	let merchant = {
@@ -96,6 +101,9 @@
 	let arch = {
 		...initialStates.arch
 	};
+	let jobName = {
+		...initialStates.jobName
+	};
 
 	const handleSubmitClick = async () => {
 		if (
@@ -104,7 +112,8 @@
 			!finalBandwidthRateScaled ||
 			!bandwidthCostScaled ||
 			!instance.value ||
-			!region.value
+			!region.value ||
+			!jobName.value
 		) {
 			return;
 		}
@@ -253,7 +262,8 @@
 		validEnclaveUrl &&
 		!instanceRateDisabled &&
 		enclaveImageUrl.value !== '' &&
-		!submitLoading;
+		!submitLoading &&
+		jobName.value !== '';
 
 	$: finalEnclaveUrl = sanitizeUrl(enclaveImageUrl.value);
 
@@ -263,6 +273,7 @@
 			: true;
 
 	$: totalRate = finalBandwidthRateScaled + (instanceRate || 0n);
+	$: jobNameError = jobName.value === '' ? 'Job Name is required' : '';
 </script>
 
 <Modal {modalFor} onClose={resetInputs} padding={false} isScrollable={true}>
@@ -311,10 +322,10 @@
 			/>
 			<TextInputWithEndButton
 				styleClass="px-4 py-2 mt-4"
-				label="Job Name (Optional)"
+				label={jobName.title}
 				placeholder="Enter your job name"
-				bind:input={jobName}
-			/>
+				bind:input={jobName.value}
+			></TextInputWithEndButton>
 			<ErrorTextCard
 				styleClass="mt-0"
 				showError={!validEnclaveUrl}

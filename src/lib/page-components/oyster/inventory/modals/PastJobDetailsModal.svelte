@@ -37,7 +37,8 @@
 		createdAt,
 		depositHistory,
 		endEpochTime,
-		ip
+		ip,
+		jobName
 	} = jobData);
 </script>
 
@@ -98,7 +99,12 @@
 				/>
 				<TextInputCard title="Duration Run" value={epochToDurationString(durationRun, true)} />
 			</div>
-
+			<TextInputCard
+				title="Job Name"
+				value={jobName ?? 'N/A'}
+				cliboardContent={jobName}
+				textStyle="truncate"
+			/>
 			<PaymentHistoryTable tableData={depositHistory} />
 		</div>
 	</svelte:fragment>

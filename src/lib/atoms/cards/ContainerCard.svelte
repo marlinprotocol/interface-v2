@@ -2,7 +2,7 @@
 	export let styleClass = '';
 </script>
 
-<div data-testid="container-card-root" class="mx-auto w-full sm:w-130">
+<div data-testid="container-card-root" class="mx-auto w-full sm:w-[600px]">
 	{#if $$slots.header}
 		<div data-testid="container-card-header" class="mb-2">
 			<slot name="header" />

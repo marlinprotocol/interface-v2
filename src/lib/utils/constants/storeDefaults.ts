@@ -3,6 +3,7 @@ import type {
 	ChainStore,
 	ContractAbi,
 	ContractAddress,
+	KalypsoStore,
 	OysterStore,
 	ReceiverRewardsStore,
 	ReceiverStakingData,
@@ -112,4 +113,9 @@ export const DEFAULT_RECEIVER_REWARDS_STORE: ReceiverRewardsStore = {
 	epochDuration: 0,
 	startTime: 0,
 	lastTicketIssuedEpoch: undefined
+};
+
+//kalypso store
+export const DEFAULT_KALYPSO_STORE: KalypsoStore = {
+	hello: 'vaaaalue'
 };

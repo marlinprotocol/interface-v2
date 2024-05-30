@@ -68,7 +68,7 @@
 		disabled={isSearchInputDisabled}
 		showTitle={false}
 		placeholder="Search"
-		label="Job name or id"
+		label="Job name or ID"
 		cardVariant="search"
 		styleClass="w-full"
 		{onSearchClick}

@@ -127,6 +127,7 @@ export interface CreateOrderPreFilledModel extends CPUrlDataModel {
 	};
 	metadata: string;
 	enclaveUrl: string;
+	jobName: string;
 }
 
 export type OysterSettlementHistoryDataModel = {

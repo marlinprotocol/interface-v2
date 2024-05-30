@@ -22,25 +22,35 @@
 	export let rowIndex: number;
 
 	$: ({
+		id,
 		provider: { name, address },
 		status,
 		amountUsed,
 		refund,
 		createdAt,
 		endEpochTime,
-		isCreditJob
+		isCreditJob,
+		jobName
 	} = rowData);
 
 	$: statusColor = getColorHexByVariantForTag(getInventoryStatusVariant(status) as CommonVariant);
 </script>
 
-<td class={cn(tableClasses.cell, 'text-center')}>
-	<NameWithAddress {name} {address} long>
+<td class={tableClasses.cell}>
+	<NameWithAddress
+		table="inventory-history"
+		name={jobName === 'N/A' ? '' : jobName}
+		address={String(id)}
+		long
+		{rowIndex}
+	>
 		<svelte:fragment slot="copyIcon">
-			<div
-				class="invisible cursor-pointer opacity-0 group-hover/row:visible group-hover/row:opacity-100"
-			>
-				<img src={staticImages.copyIcon} alt="Copy" />
+			<div class="w-4">
+				<div
+					class="invisible cursor-pointer opacity-0 group-hover/row:visible group-hover/row:opacity-100"
+				>
+					<img src={staticImages.copyIcon} alt="Copy" />
+				</div>
 			</div>
 		</svelte:fragment>
 	</NameWithAddress>

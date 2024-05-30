@@ -1,6 +1,7 @@
 <script lang="ts">
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import PageWrapper from '$lib/components/wrapper/PageWrapper.svelte';
+	import { getAllowance } from '$lib/controllers/contract/usdc';
 	import {
 		getPondAndMPondBridgeAllowancesFromSubgraph,
 		getRequestedMPondForConversionFromSubgraph
@@ -20,7 +21,9 @@
 		connected
 	} from '$lib/data-stores/walletProviderStore';
 	import { modifyAllowancesData } from '$lib/utils/data-modifiers/subgraphModifier';
+	import type { BrowserProvider } from 'ethers';
 	import { onDestroy, onMount } from 'svelte';
+	import { oysterTokenMetadataStore } from '$lib/data-stores/oysterStore';
 
 	let previousChainId: number | null = null;
 	let previousWalletAddress = '';
@@ -36,9 +39,11 @@
 	// TODO @souvikmishra : update the allowance function to fetch from correct subgraph
 	async function init() {
 		const [allowancesData, requestedMPond] = await Promise.all([
-			getPondAndMPondBridgeAllowancesFromSubgraph(
+			getAllowance(
 				$walletStore.address,
-				$contractAddressStore.BRIDGE
+				$contractAddressStore.BRIDGE,
+				$oysterTokenMetadataStore,
+				$walletStore.provider as BrowserProvider
 			),
 			getRequestedMPondForConversionFromSubgraph($walletStore.address)
 		]);

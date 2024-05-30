@@ -22,7 +22,8 @@ export const POLYGON: ChainConfig = {
 		POND: '',
 		MPOND: '',
 		USDC: '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359',
-		OYSTER_CREDIT: ''
+		OYSTER_CREDIT: '',
+		KALYPSO: ''
 	},
 	subgraph_urls: {
 		RECEIVER_STAKING: '',

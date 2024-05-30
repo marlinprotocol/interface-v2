@@ -55,6 +55,7 @@ export type ContractAddress = {
 	MPOND: Address;
 	USDC: Address;
 	OYSTER_CREDIT: Address;
+	KALYPSO: Address;
 };
 
 // receiver staking store
@@ -111,6 +112,11 @@ export type ReceiverRewardsStore = {
 	startTime: number;
 	epochDuration: number;
 	lastTicketIssuedEpoch: number | undefined;
+};
+
+// kalypso store
+export type KalypsoStore = {
+	hello: string;
 };
 
 // local storage store types

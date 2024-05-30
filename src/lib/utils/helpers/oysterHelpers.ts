@@ -37,14 +37,12 @@ export const getSearchedInventoryData = (
 		const {
 			instance,
 			region,
-			provider: { name = '', address }
+			provider: { name = '', address },
+			jobName,
+			id
 		} = item;
-		return (
-			instance.toLowerCase().includes(searchInputLowerCase) ||
-			region.toLowerCase().includes(searchInputLowerCase) ||
-			name.toLowerCase().includes(searchInputLowerCase) ||
-			address.toLowerCase().includes(searchInputLowerCase)
-		);
+		const fieldsToSearch = [instance, region, name, address, jobName, id.toString()];
+		return fieldsToSearch.some((field) => field.toLowerCase().includes(searchInputLowerCase));
 	});
 };
 

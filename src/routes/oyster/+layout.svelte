@@ -45,15 +45,12 @@
 
 	async function loadConnectedData() {
 		console.log('Loading oyster allowances data');
-		const allowance =
-			$chainConfigStore.oyster_token === 'POND' && $chainConfigStore.subgraph_urls.POND !== ''
-				? await getApprovedOysterAllowancesFromSubgraph($walletStore.address)
-				: await getAllowance(
-						$walletStore.address,
-						$contractAddressStore.OYSTER,
-						$oysterTokenMetadataStore,
-						$walletStore.provider as BrowserProvider
-					);
+		const allowance = await getAllowance(
+			$walletStore.address,
+			$contractAddressStore.OYSTER,
+			$oysterTokenMetadataStore,
+			$walletStore.provider as BrowserProvider
+		);
 		initializeAllowanceInOysterStore(allowance);
 		console.log('Oyster allowances data is loaded', $oysterStore.allowance);
 

@@ -276,6 +276,18 @@
 			logo: staticImages.talusLogo,
 			website: 'https://talus.network',
 			category: ['AI']
+		},
+		{
+			name: 'Assisterr',
+			logo: staticImages.assisterrLogo,
+			website: 'https://www.assisterr.ai/',
+			category: ['AI']
+		},
+		{
+			name: 'Heurist',
+			logo: staticImages.heuristLogo,
+			website: 'https://www.heurist.ai/',
+			category: ['AI']
 		}
 	];
 

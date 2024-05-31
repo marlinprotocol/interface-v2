@@ -146,6 +146,8 @@ const lighthouseLogo = '/images/lighthouse.svg';
 const accsealLogo = '/images/accsealLogo.svg';
 const filLogo = '/images/fil.svg';
 const talusLogo = '/images/talus.svg';
+const assisterrLogo = '/images/assisterr.svg';
+const heuristLogo = '/images/heurist.svg';
 
 export const staticImages = {
 	Alert,
@@ -292,5 +294,7 @@ export const staticImages = {
 	accsealLogo,
 	infoIconWhite,
 	filLogo,
-	talusLogo
+	talusLogo,
+	assisterrLogo,
+	heuristLogo
 };

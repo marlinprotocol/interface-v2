@@ -30,10 +30,6 @@
 		});
 	};
 
-	//get first 2 letters of name or address if name is empty
-	const startLetters = name ? name.slice(0, 2) : address.slice(0, 2);
-	const bgColor = getColorHexForTableRow(rowIndex);
-
 	let addressText = shortenText(address, long ? 10 : 6, long ? 10 : 6);
 </script>
 

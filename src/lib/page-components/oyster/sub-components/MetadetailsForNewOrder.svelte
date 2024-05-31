@@ -174,6 +174,7 @@
 	showTitle={false}
 	cardVariant="v2Input"
 	placeholder="Enter operator name or address"
+	disabled
 />
 <ErrorTextCard
 	showError={merchant.isDirty && merchant.error !== ''}
@@ -191,7 +192,7 @@
 			cardVariant="v2Input"
 			showTitle={false}
 			placeholder="Select instance"
-			disabled={!merchant.value}
+			disabled
 		/>
 	</div>
 	<div class="w-full">
@@ -204,7 +205,7 @@
 			cardVariant="v2Input"
 			showTitle={false}
 			placeholder="Select region"
-			disabled={!merchant.value}
+			disabled
 		/>
 	</div>
 </div>

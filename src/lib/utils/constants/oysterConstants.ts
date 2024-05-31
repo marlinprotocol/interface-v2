@@ -30,7 +30,7 @@ export const DEFAULT_JOB_METADATA: OysterJobMetadata = {
 	vcpu: 0,
 	memory: 0,
 	arch: 'N/A',
-	inputs: 'N/A'
+	name: 'N/A'
 };
 
 // explicit keys in the oyster inventory data model which are of type bigint
@@ -174,9 +174,9 @@ export const OYSTER_OPERATOR_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 // make sure the id matches the id in Data Model
 export const OYSTER_INVENTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
-		title: 'OPERATOR',
-		id: 'provider',
-		tooltipText: 'Address of oyster operator'
+		title: 'NAME',
+		id: 'jobName',
+		tooltipText: 'Name of the job'
 	},
 	{
 		title: 'IP ADDRESS',
@@ -221,8 +221,8 @@ export const OYSTER_PAYMENT_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 // make sure the id matches the id in Data Model
 export const OYSTER_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
-		title: 'OPERATOR',
-		id: 'provider'
+		title: 'NAME',
+		id: 'jobName'
 	},
 	{
 		title: 'AMOUNT USED',

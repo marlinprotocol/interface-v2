@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { inputClasses } from '$lib/atoms/componentClasses';
+	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 
@@ -16,6 +17,7 @@
 	let titleStyle = onFocusStyle;
 	export let label: string = '';
 	export let showTitle: boolean = false;
+	export let labelTooltip: string = '';
 
 	const onFocus = () => {
 		titleStyle = onFocusStyle;
@@ -40,6 +42,7 @@
 	{label}
 	variant="v2Input"
 	{title}
+	tooltipText={labelTooltip}
 	styleClass={cn(styleClass, 'relative')}
 >
 	{#if !!title.length}

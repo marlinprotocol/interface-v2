@@ -76,9 +76,12 @@
 		},
 		arch: {
 			value: preFilledData?.arch || ''
+		},
+		jobName: {
+			value: preFilledData?.jobName || '',
+			title: 'Job Name'
 		}
 	};
-	// let enaclaveImageInputs: string = '';
 
 	// deep copy of initial states
 	let merchant = {
@@ -95,6 +98,9 @@
 	};
 	let arch = {
 		...initialStates.arch
+	};
+	let jobName = {
+		...initialStates.jobName
 	};
 
 	const handleSubmitClick = async () => {
@@ -116,8 +122,8 @@
 			region: region.value,
 			memory: Number(memory.split(' ')[0]),
 			vcpu: Number(vcpu),
-			url: finalEnclaveUrl
-			// inputs: enaclaveImageInputs
+			url: finalEnclaveUrl,
+			name: jobName
 		});
 
 		const provider = {
@@ -309,12 +315,13 @@
 				placeholder="Paste URL here"
 				bind:input={enclaveImageUrl.value}
 			/>
-			<!-- <TextInputWithEndButton -->
-			<!-- 	styleClass="px-4 py-2 mt-4" -->
-			<!-- 	label="Enclave Inputs (Optional)" -->
-			<!-- 	placeholder="Paste enclave inputs here" -->
-			<!-- 	bind:input={enaclaveImageInputs} -->
-			<!-- /> -->
+			<TextInputWithEndButton
+				styleClass="px-4 py-2 mt-4"
+				label={jobName.title}
+				placeholder="Enter your job name"
+				bind:input={jobName.value}
+				labelTooltip="Avoid putting in sensitive information as the job name as these details would be logged onto the public blockchain"
+			></TextInputWithEndButton>
 			<ErrorTextCard
 				styleClass="mt-0"
 				showError={!validEnclaveUrl}

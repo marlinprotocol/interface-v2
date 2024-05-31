@@ -56,6 +56,7 @@
 		durationLeft,
 		isCreditJob,
 		endEpochTime, // epoch time in seconds based on duration left,
+		jobName,
 		// newRateScaled is being passed to the modal for the amend rate modal and is not used here
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		reviseRate: { newRateScaled = null, rateStatus = '', stopStatus = '' } = {}
@@ -64,7 +65,13 @@
 </script>
 
 <td class={tableClasses.cell}>
-	<NameWithAddress {name} {address} long {rowIndex}>
+	<NameWithAddress
+		table="inventory"
+		name={jobName === 'N/A' ? '' : jobName}
+		address={String(id)}
+		long
+		{rowIndex}
+	>
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
 				<div

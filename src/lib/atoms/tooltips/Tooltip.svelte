@@ -4,6 +4,7 @@
 	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let placement: TooltipPlacement = 'top';
+	export let styleClass: string = '';
 
 	const tooltipPosition = {
 		top: {
@@ -29,7 +30,10 @@
 	};
 </script>
 
-<div class="group relative inline-block cursor-pointer text-left" data-testid="tooltip">
+<div
+	class={cn('group relative inline-block cursor-pointer text-left', styleClass)}
+	data-testid="tooltip"
+>
 	<!-- adds a default icon for tooltip when no icon is passed to the slot -->
 	{#if !$$slots.tooltipIcon}
 		<img src={staticImages.alertV2Icon} alt="Info" width="16px" />

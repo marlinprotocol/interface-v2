@@ -89,6 +89,7 @@ export interface OysterInventoryDataModel extends CPUrlDataModel {
 		name?: string;
 		address: string;
 	};
+	jobName: string;
 	metadata: string;
 	enclaveUrl: string;
 	inputs?: string;
@@ -126,6 +127,7 @@ export interface CreateOrderPreFilledModel extends CPUrlDataModel {
 	};
 	metadata: string;
 	enclaveUrl: string;
+	jobName: string;
 }
 
 export type OysterSettlementHistoryDataModel = {
@@ -174,5 +176,5 @@ export type OysterJobMetadata = {
 	vcpu: number;
 	memory: number;
 	arch: string;
-	inputs?: string;
+	name: string;
 };

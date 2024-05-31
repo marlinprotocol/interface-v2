@@ -38,6 +38,7 @@
 		endEpochTime,
 		depositHistory,
 		rate,
+		jobName,
 		inputs
 	} = jobData);
 	$: instanceRateScaled = getRateForProviderAndFilters(
@@ -134,6 +135,12 @@
 				/>
 				<TextInputCard title="Bandwidth" value={bandwidth} textStyle="truncate" />
 			</div>
+			<TextInputCard
+				title="Job Name"
+				value={jobName ?? 'N/A'}
+				cliboardContent={jobName}
+				textStyle="truncate"
+			/>
 			<PaymentHistoryTable tableData={depositHistory} />
 		</div>
 	</svelte:fragment>

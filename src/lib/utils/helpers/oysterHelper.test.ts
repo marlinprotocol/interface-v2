@@ -35,6 +35,7 @@ describe('getSearchedInventoryData', () => {
 		{
 			instance: 'instancea',
 			region: 'regiona',
+			id: 'someida',
 			provider: {
 				name: 'namea',
 				address: 'addressa'
@@ -43,6 +44,7 @@ describe('getSearchedInventoryData', () => {
 		{
 			instance: 'instanceb',
 			region: 'regionb',
+			id: 'someidb',
 			provider: {
 				name: 'nameb',
 				address: 'addressb'
@@ -51,6 +53,7 @@ describe('getSearchedInventoryData', () => {
 		{
 			instance: 'instancec',
 			region: 'regionc',
+			id: 'someidc',
 			provider: {
 				name: 'namec',
 				address: 'addressc'

@@ -1,8 +1,10 @@
 <script lang="ts">
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
+	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import type { InputCardVariant } from '$lib/types/componentTypes';
+	import { staticImages } from '../images/staticImages';
 
 	export let styleClass = '';
 	export let tooltipText = '';
@@ -17,9 +19,14 @@
 <InputCard {variant} {styleClass}>
 	{#if label}
 		<p
-			class="absolute left-7 top-[-1px] z-[1] bg-white font-poppins text-sm font-normal leading-[1px] text-[#030115]"
+			class="absolute left-7 top-[-1px] z-[1] inline-flex bg-white font-poppins text-sm font-normal leading-[1px] text-[#030115]"
 		>
 			{label}
+			{#if !!tooltipText}
+				<Tooltip styleClass="ml-[5px] mt-[-7px]" placement="right">
+					<span slot="tooltipContent" class="whitespace-normal leading-[1.2]">{tooltipText}</span>
+				</Tooltip>
+			{/if}
 		</p>
 	{/if}
 	<div class="flex items-center justify-between">

@@ -10,13 +10,21 @@
 	export let address = '';
 	export let rowIndex = -1;
 	export let long: boolean = false;
+	export let table:
+		| 'inventory'
+		| 'inventory-history'
+		| 'marketplace'
+		| 'operator'
+		| 'operator-hitory' = 'marketplace';
+
+	const isOneOfInventoryTables = table === 'inventory' || table === 'inventory-history';
 
 	const onCopyAddress = () => {
 		copyTextToClipboard(address);
 		addToast({
 			message: {
 				title: 'Copied',
-				description: `Address copied to clipboard`
+				description: `${isOneOfInventoryTables ? 'Id' : 'Address'} copied to clipboard`
 			},
 			variant: 'success'
 		});
@@ -36,7 +44,7 @@
 >
 	<div class="flex flex-col items-start">
 		{#if name}
-			<Tooltip>
+			<Tooltip placement="right">
 				<span slot="tooltipContent">{name}</span>
 				<Text
 					slot="tooltipIcon"

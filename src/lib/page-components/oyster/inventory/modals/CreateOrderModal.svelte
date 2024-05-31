@@ -76,9 +76,12 @@
 		},
 		arch: {
 			value: preFilledData?.arch || ''
+		},
+		jobName: {
+			value: preFilledData?.jobName || '',
+			title: 'Job Name'
 		}
 	};
-	let jobName: string = '';
 
 	// deep copy of initial states
 	let merchant = {
@@ -95,6 +98,9 @@
 	};
 	let arch = {
 		...initialStates.arch
+	};
+	let jobName = {
+		...initialStates.jobName
 	};
 
 	const handleSubmitClick = async () => {
@@ -311,10 +317,11 @@
 			/>
 			<TextInputWithEndButton
 				styleClass="px-4 py-2 mt-4"
-				label="Job Name (Optional)"
+				label={jobName.title}
 				placeholder="Enter your job name"
-				bind:input={jobName}
-			/>
+				bind:input={jobName.value}
+				labelTooltip="Avoid putting in sensitive information as the job name as these details would be logged onto the public blockchain"
+			></TextInputWithEndButton>
 			<ErrorTextCard
 				styleClass="mt-0"
 				showError={!validEnclaveUrl}

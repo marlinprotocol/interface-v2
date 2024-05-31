@@ -65,7 +65,13 @@
 </script>
 
 <td class={tableClasses.cell}>
-	<NameWithAddress {name} {address} long {rowIndex}>
+	<NameWithAddress
+		table="inventory"
+		name={jobName === 'N/A' ? '' : jobName}
+		address={String(id)}
+		long
+		{rowIndex}
+	>
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
 				<div
@@ -76,7 +82,6 @@
 			</div>
 		</svelte:fragment>
 	</NameWithAddress>
-	{jobName}
 </td>
 <td class={cn(tableClasses.cell, 'w-[200px]')}>
 	<div class="flex items-center justify-center gap-2 text-center">

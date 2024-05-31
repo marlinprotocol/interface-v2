@@ -79,8 +79,6 @@
 		},
 		jobName: {
 			value: preFilledData?.jobName || '',
-			error: '',
-			isDirty: false,
 			title: 'Job Name'
 		}
 	};
@@ -112,8 +110,7 @@
 			!finalBandwidthRateScaled ||
 			!bandwidthCostScaled ||
 			!instance.value ||
-			!region.value ||
-			!jobName.value
+			!region.value
 		) {
 			return;
 		}
@@ -262,8 +259,7 @@
 		validEnclaveUrl &&
 		!instanceRateDisabled &&
 		enclaveImageUrl.value !== '' &&
-		!submitLoading &&
-		jobName.value !== '';
+		!submitLoading;
 
 	$: finalEnclaveUrl = sanitizeUrl(enclaveImageUrl.value);
 
@@ -273,7 +269,6 @@
 			: true;
 
 	$: totalRate = finalBandwidthRateScaled + (instanceRate || 0n);
-	$: jobNameError = jobName.value === '' ? 'Job Name is required' : '';
 </script>
 
 <Modal {modalFor} onClose={resetInputs} padding={false} isScrollable={true}>
@@ -325,6 +320,7 @@
 				label={jobName.title}
 				placeholder="Enter your job name"
 				bind:input={jobName.value}
+				labelTooltip="Avoid putting in sensitive information as the job name as these details would be logged onto the public blockchain"
 			></TextInputWithEndButton>
 			<ErrorTextCard
 				styleClass="mt-0"

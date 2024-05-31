@@ -8,6 +8,7 @@
 		chainStore,
 		setAllowedChainsStore,
 		allowedChainsStore,
+		chainConfigStore,
 		chainIdHasChanged
 	} from '$lib/data-stores/chainProviderStore';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
@@ -19,7 +20,6 @@
 	} from '$lib/data-stores/walletProviderStore';
 	import type { BrowserProvider } from 'ethers';
 	import { onDestroy, onMount } from 'svelte';
-	import { ARB_SEPOLIA } from '$lib/chains/arbSepolia';
 	import type { TokenMetadata } from '$lib/types/environmentTypes';
 
 	let previousChainId: number | null = null;
@@ -33,19 +33,18 @@
 		? $allowedChainsStore.includes($chainStore.chainId)
 		: true;
 
-	// TODO @souvikmishra : update the allowance function to fetch from correct subgraph
 	async function init() {
 		const [MPondAllowances, pondAllowances, requestedMPond] = await Promise.all([
 			getAllowance(
 				$walletStore.address,
 				$contractAddressStore.BRIDGE,
-				ARB_SEPOLIA.tokens.MPOND as TokenMetadata,
+				$chainConfigStore.tokens.MPOND as TokenMetadata,
 				$walletStore.provider as BrowserProvider
 			),
 			getAllowance(
 				$walletStore.address,
 				$contractAddressStore.BRIDGE,
-				ARB_SEPOLIA.tokens.POND as TokenMetadata,
+				$chainConfigStore.tokens.POND as TokenMetadata,
 				$walletStore.provider as BrowserProvider
 			),
 			getRequestedMPondForConversionFromSubgraph($walletStore.address)

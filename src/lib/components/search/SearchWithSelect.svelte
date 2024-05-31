@@ -81,6 +81,7 @@
 					bind:showSuggestions
 					bind:suggestions
 					{textSuffix}
+					{disabled}
 				/>
 			</div>
 		</div>

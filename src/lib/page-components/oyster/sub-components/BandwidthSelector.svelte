@@ -28,7 +28,8 @@
 	function calculateBandwidthCost(
 		bandwidth: string | number,
 		bandwidthUnit: string,
-		bandwidthRateForRegionScaled: bigint
+		bandwidthRateForRegionScaled: bigint,
+		duration: number
 	) {
 		const unitConversionDivisor = BigInt(
 			OYSTER_BANDWIDTH_UNITS_LIST.find((unit) => unit.label === bandwidthUnit)?.value ?? 1
@@ -41,7 +42,7 @@
 	$: bandwidthRateForRegionScaled = getBandwidthRateForRegion(region.value);
 	$: bandwidthCostScaled =
 		bandwidth !== ''
-			? calculateBandwidthCost(bandwidth, bandwidthUnit, bandwidthRateForRegionScaled)
+			? calculateBandwidthCost(bandwidth, bandwidthUnit, bandwidthRateForRegionScaled, duration)
 			: 0n;
 	$: bandwidthCostString =
 		bandwidth !== ''

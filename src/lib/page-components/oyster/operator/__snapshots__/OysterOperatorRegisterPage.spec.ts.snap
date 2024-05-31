@@ -107,9 +107,10 @@ exports[`OysterOperatorRegistration > renders the component 1`] = `
             data-testid="input-card"
           >
             <p
-              class="absolute left-7 top-[-1px] z-[1] bg-white font-poppins text-sm font-normal leading-[1px] text-[#030115]"
+              class="absolute left-7 top-[-1px] z-[1] inline-flex bg-white font-poppins text-sm font-normal leading-[1px] text-[#030115]"
             >
               Control Plane URL
+               
             </p>
              
             <div

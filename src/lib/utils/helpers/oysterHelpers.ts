@@ -42,7 +42,7 @@ export const getSearchedInventoryData = (
 			id
 		} = item;
 		const fieldsToSearch = [instance, region, name, address, jobName, id.toString()];
-		return fieldsToSearch.some((field) => field.toLowerCase().includes(searchInputLowerCase));
+		return fieldsToSearch.some((field) => field?.toLowerCase().includes(searchInputLowerCase));
 	});
 };
 

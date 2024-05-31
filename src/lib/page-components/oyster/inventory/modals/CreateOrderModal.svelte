@@ -123,7 +123,7 @@
 			memory: Number(memory.split(' ')[0]),
 			vcpu: Number(vcpu),
 			url: finalEnclaveUrl,
-			name: jobName
+			name: jobName.value
 		});
 
 		const provider = {

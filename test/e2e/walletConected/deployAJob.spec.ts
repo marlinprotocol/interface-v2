@@ -25,7 +25,7 @@ test('connect wallet -> deploy a job -> check if it navigated to inventory', asy
 	await rateHeader.click();
 
 	// Select and click the 'DEPLOY' button within the first row
-	await page.locator('tbody tr.main-row:first-child td:nth-of-type(8)').click();
+	await page.getByTestId('deploy-table-button-0').click();
 
 	// Make sure the modal opened.
 	await page.waitForSelector('text=CREATE ORDER');
@@ -33,29 +33,23 @@ test('connect wallet -> deploy a job -> check if it navigated to inventory', asy
 	await page.waitForSelector('.modal-body');
 
 	// Duration
-	await page.locator('div:nth-child(2) > div:nth-child(2) > #pond-input-amount').first().fill('1');
+	await page.locator('#pond-input-amount-Duration').first().fill('3');
 
 	// duration in minutes
-	await page.locator('div:nth-child(4) > .search-container > .btn').first().click();
+	await page.locator('#select-duration').first().click();
 	await page.getByRole('button', { name: 'Hours' }).click();
 
 	// Bandwidth
-	await page
-		.locator('div:nth-child(5) > div > div:nth-child(2) > #pond-input-amount')
-		.first()
-		.fill('9');
+	await page.locator('#pond-input-amount-Bandwidth').first().fill('90');
 
 	// Fill the enclave image url.
-	await page
-		.locator('.px-4 > div:nth-child(2) > #address-display')
-		.first()
-		.fill('https://example.com');
+	await page.locator('#address-display-enclave-image-url').first().fill('https://example.com');
 
 	const approveButton = page.locator('.btn-block').first();
 	const text = await approveButton.innerText();
 	await approveButton.click();
 
-	if (text === 'APPROVE') {
+	if (text === 'Approve') {
 		await metamask.notificationPage.approveTokenPermission(extensionId);
 		await page.waitForTimeout(5_000);
 		await approveButton.click();

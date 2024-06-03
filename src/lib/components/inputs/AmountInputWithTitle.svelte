@@ -12,6 +12,7 @@
 	export let suffix = '';
 	export let onlyInteger = false;
 	export let id = '';
+	export let styleClass = '';
 
 	const onFocusStyle = 'left-[12px] leading-[1px] top-[-20px] font-normal';
 	const titleStyleInit =
@@ -39,7 +40,10 @@
 			{id}
 			bind:value={inputAmountString}
 			onChange={handleChange}
-			styleClass="input input-ghost min-w-[20px] w-full input-primary text-sm p-0 ml-0.5 placeholder:text-primary/[.2] h-[30px]"
+			styleClass={cn(
+				'input input-ghost min-w-[20px] w-full input-primary text-sm p-0 ml-0.5 placeholder:text-primary/[.2] h-[30px]',
+				styleClass
+			)}
 			{onlyInteger}
 			{disabled}
 		/>

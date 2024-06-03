@@ -41,6 +41,7 @@ exports[`SearchWithSelect > render's component properly 1`] = `
             <div
               class="search-container relative flex w-fit items-baseline s-Q2GksoR5hVxS"
               data-testid="select"
+              id="select-test title"
             >
               <div
                 class="flex h-auto items-center s-Q2GksoR5hVxS"

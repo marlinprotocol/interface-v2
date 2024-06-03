@@ -3,6 +3,7 @@
 exports[`Button > renders a button successfully 1`] = `
 <button
   class="gap-1.5 h-12 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white"
+  id=""
 >
    
 </button>

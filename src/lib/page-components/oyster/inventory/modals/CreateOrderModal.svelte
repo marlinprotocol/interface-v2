@@ -310,6 +310,7 @@
 				bind:bandwidth
 			/>
 			<TextInputWithEndButton
+				id="-enclave-image-url"
 				styleClass="px-4 py-3"
 				label="Enclave Image URL"
 				placeholder="Paste URL here"

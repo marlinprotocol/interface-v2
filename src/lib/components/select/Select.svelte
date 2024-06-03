@@ -42,6 +42,7 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
 	data-testid="select"
+	id={'select-' + title.toLowerCase()}
 	bind:this={searchContainer}
 	on:click={handleToggleShowAllSuggestions}
 	class={cn('search-container relative flex w-fit items-baseline', {

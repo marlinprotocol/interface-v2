@@ -112,17 +112,13 @@ export function minifyAddress(
 	return shortenedText;
 }
 
-// TODO:should this reside here? since this has a dependency on subgraph
 /**
  * checks and returns an array of booleans signifying all the validations that the address has passed
  */
-export async function isAddressValid(address: string): Promise<boolean[]> {
+export function isAddressValid(address: string): boolean {
 	const validCharacters = /^0x[a-fA-F0-9]{40}$/.test(address);
-	if (!validCharacters) return [false, false];
 
-	const addressExistsAsSigner = await checkIfSignerExistsInSubgraph(address);
-	if (!addressExistsAsSigner) return [true, false];
-	return [true, true];
+	return validCharacters;
 }
 
 /**

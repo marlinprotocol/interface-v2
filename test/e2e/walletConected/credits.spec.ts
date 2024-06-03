@@ -1,18 +1,15 @@
 import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress';
 import BasicSetup from '../../wallet-setup/basic.setup';
-import {
-	OYSTER_MARKETPLACE_URL,
-	OYSTER_OWNER_INVENTORY_URL
-} from '../../../src/lib/utils/constants/urls';
 import { MESSAGES } from '../../../src/lib/utils/constants/messages';
 import { loginToMetamask } from '../../helpers/metamask';
 import { goToMarketPlaceAndFetchCredits } from '../../helpers/credits';
+import { ROUTES } from '../../../src/lib/utils/constants/urls';
 
 const test = testWithSynpress(BasicSetup, unlockForFixture);
 const { expect } = test;
 
 test('Able Get Credits Balance', async ({ context, page, metamaskPage, extensionId }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);
@@ -24,7 +21,7 @@ test('Able Get Credits Balance', async ({ context, page, metamaskPage, extension
 });
 
 test('Deploy a job using credits', async ({ context, page, metamaskPage, extensionId }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);
@@ -36,7 +33,7 @@ test('Deploy a job using credits', async ({ context, page, metamaskPage, extensi
 	await rateHeader.click();
 
 	// Select and click the 'DEPLOY' button within the first row
-	await page.locator('tbody tr.main-row:first-child td:nth-of-type(8)').click();
+	await page.locator('tbody tr:first-child td:nth-of-type(8)').click();
 
 	// Make sure the modal opened.
 	await page.waitForSelector('text=CREATE ORDER');
@@ -44,27 +41,21 @@ test('Deploy a job using credits', async ({ context, page, metamaskPage, extensi
 	await page.waitForSelector('.modal-body');
 
 	// Duration
-	await page.locator('div:nth-child(2) > div:nth-child(2) > #pond-input-amount').first().fill('1');
+	await page.locator('#pond-input-amount-Duration').first().fill('1');
 
-	// duration in minutes
-	await page.locator('div:nth-child(4) > .search-container > .btn').first().click();
+	// duration in hours
+	await page.locator('#select-duration').first().click();
 	await page.getByRole('button', { name: 'Hours' }).click();
 
 	// Bandwidth
-	await page
-		.locator('div:nth-child(5) > div > div:nth-child(2) > #pond-input-amount')
-		.first()
-		.fill('9');
+	await page.locator('#pond-input-amount-Bandwidth').first().fill('9');
 
 	// Fill the enclave image url.
-	await page
-		.locator('.px-4 > div:nth-child(2) > #address-display')
-		.first()
-		.fill('https://example.com');
+	await page.locator('#address-display-enclave-image-url').first().fill('https://example.com');
 
 	await page.locator('.checkbox-primary').first().click();
 
-	const walletBalance = await page.locator('.wallet-credits').first().innerHTML();
+	const walletBalance = await page.locator('#wallet-credits').first().innerHTML();
 	let walletBalanceInNumber = 0;
 	// Extract the number string
 	const match = walletBalance.match(/(\d+\.\d+)/);
@@ -75,26 +66,27 @@ test('Deploy a job using credits', async ({ context, page, metamaskPage, extensi
 	const text = await approveButton.innerText();
 	await approveButton.click();
 
-	if (text === 'APPROVE') {
+	if (text === 'Approve') {
 		await metamask.notificationPage.approveTokenPermission(extensionId);
 		await page.waitForTimeout(5_000);
 		await approveButton.click();
 		await metamask.notificationPage.confirmTransactionAndWaitForMining(extensionId);
-		await page.waitForURL(OYSTER_OWNER_INVENTORY_URL + '/', { waitUntil: 'networkidle' });
+		await page.waitForURL(ROUTES.OYSTER_INVENTORY_URL + '/', { waitUntil: 'networkidle' });
 		const walletBalance = await goToMarketPlaceAndFetchCredits(page);
 		expect(walletBalance).toBeLessThan(walletBalanceInNumber);
 	} else {
 		await metamask.notificationPage.confirmTransactionAndWaitForMining(extensionId);
-		await page.waitForURL(OYSTER_OWNER_INVENTORY_URL + '/', { waitUntil: 'networkidle' });
+		await page.waitForURL(ROUTES.OYSTER_INVENTORY_URL + '/', { waitUntil: 'networkidle' });
 		await page.reload();
 		await page.waitForTimeout(5_000);
 		const walletBalance = await goToMarketPlaceAndFetchCredits(page);
+		console.log({ walletBalance });
 		expect(walletBalance).toBeLessThan(walletBalanceInNumber);
 	}
 });
 
 test('Add funds to job using credits.', async ({ context, page, metamaskPage, extensionId }) => {
-	await page.goto(OYSTER_OWNER_INVENTORY_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_INVENTORY_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);
@@ -105,7 +97,7 @@ test('Add funds to job using credits.', async ({ context, page, metamaskPage, ex
 		test.skip();
 	}
 
-	await page.goto(OYSTER_OWNER_INVENTORY_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_INVENTORY_URL, { waitUntil: 'networkidle' });
 
 	const hasText = await page.textContent('text=My Active Orders');
 	expect(hasText).toBeTruthy();
@@ -116,9 +108,9 @@ test('Add funds to job using credits.', async ({ context, page, metamaskPage, ex
 	const durationHeader = page.locator('th:has-text("DURATION LEFT")');
 	await durationHeader.click();
 
-	const durationStrings = await page.$$eval('tbody tr.main-row', (rows) => {
+	const durationStrings = await page.$$eval('tbody tr:first-child', (rows) => {
 		return rows.map((row) => {
-			const durationCell = row.querySelector('td:nth-of-type(7)');
+			const durationCell = row.querySelector('td:nth-of-type(4)');
 			return durationCell ? durationCell.textContent?.trim() : '';
 		});
 	});
@@ -140,25 +132,25 @@ test('Add funds to job using credits.', async ({ context, page, metamaskPage, ex
 	if (expandRowToggleButton && !(await expandRowToggleButton.isDisabled())) {
 		await expandRowToggleButton.click();
 		await page.locator('text=ADD FUNDS').first().click();
-		await page.waitForSelector('text=Add funds by approving and depositing tokens for the job');
-		await page
-			.locator('div:nth-child(3) > div:nth-child(2) > #pond-input-amount')
-			.first()
-			.fill('5');
+		await page.waitForTimeout(1000);
 
-		await page
-			.locator('div:nth-child(2) > div:nth-child(2) > #pond-input-amount')
-			.first()
-			.fill('5');
+		await page.locator('#pond-input-amount-Duration').first().fill('5');
+
 		await page.getByText('Days').first().click();
 		await page.getByRole('button', { name: 'Hours' }).click();
 
-		await page.locator('.modal-footer > .btn-block').first().click();
+		await page.waitForTimeout(1000);
+
+		await page.locator('#add-funds-approve-btn').first().click();
+
 		await metamask.confirmTransactionAndWaitForMining();
 		await page.waitForSelector(
-			`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.ADD_CREDITS_JOB.CREDITS_ADDED}`
+			`text = ${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.ADD_CREDITS_JOB.CREDITS_ADDED}`
 		);
 		await page.waitForTimeout(5_000);
+
+		await page.locator('#add-funds-confirm-btn').first().click();
+
 		const latestCreditsBalance = await goToMarketPlaceAndFetchCredits(page);
 		console.log({ latestCreditsBalance, creditsBalance });
 		expect(latestCreditsBalance).toBeLessThan(creditsBalance);

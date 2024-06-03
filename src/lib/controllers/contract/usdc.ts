@@ -4,6 +4,7 @@ import type { ContractAddress } from '$lib/types/storeTypes';
 import { ERC20_ABI } from '$lib/utils/abis/erc20';
 import type { TokenMetadata } from '$lib/types/environmentTypes';
 import { contractAddressStore } from '$lib/data-stores/contractStore';
+import { addToast } from '$lib/data-stores/toastStore';
 
 let contractAddresses: ContractAddress;
 contractAddressStore.subscribe((value) => {
@@ -21,6 +22,13 @@ export async function getAllowance(
 		const allowance = await tokenContract.allowance(walletAddress, contractAddress);
 		return allowance;
 	} catch (error: any) {
+		addToast({
+			message: {
+				title: 'Error',
+				description: `Error fetching ${token.currency} allowance from contract`
+			},
+			variant: 'error'
+		});
 		console.log(`error fetching ${token} allowance from contract :>> `, error);
 		return 0n;
 	}
@@ -36,7 +44,14 @@ export async function getBalanceOfToken(
 		const balance = await tokenContract.balanceOf(walletAddress);
 		return balance;
 	} catch (error: any) {
-		console.log(`error fetching balance from contract :>> `, contractAddress, error);
+		addToast({
+			message: {
+				title: 'Error',
+				description: 'Error fetching token balance from contract'
+			},
+			variant: 'error'
+		});
+		console.log('error fetching token balance from contract :>> ', contractAddress, error);
 		return 0n;
 	}
 }

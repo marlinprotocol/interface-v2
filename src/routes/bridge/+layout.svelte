@@ -2,7 +2,6 @@
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import PageWrapper from '$lib/components/wrapper/PageWrapper.svelte';
 	import { getAllowance } from '$lib/controllers/contract/usdc';
-	import { getRequestedMPondForConversionFromSubgraph } from '$lib/controllers/subgraphController';
 	import { initializeBridgeStore } from '$lib/data-stores/bridgeStore';
 	import {
 		chainStore,
@@ -21,6 +20,7 @@
 	import type { BrowserProvider } from 'ethers';
 	import { onDestroy, onMount } from 'svelte';
 	import type { TokenMetadata } from '$lib/types/environmentTypes';
+	import { getRequestedMPondForConversion } from '$lib/controllers/contract/bridge';
 
 	let previousChainId: number | null = null;
 	let previousWalletAddress = '';
@@ -47,7 +47,7 @@
 				$chainConfigStore.tokens.POND as TokenMetadata,
 				$walletStore.provider as BrowserProvider
 			),
-			getRequestedMPondForConversionFromSubgraph($walletStore.address)
+			getRequestedMPondForConversion($walletStore.address, $walletStore.provider as BrowserProvider)
 		]);
 
 		const allowances = { mPond: MPondAllowances || 0n, pond: pondAllowances || 0n };

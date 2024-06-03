@@ -1,18 +1,41 @@
 import { DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS } from '$lib/utils/constants/constants';
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
-
 import { BRIDGE_ABI } from '$lib/utils/abis/bridge';
-
-import type { ContractAddress } from '$lib/types/storeTypes';
+import type { Address, ContractAddress } from '$lib/types/storeTypes';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 import { contractAddressStore } from '$lib/data-stores/contractStore';
+import { addToast } from '$lib/data-stores/toastStore';
+import { type BrowserProvider, ethers } from 'ethers';
 
 let contractAddresses: ContractAddress;
 contractAddressStore.subscribe((value) => {
 	contractAddresses = value;
 });
 
+// read methods
+export async function getRequestedMPondForConversion(
+	walletAddress: Address,
+	provider: BrowserProvider
+): Promise<bigint> {
+	const oysterContract = new ethers.Contract(contractAddresses.BRIDGE, BRIDGE_ABI, provider);
+	try {
+		const requestedMPond = await oysterContract.totalAmountPlacedInRequests(walletAddress);
+		return requestedMPond;
+	} catch (error: any) {
+		addToast({
+			message: {
+				title: 'Error',
+				description: 'Error fetching requested MPond for conversion'
+			},
+			variant: 'error'
+		});
+		console.log('Error fetching requested MPond for conversion', error);
+		return 0n;
+	}
+}
+
+// write methods
 export async function convertPondToMPond(expectedMPond: bigint) {
 	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, BRIDGE_ABI);
 	try {

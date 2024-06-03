@@ -26,8 +26,7 @@ export const LINEA_GOERLI: ChainConfig = {
 	subgraph_urls: {
 		RECEIVER_STAKING: '',
 		BRIDGE: '',
-		OYSTER:
-			'https://graph-query.goerli.linea.build/subgraphs/name/marlinprotocol/oyster-linea-goerli',
+		OYSTER: 'https://api.studio.thegraph.com/query/76614/marlin-oyster-linea-dev/version/latest',
 		POND: '',
 		MPOND: '',
 		OYSTER_CREDIT: ''

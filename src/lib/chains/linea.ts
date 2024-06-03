@@ -1,5 +1,6 @@
 import { staticImages } from '../../lib/components/images/staticImages';
 import type { ChainConfig } from '../../lib/types/environmentTypes';
+import { PUBLIC_SUBGRAPH_KEY } from '$env/static/public';
 
 export const LINEA: ChainConfig = {
 	chain_id: '0xe708',
@@ -26,7 +27,7 @@ export const LINEA: ChainConfig = {
 	subgraph_urls: {
 		RECEIVER_STAKING: '',
 		BRIDGE: '',
-		OYSTER: 'https://graph-query.linea.build/subgraphs/name/marlinprotocol/oyster-linea',
+		OYSTER: `https://gateway-arbitrum.network.thegraph.com/api/${PUBLIC_SUBGRAPH_KEY}/subgraphs/id/GRms7wGqfw3tdHyrEVxmdWpPNduj9tEfQ6oD8g6aj1bU`,
 		POND: '',
 		MPOND: '',
 		OYSTER_CREDIT: ''

@@ -24,9 +24,9 @@ export const ARB_SEPOLIA: ChainConfig = {
 		OYSTER_CREDIT: '0x6699E4A8ef9937b7451CFe06fAA208008bDC5c97'
 	},
 	subgraph_urls: {
-		RECEIVER_STAKING: 'https://api.thegraph.com/subgraphs/name/marlin-staging/staking-arb1-dev',
+		RECEIVER_STAKING: 'https://api.studio.thegraph.com/query/76614/staking-arb1-dev/version/latest',
 		BRIDGE: 'https://api.thegraph.com/subgraphs/name/marlin-staging/bridge-arb-sepolia',
-		OYSTER: 'https://api.thegraph.com/subgraphs/name/marlin-staging/enclaves-arb-dev',
+		OYSTER: 'https://api.studio.thegraph.com/query/76614/marlin-oyster-arbitrum-dev/version/latest',
 		POND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-dev',
 		MPOND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-dev',
 		OYSTER_CREDIT: 'https://api.thegraph.com/subgraphs/name/rajatlko13/oyster-credits-arb-sepolia'

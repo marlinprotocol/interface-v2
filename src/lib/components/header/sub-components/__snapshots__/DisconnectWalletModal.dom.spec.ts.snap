@@ -98,6 +98,7 @@ exports[`DisconnectWalletModal > renders properly 1`] = `
           >
             <button
               class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3"
+              id=""
             >
                
               <span
@@ -114,6 +115,7 @@ exports[`DisconnectWalletModal > renders properly 1`] = `
              
             <button
               class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3"
+              id=""
             >
                
               <span
@@ -135,6 +137,7 @@ exports[`DisconnectWalletModal > renders properly 1`] = `
             >
               <button
                 class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3 flex-nowrap"
+                id=""
               >
                  
                 <img
@@ -155,6 +158,7 @@ exports[`DisconnectWalletModal > renders properly 1`] = `
         >
           <button
             class="gap-1.5 h-14 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full font-semibold text-base"
+            id=""
           >
              
             LOGOUT

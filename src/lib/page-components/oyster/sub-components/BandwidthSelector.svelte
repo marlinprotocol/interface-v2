@@ -64,6 +64,7 @@
 		title="Bandwidth"
 		bind:inputAmountString={bandwidth}
 		onlyInteger
+		id="Bandwidth"
 		disabled={!region}
 	>
 		<div slot="endButton">

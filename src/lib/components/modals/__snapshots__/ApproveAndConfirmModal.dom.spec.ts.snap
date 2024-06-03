@@ -135,6 +135,7 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
         >
           <button
             class="gap-1.5 h-14 text-base font-normal btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full"
+            id=""
           >
              
             APPROVE
@@ -277,6 +278,7 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
         >
           <button
             class="gap-1.5 h-14 text-base font-normal btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full"
+            id=""
           >
              
             Finish

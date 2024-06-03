@@ -1,12 +1,9 @@
 import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress';
 import BasicSetup from '../../wallet-setup/basic.setup';
 
-import {
-	OYSTER_MARKETPLACE_URL,
-	OYSTER_OWNER_INVENTORY_URL
-} from '../../../src/lib/utils/constants/urls';
 import { loginToMetamask } from '../../helpers/metamask';
-import { ARB_GOERLI } from '../../../src/lib/chains/arbGoerli';
+import { LINEA } from '../../../src/lib/chains/linea';
+import { ROUTES } from '../../../src/lib/utils/constants/urls';
 
 const test = testWithSynpress(BasicSetup, unlockForFixture);
 const { expect } = test;
@@ -17,7 +14,7 @@ test('deploy a job -> Check if job shows up in other chain', async ({
 	metamaskPage,
 	extensionId
 }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);
@@ -31,7 +28,7 @@ test('deploy a job -> Check if job shows up in other chain', async ({
 	await rateHeader.click();
 
 	// Select and click the 'DEPLOY' button within the first row
-	await page.locator('tbody tr.main-row:first-child td:nth-of-type(8)').click();
+	await page.getByTestId('deploy-table-button-0').click();
 
 	// Make sure the modal opened.
 	await page.waitForSelector('text=CREATE ORDER');
@@ -39,38 +36,32 @@ test('deploy a job -> Check if job shows up in other chain', async ({
 	await page.waitForSelector('.modal-body');
 
 	// Duration
-	await page.locator('div:nth-child(2) > div:nth-child(2) > #pond-input-amount').first().fill('1');
+	await page.locator('#pond-input-amount-Duration').first().fill('1');
 
-	// duration in minutes
-	await page.locator('div:nth-child(4) > .search-container > .btn').first().click();
+	// duration in hours
+	await page.locator('#select-duration').first().click();
 	await page.getByRole('button', { name: 'Hours' }).click();
 
 	// Bandwidth
-	await page
-		.locator('div:nth-child(5) > div > div:nth-child(2) > #pond-input-amount')
-		.first()
-		.fill('9');
+	await page.locator('#pond-input-amount-Bandwidth').first().fill('9');
 
 	// Fill the enclave image url.
-	await page
-		.locator('.px-4 > div:nth-child(2) > #address-display')
-		.first()
-		.fill('https://example.com');
+	await page.locator('#address-display-enclave-image-url').first().fill('https://example.com');
 
 	const approveButton = page.locator('.btn-block').first();
 	const text = await approveButton.innerText();
 	await approveButton.click();
 
-	if (text === 'APPROVE') {
+	if (text === 'Approve') {
 		await metamask.notificationPage.approveTokenPermission(extensionId);
-		await page.waitForTimeout(5_000);
+		await page.waitForTimeout(5000);
 		await approveButton.click();
 		await metamask.notificationPage.confirmTransactionAndWaitForMining(extensionId);
 	} else {
 		await metamask.notificationPage.confirmTransactionAndWaitForMining(extensionId);
 	}
 
-	await page.waitForURL(OYSTER_OWNER_INVENTORY_URL + '/');
+	await page.waitForURL(ROUTES.OYSTER_INVENTORY_URL + '/');
 
 	// Extracting and storing the data into an object
 	const firstRowData = {
@@ -78,14 +69,9 @@ test('deploy a job -> Check if job shows up in other chain', async ({
 			'tbody tr:first-child td:nth-child(1) [data-testid="text"]'
 		),
 		ipAddress: await page.textContent('tbody tr:first-child td:nth-child(2)'),
-		instance: await page.textContent('tbody tr:first-child td:nth-child(3)'),
-		region: await page.textContent('tbody tr:first-child td:nth-child(4)'),
-		hourlyRate: await page.textContent(
-			'tbody tr:first-child td:nth-child(5) [data-testid="tooltip"]'
-		),
-		balance: await page.textContent('tbody tr:first-child td:nth-child(6) [data-testid="tooltip"]'),
+		balance: await page.textContent('tbody tr:first-child td:nth-child(3) [data-testid="tooltip"]'),
 		durationLeft: await page.textContent(
-			'tbody tr:first-child td:nth-child(7) [data-testid="tooltip"]'
+			'tbody tr:first-child td:nth-child(4) [data-testid="tooltip"]'
 		)
 	};
 
@@ -93,11 +79,11 @@ test('deploy a job -> Check if job shows up in other chain', async ({
 	firstRowData.ipAddress = firstRowData?.ipAddress?.includes('N/A') ? null : firstRowData.ipAddress;
 
 	await metamask.addNetwork({
-		name: ARB_GOERLI.chain_name,
-		rpcUrl: ARB_GOERLI.rpc_url,
-		chainId: 421613,
-		symbol: ARB_GOERLI.chain_token,
-		blockExplorerUrl: ARB_GOERLI.block_explorer_name
+		name: LINEA.chain_name,
+		rpcUrl: LINEA.rpc_url,
+		chainId: 59144,
+		symbol: LINEA.chain_token,
+		blockExplorerUrl: LINEA.block_explorer_name
 	});
 
 	// check if the table is empty
@@ -107,19 +93,14 @@ test('deploy a job -> Check if job shows up in other chain', async ({
 		for (let i = 1; i <= rowCount; i++) {
 			const rowData = {
 				operatorAddress: await page.textContent(
-					`tbody tr:nth-of-type(${i}) td:nth-child(1) [data-testid="text"]`
+					'tbody tr:nth-of-type(${i}) td:nth-child(1) [data-testid="text"]'
 				),
-				ipAddress: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(2)`),
-				instance: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(3)`),
-				region: await page.textContent(`tbody tr:nth-of-type(${i}) td:nth-child(4)`),
-				hourlyRate: await page.textContent(
-					`tbody tr:nth-of-type(${i}) td:nth-child(5) [data-testid="tooltip"]`
-				),
+				ipAddress: await page.textContent('tbody tr:nth-of-type(${i}) td:nth-child(2)'),
 				balance: await page.textContent(
-					`tbody tr:nth-of-type(${i}) td:nth-child(6) [data-testid="tooltip"]`
+					'tbody tr:nth-of-type(${i}) td:nth-child(3) [data-testid="tooltip"]'
 				),
 				durationLeft: await page.textContent(
-					`tbody tr:nth-of-type(${i}) td:nth-child(7) [data-testid="tooltip"]`
+					'tbody tr:nth-of-type(${i}) td:nth-child(4) [data-testid="tooltip"]'
 				)
 			};
 
@@ -143,7 +124,7 @@ test('use some filters -> check if the same data show up on chain change', async
 	metamaskPage,
 	extensionId
 }) => {
-	await page.goto(OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);
 
@@ -204,11 +185,11 @@ test('use some filters -> check if the same data show up on chain change', async
 	}
 
 	await metamask.addNetwork({
-		name: ARB_GOERLI.chain_name,
-		rpcUrl: ARB_GOERLI.rpc_url,
-		chainId: 421613,
-		symbol: ARB_GOERLI.chain_token,
-		blockExplorerUrl: ARB_GOERLI.block_explorer_name
+		name: LINEA.chain_name,
+		rpcUrl: LINEA.rpc_url,
+		chainId: 59144,
+		symbol: LINEA.chain_token,
+		blockExplorerUrl: LINEA.block_explorer_name
 	});
 
 	const rowCountAfterChange = await page.$$eval('tbody tr', (rows) => rows.length);
@@ -248,4 +229,17 @@ test('use some filters -> check if the same data show up on chain change', async
 	if (rowCountAfterChange === 0 && rowCountBeforeChange === 0) {
 		expect(rowCountAfterChange).toBe(0);
 	}
+});
+test('change chain', async ({ context, page, metamaskPage, extensionId }) => {
+	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
+	await loginToMetamask(metamask, page);
+
+	await metamask.addNetwork({
+		name: LINEA.chain_name,
+		rpcUrl: LINEA.rpc_url,
+		chainId: 59144,
+		symbol: LINEA.chain_token,
+		blockExplorerUrl: LINEA.block_explorer_name
+	});
 });

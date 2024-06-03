@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { inputClasses } from '$lib/atoms/componentClasses';
-	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 
@@ -9,6 +8,7 @@
 	export let placeholder = '';
 	export let disabled = false;
 	export let input: string;
+	export let id: string = '';
 
 	const titleStyleInit =
 		'absolute cursor-text px-1 font-poppins text-sm text-[#030115] transition-all';
@@ -51,7 +51,7 @@
 		</button>
 	{/if}
 	<input
-		id="address-display"
+		id={'address-display' + id}
 		bind:value={input}
 		on:focus={onFocus}
 		on:blur={onBlur}

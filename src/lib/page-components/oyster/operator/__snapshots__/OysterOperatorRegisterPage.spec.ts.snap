@@ -26,6 +26,7 @@ exports[`OysterOperatorRegistration > renders the component 1`] = `
           >
             <button
               class="gap-1.5 h-14 text-base font-normal btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed w-[190px]"
+              id=""
             >
                
               Documentation
@@ -147,6 +148,7 @@ exports[`OysterOperatorRegistration > renders the component 1`] = `
           <button
             class="gap-1.5 h-12 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full font-normal"
             disabled=""
+            id=""
           >
              
             Register

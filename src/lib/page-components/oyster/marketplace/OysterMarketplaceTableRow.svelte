@@ -71,7 +71,7 @@
 		</span>
 	</Tooltip>
 </td>
-<td class={cn(tableClasses.cell, 'text-center')}>
+<td class={cn(tableClasses.cell, 'text-center')} data-testid={'deploy-table-button-' + rowIndex}>
 	{#if $connected}
 		<Tooltip>
 			<ModalButton

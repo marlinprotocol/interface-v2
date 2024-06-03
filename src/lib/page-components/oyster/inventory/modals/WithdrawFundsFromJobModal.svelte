@@ -105,7 +105,7 @@
 		updatedAmountInputDirty && inputAmount && inputAmount > maxAmount ? 'Insufficient balance' : '';
 	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount && !submitLoading;
 	$: maxAmount = getMaxAmountForJob(rateScaled, balance);
-	$: durationReduced = inputAmount > 0 ? inputAmount / rate : 0n;
+	$: durationReduced = inputAmount > 0 ? inputAmount / (rate || 1n) : 0n;
 	$: maxAmountText = getMaxAmountText(isCreditJob);
 </script>
 
@@ -127,6 +127,7 @@
 			<div class="flex items-center gap-1">
 				<Text
 					text={maxAmountText}
+					id="withdraw-available-balance"
 					variant="small"
 					styleClass="text-[#030115]"
 					fontWeight="font-normal"
@@ -141,6 +142,7 @@
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		<Button
+			id="modal-withdraw-btn"
 			variant="filled"
 			disabled={!submitEnable}
 			loading={submitLoading}

@@ -79,6 +79,7 @@ exports[`HeaderConnectWallet > renders ConnectWalletButton if wallet is not conn
        
       <button
         class="btn btn-theme btn-sm justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white gap-[10.3px] w-fit text-sm h-12 flex items-center cnt-btn"
+        id=""
       >
          
         Connect Wallet
@@ -289,6 +290,7 @@ exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not c
           >
             <button
               class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3"
+              id=""
             >
                
               <span
@@ -305,6 +307,7 @@ exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not c
              
             <button
               class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3"
+              id=""
             >
                
               <span
@@ -326,6 +329,7 @@ exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not c
             >
               <button
                 class="h-10 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-base-200 text-primary border-none hover:bg-base-300 font-medium gap-3 flex-nowrap"
+                id=""
               >
                  
                 <img
@@ -346,6 +350,7 @@ exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not c
         >
           <button
             class="gap-1.5 h-14 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full font-semibold text-base"
+            id=""
           >
              
             LOGOUT
@@ -444,6 +449,7 @@ exports[`HeaderConnectWallet > renders the Header Links Group component properly
        
       <button
         class="btn btn-theme btn-sm justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white gap-[10.3px] w-fit text-sm h-12 flex items-center cnt-btn"
+        id=""
       >
          
         Connect Wallet

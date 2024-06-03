@@ -288,6 +288,12 @@
 			logo: staticImages.heuristLogo,
 			website: 'https://www.heurist.ai/',
 			category: ['AI']
+		},
+		{
+			name: 'Hyle',
+			logo: staticImages.hyleLogo,
+			website: 'https://www.hyle.eu/',
+			category: ['Zero Knowledge']
 		}
 	];
 

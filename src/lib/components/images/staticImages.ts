@@ -148,6 +148,7 @@ const filLogo = '/images/fil.svg';
 const talusLogo = '/images/talus.svg';
 const assisterrLogo = '/images/assisterr.svg';
 const heuristLogo = '/images/heurist.svg';
+const hyleLogo = '/images/hyle.svg';
 
 export const staticImages = {
 	Alert,
@@ -296,5 +297,6 @@ export const staticImages = {
 	filLogo,
 	talusLogo,
 	assisterrLogo,
-	heuristLogo
+	heuristLogo,
+	hyleLogo
 };

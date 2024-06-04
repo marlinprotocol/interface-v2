@@ -18,13 +18,13 @@ export const dismissToast = (id: number) => {
 
 /**
  * adds a toast to toastStore and display it to the user
- * @param message message that you want the user to see
+ * @param message message that you want the user to see, has a title and a description
  * @param dismissible whether or not user can dismiss the toast on click
  * @param timeout how long the toast will be displayed before it is dismissed in seconds
  * @param variant the color of the toast
  */
 export const addToast = ({
-	message = { title: 'Set Toast Message Title' },
+	message = { title: 'Set Toast Message Title', description: 'Set toast description' },
 	dismissible = true,
 	timeout = 2800,
 	variant

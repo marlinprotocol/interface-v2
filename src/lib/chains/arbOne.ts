@@ -1,5 +1,6 @@
 import { staticImages } from '$lib/components/images/staticImages';
 import type { ChainConfig } from '$lib/types/environmentTypes';
+import { PUBLIC_SUBGRAPH_KEY } from '$env/static/public';
 
 export const ARB_ONE: ChainConfig = {
 	chain_id: '0xa4b1',
@@ -24,9 +25,9 @@ export const ARB_ONE: ChainConfig = {
 		OYSTER_CREDIT: ''
 	},
 	subgraph_urls: {
-		RECEIVER_STAKING: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/staking-arb1',
+		RECEIVER_STAKING: `https://gateway-arbitrum.network.thegraph.com/api/${PUBLIC_SUBGRAPH_KEY}/subgraphs/id/GUh83DEwZWMTkKaydusdkb46mLuAC7FTL4km1bcNjugc`,
 		BRIDGE: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/bridge',
-		OYSTER: 'https://api.thegraph.com/subgraphs/name/marlin-staging/oyster-arb1',
+		OYSTER: `https://gateway-arbitrum.network.thegraph.com/api/${PUBLIC_SUBGRAPH_KEY}/subgraphs/id/3dPXK16x1dNRPvrUiNbvSDmeN68gKjM47L7nu2b8eEUa`,
 		POND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-arb1',
 		MPOND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-arb1',
 		OYSTER_CREDIT: ''

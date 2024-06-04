@@ -1,5 +1,6 @@
 import { staticImages } from '$lib/components/images/staticImages';
 import type { ChainConfig } from '$lib/types/environmentTypes';
+import { PUBLIC_SUBGRAPH_KEY } from '$env/static/public';
 
 export const POLYGON: ChainConfig = {
 	chain_id: '0x89',
@@ -26,7 +27,7 @@ export const POLYGON: ChainConfig = {
 	subgraph_urls: {
 		RECEIVER_STAKING: '',
 		BRIDGE: '',
-		OYSTER: 'https://api.thegraph.com/subgraphs/name/marlin-staging/oyster-polygon',
+		OYSTER: `https://gateway-arbitrum.network.thegraph.com/api/${PUBLIC_SUBGRAPH_KEY}/subgraphs/id/GAvm9MJadcg2Uao3eraFXMfzNMCmckHPDTLV15ux2cZC`,
 		POND: '',
 		MPOND: '',
 		OYSTER_CREDIT: ''

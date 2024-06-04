@@ -5,7 +5,6 @@
 	import { getJobStatuses } from '$lib/controllers/httpController';
 	import {
 		getAllProvidersDetailsFromSubgraph,
-		getApprovedOysterAllowancesFromSubgraph,
 		getOysterJobsFromSubgraph,
 		getProviderDetailsFromSubgraph
 	} from '$lib/controllers/subgraphController';
@@ -40,14 +39,12 @@
 
 	async function loadConnectedData() {
 		const [allowance, oysterJobsFromSubgraph, providerDetail, jobStatuses] = await Promise.all([
-			$chainConfigStore.oyster_token === 'POND' && $chainConfigStore.subgraph_urls.POND !== ''
-				? getApprovedOysterAllowancesFromSubgraph($walletStore.address)
-				: getAllowance(
-						$walletStore.address,
-						$contractAddressStore.OYSTER,
-						$oysterTokenMetadataStore,
-						$walletStore.provider as BrowserProvider
-				  ),
+			getAllowance(
+				$walletStore.address,
+				$contractAddressStore.OYSTER,
+				$oysterTokenMetadataStore,
+				$walletStore.provider as BrowserProvider
+			),
 			getOysterJobsFromSubgraph($walletStore.address),
 			getProviderDetailsFromSubgraph($walletStore.address),
 			getJobStatuses($walletStore.address)

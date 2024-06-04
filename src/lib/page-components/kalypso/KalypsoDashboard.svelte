@@ -8,6 +8,7 @@
 	import { buttonClasses } from '$lib/atoms/componentClasses';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
+	import KalypsoRegisterModal from './modals/KalypsoRegisterModal.svelte';
 
 	$: titleText = $connected
 		? "You aren't providing infra on oyster. Join the network"
@@ -54,7 +55,7 @@
 			<img src={staticImages.fishingMan} alt="A man fishing" />
 			<div class="flex items-center justify-center gap-4">
 				{#if $connected}
-					<ModalButton size="large" styleClass="w-full" modalFor="kalyps-register-modal"
+					<ModalButton size="large" styleClass="w-full" modalFor="kalypso-register-modal"
 						>Register</ModalButton
 					>
 				{:else}
@@ -71,3 +72,4 @@
 		</ContainerCard>
 	</div>
 </div>
+<KalypsoRegisterModal />

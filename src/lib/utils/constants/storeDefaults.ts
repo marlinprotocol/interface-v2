@@ -117,5 +117,12 @@ export const DEFAULT_RECEIVER_REWARDS_STORE: ReceiverRewardsStore = {
 
 //kalypso store
 export const DEFAULT_KALYPSO_STORE: KalypsoStore = {
-	hello: 'vaaaalue'
+	approvedAmount: 0n,
+	registered: false,
+	stakingDetails: {
+		rewardsAddress: '',
+		stakedAmount: 0n,
+		declaredCompute: 10n ** 18n,
+		generatorData: '0x'
+	}
 };

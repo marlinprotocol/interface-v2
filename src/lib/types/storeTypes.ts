@@ -116,7 +116,14 @@ export type ReceiverRewardsStore = {
 
 // kalypso store
 export type KalypsoStore = {
-	hello: string;
+	approvedAmount: bigint;
+	registered: boolean;
+	stakingDetails: {
+		rewardsAddress: string;
+		stakedAmount: bigint;
+		declaredCompute: bigint;
+		generatorData: string;
+	};
 };
 
 // local storage store types

@@ -9,7 +9,8 @@
 	import { MEMORY_SUFFIX } from '$lib/utils/constants/constants';
 	import {
 		getAllFiltersListforMarketplaceData,
-		getSearchAndFilteredMarketplaceData
+		getSearchAndFilteredMarketplaceData,
+		getFilteredMartketPlaceData
 	} from '$lib/utils/helpers/oysterHelpers';
 
 	export let filterMap: Record<string, string | number> = {};
@@ -41,10 +42,10 @@
 	};
 
 	const onSearchClick = () => {
-		const { allMarketplaceData } = getSearchAndFilteredMarketplaceData(
+		const { allMarketplaceData } = getFilteredMartketPlaceData(
 			$oysterStore.allMarketplaceData,
 			filterMap,
-			false
+			true
 		);
 		filteredData = allMarketplaceData;
 	};

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
+	import PageWrapper from '$lib/components/wrapper/PageWrapper.svelte';
 	import { getAllowance } from '$lib/controllers/contract/usdc';
 	import {
 		chainIdHasChanged,
@@ -62,4 +64,15 @@
 	});
 </script>
 
-<slot />
+{#if $chainStore.isValidChain && chainSupported}
+	<PageWrapper>
+		<slot />
+	</PageWrapper>
+{:else}
+	<PageWrapper>
+		<NetworkPrompt
+			title="Unsupported Network"
+			description="Please switch to one of the chains in the dropdown to continue"
+		/>
+	</PageWrapper>
+{/if}

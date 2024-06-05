@@ -11,7 +11,6 @@
 	import { getAllowance } from '$lib/controllers/contract/usdc';
 	import {
 		getAllProvidersDetailsFromSubgraph,
-		getApprovedOysterAllowancesFromSubgraph,
 		getOysterCreditFromSubgraph
 	} from '$lib/controllers/subgraphController';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';

@@ -62,16 +62,7 @@ export async function handleApproveFundForOysterJob(
 	oysterContractAddress: string
 ) {
 	try {
-		await approveToken(
-			{
-				symbol: oysterToken.symbol,
-				decimal: oysterToken.decimal,
-				precision: oysterToken.precision,
-				currency: oysterToken.currency
-			},
-			amount,
-			oysterContractAddress
-		);
+		await approveToken(oysterToken, amount, oysterContractAddress);
 		updateApprovedFundsInOysterStore(amount);
 	} catch (e) {
 		console.log('e :>> ', e);

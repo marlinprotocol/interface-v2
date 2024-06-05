@@ -124,7 +124,7 @@ export async function initializeWalletBalancesStore(
 		if (tokens.includes('POND')) {
 			const pondBalance = await getBalanceOfToken(
 				walletAddress,
-				chainConfig.contract_addresses.POND,
+				chainConfig.tokens.POND?.address as Address,
 				walletProvider
 			);
 			balances = { ...balances, pond: pondBalance };
@@ -135,7 +135,7 @@ export async function initializeWalletBalancesStore(
 		if (tokens.includes('MPOND')) {
 			const mpondBalance = await getBalanceOfToken(
 				walletAddress,
-				chainConfig.contract_addresses.MPOND,
+				chainConfig.tokens.MPOND?.address as Address,
 				walletProvider
 			);
 			balances = { ...balances, mpond: mpondBalance };
@@ -146,12 +146,23 @@ export async function initializeWalletBalancesStore(
 		if (tokens.includes('USDC')) {
 			const usdcBalance = await getBalanceOfToken(
 				walletAddress,
-				chainConfig.contract_addresses.USDC,
+				chainConfig.tokens.USDC?.address as Address,
 				walletProvider
 			);
 			balances = { ...balances, usdc: usdcBalance };
 		} else {
 			balances = { ...balances, usdc: 0n };
+		}
+
+		if (tokens.includes('MOCK')) {
+			const mockBalance = await getBalanceOfToken(
+				walletAddress,
+				chainConfig.tokens.MOCK?.address as Address,
+				walletProvider
+			);
+			balances = { ...balances, mock: mockBalance };
+		} else {
+			balances = { ...balances, mock: 0n };
 		}
 
 		walletBalanceStore.set(balances);

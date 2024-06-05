@@ -27,16 +27,7 @@ export async function handleApproveFundForKalypso(
 	kalypsoContractAddress: string
 ) {
 	try {
-		await approveToken(
-			{
-				symbol: kalypsoToken.symbol,
-				decimal: kalypsoToken.decimal,
-				precision: kalypsoToken.precision,
-				currency: kalypsoToken.currency
-			},
-			amount,
-			kalypsoContractAddress
-		);
+		await approveToken(kalypsoToken, amount, kalypsoContractAddress);
 		updateApprovedFundsInKalypsoStore(amount);
 	} catch (e) {
 		console.log('e :>> ', e);

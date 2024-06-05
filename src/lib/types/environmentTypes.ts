@@ -56,7 +56,7 @@ export type TokenMetadata = {
 	precision: number;
 	symbol: string;
 	address: string;
-	currency: keyof Tokens;
+	currency: string;
 };
 
 export type SubgraphUrls = {

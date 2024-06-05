@@ -27,6 +27,7 @@
 		oysterRateMetadataStore,
 		oysterStore
 	} from '$lib/data-stores/oysterStore';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 
 	const durationUnitList = OYSTER_DURATION_UNITS_LIST.map((unit) => unit.label);
 
@@ -176,7 +177,7 @@
 		$oysterStore.credits.isWhitelisted && useMarlinCredits
 			? $oysterStore.credits.balance
 			: $walletBalanceStore[
-					$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
+					$chainConfigStore.oyster_token.toLowerCase() as keyof WalletBalanceStore
 				];
 	$: updateRateString(instanceRate);
 	$: durationString = computeDurationString(duration, durationUnitInSec);

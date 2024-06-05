@@ -22,6 +22,7 @@
 	import type { WalletBalanceStore } from '$lib/types/storeTypes';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 
 	export let modalFor: string;
 	export let jobData: OysterInventoryDataModel;
@@ -93,9 +94,7 @@
 	$: ({ rateScaled, isCreditJob } = jobData);
 	$: walletBalance = isCreditJob
 		? $oysterStore.credits.balance
-		: $walletBalanceStore[
-				$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
-			];
+		: $walletBalanceStore[$chainConfigStore.oyster_token.toLowerCase() as keyof WalletBalanceStore];
 	$: approved =
 		connected &&
 		Boolean(instanceCostScaled) &&

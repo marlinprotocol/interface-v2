@@ -19,7 +19,7 @@ import {
 	sortOysterInventory,
 	sortOysterMarketplace,
 	sortOysterOperatorHistory,
-	getSearchAndFilteredMarketplaceData,
+	getFilteredMartketPlaceData,
 	getAllFiltersListforMarketplaceData,
 	sortOysterOperatorInventory,
 	addJobsToMap
@@ -3547,7 +3547,7 @@ describe('sortOysterMarketplace', () => {
 	});
 });
 
-describe('getSearchAndFilteredMarketplaceData', () => {
+describe('getFilteredMartketPlaceData', () => {
 	const mockData = [
 		{
 			arch: 'amd64',
@@ -3660,17 +3660,17 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 	];
 
 	it('should return all the mock data when filter map is an empty object', () => {
-		expect(
-			getSearchAndFilteredMarketplaceData(mockData, {}, true).allMarketplaceData
-		).toStrictEqual(mockData);
-		expect(
-			getSearchAndFilteredMarketplaceData(mockData, {}, false).allMarketplaceData
-		).toStrictEqual(mockData);
+		expect(getFilteredMartketPlaceData(mockData, {}, true).allMarketplaceData).toStrictEqual(
+			mockData
+		);
+		expect(getFilteredMartketPlaceData(mockData, {}, false).allMarketplaceData).toStrictEqual(
+			mockData
+		);
 	});
 
 	it('should return exact matched values when exactMatch is true', () => {
 		expect(
-			getSearchAndFilteredMarketplaceData(mockData, { arch: 'amd64' }, true).allMarketplaceData
+			getFilteredMartketPlaceData(mockData, { arch: 'amd64' }, true).allMarketplaceData
 		).toStrictEqual([
 			{
 				arch: 'amd64',
@@ -3698,8 +3698,7 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 			}
 		]);
 		expect(
-			getSearchAndFilteredMarketplaceData(mockData, { instance: 'c6g.large' }, true)
-				.allMarketplaceData
+			getFilteredMartketPlaceData(mockData, { instance: 'c6g.large' }, true).allMarketplaceData
 		).toStrictEqual([
 			{
 				arch: 'arch64',
@@ -3739,8 +3738,7 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 			}
 		]);
 		expect(
-			getSearchAndFilteredMarketplaceData(mockData, { region: 'ap-southeast-1' }, true)
-				.allMarketplaceData
+			getFilteredMartketPlaceData(mockData, { region: 'ap-southeast-1' }, true).allMarketplaceData
 		).toStrictEqual([
 			{
 				arch: 'arch64',
@@ -3756,7 +3754,7 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 			}
 		]);
 		expect(
-			getSearchAndFilteredMarketplaceData(mockData, { vcpu: 32 }, true).allMarketplaceData
+			getFilteredMartketPlaceData(mockData, { vcpu: 32 }, true).allMarketplaceData
 		).toStrictEqual([
 			{
 				arch: 'amd64',
@@ -3772,7 +3770,7 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 			}
 		]);
 		expect(
-			getSearchAndFilteredMarketplaceData(mockData, { memory: 128 }, true).allMarketplaceData
+			getFilteredMartketPlaceData(mockData, { memory: 128 }, true).allMarketplaceData
 		).toStrictEqual([
 			{
 				arch: 'amd64',
@@ -3788,8 +3786,7 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 			}
 		]);
 		expect(
-			getSearchAndFilteredMarketplaceData(mockData, { provider: 'Kivous Mirash' }, true)
-				.allMarketplaceData
+			getFilteredMartketPlaceData(mockData, { provider: 'Kivous Mirash' }, true).allMarketplaceData
 		).toStrictEqual([
 			{
 				arch: 'amd64',
@@ -3880,7 +3877,7 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 
 	it('should return results which contain filter map value when exactMatch is false', () => {
 		expect(
-			getSearchAndFilteredMarketplaceData(mockData, { arch: '64' }, false).allMarketplaceData
+			getFilteredMartketPlaceData(mockData, { arch: '64' }, false).allMarketplaceData
 		).toStrictEqual([
 			{
 				arch: 'amd64',
@@ -3992,7 +3989,7 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 			}
 		]);
 		expect(
-			getSearchAndFilteredMarketplaceData(mockData, { instance: 'm5a' }, false).allMarketplaceData
+			getFilteredMartketPlaceData(mockData, { instance: 'm5a' }, false).allMarketplaceData
 		).toStrictEqual([
 			{
 				arch: 'amd64',
@@ -4084,7 +4081,7 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 			}
 		]);
 		expect(
-			getSearchAndFilteredMarketplaceData(mockData, { region: 'us-east' }, false).allMarketplaceData
+			getFilteredMartketPlaceData(mockData, { region: 'us-east' }, false).allMarketplaceData
 		).toStrictEqual([
 			{
 				arch: 'amd64',
@@ -4172,7 +4169,7 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 			}
 		]);
 		expect(
-			getSearchAndFilteredMarketplaceData(mockData, { vcpu: '4' }, false).allMarketplaceData
+			getFilteredMartketPlaceData(mockData, { vcpu: '4' }, false).allMarketplaceData
 		).toStrictEqual([
 			{
 				arch: 'amd64',
@@ -4261,7 +4258,7 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 			}
 		]);
 		expect(
-			getSearchAndFilteredMarketplaceData(mockData, { memory: '2' }, false).allMarketplaceData
+			getFilteredMartketPlaceData(mockData, { memory: '2' }, false).allMarketplaceData
 		).toStrictEqual([
 			{
 				arch: 'amd64',
@@ -4337,7 +4334,7 @@ describe('getSearchAndFilteredMarketplaceData', () => {
 			}
 		]);
 		expect(
-			getSearchAndFilteredMarketplaceData(mockData, { provider: 'kiv' }, false).allMarketplaceData
+			getFilteredMartketPlaceData(mockData, { provider: 'kiv' }, false).allMarketplaceData
 		).toStrictEqual([
 			{
 				arch: 'amd64',

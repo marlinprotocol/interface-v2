@@ -81,20 +81,27 @@
 <div class="mx-auto">
 	<PageTitle title="Infrastructure Providers" />
 	<OysterMarketplaceFilters bind:filteredData bind:filterMap {onFilterClick} />
-	<OysterTableCommon
-		walletConnectionRequired={false}
-		{handleSortData}
-		tableHeading={OYSTER_MARKETPLACE_TABLE_HEADER}
-		loading={!$oysterStore.marketplaceLoaded}
-		noDataFound={!paginatedData?.length}
-	>
-		{#if paginatedData?.length}
-			{#each paginatedData as rowData, rowIndex (rowData.id)}
-				<tr class={cn(tableClasses.row, 'group/row h-[64px] hover:bg-base-200')}>
-					<OysterMarketplaceTableRow {rowData} {rowIndex} />
-				</tr>
-			{/each}
-		{/if}
-	</OysterTableCommon>
-	<Pagination {pageCount} {activePage} {handlePageChange} />
+	<!-- Below condition suffices becauses all the data is present on initial load = no filter is selected & we want the user to filter before showing the result -->
+	{#if filteredData === $oysterStore.allMarketplaceData}
+		<div class="flex h-[50dvh] w-full items-center justify-center rounded-[18px] bg-white">
+			Configure your server.
+		</div>
+	{:else}
+		<OysterTableCommon
+			walletConnectionRequired={false}
+			{handleSortData}
+			tableHeading={OYSTER_MARKETPLACE_TABLE_HEADER}
+			loading={!$oysterStore.marketplaceLoaded}
+			noDataFound={!paginatedData?.length}
+		>
+			{#if paginatedData?.length}
+				{#each paginatedData as rowData, rowIndex (rowData.id)}
+					<tr class={cn(tableClasses.row, 'group/row h-[64px] hover:bg-base-200')}>
+						<OysterMarketplaceTableRow {rowData} {rowIndex} />
+					</tr>
+				{/each}
+			{/if}
+		</OysterTableCommon>
+		<Pagination {pageCount} {activePage} {handlePageChange} />
+	{/if}
 </div>

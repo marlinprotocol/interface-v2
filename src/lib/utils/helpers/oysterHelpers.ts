@@ -345,7 +345,68 @@ export const getSearchAndFilteredMarketplaceData = (
 		const modifiedFilters = getAllFiltersListforMarketplaceData(allMarketplaceData);
 		finalFilters = updateObjectExceptKey('arch', finalFilters, modifiedFilters);
 	}
-	return { allMarketplaceData, finalFilters };
+	return { finalFilters };
+};
+
+export const getFilteredMartketPlaceData = (
+	allMarketplaceData: OysterMarketplaceDataModel[],
+	filterMap: Partial<OysterMarketplaceFilterModel>,
+	exactMatch = false
+) => {
+	// for provider, we are checking substring match and need do check on both name and address
+	if (filterMap.provider) {
+		const value = filterMap.provider.toLowerCase();
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return exactMatch
+				? item.provider.address.toLowerCase() === value ||
+						item.provider.name?.toLowerCase() === value
+				: item.provider.address.toLowerCase().includes(value) ||
+						item.provider.name?.toLowerCase()?.includes(value);
+		});
+	}
+
+	if (filterMap.region) {
+		const value = filterMap.region.toLowerCase();
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return exactMatch
+				? item.region.toLowerCase() === value || item.regionName.toLowerCase() === value
+				: item.region.toLowerCase().includes(value) ||
+						item.regionName.toLowerCase().includes(value);
+		});
+	}
+
+	if (filterMap.memory) {
+		const value = filterMap.memory?.toString();
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return exactMatch
+				? item.memory?.toString() === value
+				: item.memory?.toString()?.includes(value);
+		});
+	}
+
+	if (filterMap.vcpu) {
+		const value = filterMap.vcpu.toString();
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return exactMatch ? item.vcpu?.toString() === value : item.vcpu?.toString()?.includes(value);
+		});
+	}
+
+	if (filterMap.instance) {
+		const value = filterMap.instance?.toLowerCase();
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return exactMatch
+				? item.instance?.toLowerCase() === value
+				: item.instance.toLowerCase()?.includes(value);
+		});
+	}
+
+	if (filterMap.arch) {
+		const value = filterMap.arch.toString();
+		allMarketplaceData = allMarketplaceData.filter((item) => {
+			return exactMatch ? item.arch?.toString() === value : item.arch?.toString()?.includes(value);
+		});
+	}
+	return { allMarketplaceData };
 };
 
 function updateObjectExceptKey(immutableKey: string, originalObject: any, updatedObject: any) {

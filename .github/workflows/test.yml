@@ -49,6 +49,8 @@ jobs:
         run: npm ci
       - name: Run your tests
         run: npx playwright test
+        env:
+          HOME: /root
 
   # playwright:
   #   timeout-minutes: 20

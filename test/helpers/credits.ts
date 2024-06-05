@@ -3,6 +3,7 @@ import { ROUTES } from '../../src/lib/utils/constants/urls';
 
 export const goToMarketPlaceAndFetchCredits = async (page: Page) => {
 	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
+	await page.reload({ waitUntil: 'networkidle' });
 	// sort by rate.
 	const rateHeader = page.locator('th:has-text("RATE")');
 	await rateHeader.click();

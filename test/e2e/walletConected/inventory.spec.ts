@@ -78,24 +78,29 @@ test('Copy Job ID', async ({ page, context, metamaskPage, extensionId }) => {
 	const rows = await page.$$eval('tbody tr', (rows) => rows);
 	if (!(rows.length > 0)) test.skip();
 
-	const firstRowSelector = 'tbody tr:first-child td:nth-child(2)';
+	const firstRowSelector = 'tbody tr:first-child td:nth-child(1)';
 	await page.hover(firstRowSelector);
 
-	const copyButtonSelector = 'tbody tr:first-child td:nth-child(2) button img[alt="Copy"]';
+	const copyButtonSelector = 'tbody tr:first-child td:nth-child(1) button img[alt="Copy"]';
 	await page.click(copyButtonSelector);
 
-	const addressSelector =
-		'tbody tr:first-child .flex.items-center.justify-center.gap-2.text-center';
+	let jobId = await page.$('tbody tr:first-child .text-sm.font-normal');
 
-	// Get the text content from the element
-	const address = await page.textContent(addressSelector);
+	if (!jobId) {
+		jobId = await page.$('tbody tr:first-child .text-grey.text-xs.font-normal');
+	}
+	let jobIdText = '';
+	if (jobId) {
+		jobIdText = (await jobId.textContent()) ?? '';
+	}
 
 	// Read the clipboard content
 	const clipboardContent = await page.evaluate(() => navigator.clipboard.readText());
-	await page.waitForSelector('text=Address copied to clipboard');
-
+	const shortClipBoardContent =
+		clipboardContent.slice(0, 10) + '...' + clipboardContent.slice(clipboardContent.length - 10);
+	await page.waitForSelector('text=Id copied to clipboard');
 	// Check if the clipboard content matches the expected data
-	expect(clipboardContent).toBe(address?.trim());
+	expect(shortClipBoardContent).toBe(jobIdText?.trim());
 });
 
 // test('Add Funds To The Job', async ({ page, context, metamaskPage, extensionId }) => {
@@ -153,6 +158,31 @@ test('Sorting by Balance', async ({ context, page, metamaskPage, extensionId }) 
 
 	if (rows.length > 0) {
 		const balanceHeader = page.locator('th:has-text("BALANCE")');
+		await balanceHeader.click();
+		const dataAfterSorting = await extractBalanceColumnData(page);
+		console.log(dataAfterSorting);
+		expect(isSortedNumerically(dataAfterSorting)).toBeTruthy();
+	} else {
+		test.skip();
+	}
+});
+
+test('Sorting by Duration Left', async ({ context, page, metamaskPage, extensionId }) => {
+	await page.goto(ROUTES.OYSTER_INVENTORY_URL, { waitUntil: 'networkidle' });
+
+	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
+	await loginToMetamask(metamask, page);
+
+	const hasText = await page.textContent('text=My Active Orders');
+	expect(hasText).toBeTruthy();
+
+	// Wait for data
+	await page.waitForTimeout(2000);
+
+	const rows = await page.$$eval('tbody tr', (rows) => rows);
+
+	if (rows.length > 0) {
+		const balanceHeader = page.locator('th:has-text("DURATION LEFT")');
 		await balanceHeader.click();
 		const dataAfterSorting = await extractBalanceColumnData(page);
 		console.log(dataAfterSorting);

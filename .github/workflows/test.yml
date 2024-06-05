@@ -23,20 +23,33 @@ jobs:
           VITE_TEST_CP_URL_2: ${{ secrets.VITE_TEST_CP_URL_2 }}
           PUBLIC_SUBGRAPH_KEY: ${{ secrets.PUBLIC_SUBGRAPH_KEY }}
           name: Playwright Tests
-  playwright:
-    name: 'Playwright Tests'
+  tests_e2e:
+    name: Run end-to-end tests
     runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.41.2-jammy
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
       - name: Install dependencies
         run: npm ci
-      - name: Run your tests
+      - name: Install playwright browsers
+        run: npx playwright install --with-deps
+      - name: Run tests
         run: npx playwright test
+  # playwright:
+  #   name: 'Playwright Tests'
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: mcr.microsoft.com/playwright:v1.41.2-jammy
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 18
+  #     - name: Install dependencies
+  #       run: npm ci
+  #     - name: Run your tests
+  #       run: npx playwright test
+
   # playwright:
   #   timeout-minutes: 20
 

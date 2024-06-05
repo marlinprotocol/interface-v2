@@ -34,7 +34,7 @@
 		const approvedAmount = await getAllowance(
 			$walletStore.address,
 			$contractAddressStore.KALYPSO,
-			$chainConfigStore.tokens.POND as TokenMetadata,
+			$chainConfigStore.tokens.MOCK as TokenMetadata,
 			$walletStore.provider as BrowserProvider
 		);
 		updateApprovedFundsInKalypsoStore(approvedAmount);

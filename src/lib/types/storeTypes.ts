@@ -19,6 +19,7 @@ export type WalletBalanceStore = {
 	pond: bigint;
 	mpond: bigint;
 	usdc: bigint;
+	mock: bigint;
 };
 
 // chain store

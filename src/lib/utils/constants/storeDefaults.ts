@@ -24,7 +24,8 @@ export const DEFAULT_WALLET_STORE: WalletStore = {
 export const DEFAULT_WALLET_BALANCE_STORE: WalletBalanceStore = {
 	pond: 0n,
 	mpond: 0n,
-	usdc: 0n
+	usdc: 0n,
+	mock: 0n
 };
 
 // chainProviderStore
@@ -60,7 +61,8 @@ export const DEFAULT_CONTRACT_ADDRESS_STORE: ContractAddress = {
 	POND: '',
 	MPOND: '',
 	USDC: '',
-	OYSTER_CREDIT: ''
+	OYSTER_CREDIT: '',
+	KALYPSO: ''
 };
 
 // receiver staked, queued data store

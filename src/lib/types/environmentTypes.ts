@@ -48,6 +48,7 @@ export type Tokens = {
 	MPOND?: TokenMetadata;
 	USDC?: TokenMetadata;
 	OYSTER_CREDIT?: TokenMetadata;
+	MOCK?: TokenMetadata;
 };
 
 export type TokenMetadata = {

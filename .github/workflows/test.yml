@@ -1,7 +1,9 @@
 name: Tests
 on:
   pull_request:
-    types: [opened, reopened]
+    branches:
+      - dev
+      - master
 jobs:
   vitest:
     environment: test

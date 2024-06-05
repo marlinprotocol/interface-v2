@@ -1,9 +1,7 @@
-name: Unit Test
+name: Tests
 on:
   pull_request:
-    branches:
-      - dev
-      - master
+    types: [opened, reopened]
 jobs:
   vitest:
     environment: test
@@ -13,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/ci-setup
-      - name: test
+      - name: unit tests
         run: npm run test:unit
         env:
           VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
@@ -21,3 +19,17 @@ jobs:
           VITE_WALLET_PASSWORD: ${{ secrets.VITE_WALLET_PASSWORD }}
           VITE_TEST_CP_URL_1: ${{ secrets.VITE_TEST_CP_URL_1 }}
           VITE_TEST_CP_URL_2: ${{ secrets.VITE_TEST_CP_URL_2 }}
+          PUBLIC_SUBGRAPH_KEY: ${{ secrets.PUBLIC_SUBGRAPH_KEY }}
+  playwright:
+    timeout-minutes: 20
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ci-setup
+        with:
+          version: latest
+      - name: Install playwright browsers
+        run: npm playwright install --with-deps
+      - name: Run e2e tests
+        run: npm run test:e2e

@@ -168,10 +168,7 @@ test(`Deploy and check if toast for connect wallet shows.`, async ({ page }) => 
 	expect(connectWalletText).toBeTruthy();
 });
 
-test(`Copy button on row is working`, async ({ page, context }) => {
-	// Grant permissions for clipboard-read
-	await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-
+test(`Copy button on row is working`, async ({ page }) => {
 	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 
 	const firstRowSelector = 'tbody tr:first-child';

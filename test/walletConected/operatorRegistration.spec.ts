@@ -1,9 +1,9 @@
 import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress';
-import BasicSetup from '../../wallet-setup/connected.setup';
-import { ROUTES } from '../../../src/lib/utils/constants/urls';
-import { MESSAGES } from '../../../src/lib/utils/constants/messages';
-import { loginToMetamask } from '../../helpers/metamask';
-import { getWalletAddress } from '../../helpers/common';
+import BasicSetup from '../wallet-setup/connected.setup';
+import { ROUTES } from '../../src/lib/utils/constants/urls';
+import { MESSAGES } from '../../src/lib/utils/constants/messages';
+import { loginToMetamask } from '../helpers/metamask';
+import { getWalletAddress } from '../helpers/common';
 
 const test = testWithSynpress(BasicSetup, unlockForFixture);
 const { expect } = test;

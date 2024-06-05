@@ -45,19 +45,19 @@ export default defineConfig({
 					permissions: ['clipboard-read', 'clipboard-write']
 				}
 			}
-		},
-		{
-			name: 'firefox',
-			use: {
-				...devices['Desktop Firefox'],
-				launchOptions: {
-					firefoxUserPrefs: {
-						'dom.events.asyncClipboard.readText': true,
-						'dom.events.testing.asyncClipboard': true
-					}
-				}
-			}
 		}
+		// {
+		// 	name: 'firefox',
+		// 	use: {
+		// 		...devices['Desktop Firefox'],
+		// 		launchOptions: {
+		// 			firefoxUserPrefs: {
+		// 				'dom.events.asyncClipboard.readText': true,
+		// 				'dom.events.testing.asyncClipboard': true
+		// 			}
+		// 		}
+		// 	}
+		// }
 	],
 
 	/* Run your local dev server before starting the tests */

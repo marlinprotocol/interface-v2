@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('show connect wallet and no table', async ({ page }) => {
 	await page.goto('http://localhost:5173/oyster/inventory/', { waitUntil: 'domcontentloaded' });
-
+	console.log('name', process.env.PUBLIC_SUBGRAPH_KEY);
 	await page.waitForLoadState();
 	const hasHeaderText = await page.textContent('text=My Active Order');
 

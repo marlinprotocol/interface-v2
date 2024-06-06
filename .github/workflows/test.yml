@@ -3,7 +3,6 @@ on:
   pull_request:
     branches:
       - dev
-      - master
 jobs:
   vitest:
     environment: test
@@ -34,7 +33,7 @@ jobs:
       - name: Install playwright browsers
         run: npx playwright install --with-deps
       - name: Run tests
-        run: npm run synpress && playwright test
+        run: npm run test:integration
   # playwright:
   #   name: 'Playwright Tests'
   #   runs-on: ubuntu-latest

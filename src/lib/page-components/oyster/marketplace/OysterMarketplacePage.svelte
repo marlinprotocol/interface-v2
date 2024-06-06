@@ -15,6 +15,7 @@
 	import { OYSTER_MARKETPLACE_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { tableClasses } from '$lib/atoms/componentClasses';
 	import { cn } from '$lib/utils/helpers/commonHelper';
+	import { staticImages } from '$lib/components/images/staticImages';
 
 	let activePage = 1;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
@@ -81,20 +82,32 @@
 <div class="mx-auto">
 	<PageTitle title="Infrastructure Providers" />
 	<OysterMarketplaceFilters bind:filteredData bind:filterMap {onFilterClick} />
-	<OysterTableCommon
-		walletConnectionRequired={false}
-		{handleSortData}
-		tableHeading={OYSTER_MARKETPLACE_TABLE_HEADER}
-		loading={!$oysterStore.marketplaceLoaded}
-		noDataFound={!paginatedData?.length}
-	>
-		{#if paginatedData?.length}
-			{#each paginatedData as rowData, rowIndex (rowData.id)}
-				<tr class={cn(tableClasses.row, 'group/row h-[64px] hover:bg-base-200')}>
-					<OysterMarketplaceTableRow {rowData} {rowIndex} />
-				</tr>
-			{/each}
-		{/if}
-	</OysterTableCommon>
-	<Pagination {pageCount} {activePage} {handlePageChange} />
+	<!-- Below condition suffices becauses all the data is present on initial load = no filter is selected & we want the user to filter before showing the result -->
+	{#if filteredData === $oysterStore.allMarketplaceData}
+		<div
+			class="relative flex h-[50dvh] w-full items-start justify-center overflow-hidden rounded-[18px] bg-white"
+		>
+			<span class="absolute right-16 top-5 my-4 text-center text-3xl font-medium text-black/40">
+				Configure your server
+			</span>
+			<img src={staticImages.fishingMan} alt="fishingMan" class="absolute -top-11 left-0 h-auto" />
+		</div>
+	{:else}
+		<OysterTableCommon
+			walletConnectionRequired={false}
+			{handleSortData}
+			tableHeading={OYSTER_MARKETPLACE_TABLE_HEADER}
+			loading={!$oysterStore.marketplaceLoaded}
+			noDataFound={!paginatedData?.length}
+		>
+			{#if paginatedData?.length}
+				{#each paginatedData as rowData, rowIndex (rowData.id)}
+					<tr class={cn(tableClasses.row, 'group/row h-[64px] hover:bg-base-200')}>
+						<OysterMarketplaceTableRow {rowData} {rowIndex} />
+					</tr>
+				{/each}
+			{/if}
+		</OysterTableCommon>
+		<Pagination {pageCount} {activePage} {handlePageChange} />
+	{/if}
 </div>

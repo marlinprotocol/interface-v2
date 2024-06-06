@@ -35,6 +35,7 @@
 	import { addRegionNameToMarketplaceData } from '$lib/utils/helpers/oysterHelpers';
 	import type { BrowserProvider } from 'ethers';
 	import { onDestroy, onMount } from 'svelte';
+	import { page } from '$app/stores';
 
 	onMount(() => {
 		setAllowedChainsStore(environment.supported_chains.oyster);
@@ -42,6 +43,8 @@
 
 	let previousChainId: number | null = null;
 	let previousWalletAddress: Address = '';
+	let isOysterUrl: boolean;
+	let isValidChain: boolean;
 
 	async function loadConnectedData() {
 		console.log('Loading oyster allowances data');
@@ -101,8 +104,19 @@
 	onDestroy(() => {
 		setAllowedChainsStore([]);
 	});
+	$: isOysterUrl = $page.url.pathname === '/oyster/';
+	$: isValidChain = $chainStore.isValidChain && chainSupported;
 </script>
 
-<PageWrapper>
-	<slot />
-</PageWrapper>
+{#if isOysterUrl || isValidChain}
+	<PageWrapper>
+		<slot />
+	</PageWrapper>
+{:else}
+	<PageWrapper>
+		<NetworkPrompt
+			title="Unsupported Network"
+			description="Please switch to one of the chains in the dropdown to continue"
+		/>
+	</PageWrapper>
+{/if}

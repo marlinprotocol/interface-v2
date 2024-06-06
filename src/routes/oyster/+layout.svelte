@@ -43,7 +43,7 @@
 
 	let previousChainId: number | null = null;
 	let previousWalletAddress: Address = '';
-	let isOysterUrl: boolean;
+	let isOysterDashboard: boolean;
 	let isValidChain: boolean;
 
 	async function loadConnectedData() {
@@ -104,11 +104,11 @@
 	onDestroy(() => {
 		setAllowedChainsStore([]);
 	});
-	$: isOysterUrl = $page.url.pathname === '/oyster/';
+	$: isOysterDashboard = $page.url.pathname === '/oyster/';
 	$: isValidChain = $chainStore.isValidChain && chainSupported;
 </script>
 
-{#if isOysterUrl || isValidChain}
+{#if isOysterDashboard || isValidChain}
 	<PageWrapper>
 		<slot />
 	</PageWrapper>

@@ -158,7 +158,7 @@
 	<svelte:fragment slot="actionButtons">
 		{#if !approved && !isCreditJob}
 			<Button
-				id="add-funds-approve-btn"
+				id={modalFor + '-add-funds-approve-btn'}
 				variant="filled"
 				disabled={!approveEnable}
 				loading={approvedLoading}
@@ -168,7 +168,7 @@
 			>
 		{:else}
 			<Button
-				id="add-funds-confirm-btn"
+				id={modalFor + '-add-funds-confirm-btn'}
 				variant="filled"
 				disabled={!confirmEnable}
 				loading={submitLoading}

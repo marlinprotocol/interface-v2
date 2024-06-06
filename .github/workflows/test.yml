@@ -34,7 +34,7 @@ jobs:
       - name: Install playwright browsers
         run: npx playwright install --with-deps
       - name: Run tests
-        run: npx playwright test
+        run: npm run synpress && playwright test
   # playwright:
   #   name: 'Playwright Tests'
   #   runs-on: ubuntu-latest

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('show connect wallet and no table', async ({ page }) => {
-	await page.goto('/oyster/inventory/', { waitUntil: 'networkidle' });
+	await page.goto('/oyster/inventory/', { waitUntil: 'domcontentloaded' });
 
 	const hasHeaderText = await page.textContent('text=My Active Order');
 

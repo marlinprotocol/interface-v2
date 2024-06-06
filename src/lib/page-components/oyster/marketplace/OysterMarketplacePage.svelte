@@ -15,6 +15,7 @@
 	import { OYSTER_MARKETPLACE_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
 	import { tableClasses } from '$lib/atoms/componentClasses';
 	import { cn } from '$lib/utils/helpers/commonHelper';
+	import { staticImages } from '$lib/components/images/staticImages';
 
 	let activePage = 1;
 	let sortingMap: Record<string, 'asc' | 'desc'> = {};
@@ -84,7 +85,10 @@
 	<!-- Below condition suffices becauses all the data is present on initial load = no filter is selected & we want the user to filter before showing the result -->
 	{#if filteredData === $oysterStore.allMarketplaceData}
 		<div class="flex h-[50dvh] w-full items-center justify-center rounded-[18px] bg-white">
-			Configure your server.
+			<div class="flex flex-col items-center justify-center">
+				<img src={staticImages.fishingMan} alt="fishingMan" class="mx-auto h-[300px]" />
+				<span> Configure your server. </span>
+			</div>
 		</div>
 	{:else}
 		<OysterTableCommon

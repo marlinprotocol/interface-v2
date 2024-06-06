@@ -35,6 +35,7 @@
 	import { addRegionNameToMarketplaceData } from '$lib/utils/helpers/oysterHelpers';
 	import type { BrowserProvider } from 'ethers';
 	import { onDestroy, onMount } from 'svelte';
+	import { page } from '$app/stores';
 
 	onMount(() => {
 		setAllowedChainsStore(environment.supported_chains.oyster);
@@ -42,6 +43,8 @@
 
 	let previousChainId: number | null = null;
 	let previousWalletAddress: Address = '';
+	let isOysterDashboard: boolean;
+	let isValidChain: boolean;
 
 	async function loadConnectedData() {
 		console.log('Loading oyster allowances data');
@@ -101,9 +104,11 @@
 	onDestroy(() => {
 		setAllowedChainsStore([]);
 	});
+	$: isOysterDashboard = $page.url.pathname === '/oyster/';
+	$: isValidChain = $chainStore.isValidChain && chainSupported;
 </script>
 
-{#if $chainStore.isValidChain && chainSupported}
+{#if isOysterDashboard || isValidChain}
 	<PageWrapper>
 		<slot />
 	</PageWrapper>

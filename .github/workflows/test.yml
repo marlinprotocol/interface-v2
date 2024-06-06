@@ -35,22 +35,22 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run tests
         run: npx playwright test
-  playwright:
-    name: 'Playwright Tests'
-    runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.41.2-jammy
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-      - name: Install dependencies
-        run: npm ci
-      - name: Run your tests
-        run: npx playwright test
-        env:
-          HOME: /root
+  # playwright:
+  #   name: 'Playwright Tests'
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: mcr.microsoft.com/playwright:v1.41.2-jammy
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 18
+  #     - name: Install dependencies
+  #       run: npm ci
+  #     - name: Run your tests
+  #       run: npx playwright test
+  #       env:
+  #         HOME: /root
 
   # playwright:
   #   timeout-minutes: 20

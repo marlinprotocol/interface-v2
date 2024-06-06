@@ -7,5 +7,6 @@ import { test, expect } from '@playwright/test';
 // });
 
 test('demo', async () => {
+	console.log('first');
 	expect(2).toBe(2);
 });

@@ -4,6 +4,7 @@ import { MESSAGES } from '../../../src/lib/utils/constants/messages';
 import { loginToMetamask } from '../../helpers/metamask';
 import { goToMarketPlaceAndFetchCredits } from '../../helpers/credits';
 import { ROUTES } from '../../../src/lib/utils/constants/urls';
+import { getJobID } from '../../helpers/inventory';
 
 const test = testWithSynpress(BasicSetup, unlockForFixture);
 const { expect } = test;
@@ -130,26 +131,46 @@ test('Add funds to job using credits.', async ({ context, page, metamaskPage, ex
 
 	const expandRowToggleButton = await page.$('tbody tr:nth-child(1) td:last-child button');
 	if (expandRowToggleButton && !(await expandRowToggleButton.isDisabled())) {
+		const jobId = await getJobID(context, page);
+
+		const approveId = `#job-add-funds-modal-${jobId}-add-funds-approve-btn`;
+		const confirmId = `#job-add-funds-modal-${jobId}-add-funds-confirm-btn`;
+
 		await expandRowToggleButton.click();
 		await page.locator('text=ADD FUNDS').first().click();
 		await page.waitForTimeout(1000);
 
-		await page.locator('#pond-input-amount-Duration').first().fill('5');
+		await page.locator('#pond-input-amount-Duration').first().fill('10');
 
 		await page.getByText('Days').first().click();
 		await page.getByRole('button', { name: 'Hours' }).click();
 
 		await page.waitForTimeout(1000);
 
-		await page.locator('#add-funds-approve-btn').first().click();
+		const approveButton = await page.$(approveId);
 
-		await metamask.confirmTransactionAndWaitForMining();
+		if (approveButton) {
+			await approveButton.click();
+			await metamask.notificationPage.approveTokenPermission(extensionId);
+			await page.waitForTimeout(5000);
+			const confirmButton = await page.$(confirmId);
+			if (confirmButton) {
+				await confirmButton.click();
+				await metamask.notificationPage.confirmTransactionAndWaitForMining(extensionId);
+			}
+		} else {
+			const confirmButton = await page.$(confirmId);
+			if (confirmButton) {
+				await confirmButton.click();
+				await metamask.notificationPage.confirmTransactionAndWaitForMining(extensionId);
+			}
+		}
+
 		await page.waitForSelector(
-			`text = ${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.ADD_CREDITS_JOB.CREDITS_ADDED}`
+			`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.ADD_CREDITS_JOB.CREDITS_ADDED}`
 		);
-		await page.waitForTimeout(5_000);
 
-		await page.locator('#add-funds-confirm-btn').first().click();
+		await page.waitForTimeout(10_000);
 
 		const latestCreditsBalance = await goToMarketPlaceAndFetchCredits(page);
 		console.log({ latestCreditsBalance, creditsBalance });

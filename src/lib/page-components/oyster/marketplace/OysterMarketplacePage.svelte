@@ -84,11 +84,13 @@
 	<OysterMarketplaceFilters bind:filteredData bind:filterMap {onFilterClick} />
 	<!-- Below condition suffices becauses all the data is present on initial load = no filter is selected & we want the user to filter before showing the result -->
 	{#if filteredData === $oysterStore.allMarketplaceData}
-		<div class="flex h-[50dvh] w-full items-center justify-center rounded-[18px] bg-white">
-			<div class="flex flex-col items-center justify-center">
-				<img src={staticImages.fishingMan} alt="fishingMan" class="mx-auto h-[300px]" />
-				<span> Configure your server. </span>
-			</div>
+		<div
+			class="relative flex h-[50dvh] w-full items-start justify-center overflow-hidden rounded-[18px] bg-white"
+		>
+			<span class="absolute right-16 top-5 my-4 text-center text-3xl font-medium text-black/40">
+				Configure your server
+			</span>
+			<img src={staticImages.fishingMan} alt="fishingMan" class="absolute -top-11 left-0 h-auto" />
 		</div>
 	{:else}
 		<OysterTableCommon

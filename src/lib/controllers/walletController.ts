@@ -57,9 +57,9 @@ export async function setWalletAndChainStores(provider: EIP1193Provider) {
 			await getWalletAddressAndConnectedChain(ethersSigner, ethersProvider);
 		initializeWalletStore(ethersProvider, ethersSigner, walletHexAddress);
 		initializeChainStore(Number(chainId), chainName, isValidChain);
-		await initializeWalletBalancesStore(walletHexAddress, ethersProvider);
+		if (isValidChain) await initializeWalletBalancesStore(walletHexAddress, ethersProvider);
 
-		console.log('walletStore updated with address:', walletHexAddress);
+		console.log('walletStore updated with address:', walletHexAddress, 'on chain:', chainName);
 	}
 }
 

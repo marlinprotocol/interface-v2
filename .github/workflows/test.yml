@@ -26,6 +26,7 @@ jobs:
           VITE_TEST_CP_URL_2: ${{ secrets.VITE_TEST_CP_URL_2 }}
           PUBLIC_SUBGRAPH_KEY: ${{ secrets.PUBLIC_SUBGRAPH_KEY }}
   playwright:
+    environment: test
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:

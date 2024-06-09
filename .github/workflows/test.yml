@@ -63,6 +63,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
       - uses: ./.github/actions/ci-setup
+      - name: my-step
+        shell: bash
+       env:
+          PUBLIC_SUBGRAPH_KEY: ${{ secrets.PUBLIC_SUBGRAPH_KEY }}
+        run: |
+          echo "Hello g ${PUBLIC_SUBGRAPH_KEY}"
+          echo " name ${{ secrets.PUBLIC_SUBGRAPH_KEY }}"
       - name: Install dependencies
         run: npm ci
         env:

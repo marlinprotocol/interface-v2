@@ -65,7 +65,7 @@ jobs:
       - uses: ./.github/actions/ci-setup
       - name: my-step
         shell: bash
-       env:
+        env:
           PUBLIC_SUBGRAPH_KEY: ${{ secrets.PUBLIC_SUBGRAPH_KEY }}
         run: |
           echo "Hello g ${PUBLIC_SUBGRAPH_KEY}"

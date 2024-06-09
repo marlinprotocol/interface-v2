@@ -34,6 +34,12 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+      - name: Set up environment variables into .env
+        run: |
+          echo "VITE_PROJECT_ID=${VITE_PROJECT_ID}" > .env
+          echo "VITE_SEED_PHRASE=${VITE_SEED_PHRASE}" >> .env
+          echo "VITE_WALLET_PASSWORD=${VITE_WALLET_PASSWORD}" >> .env
+          echo "PUBLIC_SUBGRAPH_KEY=${PUBLIC_SUBGRAPH_KEY}" >> .env
       - name: Run Playwright tests
         run: npx playwright test
         env:

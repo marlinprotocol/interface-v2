@@ -42,13 +42,13 @@ jobs:
           echo "PUBLIC_SUBGRAPH_KEY=${{ secrets.PUBLIC_SUBGRAPH_KEY }}" >> .env
       - name: Run Playwright tests
         run: npx playwright test
-        # env:
-        #   VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
-        #   VITE_SEED_PHRASE: ${{ secrets.VITE_SEED_PHRASE }}
-        #   VITE_WALLET_PASSWORD: ${{ secrets.VITE_WALLET_PASSWORD }}
-        #   VITE_TEST_CP_URL_1: ${{ secrets.VITE_TEST_CP_URL_1 }}
-        #   VITE_TEST_CP_URL_2: ${{ secrets.VITE_TEST_CP_URL_2 }}
-        #   PUBLIC_SUBGRAPH_KEY: ${{ secrets.PUBLIC_SUBGRAPH_KEY }}
+        env:
+          VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+          VITE_SEED_PHRASE: ${{ secrets.VITE_SEED_PHRASE }}
+          VITE_WALLET_PASSWORD: ${{ secrets.VITE_WALLET_PASSWORD }}
+          VITE_TEST_CP_URL_1: ${{ secrets.VITE_TEST_CP_URL_1 }}
+          VITE_TEST_CP_URL_2: ${{ secrets.VITE_TEST_CP_URL_2 }}
+          PUBLIC_SUBGRAPH_KEY: ${{ secrets.PUBLIC_SUBGRAPH_KEY }}
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
@@ -66,10 +66,10 @@ jobs:
       - name: my-step
         shell: bash
         env:
-          PUBLIC_SUBGRAPH_KEY: ${{ secrets.PUBLIC_SUBGRAPH_KEY }}
+          VITE_TEST_CP_URL_1: ${{ secrets.VITE_TEST_CP_URL_1 }}
         run: |
-          echo "Hello g ${PUBLIC_SUBGRAPH_KEY}"
-          echo " name ${{ secrets.PUBLIC_SUBGRAPH_KEY }}"
+          echo "Hello g ${VITE_TEST_CP_URL_1}"
+          echo " name ${{ secrets.VITE_TEST_CP_URL_1 }}"
       - name: Install dependencies
         run: npm ci
         env:

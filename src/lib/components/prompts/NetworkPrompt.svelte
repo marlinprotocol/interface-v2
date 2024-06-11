@@ -12,7 +12,7 @@
 	const imageSrc = isVariantWhite ? staticImages.infoIconWhite : staticImages.infoIconPurple;
 </script>
 
-<div class="flex h-full w-full items-center justify-center">
+<div class="flex h-full w-full items-center justify-center" id="network-prompt">
 	<div
 		class={cn(
 			'flex h-[460px] w-130 flex-col items-center justify-center rounded-3xl border border-[#D9DADE]',

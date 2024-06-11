@@ -78,7 +78,7 @@
 		<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 		<ul
 			tabindex={$allowedChainsStore.length === 0 ? -1 : 0}
-			class="menu dropdown-content rounded-box z-[1] mt-4 w-52 bg-base-100 p-2 shadow"
+			class="menu dropdown-content rounded-box z-[10] mt-4 w-52 bg-base-100 p-2 shadow"
 		>
 			{#each $allowedChainsStore as chain (chain)}
 				<li class="flex {$chainStore.chainId === chain ? 'rounded-lg bg-primary text-white' : ''}">

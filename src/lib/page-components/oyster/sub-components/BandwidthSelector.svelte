@@ -73,6 +73,7 @@
 	</AmountInputWithTitle>
 	<AmountInputWithTitle
 		title="Bandwidth Cost"
+		id="bandwidth-cost"
 		bind:inputAmountString={bandwidthCostString}
 		suffix={useMarlinCredits
 			? OYSTER_MARLIN_CREDIT_METADATA.currency.split('_')[1]

@@ -20,32 +20,43 @@
 	<DashboardHeader />
 
 	<div class="mt-16">
-		<ContainerCard>
-			{#if !$connected || !$kalypsoStore.registered}
+		{#if !$connected}
+			<ContainerCard>
 				<p class="text-xl font-semibold">{titleText}</p>
 				<img src={staticImages.fishingMan} alt="A man fishing" />
-			{/if}
-			<div class="flex items-center justify-center gap-4">
-				{#if $connected && !$kalypsoStore.registered}
-					<ModalButton size="large" styleClass="w-full" modalFor="kalypso-register-modal"
-						>Register</ModalButton
+				<div class="flex flex-row items-center justify-center gap-4">
+					<a
+						href="https://docs.marlin.org/learn/what-is-kalypso"
+						class={cn(
+							buttonClasses.outlined,
+							'flex h-14 w-fit gap-[10.3px] px-8 text-base font-semibold'
+						)}
 					>
-				{:else if !$connected}
-					<div class="flex flex-row items-center justify-center gap-4">
-						<a
-							href="https://docs.marlin.org/learn/what-is-kalypso"
-							class={cn(
-								buttonClasses.outlined,
-								'flex h-14 w-fit gap-[10.3px] px-8 text-base font-semibold'
-							)}>Learn More</a
-						>
-						<ConnectWalletButton isLarge styleClass="w-fit px-8" />
-					</div>
-				{:else}
-					<RegisteredOverview />
-				{/if}
-			</div>
-		</ContainerCard>
+						Learn More
+					</a>
+					<ConnectWalletButton isLarge styleClass="w-fit px-8" />
+				</div>
+			</ContainerCard>
+		{:else if !$kalypsoStore.registered}
+			<ContainerCard>
+				<p class="text-xl font-semibold">{titleText}</p>
+				<img src={staticImages.fishingMan} alt="A man fishing" />
+				<div class="flex items-center justify-center gap-4">
+					<ModalButton size="large" styleClass="w-full" modalFor="kalypso-register-modal">
+						Register
+					</ModalButton>
+				</div>
+			</ContainerCard>
+		{/if}
+		{#if $kalypsoStore.registered}
+			<ContainerCard
+				width={cn({
+					'mx-auto w-full': true
+				})}
+			>
+				<RegisteredOverview />
+			</ContainerCard>
+		{/if}
 	</div>
 </div>
 <KalypsoRegisterModal />

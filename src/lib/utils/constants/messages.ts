@@ -75,6 +75,132 @@ export const MESSAGES = {
 			FAILED: 'Update failed',
 			CREATED: 'Update in progress'
 		},
+		UNREGISTER_KALYPSO: {
+			SUCCESS: {
+				title: 'Successfully unregistered',
+				message: 'Successfully unregistered from Kalypso'
+			},
+			FAILED: {
+				title: 'Failed to unregister',
+				message: 'Failed to unregister you from Kalypso'
+			},
+			CREATED: {
+				title: 'Unregistering',
+				message: 'Unregistering you from Kalypso'
+			}
+		},
+		REGISTER_KALYPSO: {
+			SUCCESS: {
+				title: 'Successfully registered in Kalypso!',
+				message: 'Successfully registered in Kalypso!'
+			},
+			FAILED: {
+				title: 'Failed to register you in Kalypso?',
+				message: 'Failed to register you in Kalypso'
+			},
+			CREATED: {
+				title: 'Registering you in Kalypso?',
+				message: 'Registering you in Kalypso'
+			}
+		},
+		UPDATE_KALYPSO: {
+			SUCCESS: {
+				title: 'Successful Update',
+				message: 'Successfully updated reward address in Kalypso'
+			},
+			FAILED: {
+				title: 'Failed Update',
+				message: 'Failed to update reward address in Kalypso'
+			},
+			CREATED: {
+				title: 'Updating',
+				message: 'Updating your reward address in Kalypso'
+			}
+		},
+		INCREASE_STAKE_KALYPSO: {
+			SUCCESS: {
+				title: 'Successfully increased stake',
+				message: (value: string | number) => `Successfully added ${value} stake in Kalypso`
+			},
+			FAILED: {
+				title: 'Failed stake increase',
+				message: 'Failed to increase stake in Kalypso'
+			},
+			CREATED: {
+				title: 'Initiating stake increase',
+				message: (value: string | number) => `Adding ${value} to stake in Kalypso`
+			}
+		},
+		DECREASE_STAKE_KALYPSO: {
+			SUCCESS: {
+				title: 'Successfully decreased stake',
+				message: (value: string | number) => `Successfully withdrew ${value} stake from Kalypso`
+			},
+			FAILED: {
+				title: 'Failed stake decrease',
+				message: 'Failed to decrease stake from Kalypso'
+			},
+			CREATED: {
+				title: 'Initiating stake decrease',
+				message: (value: string | number) => `Adding ${value} to stake from Kalypso`
+			}
+		},
+		INITIATE_DECREASE_STAKE_KALYPSO: {
+			SUCCESS: {
+				title: 'Successfully initiated',
+				message: 'Successfully initiated decrease stake in Kalypso'
+			},
+			FAILED: {
+				title: 'Failed to initiate',
+				message: 'Failed to initiate stake decrease in Kalypso'
+			},
+			CREATED: {
+				title: 'Initiating stake decrease',
+				message: 'Initiating decrease stake in Kalypso'
+			}
+		},
+		INCREASE_DECLARED_COMPUTE_KALYPSO: {
+			SUCCESS: {
+				title: 'Successfully increased declared compute',
+				message: 'Successfully added declared compute in Kalypso'
+			},
+			FAILED: {
+				title: 'Failed declared compute increase',
+				message: 'Failed to increase declared compute in Kalypso'
+			},
+			CREATED: {
+				title: 'Initiating declared compute increase',
+				message: 'Adding to declared compute in Kalypso'
+			}
+		},
+		INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO: {
+			SUCCESS: {
+				title: 'Successfully initiated',
+				message: 'Successfully initiated decrease declared compute in Kalypso'
+			},
+			FAILED: {
+				title: 'Failed to initiate',
+				message: 'Failed to initiate declared compute decrease in Kalypso'
+			},
+			CREATED: {
+				title: 'Initiating declared compute decrease',
+				message: 'Initiating decrease declared compute in Kalypso'
+			}
+		},
+		DECREASE_DECLARED_COMPUTE_KALYPSO: {
+			SUCCESS: {
+				title: 'Successfully decreased declared compute',
+				message: 'Successfully decreased declared compute in Kalypso'
+			},
+			FAILED: {
+				title: 'Failed declared compute decrease',
+				message: 'Failed to decrease declared compute in Kalypso'
+			},
+			CREATED: {
+				title: 'Decreasing declared compute',
+				message: 'Decreasing declared compute in Kalypso'
+			}
+		},
 		ACTIONS: {
 			DEPOSIT: {
 				/**

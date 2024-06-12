@@ -75,19 +75,19 @@ export function addPondToWalletBalanceStore(amount: bigint) {
 		};
 	});
 }
-export function addMpondToWalletBalanceStore(amount: bigint) {
-	walletBalanceStore.update((walletBalanceStore) => {
-		return {
-			...walletBalanceStore,
-			mpond: walletBalanceStore.mpond + amount
-		};
-	});
-}
 export function withdrawPondFromWalletBalanceStore(amount: bigint) {
 	walletBalanceStore.update((walletBalanceStore) => {
 		return {
 			...walletBalanceStore,
 			pond: walletBalanceStore.pond - amount
+		};
+	});
+}
+export function addMpondToWalletBalanceStore(amount: bigint) {
+	walletBalanceStore.update((walletBalanceStore) => {
+		return {
+			...walletBalanceStore,
+			mpond: walletBalanceStore.mpond + amount
 		};
 	});
 }
@@ -99,11 +99,35 @@ export function withdrawMpondFromWalletBalanceStore(amount: bigint) {
 		};
 	});
 }
+export function addUsdcToWalletBalanceStore(amount: bigint) {
+	walletBalanceStore.update((walletBalanceStore) => {
+		return {
+			...walletBalanceStore,
+			usdc: walletBalanceStore.usdc + amount
+		};
+	});
+}
 export function withdrawUsdcFromWalletBalanceStore(amount: bigint) {
 	walletBalanceStore.update((walletBalanceStore) => {
 		return {
 			...walletBalanceStore,
 			usdc: walletBalanceStore.usdc - amount
+		};
+	});
+}
+export function addMockToWalletBalanceStore(amount: bigint) {
+	walletBalanceStore.update((walletBalanceStore) => {
+		return {
+			...walletBalanceStore,
+			mock: walletBalanceStore.mock + amount
+		};
+	});
+}
+export function withdrawMockFromWalletBalanceStore(amount: bigint) {
+	walletBalanceStore.update((walletBalanceStore) => {
+		return {
+			...walletBalanceStore,
+			mock: walletBalanceStore.mock - amount
 		};
 	});
 }

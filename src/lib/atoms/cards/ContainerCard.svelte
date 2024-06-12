@@ -1,8 +1,9 @@
 <script lang="ts">
 	export let styleClass = '';
+	export let width = 'w-full sm:w-[600px]';
 </script>
 
-<div data-testid="container-card-root" class="mx-auto w-full sm:w-[600px]">
+<div data-testid="container-card-root" class="mx-auto {width}">
 	{#if $$slots.header}
 		<div data-testid="container-card-header" class="mb-2">
 			<slot name="header" />

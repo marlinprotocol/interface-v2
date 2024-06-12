@@ -120,7 +120,6 @@
 	$: rewardAddressIsValid = rewardsAddress !== '' ? isAddressValid(rewardsAddress) : true;
 	$: enableApproveButton =
 		stakeAmountIsValid && rewardAddressIsValid && stakeAmount !== 0n && !approveLoading;
-	$: console.log({});
 </script>
 
 <Modal modalFor="kalypso-register-modal">

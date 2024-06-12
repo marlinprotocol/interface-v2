@@ -1,9 +1,32 @@
-import { registerInKalypso } from '$lib/controllers/contract/kalypso';
+import {
+	decreaseDeclaredComputeInKalypso,
+	decreaseStakeInKalypso,
+	increaseDeclaredComputeInKalypso,
+	increaseStakeInKalypso,
+	initiateDecreaseDeclaredComputeInKalypso,
+	initiateDecreaseStakeInKalypso,
+	registerInKalypso,
+	unregisterInKalypso,
+	updateRewardAddressInKalypso
+} from '$lib/controllers/contract/kalypso';
 import { approveToken } from '$lib/controllers/contract/token';
 import {
+	decreaseDeclaredComputeInKalypsoStore,
+	decreaseStakeInKalypsoStore,
+	increaseDeclaredComputeInKalypsoStore,
+	increaseStakeInKalypsoStore,
+	initiateDecreaseDeclaredComputeInKalypsoStore,
+	initiateDecreaseStakeInKalypsoStore,
+	reduceApprovedFundsInKalypsoStore,
 	registerInKalypsoStore,
-	updateApprovedFundsInKalypsoStore
+	unregisterInKalypsoStore,
+	updateApprovedFundsInKalypsoStore,
+	updateRewardAddressInKalypsoStore
 } from '$lib/data-stores/kalypsoStore';
+import {
+	addMockToWalletBalanceStore,
+	withdrawMockFromWalletBalanceStore
+} from '$lib/data-stores/walletProviderStore';
 import type { TokenMetadata } from '$lib/types/environmentTypes';
 import type { Address } from '$lib/types/storeTypes';
 
@@ -16,6 +39,8 @@ export async function handleRegisterInKalypso(
 	try {
 		await registerInKalypso(rewardAddress, declaredCompute, initialStake, generatorData);
 		registerInKalypsoStore(rewardAddress, declaredCompute, initialStake, generatorData);
+		reduceApprovedFundsInKalypsoStore(initialStake);
+		withdrawMockFromWalletBalanceStore(initialStake);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}
@@ -29,6 +54,91 @@ export async function handleApproveFundForKalypso(
 	try {
 		await approveToken(kalypsoToken, amount, kalypsoContractAddress);
 		updateApprovedFundsInKalypsoStore(amount);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+export async function handleUpdateRewardAddressForKalypso(rewardAddress: Address) {
+	try {
+		await updateRewardAddressInKalypso(rewardAddress);
+		updateRewardAddressInKalypsoStore(rewardAddress);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+/**
+ *  @param refundAddress consider address from `$walletStore.walletAddress`
+ */
+export async function handleUnregisterInKalypso(refundAddress: Address) {
+	try {
+		await unregisterInKalypso(refundAddress);
+		unregisterInKalypsoStore();
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+/**
+ *  @param generatorAddress consider address from `$walletStore.walletAddress`
+ */
+export async function handleAddStakeForKalypso(amount: bigint, generatorAddress: Address) {
+	try {
+		await increaseStakeInKalypso(amount, generatorAddress);
+		increaseStakeInKalypsoStore(amount);
+		reduceApprovedFundsInKalypsoStore(amount);
+		withdrawMockFromWalletBalanceStore(amount);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+export async function handleInitiateReduceStakeInKalypso(amountToReduce: bigint) {
+	try {
+		await initiateDecreaseStakeInKalypso(amountToReduce);
+		initiateDecreaseStakeInKalypsoStore(amountToReduce);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+/**
+ * 	@param amountToReduce consider amount from `$kalypsoStore.decreaseStake.withdrawAmount`
+ *  @param toAddress consider address from `$walletStore.walletAddress`
+ */
+export async function handleDecreaseStakeInKalypso(toAddress: Address, amountToReduce: bigint) {
+	try {
+		await decreaseStakeInKalypso(toAddress, amountToReduce);
+		addMockToWalletBalanceStore(amountToReduce);
+		decreaseStakeInKalypsoStore(amountToReduce);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+export async function handleIncreaseDeclaredComputeForKalypso(computeToIncrease: bigint) {
+	try {
+		await increaseDeclaredComputeInKalypso(computeToIncrease);
+		increaseDeclaredComputeInKalypsoStore(computeToIncrease);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+export async function handleInitiateDecreaseDeclaredComputeInKalypso(computeToReduce: bigint) {
+	try {
+		await initiateDecreaseDeclaredComputeInKalypso(computeToReduce);
+		initiateDecreaseDeclaredComputeInKalypsoStore(computeToReduce);
+	} catch (e) {
+		console.log('e :>> ', e);
+	}
+}
+
+export async function handleDecreaseDeclaredComputeInKalypso() {
+	try {
+		await decreaseDeclaredComputeInKalypso();
+		decreaseDeclaredComputeInKalypsoStore();
 	} catch (e) {
 		console.log('e :>> ', e);
 	}

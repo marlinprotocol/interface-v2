@@ -119,6 +119,14 @@ export const DEFAULT_RECEIVER_REWARDS_STORE: ReceiverRewardsStore = {
 
 //kalypso store
 export const DEFAULT_KALYPSO_STORE: KalypsoStore = {
+	decreaseStake: {
+		initiated: false,
+		withdrawAmount: 0n
+	},
+	decreaseDeclaredCompute: {
+		initiated: false,
+		compute: 0n
+	},
 	approvedAmount: 0n,
 	registered: false,
 	stakingDetails: {

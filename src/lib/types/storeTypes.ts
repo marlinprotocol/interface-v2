@@ -117,6 +117,14 @@ export type ReceiverRewardsStore = {
 
 // kalypso store
 export type KalypsoStore = {
+	decreaseStake: {
+		initiated: boolean;
+		withdrawAmount: bigint;
+	};
+	decreaseDeclaredCompute: {
+		initiated: boolean;
+		compute: bigint;
+	};
 	approvedAmount: bigint;
 	registered: boolean;
 	stakingDetails: {

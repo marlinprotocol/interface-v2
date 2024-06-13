@@ -24,6 +24,7 @@
 	} from '$lib/utils/services/kalypsoServices';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import type { TokenMetadata } from '$lib/types/environmentTypes';
+	import { DEFAULT_KALYPSO_STORE } from '$lib/utils/constants/storeDefaults';
 
 	let registerLoading = false;
 	let updateLoading = false;
@@ -46,9 +47,19 @@
 	async function handleOnRegister() {
 		registerLoading = true;
 		console.log('registering...');
-		const declaredCompute = stringToBigNumber(declaredComputeString, 18);
 		try {
-			await handleRegisterInKalypso(rewardsAddress, stakeAmount, declaredCompute, generatorData);
+			const finalGeneratorData =
+				generatorData === '' ? DEFAULT_KALYPSO_STORE.stakingDetails.generatorData : generatorData;
+			const finalDeclaredCompute =
+				declaredComputeString === ''
+					? DEFAULT_KALYPSO_STORE.stakingDetails.declaredCompute
+					: stringToBigNumber(declaredComputeString, 0);
+			await handleRegisterInKalypso(
+				rewardsAddress,
+				stakeAmount,
+				finalDeclaredCompute,
+				finalGeneratorData
+			);
 			registerLoading = false;
 			closeModal('kalypso-register-modal');
 		} catch (error) {
@@ -108,7 +119,7 @@
 	}
 
 	$: balanceText = `Balance: ${bigNumberToString(
-		$walletBalanceStore.pond,
+		$walletBalanceStore.mock,
 		DEFAULT_CURRENCY_DECIMALS,
 		POND_PRECISIONS
 	)}`;
@@ -152,7 +163,7 @@
 				title="Stake"
 				bind:inputAmountString={stakeAmountString}
 				{handleUpdatedAmount}
-				suffix={'POND'}
+				suffix={$chainConfigStore.tokens.MOCK?.currency}
 				disabled={false}
 			/>
 		</div>

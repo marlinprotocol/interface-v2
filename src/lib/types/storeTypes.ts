@@ -133,6 +133,8 @@ export type KalypsoStore = {
 		declaredCompute: bigint;
 		generatorData: string;
 	};
+	activeStakeTab: 'add' | 'withdraw';
+	activeComputeTab: 'increase' | 'decrease';
 };
 
 // local storage store types

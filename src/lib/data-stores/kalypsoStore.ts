@@ -136,3 +136,21 @@ export function initiateDecreaseDeclaredComputeInKalypsoStore(declaredCompute: b
 		};
 	});
 }
+
+export function switchStakeTabInKalypsoStore(tab: KalypsoStore['activeStakeTab']) {
+	kalypsoStore.update((state) => {
+		return {
+			...state,
+			activeStakeTab: tab
+		};
+	});
+}
+
+export function switchComputeTabInKalypsoStore(tab: KalypsoStore['activeComputeTab']) {
+	kalypsoStore.update((state) => {
+		return {
+			...state,
+			activeComputeTab: tab
+		};
+	});
+}

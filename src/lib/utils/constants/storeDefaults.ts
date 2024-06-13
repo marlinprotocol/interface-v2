@@ -135,5 +135,7 @@ export const DEFAULT_KALYPSO_STORE: KalypsoStore = {
 		stakedAmount: 0n,
 		declaredCompute: 100n,
 		generatorData: ethers.ZeroHash
-	}
+	},
+	activeStakeTab: 'add',
+	activeComputeTab: 'increase'
 };

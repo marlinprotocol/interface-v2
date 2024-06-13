@@ -3,13 +3,11 @@
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
+	import { kalypsoStore } from '$lib/data-stores/kalypsoStore';
 
 	import { isAddressValid } from '$lib/utils/helpers/commonHelper';
-	import { stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 
 	let rewardsAddress = '';
-	let stakeAmountString = '';
-	let stakeAmount = 0n;
 
 	function getRewardAddressError(address: string) {
 		if (!address.startsWith('0x')) {
@@ -21,7 +19,6 @@
 	}
 
 	$: rewardAddressError = getRewardAddressError(rewardsAddress);
-	$: stakeAmount = stringToBigNumber(stakeAmountString, 18);
 	$: rewardAddressIsValid = rewardsAddress !== '' ? isAddressValid(rewardsAddress) : true;
 </script>
 
@@ -34,9 +31,17 @@
 		<div class="mt-4 flex flex-col gap-4">
 			<TextInputWithEndButton
 				styleClass="w-full rounded-[100px]"
+				bind:input={$kalypsoStore.stakingDetails.rewardsAddress}
+				disabled
+				label="Current reward address"
+			/>
+		</div>
+		<div class="mt-4 flex flex-col gap-4">
+			<TextInputWithEndButton
+				styleClass="w-full rounded-[100px]"
 				bind:input={rewardsAddress}
 				placeholder="Address which will receive rewards"
-				label="Reward address"
+				label="New reward address"
 			/>
 		</div>
 		<ErrorTextCard showError={!rewardAddressIsValid} errorMessage={rewardAddressError} />

@@ -20,8 +20,7 @@
 
 <div>
 	<DashboardHeader />
-
-	<div class="mt-16">
+	<div class="mt-8">
 		{#if !$connected}
 			<ContainerCard>
 				<p class="text-xl font-semibold">{titleText}</p>

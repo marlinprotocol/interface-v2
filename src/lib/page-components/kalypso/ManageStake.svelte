@@ -13,6 +13,7 @@
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import { kalypsoStore, switchStakeTabInKalypsoStore } from '$lib/data-stores/kalypsoStore';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 
 	let stakeAmountString = '';
 	let stakeAmountIsValid = true;
@@ -33,13 +34,13 @@
 
 	function handleMaxClick() {
 		if ($walletBalanceStore.pond) {
-			stakeAmountString = bigNumberToString($walletBalanceStore.pond, 18, POND_PRECISIONS, false);
+			stakeAmountString = bigNumberToString($walletBalanceStore.mock, 18, POND_PRECISIONS, false);
 			stakeAmountIsValid = true;
 		}
 	}
 
 	$: balanceText = `Balance: ${bigNumberToString(
-		$walletBalanceStore.pond,
+		$walletBalanceStore.mock,
 		DEFAULT_CURRENCY_DECIMALS,
 		POND_PRECISIONS
 	)}`;
@@ -83,7 +84,7 @@
 			</button>
 		</div>
 		<AmountInputWithMaxButton
-			currency="POND"
+			currency={$chainConfigStore.tokens.MOCK?.currency}
 			bind:inputAmountString={stakeAmountString}
 			{handleUpdatedAmount}
 			maxAmountText={balanceText}

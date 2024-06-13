@@ -12,6 +12,7 @@ import type {
 } from '$lib/types/storeTypes';
 
 import { environment } from '$lib/data-stores/environment';
+import { ethers } from 'ethers';
 
 // walletProviderStore
 export const DEFAULT_WALLET_STORE: WalletStore = {
@@ -132,7 +133,7 @@ export const DEFAULT_KALYPSO_STORE: KalypsoStore = {
 	stakingDetails: {
 		rewardsAddress: '',
 		stakedAmount: 0n,
-		declaredCompute: 10n ** 18n,
-		generatorData: '0x'
+		declaredCompute: 100n,
+		generatorData: ethers.ZeroHash
 	}
 };

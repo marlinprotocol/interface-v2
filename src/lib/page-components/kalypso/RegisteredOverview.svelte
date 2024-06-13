@@ -11,7 +11,7 @@
 
 <div class="flex w-full flex-col gap-4">
 	<div class="mb-8 flex flex-col items-start justify-center">
-		<div class="font-poppins text-2xl font-medium leading-[-2px] text-[#030115]">Overview</div>
+		<div class="font-poppins text-lg font-medium leading-[-2px] text-[#030115]">Overview</div>
 	</div>
 	<div class="flex flex-row items-center justify-center gap-4">
 		<TextInputWithEndButton

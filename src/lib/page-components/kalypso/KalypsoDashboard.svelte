@@ -10,6 +10,8 @@
 	import DashboardHeader from './DashboardHeader.svelte';
 	import RegisteredOverview from './RegisteredOverview.svelte';
 	import { kalypsoStore } from '$lib/data-stores/kalypsoStore';
+	import ManageStake from './ManageStake.svelte';
+	import ManageCompute from './ManageCompute.svelte';
 
 	$: titleText = $connected
 		? "You aren't providing infra on oyster. Join the network"
@@ -49,13 +51,31 @@
 			</ContainerCard>
 		{/if}
 		{#if $kalypsoStore.registered}
-			<ContainerCard
-				width={cn({
-					'mx-auto w-full': true
-				})}
-			>
-				<RegisteredOverview />
-			</ContainerCard>
+			<div class="flex flex-col items-center justify-center gap-8">
+				<ContainerCard
+					width={cn({
+						'mx-auto w-full': true
+					})}
+				>
+					<RegisteredOverview />
+				</ContainerCard>
+				<div class="flex w-full flex-row items-center justify-center gap-8">
+					<ContainerCard
+						width={cn({
+							'mx-auto w-full': true
+						})}
+					>
+						<ManageStake />
+					</ContainerCard>
+					<ContainerCard
+						width={cn({
+							'mx-auto w-full': true
+						})}
+					>
+						<ManageCompute />
+					</ContainerCard>
+				</div>
+			</div>
 		{/if}
 	</div>
 </div>

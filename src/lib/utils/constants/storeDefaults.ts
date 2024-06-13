@@ -126,5 +126,7 @@ export const DEFAULT_KALYPSO_STORE: KalypsoStore = {
 		stakedAmount: 0n,
 		declaredCompute: 10n ** 18n,
 		generatorData: '0x'
-	}
+	},
+	activeStakeTab: 'add',
+	activeComputeTab: 'increase'
 };

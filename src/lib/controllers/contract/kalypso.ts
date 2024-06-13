@@ -1,7 +1,9 @@
 import { contractAddressStore } from '$lib/data-stores/contractStore';
+import { addToast } from '$lib/data-stores/toastStore';
 import type { Address, ContractAddress } from '$lib/types/storeTypes';
 import { KALYPSO_ABI } from '$lib/utils/abis/kalypso';
 import { MESSAGES } from '$lib/utils/constants/messages';
+import { DEFAULT_KALYPSO_STORE } from '$lib/utils/constants/storeDefaults';
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
 import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 import type { BytesLike } from 'ethers';
@@ -11,6 +13,37 @@ contractAddressStore.subscribe((value) => {
 	contractAddresses = value;
 });
 
+// read methods
+export async function getKalypsoGeneratorDataFromContract(address: Address) {
+	const kalypsoContract = createSignerContract(contractAddresses.KALYPSO, KALYPSO_ABI);
+	try {
+		const res = await kalypsoContract.generatorRegistry(address);
+		const rewardsAddress = res?.[0] || DEFAULT_KALYPSO_STORE.stakingDetails.rewardsAddress;
+		const stakedAmount = res?.[1] || DEFAULT_KALYPSO_STORE.stakingDetails.stakedAmount;
+		const declaredCompute = res?.[6] || DEFAULT_KALYPSO_STORE.stakingDetails.declaredCompute;
+		const generatorData = res?.[9] || DEFAULT_KALYPSO_STORE.stakingDetails.generatorData;
+		const isRegistered = rewardsAddress !== DEFAULT_KALYPSO_STORE.stakingDetails.rewardsAddress;
+		return {
+			isRegistered,
+			rewardsAddress,
+			stakedAmount,
+			declaredCompute,
+			generatorData
+		};
+	} catch (error: any) {
+		addToast({
+			message: {
+				title: 'Error',
+				description: 'Error fetching if user registered in kalypso contract'
+			},
+			variant: 'error'
+		});
+		console.log('error fetching if user registered in kalypso contract :>> ', error);
+		return { isRegistered: false, ...DEFAULT_KALYPSO_STORE.stakingDetails };
+	}
+}
+
+// write methods
 export async function registerInKalypso(
 	rewardAddress: Address,
 	declaredCompute: bigint,

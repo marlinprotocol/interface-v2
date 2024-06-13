@@ -1,6 +1,7 @@
 <script lang="ts">
 	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
 	import PageWrapper from '$lib/components/wrapper/PageWrapper.svelte';
+	import { getKalypsoGeneratorDataFromContract } from '$lib/controllers/contract/kalypso';
 	import { getAllowance } from '$lib/controllers/contract/usdc';
 	import {
 		chainIdHasChanged,
@@ -11,7 +12,11 @@
 	} from '$lib/data-stores/chainProviderStore';
 	import { contractAddressStore } from '$lib/data-stores/contractStore';
 	import { environment } from '$lib/data-stores/environment';
-	import { kalypsoStore, updateApprovedFundsInKalypsoStore } from '$lib/data-stores/kalypsoStore';
+	import {
+		kalypsoStore,
+		registerInKalypsoStore,
+		updateApprovedFundsInKalypsoStore
+	} from '$lib/data-stores/kalypsoStore';
 	import {
 		connected,
 		walletAddressHasChanged,
@@ -39,6 +44,14 @@
 		);
 		updateApprovedFundsInKalypsoStore(approvedAmount);
 		console.log('Kalypso allowances data is loaded', $kalypsoStore.approvedAmount);
+
+		console.log('Checking if the user is already registered in kalypso...');
+		const { isRegistered, rewardsAddress, generatorData, declaredCompute, stakedAmount } =
+			await getKalypsoGeneratorDataFromContract($walletStore.address);
+		registerInKalypsoStore(rewardsAddress, generatorData, declaredCompute, stakedAmount);
+		console.log(
+			isRegistered ? 'User is registered in kalypso' : 'User is not registered in kalypso'
+		);
 	}
 
 	$: chainSupported = $chainStore.chainId

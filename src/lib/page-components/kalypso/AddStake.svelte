@@ -4,10 +4,15 @@
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { kalypsoStore } from '$lib/data-stores/kalypsoStore';
-	import { connected, walletBalanceStore } from '$lib/data-stores/walletProviderStore';
+	import { connected, walletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
+	import type { TokenMetadata } from '$lib/types/environmentTypes';
 	import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 	import { isInputAmountValid, inputAmountInValidMessage } from '$lib/utils/helpers/commonHelper';
 	import { stringToBigNumber, bigNumberToString } from '$lib/utils/helpers/conversionHelper';
+	import {
+		handleAddStakeForKalypso,
+		handleApproveFundForKalypso
+	} from '$lib/utils/services/kalypsoServices';
 
 	let stakeAmountIsValid = true;
 	let stakeAmountString = '';
@@ -15,15 +20,31 @@
 	let approveLoading = false;
 	let addButttonLoading = false;
 
-	function handleApproveClick() {
+	async function handleApproveClick() {
 		approveLoading = true;
 		console.log('Approve button clicked');
-		approveLoading = false;
+		try {
+			await handleApproveFundForKalypso(
+				stakeAmount,
+				$chainConfigStore.tokens.MOCK as TokenMetadata,
+				$chainConfigStore.contract_addresses.KALYPSO
+			);
+			approveLoading = false;
+		} catch (error) {
+			approveLoading = false;
+		}
 	}
 
-	function handleAddClick() {
+	async function handleAddClick() {
 		addButttonLoading = true;
 		console.log('Add button clicked');
+		try {
+			await handleAddStakeForKalypso(stakeAmount, $walletStore.address);
+			approveLoading = false;
+			stakeAmountString = '';
+		} catch (error) {
+			approveLoading = false;
+		}
 		addButttonLoading = false;
 	}
 	const handleUpdatedAmount = (event: Event) => {

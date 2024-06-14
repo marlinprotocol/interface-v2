@@ -6,6 +6,7 @@
 	import { kalypsoStore } from '$lib/data-stores/kalypsoStore';
 
 	import { closeModal, isAddressValid } from '$lib/utils/helpers/commonHelper';
+	import { handleUpdateRewardAddressForKalypso } from '$lib/utils/services/kalypsoServices';
 
 	let rewardsAddress = '';
 	let updateButtonLoading = false;
@@ -21,11 +22,21 @@
 		return '';
 	}
 
-	function handleUpdateClick() {
+	async function handleUpdateClick() {
 		updateButtonLoading = true;
 		console.log('Updating reward address...');
+		try {
+			await handleUpdateRewardAddressForKalypso(rewardsAddress);
+			updateButtonLoading = false;
+			closeModal('update-reward-address-modal');
+		} catch (error) {
+			updateButtonLoading = false;
+		}
+	}
+
+	function resetModalValues() {
+		rewardsAddress = '';
 		updateButtonLoading = false;
-		closeModal('update-reward-address-modal');
 	}
 
 	$: rewardAddressError = getRewardAddressError(rewardsAddress);
@@ -37,7 +48,7 @@
 	$: enableUpdateButton = rewardsAddress !== '' && rewardAddressIsValid && !updateButtonLoading;
 </script>
 
-<Modal modalFor="update-reward-address-modal">
+<Modal modalFor="update-reward-address-modal" onClose={() => resetModalValues()}>
 	<svelte:fragment slot="title">Update</svelte:fragment>
 	<svelte:fragment slot="subtitle"
 		>Lorem Ipsum is simply dummy text of the printing and typesetting industry.

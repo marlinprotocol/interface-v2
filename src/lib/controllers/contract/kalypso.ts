@@ -78,7 +78,7 @@ export async function registerInKalypso(
 	}
 }
 
-export async function updateRewardAddressInKalypso(rewardAddress: Address) {
+export async function updateRewardAddressInKalypso(newRewardAddress: Address) {
 	const kalypsoContract = createSignerContract(contractAddresses.KALYPSO, KALYPSO_ABI);
 	try {
 		const parentFunctionName = 'updateRewardAddressInKalypso';
@@ -94,7 +94,7 @@ export async function updateRewardAddressInKalypso(rewardAddress: Address) {
 			failedTxnTitle
 		};
 		const { txn } = await createTransaction(
-			() => kalypsoContract.newRewardAddress(rewardAddress),
+			() => kalypsoContract.changeRewardAddress(newRewardAddress),
 			initiateTxnMessage,
 			successTxnMessage,
 			errorTxnMessage,

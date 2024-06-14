@@ -6,8 +6,23 @@
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { kalypsoStore } from '$lib/data-stores/kalypsoStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
+	import { closeModal } from '$lib/utils/helpers/commonHelper';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
+	import { handleUnregisterInKalypso } from '$lib/utils/services/kalypsoServices';
 	import UpdateRewardAddModal from './modals/UpdateRewardAddModal.svelte';
+
+	let unregisterLoading = false;
+
+	async function handleUnregisterClick() {
+		unregisterLoading = true;
+		try {
+			await handleUnregisterInKalypso($walletStore.address);
+			unregisterLoading = false;
+			closeModal('kalypso-register-modal');
+		} catch (error) {
+			unregisterLoading = false;
+		}
+	}
 </script>
 
 <div class="flex w-full flex-col gap-4">
@@ -54,7 +69,14 @@
 			>
 				Update
 			</ModalButton>
-			<Button variant="filled" styleClass="font-normal w-32" size="large">Unregister</Button>
+			<Button
+				onclick={handleUnregisterClick}
+				loading={unregisterLoading}
+				disabled={unregisterLoading}
+				variant="filled"
+				styleClass="font-normal flex-nowrap w-32"
+				size="large">Unregister</Button
+			>
 		</div>
 	</div>
 </div>

@@ -1,49 +1,10 @@
 <script lang="ts">
 	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
-	import { walletBalanceStore, connected } from '$lib/data-stores/walletProviderStore';
-	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
-	import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
-	import {
-		cn,
-		inputAmountInValidMessage,
-		isInputAmountValid
-	} from '$lib/utils/helpers/commonHelper';
-	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import Button from '$lib/atoms/buttons/Button.svelte';
 	import { kalypsoStore, switchStakeTabInKalypsoStore } from '$lib/data-stores/kalypsoStore';
-	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
-
-	let stakeAmountString = '';
-	let stakeAmountIsValid = true;
-	let stakeAmountErrorMessage = '';
-
-	const handleUpdatedAmount = (event: Event) => {
-		const target = event.target as HTMLInputElement;
-		if (target.value) {
-			const isAmount = isInputAmountValid(target.value);
-			const isLessThanWalletBalance =
-				stringToBigNumber(target.value, 18) < $walletBalanceStore.pond;
-			stakeAmountErrorMessage = inputAmountInValidMessage(target.value);
-			stakeAmountIsValid = isAmount && isLessThanWalletBalance && stakeAmountErrorMessage === '';
-		} else {
-			stakeAmountIsValid = true;
-		}
-	};
-
-	function handleMaxClick() {
-		if ($walletBalanceStore.pond) {
-			stakeAmountString = bigNumberToString($walletBalanceStore.mock, 18, POND_PRECISIONS, false);
-			stakeAmountIsValid = true;
-		}
-	}
-
-	$: balanceText = `Balance: ${bigNumberToString(
-		$walletBalanceStore.mock,
-		DEFAULT_CURRENCY_DECIMALS,
-		POND_PRECISIONS
-	)}`;
+	import { cn } from '$lib/utils/helpers/commonHelper';
+	import AddStake from './AddStake.svelte';
+	import WithdrawStake from './WithdrawStake.svelte';
 </script>
 
 <div class="flex w-full flex-col gap-4">
@@ -83,15 +44,10 @@
 				Withdraw
 			</button>
 		</div>
-		<AmountInputWithMaxButton
-			currency={$chainConfigStore.tokens.MOCK?.currency}
-			bind:inputAmountString={stakeAmountString}
-			{handleUpdatedAmount}
-			maxAmountText={balanceText}
-			inputCardVariant="none"
-		>
-			<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
-		</AmountInputWithMaxButton>
-		<Button variant="filled" styleClass="w-full font-normal" size="large">Approve</Button>
+		{#if $kalypsoStore.activeStakeTab === 'add'}
+			<AddStake />
+		{:else}
+			<WithdrawStake />
+		{/if}
 	</div>
 </div>

@@ -54,6 +54,7 @@
 				declaredComputeString === ''
 					? DEFAULT_KALYPSO_STORE.stakingDetails.declaredCompute
 					: stringToBigNumber(declaredComputeString, 0);
+
 			await handleRegisterInKalypso(
 				rewardsAddress,
 				stakeAmount,

@@ -6,7 +6,7 @@
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { kalypsoStore } from '$lib/data-stores/kalypsoStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
-	import { closeModal } from '$lib/utils/helpers/commonHelper';
+	import { closeModal, removeTrailingZeros } from '$lib/utils/helpers/commonHelper';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 	import { handleUnregisterInKalypso } from '$lib/utils/services/kalypsoServices';
 	import UpdateRewardAddModal from './modals/UpdateRewardAddModal.svelte';
@@ -26,8 +26,8 @@
 </script>
 
 <div class="flex w-full flex-col gap-4">
-	<div class="mb-8 flex flex-col items-start justify-center">
-		<div class="font-poppins text-lg font-medium leading-[-2px] text-[#030115]">Overview</div>
+	<div class="mb-2 flex flex-col items-start justify-center">
+		<div class="font-poppins text-2xl font-medium text-[#030115]">Overview</div>
 	</div>
 	<div class="flex flex-row items-center justify-center gap-4">
 		<TextInputWithEndButton
@@ -45,16 +45,18 @@
 		/>
 	</div>
 	<div class="flex flex-row items-center justify-between gap-4">
-		<div class="flex w-full flex-row items-center gap-4">
+		<div class="flex w-2/5 flex-row items-center gap-4">
 			<AmountInputWithTitle
 				title="Stake"
-				inputAmountString={bigNumberToString($kalypsoStore.stakingDetails.stakedAmount)}
+				inputAmountString={removeTrailingZeros(
+					bigNumberToString($kalypsoStore.stakingDetails.stakedAmount)
+				)}
 				suffix={$chainConfigStore.tokens.MOCK?.currency}
 				disabled
 			/>
 			<AmountInputWithTitle
 				title="Compute"
-				inputAmountString={bigNumberToString($kalypsoStore.stakingDetails.declaredCompute, 0)}
+				inputAmountString={bigNumberToString($kalypsoStore.stakingDetails.declaredCompute, 0, 2)}
 				suffix={'%'}
 				disabled={false}
 				onlyInteger

@@ -8,9 +8,9 @@
 </script>
 
 <div class="flex w-full flex-col gap-4">
-	<div class="mb-8 flex flex-col items-start justify-center">
+	<div class="mb-2 flex flex-col items-start justify-center">
 		<div class="flex items-center justify-center gap-1">
-			<span class="font-poppins text-lg font-medium leading-[-2px] text-[#030115]"> Stake </span>
+			<span class="font-poppins text-2xl font-medium text-[#030115]"> Stake </span>
 			<Tooltip placement="top">
 				<img slot="tooltipIcon" src={staticImages.alertV2Icon} alt="Info" width={16} />
 				<span slot="tooltipContent">This tooltip is for Stake</span></Tooltip
@@ -18,7 +18,7 @@
 		</div>
 	</div>
 	<div class="flex flex-col gap-4">
-		<div class="join mb-5">
+		<div class="join mb-2">
 			<button
 				class={cn(
 					{

@@ -50,7 +50,7 @@
 			</ContainerCard>
 		{/if}
 		{#if $kalypsoStore.registered}
-			<div class="flex flex-col items-center justify-center gap-8">
+			<div class="flex flex-col items-center justify-center gap-4">
 				<ContainerCard
 					width={cn({
 						'mx-auto w-full': true
@@ -58,7 +58,7 @@
 				>
 					<RegisteredOverview />
 				</ContainerCard>
-				<div class="flex w-full flex-row items-center justify-center gap-8">
+				<div class="flex w-full flex-row items-center justify-center gap-4">
 					<ContainerCard
 						width={cn({
 							'mx-auto w-full': true

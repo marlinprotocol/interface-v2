@@ -74,7 +74,7 @@
 		try {
 			await handleApproveFundForKalypso(
 				stakeAmount,
-				$chainConfigStore.tokens.POND as TokenMetadata,
+				$chainConfigStore.tokens.MOCK as TokenMetadata,
 				$chainConfigStore.contract_addresses.KALYPSO
 			);
 			approveLoading = false;
@@ -88,7 +88,7 @@
 		if (target.value) {
 			const isAmount = isInputAmountValid(target.value);
 			const isLessThanWalletBalance =
-				stringToBigNumber(target.value, 18) < $walletBalanceStore.pond;
+				stringToBigNumber(target.value, 18) < $walletBalanceStore.mock;
 			stakeAmountErrorMessage = inputAmountInValidMessage(target.value);
 			stakeAmountIsValid = isAmount && isLessThanWalletBalance && stakeAmountErrorMessage === '';
 		} else {
@@ -97,8 +97,8 @@
 	};
 
 	function handleMaxClick() {
-		if ($walletBalanceStore.pond) {
-			stakeAmountString = bigNumberToString($walletBalanceStore.pond, 18, POND_PRECISIONS, false);
+		if ($walletBalanceStore.mock) {
+			stakeAmountString = bigNumberToString($walletBalanceStore.mock, 18, POND_PRECISIONS, false);
 			stakeAmountIsValid = true;
 		}
 	}
@@ -114,7 +114,7 @@
 	function getStakeAmountError(amount: bigint) {
 		if (amount === 0n) {
 			return 'The stake amount cannot be 0';
-		} else if (amount > $walletBalanceStore.pond) {
+		} else if (amount > $walletBalanceStore.mock) {
 			return 'The stake amount cannot be more than your wallet balance';
 		} else return '';
 	}

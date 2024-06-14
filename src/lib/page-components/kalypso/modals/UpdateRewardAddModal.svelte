@@ -5,21 +5,36 @@
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import { kalypsoStore } from '$lib/data-stores/kalypsoStore';
 
-	import { isAddressValid } from '$lib/utils/helpers/commonHelper';
+	import { closeModal, isAddressValid } from '$lib/utils/helpers/commonHelper';
 
 	let rewardsAddress = '';
+	let updateButtonLoading = false;
 
 	function getRewardAddressError(address: string) {
 		if (!address.startsWith('0x')) {
 			return 'The reward address needs to start with 0x';
 		} else if (address.length !== 42) {
 			return 'The rewards address needs to be 42 characters long';
+		} else if (address === $kalypsoStore.stakingDetails.rewardsAddress) {
+			return 'The rewards address cannot be the same as the current rewards address';
 		}
 		return '';
 	}
 
+	function handleUpdateClick() {
+		updateButtonLoading = true;
+		console.log('Updating reward address...');
+		updateButtonLoading = false;
+		closeModal('update-reward-address-modal');
+	}
+
 	$: rewardAddressError = getRewardAddressError(rewardsAddress);
-	$: rewardAddressIsValid = rewardsAddress !== '' ? isAddressValid(rewardsAddress) : true;
+	$: rewardAddressIsValid =
+		rewardsAddress !== ''
+			? isAddressValid(rewardsAddress) &&
+				rewardsAddress !== $kalypsoStore.stakingDetails.rewardsAddress
+			: true;
+	$: enableUpdateButton = rewardsAddress !== '' && rewardAddressIsValid && !updateButtonLoading;
 </script>
 
 <Modal modalFor="update-reward-address-modal">
@@ -47,6 +62,13 @@
 		<ErrorTextCard showError={!rewardAddressIsValid} errorMessage={rewardAddressError} />
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
-		<Button variant="filled" styleClass="w-full font-normal" size="large">Approve</Button>
+		<Button
+			onclick={handleUpdateClick}
+			variant="filled"
+			styleClass="w-full font-normal"
+			loading={updateButtonLoading}
+			disabled={!enableUpdateButton}
+			size="large">Update Rewards Address</Button
+		>
 	</svelte:fragment>
 </Modal>

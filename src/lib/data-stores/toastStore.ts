@@ -55,7 +55,7 @@ export const addToast = ({
 		iconData,
 		bgColor
 	};
-	toastsStore.update((all) => [t, ...all]);
+	toastsStore.update((all) => [...all, t]);
 
 	// If toast is dismissible, dismiss it after "timeout" amount of time.
 	if (t.timeout && t.dismissible) setTimeout(() => dismissToast(id), t.timeout);

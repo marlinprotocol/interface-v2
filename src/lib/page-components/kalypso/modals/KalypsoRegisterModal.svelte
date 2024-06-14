@@ -57,8 +57,8 @@
 
 			await handleRegisterInKalypso(
 				rewardsAddress,
-				stakeAmount,
 				finalDeclaredCompute,
+				stakeAmount,
 				finalGeneratorData
 			);
 			registerLoading = false;

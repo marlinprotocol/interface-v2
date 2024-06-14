@@ -48,7 +48,9 @@
 		console.log('Checking if the user is already registered in kalypso...');
 		const { isRegistered, rewardsAddress, generatorData, declaredCompute, stakedAmount } =
 			await getKalypsoGeneratorDataFromContract($walletStore.address);
-		registerInKalypsoStore(rewardsAddress, generatorData, declaredCompute, stakedAmount);
+		if (isRegistered) {
+			registerInKalypsoStore(rewardsAddress, declaredCompute, stakedAmount, generatorData);
+		}
 		console.log(
 			isRegistered ? 'User is registered in kalypso' : 'User is not registered in kalypso'
 		);

@@ -6,8 +6,8 @@ export const kalypsoStore: Writable<KalypsoStore> = writable(DEFAULT_KALYPSO_STO
 
 export function registerInKalypsoStore(
 	rewardsAddress: Address,
-	stakedAmount: bigint,
 	declaredCompute: bigint,
+	stakedAmount: bigint,
 	generatorData: string
 ) {
 	kalypsoStore.update((state) => {

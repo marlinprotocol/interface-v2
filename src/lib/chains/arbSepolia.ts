@@ -65,7 +65,7 @@ export const ARB_SEPOLIA: ChainConfig = {
 			precision: 6,
 			currency: 'MOCK',
 			symbol: '$',
-			address: '0x01d84D33CC8636F83d2bb771e184cE57d8356863'
+			address: '0xdb69299dDE4A00c99b885D9f8748B2AeD1Fe4Ed4'
 		}
 	}
 };

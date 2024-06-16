@@ -9,7 +9,7 @@ export const ARB_ONE: ChainConfig = {
 	chain_image: staticImages.ArbitrumLogo,
 	block_explorer_name: 'Arbiscan',
 	block_explorer_url: 'https://arbiscan.io',
-	rpc_url: 'https://arbiscan.io/rpc',
+	rpc_url: 'https://arbitrum.llamarpc.com',
 	backend_network_id: 'ArbOne',
 	contract_addresses: {
 		BRIDGE: '0x7cf89b836d1c647ef31a5eeb152b7addcf002a08',

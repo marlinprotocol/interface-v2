@@ -415,13 +415,13 @@ export function initializeAllowanceInOysterStore(allowance: bigint) {
 	});
 }
 
-export function initializeMarlinCreditsInOysterStore(credits: bigint) {
+export function initializeMarlinCreditsInOysterStore(credits: bigint | undefined) {
 	oysterStore.update((value) => {
 		return {
 			...value,
 			credits: {
-				isWhitelisted: credits !== undefined,
-				balance: credits
+				isWhitelisted: credits !== undefined ? true : false,
+				balance: credits || 0n
 			}
 		};
 	});

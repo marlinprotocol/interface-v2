@@ -339,16 +339,18 @@
 				fontWeight="font-normal"
 				text="Balance: {walletBalanceText}"
 			/>
-			<div class="form-control">
-				<label class="label cursor-pointer">
-					<span class="label-text mr-3">Use Credits</span>
-					<input
-						bind:checked={useMarlinCredits}
-						type="checkbox"
-						class="checkbox-primary checkbox checkbox-md"
-					/>
-				</label>
-			</div>
+			{#if $oysterStore.credits.isWhitelisted}
+				<div class="form-control">
+					<label class="label cursor-pointer">
+						<span class="label-text mr-3">Use Credits</span>
+						<input
+							bind:checked={useMarlinCredits}
+							type="checkbox"
+							class="checkbox-primary checkbox checkbox-md"
+						/>
+					</label>
+				</div>
+			{/if}
 		</div>
 
 		<div class="mt-3">

@@ -60,7 +60,11 @@
 		if ($chainConfigStore.subgraph_urls.OYSTER_CREDIT !== '') {
 			const marlinCredits = await getOysterCreditFromSubgraph($walletStore.address);
 			initializeMarlinCreditsInOysterStore(marlinCredits);
-			console.log('Marlin credits data is loaded', $oysterStore.credits.balance);
+			console.log(
+				'Marlin credits data is loaded',
+				$oysterStore.credits.balance,
+				$oysterStore.credits.isWhitelisted
+			);
 		}
 	}
 

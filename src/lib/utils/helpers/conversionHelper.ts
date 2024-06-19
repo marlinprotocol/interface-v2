@@ -137,8 +137,11 @@ export const bigNumberToString = (
 	const truncatedDecimalPart = decimalPart
 		? decimalPart.slice(0, precision).padEnd(precision, '0')
 		: '0'.repeat(precision);
-
-	return `${commifiedIntegerPart}.${truncatedDecimalPart}`;
+	const finalBigNumberString =
+		truncatedDecimalPart !== ''
+			? `${commifiedIntegerPart}.${truncatedDecimalPart}`
+			: commifiedIntegerPart;
+	return finalBigNumberString;
 };
 
 //return bignumber from string with decimal

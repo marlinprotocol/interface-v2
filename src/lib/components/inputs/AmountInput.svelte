@@ -5,6 +5,7 @@
 	export let styleClass = '';
 	export let onlyInteger = false;
 	export let id = '';
+	export let placeholder = '';
 
 	const validateInput = (
 		e: KeyboardEvent & {
@@ -37,6 +38,6 @@
 	on:keydown={validateInput}
 	on:keyup={validateInput}
 	class="hideInputNumberAppearance {styleClass}"
-	placeholder={onlyInteger ? '0' : '0.00'}
+	placeholder={onlyInteger ? '0' : placeholder !== '' ? placeholder : '0.00'}
 	autocomplete="off"
 />

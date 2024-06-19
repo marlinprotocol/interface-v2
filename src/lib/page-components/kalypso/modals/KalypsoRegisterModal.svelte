@@ -154,11 +154,10 @@
 				bind:input={generatorData}
 				placeholder="Data to be used by the generator? Lol idk what this is"
 				label="Generator Data (Optional)"
-			/><TextInputWithEndButton
-				styleClass="w-full rounded-[100px]"
-				bind:input={declaredComputeString}
-				placeholder="Address which will receive rewards"
-				label="Declared Compute (Optional)"
+			/><AmountInputWithTitle
+				title="Declared Compute (vCPUs)"
+				bind:inputAmountString={declaredComputeString}
+				placeholder="Enter number of vCPUs you want to declare"
 			/>
 			<AmountInputWithTitle
 				title="Stake"

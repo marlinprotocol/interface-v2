@@ -1,5 +1,6 @@
 <script lang="ts">
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
+	import { inputClasses } from '$lib/atoms/componentClasses';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import AmountInput from '$lib/components/inputs/AmountInput.svelte';
 	import { cn } from '$lib/utils/helpers/commonHelper';
@@ -13,6 +14,7 @@
 	export let onlyInteger = false;
 	export let id = '';
 	export let styleClass = '';
+	export let placeholder = '';
 
 	const onFocusStyle = 'left-[12px] leading-[1px] top-[-20px] font-normal';
 	const titleStyleInit =
@@ -40,12 +42,10 @@
 			{id}
 			bind:value={inputAmountString}
 			onChange={handleChange}
-			styleClass={cn(
-				'input input-ghost min-w-[20px] w-full input-primary text-sm p-0 ml-0.5 placeholder:text-primary/[.2] h-[30px]',
-				styleClass
-			)}
+			styleClass={cn(inputClasses.inputText, styleClass)}
 			{onlyInteger}
 			{disabled}
+			{placeholder}
 		/>
 		{#if !!suffix.length}
 			<Text text={suffix} styleClass="text-sm text-primary ml-1 " />

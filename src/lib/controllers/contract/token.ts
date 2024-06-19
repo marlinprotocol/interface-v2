@@ -5,6 +5,7 @@ import { ERC20_ABI } from '$lib/utils/abis/erc20';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import type { TokenMetadata } from '$lib/types/environmentTypes';
 import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
+import { removeTrailingZeros } from '$lib/utils/helpers/commonHelper';
 
 export async function approveToken(
 	tokenToApprove: TokenMetadata,
@@ -15,11 +16,15 @@ export async function approveToken(
 
 	try {
 		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.APPROVING(
-			bigNumberToString(amount, tokenToApprove.decimal, tokenToApprove.precision),
+			removeTrailingZeros(
+				bigNumberToString(amount, tokenToApprove.decimal, tokenToApprove.precision)
+			),
 			tokenToApprove.currency
 		);
 		const successTxnMessage = MESSAGES.TOAST.ACTIONS.APPROVE.APPROVED(
-			bigNumberToString(amount, tokenToApprove.decimal, tokenToApprove.precision),
+			removeTrailingZeros(
+				bigNumberToString(amount, tokenToApprove.decimal, tokenToApprove.precision)
+			),
 			tokenToApprove.currency
 		);
 		const initiateTxnTitle = MESSAGES.TOAST.APPROVAL.CREATED;

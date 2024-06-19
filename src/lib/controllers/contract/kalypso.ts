@@ -4,6 +4,7 @@ import type { Address, ContractAddress } from '$lib/types/storeTypes';
 import { KALYPSO_ABI } from '$lib/utils/abis/kalypso';
 import { MESSAGES } from '$lib/utils/constants/messages';
 import { DEFAULT_KALYPSO_STORE } from '$lib/utils/constants/storeDefaults';
+import { removeTrailingZeros } from '$lib/utils/helpers/commonHelper';
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
 import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 import type { BytesLike } from 'ethers';
@@ -141,10 +142,10 @@ export async function increaseStakeInKalypso(amount: bigint, generatorAddress: A
 	try {
 		const parentFunctionName = 'increaseStakeInKalypso';
 		const initiateTxnMessage = MESSAGES.TOAST.INCREASE_STAKE_KALYPSO.CREATED.message(
-			bigNumberToString(amount)
+			removeTrailingZeros(bigNumberToString(amount))
 		);
 		const successTxnMessage = MESSAGES.TOAST.INCREASE_STAKE_KALYPSO.SUCCESS.message(
-			bigNumberToString(amount)
+			removeTrailingZeros(bigNumberToString(amount))
 		);
 		const errorTxnMessage = MESSAGES.TOAST.INCREASE_STAKE_KALYPSO.FAILED.message;
 		const initiateTxnTitle = MESSAGES.TOAST.INCREASE_STAKE_KALYPSO.CREATED.title;
@@ -203,10 +204,10 @@ export async function decreaseStakeInKalypso(address: Address, amountToReduce: b
 	try {
 		const parentFunctionName = 'decreaseStakeInKalypso';
 		const initiateTxnMessage = MESSAGES.TOAST.DECREASE_STAKE_KALYPSO.CREATED.message(
-			bigNumberToString(amountToReduce)
+			removeTrailingZeros(bigNumberToString(amountToReduce))
 		);
 		const successTxnMessage = MESSAGES.TOAST.DECREASE_STAKE_KALYPSO.SUCCESS.message(
-			bigNumberToString(amountToReduce)
+			removeTrailingZeros(bigNumberToString(amountToReduce))
 		);
 		const errorTxnMessage = MESSAGES.TOAST.DECREASE_STAKE_KALYPSO.FAILED.message;
 		const initiateTxnTitle = MESSAGES.TOAST.DECREASE_STAKE_KALYPSO.CREATED.title;
@@ -297,12 +298,12 @@ export async function decreaseDeclaredComputeInKalypso() {
 	const kalypsoContract = createSignerContract(contractAddresses.KALYPSO, KALYPSO_ABI);
 	try {
 		const parentFunctionName = 'decreaseDeclaredComputeInKalypso';
-		const initiateTxnMessage = MESSAGES.TOAST.UPDATE_KALYPSO.CREATED.message;
-		const successTxnMessage = MESSAGES.TOAST.UPDATE_KALYPSO.SUCCESS.message;
-		const errorTxnMessage = MESSAGES.TOAST.UPDATE_KALYPSO.FAILED.message;
-		const initiateTxnTitle = MESSAGES.TOAST.UPDATE_KALYPSO.CREATED.title;
-		const successTxnTitle = MESSAGES.TOAST.UPDATE_KALYPSO.SUCCESS.title;
-		const failedTxnTitle = MESSAGES.TOAST.UPDATE_KALYPSO.FAILED.title;
+		const initiateTxnMessage = MESSAGES.TOAST.DECREASE_DECLARED_COMPUTE_KALYPSO.CREATED.message;
+		const successTxnMessage = MESSAGES.TOAST.DECREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.message;
+		const errorTxnMessage = MESSAGES.TOAST.DECREASE_DECLARED_COMPUTE_KALYPSO.FAILED.message;
+		const initiateTxnTitle = MESSAGES.TOAST.DECREASE_DECLARED_COMPUTE_KALYPSO.CREATED.title;
+		const successTxnTitle = MESSAGES.TOAST.DECREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.title;
+		const failedTxnTitle = MESSAGES.TOAST.DECREASE_DECLARED_COMPUTE_KALYPSO.FAILED.title;
 		const titles = {
 			initiateTxnTitle,
 			successTxnTitle,

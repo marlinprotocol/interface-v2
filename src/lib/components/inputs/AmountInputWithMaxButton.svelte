@@ -13,6 +13,7 @@
 	export let inputCardVariant: InputCardVariant = 'primary';
 	export let currency = '';
 	export let showBalance: boolean = true;
+	export let onlyInteger: boolean = false;
 </script>
 
 <InputCard variant="primary">
@@ -23,6 +24,7 @@
 				onChange={handleUpdatedAmount}
 				styleClass="input input-ghost input-primary text-3xl placeholder:text-[#030115]/[.2]"
 				disabled={!handleUpdatedAmount || !$connected}
+				{onlyInteger}
 			/>
 			{#if currency !== ''}
 				<span class="text-[22px] font-medium">{currency}</span>
@@ -53,6 +55,8 @@
 					<slot name="inputMaxButton" />
 				{/if}
 			</div>
+		{:else}
+			<div aria-disabled="true" class="h-[22px]"></div>
 		{/if}
 	</form>
 </InputCard>

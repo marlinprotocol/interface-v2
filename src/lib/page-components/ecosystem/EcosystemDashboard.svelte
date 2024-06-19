@@ -17,6 +17,7 @@
 	let searchInput = '';
 	let selectedFilter: FilterCategory = 'View All';
 	let filteredPartners: filterDataModal;
+	let helpingFilter: string;
 
 	const partners: filterDataModal = [
 		// {
@@ -336,8 +337,29 @@
 			.filter((partner) => partner.name.toLowerCase().includes(partnerSearchString.toLowerCase()))
 			.filter((partner) => partner.category.includes(partnerFilterString));
 	}
+	function getHelpingfilter(
+		partnerSearchString: string,
+		sortedPartners: filterDataModal,
+		partnerFilterString: FilterCategory
+	) {
+		if (!partnerSearchString.length) return '';
+
+		if (partnerFilterString !== 'View All') return '';
+
+		let partnerCat = !!sortedPartners.length ? sortedPartners[0]?.category[0] : '';
+		if (sortedPartners.length > 1) {
+			for (let i = 1; i < sortedPartners.length; i++) {
+				if (partnerCat !== sortedPartners[i].category[0]) {
+					partnerCat = '';
+					break;
+				}
+			}
+		}
+		return partnerCat;
+	}
 	$: filteredPartners = getFilteredPartners(searchInput, selectedFilter);
 	$: sortedPartners = filteredPartners.sort((a, b) => a.name.localeCompare(b.name));
+	$: helpingFilter = getHelpingfilter(searchInput, sortedPartners, selectedFilter);
 </script>
 
 <div class=" flex w-full flex-col justify-start">
@@ -362,7 +384,9 @@
 						selectedFilter = filter;
 					}}
 					variant="greyOutlined"
-					styleClass="font-normal"
+					styleClass="font-normal {helpingFilter === filter
+						? 'border-[#2db8e3] text-[#2DB8E3]'
+						: ''}"
 					size="small"
 				>
 					{filter}

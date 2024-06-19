@@ -94,7 +94,7 @@ export async function handleAddStakeForKalypso(amount: bigint, generatorAddress:
 	}
 }
 
-export async function handleInitiateReduceStakeInKalypso(amountToReduce: bigint) {
+export async function handleInitiateDecreaseStakeInKalypso(amountToReduce: bigint) {
 	try {
 		await initiateDecreaseStakeInKalypso(amountToReduce);
 		initiateDecreaseStakeInKalypsoStore(amountToReduce);

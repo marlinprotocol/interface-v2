@@ -15,6 +15,7 @@
 	import {
 		kalypsoStore,
 		registerInKalypsoStore,
+		setBlockMetadataInKalypsoStore,
 		updateApprovedFundsInKalypsoStore
 	} from '$lib/data-stores/kalypsoStore';
 	import {
@@ -24,6 +25,7 @@
 	} from '$lib/data-stores/walletProviderStore';
 	import type { TokenMetadata } from '$lib/types/environmentTypes';
 	import type { Address } from '$lib/types/storeTypes';
+	import { DEFAULT_KALYPSO_STORE } from '$lib/utils/constants/storeDefaults';
 	import type { BrowserProvider } from 'ethers';
 	import { onDestroy, onMount } from 'svelte';
 
@@ -54,6 +56,18 @@
 		console.log(
 			isRegistered ? 'User is registered in kalypso' : 'User is not registered in kalypso'
 		);
+		if ($chainConfigStore.kalypso) {
+			setBlockMetadataInKalypsoStore(
+				$chainConfigStore.kalypso.blockMineTime,
+				$chainConfigStore.kalypso.numberOfBlocksToWait
+			);
+		} else {
+			setBlockMetadataInKalypsoStore(
+				DEFAULT_KALYPSO_STORE.blockMetadata.blockMineTime,
+				DEFAULT_KALYPSO_STORE.blockMetadata.numberOfBlocksToWait
+			);
+		}
+		console.log('Kalypso block metadata is set', $kalypsoStore.blockMetadata);
 	}
 
 	$: chainSupported = $chainStore.chainId

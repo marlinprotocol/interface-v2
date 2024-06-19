@@ -133,6 +133,10 @@ export type KalypsoStore = {
 		declaredCompute: bigint;
 		generatorData: string;
 	};
+	blockMetadata: {
+		blockMineTime: number;
+		numberOfBlocksToWait: number;
+	};
 	activeStakeTab: 'add' | 'withdraw';
 	activeComputeTab: 'increase' | 'decrease';
 };

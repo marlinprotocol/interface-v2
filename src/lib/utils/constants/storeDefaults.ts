@@ -136,6 +136,10 @@ export const DEFAULT_KALYPSO_STORE: KalypsoStore = {
 		declaredCompute: 0n,
 		generatorData: ethers.ZeroHash
 	},
+	blockMetadata: {
+		blockMineTime: 0,
+		numberOfBlocksToWait: 0
+	},
 	activeStakeTab: 'add',
 	activeComputeTab: 'increase'
 };

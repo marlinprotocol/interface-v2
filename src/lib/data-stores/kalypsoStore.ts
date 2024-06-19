@@ -32,6 +32,21 @@ export function unregisterInKalypsoStore() {
 	});
 }
 
+export function setBlockMetadataInKalypsoStore(
+	blockMineTime: number,
+	numberOfBlocksToWait: number
+) {
+	kalypsoStore.update((state) => {
+		return {
+			...state,
+			blockMetadata: {
+				blockMineTime: blockMineTime,
+				numberOfBlocksToWait: numberOfBlocksToWait
+			}
+		};
+	});
+}
+
 export function updateApprovedFundsInKalypsoStore(amount: bigint) {
 	kalypsoStore.update((state: KalypsoStore) => {
 		return {

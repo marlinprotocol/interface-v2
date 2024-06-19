@@ -38,6 +38,10 @@ export const ARB_SEPOLIA: ChainConfig = {
 		rateCPUrlUnitInSeconds: 1, // 1 hour
 		rateReviseWaitingTime: 5 * 60 // 5 minutes
 	},
+	kalypso: {
+		blockMineTime: 10, // 10 seconds
+		numberOfBlocksToWait: 10 // 10 blocks
+	},
 	tokens: {
 		POND: {
 			decimal: 18,

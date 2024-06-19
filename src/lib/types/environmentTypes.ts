@@ -26,6 +26,10 @@ export type ChainConfig = {
 	oyster_token: keyof Tokens; // token that is used for oyster transactions should be one of the keys of tokens object
 	oyster_rate_metadata: OysterRateMetadata; // metadata related to oyster requests
 	tokens: Tokens; // tokens that are used in the dapp
+	kalypso?: {
+		blockMineTime: number; // in seconds
+		numberOfBlocksToWait: number; // number of blocks to wait after enabling decrease methods in kalypso
+	};
 };
 
 export type OysterUrls = {

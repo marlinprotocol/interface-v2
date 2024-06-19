@@ -102,6 +102,7 @@
 		variant="filled"
 		styleClass="w-full font-normal"
 		size="large"
+		loading={approveLoading}
 		disabled={!enableApproveBtn}>Approve</Button
 	>
 {:else}

@@ -56,8 +56,8 @@
 			/>
 			<AmountInputWithTitle
 				title="Compute"
-				inputAmountString={bigNumberToString($kalypsoStore.stakingDetails.declaredCompute, 0, 2)}
-				suffix={'%'}
+				inputAmountString={bigNumberToString($kalypsoStore.stakingDetails.declaredCompute, 0, 0)}
+				suffix={$kalypsoStore.stakingDetails.declaredCompute === 1n ? 'vCPU' : 'vCPUs'}
 				disabled={false}
 				onlyInteger
 			/>

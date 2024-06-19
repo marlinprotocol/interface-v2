@@ -133,7 +133,7 @@ export const DEFAULT_KALYPSO_STORE: KalypsoStore = {
 	stakingDetails: {
 		rewardsAddress: ethers.ZeroAddress,
 		stakedAmount: 0n,
-		declaredCompute: 100n,
+		declaredCompute: 0n,
 		generatorData: ethers.ZeroHash
 	},
 	activeStakeTab: 'add',

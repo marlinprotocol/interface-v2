@@ -50,14 +50,10 @@
 		try {
 			const finalGeneratorData =
 				generatorData === '' ? DEFAULT_KALYPSO_STORE.stakingDetails.generatorData : generatorData;
-			const finalDeclaredCompute =
-				declaredComputeString === ''
-					? DEFAULT_KALYPSO_STORE.stakingDetails.declaredCompute
-					: stringToBigNumber(declaredComputeString, 0);
 
 			await handleRegisterInKalypso(
 				rewardsAddress,
-				finalDeclaredCompute,
+				declaredCompute,
 				stakeAmount,
 				finalGeneratorData
 			);
@@ -125,13 +121,18 @@
 		POND_PRECISIONS
 	)}`;
 	$: rewardAddressError = getRewardAddressError(rewardsAddress);
+	$: declaredCompute = stringToBigNumber(declaredComputeString, 0);
 	$: stakeAmount = stringToBigNumber(stakeAmountString, 18);
 	$: stakeAmountError = stakeAmountIsValid
 		? getStakeAmountError(stakeAmount)
 		: inputAmountInValidMessage(stakeAmountString);
 	$: rewardAddressIsValid = rewardsAddress !== '' ? isAddressValid(rewardsAddress) : true;
 	$: enableApproveButton =
-		stakeAmountIsValid && rewardAddressIsValid && stakeAmount !== 0n && !approveLoading;
+		stakeAmountIsValid &&
+		rewardAddressIsValid &&
+		stakeAmount !== 0n &&
+		!approveLoading &&
+		declaredCompute > 0n;
 </script>
 
 <Modal modalFor="kalypso-register-modal">

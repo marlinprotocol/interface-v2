@@ -14,6 +14,7 @@
 	export let currency = '';
 	export let showBalance: boolean = true;
 	export let onlyInteger: boolean = false;
+	export let disabled: boolean = false;
 </script>
 
 <InputCard variant="primary">
@@ -23,7 +24,7 @@
 				bind:value={inputAmountString}
 				onChange={handleUpdatedAmount}
 				styleClass="input input-ghost input-primary text-3xl placeholder:text-[#030115]/[.2]"
-				disabled={!handleUpdatedAmount || !$connected}
+				disabled={!handleUpdatedAmount || !$connected || disabled}
 				{onlyInteger}
 			/>
 			{#if currency !== ''}

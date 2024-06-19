@@ -1,11 +1,16 @@
 <script lang="ts">
-	import { dismissToast, toastsStore } from '$lib/data-stores/toastStore';
+	import { toastsStore } from '$lib/data-stores/toastStore';
 	import { cn } from '$lib/utils/helpers/commonHelper';
-	import { fade, slide } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 </script>
 
 {#if $toastsStore.length > 0}
-	<div class="toast toast-end toast-top z-[9999] items-end p-10" data-testid="toast">
+	<div
+		in:fly={{ x: 100, duration: 500 }}
+		out:fly={{ x: 100, duration: 500 }}
+		class="toast toast-end toast-bottom z-[9999] items-end p-10"
+		data-testid="toast"
+	>
 		{#each $toastsStore as toast (toast.id)}
 			<button
 				data-testid="toast-btn"
@@ -14,6 +19,7 @@
 					toast.message.description ? 'items-start' : 'items-center',
 					toast.className
 				)}
+				out:fly={{ x: 30, duration: 300 }}
 			>
 				<div class={'flex h-[54px] w-[54px] items-center justify-center rounded-full bg-white'}>
 					<img src={toast.iconData} alt={toast.iconData} />

@@ -33,7 +33,7 @@
 		{/if}
 		{#if showBalance}
 			<div class="mt-[-10px] flex items-center justify-end gap-2">
-				<div class="flex items-center gap-1">
+				<div class="flex h-8 items-center gap-1">
 					<Text
 						text={maxAmountText}
 						variant="small"

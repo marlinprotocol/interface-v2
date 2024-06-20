@@ -338,6 +338,7 @@
 	}
 	$: filteredPartners = getFilteredPartners(searchInput, selectedFilter);
 	$: sortedPartners = filteredPartners.sort((a, b) => a.name.localeCompare(b.name));
+	$: filterToHighlight = sortedPartners.length === 1 ? sortedPartners[0].category : [];
 </script>
 
 <div class=" flex w-full flex-col justify-start">
@@ -362,7 +363,10 @@
 						selectedFilter = filter;
 					}}
 					variant="greyOutlined"
-					styleClass="font-normal"
+					styleClass={cn(
+						'font-normal',
+						filterToHighlight.includes(filter) ? 'border-[#2db8e3] text-[#2DB8E3]' : ''
+					)}
 					size="small"
 				>
 					{filter}

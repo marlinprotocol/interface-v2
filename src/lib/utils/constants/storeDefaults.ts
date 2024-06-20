@@ -134,7 +134,8 @@ export const DEFAULT_KALYPSO_STORE: KalypsoStore = {
 		rewardsAddress: ethers.ZeroAddress,
 		stakedAmount: 0n,
 		declaredCompute: 0n,
-		generatorData: ethers.ZeroHash
+		generatorData: ethers.ZeroHash,
+		sumOfComputeAllocations: 0n
 	},
 	blockMetadata: {
 		blockMineTime: 0,

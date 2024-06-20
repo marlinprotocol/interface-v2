@@ -8,7 +8,8 @@ export function registerInKalypsoStore(
 	rewardsAddress: Address,
 	declaredCompute: bigint,
 	stakedAmount: bigint,
-	generatorData: string
+	generatorData: string,
+	sumOfComputeAllocations: bigint
 ) {
 	kalypsoStore.update((state) => {
 		return {
@@ -18,7 +19,8 @@ export function registerInKalypsoStore(
 				rewardsAddress: rewardsAddress,
 				stakedAmount: stakedAmount,
 				declaredCompute: declaredCompute,
-				generatorData: generatorData
+				generatorData: generatorData,
+				sumOfComputeAllocations: sumOfComputeAllocations
 			}
 		};
 	});

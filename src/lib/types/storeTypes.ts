@@ -132,6 +132,7 @@ export type KalypsoStore = {
 		stakedAmount: bigint;
 		declaredCompute: bigint;
 		generatorData: string;
+		sumOfComputeAllocations: bigint;
 	};
 	blockMetadata: {
 		blockMineTime: number;

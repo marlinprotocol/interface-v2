@@ -36,7 +36,7 @@
 	let previousChainId: number | null = null;
 	let previousWalletAddress: Address = '';
 
-	async function init() {
+	async function getKalypsoAllowances() {
 		console.log('Loading kalypso allowances data');
 		const approvedAmount = await getAllowance(
 			$walletStore.address,
@@ -46,16 +46,34 @@
 		);
 		updateApprovedFundsInKalypsoStore(approvedAmount);
 		console.log('Kalypso allowances data is loaded', $kalypsoStore.approvedAmount);
+	}
 
-		console.log('Checking if the user is already registered in kalypso...');
-		const { isRegistered, rewardsAddress, generatorData, declaredCompute, stakedAmount } =
-			await getKalypsoGeneratorDataFromContract($walletStore.address);
+	async function initializeKalypsoStore() {
+		console.log('Initializing kalypso store data');
+		const {
+			isRegistered,
+			rewardsAddress,
+			sumOfComputeAllocations,
+			generatorData,
+			declaredCompute,
+			stakedAmount
+		} = await getKalypsoGeneratorDataFromContract($walletStore.address);
+
 		if (isRegistered) {
-			registerInKalypsoStore(rewardsAddress, declaredCompute, stakedAmount, generatorData);
+			registerInKalypsoStore(
+				rewardsAddress,
+				declaredCompute,
+				stakedAmount,
+				generatorData,
+				sumOfComputeAllocations
+			);
 		}
 		console.log(
 			isRegistered ? 'User is registered in kalypso' : 'User is not registered in kalypso'
 		);
+	}
+
+	function setBlockMetadata() {
 		if ($chainConfigStore.kalypso) {
 			setBlockMetadataInKalypsoStore(
 				$chainConfigStore.kalypso.blockMineTime,
@@ -68,6 +86,12 @@
 			);
 		}
 		console.log('Kalypso block metadata is set', $kalypsoStore.blockMetadata);
+	}
+
+	async function init() {
+		await getKalypsoAllowances();
+		await initializeKalypsoStore();
+		setBlockMetadata();
 	}
 
 	$: chainSupported = $chainStore.chainId

@@ -21,6 +21,8 @@ export async function getKalypsoGeneratorDataFromContract(address: Address) {
 		const res = await kalypsoContract.generatorRegistry(address);
 		const rewardsAddress = res?.[0] || DEFAULT_KALYPSO_STORE.stakingDetails.rewardsAddress;
 		const stakedAmount = res?.[1] || DEFAULT_KALYPSO_STORE.stakingDetails.stakedAmount;
+		const sumOfComputeAllocations =
+			res?.[2] || DEFAULT_KALYPSO_STORE.stakingDetails.sumOfComputeAllocations;
 		const declaredCompute = res?.[6] || DEFAULT_KALYPSO_STORE.stakingDetails.declaredCompute;
 		const generatorData = res?.[9] || DEFAULT_KALYPSO_STORE.stakingDetails.generatorData;
 		const isRegistered = rewardsAddress !== DEFAULT_KALYPSO_STORE.stakingDetails.rewardsAddress;
@@ -28,6 +30,7 @@ export async function getKalypsoGeneratorDataFromContract(address: Address) {
 			isRegistered,
 			rewardsAddress,
 			stakedAmount,
+			sumOfComputeAllocations,
 			declaredCompute,
 			generatorData
 		};

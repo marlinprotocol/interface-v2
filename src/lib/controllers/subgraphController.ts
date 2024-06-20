@@ -641,7 +641,7 @@ export async function getOysterCreditFromSubgraph(address: Address) {
 		if (userCreditsBudget) {
 			return BigInt(userCreditsBudget);
 		} else {
-			return 0n;
+			return undefined;
 		}
 	} catch (error: any) {
 		addToast({

@@ -363,10 +363,9 @@
 						selectedFilter = filter;
 					}}
 					variant="greyOutlined"
-					styleClass={cn(
-						'font-normal',
-						filterToHighlight.includes(filter) ? 'border-[#2db8e3] text-[#2DB8E3]' : ''
-					)}
+					styleClass={cn('font-normal', {
+						'border-[#2db8e3] text-[#2DB8E3]': filterToHighlight.includes(filter)
+					})}
 					size="small"
 				>
 					{filter}

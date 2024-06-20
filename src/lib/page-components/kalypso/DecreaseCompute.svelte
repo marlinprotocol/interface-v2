@@ -2,40 +2,64 @@
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import { connected, walletBalanceStore } from '$lib/data-stores/walletProviderStore';
-	import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
-	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
+	import { kalypsoStore } from '$lib/data-stores/kalypsoStore';
+	import { connected } from '$lib/data-stores/walletProviderStore';
 	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
+	import {
+		handleDecreaseDeclaredComputeInKalypso,
+		handleInitiateDecreaseDeclaredComputeInKalypso
+	} from '$lib/utils/services/kalypsoServices';
 
 	let vcpuString = '';
 	let vcpuErrorMessage = '';
 	let vcpuIsValid = true;
 	let decreaseComputeLoading = false;
+	let initiateDecreaseComputeLoading = false;
+
+	async function handleInitiateDecreaseCompute() {
+		initiateDecreaseComputeLoading = true;
+		try {
+			await handleInitiateDecreaseDeclaredComputeInKalypso(vcpuBN);
+			initiateDecreaseComputeLoading = false;
+		} catch (error) {
+			initiateDecreaseComputeLoading = false;
+		}
+	}
+
+	async function handleDecreaseDeclaredCompute() {
+		decreaseComputeLoading = true;
+		try {
+			await handleDecreaseDeclaredComputeInKalypso();
+			decreaseComputeLoading = false;
+			vcpuString = '';
+		} catch (error) {
+			decreaseComputeLoading = false;
+		}
+	}
 
 	const handleUpdatedAmount = (event: Event) => {
 		const target = event.target as HTMLInputElement;
 		if (target.value) {
-			const isAmount = isInputAmountValid(target.value);
-			const isLessThanWalletBalance =
-				stringToBigNumber(target.value, 18) < $walletBalanceStore.pond;
-			vcpuErrorMessage = inputAmountInValidMessage(target.value);
-			vcpuIsValid = isAmount && isLessThanWalletBalance && vcpuErrorMessage === '';
+			const isLessThanMaxComputeToDecrease =
+				stringToBigNumber(target.value, 0) <= maxComputeToDecrease;
+			vcpuIsValid = isLessThanMaxComputeToDecrease;
 		} else {
 			vcpuIsValid = true;
 		}
 	};
 
 	function handleMaxClick() {
-		console.log('clicked max button');
+		vcpuString = bigNumberToString(maxComputeToDecrease, 0, 0, false);
+		vcpuIsValid = true;
 	}
 
-	$: balanceText = `Balance: ${bigNumberToString(
-		$walletBalanceStore.mock,
-		DEFAULT_CURRENCY_DECIMALS,
-		POND_PRECISIONS
-	)}`;
+	$: maxComputeToDecrease =
+		$kalypsoStore.stakingDetails.declaredCompute -
+		$kalypsoStore.stakingDetails.sumOfComputeAllocations;
+	$: balanceText = `Balance: ${bigNumberToString(maxComputeToDecrease, 0, 0)}`;
 	$: vcpuBN = stringToBigNumber(vcpuString, 0);
 	$: enableDecreaseCompute = vcpuIsValid && vcpuBN > 0n && !decreaseComputeLoading;
+	$: enableInitiateDecreaseCompute = vcpuIsValid && vcpuBN > 0n && !initiateDecreaseComputeLoading;
 </script>
 
 <AmountInputWithMaxButton
@@ -45,13 +69,30 @@
 	maxAmountText={balanceText}
 	inputCardVariant="none"
 	onlyInteger={true}
+	disabled={$kalypsoStore.decreaseDeclaredCompute.initiated}
 >
-	<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
+	<MaxButton
+		disabled={!$connected && $kalypsoStore.decreaseDeclaredCompute.initiated}
+		slot="inputMaxButton"
+		onclick={handleMaxClick}
+	/>
 </AmountInputWithMaxButton>
-<Button
-	variant="filled"
-	styleClass="w-full font-normal"
-	loading={decreaseComputeLoading}
-	disabled={!enableDecreaseCompute}
-	size="large">Initiate Decrease Compute</Button
->
+{#if $kalypsoStore.decreaseDeclaredCompute.initiated}
+	<Button
+		onclick={handleDecreaseDeclaredCompute}
+		variant="filled"
+		styleClass="w-full font-normal"
+		loading={decreaseComputeLoading}
+		disabled={!enableDecreaseCompute}
+		size="large">Decrease Compute</Button
+	>
+{:else}
+	<Button
+		onclick={handleInitiateDecreaseCompute}
+		variant="filled"
+		styleClass="w-full font-normal"
+		loading={initiateDecreaseComputeLoading}
+		disabled={!enableInitiateDecreaseCompute}
+		size="large">Initiate Decrease Compute</Button
+	>
+{/if}

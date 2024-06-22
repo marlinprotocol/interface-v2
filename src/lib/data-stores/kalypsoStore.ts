@@ -9,12 +9,22 @@ export function registerInKalypsoStore(
 	declaredCompute: bigint,
 	stakedAmount: bigint,
 	generatorData: string,
-	sumOfComputeAllocations: bigint
+	sumOfComputeAllocations: bigint,
+	decreaseComputeData: { isDecreaseInitiated: boolean; intendedDecrease: bigint },
+	decreaseStakeData: { isDecreaseInitiated: boolean; intendedDecrease: bigint }
 ) {
 	kalypsoStore.update((state) => {
 		return {
 			...state,
 			registered: true,
+			decreaseDeclaredCompute: {
+				initiated: decreaseComputeData.isDecreaseInitiated,
+				compute: decreaseComputeData.intendedDecrease
+			},
+			decreaseStake: {
+				initiated: decreaseStakeData.isDecreaseInitiated,
+				withdrawAmount: decreaseStakeData.intendedDecrease
+			},
 			stakingDetails: {
 				rewardsAddress: rewardsAddress,
 				stakedAmount: stakedAmount,
@@ -132,7 +142,9 @@ export function decreaseDeclaredComputeInKalypsoStore() {
 	kalypsoStore.update((state) => {
 		return {
 			...state,
-			...DEFAULT_KALYPSO_STORE.decreaseDeclaredCompute,
+			decreaseDeclaredCompute: {
+				...DEFAULT_KALYPSO_STORE.decreaseDeclaredCompute
+			},
 			stakingDetails: {
 				...state.stakingDetails,
 				declaredCompute:

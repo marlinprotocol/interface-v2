@@ -25,6 +25,10 @@
 	} from '$lib/data-stores/walletProviderStore';
 	import type { TokenMetadata } from '$lib/types/environmentTypes';
 	import type { Address } from '$lib/types/storeTypes';
+	import {
+		DEFAULT_KALYPSO_COMPUTE_UTILIZATION,
+		DEFAULT_KALYPSO_STAKE_UTILIZATION
+	} from '$lib/utils/constants/kalypsoConstants';
 	import { DEFAULT_KALYPSO_STORE } from '$lib/utils/constants/storeDefaults';
 	import type { BrowserProvider } from 'ethers';
 	import { onDestroy, onMount } from 'svelte';
@@ -35,6 +39,19 @@
 
 	let previousChainId: number | null = null;
 	let previousWalletAddress: Address = '';
+
+	function calculateIntendedDecreaseActionData(
+		intendedUtilization: bigint,
+		currentAmount: bigint,
+		defaultUtilization: bigint
+	) {
+		const isDecreaseInitiated = intendedUtilization !== defaultUtilization;
+		// this is def a bug
+		const intendedDecrease = isDecreaseInitiated
+			? currentAmount - defaultUtilization / (defaultUtilization - intendedUtilization)
+			: 0n;
+		return { isDecreaseInitiated, intendedDecrease };
+	}
 
 	async function getKalypsoAllowances() {
 		console.log('Loading kalypso allowances data');
@@ -51,13 +68,27 @@
 	async function initializeKalypsoStore() {
 		console.log('Initializing kalypso store data');
 		const {
-			isRegistered,
 			rewardsAddress,
+			stakedAmount,
 			sumOfComputeAllocations,
-			generatorData,
 			declaredCompute,
-			stakedAmount
+			intendedStakeUtilization,
+			intendedComputeUtilization,
+			generatorData
 		} = await getKalypsoGeneratorDataFromContract($walletStore.address);
+
+		const isRegistered = rewardsAddress !== DEFAULT_KALYPSO_STORE.stakingDetails.rewardsAddress;
+
+		const stakeDecreaseData = calculateIntendedDecreaseActionData(
+			intendedStakeUtilization,
+			stakedAmount,
+			DEFAULT_KALYPSO_STAKE_UTILIZATION
+		);
+		const computeDecreaseData = calculateIntendedDecreaseActionData(
+			intendedComputeUtilization,
+			declaredCompute,
+			DEFAULT_KALYPSO_COMPUTE_UTILIZATION
+		);
 
 		if (isRegistered) {
 			registerInKalypsoStore(
@@ -65,7 +96,9 @@
 				declaredCompute,
 				stakedAmount,
 				generatorData,
-				sumOfComputeAllocations
+				sumOfComputeAllocations,
+				computeDecreaseData,
+				stakeDecreaseData
 			);
 		}
 		console.log(

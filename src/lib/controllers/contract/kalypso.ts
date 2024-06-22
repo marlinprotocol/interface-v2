@@ -24,14 +24,17 @@ export async function getKalypsoGeneratorDataFromContract(address: Address) {
 		const sumOfComputeAllocations =
 			res?.[2] || DEFAULT_KALYPSO_STORE.stakingDetails.sumOfComputeAllocations;
 		const declaredCompute = res?.[6] || DEFAULT_KALYPSO_STORE.stakingDetails.declaredCompute;
+		const intendedStakeUtilization = res?.[7];
+		const intendedComputeUtilization = res?.[8];
 		const generatorData = res?.[9] || DEFAULT_KALYPSO_STORE.stakingDetails.generatorData;
-		const isRegistered = rewardsAddress !== DEFAULT_KALYPSO_STORE.stakingDetails.rewardsAddress;
+
 		return {
-			isRegistered,
 			rewardsAddress,
 			stakedAmount,
 			sumOfComputeAllocations,
 			declaredCompute,
+			intendedStakeUtilization,
+			intendedComputeUtilization,
 			generatorData
 		};
 	} catch (error: any) {
@@ -43,7 +46,7 @@ export async function getKalypsoGeneratorDataFromContract(address: Address) {
 			variant: 'error'
 		});
 		console.log('error fetching if user registered in kalypso contract :>> ', error);
-		return { isRegistered: false, ...DEFAULT_KALYPSO_STORE.stakingDetails };
+		return { ...DEFAULT_KALYPSO_STORE.stakingDetails };
 	}
 }
 

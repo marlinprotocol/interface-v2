@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
+	import { kalypsoStore } from '$lib/data-stores/kalypsoStore';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
 	import { stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import { handleIncreaseDeclaredComputeForKalypso } from '$lib/utils/services/kalypsoServices';
@@ -45,11 +46,17 @@
 	showBalance={false}
 	onlyInteger={true}
 ></AmountInputWithMaxButton>
-<Button
-	onclick={handleIncreaseCompute}
-	variant="filled"
-	styleClass="w-full font-normal"
-	size="large"
-	loading={increaseComputeButtonLoading}
-	disabled={!enableIncreaseCompute}>Increase Compute</Button
->
+{#if $kalypsoStore.decreaseDeclaredCompute.initiated}
+	<Button variant="filled" size="large" disabled={true}>
+		Declared compute decrease in progress...
+	</Button>
+{:else}
+	<Button
+		onclick={handleIncreaseCompute}
+		variant="filled"
+		styleClass="w-full font-normal"
+		size="large"
+		loading={increaseComputeButtonLoading}
+		disabled={!enableIncreaseCompute}>Increase Compute</Button
+	>
+{/if}

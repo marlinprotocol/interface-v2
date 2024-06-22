@@ -142,7 +142,7 @@ export const MESSAGES = {
 			},
 			CREATED: {
 				title: 'Initiating stake decrease',
-				message: (value: string | number) => `Adding ${value} to stake from Kalypso`
+				message: (value: string | number) => `Withdrawing ${value} stake from Kalypso`
 			}
 		},
 		INITIATE_DECREASE_STAKE_KALYPSO: {

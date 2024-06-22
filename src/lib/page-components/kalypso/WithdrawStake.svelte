@@ -81,22 +81,16 @@
 		withdrawAmount > 0n && withdrawAmountIsValid && !initiateWithdrawBtnLoading;
 </script>
 
-<AmountInputWithMaxButton
-	currency={$chainConfigStore.tokens.MOCK?.currency}
-	bind:inputAmountString={withdrawAmountString}
-	{handleUpdatedAmount}
-	maxAmountText={balanceText}
-	inputCardVariant="none"
-	disabled={$kalypsoStore.decreaseStake.initiated}
->
-	<MaxButton
-		disabled={!$connected || $kalypsoStore.decreaseStake.initiated}
-		slot="inputMaxButton"
-		onclick={handleMaxClick}
-	/>
-</AmountInputWithMaxButton>
-
 {#if $kalypsoStore.decreaseStake.initiated}
+	<AmountInputWithMaxButton
+		currency={$chainConfigStore.tokens.MOCK?.currency}
+		inputAmountString={bigNumberToString($kalypsoStore.decreaseStake.withdrawAmount, 18)}
+		maxAmountText={balanceText}
+		inputCardVariant="none"
+		disabled={true}
+	>
+		<MaxButton disabled={true} slot="inputMaxButton" />
+	</AmountInputWithMaxButton>
 	<Button
 		onclick={handleWithdrawClick}
 		variant="filled"
@@ -106,6 +100,15 @@
 		size="large">Withdraw</Button
 	>
 {:else}
+	<AmountInputWithMaxButton
+		currency={$chainConfigStore.tokens.MOCK?.currency}
+		bind:inputAmountString={withdrawAmountString}
+		{handleUpdatedAmount}
+		maxAmountText={balanceText}
+		inputCardVariant="none"
+	>
+		<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
+	</AmountInputWithMaxButton>
 	<Button
 		onclick={handleInitiateWithdrawClick}
 		variant="filled"

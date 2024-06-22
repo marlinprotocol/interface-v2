@@ -105,7 +105,10 @@ export function decreaseStakeInKalypsoStore(withdrawAmount: bigint) {
 	kalypsoStore.update((state: KalypsoStore) => {
 		return {
 			...state,
-			...DEFAULT_KALYPSO_STORE.decreaseStake,
+			decreaseStake: {
+				...DEFAULT_KALYPSO_STORE.decreaseStake
+			},
+
 			stakingDetails: {
 				...state.stakingDetails,
 				stakedAmount: state.stakingDetails.stakedAmount - withdrawAmount

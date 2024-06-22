@@ -58,26 +58,22 @@
 		$kalypsoStore.stakingDetails.sumOfComputeAllocations;
 	$: balanceText = `Balance: ${bigNumberToString(maxComputeToDecrease, 0, 0)}`;
 	$: vcpuBN = stringToBigNumber(vcpuString, 0);
-	$: enableDecreaseCompute = vcpuIsValid && vcpuBN > 0n && !decreaseComputeLoading;
+	$: enableDecreaseCompute = !decreaseComputeLoading;
 	$: enableInitiateDecreaseCompute = vcpuIsValid && vcpuBN > 0n && !initiateDecreaseComputeLoading;
 </script>
 
-<AmountInputWithMaxButton
-	currency={'vCPU(s)'}
-	bind:inputAmountString={vcpuString}
-	{handleUpdatedAmount}
-	maxAmountText={balanceText}
-	inputCardVariant="none"
-	onlyInteger={true}
-	disabled={$kalypsoStore.decreaseDeclaredCompute.initiated}
->
-	<MaxButton
-		disabled={!$connected && $kalypsoStore.decreaseDeclaredCompute.initiated}
-		slot="inputMaxButton"
-		onclick={handleMaxClick}
-	/>
-</AmountInputWithMaxButton>
 {#if $kalypsoStore.decreaseDeclaredCompute.initiated}
+	<AmountInputWithMaxButton
+		currency={'vCPU(s)'}
+		inputAmountString={bigNumberToString($kalypsoStore.decreaseDeclaredCompute.compute, 0, 0)}
+		{handleUpdatedAmount}
+		maxAmountText={balanceText}
+		inputCardVariant="none"
+		onlyInteger={true}
+		disabled={true}
+	>
+		<MaxButton disabled={true} slot="inputMaxButton" />
+	</AmountInputWithMaxButton>
 	<Button
 		onclick={handleDecreaseDeclaredCompute}
 		variant="filled"
@@ -87,6 +83,16 @@
 		size="large">Decrease Compute</Button
 	>
 {:else}
+	<AmountInputWithMaxButton
+		currency={'vCPU(s)'}
+		bind:inputAmountString={vcpuString}
+		{handleUpdatedAmount}
+		maxAmountText={balanceText}
+		inputCardVariant="none"
+		onlyInteger={true}
+	>
+		<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
+	</AmountInputWithMaxButton>
 	<Button
 		onclick={handleInitiateDecreaseCompute}
 		variant="filled"

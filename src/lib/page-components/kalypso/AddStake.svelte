@@ -96,7 +96,12 @@
 >
 	<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
 </AmountInputWithMaxButton>
-{#if stakeAmount > $kalypsoStore.approvedAmount}
+
+{#if $kalypsoStore.decreaseStake.initiated}
+	<Button variant="filled" styleClass="w-full font-normal" size="large" disabled={true}
+		>Stake withdraw is in progress..</Button
+	>
+{:else if stakeAmount > $kalypsoStore.approvedAmount}
 	<Button
 		onclick={handleApproveClick}
 		variant="filled"

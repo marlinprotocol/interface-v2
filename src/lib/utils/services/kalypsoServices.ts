@@ -29,6 +29,7 @@ import {
 } from '$lib/data-stores/walletProviderStore';
 import type { TokenMetadata } from '$lib/types/environmentTypes';
 import type { Address } from '$lib/types/storeTypes';
+import { DEFAULT_KALYPSO_STORE } from '../constants/storeDefaults';
 
 export async function handleRegisterInKalypso(
 	rewardAddress: Address,
@@ -38,7 +39,15 @@ export async function handleRegisterInKalypso(
 ) {
 	try {
 		await registerInKalypso(rewardAddress, declaredCompute, initialStake, generatorData);
-		registerInKalypsoStore(rewardAddress, declaredCompute, initialStake, generatorData);
+		registerInKalypsoStore(
+			rewardAddress,
+			declaredCompute,
+			initialStake,
+			generatorData,
+			DEFAULT_KALYPSO_STORE.stakingDetails.sumOfComputeAllocations,
+			DEFAULT_KALYPSO_STORE.decreaseDeclaredCompute,
+			DEFAULT_KALYPSO_STORE.decreaseStake
+		);
 		reduceApprovedFundsInKalypsoStore(initialStake);
 		withdrawMockFromWalletBalanceStore(initialStake);
 	} catch (e) {

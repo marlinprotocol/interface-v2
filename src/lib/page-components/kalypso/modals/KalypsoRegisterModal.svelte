@@ -27,23 +27,17 @@
 	import { DEFAULT_KALYPSO_STORE } from '$lib/utils/constants/storeDefaults';
 
 	let registerLoading = false;
-	let updateLoading = false;
 	let approveLoading = false;
 	let rewardsAddress = '';
 	let stakeAmountString = '';
 	let stakeAmount = 0n;
 	let generatorData = '';
 	let declaredComputeString = '';
-	let stakeAmountErrorMessage = '';
+	let stakeAmountStringError = '';
 	let stakeAmountIsValid = true;
+	let stakeAmountStringIsValid = true;
+	let stakeAmountInputIsDirty = false;
 
-	async function handleOnUpdate() {
-		updateLoading = true;
-		console.log('updating...');
-		updateLoading = false;
-
-		closeModal('kalypso-register-modal');
-	}
 	async function handleOnRegister() {
 		registerLoading = true;
 		console.log('registering...');
@@ -83,19 +77,18 @@
 		const target = event.target as HTMLInputElement;
 		if (target.value) {
 			const isAmount = isInputAmountValid(target.value);
-			const isLessThanWalletBalance =
-				stringToBigNumber(target.value, 18) < $walletBalanceStore.mock;
-			stakeAmountErrorMessage = inputAmountInValidMessage(target.value);
-			stakeAmountIsValid = isAmount && isLessThanWalletBalance && stakeAmountErrorMessage === '';
+			stakeAmountInputIsDirty = true;
+			stakeAmountStringIsValid = isAmount;
 		} else {
-			stakeAmountIsValid = true;
+			stakeAmountInputIsDirty = false;
+			stakeAmountStringIsValid = true;
 		}
 	};
 
 	function handleMaxClick() {
 		if ($walletBalanceStore.mock) {
 			stakeAmountString = bigNumberToString($walletBalanceStore.mock, 18, POND_PRECISIONS, false);
-			stakeAmountIsValid = true;
+			stakeAmountStringIsValid = true;
 		}
 	}
 
@@ -109,10 +102,15 @@
 	}
 	function getStakeAmountError(amount: bigint) {
 		if (amount === 0n) {
+			stakeAmountIsValid = false;
 			return 'The stake amount cannot be 0';
 		} else if (amount > $walletBalanceStore.mock) {
+			stakeAmountIsValid = false;
 			return 'The stake amount cannot be more than your wallet balance';
-		} else return '';
+		} else {
+			stakeAmountIsValid = true;
+			return '';
+		}
 	}
 
 	$: balanceText = `Balance: ${bigNumberToString(
@@ -123,9 +121,8 @@
 	$: rewardAddressError = getRewardAddressError(rewardsAddress);
 	$: declaredCompute = stringToBigNumber(declaredComputeString, 0);
 	$: stakeAmount = stringToBigNumber(stakeAmountString, 18);
-	$: stakeAmountError = stakeAmountIsValid
-		? getStakeAmountError(stakeAmount)
-		: inputAmountInValidMessage(stakeAmountString);
+	$: stakeAmountStringError = inputAmountInValidMessage(stakeAmountString);
+	$: stakeAmountError = getStakeAmountError(stakeAmount);
 	$: rewardAddressIsValid = rewardsAddress !== '' ? isAddressValid(rewardsAddress) : true;
 	$: enableApproveButton =
 		stakeAmountIsValid &&
@@ -133,6 +130,12 @@
 		stakeAmount !== 0n &&
 		!approveLoading &&
 		declaredCompute > 0n;
+	$: enableRegisterButton =
+		stakeAmountIsValid &&
+		rewardAddressIsValid &&
+		stakeAmount !== 0n &&
+		declaredCompute > 0n &&
+		!registerLoading;
 </script>
 
 <Modal modalFor="kalypso-register-modal">
@@ -180,7 +183,11 @@
 		</div>
 
 		<ErrorTextCard showError={!rewardAddressIsValid} errorMessage={rewardAddressError} />
-		<ErrorTextCard showError={!stakeAmountIsValid} errorMessage={stakeAmountError} />
+		<ErrorTextCard showError={!stakeAmountStringIsValid} errorMessage={stakeAmountStringError} />
+		<ErrorTextCard
+			showError={!stakeAmountIsValid && stakeAmountInputIsDirty && stakeAmountStringIsValid}
+			errorMessage={stakeAmountError}
+		/>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		{#if stakeAmount > $kalypsoStore.approvedAmount}
@@ -199,11 +206,11 @@
 				variant="filled"
 				styleClass="w-full font-normal"
 				size="large"
-				disabled={!enableApproveButton}
-				onclick={$kalypsoStore.registered ? handleOnUpdate : handleOnRegister}
-				loading={registerLoading || updateLoading}
+				disabled={!enableRegisterButton}
+				onclick={handleOnRegister}
+				loading={registerLoading}
 			>
-				{$kalypsoStore.registered ? 'Update' : 'Register'}
+				Register
 			</Button>
 		{/if}
 	</svelte:fragment>

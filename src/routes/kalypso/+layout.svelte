@@ -43,14 +43,17 @@
 	function calculateIntendedDecreaseActionData(
 		intendedUtilization: bigint,
 		currentAmount: bigint,
-		defaultUtilization: bigint
+		defaultUtilization: bigint,
+		decreaseParam: 'stake' | 'compute'
 	) {
 		const isDecreaseInitiated = intendedUtilization !== defaultUtilization;
 		// this is def a bug
 		const intendedDecrease = isDecreaseInitiated
 			? currentAmount - defaultUtilization / (defaultUtilization - intendedUtilization)
 			: 0n;
-		return { isDecreaseInitiated, intendedDecrease };
+		return decreaseParam === 'stake'
+			? { initiated: isDecreaseInitiated, withdrawAmount: intendedDecrease }
+			: { initiated: isDecreaseInitiated, compute: intendedDecrease };
 	}
 
 	async function getKalypsoAllowances() {
@@ -82,12 +85,14 @@
 		const stakeDecreaseData = calculateIntendedDecreaseActionData(
 			intendedStakeUtilization,
 			stakedAmount,
-			DEFAULT_KALYPSO_STAKE_UTILIZATION
+			DEFAULT_KALYPSO_STAKE_UTILIZATION,
+			'stake'
 		);
 		const computeDecreaseData = calculateIntendedDecreaseActionData(
 			intendedComputeUtilization,
 			declaredCompute,
-			DEFAULT_KALYPSO_COMPUTE_UTILIZATION
+			DEFAULT_KALYPSO_COMPUTE_UTILIZATION,
+			'compute'
 		);
 
 		if (isRegistered) {
@@ -97,8 +102,8 @@
 				stakedAmount,
 				generatorData,
 				sumOfComputeAllocations,
-				computeDecreaseData,
-				stakeDecreaseData
+				computeDecreaseData as { initiated: boolean; compute: bigint },
+				stakeDecreaseData as { initiated: boolean; withdrawAmount: bigint }
 			);
 		}
 		console.log(

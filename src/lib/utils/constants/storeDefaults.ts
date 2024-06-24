@@ -122,11 +122,13 @@ export const DEFAULT_RECEIVER_REWARDS_STORE: ReceiverRewardsStore = {
 export const DEFAULT_KALYPSO_STORE: KalypsoStore = {
 	decreaseStake: {
 		initiated: false,
-		withdrawAmount: 0n
+		withdrawAmount: 0n,
+		endEpochTime: 0
 	},
 	decreaseDeclaredCompute: {
 		initiated: false,
-		compute: 0n
+		compute: 0n,
+		endEpochTime: 0
 	},
 	approvedAmount: 0n,
 	registered: false,

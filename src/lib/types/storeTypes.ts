@@ -120,10 +120,12 @@ export type KalypsoStore = {
 	decreaseStake: {
 		initiated: boolean;
 		withdrawAmount: bigint;
+		endEpochTime: number;
 	};
 	decreaseDeclaredCompute: {
 		initiated: boolean;
 		compute: bigint;
+		endEpochTime: number;
 	};
 	approvedAmount: bigint;
 	registered: boolean;

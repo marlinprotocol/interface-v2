@@ -19,11 +19,13 @@ export function registerInKalypsoStore(
 			registered: true,
 			decreaseDeclaredCompute: {
 				initiated: decreaseComputeData.isDecreaseInitiated,
-				compute: decreaseComputeData.intendedDecrease
+				compute: decreaseComputeData.intendedDecrease,
+				endEpochTime: 0
 			},
 			decreaseStake: {
 				initiated: decreaseStakeData.isDecreaseInitiated,
-				withdrawAmount: decreaseStakeData.intendedDecrease
+				withdrawAmount: decreaseStakeData.intendedDecrease,
+				endEpochTime: 0
 			},
 			stakingDetails: {
 				rewardsAddress: rewardsAddress,
@@ -117,13 +119,14 @@ export function decreaseStakeInKalypsoStore(withdrawAmount: bigint) {
 	});
 }
 
-export function initiateDecreaseStakeInKalypsoStore(withdrawAmount: bigint) {
+export function initiateDecreaseStakeInKalypsoStore(withdrawAmount: bigint, endEpochTime: number) {
 	kalypsoStore.update((state) => {
 		return {
 			...state,
 			decreaseStake: {
 				initiated: true,
-				withdrawAmount: withdrawAmount
+				withdrawAmount: withdrawAmount,
+				endEpochTime: endEpochTime
 			}
 		};
 	});
@@ -157,13 +160,17 @@ export function decreaseDeclaredComputeInKalypsoStore() {
 	});
 }
 
-export function initiateDecreaseDeclaredComputeInKalypsoStore(declaredCompute: bigint) {
+export function initiateDecreaseDeclaredComputeInKalypsoStore(
+	declaredCompute: bigint,
+	endEpochTime: number
+) {
 	kalypsoStore.update((state) => {
 		return {
 			...state,
 			decreaseDeclaredCompute: {
 				initiated: true,
-				compute: declaredCompute
+				compute: declaredCompute,
+				endEpochTime: endEpochTime
 			}
 		};
 	});

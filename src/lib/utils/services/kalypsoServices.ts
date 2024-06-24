@@ -94,10 +94,13 @@ export async function handleAddStakeForKalypso(amount: bigint, generatorAddress:
 	}
 }
 
-export async function handleInitiateDecreaseStakeInKalypso(amountToReduce: bigint) {
+export async function handleInitiateDecreaseStakeInKalypso(
+	amountToReduce: bigint,
+	endEpochTime: number
+) {
 	try {
 		await initiateDecreaseStakeInKalypso(amountToReduce);
-		initiateDecreaseStakeInKalypsoStore(amountToReduce);
+		initiateDecreaseStakeInKalypsoStore(amountToReduce, endEpochTime);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}
@@ -126,10 +129,13 @@ export async function handleIncreaseDeclaredComputeForKalypso(computeToIncrease:
 	}
 }
 
-export async function handleInitiateDecreaseDeclaredComputeInKalypso(computeToReduce: bigint) {
+export async function handleInitiateDecreaseDeclaredComputeInKalypso(
+	computeToReduce: bigint,
+	endEpochTime: number
+) {
 	try {
 		await initiateDecreaseDeclaredComputeInKalypso(computeToReduce);
-		initiateDecreaseDeclaredComputeInKalypsoStore(computeToReduce);
+		initiateDecreaseDeclaredComputeInKalypsoStore(computeToReduce, endEpochTime);
 	} catch (e) {
 		console.log('e :>> ', e);
 	}

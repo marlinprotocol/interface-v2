@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
+	import Timer from '$lib/atoms/timer/Timer.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
@@ -7,7 +8,11 @@
 	import { connected, walletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { POND_PRECISIONS, DEFAULT_CURRENCY_DECIMALS } from '$lib/utils/constants/constants';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
-	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
+	import {
+		bigNumberToString,
+		epochToDurationString,
+		stringToBigNumber
+	} from '$lib/utils/helpers/conversionHelper';
 	import {
 		handleDecreaseStakeInKalypso,
 		handleInitiateDecreaseStakeInKalypso
@@ -18,12 +23,20 @@
 	let withdrawAmountIsValid = true;
 	let withdrawAmountErrorMessage = '';
 	let initiateWithdrawBtnLoading = false;
+	let endEpochTime = 0;
+	let timerHasEnded = false;
 
 	async function handleInitiateWithdrawClick() {
 		initiateWithdrawBtnLoading = true;
 		console.log('Initiating withdraw stake in Kalypso for', withdrawAmount);
+		// setting endEpochTime in the store so that when user navigates to a different tab or page the timer should still remain
+		if ($chainConfigStore.kalypso) {
+			endEpochTime =
+				new Date().getTime() / 1000 +
+				$chainConfigStore.kalypso?.blockMineTime * $chainConfigStore.kalypso?.numberOfBlocksToWait;
+		}
 		try {
-			await handleInitiateDecreaseStakeInKalypso(withdrawAmount);
+			await handleInitiateDecreaseStakeInKalypso(withdrawAmount, endEpochTime);
 			initiateWithdrawBtnLoading = false;
 		} catch (error) {
 			initiateWithdrawBtnLoading = false;
@@ -34,7 +47,10 @@
 		withdrawBtnLoading = true;
 		console.log('Withdrawing stake from Kalypso button clicked');
 		try {
-			await handleDecreaseStakeInKalypso($walletStore.address, withdrawAmount);
+			await handleDecreaseStakeInKalypso(
+				$walletStore.address,
+				$kalypsoStore.decreaseStake.withdrawAmount
+			);
 			withdrawBtnLoading = false;
 			withdrawAmountString = '';
 		} catch (error) {
@@ -76,9 +92,13 @@
 	$: withdrawAmount = isInputAmountValid(withdrawAmountString)
 		? stringToBigNumber(withdrawAmountString, 18)
 		: 0n;
-	$: enableWithdrawBtn = withdrawAmount > 0n && withdrawAmountIsValid && !withdrawBtnLoading;
+	$: enableWithdrawBtn =
+		$kalypsoStore.decreaseStake.withdrawAmount > 0n && !withdrawBtnLoading && timerHasEnded;
 	$: enableInitiateWithdrawBtn =
 		withdrawAmount > 0n && withdrawAmountIsValid && !initiateWithdrawBtnLoading;
+	$: timerHasEnded =
+		$kalypsoStore.decreaseStake.initiated &&
+		$kalypsoStore.decreaseStake.endEpochTime < new Date().getTime() / 1000;
 </script>
 
 {#if $kalypsoStore.decreaseStake.initiated}
@@ -91,14 +111,33 @@
 	>
 		<MaxButton disabled={true} slot="inputMaxButton" />
 	</AmountInputWithMaxButton>
-	<Button
-		onclick={handleWithdrawClick}
-		variant="filled"
-		loading={withdrawBtnLoading}
-		disabled={!enableWithdrawBtn}
-		styleClass="w-full font-normal"
-		size="large">Withdraw</Button
-	>
+	{#if timerHasEnded}
+		<Button
+			onclick={handleWithdrawClick}
+			variant="filled"
+			loading={withdrawBtnLoading}
+			disabled={!enableWithdrawBtn}
+			styleClass="w-full font-normal"
+			size="large">Withdraw</Button
+		>
+	{:else}
+		<Timer
+			timerId="timer-for-withdraw-stake"
+			endEpochTime={$kalypsoStore.decreaseStake.endEpochTime}
+			onTimerEnd={() => (timerHasEnded = true)}
+		>
+			<div slot="active" let:timer class="w-full">
+				<Button
+					variant="filled"
+					loading={false}
+					disabled={true}
+					styleClass="w-full font-normal"
+					size="large"
+					>Please wait {epochToDurationString(timer)}
+				</Button>
+			</div>
+		</Timer>
+	{/if}
 {:else}
 	<AmountInputWithMaxButton
 		currency={$chainConfigStore.tokens.MOCK?.currency}

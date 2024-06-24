@@ -6,6 +6,7 @@
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { kalypsoStore } from '$lib/data-stores/kalypsoStore';
 	import { connected } from '$lib/data-stores/walletProviderStore';
+	import { doNothing } from '$lib/utils/helpers/commonHelper';
 	import {
 		bigNumberToString,
 		epochToDurationString,
@@ -52,16 +53,16 @@
 		}
 	}
 
-	const handleUpdatedAmount = (event: Event) => {
-		const target = event.target as HTMLInputElement;
-		if (target.value) {
-			const isLessThanMaxComputeToDecrease =
-				stringToBigNumber(target.value, 0) <= maxComputeToDecrease;
-			vcpuIsValid = isLessThanMaxComputeToDecrease;
-		} else {
-			vcpuIsValid = true;
+	function getDecreaseComputeError(vcpuString: string) {
+		if (vcpuString === '') {
+			return 'Please enter vCPU(s) quantity';
+		} else if (stringToBigNumber(vcpuString, 0) === 0n) {
+			return 'vCPU quantity must be greater than 0';
+		} else if (stringToBigNumber(vcpuString, 0) > maxComputeToDecrease) {
+			return 'Quantity must be less than or equal to your balance';
 		}
-	};
+		return '';
+	}
 
 	function handleMaxClick() {
 		vcpuString = bigNumberToString(maxComputeToDecrease, 0, 0, false);
@@ -77,13 +78,14 @@
 	$: enableInitiateDecreaseCompute = vcpuIsValid && vcpuBN > 0n && !initiateDecreaseComputeLoading;
 	$: timerHasEnded =
 		$kalypsoStore.decreaseDeclaredCompute.endEpochTime < new Date().getTime() / 1000;
+	$: decreaseComputeError = getDecreaseComputeError(vcpuString);
 </script>
 
 {#if $kalypsoStore.decreaseDeclaredCompute.initiated}
 	<AmountInputWithMaxButton
 		currency="vCPU(s)"
 		inputAmountString={bigNumberToString($kalypsoStore.decreaseDeclaredCompute.compute, 0, 0)}
-		{handleUpdatedAmount}
+		handleUpdatedAmount={doNothing}
 		maxAmountText={balanceText}
 		inputCardVariant="none"
 		onlyInteger={true}
@@ -122,19 +124,25 @@
 	<AmountInputWithMaxButton
 		currency={'vCPU(s)'}
 		bind:inputAmountString={vcpuString}
-		{handleUpdatedAmount}
+		handleUpdatedAmount={doNothing}
 		maxAmountText={balanceText}
 		inputCardVariant="none"
 		onlyInteger={true}
 	>
 		<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
 	</AmountInputWithMaxButton>
-	<Button
-		onclick={handleInitiateDecreaseCompute}
-		variant="filled"
-		styleClass="w-full font-normal"
-		loading={initiateDecreaseComputeLoading}
-		disabled={!enableInitiateDecreaseCompute}
-		size="large">Initiate Decrease Compute</Button
-	>
+	{#if decreaseComputeError !== ''}
+		<Button variant="filled" styleClass="w-full font-normal" disabled={true} size="large"
+			>{decreaseComputeError}</Button
+		>
+	{:else}
+		<Button
+			onclick={handleInitiateDecreaseCompute}
+			variant="filled"
+			styleClass="w-full font-normal"
+			loading={initiateDecreaseComputeLoading}
+			disabled={!enableInitiateDecreaseCompute}
+			size="large">Initiate Decrease Compute</Button
+		>
+	{/if}
 {/if}

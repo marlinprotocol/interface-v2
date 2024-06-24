@@ -74,15 +74,21 @@
 		const target = event.target as HTMLInputElement;
 		if (target.value) {
 			const isAmount = isInputAmountValid(target.value);
-			const isLessThanWalletBalance =
-				stringToBigNumber(target.value, 18) < $walletBalanceStore.pond;
-			withdrawAmountErrorMessage = inputAmountInValidMessage(target.value);
-			withdrawAmountIsValid =
-				isAmount && isLessThanWalletBalance && withdrawAmountErrorMessage === '';
+			withdrawAmountIsValid = isAmount;
 		} else {
 			withdrawAmountIsValid = true;
 		}
 	};
+
+	function getWithdrawAmountErrorMessage(amountString: string) {
+		if (!isInputAmountValid(amountString)) {
+			return inputAmountInValidMessage(amountString);
+		}
+		if (stringToBigNumber(amountString, 18) > $kalypsoStore.stakingDetails.stakedAmount) {
+			return 'Amount exceeds staked amount';
+		}
+		return '';
+	}
 
 	$: balanceText = `Staked Amount: ${bigNumberToString(
 		$kalypsoStore.stakingDetails.stakedAmount,
@@ -95,10 +101,14 @@
 	$: enableWithdrawBtn =
 		$kalypsoStore.decreaseStake.withdrawAmount > 0n && !withdrawBtnLoading && timerHasEnded;
 	$: enableInitiateWithdrawBtn =
-		withdrawAmount > 0n && withdrawAmountIsValid && !initiateWithdrawBtnLoading;
+		withdrawAmount > 0n &&
+		withdrawAmount <= $kalypsoStore.stakingDetails.stakedAmount &&
+		withdrawAmountIsValid &&
+		!initiateWithdrawBtnLoading;
 	$: timerHasEnded =
 		$kalypsoStore.decreaseStake.initiated &&
 		$kalypsoStore.decreaseStake.endEpochTime < new Date().getTime() / 1000;
+	$: withdrawAmountErrorMessage = getWithdrawAmountErrorMessage(withdrawAmountString);
 </script>
 
 {#if $kalypsoStore.decreaseStake.initiated}
@@ -148,12 +158,18 @@
 	>
 		<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
 	</AmountInputWithMaxButton>
-	<Button
-		onclick={handleInitiateWithdrawClick}
-		variant="filled"
-		loading={initiateWithdrawBtnLoading}
-		disabled={!enableInitiateWithdrawBtn}
-		styleClass="w-full font-normal"
-		size="large">Initiate Withdraw</Button
-	>
+	{#if withdrawAmountErrorMessage !== ''}
+		<Button variant="filled" disabled={true} styleClass="w-full font-normal" size="large"
+			>{withdrawAmountErrorMessage}</Button
+		>
+	{:else}
+		<Button
+			onclick={handleInitiateWithdrawClick}
+			variant="filled"
+			loading={initiateWithdrawBtnLoading}
+			disabled={!enableInitiateWithdrawBtn}
+			styleClass="w-full font-normal"
+			size="large">Initiate Withdraw</Button
+		>
+	{/if}
 {/if}

@@ -1,28 +1,14 @@
 <script lang="ts">
-	import Button from '$lib/atoms/buttons/Button.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import AmountInputWithTitle from '$lib/components/inputs/AmountInputWithTitle.svelte';
 	import TextInputWithEndButton from '$lib/components/inputs/TextInputWithEndButton.svelte';
 	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import { kalypsoStore } from '$lib/data-stores/kalypsoStore';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
-	import { closeModal, removeTrailingZeros } from '$lib/utils/helpers/commonHelper';
+	import { removeTrailingZeros } from '$lib/utils/helpers/commonHelper';
 	import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
-	import { handleUnregisterInKalypso } from '$lib/utils/services/kalypsoServices';
+	import KalypsoUnregisterModal from './modals/KalypsoUnregisterModal.svelte';
 	import UpdateRewardAddModal from './modals/UpdateRewardAddModal.svelte';
-
-	let unregisterLoading = false;
-
-	async function handleUnregisterClick() {
-		unregisterLoading = true;
-		try {
-			await handleUnregisterInKalypso($walletStore.address);
-			unregisterLoading = false;
-			closeModal('kalypso-register-modal');
-		} catch (error) {
-			unregisterLoading = false;
-		}
-	}
 </script>
 
 <div class="flex w-full flex-col gap-4">
@@ -71,15 +57,14 @@
 			>
 				Update
 			</ModalButton>
-			<Button
-				onclick={handleUnregisterClick}
-				loading={unregisterLoading}
-				disabled={unregisterLoading}
-				variant="filled"
-				styleClass="font-normal flex-nowrap w-32"
-				size="large">Unregister</Button
+			<ModalButton
+				modalFor="unregister-kalypso-modal"
+				variant="outlined"
+				styleClass="font-normal w-32"
+				size="large">Unregister</ModalButton
 			>
 		</div>
 	</div>
 </div>
 <UpdateRewardAddModal />
+<KalypsoUnregisterModal />

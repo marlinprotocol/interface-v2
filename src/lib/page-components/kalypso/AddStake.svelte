@@ -51,10 +51,7 @@
 		const target = event.target as HTMLInputElement;
 		if (target.value) {
 			const isAmount = isInputAmountValid(target.value);
-			const isLessThanWalletBalance =
-				stringToBigNumber(target.value, 18) < $walletBalanceStore.pond;
-			stakeAmountErrorMessage = inputAmountInValidMessage(target.value);
-			stakeAmountIsValid = isAmount && isLessThanWalletBalance && stakeAmountErrorMessage === '';
+			stakeAmountIsValid = isAmount;
 		} else {
 			stakeAmountIsValid = true;
 		}
@@ -67,6 +64,17 @@
 		}
 	}
 
+	function getStakeAmountErrorMessage(amount: string) {
+		if (!amount) {
+			return 'Please enter an amount';
+		} else if (!stakeAmountIsValid) {
+			return inputAmountInValidMessage(amount);
+		} else if (stakeAmount > $walletBalanceStore.mock) {
+			return 'Insufficient wallet balance';
+		}
+		return '';
+	}
+
 	$: balanceText = `Wallet Balance: ${bigNumberToString(
 		$walletBalanceStore.mock,
 		DEFAULT_CURRENCY_DECIMALS,
@@ -76,15 +84,18 @@
 		? stringToBigNumber(stakeAmountString, 18)
 		: 0n;
 	$: enableApproveBtn =
+		stakeAmount <= $walletBalanceStore.mock &&
 		stakeAmount > $kalypsoStore.approvedAmount &&
 		stakeAmountIsValid &&
 		stakeAmount !== 0n &&
 		!approveLoading;
 	$: enableAddButton =
+		stakeAmount <= $walletBalanceStore.mock &&
 		stakeAmount <= $kalypsoStore.approvedAmount &&
 		stakeAmountIsValid &&
 		stakeAmount !== 0n &&
 		!addButttonLoading;
+	$: stakeAmountErrorMessage = getStakeAmountErrorMessage(stakeAmountString);
 </script>
 
 <AmountInputWithMaxButton
@@ -100,6 +111,10 @@
 {#if $kalypsoStore.decreaseStake.initiated}
 	<Button variant="filled" styleClass="w-full font-normal" size="large" disabled={true}
 		>Stake withdraw is in progress..</Button
+	>
+{:else if stakeAmountErrorMessage !== ''}
+	<Button variant="filled" styleClass="w-full font-normal" size="large" disabled={true}
+		>{stakeAmountErrorMessage}</Button
 	>
 {:else if stakeAmount > $kalypsoStore.approvedAmount}
 	<Button

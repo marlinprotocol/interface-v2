@@ -6,6 +6,7 @@ exports[`AmountInputWithTitle > render's the component properly 1`] = `
     <div
       class="w-full bg-white px-4 py-2.5 rounded-[100px] border border-[#D9DADE]"
       data-testid="input-card"
+      id=""
     >
       <div
         class="relative flex flex-1 flex-col"

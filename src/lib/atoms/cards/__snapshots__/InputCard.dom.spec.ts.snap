@@ -6,6 +6,7 @@ exports[`InputCard component > applies the correct classes for primary variant 1
     <div
       class="w-full bg-white px-6 py-[30px] rounded-3xl border border-[#D9DADE]"
       data-testid="input-card"
+      id=""
     />
     <!--&lt;InputCard&gt;-->
   </div>

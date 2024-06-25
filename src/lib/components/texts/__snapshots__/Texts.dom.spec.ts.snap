@@ -82,6 +82,7 @@ exports[`Text > renders TextInputCard with default props 1`] = `
     <div
       class="w-full relative border border-[#D9DADE] bg-white py-2.5 px-4 rounded-full"
       data-testid="input-card"
+      id=""
     >
       <div
         class="mb-1 flex items-center gap-1"

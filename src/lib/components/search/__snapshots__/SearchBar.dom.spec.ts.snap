@@ -6,6 +6,7 @@ exports[`SearchBar > render's the component properly 1`] = `
     <div
       class="w-full bg-white px-4 py-2.5 rounded-[100px] relative flex gap-4 items-center border border-[#D9DADE]"
       data-testid="input-card"
+      id=""
     >
        
       <img

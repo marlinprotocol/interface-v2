@@ -49,7 +49,7 @@
 		const isDecreaseInitiated = intendedUtilization !== defaultUtilization;
 		// this is def a bug
 		const intendedDecrease = isDecreaseInitiated
-			? currentAmount - defaultUtilization / (defaultUtilization - intendedUtilization)
+			? ((defaultUtilization - intendedUtilization) * currentAmount) / defaultUtilization
 			: 0n;
 		return decreaseParam === 'stake'
 			? { initiated: isDecreaseInitiated, withdrawAmount: intendedDecrease }
@@ -94,6 +94,13 @@
 			DEFAULT_KALYPSO_COMPUTE_UTILIZATION,
 			'compute'
 		);
+		console.log({
+			intendedStakeUtilization,
+			stakedAmount,
+			intendedComputeUtilization,
+			declaredCompute
+		});
+		console.log({ stakeDecreaseData, computeDecreaseData });
 
 		if (isRegistered) {
 			registerInKalypsoStore(

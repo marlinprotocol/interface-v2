@@ -1,4 +1,3 @@
-import { checkIfSignerExistsInSubgraph } from '$lib/controllers/subgraphController';
 import { shortenText } from '$lib/utils/helpers/conversionHelper';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';

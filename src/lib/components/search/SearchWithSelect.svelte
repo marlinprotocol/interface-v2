@@ -53,7 +53,11 @@
 		</p>
 	{/if}
 
-	<InputCard styleClass="{styleClass} border border-[#D9DADE]" variant={cardVariant}>
+	<InputCard
+		id={title.toLocaleLowerCase()}
+		styleClass="{styleClass} border border-[#D9DADE]"
+		variant={cardVariant}
+	>
 		<div class="search-container">
 			{#if showTitle}
 				<div class="flex items-center justify-between">

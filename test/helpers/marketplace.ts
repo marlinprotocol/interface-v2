@@ -70,3 +70,11 @@ export async function extractRegionColumnData(page: Page) {
 		});
 	});
 }
+
+export const marketplaceSearch = async (page: Page) => {
+	await page.waitForTimeout(1000);
+	await page.locator('#select-instance').getByTestId('collapse-button').click();
+	await page.getByText('c6in.xlarge').click();
+	await page.getByRole('button', { name: 'Apply' }).click();
+	await page.waitForTimeout(2000);
+};

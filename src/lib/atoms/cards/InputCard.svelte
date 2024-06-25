@@ -5,10 +5,11 @@
 
 	export let styleClass = '';
 	export let variant: InputCardVariant | undefined = 'primary';
+	export let id = '';
 
 	$: variantClass = getInputCardVariant(variant);
 </script>
 
-<div data-testid="input-card" class={cn('w-full rounded-lg', variantClass, styleClass)}>
+<div {id} data-testid="input-card" class={cn('w-full rounded-lg', variantClass, styleClass)}>
 	<slot />
 </div>

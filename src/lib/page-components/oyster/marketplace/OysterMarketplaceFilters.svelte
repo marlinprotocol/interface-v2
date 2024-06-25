@@ -133,6 +133,7 @@
 			isTableFilter={true}
 		/>
 		<Button
+			id="apply-medium"
 			variant="outlined"
 			size="medium"
 			styleClass="w-[140px] h-auto font-normal font-poppins"

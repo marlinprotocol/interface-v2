@@ -1,3 +1,5 @@
+import { removeTrailingZeros } from '../helpers/commonHelper';
+
 export const MESSAGES = {
 	TOAST: {
 		TRANSACTION: {
@@ -409,13 +411,28 @@ export const MESSAGES = {
 				UPDATED_REWARDS: (value: string | number) => `Updated ticket reward to ${value} POND.`
 			}
 		}
-	},
+	}
+};
 
-	FORM: {
-		VALIDATION: {
-			ADDRESS: 'Please enter a valid address.',
-			ADDRESS_SAME: 'Please enter a different address from your current signer address.',
-			SIGNER_EXISTS: 'Signer address already in use.'
-		}
+export const TOKEN_TXN_MESSAGES = {
+	INITIATING: {
+		title: 'Approval initiated',
+		message: (value: string, currency: string) =>
+			`Initiating approval for ${removeTrailingZeros(value)} ${currency}.`
+	},
+	APPROVING: {
+		title: 'Approval in progress',
+		message: (value: string, currency: string) =>
+			`Approving ${removeTrailingZeros(value)} ${currency}.`
+	},
+	APPROVED: {
+		title: 'Approved',
+		message: (value: string, currency: string) =>
+			`Approved ${removeTrailingZeros(value)} ${currency}.`
+	},
+	FAILED: {
+		title: 'Approval failed',
+		message: (value: string, currency: string) =>
+			`Failed to approve ${removeTrailingZeros(value)} ${currency}`
 	}
 };

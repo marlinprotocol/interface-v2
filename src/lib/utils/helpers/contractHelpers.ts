@@ -1,5 +1,5 @@
 import type { Address } from '@web3-onboard/core/dist/types';
-import { MESSAGES } from '$lib/utils/constants/messages';
+import { COMMON_TXN_MESSAGES } from '$lib/utils/constants/messages';
 import type { WalletStore } from '$lib/types/storeTypes';
 import { addToast } from '$lib/data-stores/toastStore';
 import { capitalizeFirstLetter } from '$lib/utils/helpers/commonHelper';
@@ -18,18 +18,19 @@ export function createSignerContract(contractAddress: Address, contractAbi: any)
 
 export async function createTransaction(
 	contractFunctionCall: () => Promise<any>,
-	initiateTxnMessage: string,
-	successTxnMessage: string,
-	errorTxnMessage: string,
 	parentFunctionName: string,
-	titles?: { initiateTxnTitle?: string; successTxnTitle?: string; failedTxnTitle?: string },
-	config?: { disableToastDescription: boolean }
+	messages?: {
+		initiate: { title: string; message: string };
+		created: { title: string; message: string };
+		success: { title: string; message: string };
+		failed: { title: string; message: string };
+	}
 ) {
 	try {
 		addToast({
 			message: {
-				description: initiateTxnMessage,
-				title: titles?.initiateTxnTitle || ''
+				title: messages?.initiate.title || COMMON_TXN_MESSAGES.INITIATED.title,
+				description: messages?.initiate.message || COMMON_TXN_MESSAGES.INITIATED.message
 			},
 			variant: 'warning'
 		});
@@ -38,8 +39,8 @@ export async function createTransaction(
 
 		addToast({
 			message: {
-				title: titles?.initiateTxnTitle || '',
-				description: !config?.disableToastDescription ? MESSAGES.TOAST.TRANSACTION.CREATED : ''
+				title: messages?.created.title || COMMON_TXN_MESSAGES.CREATED.title,
+				description: messages?.created.message || COMMON_TXN_MESSAGES.CREATED.message
 			},
 			variant: 'warning'
 		});
@@ -51,40 +52,40 @@ export async function createTransaction(
 		if (!approveReciept) {
 			addToast({
 				message: {
-					description: !config?.disableToastDescription ? MESSAGES.TOAST.TRANSACTION.FAILED : '',
-					title: titles?.failedTxnTitle || ''
+					title: messages?.failed.title || COMMON_TXN_MESSAGES.FAILED.title,
+					description: messages?.failed.message || COMMON_TXN_MESSAGES.FAILED.message
 				},
 				variant: 'error'
 			});
-			throw new Error(errorTxnMessage);
+			throw new Error(messages?.failed.message || COMMON_TXN_MESSAGES.FAILED.message);
 		}
 
 		// if the transaction is mined, show a toast with success message and return the txn
 		addToast({
 			message: {
-				title: titles?.successTxnTitle || '',
-				description: successTxnMessage
-					? MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + successTxnMessage
-					: ''
+				title: messages?.success.title || COMMON_TXN_MESSAGES.SUCCESS.title,
+				description: messages?.success.message
+					? COMMON_TXN_MESSAGES.SUCCESS.message + ' ' + messages.success.message
+					: COMMON_TXN_MESSAGES.SUCCESS.message
 			},
 			variant: 'success'
 		});
 		return { txn: txn, approveReciept: approveReciept };
 	} catch (error: any) {
+		let title = '';
 		let description = error.reason
 			? capitalizeFirstLetter(error.reason)
-			: MESSAGES.TOAST.TRANSACTION.FAILED;
-		let title = '';
+			: COMMON_TXN_MESSAGES.FAILED.message;
 
 		if (error.shortMessage === 'user rejected action') {
-			description = 'Transaction rejected by the user';
 			title = 'Transaction Rejected';
+			description = 'Transaction rejected by the user';
 		}
 
 		addToast({
 			message: {
-				description,
-				title: titles?.failedTxnTitle || title
+				title: messages?.failed.title || title,
+				description
 			},
 			variant: 'error'
 		});

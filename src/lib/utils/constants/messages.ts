@@ -414,6 +414,25 @@ export const MESSAGES = {
 	}
 };
 
+export const COMMON_TXN_MESSAGES = {
+	INITIATED: {
+		title: 'Initiating transaction',
+		message: 'Transaction initiated, waiting for it to be created.'
+	},
+	CREATED: {
+		title: 'Transaction created',
+		message: 'Transaction created, waiting for it to be mined.'
+	},
+	SUCCESS: {
+		title: 'Transaction successful',
+		message: 'Transaction was successfully mined!'
+	},
+	FAILED: {
+		title: 'Transaction failed',
+		message: 'Uh-Oh, transaction was not successful!'
+	}
+};
+
 export const TOKEN_TXN_MESSAGES = {
 	INITIATING: {
 		title: 'Approval initiated',

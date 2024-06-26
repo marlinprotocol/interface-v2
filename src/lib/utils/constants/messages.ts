@@ -456,6 +456,173 @@ export const TOKEN_TXN_MESSAGES = {
 	}
 };
 
+export const KALYPSO_TXN_MESSAGES = {
+	UNREGISTER_KALYPSO: {
+		INITIATED: {
+			title: 'Unregistration initiated',
+			message: 'Initiating unregistration from Kalypso'
+		},
+		CREATED: {
+			title: 'Unregister in progress',
+			message: 'Unregistering you from Kalypso'
+		},
+		SUCCESS: {
+			title: 'Successfully unregistered',
+			message: 'Successfully unregistered from Kalypso'
+		},
+		FAILED: {
+			title: 'Failed to unregister',
+			message: 'Failed to unregister you from Kalypso'
+		}
+	},
+	REGISTER_KALYPSO: {
+		INITIATED: {
+			title: 'Register initiated',
+			message: 'Initiating registration in Kalypso'
+		},
+		CREATED: {
+			title: 'Registering in progress',
+			message: 'Registering you in Kalypso'
+		},
+		SUCCESS: {
+			title: 'Successfully registered',
+			message: 'Successfully registered in Kalypso!'
+		},
+		FAILED: {
+			title: 'Failed to register',
+			message: 'Failed to register you in Kalypso'
+		}
+	},
+	UPDATE_KALYPSO: {
+		INITIATED: {
+			title: 'Update initiated',
+			message: 'Initiating update of reward address in Kalypso'
+		},
+		CREATED: {
+			title: 'Update in progress',
+			message: 'Updating your reward address in Kalypso'
+		},
+		SUCCESS: {
+			title: 'Successfully updated',
+			message: 'Successfully updated reward address in Kalypso'
+		},
+		FAILED: {
+			title: 'Failed to update',
+			message: 'Failed to update reward address in Kalypso'
+		}
+	},
+	INCREASE_STAKE_KALYPSO: {
+		INITIATED: {
+			title: 'Increase stake initiated',
+			message: (value: string) =>
+				`Initiating increase stake by ${removeTrailingZeros(value)} in Kalypso`
+		},
+		CREATED: {
+			title: 'Stake increase in progress',
+			message: (value: string) => `Increasing stake by ${removeTrailingZeros(value)} in Kalypso`
+		},
+		SUCCESS: {
+			title: 'Successfully increased stake',
+			message: (value: string) =>
+				`Successfully added ${removeTrailingZeros(value)} stake in Kalypso`
+		},
+		FAILED: {
+			title: 'Failed stake increase',
+			message: 'Failed to increase stake in Kalypso'
+		}
+	},
+	DECREASE_STAKE_KALYPSO: {
+		INITIATED: {
+			title: 'Decrease stake initiated',
+			message: (value: string) => `Initiating decrease stake by ${value} in Kalypso`
+		},
+		CREATED: {
+			title: 'Stake decrease in progress',
+			message: (value: string) => `Withdrawing ${value} stake from Kalypso`
+		},
+		SUCCESS: {
+			title: 'Successfully decreased stake',
+			message: (value: string) => `Successfully withdrew ${value} stake from Kalypso`
+		},
+		FAILED: {
+			title: 'Failed stake decrease',
+			message: 'Failed to decrease stake from Kalypso'
+		}
+	},
+	INITIATE_DECREASE_STAKE_KALYPSO: {
+		INITIATED: {
+			title: 'Initiating stake decrease',
+			message: 'Initiating decrease stake in Kalypso'
+		},
+		CREATED: {
+			title: 'Stake decrease initiation in progress',
+			message: 'Requesting stake decrease in Kalypso'
+		},
+		SUCCESS: {
+			title: 'Successfully initiated',
+			message: 'Successfully initiated stake decrease in Kalypso'
+		},
+		FAILED: {
+			title: 'Failed to initiate',
+			message: 'Failed to initiate stake decrease in Kalypso'
+		}
+	},
+	INCREASE_DECLARED_COMPUTE_KALYPSO: {
+		INITIATED: {
+			title: 'Increase declared compute initiated',
+			message: 'Initiating declared compute increase in Kalypso'
+		},
+		CREATED: {
+			title: 'Declared compute increase in progress',
+			message: 'Increasing your declared compute in Kalypso'
+		},
+		SUCCESS: {
+			title: 'Successfully increased declared compute',
+			message: 'Successfully increased declared compute in Kalypso'
+		},
+		FAILED: {
+			title: 'Failed declared compute increase',
+			message: 'Failed to increase declared compute in Kalypso'
+		}
+	},
+	INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO: {
+		INITIATED: {
+			title: 'Initiating declared compute decrease',
+			message: 'Initiating intend to decrease declared compute in Kalypso'
+		},
+		CREATED: {
+			title: 'Declared compute decrease initiate in progress',
+			message: 'Requesting to initiate decrease declared compute in Kalypso'
+		},
+		SUCCESS: {
+			title: 'Successfully initiated',
+			message: 'Successfully initiated decrease declared compute in Kalypso'
+		},
+		FAILED: {
+			title: 'Failed to initiate',
+			message: 'Failed to initiate declared compute decrease in Kalypso'
+		}
+	},
+	DECREASE_DECLARED_COMPUTE_KALYPSO: {
+		INITIATED: {
+			title: 'Declared compute decrease initiated',
+			message: 'Initiating decrease declared compute in Kalypso'
+		},
+		CREATED: {
+			title: 'Decreasing declared compute',
+			message: 'Decreasing declared compute in Kalypso'
+		},
+		SUCCESS: {
+			title: 'Successfully decreased declared compute',
+			message: 'Successfully decreased declared compute in Kalypso'
+		},
+		FAILED: {
+			title: 'Failed declared compute decrease',
+			message: 'Failed to decrease declared compute in Kalypso'
+		}
+	}
+};
+
 export const BRIDGE_TXN_MESSAGES = {
 	CONVERT: {
 		POND_TO_MPOND: {

@@ -455,3 +455,84 @@ export const TOKEN_TXN_MESSAGES = {
 			`Failed to approve ${removeTrailingZeros(value)} ${currency}`
 	}
 };
+
+export const BRIDGE_TXN_MESSAGES = {
+	CONVERT: {
+		POND_TO_MPOND: {
+			INITIATING: {
+				title: 'Conversion initiated',
+				message: (value: string) =>
+					`Initiating conversion of POND to ${removeTrailingZeros(value)} MPond.`
+			},
+			CREATED: {
+				title: 'Conversion in progress',
+				message: (value: string) => `Converting to ${removeTrailingZeros(value)} MPond.`
+			},
+			SUCCESS: {
+				title: 'Conversion successful',
+				message: (value: string) => `Converted to ${removeTrailingZeros(value)} MPond.`
+			},
+			FAILED: {
+				title: 'Conversion failed',
+				message: 'Unable to convert POND to MPond'
+			}
+		},
+		MPOND_TO_POND: {
+			INITIATE: {
+				title: 'Conversion initiated',
+				message: (value: string) =>
+					`Initiating conversion of ${removeTrailingZeros(value)} MPond to POND.`
+			},
+			CREATED: {
+				title: 'Conversion in progress',
+				message: (value: string) => `Converting ${removeTrailingZeros(value)} MPond to POND.`
+			},
+			SUCCESS: {
+				title: 'Conversion successful',
+				message: (value: string) => `Converted ${removeTrailingZeros(value)} MPond to POND.`
+			},
+			FAILED: {
+				title: 'Conversion failed',
+				message: 'Unable to convert MPond to POND'
+			}
+		}
+	},
+	REQUEST: {
+		INITIATE: {
+			title: 'Initiating request',
+			message: (value: string | number) =>
+				`Initiating request for ${value} MPond to be converted to POND.`
+		},
+		CREATED: {
+			title: 'Requesting conversion',
+			message: (value: string | number) => `Requesting ${value} MPond to be converted to POND.`
+		},
+		SUCCESS: {
+			title: 'Conversion request successful',
+			message: (value: string | number) => `Requested ${value} MPond to be converted to POND.`
+		},
+		FAILED: {
+			title: 'Conversion request failed',
+			message: 'MPond conversion request has failed.'
+		}
+	},
+	CANCEL: {
+		INITIATE: {
+			title: 'Initiating cancellation',
+			message: 'Initiating cancellation of request for conversion of MPond to POND.'
+		},
+
+		CREATED: {
+			title: 'Cancelling request',
+			message: 'Cancelling request for conversion of MPond to POND.'
+		},
+		SUCCESS: {
+			title: 'Request cancelled',
+			message: 'Cancelled request for conversion of MPond to POND.'
+		},
+		FAILED: {
+			title: 'Cancellation failed',
+			message: 'Unable to cancel request for converting MPond to POND.'
+		}
+	}
+};

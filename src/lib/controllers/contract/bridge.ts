@@ -2,7 +2,7 @@ import { DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS } from '$lib/utils/constant
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
 import { BRIDGE_ABI } from '$lib/utils/abis/bridge';
 import type { Address, ContractAddress } from '$lib/types/storeTypes';
-import { MESSAGES } from '$lib/utils/constants/messages';
+import { BRIDGE_TXN_MESSAGES } from '$lib/utils/constants/messages';
 import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 import { contractAddressStore } from '$lib/data-stores/contractStore';
 import { addToast } from '$lib/data-stores/toastStore';
@@ -39,29 +39,34 @@ export async function getRequestedMPondForConversion(
 export async function convertPondToMPond(expectedMPond: bigint) {
 	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, BRIDGE_ABI);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.CONVERT.POND_TO_MPOND_CONVERTING(
-			bigNumberToString(expectedMPond, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)
-		);
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.CONVERT.POND_TO_MPOND_CONVERTED(
-			bigNumberToString(expectedMPond, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)
-		);
-		const errorTxnMessage = 'Unable to convert POND to MPond';
 		const parentFunctionName = 'convertPondToMPond';
-		const initiateTxnTitle = MESSAGES.TOAST.CONVERSION.CREATED;
-		const successTxnTitle = MESSAGES.TOAST.CONVERSION.SUCCESS;
-		const failedTxnTitle = MESSAGES.TOAST.CONVERSION.FAILED;
-		const titles = {
-			initiateTxnTitle,
-			successTxnTitle,
-			failedTxnTitle
+		const amountInString = bigNumberToString(
+			expectedMPond,
+			DEFAULT_CURRENCY_DECIMALS,
+			MPOND_PRECISIONS
+		);
+		const messages = {
+			initiate: {
+				title: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.INITIATING.title,
+				message: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.INITIATING.message(amountInString)
+			},
+			created: {
+				title: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.CREATED.title,
+				message: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.CREATED.message(amountInString)
+			},
+			success: {
+				title: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.SUCCESS.title,
+				message: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.SUCCESS.message(amountInString)
+			},
+			failed: {
+				title: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.FAILED.title,
+				message: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.FAILED.message
+			}
 		};
 		const { txn } = await createTransaction(
 			() => bridgeContract.getMpond(expectedMPond),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles
+			messages
 		);
 		return txn;
 	} catch (error: any) {
@@ -72,29 +77,30 @@ export async function convertPondToMPond(expectedMPond: bigint) {
 export async function requestMPondConversion(amount: bigint) {
 	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, BRIDGE_ABI);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_REQUESTING(
-			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)
-		);
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_REQUESTED(
-			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)
-		);
-		const errorTxnMessage = 'Unable to place request for converting MPond to POND.';
 		const parentFunctionName = 'requestMPondConversion';
-		const initiateTxnTitle = MESSAGES.TOAST.CONVERSION.CREATED;
-		const successTxnTitle = MESSAGES.TOAST.CONVERSION.SUCCESS;
-		const failedTxnTitle = MESSAGES.TOAST.CONVERSION.FAILED;
-		const titles = {
-			initiateTxnTitle,
-			successTxnTitle,
-			failedTxnTitle
+		const amountInString = bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS);
+		const messages = {
+			initiate: {
+				title: BRIDGE_TXN_MESSAGES.REQUEST.INITIATE.title,
+				message: BRIDGE_TXN_MESSAGES.REQUEST.INITIATE.message(amountInString)
+			},
+			created: {
+				title: BRIDGE_TXN_MESSAGES.REQUEST.CREATED.title,
+				message: BRIDGE_TXN_MESSAGES.REQUEST.CREATED.message(amountInString)
+			},
+			success: {
+				title: BRIDGE_TXN_MESSAGES.REQUEST.SUCCESS.title,
+				message: BRIDGE_TXN_MESSAGES.REQUEST.SUCCESS.message(amountInString)
+			},
+			failed: {
+				title: BRIDGE_TXN_MESSAGES.REQUEST.FAILED.title,
+				message: BRIDGE_TXN_MESSAGES.REQUEST.FAILED.message
+			}
 		};
 		const { txn } = await createTransaction(
 			() => bridgeContract.placeRequest(amount),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles
+			messages
 		);
 		return txn;
 	} catch (error: any) {
@@ -105,25 +111,29 @@ export async function requestMPondConversion(amount: bigint) {
 export async function cancelMPondConversionRequest(epoch: bigint) {
 	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, BRIDGE_ABI);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_CANCELLING;
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.REQUEST.MPOND_TO_POND_CANCELLED;
-		const errorTxnMessage = 'Unable to cancel request for converting MPond to POND.';
 		const parentFunctionName = 'cancelMPondConversionRequest';
-		const initiateTxnTitle = MESSAGES.TOAST.CANCEL_CONVERSION.CREATED;
-		const successTxnTitle = MESSAGES.TOAST.CANCEL_CONVERSION.SUCCESS;
-		const failedTxnTitle = MESSAGES.TOAST.CANCEL_CONVERSION.FAILED;
-		const titles = {
-			initiateTxnTitle,
-			successTxnTitle,
-			failedTxnTitle
+		const messages = {
+			initiate: {
+				title: BRIDGE_TXN_MESSAGES.CANCEL.INITIATE.title,
+				message: BRIDGE_TXN_MESSAGES.CANCEL.INITIATE.message
+			},
+			created: {
+				title: BRIDGE_TXN_MESSAGES.CANCEL.CREATED.title,
+				message: BRIDGE_TXN_MESSAGES.CANCEL.CREATED.message
+			},
+			success: {
+				title: BRIDGE_TXN_MESSAGES.CANCEL.SUCCESS.title,
+				message: BRIDGE_TXN_MESSAGES.CANCEL.SUCCESS.message
+			},
+			failed: {
+				title: BRIDGE_TXN_MESSAGES.CANCEL.FAILED.title,
+				message: BRIDGE_TXN_MESSAGES.CANCEL.FAILED.message
+			}
 		};
 		const { txn } = await createTransaction(
 			() => bridgeContract.cancelRequest(epoch),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles
+			messages
 		);
 		return txn;
 	} catch (error: any) {
@@ -134,29 +144,30 @@ export async function cancelMPondConversionRequest(epoch: bigint) {
 export async function confirmMPondConversion(epoch: bigint, amount: bigint) {
 	const bridgeContract = createSignerContract(contractAddresses.BRIDGE, BRIDGE_ABI);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.CONVERT.MPOND_TO_POND_CONVERTING(
-			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)
-		);
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.CONVERT.MPOND_TO_POND_CONVERTED(
-			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS)
-		);
-		const errorTxnMessage = 'Unable to convert MPond to POND.';
 		const parentFunctionName = 'confirmMPondConversion';
-		const initiateTxnTitle = MESSAGES.TOAST.CONVERSION.CREATED;
-		const successTxnTitle = MESSAGES.TOAST.CONVERSION.SUCCESS;
-		const failedTxnTitle = MESSAGES.TOAST.CONVERSION.FAILED;
-		const titles = {
-			initiateTxnTitle,
-			successTxnTitle,
-			failedTxnTitle
+		const amountInString = bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS);
+		const messages = {
+			initiate: {
+				title: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.INITIATE.title,
+				message: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.INITIATE.message(amountInString)
+			},
+			created: {
+				title: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.CREATED.title,
+				message: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.INITIATE.message(amountInString)
+			},
+			success: {
+				title: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.SUCCESS.title,
+				message: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.INITIATE.message(amountInString)
+			},
+			failed: {
+				title: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.FAILED.title,
+				message: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.FAILED.message
+			}
 		};
 		const { txn } = await createTransaction(
 			() => bridgeContract.convert(epoch, amount),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles
+			messages
 		);
 		return txn;
 	} catch (error: any) {

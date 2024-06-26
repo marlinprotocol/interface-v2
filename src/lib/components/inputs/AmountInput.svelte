@@ -38,6 +38,6 @@
 	on:keydown={validateInput}
 	on:keyup={validateInput}
 	class="hideInputNumberAppearance {styleClass}"
-	placeholder={onlyInteger ? '0' : placeholder !== '' ? placeholder : '0.00'}
+	placeholder={placeholder !== '' ? placeholder : onlyInteger ? '0' : '0.00'}
 	autocomplete="off"
 />

@@ -57,6 +57,7 @@
 				{/if}
 			</div>
 		{:else}
+			<!-- this is added so that when balance is not being shown the height of the component remains consistent with the one that shows balance -->
 			<div aria-disabled="true" class="h-[22px]"></div>
 		{/if}
 	</form>

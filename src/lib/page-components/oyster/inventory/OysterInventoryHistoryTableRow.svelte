@@ -110,7 +110,7 @@
 </td>
 <td class={cn(tableClasses.cell, 'flex h-[64px] items-center justify-center')}>
 	<div
-		class="w-[142px] rounded-full px-[31.5px] py-[10.5px] text-center text-sm capitalize text-[#030115]"
+		class="w-[142px] rounded-full px-[31.5px] py-[10.5px] text-center text-sm capitalize text-grey-800"
 		style="background-color: {statusColor}"
 	>
 		{status}

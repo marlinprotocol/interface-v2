@@ -20,7 +20,7 @@
 		}
 
 		const htmlElement = document.documentElement;
-		htmlElement.setAttribute('data-theme', 'v2Theme');
+		htmlElement.setAttribute('data-theme', 'light');
 	});
 </script>
 

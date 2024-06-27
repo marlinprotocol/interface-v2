@@ -15,7 +15,7 @@
 
 	const onFocusStyle = 'left-[12px] leading-[1px] top-[-20px] font-normal';
 	const titleStyleInit =
-		'absolute cursor-text bg-white font-poppins text-sm text-[#030115] transition-all';
+		'absolute cursor-text bg-white font-poppins text-sm text-grey-800 transition-all';
 
 	let titleStyle = onFocusStyle;
 
@@ -32,7 +32,7 @@
 	</div>
 	<div class="mt-1 flex items-center">
 		{#if !!prefix.length}
-			<Text text={prefix} styleClass="text-sm text-[#030115]" />
+			<Text text={prefix} styleClass="text-sm text-grey-800" />
 		{/if}
 
 		<AmountInput

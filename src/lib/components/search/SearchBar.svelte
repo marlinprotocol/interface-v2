@@ -18,7 +18,7 @@
 >
 	{#if label}
 		<p
-			class="absolute left-[18px] top-[-22%] mb-4 bg-white px-2 font-poppins text-sm font-light text-[#030115]"
+			class="absolute left-[18px] top-[-22%] mb-4 bg-white px-2 font-poppins text-sm font-light text-grey-800"
 		>
 			{label}
 		</p>

@@ -99,7 +99,7 @@
 </script>
 
 <div class="w-full">
-	<h2 class="text-3xl font-medium leading-[-2px] text-[#030115]">
+	<h2 class="text-3xl font-medium leading-[-2px] text-grey-800">
 		Hello, {shortenText($walletStore.address, 6, 6)}
 	</h2>
 	<p class="mt-4 text-lg font-light leading-6 text-[#3E3F47]">
@@ -129,7 +129,7 @@
 	<div class="mt-4 flex gap-2">
 		{#each ctaButtons as ctaButton}
 			<a
-				class="text-md flex h-16 w-full items-center justify-center rounded-full border border-[#D9DADE] bg-white font-normal text-[#030115] transition-colors hover:border-primary hover:text-primary"
+				class="text-md flex h-16 w-full items-center justify-center rounded-full border border-[#D9DADE] bg-white font-normal text-grey-800 transition-colors hover:border-primary hover:text-primary"
 				href={ctaButton.href}
 				target={ctaButton.openInANewTab ? '_blank' : ''}>{ctaButton.label}</a
 			>

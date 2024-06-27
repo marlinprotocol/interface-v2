@@ -150,7 +150,7 @@
 				<span slot="tooltipContent">{epochToDurationStringLong(durationLeft)}</span>
 				<span slot="tooltipIcon">
 					<div
-						class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm text-[#030115]"
+						class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm text-grey-800"
 						style="background-color: {getInventoryDurationVariant(durationLeft)}"
 					>
 						{epochToDurationString(durationLeft, false)}
@@ -159,7 +159,7 @@
 			</Tooltip>
 		</div>
 		<div
-			class="w-min rounded-full bg-[#0F62FE23] px-[31.5px] py-[10.5px] text-center text-sm text-[#030115]"
+			class="w-min rounded-full bg-[#0F62FE23] px-[31.5px] py-[10.5px] text-center text-sm text-grey-800"
 			slot="inactive"
 		>
 			Ended

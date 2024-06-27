@@ -271,6 +271,10 @@
 				<MenuItem {...item} />
 			{/each}
 		</ul>
+		<div class="px-4 pt-4">
+			<input type="checkbox" class="toggle" on:change={(e) => {}} />
+		</div>
+
 		<!-- <div class="px-4 py-4">
 			<label
 				class={cn('grid cursor-pointer place-items-center', $isNavOpen ? 'w-[48px]' : 'w-[24px]')}

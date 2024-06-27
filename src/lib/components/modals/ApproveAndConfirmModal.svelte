@@ -87,7 +87,7 @@
 					{/if}
 				</div>
 			</div>
-			<div class="grow text-left text-xl font-normal text-[#030115]">
+			<div class="grow text-left text-xl font-normal text-grey-800">
 				Approve
 				<span class="font-semibold">
 					{amountConvertedFrom}
@@ -113,7 +113,7 @@
 			>
 				2
 			</div>
-			<div class="grow text-left text-xl font-normal text-[#030115]">
+			<div class="grow text-left text-xl font-normal text-grey-800">
 				Convert
 				<span class="font-semibold">
 					{amountConvertedFrom}

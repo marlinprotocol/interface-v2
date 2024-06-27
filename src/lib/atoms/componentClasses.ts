@@ -37,7 +37,7 @@ export const tableClasses = {
 
 export const inputClasses = {
 	inputText:
-		'input input-ghost h-[30px] w-full text-body p-0 font-normal text-[#030115] disabled:opacity-70 disabled:text-[#030115] disabled:placeholder:text-[#030115]/[.2] focus-within:text-[#030115] placeholder:text-[#030115]/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent',
+		'input input-ghost h-[30px] w-full text-body p-0 font-normal text-grey-800 disabled:opacity-70 disabled:text-grey-800 disabled:placeholder:text-grey-800/[.2] focus-within:text-grey-800 placeholder:text-grey-800/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent',
 	searchInputText:
-		'input input-ghost h-[30px] w-full text-base p-0 font-normal text-[#030115] focus:outline-none focus-within:border-b-2 focus-within:text-[#030115] focus:bg-transparent disabled:text-blue-500 placeholder-[#A8A8A8]'
+		'input input-ghost h-[30px] w-full text-base p-0 font-normal text-grey-800 focus:outline-none focus-within:border-b-2 focus-within:text-grey-800 focus:bg-transparent disabled:text-blue-500 placeholder-[#A8A8A8]'
 };

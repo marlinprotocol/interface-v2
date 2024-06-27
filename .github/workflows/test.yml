@@ -38,7 +38,8 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npm run test:integration
+        # run: npx playwright test
         env:
           VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
           VITE_SEED_PHRASE: ${{ secrets.VITE_SEED_PHRASE }}

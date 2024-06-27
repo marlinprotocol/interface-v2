@@ -456,6 +456,105 @@ export const TOKEN_TXN_MESSAGES = {
 	}
 };
 
+export const OYSTER_CREDIT_TXN_MESSAGES = {
+	ADD_CREDITS_JOB: {
+		INITIATED: {
+			message: 'Initiating addition of credits to oyster job'
+		},
+		CREATED: {
+			message: 'Adding credits to your oyster job'
+		},
+		SUCCESS: {
+			message: 'Credits added to your oyster job'
+		},
+		FAILED: {
+			message: 'Failed to add credits to oyster job'
+		}
+	},
+	WITHDRAW_JOB_CREDIT: {
+		INITIATED: {
+			message: 'Initiating oyster credit job withdrawal'
+		},
+		CREATED: {
+			message: 'Withdrawing credits from oyster job'
+		},
+		SUCCESS: {
+			message: 'Withdrew credits from oyster job'
+		},
+		FAILED: {
+			message: 'Failed to withdraw credits from oyster job'
+		}
+	},
+	STOP_CREDIT_JOB: {
+		INITIATED: {
+			message: 'Initiating credit job stop'
+		},
+		CREATED: {
+			message: 'Initiated credit job stop'
+		},
+		SUCCESS: {
+			message: 'Stopping credit job'
+		},
+		FAILED: {
+			message: 'Stopped credit job'
+		}
+	},
+	CREATE_JOB_WITH_CREDIT: {
+		INITIATED: {
+			message: 'Initiating oyster job creation using credits'
+		},
+		CREATED: {
+			message: 'Creating a new oyster job using credits'
+		},
+		SUCCESS: {
+			message: 'Created a new oyster job using credits'
+		},
+		FAILED: {
+			message: 'Failed to create a new oyster job usin credits'
+		}
+	},
+	FINAL_CHANGE_BANDWIDTH: {
+		INITIATED: {
+			message: 'Initiating bandwidth rate revision'
+		},
+		CREATED: {
+			message: 'Revising bandwidth rate'
+		},
+		SUCCESS: {
+			message: 'Revised bandwidth rate'
+		},
+		FAILED: {
+			message: 'Failed bandwidth rate revision'
+		}
+	},
+	INIT_CHANGE_BANDWIDTH: {
+		INITIATED: {
+			message: 'Initiating bandwidth rate revision'
+		},
+		CREATED: {
+			message: 'Initiating bandwidth revision'
+		},
+		SUCCESS: {
+			message: 'Initiated bandwidth revision'
+		},
+		FAILED: {
+			message: 'Failed bandwidth rate initialization'
+		}
+	},
+	CANCEL: {
+		INITITATED: 'Initiating rate revision cancellation.',
+		CREATED: 'Cancelling rate revision.',
+		SUCCESS: 'Cancelled rate revision.',
+		FAILED: 'Failed to cancel rate revision.'
+	},
+	AMEND_RATE_JOB: {
+		INITIATED: 'Initiating rate revision initiation.',
+		CREATED: 'Initiating rate revision.',
+		SUCCESS: 'Initiated rate revision.',
+		FAILED: 'Failed to initiate rate revision.'
+	}
+};
+
 export const KALYPSO_TXN_MESSAGES = {
 	UNREGISTER_KALYPSO: {
 		INITIATED: {

@@ -33,7 +33,7 @@ exports[`AmountInputWithMaxButton > render's the component properly 1`] = `
           class="mt-[-10px] flex items-center justify-end gap-2"
         >
           <div
-            class="flex items-center gap-1"
+            class="flex h-8 items-center gap-1"
           >
             <div
               class="text-[#657183] text-sm font-normal"

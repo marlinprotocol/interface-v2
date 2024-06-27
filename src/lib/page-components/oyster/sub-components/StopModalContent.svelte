@@ -9,7 +9,7 @@
 
 	export let jobData: OysterInventoryDataModel;
 	export let modalFor: string;
-	$: ({ balance, durationLeft } = jobData);
+	$: ({ balance, isCreditJob, durationLeft } = jobData);
 	const commonStyleClass = 'h-[207px] rounded-xl flex items-center justify-center';
 	const iconStyle = 'w-[64px] h-[64px] rounded-full bg-base-100 flex items-center justify-center ';
 	const handleOnTimerEnd = () => {};
@@ -30,7 +30,7 @@
 						<div class="mt-4 text-lg font-light">Current Balance</div>
 						<div class="text-xl font-semibold">
 							{bigNumberToString(balance, $oysterTokenMetadataStore.decimal)}
-							{$oysterTokenMetadataStore.currency}
+							{isCreditJob ? 'CREDITS' : $oysterTokenMetadataStore.currency}
 						</div>
 					</div>
 				</div>

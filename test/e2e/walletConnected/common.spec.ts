@@ -12,15 +12,15 @@ test('Check Logout', async ({ context, page, metamaskPage, extensionId }) => {
 	const metamask = new MetaMask(context, metamaskPage, BasicSetup.walletPassword, extensionId);
 	await loginToMetamask(metamask, page);
 
-	// const connect = await page.waitForSelector('label[for="disconnect-wallet-modal"]');
+	const connect = await page.waitForSelector('label[for="disconnect-wallet-modal"]');
 
-	// await connect.click();
+	await connect.click();
 
-	// await page.getByText('LOGOUT').click();
+	await page.getByText('LOGOUT').click();
 
-	// const isConnectWallet = await page.getByText('Connect Wallet').isVisible();
+	const isConnectWallet = await page.getByText('Connect Wallet').isVisible();
 
-	// expect(isConnectWallet).toBeTruthy();
+	expect(isConnectWallet).toBeTruthy();
 });
 
 test('check for Linea Unsupported network in Bridge', async ({

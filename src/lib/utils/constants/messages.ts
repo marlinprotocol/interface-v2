@@ -456,6 +456,225 @@ export const TOKEN_TXN_MESSAGES = {
 	}
 };
 
+export const OYSTER_TXN_MESSAGES = {
+	INIT_CHANGE_BANDWIDTH: {
+		INITIATED: {
+			title: 'Initiating bandwidth revision initiation',
+			message: 'Initiating bandwidth revision initiation of job in Oyster'
+		},
+		CREATED: {
+			title: 'Bandwidth revision initiation in progress',
+			message: 'Bandwidth revision initiation of job in Oyster in progress'
+		},
+		SUCCESS: {
+			title: 'Bandwidth revision successfully initiated',
+			message: 'Successfully initiated bandwidth revision of job in Oyster'
+		},
+		FAILED: {
+			title: 'Bandwidth revision initiation failed',
+			message: 'Failed to initiate bandwidth revision of job in Oyster'
+		}
+	},
+	FINAL_CHANGE_BANDWIDTH: {
+		INITIATED: {
+			title: 'Initiating bandwidth revision',
+			message: 'Initiating bandwidth revision of job in Oyster'
+		},
+		CREATED: {
+			title: 'Bandwidth revision initiation in progress',
+			message: 'Bandwidth revision of job in Oyster in progress'
+		},
+		SUCCESS: {
+			title: 'Bandwidth revision successfull',
+			message: 'Successfully revised bandwidth of job in Oyster'
+		},
+		FAILED: {
+			title: 'Bandwidth revision failed',
+			message: 'Failed to revise bandwidth of job in Oyster'
+		}
+	},
+	WITHDRAW: {
+		INITIATED: {
+			title: 'Initiating withdrawal',
+			message: 'Initiating withdrawal of funds from job in Oyster'
+		},
+		CREATED: {
+			title: 'Withdrawal in progress',
+			message: 'Withdrawal of funds from job is in progress'
+		},
+		SUCCESS: {
+			title: 'Withdrawal successful',
+			message: 'Successfully withdrew funds from job in Oyster'
+		},
+		FAILED: {
+			title: 'Withdrawal failed',
+			message: 'Failed to withdraw funds from job in Oyster'
+		}
+	},
+	ADD_FUND: {
+		INITIATED: {
+			title: 'Initiating deposit',
+			message: 'Initiating deposit of funds to job in Oyster'
+		},
+		CREATED: {
+			title: 'Deposit in progress',
+			message: 'Deposit of funds to job is in progress'
+		},
+		SUCCESS: {
+			title: 'Deposit successful',
+			message: 'Successfully deposited funds to job in Oyster'
+		},
+		FAILED: {
+			title: 'Deposit failed',
+			message: 'Failed to deposit funds in job'
+		}
+	},
+	CANCEL_STOP: {
+		INITIATED: {
+			title: 'Initiating rate revise cancellation',
+			message: 'Initiating cancellation of rate revision in Oyster job'
+		},
+		CREATED: {
+			title: 'Rate revise cancellation in progress',
+			message: 'Cancellation of rate revision in Oyster job is in progress'
+		},
+		SUCCESS: {
+			title: 'Rate revision cancelled successfully',
+			message: 'Successfully cancelled rate revision for Oyster job'
+		},
+		FAILED: {
+			title: 'Rate revision cancellation failed',
+			message: 'Failed to cancel rate revision for Oyster job'
+		}
+	},
+	REGISTER_OPERATOR: {
+		INITIATED: {
+			title: 'Initiating registration',
+			message: 'Initiating registration as an operator on Oyster'
+		},
+		CREATED: {
+			title: 'Registration in progress',
+			message: 'Registration you as an operator in Oyster in progress'
+		},
+		SUCCESS: {
+			title: 'Registration successful',
+			message: 'Successfully registered as an operator on Oyster'
+		},
+		FAILED: {
+			title: 'Registration failed',
+			message: 'Failed to register you as an operator on Oyster'
+		}
+	},
+	UPDATE_CP_URL: {
+		INITIATED: {
+			title: 'Initiating control plane update',
+			message: 'Initiating CP url update for operator in Oyster'
+		},
+		CREATED: {
+			title: 'Control plane update in progress',
+			message: 'Control plane url update in progress for operator in Oyster'
+		},
+		SUCCESS: {
+			title: 'Control plane update successful',
+			message: 'Successfully updated control plane url for operator in Oyster'
+		},
+		FAILED: {
+			title: 'Control plane update failed',
+			message: 'Failed to update control plane url for operator in Oyster'
+		}
+	},
+	REMOVE_OPERATOR: {
+		INITIATED: {
+			title: 'Initiating unregistration',
+			message: 'Initiating unregistration of operator from Oyster'
+		},
+		CREATED: {
+			title: 'Unregisteration in progress',
+			message: 'Unregistering operator from Oyster in progress'
+		},
+		SUCCESS: {
+			title: 'Unregisteration successful',
+			message: 'Successfully unregistered operator from Oyster'
+		},
+		FAILED: {
+			title: 'Unregisteration failed',
+			message: 'Failed to unregister operator from Oyster'
+		}
+	},
+	CREATE_JOB: {
+		INITIATED: {
+			title: 'Initiating job creation',
+			message: 'Initiating creation of a new job in oyster'
+		},
+		CREATED: {
+			title: 'Job creation in progress',
+			message: 'Job creation in oyster is in progress'
+		},
+		SUCCESS: {
+			title: 'Job creation successful',
+			message: 'Successfully created a new job in oyster'
+		},
+		FAILED: {
+			title: 'Job creation failed',
+			message: 'Failed to create a new job in oyster'
+		}
+	},
+	STOP_JOB: {
+		INITIATED: {
+			title: 'Initiating job stop',
+			message: 'Initiating stop of a new job in oyster'
+		},
+		CREATED: {
+			title: 'Job stop in progress',
+			message: 'Job stop in oyster is in progress'
+		},
+		SUCCESS: {
+			title: 'Job stop successful',
+			message: 'Successfully stoppd the job in oyster'
+		},
+		FAILED: {
+			title: 'Job stop failed',
+			message: 'Failed to stop job in oyster'
+		}
+	},
+	SETTLE_JOB: {
+		INITIATED: {
+			title: 'Initiating job settlement',
+			message: 'Initiating job settlement for Oyster'
+		},
+		CREATED: {
+			title: 'Job settlement in progress',
+			message: 'Job settlement in progress for Oyster'
+		},
+		SUCCESS: {
+			title: 'Job settled successfully',
+			message: 'Successfully settled job in Oyster'
+		},
+		FAILED: {
+			title: 'Job settlement failed',
+			message: 'Failed to settle job in Oyster'
+		}
+	},
+	UPDATE_ENCLAVE_URL_JOB: {
+		INITIATED: {
+			title: 'Initiating enclave url update',
+			message: 'Initiating enclave url update for Oyster job'
+		},
+		CREATED: {
+			title: 'Enclave url update in progress',
+			message: 'Enclave url update in progress for Oyster job'
+		},
+		SUCCESS: {
+			title: 'Enclave url update successfully',
+			message: 'Successfully updated enclave url for Oyster job'
+		},
+		FAILED: {
+			title: 'Enclave url update failed',
+			message: 'Failed to update enclave url for Oyster job'
+		}
+	}
+};
+
 export const OYSTER_CREDIT_TXN_MESSAGES = {
 	ADD_CREDITS_JOB: {
 		INITIATED: {

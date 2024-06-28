@@ -1071,3 +1071,68 @@ export const RECEIVER_REWARDS_TXN_MESSAGES = {
 		}
 	}
 };
+
+export const RECEIVER_STAKING_TXN_MESSAGES = {
+	UPDATE_SIGNER: {
+		INITIATED: {
+			message: 'Initiating signer address update'
+		},
+		CREATED: {
+			message: (address: string) => `Updating signer address to ${address}`
+		},
+		SUCCESS: {
+			message: (address: string) => `Succesfully updated signer address to ${address}`
+		},
+		FAILED: {
+			message: (address: string) => `Failed to update singer address to ${address}`
+		}
+	},
+	DEPOSIT_STAKE: {
+		INITIATED: {
+			message: 'Initiating deposit for staking'
+		},
+		CREATED: {
+			message: (value: string) => `Depositing ${removeTrailingZeros(value)} POND for staking`
+		},
+		SUCCESS: {
+			message: (value: string) =>
+				`Successfully deposited ${removeTrailingZeros(value)} POND as stake`
+		},
+		FAILED: {
+			message: (value: string) => `Failed to deposit ${removeTrailingZeros(value)} POND as stake`
+		}
+	},
+	DEPOSIT_AND_SET_SIGNER: {
+		INITIATED: {
+			message: 'Initiating deposit and setting signer address'
+		},
+		CREATED: {
+			message: (value: string) =>
+				`Depositing ${removeTrailingZeros(value)} POND for staking and setting signer address`
+		},
+		SUCCESS: {
+			message: (value: string) =>
+				`Successfully deposited ${removeTrailingZeros(value)} POND as stake and set signer address`
+		},
+		FAILED: {
+			message: (value: string) =>
+				`Failed to deposit ${removeTrailingZeros(value)} POND as stake and set signer address`
+		}
+	},
+	WITHDRAW_STAKE: {
+		INITIATED: {
+			message: (value: string) =>
+				`Initiating withdraw of ${removeTrailingZeros(value)} POND from stake`
+		},
+		CREATED: {
+			message: (value: string) => `Withdrawing ${removeTrailingZeros(value)} POND from stake`
+		},
+		SUCCESS: {
+			message: (value: string) =>
+				`Successfully withdrew ${removeTrailingZeros(value)} POND from stake`
+		},
+		FAILED: {
+			message: (value: string) => `Failed to withdraw ${removeTrailingZeros(value)} POND from stake`
+		}
+	}
+};

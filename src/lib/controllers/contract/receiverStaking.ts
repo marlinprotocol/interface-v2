@@ -1,7 +1,6 @@
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
-
 import type { ContractAddress } from '$lib/types/storeTypes';
-import { MESSAGES } from '$lib/utils/constants/messages';
+import { COMMON_TXN_MESSAGES, RECEIVER_STAKING_TXN_MESSAGES } from '$lib/utils/constants/messages';
 import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 import { RECEIVER_STAKING_ABI } from '$lib/utils/abis/receiverStaking';
 import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
@@ -19,19 +18,29 @@ export async function setSignerAddress(address: string) {
 		RECEIVER_STAKING_ABI
 	);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.UPDATE_SIGNER.UPDATING(
-			minifyAddress(address)
-		);
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.UPDATE_SIGNER.SUCCESS(minifyAddress(address));
-		const errorTxnMessage = 'Unable to update signer address';
 		const parentFunctionName = 'setSignerAddress';
-
+		const messages = {
+			initiate: {
+				title: COMMON_TXN_MESSAGES.INITIATED.title,
+				message: RECEIVER_STAKING_TXN_MESSAGES.UPDATE_SIGNER.INITIATED.message
+			},
+			created: {
+				title: COMMON_TXN_MESSAGES.CREATED.title,
+				message: RECEIVER_STAKING_TXN_MESSAGES.UPDATE_SIGNER.CREATED.message(minifyAddress(address))
+			},
+			success: {
+				title: COMMON_TXN_MESSAGES.SUCCESS.title,
+				message: RECEIVER_STAKING_TXN_MESSAGES.UPDATE_SIGNER.SUCCESS.message(minifyAddress(address))
+			},
+			failed: {
+				title: COMMON_TXN_MESSAGES.FAILED.title,
+				message: RECEIVER_STAKING_TXN_MESSAGES.UPDATE_SIGNER.FAILED.message(minifyAddress(address))
+			}
+		};
 		const { txn } = await createTransaction(
 			() => receiverStakingContract.setSigner(address),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			messages
 		);
 		return txn;
 	} catch (error) {
@@ -45,21 +54,30 @@ export async function depositStakingToken(amount: bigint) {
 		RECEIVER_STAKING_ABI
 	);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.DEPOSIT.POND(
-			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
-		);
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.DEPOSIT.POND_DEPOSITED(
-			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
-		);
-		const errorTxnMessage = 'Unable to deposit staking token';
 		const parentFunctionName = 'depositStakingToken';
-
+		const amountInString = bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS);
+		const messages = {
+			initiate: {
+				title: COMMON_TXN_MESSAGES.INITIATED.title,
+				message: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_STAKE.INITIATED.message
+			},
+			created: {
+				title: COMMON_TXN_MESSAGES.CREATED.title,
+				message: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_STAKE.CREATED.message(amountInString)
+			},
+			success: {
+				title: COMMON_TXN_MESSAGES.SUCCESS.title,
+				message: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_STAKE.SUCCESS.message(amountInString)
+			},
+			failed: {
+				title: COMMON_TXN_MESSAGES.FAILED.title,
+				message: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_STAKE.FAILED.message(amountInString)
+			}
+		};
 		const { txn } = await createTransaction(
 			() => receiverStakingContract.deposit(amount),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			messages
 		);
 		return txn;
 	} catch (error) {
@@ -72,21 +90,32 @@ export async function depositStakingTokenAndSetSigner(amount: bigint, signerAddr
 		RECEIVER_STAKING_ABI
 	);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.DEPOSIT.POND(
-			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
-		);
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.DEPOSIT.POND_DEPOSITED(
-			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
-		);
-		const errorTxnMessage = 'Unable to deposit staking token and set signer';
 		const parentFunctionName = 'depositStakingTokenAndSetSigner';
-
+		const amountInString = bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS);
+		const messages = {
+			initiate: {
+				title: COMMON_TXN_MESSAGES.INITIATED.title,
+				message: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_AND_SET_SIGNER.INITIATED.message
+			},
+			created: {
+				title: COMMON_TXN_MESSAGES.CREATED.title,
+				message:
+					RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_AND_SET_SIGNER.CREATED.message(amountInString)
+			},
+			success: {
+				title: COMMON_TXN_MESSAGES.SUCCESS.title,
+				message:
+					RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_AND_SET_SIGNER.SUCCESS.message(amountInString)
+			},
+			failed: {
+				title: COMMON_TXN_MESSAGES.FAILED.title,
+				message: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_AND_SET_SIGNER.FAILED.message(amountInString)
+			}
+		};
 		const { txn } = await createTransaction(
 			() => receiverStakingContract.depositAndSetSigner(amount, signerAddress),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			messages
 		);
 		return txn;
 	} catch (error) {
@@ -100,21 +129,30 @@ export async function withdrawStakingToken(amount: bigint) {
 		RECEIVER_STAKING_ABI
 	);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.WITHDRAW.POND(
-			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
-		);
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.WITHDRAW.POND_WITHDREW(
-			bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
-		);
-		const errorTxnMessage = 'Unable to withdraw staking token';
 		const parentFunctionName = 'withdrawStakingToken';
-
+		const amountInString = bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS);
+		const messages = {
+			initiate: {
+				title: COMMON_TXN_MESSAGES.INITIATED.title,
+				message: RECEIVER_STAKING_TXN_MESSAGES.WITHDRAW_STAKE.INITIATED.message(amountInString)
+			},
+			created: {
+				title: COMMON_TXN_MESSAGES.CREATED.title,
+				message: RECEIVER_STAKING_TXN_MESSAGES.WITHDRAW_STAKE.CREATED.message(amountInString)
+			},
+			success: {
+				title: COMMON_TXN_MESSAGES.SUCCESS.title,
+				message: RECEIVER_STAKING_TXN_MESSAGES.WITHDRAW_STAKE.SUCCESS.message(amountInString)
+			},
+			failed: {
+				title: COMMON_TXN_MESSAGES.FAILED.title,
+				message: RECEIVER_STAKING_TXN_MESSAGES.WITHDRAW_STAKE.FAILED.message(amountInString)
+			}
+		};
 		const { txn } = await createTransaction(
 			() => receiverStakingContract.withdraw(amount),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			messages
 		);
 		return txn;
 	} catch (error: any) {

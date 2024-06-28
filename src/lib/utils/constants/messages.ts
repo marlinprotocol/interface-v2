@@ -20,17 +20,17 @@ export const COMMON_TXN_MESSAGES = {
 };
 
 export const TOKEN_TXN_MESSAGES = {
-	INITIATING: {
+	INITIATED: {
 		title: 'Approval initiated',
 		message: (value: string, currency: string) =>
 			`Initiating approval for ${removeTrailingZeros(value)} ${currency}.`
 	},
-	APPROVING: {
+	CREATED: {
 		title: 'Approval in progress',
 		message: (value: string, currency: string) =>
 			`Approving ${removeTrailingZeros(value)} ${currency}.`
 	},
-	APPROVED: {
+	SUCCESS: {
 		title: 'Approved',
 		message: (value: string, currency: string) =>
 			`Approved ${removeTrailingZeros(value)} ${currency}.`
@@ -530,7 +530,7 @@ export const KALYPSO_TXN_MESSAGES = {
 export const BRIDGE_TXN_MESSAGES = {
 	CONVERT: {
 		POND_TO_MPOND: {
-			INITIATING: {
+			INITIATED: {
 				title: 'Conversion initiated',
 				message: (value: string) =>
 					`Initiating conversion of POND to ${removeTrailingZeros(value)} MPond.`
@@ -549,7 +549,7 @@ export const BRIDGE_TXN_MESSAGES = {
 			}
 		},
 		MPOND_TO_POND: {
-			INITIATE: {
+			INITIATED: {
 				title: 'Conversion initiated',
 				message: (value: string) =>
 					`Initiating conversion of ${removeTrailingZeros(value)} MPond to POND.`
@@ -569,7 +569,7 @@ export const BRIDGE_TXN_MESSAGES = {
 		}
 	},
 	REQUEST: {
-		INITIATE: {
+		INITIATED: {
 			title: 'Initiating request',
 			message: (value: string | number) =>
 				`Initiating request for ${value} MPond to be converted to POND.`
@@ -588,7 +588,7 @@ export const BRIDGE_TXN_MESSAGES = {
 		}
 	},
 	CANCEL: {
-		INITIATE: {
+		INITIATED: {
 			title: 'Initiating cancellation',
 			message: 'Initiating cancellation of request for conversion of MPond to POND.'
 		},

@@ -47,8 +47,8 @@ export async function convertPondToMPond(expectedMPond: bigint) {
 		);
 		const messages = {
 			initiate: {
-				title: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.INITIATING.title,
-				message: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.INITIATING.message(amountInString)
+				title: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.INITIATED.title,
+				message: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.INITIATED.message(amountInString)
 			},
 			created: {
 				title: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.CREATED.title,
@@ -81,8 +81,8 @@ export async function requestMPondConversion(amount: bigint) {
 		const amountInString = bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS);
 		const messages = {
 			initiate: {
-				title: BRIDGE_TXN_MESSAGES.REQUEST.INITIATE.title,
-				message: BRIDGE_TXN_MESSAGES.REQUEST.INITIATE.message(amountInString)
+				title: BRIDGE_TXN_MESSAGES.REQUEST.INITIATED.title,
+				message: BRIDGE_TXN_MESSAGES.REQUEST.INITIATED.message(amountInString)
 			},
 			created: {
 				title: BRIDGE_TXN_MESSAGES.REQUEST.CREATED.title,
@@ -114,8 +114,8 @@ export async function cancelMPondConversionRequest(epoch: bigint) {
 		const parentFunctionName = 'cancelMPondConversionRequest';
 		const messages = {
 			initiate: {
-				title: BRIDGE_TXN_MESSAGES.CANCEL.INITIATE.title,
-				message: BRIDGE_TXN_MESSAGES.CANCEL.INITIATE.message
+				title: BRIDGE_TXN_MESSAGES.CANCEL.INITIATED.title,
+				message: BRIDGE_TXN_MESSAGES.CANCEL.INITIATED.message
 			},
 			created: {
 				title: BRIDGE_TXN_MESSAGES.CANCEL.CREATED.title,
@@ -148,16 +148,16 @@ export async function confirmMPondConversion(epoch: bigint, amount: bigint) {
 		const amountInString = bigNumberToString(amount, DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS);
 		const messages = {
 			initiate: {
-				title: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.INITIATE.title,
-				message: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.INITIATE.message(amountInString)
+				title: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.INITIATED.title,
+				message: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.INITIATED.message(amountInString)
 			},
 			created: {
 				title: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.CREATED.title,
-				message: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.INITIATE.message(amountInString)
+				message: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.CREATED.message(amountInString)
 			},
 			success: {
 				title: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.SUCCESS.title,
-				message: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.INITIATE.message(amountInString)
+				message: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.SUCCESS.message(amountInString)
 			},
 			failed: {
 				title: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.FAILED.title,

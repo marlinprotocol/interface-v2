@@ -23,16 +23,16 @@ export async function approveToken(
 		const tokenName = tokenToApprove.currency;
 		const messages = {
 			initiate: {
-				title: TOKEN_TXN_MESSAGES.INITIATING.title,
-				message: TOKEN_TXN_MESSAGES.INITIATING.message(amountInString, tokenName)
+				title: TOKEN_TXN_MESSAGES.INITIATED.title,
+				message: TOKEN_TXN_MESSAGES.INITIATED.message(amountInString, tokenName)
 			},
 			created: {
-				title: TOKEN_TXN_MESSAGES.APPROVING.title,
-				message: TOKEN_TXN_MESSAGES.APPROVING.message(amountInString, tokenName)
+				title: TOKEN_TXN_MESSAGES.CREATED.title,
+				message: TOKEN_TXN_MESSAGES.CREATED.message(amountInString, tokenName)
 			},
 			success: {
-				title: TOKEN_TXN_MESSAGES.APPROVED.title,
-				message: TOKEN_TXN_MESSAGES.APPROVED.message(amountInString, tokenName)
+				title: TOKEN_TXN_MESSAGES.SUCCESS.title,
+				message: TOKEN_TXN_MESSAGES.SUCCESS.message(amountInString, tokenName)
 			},
 			failed: {
 				title: TOKEN_TXN_MESSAGES.FAILED.title,

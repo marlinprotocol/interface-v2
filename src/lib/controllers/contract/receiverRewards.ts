@@ -1,9 +1,7 @@
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
-
 import type { Address } from '@web3-onboard/core/dist/types';
-
 import type { ContractAddress } from '$lib/types/storeTypes';
-import { MESSAGES } from '$lib/utils/constants/messages';
+import { COMMON_TXN_MESSAGES, RECEIVER_REWARDS_TXN_MESSAGES } from '$lib/utils/constants/messages';
 import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 import { REWARD_DELEGATORS_ABI } from '$lib/utils/abis/rewardDelegators';
 import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
@@ -20,19 +18,30 @@ export async function initiateReceiverRewards(rewardBalance: bigint, rewardPerEp
 		REWARD_DELEGATORS_ABI
 	);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.RECEIVER_REWARDS.INITIATING;
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.RECEIVER_REWARDS.INITIATED;
-		const errorTxnMessage = 'Unable to initiate receiver rewards.';
 		const parentFunctionName = 'initiateReceiverRewards';
-
+		const messages = {
+			initiate: {
+				title: COMMON_TXN_MESSAGES.INITIATED.title,
+				message: RECEIVER_REWARDS_TXN_MESSAGES.INITIATE.INITIATED.message
+			},
+			created: {
+				title: COMMON_TXN_MESSAGES.CREATED.title,
+				message: RECEIVER_REWARDS_TXN_MESSAGES.INITIATE.CREATED.message
+			},
+			success: {
+				title: COMMON_TXN_MESSAGES.SUCCESS.title,
+				message: RECEIVER_REWARDS_TXN_MESSAGES.INITIATE.SUCCESS.message
+			},
+			failed: {
+				title: COMMON_TXN_MESSAGES.FAILED.title,
+				message: RECEIVER_REWARDS_TXN_MESSAGES.INITIATE.FAILED.message
+			}
+		};
 		const { txn } = await createTransaction(
 			() => rewardDelegatorContract.setupReceiverReward(rewardBalance, rewardPerEpoch),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			messages
 		);
-
 		return txn;
 	} catch (error: any) {
 		throw new Error('Transaction Error');
@@ -44,23 +53,35 @@ export async function addReceiverBalance(receiverAddress: Address, rewardBalance
 		REWARD_DELEGATORS_ABI
 	);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.RECEIVER_REWARDS.UPDATING_REWARDS(
-			bigNumberToString(rewardBalance, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
-		);
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.RECEIVER_REWARDS.UPDATED_REWARDS(
-			bigNumberToString(rewardBalance, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
-		);
-		const errorTxnMessage = 'Unable to add receiver balance.';
 		const parentFunctionName = 'addReceiverBalance';
-
+		const amountInString = bigNumberToString(
+			rewardBalance,
+			DEFAULT_CURRENCY_DECIMALS,
+			POND_PRECISIONS
+		);
+		const messages = {
+			initiate: {
+				title: COMMON_TXN_MESSAGES.INITIATED.title,
+				message: RECEIVER_REWARDS_TXN_MESSAGES.ADD_BALANCE.INITIATED.message(amountInString)
+			},
+			created: {
+				title: COMMON_TXN_MESSAGES.CREATED.title,
+				message: RECEIVER_REWARDS_TXN_MESSAGES.ADD_BALANCE.CREATED.message(amountInString)
+			},
+			success: {
+				title: COMMON_TXN_MESSAGES.SUCCESS.title,
+				message: RECEIVER_REWARDS_TXN_MESSAGES.ADD_BALANCE.SUCCESS.message(amountInString)
+			},
+			failed: {
+				title: COMMON_TXN_MESSAGES.FAILED.title,
+				message: RECEIVER_REWARDS_TXN_MESSAGES.ADD_BALANCE.FAILED.message(amountInString)
+			}
+		};
 		const { txn } = await createTransaction(
 			() => rewardDelegatorContract.addReceiverBalance(receiverAddress, rewardBalance),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			messages
 		);
-
 		return txn;
 	} catch (error: any) {
 		throw new Error('Transaction Error');
@@ -72,21 +93,34 @@ export async function updateReceiverTicketReward(rewardPerEpoch: bigint) {
 		REWARD_DELEGATORS_ABI
 	);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.RECEIVER_REWARDS.UPDATING_REWARDS(
-			bigNumberToString(rewardPerEpoch, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
-		);
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.RECEIVER_REWARDS.UPDATED_REWARDS(
-			bigNumberToString(rewardPerEpoch, DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS)
-		);
-		const errorTxnMessage = 'Unable to update ticket rewards.';
 		const parentFunctionName = 'updateReceiverTicketReward';
-
+		const amountInString = bigNumberToString(
+			rewardPerEpoch,
+			DEFAULT_CURRENCY_DECIMALS,
+			POND_PRECISIONS
+		);
+		const messages = {
+			initiate: {
+				title: COMMON_TXN_MESSAGES.INITIATED.title,
+				message: RECEIVER_REWARDS_TXN_MESSAGES.UPDATE_REWARDS.INITIATED.message(amountInString)
+			},
+			created: {
+				title: COMMON_TXN_MESSAGES.CREATED.title,
+				message: RECEIVER_REWARDS_TXN_MESSAGES.UPDATE_REWARDS.CREATED.message(amountInString)
+			},
+			success: {
+				title: COMMON_TXN_MESSAGES.SUCCESS.title,
+				message: RECEIVER_REWARDS_TXN_MESSAGES.UPDATE_REWARDS.SUCCESS.message(amountInString)
+			},
+			failed: {
+				title: COMMON_TXN_MESSAGES.FAILED.title,
+				message: RECEIVER_REWARDS_TXN_MESSAGES.UPDATE_REWARDS.FAILED.message(amountInString)
+			}
+		};
 		const { txn } = await createTransaction(
 			() => rewardDelegatorContract.setReceiverRewardPerEpoch(rewardPerEpoch),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			messages
 		);
 
 		return txn;

@@ -1006,7 +1006,6 @@ export const BRIDGE_TXN_MESSAGES = {
 			title: 'Initiating cancellation',
 			message: 'Initiating cancellation of request for conversion of MPond to POND.'
 		},
-
 		CREATED: {
 			title: 'Cancelling request',
 			message: 'Cancelling request for conversion of MPond to POND.'
@@ -1018,6 +1017,57 @@ export const BRIDGE_TXN_MESSAGES = {
 		FAILED: {
 			title: 'Cancellation failed',
 			message: 'Unable to cancel request for converting MPond to POND.'
+		}
+	}
+};
+
+export const RECEIVER_REWARDS_TXN_MESSAGES = {
+	INITIATE: {
+		INITIATED: {
+			message: 'Initiating receiver rewards.'
+		},
+		CREATED: {
+			message: 'Receiver rewards initiation in progress'
+		},
+		SUCCESS: {
+			message: 'Successfully initiated receiver rewards'
+		},
+		FAILED: {
+			message: 'Failed to initiate receiver rewards'
+		}
+	},
+	ADD_BALANCE: {
+		INITIATED: {
+			message: (value: string) =>
+				`Initiating adding ${removeTrailingZeros(value)} POND to rewards balance`
+		},
+		CREATED: {
+			message: (value: string) => `Adding ${removeTrailingZeros(value)} POND to rewards balance`
+		},
+		SUCCESS: {
+			message: (value: string) =>
+				`Successfully added ${removeTrailingZeros(value)} POND to rewards balance`
+		},
+		FAILED: {
+			message: (value: string) =>
+				`Failed to add ${removeTrailingZeros(value)} POND to rewards balance`
+		}
+	},
+	UPDATE_REWARDS: {
+		INITIATED: {
+			message: (value: string) =>
+				`Initiating update ticket rewards to ${removeTrailingZeros(value)} POND`
+		},
+		CREATED: {
+			message: (value: string) => `Updating ticket rewards to ${removeTrailingZeros(value)} POND`
+		},
+		SUCCESS: {
+			message: (value: string) =>
+				`Successfully update ticket rewards to ${removeTrailingZeros(value)} POND`
+		},
+		FAILED: {
+			message: (value: string) =>
+				`Failed to update ticket rewards to ${removeTrailingZeros(value)} POND`
 		}
 	}
 };

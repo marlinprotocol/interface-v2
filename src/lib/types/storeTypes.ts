@@ -19,6 +19,7 @@ export type WalletBalanceStore = {
 	pond: bigint;
 	mpond: bigint;
 	usdc: bigint;
+	mock: bigint;
 };
 
 // chain store
@@ -55,6 +56,7 @@ export type ContractAddress = {
 	MPOND: Address;
 	USDC: Address;
 	OYSTER_CREDIT: Address;
+	KALYPSO: Address;
 };
 
 // receiver staking store
@@ -111,6 +113,35 @@ export type ReceiverRewardsStore = {
 	startTime: number;
 	epochDuration: number;
 	lastTicketIssuedEpoch: number | undefined;
+};
+
+// kalypso store
+export type KalypsoStore = {
+	decreaseStake: {
+		initiated: boolean;
+		withdrawAmount: bigint;
+		endEpochTime: number;
+	};
+	decreaseDeclaredCompute: {
+		initiated: boolean;
+		compute: bigint;
+		endEpochTime: number;
+	};
+	approvedAmount: bigint;
+	registered: boolean;
+	stakingDetails: {
+		rewardsAddress: string;
+		stakedAmount: bigint;
+		declaredCompute: bigint;
+		generatorData: string;
+		sumOfComputeAllocations: bigint;
+	};
+	blockMetadata: {
+		blockMineTime: number;
+		numberOfBlocksToWait: number;
+	};
+	activeStakeTab: 'add' | 'withdraw';
+	activeComputeTab: 'increase' | 'decrease';
 };
 
 // local storage store types

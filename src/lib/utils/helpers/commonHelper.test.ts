@@ -156,7 +156,7 @@ describe('isInputAmountValid', () => {
 
 describe('inputAmountInValidMessage', () => {
 	it('should return message that amount should be greater than 0, when amount is 0', () => {
-		expect(inputAmountInValidMessage('0')).toBe('Amount should be greater than 0.');
+		expect(inputAmountInValidMessage('0')).toBe('Amount should be greater than 0');
 	});
 
 	it('should return message that amount is too big, when amount has more than 50 digits', () => {
@@ -167,14 +167,14 @@ describe('inputAmountInValidMessage', () => {
 
 	it('should return message that amount can have 18 decimals only, when amount has more than 18 decimals', () => {
 		expect(inputAmountInValidMessage('1.1234567890123456789')).toBe(
-			'Amount can have a maximum of 18 decimals only.'
+			'Amount can have a maximum of 18 decimals only'
 		);
 	});
 
 	it('should return message for amount having invalid characters, when amount has invalid characters', () => {
-		expect(inputAmountInValidMessage('1a')).toBe('Amount has invalid characters.');
-		expect(inputAmountInValidMessage('1$')).toBe('Amount has invalid characters.');
-		expect(inputAmountInValidMessage('1*')).toBe('Amount has invalid characters.');
+		expect(inputAmountInValidMessage('1a')).toBe('Amount has invalid characters');
+		expect(inputAmountInValidMessage('1$')).toBe('Amount has invalid characters');
+		expect(inputAmountInValidMessage('1*')).toBe('Amount has invalid characters');
 	});
 
 	it('should return an empty string when amount is valid', () => {

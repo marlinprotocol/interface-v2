@@ -31,7 +31,7 @@ exports[`AmountInputWithTitle > render's the component properly 1`] = `
          
         <input
           autocomplete="off"
-          class="hideInputNumberAppearance input input-ghost min-w-[20px] w-full input-primary text-sm p-0 ml-0.5 placeholder:text-primary/[.2] h-[30px]"
+          class="hideInputNumberAppearance input input-ghost h-[30px] w-full p-0 font-normal text-[#030115] disabled:opacity-70 disabled:text-[#030115] disabled:placeholder:text-[#030115]/[.2] focus-within:text-[#030115] placeholder:text-[#030115]/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent"
           id="pond-input-amount-"
           placeholder="0.00"
         />

@@ -21,7 +21,8 @@ export const ETH: ChainConfig = {
 		POND: '0x57B946008913B82E4dF85f501cbAeD910e58D26C',
 		MPOND: '0x1C77d15857646687005dbbAfFf5873F4495a9731',
 		USDC: '',
-		OYSTER_CREDIT: ''
+		OYSTER_CREDIT: '',
+		KALYPSO: ''
 	},
 	subgraph_urls: {
 		RECEIVER_STAKING: '',

@@ -22,7 +22,8 @@ export const LINEA: ChainConfig = {
 		POND: '',
 		MPOND: '',
 		OYSTER_CREDIT: '',
-		USDC: '0x176211869cA2b568f2A7D4EE941E073a821EE1ff'
+		USDC: '0x176211869cA2b568f2A7D4EE941E073a821EE1ff',
+		KALYPSO: ''
 	},
 	subgraph_urls: {
 		RECEIVER_STAKING: '',

@@ -1,4 +1,3 @@
-import { checkIfSignerExistsInSubgraph } from '$lib/controllers/subgraphController';
 import { shortenText } from '$lib/utils/helpers/conversionHelper';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -74,15 +73,15 @@ export function inputAmountInValidMessage(amount: string): string {
 
 	// TODO: there should be a better way to create this message since we are comparing the same thing twice once in the isAmountValid function and then here again
 	if (amount === '0') {
-		message = 'Amount should be greater than 0.';
+		message = 'Amount should be greater than 0';
 	} else if (amount.split('.')[0].length > 50) {
 		message = 'Amount is too big.';
 	} else if (amount.split('.')[1] && amount.split('.')[1].length > 18) {
-		message = 'Amount can have a maximum of 18 decimals only.';
+		message = 'Amount can have a maximum of 18 decimals only';
 	} else if (!/^\d+(\.\d{0,1})?$/.test(amount)) {
-		message = 'Amount has invalid characters.';
+		message = 'Amount has invalid characters';
 	} else if (!isValid) {
-		message = 'Amount is invalid.';
+		message = 'Amount is invalid';
 	}
 
 	return message;
@@ -112,17 +111,13 @@ export function minifyAddress(
 	return shortenedText;
 }
 
-// TODO:should this reside here? since this has a dependency on subgraph
 /**
  * checks and returns an array of booleans signifying all the validations that the address has passed
  */
-export async function isAddressValid(address: string): Promise<boolean[]> {
+export function isAddressValid(address: string): boolean {
 	const validCharacters = /^0x[a-fA-F0-9]{40}$/.test(address);
-	if (!validCharacters) return [false, false];
 
-	const addressExistsAsSigner = await checkIfSignerExistsInSubgraph(address);
-	if (!addressExistsAsSigner) return [true, false];
-	return [true, true];
+	return validCharacters;
 }
 
 /**

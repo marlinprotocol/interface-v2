@@ -1,15 +1,8 @@
 import { BrowserProvider, ethers } from 'ethers';
 import type { Address } from '@web3-onboard/core/dist/types';
-import type { ContractAddress } from '$lib/types/storeTypes';
 import { ERC20_ABI } from '$lib/utils/abis/erc20';
 import type { TokenMetadata } from '$lib/types/environmentTypes';
-import { contractAddressStore } from '$lib/data-stores/contractStore';
 import { addToast } from '$lib/data-stores/toastStore';
-
-let contractAddresses: ContractAddress;
-contractAddressStore.subscribe((value) => {
-	contractAddresses = value;
-});
 
 export async function getAllowance(
 	walletAddress: Address,
@@ -17,7 +10,7 @@ export async function getAllowance(
 	token: TokenMetadata,
 	provider: BrowserProvider
 ) {
-	const tokenContract = new ethers.Contract(contractAddresses[token.currency], ERC20_ABI, provider);
+	const tokenContract = new ethers.Contract(token.address, ERC20_ABI, provider);
 	try {
 		const allowance = await tokenContract.allowance(walletAddress, contractAddress);
 		return allowance;

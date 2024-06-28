@@ -75,19 +75,19 @@ export function addPondToWalletBalanceStore(amount: bigint) {
 		};
 	});
 }
-export function addMpondToWalletBalanceStore(amount: bigint) {
-	walletBalanceStore.update((walletBalanceStore) => {
-		return {
-			...walletBalanceStore,
-			mpond: walletBalanceStore.mpond + amount
-		};
-	});
-}
 export function withdrawPondFromWalletBalanceStore(amount: bigint) {
 	walletBalanceStore.update((walletBalanceStore) => {
 		return {
 			...walletBalanceStore,
 			pond: walletBalanceStore.pond - amount
+		};
+	});
+}
+export function addMpondToWalletBalanceStore(amount: bigint) {
+	walletBalanceStore.update((walletBalanceStore) => {
+		return {
+			...walletBalanceStore,
+			mpond: walletBalanceStore.mpond + amount
 		};
 	});
 }
@@ -99,11 +99,35 @@ export function withdrawMpondFromWalletBalanceStore(amount: bigint) {
 		};
 	});
 }
+export function addUsdcToWalletBalanceStore(amount: bigint) {
+	walletBalanceStore.update((walletBalanceStore) => {
+		return {
+			...walletBalanceStore,
+			usdc: walletBalanceStore.usdc + amount
+		};
+	});
+}
 export function withdrawUsdcFromWalletBalanceStore(amount: bigint) {
 	walletBalanceStore.update((walletBalanceStore) => {
 		return {
 			...walletBalanceStore,
 			usdc: walletBalanceStore.usdc - amount
+		};
+	});
+}
+export function addMockToWalletBalanceStore(amount: bigint) {
+	walletBalanceStore.update((walletBalanceStore) => {
+		return {
+			...walletBalanceStore,
+			mock: walletBalanceStore.mock + amount
+		};
+	});
+}
+export function withdrawMockFromWalletBalanceStore(amount: bigint) {
+	walletBalanceStore.update((walletBalanceStore) => {
+		return {
+			...walletBalanceStore,
+			mock: walletBalanceStore.mock - amount
 		};
 	});
 }
@@ -124,7 +148,7 @@ export async function initializeWalletBalancesStore(
 		if (tokens.includes('POND')) {
 			const pondBalance = await getBalanceOfToken(
 				walletAddress,
-				chainConfig.contract_addresses.POND,
+				chainConfig.tokens.POND?.address as Address,
 				walletProvider
 			);
 			balances = { ...balances, pond: pondBalance };
@@ -135,7 +159,7 @@ export async function initializeWalletBalancesStore(
 		if (tokens.includes('MPOND')) {
 			const mpondBalance = await getBalanceOfToken(
 				walletAddress,
-				chainConfig.contract_addresses.MPOND,
+				chainConfig.tokens.MPOND?.address as Address,
 				walletProvider
 			);
 			balances = { ...balances, mpond: mpondBalance };
@@ -146,12 +170,23 @@ export async function initializeWalletBalancesStore(
 		if (tokens.includes('USDC')) {
 			const usdcBalance = await getBalanceOfToken(
 				walletAddress,
-				chainConfig.contract_addresses.USDC,
+				chainConfig.tokens.USDC?.address as Address,
 				walletProvider
 			);
 			balances = { ...balances, usdc: usdcBalance };
 		} else {
 			balances = { ...balances, usdc: 0n };
+		}
+
+		if (tokens.includes('MOCK')) {
+			const mockBalance = await getBalanceOfToken(
+				walletAddress,
+				chainConfig.tokens.MOCK?.address as Address,
+				walletProvider
+			);
+			balances = { ...balances, mock: mockBalance };
+		} else {
+			balances = { ...balances, mock: 0n };
 		}
 
 		walletBalanceStore.set(balances);

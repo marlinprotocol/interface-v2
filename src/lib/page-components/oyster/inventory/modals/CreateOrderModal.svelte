@@ -27,7 +27,7 @@
 	import type { WalletBalanceStore } from '$lib/types/storeTypes';
 	import Text from '$lib/atoms/texts/Text.svelte';
 	import { OYSTER_MARLIN_CREDIT_METADATA } from '$lib/utils/constants/oysterConstants';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
+	import { chainConfigStore, chainStore } from '$lib/data-stores/chainProviderStore';
 	import { ROUTES } from '$lib/utils/constants/urls';
 
 	export let modalFor: string;
@@ -224,7 +224,7 @@
 		$oysterStore.credits.isWhitelisted && useMarlinCredits
 			? $oysterStore.credits.balance
 			: $walletBalanceStore[
-					$oysterTokenMetadataStore.currency.toLowerCase() as keyof WalletBalanceStore
+					$chainConfigStore.oyster_token.toLowerCase() as keyof WalletBalanceStore
 				];
 
 	$: walletBalanceText = useMarlinCredits

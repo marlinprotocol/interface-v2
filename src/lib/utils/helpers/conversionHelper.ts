@@ -134,9 +134,14 @@ export const bigNumberToString = (
 	const formattedValue = ethers.formatUnits(value, bigNumberDecimal);
 	const [integerPart, decimalPart] = formattedValue.split('.');
 	const commifiedIntegerPart = commify ? BigInt(integerPart).toLocaleString(locale) : integerPart;
-	const truncatedDecimalPart = decimalPart.slice(0, precision).padEnd(precision, '0');
-
-	return `${commifiedIntegerPart}.${truncatedDecimalPart}`;
+	const truncatedDecimalPart = decimalPart
+		? decimalPart.slice(0, precision).padEnd(precision, '0')
+		: '0'.repeat(precision);
+	const finalBigNumberString =
+		truncatedDecimalPart !== ''
+			? `${commifiedIntegerPart}.${truncatedDecimalPart}`
+			: commifiedIntegerPart;
+	return finalBigNumberString;
 };
 
 //return bignumber from string with decimal

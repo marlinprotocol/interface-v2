@@ -8,7 +8,7 @@
 	export let imageAlt: string;
 	export let buttonText: string = '';
 	export let href: string = '';
-	export let description: string;
+	export let description: string = '';
 </script>
 
 <ContainerCard>

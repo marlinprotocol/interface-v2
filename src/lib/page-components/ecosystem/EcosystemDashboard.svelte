@@ -374,7 +374,7 @@
 		{/each}
 	</div>
 
-	<div class="grid grid-cols-5 gap-6 2xl:grid-cols-7">
+	<div class="grid grid-cols-5 gap-4 2xl:grid-cols-7">
 		{#each sortedPartners as partner}
 			<a href={partner.website} class="group w-full" target="_blank">
 				<div

@@ -34,6 +34,7 @@
 		: true;
 
 	async function init() {
+		console.log('Loading bridge allowances data');
 		const [MPondAllowances, pondAllowances, requestedMPond] = await Promise.all([
 			getAllowance(
 				$walletStore.address,
@@ -52,6 +53,7 @@
 
 		const allowances = { mPond: MPondAllowances || 0n, pond: pondAllowances || 0n };
 
+		console.log('Bridge allowances data is loaded', allowances);
 		initializeBridgeStore(allowances, requestedMPond);
 	}
 

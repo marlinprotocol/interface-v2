@@ -2,7 +2,7 @@
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
 	import ExternalLinkConfirmationModal from '$lib/components/modals/ExternalLinkConfirmationModal.svelte';
-	import { walletStore } from '$lib/data-stores/walletProviderStore';
+	import { connected, walletStore } from '$lib/data-stores/walletProviderStore';
 	import { EXTERNAL_LINKS, ROUTES } from '$lib/utils/constants/urls';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import { shortenText } from '$lib/utils/helpers/conversionHelper';

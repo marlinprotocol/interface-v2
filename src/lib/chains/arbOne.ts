@@ -22,7 +22,8 @@ export const ARB_ONE: ChainConfig = {
 		POND: '0xdA0a57B710768ae17941a9Fa33f8B720c8bD9ddD',
 		MPOND: '0xC606157CdBEb8e0BDB273E40D6Ee96e151083194',
 		USDC: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
-		OYSTER_CREDIT: ''
+		OYSTER_CREDIT: '',
+		KALYPSO: ''
 	},
 	subgraph_urls: {
 		RECEIVER_STAKING: `https://gateway-arbitrum.network.thegraph.com/api/${PUBLIC_SUBGRAPH_KEY}/subgraphs/id/GUh83DEwZWMTkKaydusdkb46mLuAC7FTL4km1bcNjugc`,

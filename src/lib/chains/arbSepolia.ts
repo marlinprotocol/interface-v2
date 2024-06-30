@@ -21,7 +21,8 @@ export const ARB_SEPOLIA: ChainConfig = {
 		POND: '0x8995673cef56d4cBAE3cE96157a8fc977D4f8525',
 		MPOND: '0x071BaFF53B0Ca54E4aec59Cda64f9cC5a7205e2c',
 		USDC: '0xf4137957B53668800CEAb1Eb71ACb91aDdD1D8fe',
-		OYSTER_CREDIT: '0x6699E4A8ef9937b7451CFe06fAA208008bDC5c97'
+		OYSTER_CREDIT: '0x6699E4A8ef9937b7451CFe06fAA208008bDC5c97',
+		KALYPSO: '0xCf30295AfC4F12FfAC6EE96Da3607e7749881BA7'
 	},
 	subgraph_urls: {
 		RECEIVER_STAKING: 'https://api.studio.thegraph.com/query/76614/staking-arb1-dev/version/latest',
@@ -36,6 +37,10 @@ export const ARB_SEPOLIA: ChainConfig = {
 		rateUnit: 'hour',
 		rateCPUrlUnitInSeconds: 1, // 1 hour
 		rateReviseWaitingTime: 5 * 60 // 5 minutes
+	},
+	kalypso: {
+		blockMineTime: 10, // 10 seconds
+		numberOfBlocksToWait: 10 // 10 blocks
 	},
 	tokens: {
 		POND: {
@@ -58,6 +63,13 @@ export const ARB_SEPOLIA: ChainConfig = {
 			currency: 'USDC',
 			symbol: '$',
 			address: '0xf4137957B53668800CEAb1Eb71ACb91aDdD1D8fe'
+		},
+		MOCK: {
+			decimal: 18,
+			precision: 6,
+			currency: 'MOCK',
+			symbol: '$',
+			address: '0xdb69299dDE4A00c99b885D9f8748B2AeD1Fe4Ed4'
 		}
 	}
 };

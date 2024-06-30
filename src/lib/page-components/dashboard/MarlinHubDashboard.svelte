@@ -112,7 +112,7 @@
 		Marlin is a verifiable computing protocol featuring TEE and ZK-based coprocessors to delegate
 		complex workloads over a decentralized cloud.
 	</p>
-	<div class="mt-6 grid grid-cols-2 gap-5 pb-8">
+	<div class="mt-6 grid grid-cols-2 gap-4 pb-8">
 		{#each cardsList as card}
 			<div class="flex h-60 w-full flex-col justify-between rounded-2xl bg-white p-6">
 				<div class="flex flex-col gap-3">

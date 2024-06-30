@@ -13,7 +13,8 @@ export const ENVIRONMENT_DEV: Environment = {
 		bridge: [421613, 421614],
 		oyster: [421613, 59140, 421614],
 		receiver_staking: [421613, 421614],
-		receiver_rewards: [421613, 421614]
+		receiver_rewards: [421613, 421614],
+		kalypso: [421613, 421614]
 	},
 	dapp_url: 'https://adummy.site',
 	trezor_email: 'arandomsupportemail@xyz.com',

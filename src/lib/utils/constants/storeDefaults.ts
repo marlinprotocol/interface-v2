@@ -3,6 +3,7 @@ import type {
 	ChainStore,
 	ContractAbi,
 	ContractAddress,
+	KalypsoStore,
 	OysterStore,
 	ReceiverRewardsStore,
 	ReceiverStakingData,
@@ -11,6 +12,7 @@ import type {
 } from '$lib/types/storeTypes';
 
 import { environment } from '$lib/data-stores/environment';
+import { ethers } from 'ethers';
 
 // walletProviderStore
 export const DEFAULT_WALLET_STORE: WalletStore = {
@@ -23,7 +25,8 @@ export const DEFAULT_WALLET_STORE: WalletStore = {
 export const DEFAULT_WALLET_BALANCE_STORE: WalletBalanceStore = {
 	pond: 0n,
 	mpond: 0n,
-	usdc: 0n
+	usdc: 0n,
+	mock: 0n
 };
 
 // chainProviderStore
@@ -59,7 +62,8 @@ export const DEFAULT_CONTRACT_ADDRESS_STORE: ContractAddress = {
 	POND: '',
 	MPOND: '',
 	USDC: '',
-	OYSTER_CREDIT: ''
+	OYSTER_CREDIT: '',
+	KALYPSO: ''
 };
 
 // receiver staked, queued data store
@@ -112,4 +116,33 @@ export const DEFAULT_RECEIVER_REWARDS_STORE: ReceiverRewardsStore = {
 	epochDuration: 0,
 	startTime: 0,
 	lastTicketIssuedEpoch: undefined
+};
+
+//kalypso store
+export const DEFAULT_KALYPSO_STORE: KalypsoStore = {
+	decreaseStake: {
+		initiated: false,
+		withdrawAmount: 0n,
+		endEpochTime: 0
+	},
+	decreaseDeclaredCompute: {
+		initiated: false,
+		compute: 0n,
+		endEpochTime: 0
+	},
+	approvedAmount: 0n,
+	registered: false,
+	stakingDetails: {
+		rewardsAddress: ethers.ZeroAddress,
+		stakedAmount: 0n,
+		declaredCompute: 0n,
+		generatorData: ethers.ZeroHash,
+		sumOfComputeAllocations: 0n
+	},
+	blockMetadata: {
+		blockMineTime: 0,
+		numberOfBlocksToWait: 0
+	},
+	activeStakeTab: 'add',
+	activeComputeTab: 'increase'
 };

@@ -13,6 +13,8 @@
 	export let inputCardVariant: InputCardVariant = 'primary';
 	export let currency = '';
 	export let showBalance: boolean = true;
+	export let onlyInteger: boolean = false;
+	export let disabled: boolean = false;
 </script>
 
 <InputCard variant="primary">
@@ -53,6 +55,9 @@
 					<slot name="inputMaxButton" />
 				{/if}
 			</div>
+		{:else}
+			<!-- this is added so that when balance is not being shown the height of the component remains consistent with the one that shows balance -->
+			<div aria-disabled="true" class="h-[22px]"></div>
 		{/if}
 	</form>
 </InputCard>

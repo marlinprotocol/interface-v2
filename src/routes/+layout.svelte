@@ -18,9 +18,10 @@
 				// do nothing
 			};
 		}
-
+		const theme = localStorage?.getItem('theme') || 'light';
+		localStorage.setItem('theme', theme);
 		const htmlElement = document.documentElement;
-		htmlElement.setAttribute('data-theme', 'light');
+		htmlElement.setAttribute('data-theme', theme);
 	});
 </script>
 

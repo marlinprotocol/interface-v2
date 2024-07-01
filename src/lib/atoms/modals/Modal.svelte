@@ -34,7 +34,7 @@
 <input type="checkbox" id={modalFor} class="modal-toggle" tabindex="-1" />
 <div data-testId="modal" class="modal">
 	<div
-		class={cn('modal-box flex flex-col rounded-3xl bg-[#FCFCFC]  p-0 drop-shadow-sm', modalWidth, {
+		class={cn('modal-box flex flex-col rounded-3xl bg-white-100  p-0 drop-shadow-sm', modalWidth, {
 			'overflow-y-auto': showOverFlow,
 			'overflow-x-hidden overflow-y-visible': !individualBorderRadius,
 			'overflow-visible': individualBorderRadius
@@ -42,7 +42,7 @@
 	>
 		<div
 			class={cn(
-				'modal-header sticky top-0 z-10  flex items-center justify-between bg-[#FCFCFC] px-6 pt-6',
+				'modal-header sticky top-0 z-10  flex items-center justify-between bg-white-100 px-6 pt-6',
 				{
 					'items-start': $$slots.successmsg,
 					'rounded-tl-3xl rounded-tr-3xl': individualBorderRadius
@@ -107,7 +107,7 @@
 		</div>
 		{#if $$slots.actionButtons}
 			<div
-				class={cn('modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4', {
+				class={cn('modal-footer sticky bottom-0 z-[2] bg-white-100 px-6 pb-6 pt-4', {
 					'pt-8': padding,
 					'rounded-bl-3xl rounded-br-3xl': individualBorderRadius
 				})}

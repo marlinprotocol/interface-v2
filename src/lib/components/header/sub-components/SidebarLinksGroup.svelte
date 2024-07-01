@@ -134,11 +134,13 @@
 				: staticImages.ecosystemIcon
 		}
 	];
+
+	$: isDarkModeActive = false;
 </script>
 
 <div class="flex h-[calc(100dvh-5rem)] flex-1 flex-col justify-between px-6">
 	<div
-		class="relative max-h-[calc(100dvh-5rem-176px)] overflow-hidden after:absolute after:bottom-0 after:h-10 after:w-full after:bg-gradient-to-b after:from-transparent after:to-white"
+		class="relative max-h-[calc(100dvh-5rem-176px)] overflow-hidden after:absolute after:bottom-0 after:h-10 after:w-full after:bg-gradient-to-b after:from-transparent after:to-base-100"
 	>
 		<ul class="menu max-h-full flex-nowrap overflow-y-auto overflow-x-hidden px-0 pb-10 pt-0">
 			{#each links as { icon, label, children, href, openInNewTab, hasDashboard, id }}
@@ -272,7 +274,19 @@
 			{/each}
 		</ul>
 		<div class="px-4 pt-4">
-			<input type="checkbox" class="toggle" on:change={(e) => {}} />
+			<input
+				type="checkbox"
+				class="toggle"
+				on:change={(e) => {
+					const htmlElement = document.documentElement;
+					isDarkModeActive = !isDarkModeActive;
+					if (isDarkModeActive) {
+						htmlElement.setAttribute('data-theme', 'dark');
+					} else {
+						htmlElement.setAttribute('data-theme', 'light');
+					}
+				}}
+			/>
 		</div>
 
 		<!-- <div class="px-4 py-4">

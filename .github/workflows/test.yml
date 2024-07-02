@@ -37,8 +37,10 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+      - name: Build cache
+        run: xvfb-run npx synpress
       - name: Run Playwright tests
-        run: npx playwright test
+        run: xvfb-run npx playwright test
         env:
           VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
           VITE_SEED_PHRASE: ${{ secrets.VITE_SEED_PHRASE }}

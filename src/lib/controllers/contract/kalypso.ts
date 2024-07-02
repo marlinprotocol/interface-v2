@@ -2,9 +2,8 @@ import { contractAddressStore } from '$lib/data-stores/contractStore';
 import { addToast } from '$lib/data-stores/toastStore';
 import type { Address, ContractAddress } from '$lib/types/storeTypes';
 import { KALYPSO_ABI } from '$lib/utils/abis/kalypso';
-import { MESSAGES } from '$lib/utils/constants/messages';
+import { KALYPSO_TXN_MESSAGES } from '$lib/utils/constants/messages';
 import { DEFAULT_KALYPSO_STORE } from '$lib/utils/constants/storeDefaults';
-import { removeTrailingZeros } from '$lib/utils/helpers/commonHelper';
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
 import { bigNumberToString } from '$lib/utils/helpers/conversionHelper';
 import type { BytesLike } from 'ethers';
@@ -60,24 +59,28 @@ export async function registerInKalypso(
 	const kalypsoContract = createSignerContract(contractAddresses.KALYPSO, KALYPSO_ABI);
 	try {
 		const parentFunctionName = 'registerInKalypso';
-		const initiateTxnMessage = MESSAGES.TOAST.REGISTER_KALYPSO.CREATED.message;
-		const successTxnMessage = MESSAGES.TOAST.REGISTER_KALYPSO.SUCCESS.message;
-		const errorTxnMessage = MESSAGES.TOAST.REGISTER_KALYPSO.FAILED.message;
-		const initiateTxnTitle = MESSAGES.TOAST.REGISTER_KALYPSO.CREATED.title;
-		const successTxnTitle = MESSAGES.TOAST.REGISTER_KALYPSO.SUCCESS.title;
-		const failedTxnTitle = MESSAGES.TOAST.REGISTER_KALYPSO.FAILED.title;
-		const titles = {
-			initiateTxnTitle,
-			successTxnTitle,
-			failedTxnTitle
+		const messages = {
+			initiate: {
+				title: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.INITIATED.title,
+				description: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.INITIATED.description
+			},
+			created: {
+				title: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.CREATED.title,
+				description: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.CREATED.description
+			},
+			success: {
+				title: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.SUCCESS.title,
+				description: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.SUCCESS.description
+			},
+			failed: {
+				title: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.FAILED.title,
+				description: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.FAILED.description
+			}
 		};
 		const { txn } = await createTransaction(
 			() => kalypsoContract.register(rewardAddress, declaredCompute, initialStake, generatorData),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles
+			messages
 		);
 		return txn;
 	} catch (error: any) {
@@ -89,24 +92,28 @@ export async function updateRewardAddressInKalypso(newRewardAddress: Address) {
 	const kalypsoContract = createSignerContract(contractAddresses.KALYPSO, KALYPSO_ABI);
 	try {
 		const parentFunctionName = 'updateRewardAddressInKalypso';
-		const initiateTxnMessage = MESSAGES.TOAST.UPDATE_KALYPSO.CREATED.message;
-		const successTxnMessage = MESSAGES.TOAST.UPDATE_KALYPSO.SUCCESS.message;
-		const errorTxnMessage = MESSAGES.TOAST.UPDATE_KALYPSO.FAILED.message;
-		const initiateTxnTitle = MESSAGES.TOAST.UPDATE_KALYPSO.CREATED.title;
-		const successTxnTitle = MESSAGES.TOAST.UPDATE_KALYPSO.SUCCESS.title;
-		const failedTxnTitle = MESSAGES.TOAST.UPDATE_KALYPSO.FAILED.title;
-		const titles = {
-			initiateTxnTitle,
-			successTxnTitle,
-			failedTxnTitle
+		const messages = {
+			initiate: {
+				title: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.INITIATED.title,
+				description: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.INITIATED.description
+			},
+			created: {
+				title: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.CREATED.title,
+				description: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.CREATED.description
+			},
+			success: {
+				title: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.SUCCESS.title,
+				description: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.SUCCESS.description
+			},
+			failed: {
+				title: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.FAILED.title,
+				description: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.FAILED.description
+			}
 		};
 		const { txn } = await createTransaction(
 			() => kalypsoContract.changeRewardAddress(newRewardAddress),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles
+			messages
 		);
 		return txn;
 	} catch (error: any) {
@@ -118,24 +125,28 @@ export async function unregisterInKalypso(refundAddress: Address) {
 	const kalypsoContract = createSignerContract(contractAddresses.KALYPSO, KALYPSO_ABI);
 	try {
 		const parentFunctionName = 'unregisterInKalypso';
-		const initiateTxnMessage = MESSAGES.TOAST.UNREGISTER_KALYPSO.CREATED.message;
-		const successTxnMessage = MESSAGES.TOAST.UNREGISTER_KALYPSO.SUCCESS.message;
-		const errorTxnMessage = MESSAGES.TOAST.UNREGISTER_KALYPSO.FAILED.message;
-		const initiateTxnTitle = MESSAGES.TOAST.UNREGISTER_KALYPSO.CREATED.title;
-		const successTxnTitle = MESSAGES.TOAST.UNREGISTER_KALYPSO.SUCCESS.title;
-		const failedTxnTitle = MESSAGES.TOAST.UNREGISTER_KALYPSO.FAILED.title;
-		const titles = {
-			initiateTxnTitle,
-			successTxnTitle,
-			failedTxnTitle
+		const messages = {
+			initiate: {
+				title: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.INITIATED.title,
+				description: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.INITIATED.description
+			},
+			created: {
+				title: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.CREATED.title,
+				description: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.CREATED.description
+			},
+			success: {
+				title: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.SUCCESS.title,
+				description: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.SUCCESS.description
+			},
+			failed: {
+				title: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.FAILED.title,
+				description: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.FAILED.description
+			}
 		};
 		const { txn } = await createTransaction(
 			() => kalypsoContract.deregister(refundAddress),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles
+			messages
 		);
 		return txn;
 	} catch (error: any) {
@@ -147,28 +158,30 @@ export async function increaseStakeInKalypso(amount: bigint, generatorAddress: A
 	const kalypsoContract = createSignerContract(contractAddresses.KALYPSO, KALYPSO_ABI);
 	try {
 		const parentFunctionName = 'increaseStakeInKalypso';
-		const initiateTxnMessage = MESSAGES.TOAST.INCREASE_STAKE_KALYPSO.CREATED.message(
-			removeTrailingZeros(bigNumberToString(amount))
-		);
-		const successTxnMessage = MESSAGES.TOAST.INCREASE_STAKE_KALYPSO.SUCCESS.message(
-			removeTrailingZeros(bigNumberToString(amount))
-		);
-		const errorTxnMessage = MESSAGES.TOAST.INCREASE_STAKE_KALYPSO.FAILED.message;
-		const initiateTxnTitle = MESSAGES.TOAST.INCREASE_STAKE_KALYPSO.CREATED.title;
-		const successTxnTitle = MESSAGES.TOAST.INCREASE_STAKE_KALYPSO.SUCCESS.title;
-		const failedTxnTitle = MESSAGES.TOAST.INCREASE_STAKE_KALYPSO.FAILED.title;
-		const titles = {
-			initiateTxnTitle,
-			successTxnTitle,
-			failedTxnTitle
+		const amountInString = bigNumberToString(amount);
+		const messages = {
+			initiate: {
+				title: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.INITIATED.title,
+				description:
+					KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.INITIATED.description(amountInString)
+			},
+			created: {
+				title: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.CREATED.title,
+				description: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.CREATED.description(amountInString)
+			},
+			success: {
+				title: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.SUCCESS.title,
+				description: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.SUCCESS.description(amountInString)
+			},
+			failed: {
+				title: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.FAILED.title,
+				description: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.FAILED.description
+			}
 		};
 		const { txn } = await createTransaction(
 			() => kalypsoContract.stake(generatorAddress, amount),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles
+			messages
 		);
 		return txn;
 	} catch (error: any) {
@@ -180,24 +193,28 @@ export async function initiateDecreaseStakeInKalypso(amountToReduce: bigint) {
 	const kalypsoContract = createSignerContract(contractAddresses.KALYPSO, KALYPSO_ABI);
 	try {
 		const parentFunctionName = 'initiateDecreaseStakeInKalypso';
-		const initiateTxnMessage = MESSAGES.TOAST.INITIATE_DECREASE_STAKE_KALYPSO.CREATED.message;
-		const successTxnMessage = MESSAGES.TOAST.INITIATE_DECREASE_STAKE_KALYPSO.SUCCESS.message;
-		const errorTxnMessage = MESSAGES.TOAST.INITIATE_DECREASE_STAKE_KALYPSO.FAILED.message;
-		const initiateTxnTitle = MESSAGES.TOAST.INITIATE_DECREASE_STAKE_KALYPSO.CREATED.title;
-		const successTxnTitle = MESSAGES.TOAST.INITIATE_DECREASE_STAKE_KALYPSO.SUCCESS.title;
-		const failedTxnTitle = MESSAGES.TOAST.INITIATE_DECREASE_STAKE_KALYPSO.FAILED.title;
-		const titles = {
-			initiateTxnTitle,
-			successTxnTitle,
-			failedTxnTitle
+		const messages = {
+			initiate: {
+				title: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.INITIATED.title,
+				description: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.INITIATED.description
+			},
+			created: {
+				title: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.CREATED.title,
+				description: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.CREATED.description
+			},
+			success: {
+				title: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.SUCCESS.title,
+				description: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.SUCCESS.description
+			},
+			failed: {
+				title: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.FAILED.title,
+				description: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.FAILED.description
+			}
 		};
 		const { txn } = await createTransaction(
 			() => kalypsoContract.intendToReduceStake(amountToReduce),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles
+			messages
 		);
 		return txn;
 	} catch (error: any) {
@@ -209,28 +226,30 @@ export async function decreaseStakeInKalypso(address: Address, amountToReduce: b
 	const kalypsoContract = createSignerContract(contractAddresses.KALYPSO, KALYPSO_ABI);
 	try {
 		const parentFunctionName = 'decreaseStakeInKalypso';
-		const initiateTxnMessage = MESSAGES.TOAST.DECREASE_STAKE_KALYPSO.CREATED.message(
-			removeTrailingZeros(bigNumberToString(amountToReduce))
-		);
-		const successTxnMessage = MESSAGES.TOAST.DECREASE_STAKE_KALYPSO.SUCCESS.message(
-			removeTrailingZeros(bigNumberToString(amountToReduce))
-		);
-		const errorTxnMessage = MESSAGES.TOAST.DECREASE_STAKE_KALYPSO.FAILED.message;
-		const initiateTxnTitle = MESSAGES.TOAST.DECREASE_STAKE_KALYPSO.CREATED.title;
-		const successTxnTitle = MESSAGES.TOAST.DECREASE_STAKE_KALYPSO.SUCCESS.title;
-		const failedTxnTitle = MESSAGES.TOAST.DECREASE_STAKE_KALYPSO.FAILED.title;
-		const titles = {
-			initiateTxnTitle,
-			successTxnTitle,
-			failedTxnTitle
+		const amountInString = bigNumberToString(amountToReduce);
+		const messages = {
+			initiate: {
+				title: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.INITIATED.title,
+				description:
+					KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.INITIATED.description(amountInString)
+			},
+			created: {
+				title: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.CREATED.title,
+				description: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.CREATED.description(amountInString)
+			},
+			success: {
+				title: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.SUCCESS.title,
+				description: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.SUCCESS.description(amountInString)
+			},
+			failed: {
+				title: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.FAILED.title,
+				description: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.FAILED.description
+			}
 		};
 		const { txn } = await createTransaction(
 			() => kalypsoContract.unstake(address),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles
+			messages
 		);
 		return txn;
 	} catch (error: any) {
@@ -242,24 +261,28 @@ export async function increaseDeclaredComputeInKalypso(computeToIncrease: bigint
 	const kalypsoContract = createSignerContract(contractAddresses.KALYPSO, KALYPSO_ABI);
 	try {
 		const parentFunctionName = 'increaseDeclaredComputeInKalypso';
-		const initiateTxnMessage = MESSAGES.TOAST.INCREASE_DECLARED_COMPUTE_KALYPSO.CREATED.message;
-		const successTxnMessage = MESSAGES.TOAST.INCREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.message;
-		const errorTxnMessage = MESSAGES.TOAST.INCREASE_DECLARED_COMPUTE_KALYPSO.FAILED.message;
-		const initiateTxnTitle = MESSAGES.TOAST.INCREASE_DECLARED_COMPUTE_KALYPSO.CREATED.title;
-		const successTxnTitle = MESSAGES.TOAST.INCREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.title;
-		const failedTxnTitle = MESSAGES.TOAST.INCREASE_DECLARED_COMPUTE_KALYPSO.FAILED.title;
-		const titles = {
-			initiateTxnTitle,
-			successTxnTitle,
-			failedTxnTitle
+		const messages = {
+			initiate: {
+				title: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.INITIATED.title,
+				description: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.INITIATED.description
+			},
+			created: {
+				title: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.CREATED.title,
+				description: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.CREATED.description
+			},
+			success: {
+				title: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.title,
+				description: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.description
+			},
+			failed: {
+				title: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.FAILED.title,
+				description: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.FAILED.description
+			}
 		};
 		const { txn } = await createTransaction(
 			() => kalypsoContract.increaseDeclaredCompute(computeToIncrease),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles
+			messages
 		);
 		return txn;
 	} catch (error: any) {
@@ -271,28 +294,33 @@ export async function initiateDecreaseDeclaredComputeInKalypso(computeToReduce: 
 	const kalypsoContract = createSignerContract(contractAddresses.KALYPSO, KALYPSO_ABI);
 	try {
 		const parentFunctionName = 'initiateDecreaseDeclaredCompute';
-		const initiateTxnMessage =
-			MESSAGES.TOAST.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.CREATED.message;
-		const successTxnMessage =
-			MESSAGES.TOAST.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.message;
-		const errorTxnMessage =
-			MESSAGES.TOAST.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.FAILED.message;
-		const initiateTxnTitle =
-			MESSAGES.TOAST.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.CREATED.title;
-		const successTxnTitle = MESSAGES.TOAST.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.title;
-		const failedTxnTitle = MESSAGES.TOAST.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.FAILED.title;
-		const titles = {
-			initiateTxnTitle,
-			successTxnTitle,
-			failedTxnTitle
+		const messages = {
+			initiate: {
+				title: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.INITIATED.title,
+				description:
+					KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.INITIATED.description
+			},
+			created: {
+				title: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.CREATED.title,
+				description:
+					KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.CREATED.description
+			},
+			success: {
+				title: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.title,
+				description:
+					KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.description
+			},
+			failed: {
+				title: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.FAILED.title,
+				description:
+					KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.FAILED.description
+			}
 		};
+
 		const { txn } = await createTransaction(
 			() => kalypsoContract.intendToReduceCompute(computeToReduce),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles
+			messages
 		);
 		return txn;
 	} catch (error: any) {
@@ -304,24 +332,29 @@ export async function decreaseDeclaredComputeInKalypso() {
 	const kalypsoContract = createSignerContract(contractAddresses.KALYPSO, KALYPSO_ABI);
 	try {
 		const parentFunctionName = 'decreaseDeclaredComputeInKalypso';
-		const initiateTxnMessage = MESSAGES.TOAST.DECREASE_DECLARED_COMPUTE_KALYPSO.CREATED.message;
-		const successTxnMessage = MESSAGES.TOAST.DECREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.message;
-		const errorTxnMessage = MESSAGES.TOAST.DECREASE_DECLARED_COMPUTE_KALYPSO.FAILED.message;
-		const initiateTxnTitle = MESSAGES.TOAST.DECREASE_DECLARED_COMPUTE_KALYPSO.CREATED.title;
-		const successTxnTitle = MESSAGES.TOAST.DECREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.title;
-		const failedTxnTitle = MESSAGES.TOAST.DECREASE_DECLARED_COMPUTE_KALYPSO.FAILED.title;
-		const titles = {
-			initiateTxnTitle,
-			successTxnTitle,
-			failedTxnTitle
+		const messages = {
+			initiate: {
+				title: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.INITIATED.title,
+				description: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.INITIATED.description
+			},
+			created: {
+				title: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.CREATED.title,
+				description: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.CREATED.description
+			},
+			success: {
+				title: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.title,
+				description: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.description
+			},
+			failed: {
+				title: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.FAILED.title,
+				description: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.FAILED.description
+			}
 		};
+
 		const { txn } = await createTransaction(
 			() => kalypsoContract.decreaseDeclaredCompute(),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles
+			messages
 		);
 		return txn;
 	} catch (error: any) {

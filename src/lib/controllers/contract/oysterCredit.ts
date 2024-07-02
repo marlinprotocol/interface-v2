@@ -1,7 +1,7 @@
 import { contractAddressStore } from '$lib/data-stores/contractStore';
 import type { ContractAddress } from '$lib/types/storeTypes';
 import { OYSTER_CREDIT_ABI } from '$lib/utils/abis/oysterCredit';
-import { MESSAGES } from '$lib/utils/constants/messages';
+import { COMMON_TXN_MESSAGES, OYSTER_CREDIT_TXN_MESSAGES } from '$lib/utils/constants/messages';
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
 import type { BytesLike } from 'ethers';
 
@@ -21,29 +21,32 @@ export async function createNewOysterJobWithCredits(
 		OYSTER_CREDIT_ABI
 	);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.CREATE_JOB_WITH_CREDIT.CREATING;
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.CREATE_JOB_WITH_CREDIT.CREATED;
-		const errorTxnMessage = 'Unable to create new Oyster Job with credits.';
 		const parentFunctionName = 'createNewOysterJobWithCredits';
-
-		const initiateTxnTitle = MESSAGES.TOAST.DEPLOY.CREATED;
-		const successTxnTitle = MESSAGES.TOAST.DEPLOY.SUCCESS;
-		const failedTxnTitle = MESSAGES.TOAST.DEPLOY.FAILED;
-		const titles = {
-			initiateTxnTitle,
-			successTxnTitle,
-			failedTxnTitle
+		const messages = {
+			initiate: {
+				title: COMMON_TXN_MESSAGES.INITIATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.CREATE_JOB_WITH_CREDIT.INITIATED.description
+			},
+			created: {
+				title: COMMON_TXN_MESSAGES.CREATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.CREATE_JOB_WITH_CREDIT.CREATED.description
+			},
+			success: {
+				title: COMMON_TXN_MESSAGES.SUCCESS.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.CREATE_JOB_WITH_CREDIT.SUCCESS.description
+			},
+			failed: {
+				title: COMMON_TXN_MESSAGES.FAILED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.CREATE_JOB_WITH_CREDIT.FAILED.description
+			}
 		};
 
 		// using "send" on the base contract method as we want a contractTransactionReceipt to
 		// get the jobId of the newly created job emitted as an event from the contract
 		const { txn, approveReciept } = await createTransaction(
 			() => oysterCreditContract.jobOpen.send(metadata, provider, rate, balance),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles
+			messages
 		);
 
 		return {
@@ -61,17 +64,30 @@ export async function addCreditsToOysterJob(jobId: BytesLike, amount: bigint) {
 		OYSTER_CREDIT_ABI
 	);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.ADD_CREDITS_JOB.ADDING_CREDITS;
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.ADD_CREDITS_JOB.CREDITS_ADDED;
-		const errorTxnMessage = 'Unable to add credits to Oyster Job.';
 		const parentFunctionName = 'addCreditsToOysterJob';
+		const messages = {
+			initiate: {
+				title: COMMON_TXN_MESSAGES.INITIATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.ADD_CREDITS_JOB.INITIATED.description
+			},
+			created: {
+				title: COMMON_TXN_MESSAGES.CREATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.ADD_CREDITS_JOB.CREATED.description
+			},
+			success: {
+				title: COMMON_TXN_MESSAGES.SUCCESS.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.ADD_CREDITS_JOB.SUCCESS.description
+			},
+			failed: {
+				title: COMMON_TXN_MESSAGES.FAILED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.ADD_CREDITS_JOB.FAILED.description
+			}
+		};
 
 		const { txn } = await createTransaction(
 			() => oysterCreditContract.jobDeposit(jobId, amount),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			messages
 		);
 
 		return txn;
@@ -86,17 +102,30 @@ export async function stopOysterCreditJob(jobId: BytesLike) {
 		OYSTER_CREDIT_ABI
 	);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.STOP_CREDIT_JOB.STOPPING;
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.STOP_CREDIT_JOB.STOPPED;
-		const errorTxnMessage = 'Unable to stop Oyster Job.';
 		const parentFunctionName = 'stopOysterCreditJob';
+		const messages = {
+			initiate: {
+				title: COMMON_TXN_MESSAGES.INITIATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.STOP_CREDIT_JOB.INITIATED.description
+			},
+			created: {
+				title: COMMON_TXN_MESSAGES.CREATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.STOP_CREDIT_JOB.CREATED.description
+			},
+			success: {
+				title: COMMON_TXN_MESSAGES.SUCCESS.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.STOP_CREDIT_JOB.SUCCESS.description
+			},
+			failed: {
+				title: COMMON_TXN_MESSAGES.FAILED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.STOP_CREDIT_JOB.FAILED.description
+			}
+		};
 
 		const { txn } = await createTransaction(
 			() => oysterCreditContract.jobClose(jobId),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			messages
 		);
 
 		return txn;
@@ -111,17 +140,30 @@ export async function withdrawFundsFromOysterCreditJob(jobId: BytesLike, amount:
 		OYSTER_CREDIT_ABI
 	);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.WITHDRAW_JOB_CREDIT.WITHDRAWING;
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.WITHDRAW_JOB_CREDIT.WITHDRAWN;
-		const errorTxnMessage = 'Unable to withdraw funds from Oyster Job.';
 		const parentFunctionName = 'withdrawFundsFromOysterCreditJob';
+		const messages = {
+			initiate: {
+				title: COMMON_TXN_MESSAGES.INITIATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.WITHDRAW_JOB_CREDIT.INITIATED.description
+			},
+			created: {
+				title: COMMON_TXN_MESSAGES.CREATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.WITHDRAW_JOB_CREDIT.CREATED.description
+			},
+			success: {
+				title: COMMON_TXN_MESSAGES.SUCCESS.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.WITHDRAW_JOB_CREDIT.SUCCESS.description
+			},
+			failed: {
+				title: COMMON_TXN_MESSAGES.FAILED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.WITHDRAW_JOB_CREDIT.FAILED.description
+			}
+		};
 
 		const { txn } = await createTransaction(
 			() => oysterCreditContract.jobWithdraw(jobId, amount),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			messages
 		);
 
 		return txn;
@@ -136,17 +178,30 @@ export async function initiateRateReviseOysterCreditJob(jobId: BytesLike, rate: 
 		OYSTER_CREDIT_ABI
 	);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATING;
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATED;
-		const errorTxnMessage = 'Unable to initiate rate revision for Oyster Job.';
 		const parentFunctionName = 'initiateRateReviseOysterCreditJob';
+		const messages = {
+			initiate: {
+				title: COMMON_TXN_MESSAGES.INITIATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.INITIATED.description
+			},
+			created: {
+				title: COMMON_TXN_MESSAGES.CREATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.CREATED.description
+			},
+			success: {
+				title: COMMON_TXN_MESSAGES.SUCCESS.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.SUCCESS.description
+			},
+			failed: {
+				title: COMMON_TXN_MESSAGES.FAILED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.FAILED.description
+			}
+		};
 
 		const { txn } = await createTransaction(
 			() => oysterCreditContract.jobReviseRateInitiate(jobId, rate),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			messages
 		);
 
 		return txn;
@@ -161,25 +216,30 @@ export async function initiateBandwidthRateReviseOysterCreditJob(jobId: BytesLik
 		OYSTER_CREDIT_ABI
 	);
 	try {
-		const initiateTxnMessage = '';
-		const successTxnMessage = '';
-		const errorTxnMessage = 'Unable to initiate rate revision for Oyster Job.';
 		const parentFunctionName = 'initiateRateReviseOysterCreditJob';
-
-		const titles = {
-			initiateTxnTitle: MESSAGES.TOAST.INIT_CHANGE_BANDWIDTH.CREATED,
-			successTxnTitle: MESSAGES.TOAST.INIT_CHANGE_BANDWIDTH.SUCCESS,
-			failedTxnTitle: MESSAGES.TOAST.INIT_CHANGE_BANDWIDTH.FAILED
+		const messages = {
+			initiate: {
+				title: COMMON_TXN_MESSAGES.INITIATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.INITIATED.description
+			},
+			created: {
+				title: COMMON_TXN_MESSAGES.CREATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.CREATED.description
+			},
+			success: {
+				title: COMMON_TXN_MESSAGES.SUCCESS.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.SUCCESS.description
+			},
+			failed: {
+				title: COMMON_TXN_MESSAGES.FAILED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.FAILED.description
+			}
 		};
 
 		const { txn } = await createTransaction(
 			() => oysterCreditContract.jobReviseRateInitiate(jobId, rate),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles,
-			{ disableToastDescription: true }
+			messages
 		);
 
 		return txn;
@@ -194,17 +254,30 @@ export async function finaliseRateReviseOysterCreditJob(jobId: BytesLike) {
 		OYSTER_CREDIT_ABI
 	);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.AMENDING;
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.AMENDED;
-		const errorTxnMessage = 'Unable to finalise rate revision for Oyster Job.';
 		const parentFunctionName = 'finaliseRateReviseOysterCreditJob';
+		const messages = {
+			initiate: {
+				title: COMMON_TXN_MESSAGES.INITIATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.AMEND_RATE_JOB.INITIATED
+			},
+			created: {
+				title: COMMON_TXN_MESSAGES.CREATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.AMEND_RATE_JOB.CREATED
+			},
+			success: {
+				title: COMMON_TXN_MESSAGES.SUCCESS.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.AMEND_RATE_JOB.SUCCESS
+			},
+			failed: {
+				title: COMMON_TXN_MESSAGES.FAILED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.AMEND_RATE_JOB.FAILED
+			}
+		};
 
 		const { txn } = await createTransaction(
 			() => oysterCreditContract.jobReviseRateFinalize(jobId),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
-			parentFunctionName
+			parentFunctionName,
+			messages
 		);
 
 		return txn;
@@ -219,25 +292,30 @@ export async function finaliseBandwidthRateReviseOysterCreditJob(jobId: BytesLik
 		OYSTER_CREDIT_ABI
 	);
 	try {
-		const initiateTxnMessage = '';
-		const successTxnMessage = '';
-		const errorTxnMessage = 'Unable to finalise rate revision for Oyster Job.';
 		const parentFunctionName = 'finaliseRateReviseOysterCreditJob';
-
-		const titles = {
-			initiateTxnTitle: MESSAGES.TOAST.FINAL_CHANGE_BANDWIDTH.CREATED,
-			successTxnTitle: MESSAGES.TOAST.FINAL_CHANGE_BANDWIDTH.SUCCESS,
-			failedTxnTitle: MESSAGES.TOAST.FINAL_CHANGE_BANDWIDTH.FAILED
+		const messages = {
+			initiate: {
+				title: COMMON_TXN_MESSAGES.INITIATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.INITIATED.description
+			},
+			created: {
+				title: COMMON_TXN_MESSAGES.CREATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.CREATED.description
+			},
+			success: {
+				title: COMMON_TXN_MESSAGES.SUCCESS.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.SUCCESS.description
+			},
+			failed: {
+				title: COMMON_TXN_MESSAGES.FAILED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.FAILED.description
+			}
 		};
 
 		const { txn } = await createTransaction(
 			() => oysterCreditContract.jobReviseRateFinalize(jobId),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles,
-			{ disableToastDescription: true }
+			messages
 		);
 
 		return txn;
@@ -252,27 +330,30 @@ export async function cancelRateReviseOysterCreditJob(jobId: BytesLike) {
 		OYSTER_CREDIT_ABI
 	);
 	try {
-		const initiateTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.CANCELLING;
-		const successTxnMessage = MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.CANCELLED;
-		const errorTxnMessage = 'Unable to cancel rate revision for Oyster Job.';
 		const parentFunctionName = 'cancelRateReviseOysterCreditJob';
-
-		const initiateTxnTitle = MESSAGES.TOAST.CANCEL_STOP.CREATED;
-		const successTxnTitle = MESSAGES.TOAST.CANCEL_STOP.SUCCESS;
-		const failedTxnTitle = MESSAGES.TOAST.CANCEL_STOP.FAILED;
-		const titles = {
-			initiateTxnTitle,
-			successTxnTitle,
-			failedTxnTitle
+		const messages = {
+			initiate: {
+				title: COMMON_TXN_MESSAGES.INITIATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.CANCEL.INITITATED
+			},
+			created: {
+				title: COMMON_TXN_MESSAGES.CREATED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.CANCEL.CREATED
+			},
+			success: {
+				title: COMMON_TXN_MESSAGES.SUCCESS.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.CANCEL.SUCCESS
+			},
+			failed: {
+				title: COMMON_TXN_MESSAGES.FAILED.title,
+				description: OYSTER_CREDIT_TXN_MESSAGES.CANCEL.FAILED
+			}
 		};
 
 		const { txn } = await createTransaction(
 			() => oysterCreditContract.jobReviseRateCancel(jobId),
-			initiateTxnMessage,
-			successTxnMessage,
-			errorTxnMessage,
 			parentFunctionName,
-			titles
+			messages
 		);
 
 		return txn;

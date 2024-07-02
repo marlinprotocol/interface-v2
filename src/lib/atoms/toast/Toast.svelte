@@ -17,7 +17,7 @@
 				class={cn(
 					'alert flex w-fit flex-row justify-start gap-3 whitespace-normal !rounded-[15px] border-0 py-[17.5px] pl-[13px] pr-[46px] font-medium shadow-lg',
 					toast.message.description ? 'items-start' : 'items-center',
-					toast.className
+					toast.bgColor
 				)}
 				out:fly={{ x: 30, duration: 300 }}
 			>

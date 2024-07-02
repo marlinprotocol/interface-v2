@@ -27,31 +27,22 @@ export const addToast = ({
 	message = { title: 'Set Toast Message Title', description: 'Set toast description' },
 	dismissible = true,
 	timeout = 2800,
-	variant
+	variant = 'success'
 }: Toast) => {
 	// Create a unique ID so we can easily find/remove it
 	// if it is dismissible/has a timeout.
 	const id = Math.floor(Math.random() * 10000);
 
-	const defaults: Toast = {
-		variant: 'success',
-		timeout: 2800,
-		message: { title: 'Set Toast Message Title' }
-	};
-
-	const bgColor = getColorClassByVariant(variant ? variant : defaults.variant);
-	const iconData = getIconbyVariant(variant ? variant : defaults.variant);
-
-	const className = `${bgColor} `;
+	const bgColor = getColorClassByVariant(variant);
+	const iconData = getIconbyVariant(variant);
 
 	// Push the toast to the top of the list of toasts
 	const t: ToastModel = {
 		id,
-		...defaults,
+		variant,
 		message,
 		dismissible,
 		timeout,
-		className,
 		iconData,
 		bgColor
 	};

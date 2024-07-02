@@ -46,9 +46,11 @@ export type CommonVariant =
 	| 'disabled'
 	| 'grey';
 
+export type ToastMessages = { title: string; description: string };
+
 export type Toast = {
 	id?: number;
-	message: { title: string; description?: string };
+	message: ToastMessages;
 	dismissible?: boolean;
 	timeout?: number;
 	variant: CommonVariant;
@@ -56,8 +58,7 @@ export type Toast = {
 
 export type ToastModel = {
 	bgColor: string;
-	message: { title: string; description?: string };
-	className: string;
+	message: ToastMessages;
 	dismissible: boolean;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	iconData: any;

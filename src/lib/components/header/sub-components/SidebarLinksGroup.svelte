@@ -273,7 +273,9 @@
 				<MenuItem {...item} />
 			{/each}
 		</ul>
-		<div class="px-4 pt-4">
+		<!----------------------------------------------------------------------------------->
+		<!-- Uncomment the following code to enable theme switcher -->
+		<!-- <div class="px-4 pt-4">
 			<input
 				type="checkbox"
 				class="toggle"
@@ -290,7 +292,8 @@
 					}
 				}}
 			/>
-		</div>
+		</div> -->
+		<!----------------------------------------------------------------------------------->
 
 		<!-- <div class="px-4 py-4">
 			<label

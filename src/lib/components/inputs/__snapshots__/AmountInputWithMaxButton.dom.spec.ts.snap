@@ -13,7 +13,7 @@ exports[`AmountInputWithMaxButton > render's the component properly 1`] = `
         >
           <input
             autocomplete="off"
-            class="hideInputNumberAppearance input input-ghost input-primary text-3xl placeholder:text-[#030115]/[.2]"
+            class="hideInputNumberAppearance input input-ghost input-primary text-3xl placeholder:text-grey-800/[.2]"
             disabled=""
             id="pond-input-amount-"
             placeholder="0.00"

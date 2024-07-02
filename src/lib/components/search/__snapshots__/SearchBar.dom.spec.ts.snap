@@ -15,7 +15,7 @@ exports[`SearchBar > render's the component properly 1`] = `
       />
        
       <input
-        class="input input-ghost h-[30px] w-full text-base p-0 font-normal text-[#030115] focus:outline-none focus-within:border-b-2 focus-within:text-[#030115] focus:bg-transparent disabled:text-blue-500 placeholder-[#A8A8A8] hideInputNumberAppearance"
+        class="input input-ghost h-[30px] w-full text-base p-0 font-normal text-grey-800 focus:outline-none focus-within:border-b-2 focus-within:text-grey-800 focus:bg-transparent disabled:text-blue-500 placeholder-[#A8A8A8] hideInputNumberAppearance"
         id="address-display"
         placeholder="Search..."
         prefix="0x"

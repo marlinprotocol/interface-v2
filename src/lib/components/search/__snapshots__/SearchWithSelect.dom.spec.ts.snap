@@ -34,7 +34,7 @@ exports[`SearchWithSelect > render's component properly 1`] = `
             class="flex items-center"
           >
             <input
-              class="input input-ghost h-[30px] w-full text-body p-0 font-normal text-[#030115] disabled:opacity-70 disabled:text-[#030115] disabled:placeholder:text-[#030115]/[.2] focus-within:text-[#030115] placeholder:text-[#030115]/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent placeholder-[#A8A8A8]"
+              class="input input-ghost h-[30px] w-full text-body p-0 font-normal text-grey-800 disabled:opacity-70 disabled:text-grey-800 disabled:placeholder:text-grey-800/[.2] focus-within:text-grey-800 placeholder:text-grey-800/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent placeholder-[#A8A8A8]"
               placeholder="Search..."
             />
              

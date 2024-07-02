@@ -24,7 +24,7 @@ exports[`ChainSwitcher > renders the ChainSwitcher component properly 1`] = `
       id="chain-dropdown"
     >
       <div
-        class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-white text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"
+        class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"
         role="button"
         tabindex="0"
       >
@@ -107,10 +107,10 @@ exports[`Disconnect Wallet Modal > renders the Disconnect Wallet Modal component
       data-testid="modal"
     >
       <div
-        class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
+        class="modal-box flex flex-col rounded-3xl bg-white-100 p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
       >
         <div
-          class="modal-header sticky top-0 z-10 flex items-center justify-between bg-[#FCFCFC] px-6 pt-6 s-GZwqZrPaBy6h"
+          class="modal-header sticky top-0 z-10 flex items-center justify-between bg-white-100 px-6 pt-6 s-GZwqZrPaBy6h"
         >
           <div
             class="flex w-full flex-col s-GZwqZrPaBy6h"
@@ -246,7 +246,7 @@ exports[`Disconnect Wallet Modal > renders the Disconnect Wallet Modal component
         </div>
          
         <div
-          class="modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
+          class="modal-footer sticky bottom-0 z-[2] bg-white-100 px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
         >
           <button
             class="gap-1.5 h-14 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full font-semibold text-base"

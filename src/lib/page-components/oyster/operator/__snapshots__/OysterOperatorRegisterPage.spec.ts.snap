@@ -8,7 +8,7 @@ exports[`OysterOperatorRegistration > renders the component 1`] = `
         class="flex items-center justify-between"
       >
         <div
-          class="font-poppins leading-[-2px] text-[#030115] text-3xl font-medium"
+          class="font-poppins leading-[-2px] text-grey-800 text-3xl font-medium"
           data-testid="text"
         >
           Hello, Fishy
@@ -69,10 +69,10 @@ exports[`OysterOperatorRegistration > renders the component 1`] = `
       data-testid="modal"
     >
       <div
-        class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
+        class="modal-box flex flex-col rounded-3xl bg-white-100 p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
       >
         <div
-          class="modal-header sticky top-0 z-10 flex items-center justify-between bg-[#FCFCFC] px-6 pt-6 s-GZwqZrPaBy6h"
+          class="modal-header sticky top-0 z-10 flex items-center justify-between bg-white-100 px-6 pt-6 s-GZwqZrPaBy6h"
         >
           <div
             class="flex w-full flex-col s-GZwqZrPaBy6h"
@@ -108,7 +108,7 @@ exports[`OysterOperatorRegistration > renders the component 1`] = `
             data-testid="input-card"
           >
             <p
-              class="absolute left-7 top-[-1px] z-[1] inline-flex bg-white font-poppins text-sm font-normal leading-[1px] text-[#030115]"
+              class="absolute left-7 top-[-1px] z-[1] inline-flex bg-white font-poppins text-sm font-normal leading-[1px] text-grey-800"
             >
               Control Plane URL
                
@@ -125,7 +125,7 @@ exports[`OysterOperatorRegistration > renders the component 1`] = `
             >
                
               <input
-                class="input input-ghost h-[30px] w-full p-0 font-normal text-[#030115] disabled:opacity-70 disabled:text-[#030115] disabled:placeholder:text-[#030115]/[.2] focus-within:text-[#030115] placeholder:text-[#030115]/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent hideInputNumberAppearance"
+                class="input input-ghost h-[30px] w-full p-0 font-normal text-grey-800 disabled:opacity-70 disabled:text-grey-800 disabled:placeholder:text-grey-800/[.2] focus-within:text-grey-800 placeholder:text-grey-800/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent hideInputNumberAppearance"
                 id="address-display"
                 placeholder="Paste URL here"
               />
@@ -143,7 +143,7 @@ exports[`OysterOperatorRegistration > renders the component 1`] = `
         </div>
          
         <div
-          class="modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
+          class="modal-footer sticky bottom-0 z-[2] bg-white-100 px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
         >
           <button
             class="gap-1.5 h-12 btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full font-normal"

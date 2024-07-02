@@ -11,7 +11,7 @@ exports[`AmountInputWithTitle > render's the component properly 1`] = `
         class="relative flex flex-1 flex-col"
       >
         <button
-          class="left-[12px] top-[-20px] font-normal absolute cursor-text bg-white font-poppins text-sm text-[#030115] transition-all"
+          class="left-[12px] top-[-20px] font-normal absolute cursor-text bg-white font-poppins text-sm text-grey-800 transition-all"
           id="title-"
         >
           Sample Title
@@ -22,7 +22,7 @@ exports[`AmountInputWithTitle > render's the component properly 1`] = `
         class="mt-1 flex items-center"
       >
         <div
-          class="text-sm text-[#030115] text-base font-normal"
+          class="text-sm text-grey-800 text-base font-normal"
           data-testid="text"
         >
           $
@@ -31,7 +31,7 @@ exports[`AmountInputWithTitle > render's the component properly 1`] = `
          
         <input
           autocomplete="off"
-          class="hideInputNumberAppearance input input-ghost h-[30px] w-full p-0 font-normal text-[#030115] disabled:opacity-70 disabled:text-[#030115] disabled:placeholder:text-[#030115]/[.2] focus-within:text-[#030115] placeholder:text-[#030115]/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent"
+          class="hideInputNumberAppearance input input-ghost h-[30px] w-full p-0 font-normal text-grey-800 disabled:opacity-70 disabled:text-grey-800 disabled:placeholder:text-grey-800/[.2] focus-within:text-grey-800 placeholder:text-grey-800/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent"
           id="pond-input-amount-"
           placeholder="0.00"
         />

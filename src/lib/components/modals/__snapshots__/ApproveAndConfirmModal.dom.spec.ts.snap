@@ -31,10 +31,10 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
       data-testid="modal"
     >
       <div
-        class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
+        class="modal-box flex flex-col rounded-3xl bg-white-100 p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
       >
         <div
-          class="modal-header sticky top-0 z-10 flex items-center justify-between bg-[#FCFCFC] px-6 pt-6 s-GZwqZrPaBy6h"
+          class="modal-header sticky top-0 z-10 flex items-center justify-between bg-white-100 px-6 pt-6 s-GZwqZrPaBy6h"
         >
           <div
             class="flex w-full flex-col s-GZwqZrPaBy6h"
@@ -79,7 +79,7 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
             </div>
              
             <div
-              class="grow text-left text-xl font-normal text-[#030115]"
+              class="grow text-left text-xl font-normal text-grey-800"
             >
               Approve
 				
@@ -105,7 +105,7 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
             </div>
              
             <div
-              class="grow text-left text-xl font-normal text-[#030115]"
+              class="grow text-left text-xl font-normal text-grey-800"
             >
               Convert
 				
@@ -131,7 +131,7 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
         </div>
          
         <div
-          class="modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
+          class="modal-footer sticky bottom-0 z-[2] bg-white-100 px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
         >
           <button
             class="gap-1.5 h-14 text-base font-normal btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full"
@@ -161,10 +161,10 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
       data-testid="modal"
     >
       <div
-        class="modal-box flex flex-col rounded-3xl bg-[#FCFCFC] p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
+        class="modal-box flex flex-col rounded-3xl bg-white-100 p-0 drop-shadow-sm w-11/12 sm:w-3/4 sm:max-w-[607px] overflow-x-hidden overflow-y-visible s-GZwqZrPaBy6h"
       >
         <div
-          class="modal-header sticky top-0 z-10 flex justify-between bg-[#FCFCFC] px-6 pt-6 items-start s-GZwqZrPaBy6h"
+          class="modal-header sticky top-0 z-10 flex justify-between bg-white-100 px-6 pt-6 items-start s-GZwqZrPaBy6h"
         >
           <div
             class="flex w-full flex-col s-GZwqZrPaBy6h"
@@ -274,7 +274,7 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
         </div>
          
         <div
-          class="modal-footer sticky bottom-0 z-[2] bg-[#FCFCFC] px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
+          class="modal-footer sticky bottom-0 z-[2] bg-white-100 px-6 pb-6 pt-4 s-GZwqZrPaBy6h"
         >
           <button
             class="gap-1.5 h-14 text-base font-normal btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white w-full"

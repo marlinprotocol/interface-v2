@@ -22,19 +22,19 @@ export async function initiateReceiverRewards(rewardBalance: bigint, rewardPerEp
 		const messages = {
 			initiate: {
 				title: COMMON_TXN_MESSAGES.INITIATED.title,
-				message: RECEIVER_REWARDS_TXN_MESSAGES.INITIATE.INITIATED.message
+				description: RECEIVER_REWARDS_TXN_MESSAGES.INITIATE.INITIATED.description
 			},
 			created: {
 				title: COMMON_TXN_MESSAGES.CREATED.title,
-				message: RECEIVER_REWARDS_TXN_MESSAGES.INITIATE.CREATED.message
+				description: RECEIVER_REWARDS_TXN_MESSAGES.INITIATE.CREATED.description
 			},
 			success: {
 				title: COMMON_TXN_MESSAGES.SUCCESS.title,
-				message: RECEIVER_REWARDS_TXN_MESSAGES.INITIATE.SUCCESS.message
+				description: RECEIVER_REWARDS_TXN_MESSAGES.INITIATE.SUCCESS.description
 			},
 			failed: {
 				title: COMMON_TXN_MESSAGES.FAILED.title,
-				message: RECEIVER_REWARDS_TXN_MESSAGES.INITIATE.FAILED.message
+				description: RECEIVER_REWARDS_TXN_MESSAGES.INITIATE.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -62,19 +62,19 @@ export async function addReceiverBalance(receiverAddress: Address, rewardBalance
 		const messages = {
 			initiate: {
 				title: COMMON_TXN_MESSAGES.INITIATED.title,
-				message: RECEIVER_REWARDS_TXN_MESSAGES.ADD_BALANCE.INITIATED.message(amountInString)
+				description: RECEIVER_REWARDS_TXN_MESSAGES.ADD_BALANCE.INITIATED.description(amountInString)
 			},
 			created: {
 				title: COMMON_TXN_MESSAGES.CREATED.title,
-				message: RECEIVER_REWARDS_TXN_MESSAGES.ADD_BALANCE.CREATED.message(amountInString)
+				description: RECEIVER_REWARDS_TXN_MESSAGES.ADD_BALANCE.CREATED.description(amountInString)
 			},
 			success: {
 				title: COMMON_TXN_MESSAGES.SUCCESS.title,
-				message: RECEIVER_REWARDS_TXN_MESSAGES.ADD_BALANCE.SUCCESS.message(amountInString)
+				description: RECEIVER_REWARDS_TXN_MESSAGES.ADD_BALANCE.SUCCESS.description(amountInString)
 			},
 			failed: {
 				title: COMMON_TXN_MESSAGES.FAILED.title,
-				message: RECEIVER_REWARDS_TXN_MESSAGES.ADD_BALANCE.FAILED.message(amountInString)
+				description: RECEIVER_REWARDS_TXN_MESSAGES.ADD_BALANCE.FAILED.description(amountInString)
 			}
 		};
 		const { txn } = await createTransaction(
@@ -102,19 +102,22 @@ export async function updateReceiverTicketReward(rewardPerEpoch: bigint) {
 		const messages = {
 			initiate: {
 				title: COMMON_TXN_MESSAGES.INITIATED.title,
-				message: RECEIVER_REWARDS_TXN_MESSAGES.UPDATE_REWARDS.INITIATED.message(amountInString)
+				description:
+					RECEIVER_REWARDS_TXN_MESSAGES.UPDATE_REWARDS.INITIATED.description(amountInString)
 			},
 			created: {
 				title: COMMON_TXN_MESSAGES.CREATED.title,
-				message: RECEIVER_REWARDS_TXN_MESSAGES.UPDATE_REWARDS.CREATED.message(amountInString)
+				description:
+					RECEIVER_REWARDS_TXN_MESSAGES.UPDATE_REWARDS.CREATED.description(amountInString)
 			},
 			success: {
 				title: COMMON_TXN_MESSAGES.SUCCESS.title,
-				message: RECEIVER_REWARDS_TXN_MESSAGES.UPDATE_REWARDS.SUCCESS.message(amountInString)
+				description:
+					RECEIVER_REWARDS_TXN_MESSAGES.UPDATE_REWARDS.SUCCESS.description(amountInString)
 			},
 			failed: {
 				title: COMMON_TXN_MESSAGES.FAILED.title,
-				message: RECEIVER_REWARDS_TXN_MESSAGES.UPDATE_REWARDS.FAILED.message(amountInString)
+				description: RECEIVER_REWARDS_TXN_MESSAGES.UPDATE_REWARDS.FAILED.description(amountInString)
 			}
 		};
 		const { txn } = await createTransaction(

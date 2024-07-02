@@ -62,19 +62,19 @@ export async function registerInKalypso(
 		const messages = {
 			initiate: {
 				title: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.INITIATED.title,
-				message: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.INITIATED.message
+				description: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.INITIATED.description
 			},
 			created: {
 				title: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.CREATED.title,
-				message: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.CREATED.message
+				description: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.CREATED.description
 			},
 			success: {
 				title: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.SUCCESS.title,
-				message: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.SUCCESS.message
+				description: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.SUCCESS.description
 			},
 			failed: {
 				title: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.FAILED.title,
-				message: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.FAILED.message
+				description: KALYPSO_TXN_MESSAGES.REGISTER_KALYPSO.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -95,19 +95,19 @@ export async function updateRewardAddressInKalypso(newRewardAddress: Address) {
 		const messages = {
 			initiate: {
 				title: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.INITIATED.title,
-				message: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.INITIATED.message
+				description: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.INITIATED.description
 			},
 			created: {
 				title: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.CREATED.title,
-				message: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.CREATED.message
+				description: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.CREATED.description
 			},
 			success: {
 				title: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.SUCCESS.title,
-				message: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.SUCCESS.message
+				description: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.SUCCESS.description
 			},
 			failed: {
 				title: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.FAILED.title,
-				message: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.FAILED.message
+				description: KALYPSO_TXN_MESSAGES.UPDATE_KALYPSO.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -128,19 +128,19 @@ export async function unregisterInKalypso(refundAddress: Address) {
 		const messages = {
 			initiate: {
 				title: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.INITIATED.title,
-				message: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.INITIATED.message
+				description: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.INITIATED.description
 			},
 			created: {
 				title: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.CREATED.title,
-				message: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.CREATED.message
+				description: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.CREATED.description
 			},
 			success: {
 				title: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.SUCCESS.title,
-				message: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.SUCCESS.message
+				description: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.SUCCESS.description
 			},
 			failed: {
 				title: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.FAILED.title,
-				message: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.FAILED.message
+				description: KALYPSO_TXN_MESSAGES.UNREGISTER_KALYPSO.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -162,19 +162,20 @@ export async function increaseStakeInKalypso(amount: bigint, generatorAddress: A
 		const messages = {
 			initiate: {
 				title: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.INITIATED.title,
-				message: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.INITIATED.message(amountInString)
+				description:
+					KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.INITIATED.description(amountInString)
 			},
 			created: {
 				title: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.CREATED.title,
-				message: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.CREATED.message(amountInString)
+				description: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.CREATED.description(amountInString)
 			},
 			success: {
 				title: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.SUCCESS.title,
-				message: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.SUCCESS.message(amountInString)
+				description: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.SUCCESS.description(amountInString)
 			},
 			failed: {
 				title: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.FAILED.title,
-				message: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.FAILED.message
+				description: KALYPSO_TXN_MESSAGES.INCREASE_STAKE_KALYPSO.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -195,19 +196,19 @@ export async function initiateDecreaseStakeInKalypso(amountToReduce: bigint) {
 		const messages = {
 			initiate: {
 				title: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.INITIATED.title,
-				message: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.INITIATED.message
+				description: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.INITIATED.description
 			},
 			created: {
 				title: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.CREATED.title,
-				message: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.CREATED.message
+				description: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.CREATED.description
 			},
 			success: {
 				title: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.SUCCESS.title,
-				message: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.SUCCESS.message
+				description: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.SUCCESS.description
 			},
 			failed: {
 				title: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.FAILED.title,
-				message: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.FAILED.message
+				description: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_STAKE_KALYPSO.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -229,19 +230,20 @@ export async function decreaseStakeInKalypso(address: Address, amountToReduce: b
 		const messages = {
 			initiate: {
 				title: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.INITIATED.title,
-				message: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.INITIATED.message(amountInString)
+				description:
+					KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.INITIATED.description(amountInString)
 			},
 			created: {
 				title: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.CREATED.title,
-				message: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.CREATED.message(amountInString)
+				description: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.CREATED.description(amountInString)
 			},
 			success: {
 				title: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.SUCCESS.title,
-				message: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.SUCCESS.message(amountInString)
+				description: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.SUCCESS.description(amountInString)
 			},
 			failed: {
 				title: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.FAILED.title,
-				message: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.FAILED.message
+				description: KALYPSO_TXN_MESSAGES.DECREASE_STAKE_KALYPSO.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -262,19 +264,19 @@ export async function increaseDeclaredComputeInKalypso(computeToIncrease: bigint
 		const messages = {
 			initiate: {
 				title: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.INITIATED.title,
-				message: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.INITIATED.message
+				description: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.INITIATED.description
 			},
 			created: {
 				title: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.CREATED.title,
-				message: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.CREATED.message
+				description: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.CREATED.description
 			},
 			success: {
 				title: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.title,
-				message: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.message
+				description: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.description
 			},
 			failed: {
 				title: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.FAILED.title,
-				message: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.FAILED.message
+				description: KALYPSO_TXN_MESSAGES.INCREASE_DECLARED_COMPUTE_KALYPSO.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -295,19 +297,23 @@ export async function initiateDecreaseDeclaredComputeInKalypso(computeToReduce: 
 		const messages = {
 			initiate: {
 				title: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.INITIATED.title,
-				message: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.INITIATED.message
+				description:
+					KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.INITIATED.description
 			},
 			created: {
 				title: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.CREATED.title,
-				message: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.CREATED.message
+				description:
+					KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.CREATED.description
 			},
 			success: {
 				title: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.title,
-				message: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.message
+				description:
+					KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.description
 			},
 			failed: {
 				title: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.FAILED.title,
-				message: KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.FAILED.message
+				description:
+					KALYPSO_TXN_MESSAGES.INITIATE_DECREASE_DECLARED_COMPUTE_KALYPSO.FAILED.description
 			}
 		};
 
@@ -329,19 +335,19 @@ export async function decreaseDeclaredComputeInKalypso() {
 		const messages = {
 			initiate: {
 				title: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.INITIATED.title,
-				message: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.INITIATED.message
+				description: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.INITIATED.description
 			},
 			created: {
 				title: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.CREATED.title,
-				message: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.CREATED.message
+				description: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.CREATED.description
 			},
 			success: {
 				title: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.title,
-				message: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.message
+				description: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.SUCCESS.description
 			},
 			failed: {
 				title: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.FAILED.title,
-				message: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.FAILED.message
+				description: KALYPSO_TXN_MESSAGES.DECREASE_DECLARED_COMPUTE_KALYPSO.FAILED.description
 			}
 		};
 

@@ -48,19 +48,19 @@ export async function convertPondToMPond(expectedMPond: bigint) {
 		const messages = {
 			initiate: {
 				title: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.INITIATED.title,
-				message: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.INITIATED.message(amountInString)
+				description: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.INITIATED.description(amountInString)
 			},
 			created: {
 				title: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.CREATED.title,
-				message: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.CREATED.message(amountInString)
+				description: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.CREATED.description(amountInString)
 			},
 			success: {
 				title: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.SUCCESS.title,
-				message: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.SUCCESS.message(amountInString)
+				description: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.SUCCESS.description(amountInString)
 			},
 			failed: {
 				title: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.FAILED.title,
-				message: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.FAILED.message
+				description: BRIDGE_TXN_MESSAGES.CONVERT.POND_TO_MPOND.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -82,19 +82,19 @@ export async function requestMPondConversion(amount: bigint) {
 		const messages = {
 			initiate: {
 				title: BRIDGE_TXN_MESSAGES.REQUEST.INITIATED.title,
-				message: BRIDGE_TXN_MESSAGES.REQUEST.INITIATED.message(amountInString)
+				description: BRIDGE_TXN_MESSAGES.REQUEST.INITIATED.description(amountInString)
 			},
 			created: {
 				title: BRIDGE_TXN_MESSAGES.REQUEST.CREATED.title,
-				message: BRIDGE_TXN_MESSAGES.REQUEST.CREATED.message(amountInString)
+				description: BRIDGE_TXN_MESSAGES.REQUEST.CREATED.description(amountInString)
 			},
 			success: {
 				title: BRIDGE_TXN_MESSAGES.REQUEST.SUCCESS.title,
-				message: BRIDGE_TXN_MESSAGES.REQUEST.SUCCESS.message(amountInString)
+				description: BRIDGE_TXN_MESSAGES.REQUEST.SUCCESS.description(amountInString)
 			},
 			failed: {
 				title: BRIDGE_TXN_MESSAGES.REQUEST.FAILED.title,
-				message: BRIDGE_TXN_MESSAGES.REQUEST.FAILED.message
+				description: BRIDGE_TXN_MESSAGES.REQUEST.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -115,19 +115,19 @@ export async function cancelMPondConversionRequest(epoch: bigint) {
 		const messages = {
 			initiate: {
 				title: BRIDGE_TXN_MESSAGES.CANCEL.INITIATED.title,
-				message: BRIDGE_TXN_MESSAGES.CANCEL.INITIATED.message
+				description: BRIDGE_TXN_MESSAGES.CANCEL.INITIATED.description
 			},
 			created: {
 				title: BRIDGE_TXN_MESSAGES.CANCEL.CREATED.title,
-				message: BRIDGE_TXN_MESSAGES.CANCEL.CREATED.message
+				description: BRIDGE_TXN_MESSAGES.CANCEL.CREATED.description
 			},
 			success: {
 				title: BRIDGE_TXN_MESSAGES.CANCEL.SUCCESS.title,
-				message: BRIDGE_TXN_MESSAGES.CANCEL.SUCCESS.message
+				description: BRIDGE_TXN_MESSAGES.CANCEL.SUCCESS.description
 			},
 			failed: {
 				title: BRIDGE_TXN_MESSAGES.CANCEL.FAILED.title,
-				message: BRIDGE_TXN_MESSAGES.CANCEL.FAILED.message
+				description: BRIDGE_TXN_MESSAGES.CANCEL.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -149,19 +149,19 @@ export async function confirmMPondConversion(epoch: bigint, amount: bigint) {
 		const messages = {
 			initiate: {
 				title: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.INITIATED.title,
-				message: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.INITIATED.message(amountInString)
+				description: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.INITIATED.description(amountInString)
 			},
 			created: {
 				title: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.CREATED.title,
-				message: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.CREATED.message(amountInString)
+				description: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.CREATED.description(amountInString)
 			},
 			success: {
 				title: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.SUCCESS.title,
-				message: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.SUCCESS.message(amountInString)
+				description: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.SUCCESS.description(amountInString)
 			},
 			failed: {
 				title: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.FAILED.title,
-				message: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.FAILED.message
+				description: BRIDGE_TXN_MESSAGES.CONVERT.MPOND_TO_POND.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(

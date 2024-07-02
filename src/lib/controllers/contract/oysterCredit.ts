@@ -25,19 +25,19 @@ export async function createNewOysterJobWithCredits(
 		const messages = {
 			initiate: {
 				title: COMMON_TXN_MESSAGES.INITIATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.CREATE_JOB_WITH_CREDIT.INITIATED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.CREATE_JOB_WITH_CREDIT.INITIATED.description
 			},
 			created: {
 				title: COMMON_TXN_MESSAGES.CREATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.CREATE_JOB_WITH_CREDIT.CREATED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.CREATE_JOB_WITH_CREDIT.CREATED.description
 			},
 			success: {
 				title: COMMON_TXN_MESSAGES.SUCCESS.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.CREATE_JOB_WITH_CREDIT.SUCCESS.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.CREATE_JOB_WITH_CREDIT.SUCCESS.description
 			},
 			failed: {
 				title: COMMON_TXN_MESSAGES.FAILED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.CREATE_JOB_WITH_CREDIT.FAILED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.CREATE_JOB_WITH_CREDIT.FAILED.description
 			}
 		};
 
@@ -68,19 +68,19 @@ export async function addCreditsToOysterJob(jobId: BytesLike, amount: bigint) {
 		const messages = {
 			initiate: {
 				title: COMMON_TXN_MESSAGES.INITIATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.ADD_CREDITS_JOB.INITIATED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.ADD_CREDITS_JOB.INITIATED.description
 			},
 			created: {
 				title: COMMON_TXN_MESSAGES.CREATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.ADD_CREDITS_JOB.CREATED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.ADD_CREDITS_JOB.CREATED.description
 			},
 			success: {
 				title: COMMON_TXN_MESSAGES.SUCCESS.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.ADD_CREDITS_JOB.SUCCESS.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.ADD_CREDITS_JOB.SUCCESS.description
 			},
 			failed: {
 				title: COMMON_TXN_MESSAGES.FAILED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.ADD_CREDITS_JOB.FAILED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.ADD_CREDITS_JOB.FAILED.description
 			}
 		};
 
@@ -106,19 +106,19 @@ export async function stopOysterCreditJob(jobId: BytesLike) {
 		const messages = {
 			initiate: {
 				title: COMMON_TXN_MESSAGES.INITIATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.STOP_CREDIT_JOB.INITIATED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.STOP_CREDIT_JOB.INITIATED.description
 			},
 			created: {
 				title: COMMON_TXN_MESSAGES.CREATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.STOP_CREDIT_JOB.CREATED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.STOP_CREDIT_JOB.CREATED.description
 			},
 			success: {
 				title: COMMON_TXN_MESSAGES.SUCCESS.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.STOP_CREDIT_JOB.SUCCESS.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.STOP_CREDIT_JOB.SUCCESS.description
 			},
 			failed: {
 				title: COMMON_TXN_MESSAGES.FAILED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.STOP_CREDIT_JOB.FAILED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.STOP_CREDIT_JOB.FAILED.description
 			}
 		};
 
@@ -144,19 +144,19 @@ export async function withdrawFundsFromOysterCreditJob(jobId: BytesLike, amount:
 		const messages = {
 			initiate: {
 				title: COMMON_TXN_MESSAGES.INITIATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.WITHDRAW_JOB_CREDIT.INITIATED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.WITHDRAW_JOB_CREDIT.INITIATED.description
 			},
 			created: {
 				title: COMMON_TXN_MESSAGES.CREATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.WITHDRAW_JOB_CREDIT.CREATED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.WITHDRAW_JOB_CREDIT.CREATED.description
 			},
 			success: {
 				title: COMMON_TXN_MESSAGES.SUCCESS.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.WITHDRAW_JOB_CREDIT.SUCCESS.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.WITHDRAW_JOB_CREDIT.SUCCESS.description
 			},
 			failed: {
 				title: COMMON_TXN_MESSAGES.FAILED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.WITHDRAW_JOB_CREDIT.FAILED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.WITHDRAW_JOB_CREDIT.FAILED.description
 			}
 		};
 
@@ -182,19 +182,19 @@ export async function initiateRateReviseOysterCreditJob(jobId: BytesLike, rate: 
 		const messages = {
 			initiate: {
 				title: COMMON_TXN_MESSAGES.INITIATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.INITIATED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.INITIATED.description
 			},
 			created: {
 				title: COMMON_TXN_MESSAGES.CREATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.CREATED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.CREATED.description
 			},
 			success: {
 				title: COMMON_TXN_MESSAGES.SUCCESS.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.SUCCESS.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.SUCCESS.description
 			},
 			failed: {
 				title: COMMON_TXN_MESSAGES.FAILED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.FAILED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.FAILED.description
 			}
 		};
 
@@ -220,19 +220,19 @@ export async function initiateBandwidthRateReviseOysterCreditJob(jobId: BytesLik
 		const messages = {
 			initiate: {
 				title: COMMON_TXN_MESSAGES.INITIATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.INITIATED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.INITIATED.description
 			},
 			created: {
 				title: COMMON_TXN_MESSAGES.CREATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.CREATED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.CREATED.description
 			},
 			success: {
 				title: COMMON_TXN_MESSAGES.SUCCESS.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.SUCCESS.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.SUCCESS.description
 			},
 			failed: {
 				title: COMMON_TXN_MESSAGES.FAILED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.FAILED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.FAILED.description
 			}
 		};
 
@@ -258,19 +258,19 @@ export async function finaliseRateReviseOysterCreditJob(jobId: BytesLike) {
 		const messages = {
 			initiate: {
 				title: COMMON_TXN_MESSAGES.INITIATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.AMEND_RATE_JOB.INITIATED
+				description: OYSTER_CREDIT_TXN_MESSAGES.AMEND_RATE_JOB.INITIATED
 			},
 			created: {
 				title: COMMON_TXN_MESSAGES.CREATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.AMEND_RATE_JOB.CREATED
+				description: OYSTER_CREDIT_TXN_MESSAGES.AMEND_RATE_JOB.CREATED
 			},
 			success: {
 				title: COMMON_TXN_MESSAGES.SUCCESS.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.AMEND_RATE_JOB.SUCCESS
+				description: OYSTER_CREDIT_TXN_MESSAGES.AMEND_RATE_JOB.SUCCESS
 			},
 			failed: {
 				title: COMMON_TXN_MESSAGES.FAILED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.AMEND_RATE_JOB.FAILED
+				description: OYSTER_CREDIT_TXN_MESSAGES.AMEND_RATE_JOB.FAILED
 			}
 		};
 
@@ -296,19 +296,19 @@ export async function finaliseBandwidthRateReviseOysterCreditJob(jobId: BytesLik
 		const messages = {
 			initiate: {
 				title: COMMON_TXN_MESSAGES.INITIATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.INITIATED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.INITIATED.description
 			},
 			created: {
 				title: COMMON_TXN_MESSAGES.CREATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.CREATED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.CREATED.description
 			},
 			success: {
 				title: COMMON_TXN_MESSAGES.SUCCESS.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.SUCCESS.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.SUCCESS.description
 			},
 			failed: {
 				title: COMMON_TXN_MESSAGES.FAILED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.FAILED.message
+				description: OYSTER_CREDIT_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.FAILED.description
 			}
 		};
 
@@ -334,19 +334,19 @@ export async function cancelRateReviseOysterCreditJob(jobId: BytesLike) {
 		const messages = {
 			initiate: {
 				title: COMMON_TXN_MESSAGES.INITIATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.CANCEL.INITITATED
+				description: OYSTER_CREDIT_TXN_MESSAGES.CANCEL.INITITATED
 			},
 			created: {
 				title: COMMON_TXN_MESSAGES.CREATED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.CANCEL.CREATED
+				description: OYSTER_CREDIT_TXN_MESSAGES.CANCEL.CREATED
 			},
 			success: {
 				title: COMMON_TXN_MESSAGES.SUCCESS.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.CANCEL.SUCCESS
+				description: OYSTER_CREDIT_TXN_MESSAGES.CANCEL.SUCCESS
 			},
 			failed: {
 				title: COMMON_TXN_MESSAGES.FAILED.title,
-				message: OYSTER_CREDIT_TXN_MESSAGES.CANCEL.FAILED
+				description: OYSTER_CREDIT_TXN_MESSAGES.CANCEL.FAILED
 			}
 		};
 

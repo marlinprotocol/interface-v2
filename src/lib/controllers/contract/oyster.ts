@@ -18,19 +18,19 @@ export async function registerOysterInfrastructureProvider(controlPlaneUrl: stri
 		const messages = {
 			initiate: {
 				title: OYSTER_TXN_MESSAGES.REGISTER_OPERATOR.INITIATED.title,
-				message: OYSTER_TXN_MESSAGES.REGISTER_OPERATOR.INITIATED.message
+				description: OYSTER_TXN_MESSAGES.REGISTER_OPERATOR.INITIATED.description
 			},
 			created: {
 				title: OYSTER_TXN_MESSAGES.REGISTER_OPERATOR.CREATED.title,
-				message: OYSTER_TXN_MESSAGES.REGISTER_OPERATOR.CREATED.message
+				description: OYSTER_TXN_MESSAGES.REGISTER_OPERATOR.CREATED.description
 			},
 			success: {
 				title: OYSTER_TXN_MESSAGES.REGISTER_OPERATOR.SUCCESS.title,
-				message: OYSTER_TXN_MESSAGES.REGISTER_OPERATOR.SUCCESS.message
+				description: OYSTER_TXN_MESSAGES.REGISTER_OPERATOR.SUCCESS.description
 			},
 			failed: {
 				title: OYSTER_TXN_MESSAGES.REGISTER_OPERATOR.FAILED.title,
-				message: OYSTER_TXN_MESSAGES.REGISTER_OPERATOR.FAILED.message
+				description: OYSTER_TXN_MESSAGES.REGISTER_OPERATOR.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -51,19 +51,19 @@ export async function updateOysterInfrastructureProvider(controlPlaneUrl: string
 		const messages = {
 			initiate: {
 				title: OYSTER_TXN_MESSAGES.UPDATE_CP_URL.INITIATED.title,
-				message: OYSTER_TXN_MESSAGES.UPDATE_CP_URL.INITIATED.message
+				description: OYSTER_TXN_MESSAGES.UPDATE_CP_URL.INITIATED.description
 			},
 			created: {
 				title: OYSTER_TXN_MESSAGES.UPDATE_CP_URL.CREATED.title,
-				message: OYSTER_TXN_MESSAGES.UPDATE_CP_URL.CREATED.message
+				description: OYSTER_TXN_MESSAGES.UPDATE_CP_URL.CREATED.description
 			},
 			success: {
 				title: OYSTER_TXN_MESSAGES.UPDATE_CP_URL.SUCCESS.title,
-				message: OYSTER_TXN_MESSAGES.UPDATE_CP_URL.SUCCESS.message
+				description: OYSTER_TXN_MESSAGES.UPDATE_CP_URL.SUCCESS.description
 			},
 			failed: {
 				title: OYSTER_TXN_MESSAGES.UPDATE_CP_URL.FAILED.title,
-				message: OYSTER_TXN_MESSAGES.UPDATE_CP_URL.FAILED.message
+				description: OYSTER_TXN_MESSAGES.UPDATE_CP_URL.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -84,19 +84,19 @@ export async function removeOysterInfrastructureProvider() {
 		const messages = {
 			initiate: {
 				title: OYSTER_TXN_MESSAGES.REMOVE_OPERATOR.INITIATED.title,
-				message: OYSTER_TXN_MESSAGES.REMOVE_OPERATOR.INITIATED.message
+				description: OYSTER_TXN_MESSAGES.REMOVE_OPERATOR.INITIATED.description
 			},
 			created: {
 				title: OYSTER_TXN_MESSAGES.REMOVE_OPERATOR.CREATED.title,
-				message: OYSTER_TXN_MESSAGES.REMOVE_OPERATOR.CREATED.message
+				description: OYSTER_TXN_MESSAGES.REMOVE_OPERATOR.CREATED.description
 			},
 			success: {
 				title: OYSTER_TXN_MESSAGES.REMOVE_OPERATOR.SUCCESS.title,
-				message: OYSTER_TXN_MESSAGES.REMOVE_OPERATOR.SUCCESS.message
+				description: OYSTER_TXN_MESSAGES.REMOVE_OPERATOR.SUCCESS.description
 			},
 			failed: {
 				title: OYSTER_TXN_MESSAGES.REMOVE_OPERATOR.FAILED.title,
-				message: OYSTER_TXN_MESSAGES.REMOVE_OPERATOR.FAILED.message
+				description: OYSTER_TXN_MESSAGES.REMOVE_OPERATOR.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -122,19 +122,19 @@ export async function createNewOysterJob(
 		const messages = {
 			initiate: {
 				title: OYSTER_TXN_MESSAGES.CREATE_JOB.INITIATED.title,
-				message: OYSTER_TXN_MESSAGES.CREATE_JOB.INITIATED.message
+				description: OYSTER_TXN_MESSAGES.CREATE_JOB.INITIATED.description
 			},
 			created: {
 				title: OYSTER_TXN_MESSAGES.CREATE_JOB.CREATED.title,
-				message: OYSTER_TXN_MESSAGES.CREATE_JOB.CREATED.message
+				description: OYSTER_TXN_MESSAGES.CREATE_JOB.CREATED.description
 			},
 			success: {
 				title: OYSTER_TXN_MESSAGES.CREATE_JOB.SUCCESS.title,
-				message: OYSTER_TXN_MESSAGES.CREATE_JOB.SUCCESS.message
+				description: OYSTER_TXN_MESSAGES.CREATE_JOB.SUCCESS.description
 			},
 			failed: {
 				title: OYSTER_TXN_MESSAGES.CREATE_JOB.FAILED.title,
-				message: OYSTER_TXN_MESSAGES.CREATE_JOB.FAILED.message
+				description: OYSTER_TXN_MESSAGES.CREATE_JOB.FAILED.description
 			}
 		};
 		// using "send" on the base contract method as we want a contractTransactionReceipt to
@@ -160,19 +160,19 @@ export async function stopOysterJob(jobId: BytesLike) {
 		const messages = {
 			initiate: {
 				title: OYSTER_TXN_MESSAGES.STOP_JOB.INITIATED.title,
-				message: OYSTER_TXN_MESSAGES.STOP_JOB.INITIATED.message
+				description: OYSTER_TXN_MESSAGES.STOP_JOB.INITIATED.description
 			},
 			created: {
 				title: OYSTER_TXN_MESSAGES.STOP_JOB.CREATED.title,
-				message: OYSTER_TXN_MESSAGES.STOP_JOB.CREATED.message
+				description: OYSTER_TXN_MESSAGES.STOP_JOB.CREATED.description
 			},
 			success: {
 				title: OYSTER_TXN_MESSAGES.STOP_JOB.SUCCESS.title,
-				message: OYSTER_TXN_MESSAGES.STOP_JOB.SUCCESS.message
+				description: OYSTER_TXN_MESSAGES.STOP_JOB.SUCCESS.description
 			},
 			failed: {
 				title: OYSTER_TXN_MESSAGES.STOP_JOB.FAILED.title,
-				message: OYSTER_TXN_MESSAGES.STOP_JOB.FAILED.message
+				description: OYSTER_TXN_MESSAGES.STOP_JOB.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -193,19 +193,19 @@ export async function withdrawFundsFromOysterJob(jobId: BytesLike, amount: bigin
 		const messages = {
 			initiate: {
 				title: OYSTER_TXN_MESSAGES.WITHDRAW.INITIATED.title,
-				message: OYSTER_TXN_MESSAGES.WITHDRAW.INITIATED.message
+				description: OYSTER_TXN_MESSAGES.WITHDRAW.INITIATED.description
 			},
 			created: {
 				title: OYSTER_TXN_MESSAGES.WITHDRAW.CREATED.title,
-				message: OYSTER_TXN_MESSAGES.WITHDRAW.CREATED.message
+				description: OYSTER_TXN_MESSAGES.WITHDRAW.CREATED.description
 			},
 			success: {
 				title: OYSTER_TXN_MESSAGES.WITHDRAW.SUCCESS.title,
-				message: OYSTER_TXN_MESSAGES.WITHDRAW.SUCCESS.message
+				description: OYSTER_TXN_MESSAGES.WITHDRAW.SUCCESS.description
 			},
 			failed: {
 				title: OYSTER_TXN_MESSAGES.WITHDRAW.FAILED.title,
-				message: OYSTER_TXN_MESSAGES.WITHDRAW.FAILED.message
+				description: OYSTER_TXN_MESSAGES.WITHDRAW.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -226,19 +226,19 @@ export async function addFundsToOysterJob(jobId: BytesLike, amount: bigint) {
 		const messages = {
 			initiate: {
 				title: OYSTER_TXN_MESSAGES.ADD_FUND.INITIATED.title,
-				message: OYSTER_TXN_MESSAGES.ADD_FUND.INITIATED.message
+				description: OYSTER_TXN_MESSAGES.ADD_FUND.INITIATED.description
 			},
 			created: {
 				title: OYSTER_TXN_MESSAGES.ADD_FUND.CREATED.title,
-				message: OYSTER_TXN_MESSAGES.ADD_FUND.CREATED.message
+				description: OYSTER_TXN_MESSAGES.ADD_FUND.CREATED.description
 			},
 			success: {
 				title: OYSTER_TXN_MESSAGES.ADD_FUND.SUCCESS.title,
-				message: OYSTER_TXN_MESSAGES.ADD_FUND.SUCCESS.message
+				description: OYSTER_TXN_MESSAGES.ADD_FUND.SUCCESS.description
 			},
 			failed: {
 				title: OYSTER_TXN_MESSAGES.ADD_FUND.FAILED.title,
-				message: OYSTER_TXN_MESSAGES.ADD_FUND.FAILED.message
+				description: OYSTER_TXN_MESSAGES.ADD_FUND.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -259,19 +259,19 @@ export async function initiateRateReviseOysterJob(jobId: BytesLike, rate: bigint
 		const messages = {
 			initiate: {
 				title: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.INITIATED.title,
-				message: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.INITIATED.message
+				description: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.INITIATED.description
 			},
 			created: {
 				title: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.CREATED.title,
-				message: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.CREATED.message
+				description: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.CREATED.description
 			},
 			success: {
 				title: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.SUCCESS.title,
-				message: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.SUCCESS.message
+				description: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.SUCCESS.description
 			},
 			failed: {
 				title: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.FAILED.title,
-				message: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.FAILED.message
+				description: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -292,19 +292,19 @@ export async function initiateBandwidthRateReviseOysterJob(jobId: BytesLike, rat
 		const messages = {
 			initiate: {
 				title: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.INITIATED.title,
-				message: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.INITIATED.message
+				description: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.INITIATED.description
 			},
 			created: {
 				title: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.CREATED.title,
-				message: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.CREATED.message
+				description: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.CREATED.description
 			},
 			success: {
 				title: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.SUCCESS.title,
-				message: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.SUCCESS.message
+				description: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.SUCCESS.description
 			},
 			failed: {
 				title: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.FAILED.title,
-				message: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.FAILED.message
+				description: OYSTER_TXN_MESSAGES.INIT_CHANGE_BANDWIDTH.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -325,19 +325,19 @@ export async function cancelRateReviseOysterJob(jobId: BytesLike) {
 		const messages = {
 			initiate: {
 				title: OYSTER_TXN_MESSAGES.CANCEL_STOP.INITIATED.title,
-				message: OYSTER_TXN_MESSAGES.CANCEL_STOP.INITIATED.message
+				description: OYSTER_TXN_MESSAGES.CANCEL_STOP.INITIATED.description
 			},
 			created: {
 				title: OYSTER_TXN_MESSAGES.CANCEL_STOP.CREATED.title,
-				message: OYSTER_TXN_MESSAGES.CANCEL_STOP.CREATED.message
+				description: OYSTER_TXN_MESSAGES.CANCEL_STOP.CREATED.description
 			},
 			success: {
 				title: OYSTER_TXN_MESSAGES.CANCEL_STOP.SUCCESS.title,
-				message: OYSTER_TXN_MESSAGES.CANCEL_STOP.SUCCESS.message
+				description: OYSTER_TXN_MESSAGES.CANCEL_STOP.SUCCESS.description
 			},
 			failed: {
 				title: OYSTER_TXN_MESSAGES.CANCEL_STOP.FAILED.title,
-				message: OYSTER_TXN_MESSAGES.CANCEL_STOP.FAILED.message
+				description: OYSTER_TXN_MESSAGES.CANCEL_STOP.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -359,19 +359,19 @@ export async function finaliseRateReviseOysterJob(jobId: BytesLike) {
 		const messages = {
 			initiate: {
 				title: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.INITIATED.title,
-				message: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.INITIATED.message
+				description: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.INITIATED.description
 			},
 			created: {
 				title: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.CREATED.title,
-				message: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.CREATED.message
+				description: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.CREATED.description
 			},
 			success: {
 				title: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.SUCCESS.title,
-				message: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.SUCCESS.message
+				description: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.SUCCESS.description
 			},
 			failed: {
 				title: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.FAILED.title,
-				message: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.FAILED.message
+				description: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -393,19 +393,19 @@ export async function finaliseBandwidthRateReviseOysterJob(jobId: BytesLike) {
 		const messages = {
 			initiate: {
 				title: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.INITIATED.title,
-				message: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.INITIATED.message
+				description: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.INITIATED.description
 			},
 			created: {
 				title: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.CREATED.title,
-				message: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.CREATED.message
+				description: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.CREATED.description
 			},
 			success: {
 				title: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.SUCCESS.title,
-				message: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.SUCCESS.message
+				description: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.SUCCESS.description
 			},
 			failed: {
 				title: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.FAILED.title,
-				message: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.FAILED.message
+				description: OYSTER_TXN_MESSAGES.FINAL_CHANGE_BANDWIDTH.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -426,19 +426,19 @@ export async function settleOysterJob(jobId: BytesLike) {
 		const messages = {
 			initiate: {
 				title: OYSTER_TXN_MESSAGES.SETTLE_JOB.INITIATED.title,
-				message: OYSTER_TXN_MESSAGES.SETTLE_JOB.INITIATED.message
+				description: OYSTER_TXN_MESSAGES.SETTLE_JOB.INITIATED.description
 			},
 			created: {
 				title: OYSTER_TXN_MESSAGES.SETTLE_JOB.CREATED.title,
-				message: OYSTER_TXN_MESSAGES.SETTLE_JOB.CREATED.message
+				description: OYSTER_TXN_MESSAGES.SETTLE_JOB.CREATED.description
 			},
 			success: {
 				title: OYSTER_TXN_MESSAGES.SETTLE_JOB.SUCCESS.title,
-				message: OYSTER_TXN_MESSAGES.SETTLE_JOB.SUCCESS.message
+				description: OYSTER_TXN_MESSAGES.SETTLE_JOB.SUCCESS.description
 			},
 			failed: {
 				title: OYSTER_TXN_MESSAGES.SETTLE_JOB.FAILED.title,
-				message: OYSTER_TXN_MESSAGES.SETTLE_JOB.FAILED.message
+				description: OYSTER_TXN_MESSAGES.SETTLE_JOB.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(
@@ -459,19 +459,19 @@ export async function updateEnclaveUrlForOysterJob(jobId: BytesLike, metadata: s
 		const messages = {
 			initiate: {
 				title: OYSTER_TXN_MESSAGES.UPDATE_ENCLAVE_URL_JOB.INITIATED.title,
-				message: OYSTER_TXN_MESSAGES.UPDATE_ENCLAVE_URL_JOB.INITIATED.message
+				description: OYSTER_TXN_MESSAGES.UPDATE_ENCLAVE_URL_JOB.INITIATED.description
 			},
 			created: {
 				title: OYSTER_TXN_MESSAGES.UPDATE_ENCLAVE_URL_JOB.CREATED.title,
-				message: OYSTER_TXN_MESSAGES.UPDATE_ENCLAVE_URL_JOB.CREATED.message
+				description: OYSTER_TXN_MESSAGES.UPDATE_ENCLAVE_URL_JOB.CREATED.description
 			},
 			success: {
 				title: OYSTER_TXN_MESSAGES.UPDATE_ENCLAVE_URL_JOB.SUCCESS.title,
-				message: OYSTER_TXN_MESSAGES.UPDATE_ENCLAVE_URL_JOB.SUCCESS.message
+				description: OYSTER_TXN_MESSAGES.UPDATE_ENCLAVE_URL_JOB.SUCCESS.description
 			},
 			failed: {
 				title: OYSTER_TXN_MESSAGES.UPDATE_ENCLAVE_URL_JOB.FAILED.title,
-				message: OYSTER_TXN_MESSAGES.UPDATE_ENCLAVE_URL_JOB.FAILED.message
+				description: OYSTER_TXN_MESSAGES.UPDATE_ENCLAVE_URL_JOB.FAILED.description
 			}
 		};
 		const { txn } = await createTransaction(

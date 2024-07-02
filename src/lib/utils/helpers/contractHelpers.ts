@@ -5,6 +5,7 @@ import { addToast } from '$lib/data-stores/toastStore';
 import { capitalizeFirstLetter } from '$lib/utils/helpers/commonHelper';
 import { ethers } from 'ethers';
 import { walletStore } from '$lib/data-stores/walletProviderStore';
+import type { ToastMessages } from '$lib/types/componentTypes';
 
 let signer: WalletStore['signer'];
 
@@ -20,17 +21,17 @@ export async function createTransaction(
 	contractFunctionCall: () => Promise<any>,
 	parentFunctionName: string,
 	messages?: {
-		initiate: { title: string; message: string };
-		created: { title: string; message: string };
-		success: { title: string; message: string };
-		failed: { title: string; message: string };
+		initiate: ToastMessages;
+		created: ToastMessages;
+		success: ToastMessages;
+		failed: ToastMessages;
 	}
 ) {
 	try {
 		addToast({
 			message: {
 				title: messages?.initiate.title || COMMON_TXN_MESSAGES.INITIATED.title,
-				description: messages?.initiate.message || COMMON_TXN_MESSAGES.INITIATED.message
+				description: messages?.initiate.description || COMMON_TXN_MESSAGES.INITIATED.description
 			},
 			variant: 'warning'
 		});
@@ -40,7 +41,7 @@ export async function createTransaction(
 		addToast({
 			message: {
 				title: messages?.created.title || COMMON_TXN_MESSAGES.CREATED.title,
-				description: messages?.created.message || COMMON_TXN_MESSAGES.CREATED.message
+				description: messages?.created.description || COMMON_TXN_MESSAGES.CREATED.description
 			},
 			variant: 'warning'
 		});
@@ -53,20 +54,20 @@ export async function createTransaction(
 			addToast({
 				message: {
 					title: messages?.failed.title || COMMON_TXN_MESSAGES.FAILED.title,
-					description: messages?.failed.message || COMMON_TXN_MESSAGES.FAILED.message
+					description: messages?.failed.description || COMMON_TXN_MESSAGES.FAILED.description
 				},
 				variant: 'error'
 			});
-			throw new Error(messages?.failed.message || COMMON_TXN_MESSAGES.FAILED.message);
+			throw new Error(messages?.failed.description || COMMON_TXN_MESSAGES.FAILED.description);
 		}
 
 		// if the transaction is mined, show a toast with success message and return the txn
 		addToast({
 			message: {
 				title: messages?.success.title || COMMON_TXN_MESSAGES.SUCCESS.title,
-				description: messages?.success.message
-					? COMMON_TXN_MESSAGES.SUCCESS.message + ' ' + messages.success.message
-					: COMMON_TXN_MESSAGES.SUCCESS.message
+				description: messages?.success.description
+					? COMMON_TXN_MESSAGES.SUCCESS.description + ' ' + messages.success.description
+					: COMMON_TXN_MESSAGES.SUCCESS.description
 			},
 			variant: 'success'
 		});
@@ -75,7 +76,7 @@ export async function createTransaction(
 		let title = '';
 		let description = error.reason
 			? capitalizeFirstLetter(error.reason)
-			: COMMON_TXN_MESSAGES.FAILED.message;
+			: COMMON_TXN_MESSAGES.FAILED.description;
 
 		if (error.shortMessage === 'user rejected action') {
 			title = 'Transaction Rejected';

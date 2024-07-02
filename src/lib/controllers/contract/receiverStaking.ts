@@ -22,19 +22,25 @@ export async function setSignerAddress(address: string) {
 		const messages = {
 			initiate: {
 				title: COMMON_TXN_MESSAGES.INITIATED.title,
-				message: RECEIVER_STAKING_TXN_MESSAGES.UPDATE_SIGNER.INITIATED.message
+				description: RECEIVER_STAKING_TXN_MESSAGES.UPDATE_SIGNER.INITIATED.description
 			},
 			created: {
 				title: COMMON_TXN_MESSAGES.CREATED.title,
-				message: RECEIVER_STAKING_TXN_MESSAGES.UPDATE_SIGNER.CREATED.message(minifyAddress(address))
+				description: RECEIVER_STAKING_TXN_MESSAGES.UPDATE_SIGNER.CREATED.description(
+					minifyAddress(address)
+				)
 			},
 			success: {
 				title: COMMON_TXN_MESSAGES.SUCCESS.title,
-				message: RECEIVER_STAKING_TXN_MESSAGES.UPDATE_SIGNER.SUCCESS.message(minifyAddress(address))
+				description: RECEIVER_STAKING_TXN_MESSAGES.UPDATE_SIGNER.SUCCESS.description(
+					minifyAddress(address)
+				)
 			},
 			failed: {
 				title: COMMON_TXN_MESSAGES.FAILED.title,
-				message: RECEIVER_STAKING_TXN_MESSAGES.UPDATE_SIGNER.FAILED.message(minifyAddress(address))
+				description: RECEIVER_STAKING_TXN_MESSAGES.UPDATE_SIGNER.FAILED.description(
+					minifyAddress(address)
+				)
 			}
 		};
 		const { txn } = await createTransaction(
@@ -59,19 +65,19 @@ export async function depositStakingToken(amount: bigint) {
 		const messages = {
 			initiate: {
 				title: COMMON_TXN_MESSAGES.INITIATED.title,
-				message: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_STAKE.INITIATED.message
+				description: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_STAKE.INITIATED.description
 			},
 			created: {
 				title: COMMON_TXN_MESSAGES.CREATED.title,
-				message: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_STAKE.CREATED.message(amountInString)
+				description: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_STAKE.CREATED.description(amountInString)
 			},
 			success: {
 				title: COMMON_TXN_MESSAGES.SUCCESS.title,
-				message: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_STAKE.SUCCESS.message(amountInString)
+				description: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_STAKE.SUCCESS.description(amountInString)
 			},
 			failed: {
 				title: COMMON_TXN_MESSAGES.FAILED.title,
-				message: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_STAKE.FAILED.message(amountInString)
+				description: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_STAKE.FAILED.description(amountInString)
 			}
 		};
 		const { txn } = await createTransaction(
@@ -95,21 +101,22 @@ export async function depositStakingTokenAndSetSigner(amount: bigint, signerAddr
 		const messages = {
 			initiate: {
 				title: COMMON_TXN_MESSAGES.INITIATED.title,
-				message: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_AND_SET_SIGNER.INITIATED.message
+				description: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_AND_SET_SIGNER.INITIATED.description
 			},
 			created: {
 				title: COMMON_TXN_MESSAGES.CREATED.title,
-				message:
-					RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_AND_SET_SIGNER.CREATED.message(amountInString)
+				description:
+					RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_AND_SET_SIGNER.CREATED.description(amountInString)
 			},
 			success: {
 				title: COMMON_TXN_MESSAGES.SUCCESS.title,
-				message:
-					RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_AND_SET_SIGNER.SUCCESS.message(amountInString)
+				description:
+					RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_AND_SET_SIGNER.SUCCESS.description(amountInString)
 			},
 			failed: {
 				title: COMMON_TXN_MESSAGES.FAILED.title,
-				message: RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_AND_SET_SIGNER.FAILED.message(amountInString)
+				description:
+					RECEIVER_STAKING_TXN_MESSAGES.DEPOSIT_AND_SET_SIGNER.FAILED.description(amountInString)
 			}
 		};
 		const { txn } = await createTransaction(
@@ -134,19 +141,22 @@ export async function withdrawStakingToken(amount: bigint) {
 		const messages = {
 			initiate: {
 				title: COMMON_TXN_MESSAGES.INITIATED.title,
-				message: RECEIVER_STAKING_TXN_MESSAGES.WITHDRAW_STAKE.INITIATED.message(amountInString)
+				description:
+					RECEIVER_STAKING_TXN_MESSAGES.WITHDRAW_STAKE.INITIATED.description(amountInString)
 			},
 			created: {
 				title: COMMON_TXN_MESSAGES.CREATED.title,
-				message: RECEIVER_STAKING_TXN_MESSAGES.WITHDRAW_STAKE.CREATED.message(amountInString)
+				description:
+					RECEIVER_STAKING_TXN_MESSAGES.WITHDRAW_STAKE.CREATED.description(amountInString)
 			},
 			success: {
 				title: COMMON_TXN_MESSAGES.SUCCESS.title,
-				message: RECEIVER_STAKING_TXN_MESSAGES.WITHDRAW_STAKE.SUCCESS.message(amountInString)
+				description:
+					RECEIVER_STAKING_TXN_MESSAGES.WITHDRAW_STAKE.SUCCESS.description(amountInString)
 			},
 			failed: {
 				title: COMMON_TXN_MESSAGES.FAILED.title,
-				message: RECEIVER_STAKING_TXN_MESSAGES.WITHDRAW_STAKE.FAILED.message(amountInString)
+				description: RECEIVER_STAKING_TXN_MESSAGES.WITHDRAW_STAKE.FAILED.description(amountInString)
 			}
 		};
 		const { txn } = await createTransaction(

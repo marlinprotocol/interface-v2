@@ -24,19 +24,19 @@ export async function approveToken(
 		const messages = {
 			initiate: {
 				title: TOKEN_TXN_MESSAGES.INITIATED.title,
-				message: TOKEN_TXN_MESSAGES.INITIATED.message(amountInString, tokenName)
+				description: TOKEN_TXN_MESSAGES.INITIATED.description(amountInString, tokenName)
 			},
 			created: {
 				title: TOKEN_TXN_MESSAGES.CREATED.title,
-				message: TOKEN_TXN_MESSAGES.CREATED.message(amountInString, tokenName)
+				description: TOKEN_TXN_MESSAGES.CREATED.description(amountInString, tokenName)
 			},
 			success: {
 				title: TOKEN_TXN_MESSAGES.SUCCESS.title,
-				message: TOKEN_TXN_MESSAGES.SUCCESS.message(amountInString, tokenName)
+				description: TOKEN_TXN_MESSAGES.SUCCESS.description(amountInString, tokenName)
 			},
 			failed: {
 				title: TOKEN_TXN_MESSAGES.FAILED.title,
-				message: TOKEN_TXN_MESSAGES.FAILED.message(amountInString, tokenName)
+				description: TOKEN_TXN_MESSAGES.FAILED.description(amountInString, tokenName)
 			}
 		};
 		const { txn } = await createTransaction(

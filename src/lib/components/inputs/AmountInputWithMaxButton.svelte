@@ -24,7 +24,8 @@
 				bind:value={inputAmountString}
 				onChange={handleUpdatedAmount}
 				styleClass="input input-ghost input-primary text-3xl placeholder:text-grey-800/[.2]"
-				disabled={!handleUpdatedAmount || !$connected}
+				disabled={!handleUpdatedAmount || !$connected || disabled}
+				{onlyInteger}
 			/>
 			{#if currency !== ''}
 				<span class="text-[22px] font-medium">{currency}</span>

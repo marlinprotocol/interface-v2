@@ -135,7 +135,7 @@
 		}
 	];
 
-	$: isDarkModeActive = localStorage?.getItem('theme') === 'light' ? false : true;
+	$: isDarkModeActive = localStorage?.getItem('theme') === 'dark';
 </script>
 
 <div class="flex h-[calc(100dvh-5rem)] flex-1 flex-col justify-between px-6">
@@ -282,7 +282,7 @@
 				checked={isDarkModeActive}
 				on:change={(e) => {
 					const htmlElement = document.documentElement;
-					isDarkModeActive = !isDarkModeActive;
+					isDarkModeActive = !isDarkModeActive
 					if (isDarkModeActive) {
 						htmlElement.setAttribute('data-theme', 'dark');
 						localStorage.setItem('theme', 'dark');

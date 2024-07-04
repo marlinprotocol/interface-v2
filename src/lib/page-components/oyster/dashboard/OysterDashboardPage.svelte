@@ -114,7 +114,7 @@
 	<div class="mt-4 flex items-center justify-between gap-4">
 		{#each infoStats as infoStat}
 			<div
-				class="flex h-[100px] w-full items-center gap-4 rounded-2xl border border-[#D9DADE] bg-transparent px-3 py-[22.5px]"
+				class="flex h-[100px] w-full items-center gap-4 rounded-2xl border border-grey-100 bg-transparent px-3 py-[22.5px]"
 			>
 				<div class="flex h-16 w-16 items-center justify-center rounded-full bg-secondary-content">
 					<img src={infoStat.img} alt={infoStat.alt} />
@@ -129,7 +129,7 @@
 	<div class="mt-4 flex gap-2">
 		{#each ctaButtons as ctaButton}
 			<a
-				class="text-md flex h-16 w-full items-center justify-center rounded-full border border-[#D9DADE] bg-secondary-content font-normal text-grey-800 transition-colors hover:border-primary hover:text-primary"
+				class="text-md flex h-16 w-full items-center justify-center rounded-full border border-grey-100 bg-secondary-content font-normal text-grey-800 transition-colors hover:border-primary hover:text-primary"
 				href={ctaButton.href}
 				target={ctaButton.openInANewTab ? '_blank' : ''}>{ctaButton.label}</a
 			>
@@ -143,7 +143,7 @@
 					<a
 						href={deployAndRunLink.href}
 						target={deployAndRunLink.openInANewTab ? '_blank' : ''}
-						class="group relative flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl border border-[#D9DADE] bg-white px-8"
+						class="group relative flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl border border-grey-100 bg-white px-8"
 					>
 						<div
 							class="pointer-events-none absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-bl-2xl bg-[#F1F1F4] transition-all duration-300 ease-out group-hover:h-full group-hover:w-full"
@@ -180,7 +180,7 @@
 						<ModalButton
 							modalFor="external-link-confirmation-{partnerLink.label}"
 							variant="text"
-							styleClass="p-0 h-48 bg-white rounded-2xl overflow-hidden hover:bg-white hover:border hover:border-[#D9DADE] border border-[#D9DADE] relative group px-8 flex justify-start"
+							styleClass="p-0 h-48 bg-white rounded-2xl overflow-hidden hover:bg-white hover:border hover:border-grey-100 border border-grey-100 relative group px-8 flex justify-start"
 						>
 							<div
 								class="pointer-events-none absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-bl-2xl bg-[#F1F1F4] transition-all duration-300 ease-out group-hover:h-full group-hover:w-full"
@@ -214,7 +214,7 @@
 					{:else}
 						<a
 							href={partnerLink.href}
-							class="group relative flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl border border-[#D9DADE] bg-white px-8"
+							class="group relative flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl border border-grey-100 bg-white px-8"
 						>
 							<div
 								class="pointer-events-none absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-bl-2xl bg-[#F1F1F4] transition-all duration-300 ease-out group-hover:h-full group-hover:w-full"

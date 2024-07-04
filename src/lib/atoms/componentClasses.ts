@@ -5,10 +5,10 @@ export const buttonClasses = {
 	filled: `${baseFilledButtonClasses} btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white`,
 	greyFilled: `${baseFilledButtonClasses} bg-base-200 text-primary border-none hover:bg-base-300`,
 	lightblueFilled: `${baseFilledButtonClasses} btn-lightblue`,
-	whiteFilled: `${baseFilledButtonClasses} bg-secondary-content text-black border border-[#D9DADE] hover:bg-base-200`,
+	whiteFilled: `${baseFilledButtonClasses} bg-secondary-content text-black border border-grey-100 hover:bg-base-200`,
 	outlined:
 		'btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed',
-	greyOutlined: `${baseFilledButtonClasses} border-[#D9DADE] bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed`,
+	greyOutlined: `${baseFilledButtonClasses} border-grey-100 bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed`,
 	error:
 		'btn btn-theme btn-sm text-error px-5 border-error bg-inherit hover:bg-inherit hover:border-error hover:text-error-focus disabled:cursor-not-allowed disabled:bg-inherit disabled:text-error disabled:border-error disabled:opacity-60',
 	text: 'btn btn-sm btn-ghost p-0 bg-transparent hover:bg-transparent disabled:bg-transparent disabled:cursor-not-allowed',
@@ -29,7 +29,7 @@ export const buttonClasses = {
 
 export const tableClasses = {
 	heading: 'text-primary text-sm font-semibold px-2 pb-4',
-	row: 'border-b border-[#D9DADE] font-normal whitespace-nowrap last:border-b-0',
+	row: 'border-b border-grey-100 font-normal whitespace-nowrap last:border-b-0',
 	cell: 'text-left text-sm leading-none',
 	cellMini: 'text-xs py-1',
 	empty: 'text-base text-center p-4 w-full'

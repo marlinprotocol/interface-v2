@@ -54,7 +54,7 @@
 	<button
 		disabled={isFirstPage}
 		data-testid="pagination-prev-button"
-		class="flex h-10 items-center gap-2 rounded-s-lg border border-r-0 border-[#D9DADE] bg-white px-4 py-[10px] font-poppins text-sm font-medium text-[#1D2939] disabled:cursor-not-allowed disabled:opacity-30"
+		class="flex h-10 items-center gap-2 rounded-s-lg border border-r-0 border-grey-100 bg-white px-4 py-[10px] font-poppins text-sm font-medium text-[#1D2939] disabled:cursor-not-allowed disabled:opacity-30"
 		on:click={handlePrevClick}
 	>
 		<img src={staticImages.ArrowLeftSolid} alt={staticImages.ArrowLeftSolid} />
@@ -65,7 +65,7 @@
 			<button
 				on:click={() => handlePageChange(page)}
 				class={cn(
-					'flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
+					'flex h-10 w-10 items-center justify-center border border-grey-100 bg-white font-poppins text-sm font-normal text-[#344054]',
 					{
 						'border-x-0': i % 2,
 						'border-r': pageCount === i + 1,
@@ -80,7 +80,7 @@
 		<button
 			on:click={() => handlePageChange(1)}
 			class={cn(
-				'flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
+				'flex h-10 w-10 items-center justify-center border border-grey-100 bg-white font-poppins text-sm font-normal text-[#344054]',
 				{ 'bg-[#3840C7] text-white': activePage === 1 }
 			)}
 		>
@@ -89,7 +89,7 @@
 		<button
 			on:click={() => activePage <= 3 && handlePageChange(2)}
 			class={cn(
-				'flex h-10 w-10 items-center justify-center border border-x-0 border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
+				'flex h-10 w-10 items-center justify-center border border-x-0 border-grey-100 bg-white font-poppins text-sm font-normal text-[#344054]',
 				{ 'bg-[#3840C7] text-white': activePage <= 3 && activePage === 2 }
 			)}
 		>
@@ -102,7 +102,7 @@
 		<button
 			on:click={() => handlePageChange(thirdPageCount)}
 			class={cn(
-				'flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
+				'flex h-10 w-10 items-center justify-center border border-grey-100 bg-white font-poppins text-sm font-normal text-[#344054]',
 				{ 'bg-[#3840C7] text-white': activePage === thirdPageCount }
 			)}
 		>
@@ -112,7 +112,7 @@
 		<button
 			on:click={() => activePage >= 4 && handlePageChange(forthPageCount)}
 			class={cn(
-				'flex h-10 w-10 items-center justify-center border border-x-0 border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
+				'flex h-10 w-10 items-center justify-center border border-x-0 border-grey-100 bg-white font-poppins text-sm font-normal text-[#344054]',
 				{ 'bg-[#3840C7] text-white': activePage >= 4 && activePage === forthPageCount }
 			)}
 		>
@@ -126,7 +126,7 @@
 		<button
 			on:click={() => handlePageChange(fifthPageCount)}
 			class={cn(
-				'flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
+				'flex h-10 w-10 items-center justify-center border border-grey-100 bg-white font-poppins text-sm font-normal text-[#344054]',
 				{ 'bg-[#3840C7] text-white': activePage === fifthPageCount }
 			)}
 		>
@@ -136,7 +136,7 @@
 		<button
 			on:click={handleLastPageClick}
 			class={cn(
-				'flex h-10 w-10 items-center justify-center border border-x-0 border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
+				'flex h-10 w-10 items-center justify-center border border-x-0 border-grey-100 bg-white font-poppins text-sm font-normal text-[#344054]',
 				{
 					'bg-[#3840C7] text-white': shouldDisplayLastPageNumber
 				}
@@ -152,7 +152,7 @@
 		<button
 			on:click={() => handlePageChange(pageCount)}
 			class={cn(
-				'flex h-10 w-10 items-center justify-center border border-[#D9DADE] bg-white font-poppins text-sm font-normal text-[#344054]',
+				'flex h-10 w-10 items-center justify-center border border-grey-100 bg-white font-poppins text-sm font-normal text-[#344054]',
 				{ 'bg-[#3840C7] text-white': activePage === pageCount }
 			)}
 		>
@@ -163,7 +163,7 @@
 	<button
 		disabled={isLastPage}
 		data-testid="pagination-next-button"
-		class="flex h-10 items-center gap-2 rounded-e-lg border border-l-0 border-[#D9DADE] bg-white px-4 py-[10px] font-poppins text-sm font-medium text-[#1D2939] disabled:cursor-not-allowed disabled:opacity-30"
+		class="flex h-10 items-center gap-2 rounded-e-lg border border-l-0 border-grey-100 bg-white px-4 py-[10px] font-poppins text-sm font-medium text-[#1D2939] disabled:cursor-not-allowed disabled:opacity-30"
 		on:click={handleNextClick}
 	>
 		Next

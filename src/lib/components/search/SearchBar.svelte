@@ -14,7 +14,7 @@
 
 <InputCard
 	variant="search"
-	styleClass={cn('relative flex gap-4 items-center border border-[#D9DADE]', styleClass)}
+	styleClass={cn('relative flex gap-4 items-center border border-grey-100', styleClass)}
 >
 	{#if label}
 		<p

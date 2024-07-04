@@ -88,13 +88,13 @@
 			</div>
 			<button
 				data-testId="modal-close-button"
-				class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300"
+				class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-grey-100 bg-secondary-content text-sm font-bold text-gray-300"
 				on:click={() => {
 					closeModal(modalFor);
 					onClose();
 				}}
 			>
-				<img src={staticImages.closeIcon} alt="Close" />
+				<img src={staticImages.closeIcon} alt="Close" class="icon-invert" />
 			</button>
 		</div>
 		<div

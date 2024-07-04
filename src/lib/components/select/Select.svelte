@@ -60,7 +60,7 @@
 
 	{#if showSuggestions && suggestions.length > 0}
 		<ul
-			class="shadow-select-dropdown absolute right-[-17px] top-10 z-20 max-h-72 w-fit min-w-[150px] overflow-y-auto rounded-md bg-white text-base focus:outline-none sm:text-sm"
+			class="shadow-select-dropdown absolute right-[-17px] top-10 z-20 max-h-72 w-fit min-w-[150px] overflow-y-auto rounded-md bg-secondary-content text-base focus:outline-none sm:text-sm"
 		>
 			<div class="flex items-center justify-between px-8 py-4">
 				<Text variant="small" fontWeight="font-semibold" text={title ?? 'Select'} />
@@ -70,10 +70,10 @@
 					class="cursor-pointer text-left hover:bg-gray-100 {Array.isArray(suggestion)
 						? suggestion[1] === value
 							? 'bg-blue-50'
-							: 'bg-white'
+							: 'bg-secondary-content'
 						: suggestion === value
 							? 'bg-blue-50'
-							: 'bg-white'}"
+							: 'bg-secondary-content'}"
 				>
 					<button
 						class="w-full px-8 py-3 text-left"

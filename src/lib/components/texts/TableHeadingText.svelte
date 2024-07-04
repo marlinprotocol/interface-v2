@@ -26,11 +26,22 @@
 			class="relative flex items-center gap-0.5"
 			on:click={() => handleSortData?.(heading.id)}
 		>
-			<img class="absolute left-[-5px]" src={staticImages.sortV2Icon} alt="sort" width="16px" />
+			<img
+				class="icon-invert absolute left-[-5px]"
+				src={staticImages.sortV2Icon}
+				alt="sort"
+				width="16px"
+			/>
 			<span class="w-fit pl-4 tracking-widest">{title}</span>
 			{#if tooltipText !== ''}
 				<Tooltip {placement}>
-					<img slot="tooltipIcon" src={staticImages.alertV2Icon} alt="Info" width={iconWidth} />
+					<img
+						slot="tooltipIcon"
+						src={staticImages.alertV2Icon}
+						alt="Info"
+						class="icon-invert"
+						width={iconWidth}
+					/>
 					<span slot="tooltipContent">{tooltipText}</span></Tooltip
 				>
 			{/if}
@@ -40,7 +51,13 @@
 			<span class="w-fit tracking-widest">{title}</span>
 			{#if tooltipText !== ''}
 				<Tooltip {placement}>
-					<img slot="tooltipIcon" src={staticImages.alertV2Icon} alt="Info" width={iconWidth} />
+					<img
+						slot="tooltipIcon"
+						src={staticImages.alertV2Icon}
+						class="icon-invert"
+						alt="Info"
+						width={iconWidth}
+					/>
 					<span slot="tooltipContent">{tooltipText}</span></Tooltip
 				>
 			{/if}

@@ -41,14 +41,14 @@
 	<slot name="tooltipIcon" />
 	<div
 		class={cn(
-			'absolute z-100 box-border hidden w-max max-w-[320px] rounded-xl bg-white p-3 shadow-[0px_12px_16px_-4px_#10182814] group-hover:block',
+			'absolute z-100 box-border hidden w-max max-w-[320px] rounded-xl bg-secondary-content p-3 shadow-[0px_12px_16px_-4px_#10182814] group-hover:block',
 			tooltipPosition[placement].container
 		)}
 	>
 		<slot name="tooltipContent" />
 		<i
 			class={cn(
-				'absolute overflow-hidden after:absolute after:h-[15px] after:w-[15px] after:rotate-45 after:bg-white after:shadow-[0px_12px_16px_-4px_#10182814]',
+				'absolute overflow-hidden after:absolute after:h-[15px] after:w-[15px] after:rotate-45 after:bg-secondary-content after:shadow-[0px_12px_16px_-4px_#10182814]',
 				tooltipPosition[placement].arrow
 			)}
 		></i>

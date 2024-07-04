@@ -54,7 +54,7 @@ export const getTextColorClassByVariant = (variant: CommonVariant | undefined) =
 		case 'disabled':
 			return 'text-primary opacity-40';
 		case 'grey':
-			return 'text-grey-500';
+			return 'text-grey-1000';
 		default:
 			return '';
 	}
@@ -102,7 +102,7 @@ export const getInputCardVariant = (variant: InputCardVariant | undefined) => {
 		case 'none':
 			return '';
 		case 'search':
-			return 'bg-white px-4 py-2.5 rounded-[100px]';
+			return 'bg-grey-200 px-4 py-2.5 rounded-[100px]';
 		case 'v2Input':
 			return 'relative border border-[#D9DADE] bg-white py-2.5 px-4 rounded-full';
 		default:
@@ -201,7 +201,7 @@ export const getDividerColor = (variant: DividerDirection) => {
 		case 'divider-horizontal':
 			return 'bg-black/[0.1]';
 		case 'divider-vertical':
-			return 'bg-grey-500';
+			return 'bg-grey-1000';
 	}
 };
 

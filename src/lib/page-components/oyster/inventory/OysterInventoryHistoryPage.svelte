@@ -60,7 +60,7 @@
 
 <div class="flex gap-[14px]">
 	<a
-		class="mb-8 flex h-[56px] w-[56px] items-center justify-center rounded-full border border-[#D9DADE] bg-white"
+		class="mb-8 flex h-[56px] w-[56px] items-center justify-center rounded-full border border-grey-100 bg-white"
 		href={ROUTES.OYSTER_INVENTORY_URL}
 	>
 		<img src={staticImages.backIcon} alt="Back Icon" />

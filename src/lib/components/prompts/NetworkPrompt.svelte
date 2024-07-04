@@ -15,7 +15,7 @@
 <div class="flex h-full w-full items-center justify-center" id="network-prompt">
 	<div
 		class={cn(
-			'flex h-[460px] w-130 flex-col items-center justify-center rounded-3xl border border-[#D9DADE]',
+			'flex h-[460px] w-130 flex-col items-center justify-center rounded-3xl border border-grey-100',
 			isVariantWhite ? 'bg-white' : 'bg-[#3840C7]'
 		)}
 	>
@@ -32,10 +32,8 @@
 
 		{#if title}
 			<span
-				class={cn(
-					'mt-2 text-3xl font-medium',
-					isVariantWhite ? 'text-[#26272C]' : 'text-[#D9DADE]'
-				)}>{title}</span
+				class={cn('mt-2 text-3xl font-medium', isVariantWhite ? 'text-grey-700' : 'text-grey-100')}
+				>{title}</span
 			>
 		{/if}
 
@@ -43,7 +41,7 @@
 			<p
 				class={cn(
 					'text-md mx-auto mt-2 max-w-[400px] text-center font-light leading-6',
-					isVariantWhite ? 'text-[#A8A8A8]' : 'text-[#D9DADE]'
+					isVariantWhite ? 'text-[#A8A8A8]' : 'text-grey-100'
 				)}
 			>
 				{description}
@@ -54,7 +52,7 @@
 			<slot name="cta" />
 		{:else}
 			<div class="mt-12 flex w-64 items-center justify-between rounded-full border border-white">
-				<span class="pl-4 font-medium text-[#D9DADE]">Switch</span>
+				<span class="pl-4 font-medium text-grey-100">Switch</span>
 				<ChainSwitcher id="network-prompt-chain-switcher-drop-down" />
 			</div>
 		{/if}

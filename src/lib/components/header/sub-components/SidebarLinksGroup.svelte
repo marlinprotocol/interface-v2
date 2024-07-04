@@ -147,7 +147,7 @@
 				{#if children}
 					<li>
 						<div
-							class={cn('menu-dropdown-toggle px-[14px] py-4 after:text-[#26272c]', {
+							class={cn('menu-dropdown-toggle px-[14px] py-4 after:text-grey-700', {
 								'after:text-[#2DB8E3]': activeLink.includes(href),
 								'after:hidden': !$isNavOpen,
 								'menu-dropdown-show': expandedLinks.includes(label)
@@ -160,11 +160,17 @@
 						>
 							<div class="pointer-events-none flex items-start gap-3">
 								<div class="flex h-6 w-6 items-center justify-center">
-									<img src={icon} alt={icon} />
+									<img
+										src={icon}
+										alt={icon}
+										class={cn({
+											'icon-invert': !activeLink.includes(href)
+										})}
+									/>
 								</div>
 								{#if $isNavOpen}
 									<p
-										class={cn('font-poppins text-base font-medium text-[#26272c]', {
+										class={cn('font-poppins text-base font-medium text-grey-700', {
 											'text-[#2DB8E3]': activeLink.includes(href)
 										})}
 									>
@@ -192,7 +198,7 @@
 													'pointer-events-none relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
 													activeLink.includes(subLink.href)
 														? 'font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
-														: 'text-[#26272c]'
+														: 'text-grey-700'
 												)}
 											>
 												{subLink.preFixLabel}
@@ -212,14 +218,14 @@
 										<a
 											href={subLink.href}
 											target={subLink.openInNewTab ? '_blank' : ''}
-											class="p-0 active:!text-[#26272c]"
+											class="p-0 active:!text-grey-700"
 										>
 											<div
 												class={cn(
 													'pointer-events-none relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
 													activeLink.includes(subLink.href)
 														? 'font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
-														: 'text-[#26272c]'
+														: 'text-grey-700'
 												)}
 											>
 												{subLink.preFixLabel}
@@ -253,7 +259,7 @@
 								</div>
 								{#if $isNavOpen}
 									<p
-										class={cn('font-poppins text-base font-medium text-[#26272c]', {
+										class={cn('font-poppins text-base font-medium text-grey-700', {
 											'text-[#2DB8E3]': activeLink.includes(href)
 										})}
 									>
@@ -267,7 +273,7 @@
 			{/each}
 		</ul>
 	</div>
-	<div class={cn('my-8 rounded-2xl pb-4', { 'bg-[#F4F4F6]': $isNavOpen })}>
+	<div class={cn('my-8 rounded-2xl pb-4', { 'sub-nav': $isNavOpen })}>
 		<ul>
 			{#each menuItems as item}
 				<MenuItem {...item} />
@@ -275,14 +281,14 @@
 		</ul>
 		<!----------------------------------------------------------------------------------->
 		<!-- Uncomment the following code to enable theme switcher -->
-		<!-- <div class="px-4 pt-4">
+		<div class="px-4 pt-4">
 			<input
 				type="checkbox"
 				class="toggle"
 				checked={isDarkModeActive}
 				on:change={(e) => {
 					const htmlElement = document.documentElement;
-					isDarkModeActive = !isDarkModeActive
+					isDarkModeActive = !isDarkModeActive;
 					if (isDarkModeActive) {
 						htmlElement.setAttribute('data-theme', 'dark');
 						localStorage.setItem('theme', 'dark');
@@ -292,7 +298,7 @@
 					}
 				}}
 			/>
-		</div> -->
+		</div>
 		<!----------------------------------------------------------------------------------->
 
 		<!-- <div class="px-4 py-4">

@@ -40,7 +40,7 @@
 	>
 		<img
 			src={staticImages.navButton}
-			class={cn('min-h-[35px] min-w-[35px]', $isNavOpen ? '' : 'rotate-180')}
+			class={cn('icon-invert min-h-[35px] min-w-[35px]', $isNavOpen ? '' : 'rotate-180')}
 			alt="nav-btn"
 		/>
 	</button>

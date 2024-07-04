@@ -59,7 +59,9 @@
 	$: allFilters = getAllFiltersListforMarketplaceData($oysterStore.allMarketplaceData);
 </script>
 
-<div class="mb-6 flex w-full flex-col items-end gap-2 rounded-[24px] bg-white px-8 py-6">
+<div
+	class="mb-6 flex w-full flex-col items-end gap-2 rounded-[24px] bg-secondary-content px-8 py-6"
+>
 	<div class="flex w-full flex-col items-center gap-4 md:flex-row">
 		<SearchWithSelect
 			dataList={allFilters?.instance}

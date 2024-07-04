@@ -27,7 +27,7 @@
 	};
 </script>
 
-<InputCard variant="search" styleClass="border border-[#D9DADE]">
+<InputCard variant="search" styleClass="border border-grey-100">
 	<div class="relative flex flex-1 flex-col">
 		<button class={cn(titleStyle, titleStyleInit)} id="title-{id}">
 			{title}

@@ -17,7 +17,7 @@
 			<tr>
 				{#each tableHeading as columnHeading, i}
 					<th
-						class={cn('bg-[#F0F0F0] py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]', {
+						class={cn('bg-white-200 py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]', {
 							'first:rounded-tl-none': !roundedBorders
 						})}
 					>

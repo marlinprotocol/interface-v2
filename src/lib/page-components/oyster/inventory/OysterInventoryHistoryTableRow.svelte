@@ -123,7 +123,7 @@
 		modalFor="job-history-details-{rowIndex}"
 	>
 		<Tooltip>
-			<div slot="tooltipIcon" class="rounded-full border border-[#D9DADE] p-3">
+			<div slot="tooltipIcon" class="rounded-full border border-grey-100 p-3">
 				<img src={staticImages.infoV2Icon} alt="Info Icon" />
 			</div>
 			<span class="font-normal" slot="tooltipContent">Order Details</span>

@@ -80,8 +80,8 @@
 				modalFor="create-order-modal-{rowIndex}"
 				slot="tooltipIcon"
 			>
-				<div class="rounded-full border border-[#D9DADE] p-3">
-					<img src={staticImages.deployIcon} alt="Deploy" />
+				<div class="rounded-full border border-grey-100 p-3">
+					<img src={staticImages.deployIcon} class="icon-invert" alt="Deploy" />
 				</div>
 			</ModalButton>
 			<span class="font-normal" slot="tooltipContent">Deploy</span>
@@ -100,7 +100,7 @@
 			styleClass="w-fit ml-4"
 		>
 			<Tooltip>
-				<div slot="tooltipIcon" class="rounded-full border border-[#D9DADE] p-3">
+				<div slot="tooltipIcon" class="rounded-full border border-grey-100 p-3">
 					<img src={staticImages.deployIcon} alt="Deploy" />
 				</div>
 				<span class="font-normal" slot="tooltipContent">Deploy</span>

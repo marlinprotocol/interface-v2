@@ -28,14 +28,14 @@
 
 <div class="mb-8 flex items-center gap-4">
 	<a
-		class="flex h-[56px] w-[56px] items-center justify-center rounded-full border border-[#D9DADE] bg-white"
+		class="flex h-[56px] w-[56px] items-center justify-center rounded-full border border-grey-100 bg-white"
 		href={tableTitle.backButton.href}
 	>
 		<img src={staticImages.backIcon} alt="Back Icon" />
 	</a>
 	<PageTitle wrapperClass="mb-0" title={tableTitle.title} />
 	<a
-		class="group flex h-[56px] w-[56px] items-center justify-center rounded-full border border-[#D9DADE] bg-white"
+		class="group flex h-[56px] w-[56px] items-center justify-center rounded-full border border-grey-100 bg-white"
 		href={isPondToMPond ? '/bridge/mPondToPondHistory/' : '/bridge/pondToMPondHistory/'}
 	>
 		<img

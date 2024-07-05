@@ -23,7 +23,7 @@
 			<AmountInput
 				bind:value={inputAmountString}
 				onChange={handleUpdatedAmount}
-				styleClass="input input-ghost input-primary text-3xl placeholder:text-[#030115]/[.2]"
+				styleClass="input input-ghost input-primary text-3xl placeholder:text-grey-800/[.2]"
 				disabled={!handleUpdatedAmount || !$connected || disabled}
 				{onlyInteger}
 			/>

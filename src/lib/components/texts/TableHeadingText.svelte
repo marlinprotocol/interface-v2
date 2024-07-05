@@ -15,7 +15,7 @@
 
 <div
 	class={cn(
-		'mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-center text-[14px] font-normal text-[#030115]',
+		'mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-center text-[14px] font-normal text-grey-800',
 		centered && 'justify-center',
 		styleClass
 	)}

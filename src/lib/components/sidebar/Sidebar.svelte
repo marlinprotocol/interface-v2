@@ -11,7 +11,7 @@
 
 <div
 	class={cn(
-		'nav-bg z-10 flex h-full flex-1 flex-col transition-all duration-300 ease-out',
+		'z-10 flex h-full flex-1 flex-col bg-base-100 transition-all duration-300 ease-out',
 		$isNavOpen ? 'min-w-[18rem]' : 'min-w-[104px]'
 	)}
 >

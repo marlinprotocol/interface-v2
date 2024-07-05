@@ -129,7 +129,7 @@
 					text={maxAmountText}
 					id="withdraw-available-balance"
 					variant="small"
-					styleClass="text-[#030115]"
+					styleClass="text-grey-800"
 					fontWeight="font-normal"
 				/>
 			</div>

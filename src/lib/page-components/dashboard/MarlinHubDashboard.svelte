@@ -114,9 +114,9 @@
 	</p>
 	<div class="mt-6 grid grid-cols-2 gap-4 pb-8">
 		{#each cardsList as card}
-			<div class="flex h-60 w-full flex-col justify-between rounded-2xl bg-white p-6">
+			<div class="flex h-60 w-full flex-col justify-between rounded-2xl bg-secondary-content p-6">
 				<div class="flex flex-col gap-3">
-					<div class="flex items-center gap-2 text-2xl font-medium text-[#030115]">
+					<div class="flex items-center gap-2 text-2xl font-medium text-grey-800">
 						<img src={card.logo} alt={card.logoAlt} />{card.title}
 					</div>
 					<span>{card.description}</span>

@@ -18,9 +18,10 @@
 				// do nothing
 			};
 		}
-
+		const theme = localStorage?.getItem('theme') || 'light';
+		localStorage.setItem('theme', theme);
 		const htmlElement = document.documentElement;
-		htmlElement.setAttribute('data-theme', 'v2Theme');
+		htmlElement.setAttribute('data-theme', theme);
 	});
 </script>
 
@@ -38,7 +39,7 @@
 	<title>Marlin Hub</title>
 </svelte:head>
 
-<main class="h-dvh flex w-full font-poppins">
+<main class="h-dvh flex w-full bg-grey-200 font-poppins">
 	<!-- toasts are removed from the normal document flow as it has position fixed   -->
 	<Toast />
 

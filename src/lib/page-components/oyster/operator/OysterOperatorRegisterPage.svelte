@@ -83,7 +83,7 @@
 <div>
 	<div class="flex items-center justify-between">
 		<Text
-			styleClass="font-poppins leading-[-2px] text-[#030115]"
+			styleClass="font-poppins leading-[-2px] text-grey-800"
 			variant="h2"
 			fontWeight="font-medium"
 			text="Hello, {$connected ? shortenText($walletStore.address, 6, 6) : 'Fishy'}"

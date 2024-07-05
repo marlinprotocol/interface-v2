@@ -31,7 +31,7 @@
 	>
 		<img src={staticImages.discChainLog} alt="Metamask Logo" />
 		<div>
-			<p class="text-sm font-medium text-[#030115]">{shortAddress}</p>
+			<p class="text-sm font-medium text-grey-800">{shortAddress}</p>
 		</div>
 	</ModalButton>
 </div>

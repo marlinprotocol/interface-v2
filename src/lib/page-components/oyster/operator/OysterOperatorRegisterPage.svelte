@@ -118,17 +118,17 @@
 			{#if !$oysterStore.merchantJobsLoaded}
 				<LoadingAnimatedPing />
 			{:else if $oysterStore.providerData.registered}
-				<div class="rounded-3xl bg-white px-8 py-6">
+				<div class="rounded-3xl bg-secondary-content px-8 py-6">
 					<p class="pb-3 text-base font-normal">Control Plane:</p>
 					<TextInputWithEndButton
-						styleClass="w-full bg-[#F4F4F6] py-[5px] pr-[5px] rounded-[100px]"
+						styleClass="w-full bg-grey-200 py-[5px] pr-[5px] rounded-[100px]"
 						placeholder="Paste URL here"
 						disabled
 						input={$oysterStore.providerData?.data?.cp ?? ''}
 					>
 						<svelte:fragment slot="endInfoBox">
 							<div
-								class="flex w-full max-w-[300px] items-center justify-between gap-3 rounded-[100px] bg-white px-[18px] py-4"
+								class="flex w-full max-w-[300px] items-center justify-between gap-3 rounded-[100px] bg-secondary-content px-[18px] py-4"
 							>
 								{#if loadingInstances}
 									<p>loading...</p>

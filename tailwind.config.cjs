@@ -63,7 +63,7 @@ module.exports = {
 					'neutral-500': '#737373',
 					'base-100': '#ffffff',
 					'base-200': '#f3f4fc',
-					'base-300': '#e9f2f5',
+					'base-300': '#F4F4F6',
 					'--white-100': '#FCFCFC',
 					'--white-200': '#F0F0F0',
 					'--grey-100': '#D9DADE',
@@ -97,7 +97,7 @@ module.exports = {
 						width: '100%',
 						fontWeight: '500',
 						padding: '0',
-						color: '#030115',
+						color: 'var(--grey-800)',
 						border: 'none',
 						outline: 'none',
 						fontFamily: 'Poppins',
@@ -105,12 +105,12 @@ module.exports = {
 							border: 'none',
 							outline: 'none',
 							background: 'transparent',
-							color: '#030115'
+							color: 'var(--grey-800)'
 						},
 						'&:focus-within': {
 							border: 'none',
 							outline: 'none',
-							color: '#030115',
+							color: 'var(--grey-800)',
 							background: 'transparent'
 						},
 						'&:disabled': {
@@ -183,6 +183,8 @@ module.exports = {
 			{
 				dark: {
 					'base-100': '#000000',
+					'base-200': '#17191C',
+					'base-300': '#17191C',
 					'secondary-content': '#17191C',
 					'primary-focus': '#012d8f',
 					'--grey-100': '#222222',

@@ -90,7 +90,7 @@ export const getColorHexForTableRow = (index: number) => {
 export const getInputCardVariant = (variant: InputCardVariant | undefined) => {
 	switch (variant) {
 		case 'primary':
-			return 'bg-white px-6 py-[30px] rounded-3xl border border-grey-100';
+			return 'bg-base-100 px-6 py-[30px] rounded-3xl border border-grey-100';
 		case 'primary-mini':
 			return 'bg-base-200 py-2 px-4';
 		case 'warning':

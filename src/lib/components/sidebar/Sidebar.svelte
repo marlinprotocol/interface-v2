@@ -7,6 +7,8 @@
 	import { ROUTES } from '$lib/utils/constants/urls';
 
 	const toggleNavbar = () => isNavOpen.set(!$isNavOpen);
+
+	$: isDarkModeActive = localStorage?.getItem('theme') === 'dark';
 </script>
 
 <div
@@ -22,7 +24,11 @@
 		})}
 	>
 		{#if $isNavOpen}
-			<a href={ROUTES.HUB_DASHBOARD_URL}><img src={staticImages.marlinLgLogo} alt="large logo" /></a
+			<a href={ROUTES.HUB_DASHBOARD_URL}
+				><img
+					src={isDarkModeActive ? staticImages.marlinLgLogoDark : staticImages.marlinLgLogo}
+					alt="large logo"
+				/></a
 			>
 		{:else}
 			<a href={ROUTES.HUB_DASHBOARD_URL}>
@@ -30,7 +36,7 @@
 			</a>
 		{/if}
 	</div>
-	<SidebarLinksGroup activeLink={$page.url.pathname} />
+	<SidebarLinksGroup activeLink={$page.url.pathname} bind:isDarkModeActive />
 	<button
 		class={cn(
 			'fixed top-1/2 cursor-pointer transition-all duration-300 ease-out',

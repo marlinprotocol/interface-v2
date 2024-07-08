@@ -12,6 +12,7 @@
 	import MenuItem from './MenuItem.svelte';
 
 	export let activeLink: string = '';
+	export let isDarkModeActive: boolean;
 
 	let links: SidebarLinks[] = [];
 	let expandedLinks: string = '';
@@ -134,8 +135,6 @@
 				: staticImages.ecosystemIcon
 		}
 	];
-
-	$: isDarkModeActive = localStorage?.getItem('theme') === 'dark';
 </script>
 
 <div class="flex h-[calc(100dvh-5rem)] flex-1 flex-col justify-between px-6">

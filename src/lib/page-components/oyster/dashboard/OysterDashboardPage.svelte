@@ -117,7 +117,7 @@
 				class="flex h-[100px] w-full items-center gap-4 rounded-2xl border border-grey-100 bg-transparent px-3 py-[22.5px]"
 			>
 				<div class="flex h-16 w-16 items-center justify-center rounded-full bg-secondary-content">
-					<img src={infoStat.img} alt={infoStat.alt} />
+					<img src={infoStat.img} alt={infoStat.alt} class="icon-invert" />
 				</div>
 				<div class="flex flex-col justify-between">
 					<span class="text-lg font-light leading-[21.6px]"> {infoStat.title} </span>
@@ -180,7 +180,7 @@
 						<ModalButton
 							modalFor="external-link-confirmation-{partnerLink.label}"
 							variant="text"
-							styleClass="p-0 h-48 bg-secondary-content rounded-2xl overflow-hidden hover:bg-white hover:border hover:border-grey-100 border border-grey-100 relative group px-8 flex justify-start"
+							styleClass="p-0 h-48 bg-secondary-content rounded-2xl overflow-hidden  hover:border hover:border-grey-100 border border-grey-100 relative group px-8 flex justify-start"
 						>
 							<div
 								class="pointer-events-none absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-bl-2xl bg-grey-400 transition-all duration-300 ease-out group-hover:h-full group-hover:w-full"

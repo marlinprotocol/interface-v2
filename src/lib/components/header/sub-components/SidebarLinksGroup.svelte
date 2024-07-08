@@ -206,7 +206,7 @@
 													<img
 														src={subLink.icon}
 														alt={subLink.icon}
-														class="min-w-[18px] max-w-[18px]"
+														class="icon-invert min-w-[18px] max-w-[18px]"
 													/>
 												{/if}
 												{#if subLink.postFixLabel}
@@ -233,7 +233,7 @@
 													<img
 														src={subLink.icon}
 														alt={subLink.icon}
-														class="min-w-[18px] max-w-[18px]"
+														class="icon-invert min-w-[18px] max-w-[18px]"
 													/>
 												{/if}
 												{#if subLink.postFixLabel}
@@ -255,7 +255,11 @@
 								})}
 							>
 								<div class="flex h-6 w-6 items-center justify-center">
-									<img src={icon} alt={icon} />
+									<img
+										src={icon}
+										alt={icon}
+										class={cn({ 'icon-invert': !activeLink.includes(href) })}
+									/>
 								</div>
 								{#if $isNavOpen}
 									<p

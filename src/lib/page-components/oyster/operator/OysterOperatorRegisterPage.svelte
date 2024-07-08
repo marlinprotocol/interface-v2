@@ -168,12 +168,12 @@
 		</div>
 	{/if}
 
-	<div class="mt-[40px] flex w-min gap-[10px] rounded-tl-[18px] rounded-tr-[18px] bg-white">
+	<div class="mt-[40px] flex w-min gap-[10px] rounded-tl-[18px] rounded-tr-[18px] bg-base-100">
 		<a
 			href={ROUTES.OYSTER_OPERATOR_JOBS_URL}
 			class={cn('block w-[172px] rounded-tl-[18px] rounded-tr-[18px] py-[27px] text-center', {
-				'bg-white font-light text-[#A8A8A8]': historyActive,
-				'bg-[#F0F0F0] font-medium text-primary': detailsActive
+				'bg-base-100 font-light text-[#A8A8A8]': historyActive,
+				'bg-white-200 font-medium text-primary': detailsActive
 			})}
 		>
 			Details
@@ -181,8 +181,8 @@
 		<a
 			href={ROUTES.OYSTER_OPERATOR_HISTORY_URL}
 			class={cn('block w-[172px] rounded-tl-[18px] rounded-tr-[18px] py-[27px] text-center', {
-				'bg-white font-light text-[#A8A8A8]': detailsActive,
-				'bg-[#F0F0F0] font-medium text-primary': historyActive
+				'bg-base-100 font-light text-[#A8A8A8]': detailsActive,
+				'bg-white-200 font-medium text-primary': historyActive
 			})}
 		>
 			History

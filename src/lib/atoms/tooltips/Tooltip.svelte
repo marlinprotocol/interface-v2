@@ -36,7 +36,7 @@
 >
 	<!-- adds a default icon for tooltip when no icon is passed to the slot -->
 	{#if !$$slots.tooltipIcon}
-		<img src={staticImages.alertV2Icon} alt="Info" width="16px" />
+		<img src={staticImages.alertV2Icon} alt="Info" width="16px" class="icon-invert" />
 	{/if}
 	<slot name="tooltipIcon" />
 	<div

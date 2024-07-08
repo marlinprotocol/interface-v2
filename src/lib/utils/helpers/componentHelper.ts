@@ -90,7 +90,7 @@ export const getColorHexForTableRow = (index: number) => {
 export const getInputCardVariant = (variant: InputCardVariant | undefined) => {
 	switch (variant) {
 		case 'primary':
-			return 'bg-white px-6 py-[30px] rounded-3xl border border-[#D9DADE]';
+			return 'bg-white px-6 py-[30px] rounded-3xl border border-grey-100';
 		case 'primary-mini':
 			return 'bg-base-200 py-2 px-4';
 		case 'warning':
@@ -104,7 +104,7 @@ export const getInputCardVariant = (variant: InputCardVariant | undefined) => {
 		case 'search':
 			return 'bg-grey-200 px-4 py-2.5 rounded-[100px]';
 		case 'v2Input':
-			return 'relative border border-[#D9DADE] bg-white py-2.5 px-4 rounded-full';
+			return 'relative border border-grey-100 bg-base-100 py-2.5 px-4 rounded-full';
 		default:
 			return 'bg-base-200 p-4';
 	}

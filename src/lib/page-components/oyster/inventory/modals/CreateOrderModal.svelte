@@ -317,7 +317,7 @@
 				bind:input={enclaveImageUrl.value}
 			/>
 			<TextInputWithEndButton
-				styleClass="px-4 py-2 mt-4"
+				styleClass="px-4 py-3 mt-4"
 				label={jobName.title}
 				placeholder="Enter your job name"
 				bind:input={jobName.value}
@@ -335,7 +335,7 @@
 			<Text
 				variant="small"
 				id="wallet-credits"
-				styleClass="text-black ml-1"
+				styleClass="text-grey-800 ml-1"
 				fontWeight="font-normal"
 				text="Balance: {walletBalanceText}"
 			/>

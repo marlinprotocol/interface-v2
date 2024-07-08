@@ -101,7 +101,7 @@
 		>
 			<Tooltip>
 				<div slot="tooltipIcon" class="rounded-full border border-grey-100 p-3">
-					<img src={staticImages.deployIcon} alt="Deploy" />
+					<img src={staticImages.deployIcon} alt="Deploy" class="icon-invert" />
 				</div>
 				<span class="font-normal" slot="tooltipContent">Deploy</span>
 			</Tooltip>

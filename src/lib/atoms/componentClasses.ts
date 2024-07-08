@@ -5,7 +5,7 @@ export const buttonClasses = {
 	filled: `${baseFilledButtonClasses} btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white`,
 	greyFilled: `${baseFilledButtonClasses} bg-base-200 text-primary border-none hover:bg-base-300`,
 	lightblueFilled: `${baseFilledButtonClasses} btn-lightblue`,
-	whiteFilled: `${baseFilledButtonClasses} bg-secondary-content text-black border border-grey-100 hover:bg-base-200`,
+	whiteFilled: `${baseFilledButtonClasses} bg-secondary-content text-grey-800 border border-grey-100 hover:bg-base-200`,
 	outlined:
 		'btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed',
 	greyOutlined: `${baseFilledButtonClasses} border-grey-100 bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed`,

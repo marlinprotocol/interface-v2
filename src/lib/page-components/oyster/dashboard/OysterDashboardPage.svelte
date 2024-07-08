@@ -143,13 +143,13 @@
 					<a
 						href={deployAndRunLink.href}
 						target={deployAndRunLink.openInANewTab ? '_blank' : ''}
-						class="group relative flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl border border-grey-100 bg-white px-8"
+						class="group relative flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl border border-grey-100 bg-secondary-content px-8"
 					>
 						<div
-							class="pointer-events-none absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-bl-2xl bg-[#F1F1F4] transition-all duration-300 ease-out group-hover:h-full group-hover:w-full"
+							class="pointer-events-none absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-bl-2xl bg-grey-400 transition-all duration-300 ease-out group-hover:h-full group-hover:w-full"
 						>
 							<img
-								class="absolute right-[10px] top-[10px] transition-transform duration-300 ease-out"
+								class="icon-invert absolute right-[10px] top-[10px] transition-transform duration-300 ease-out"
 								src={staticImages.arrowUpRight}
 								alt="Arrow Icon"
 							/>
@@ -180,13 +180,13 @@
 						<ModalButton
 							modalFor="external-link-confirmation-{partnerLink.label}"
 							variant="text"
-							styleClass="p-0 h-48 bg-white rounded-2xl overflow-hidden hover:bg-white hover:border hover:border-grey-100 border border-grey-100 relative group px-8 flex justify-start"
+							styleClass="p-0 h-48 bg-secondary-content rounded-2xl overflow-hidden hover:bg-white hover:border hover:border-grey-100 border border-grey-100 relative group px-8 flex justify-start"
 						>
 							<div
-								class="pointer-events-none absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-bl-2xl bg-[#F1F1F4] transition-all duration-300 ease-out group-hover:h-full group-hover:w-full"
+								class="pointer-events-none absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-bl-2xl bg-grey-400 transition-all duration-300 ease-out group-hover:h-full group-hover:w-full"
 							>
 								<img
-									class="absolute right-[10px] top-[10px] transition-transform duration-300 ease-out"
+									class="icon-invert absolute right-[10px] top-[10px] transition-transform duration-300 ease-out"
 									src={staticImages.arrowUpRight}
 									alt="Arrow Icon"
 								/>
@@ -214,13 +214,13 @@
 					{:else}
 						<a
 							href={partnerLink.href}
-							class="group relative flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl border border-grey-100 bg-white px-8"
+							class="group relative flex h-48 w-full items-center justify-center overflow-hidden rounded-2xl border border-grey-100 bg-secondary-content px-8"
 						>
 							<div
-								class="pointer-events-none absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-bl-2xl bg-[#F1F1F4] transition-all duration-300 ease-out group-hover:h-full group-hover:w-full"
+								class="pointer-events-none absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-bl-2xl bg-grey-400 transition-all duration-300 ease-out group-hover:h-full group-hover:w-full"
 							>
 								<img
-									class="absolute right-[10px] top-[10px] transition-transform duration-300 ease-out"
+									class="icon-invert absolute right-[10px] top-[10px] transition-transform duration-300 ease-out"
 									src={staticImages.arrowUpRight}
 									alt="Arrow Icon"
 								/>

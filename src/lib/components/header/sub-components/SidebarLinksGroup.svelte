@@ -288,7 +288,7 @@
 		<div class="px-4 pt-4">
 			<input
 				type="checkbox"
-				class="toggle"
+				class="toggle h-[24px] w-[44px]"
 				checked={isDarkModeActive}
 				on:change={(e) => {
 					const htmlElement = document.documentElement;

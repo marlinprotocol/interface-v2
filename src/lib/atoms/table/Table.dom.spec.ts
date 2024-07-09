@@ -37,7 +37,9 @@ describe('TableComponent', () => {
 		// Check if each heading is rendered with a TableHeadingText component and has the correct classes
 		for (const heading of tableHeadingMock) {
 			expect(getByText(heading.title).innerHTML).toBe(heading.title);
-			expect(getByText(heading.title).closest('th')?.innerHTML).contain('custom-heading-style');
+			expect(
+				getByText(heading.title).closest('th')?.classList.contains('custom-heading-style')
+			).toBe(true);
 		}
 	});
 

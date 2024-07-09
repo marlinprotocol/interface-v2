@@ -29,13 +29,14 @@ exports[`Tabs > renders the tab 1`] = `
   role="presentation"
 >
   <button
-    class="-my-5 flex h-14 w-14 items-center justify-center rounded-full border border-[#D9DADE] bg-white"
+    class="-my-5 flex h-14 w-14 items-center justify-center rounded-full border border-grey-100 bg-base-100"
     id="tab_test-tabhead"
     role="tab"
     type="button"
   >
     <img
       alt="Conversion"
+      class="icon-invert"
       src="/images/arrowConversion.svg"
     />
   </button>

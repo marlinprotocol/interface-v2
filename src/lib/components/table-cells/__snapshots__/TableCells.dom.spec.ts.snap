@@ -8,7 +8,7 @@ exports[`Table Cells > renders TableDataWithButton successfully 1`] = `
       data-testid="table-data-with-button"
     >
       <div
-        class="border-b border-[#D9DADE] font-normal whitespace-nowrap last:border-b-0"
+        class="border-b border-grey-100 font-normal whitespace-nowrap last:border-b-0"
       >
         <div
           class="m-auto flex h-[35px] items-center justify-center"

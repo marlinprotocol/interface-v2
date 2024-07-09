@@ -28,7 +28,7 @@ exports[`HeaderConnectWallet > renders ConnectWalletButton if wallet is not conn
         id="header-chain-switcher-dropdown"
       >
         <div
-          class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"
+          class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-grey-800 border border-grey-100 hover:bg-base-200 chain-btn m-1 flex h-12"
           role="button"
           tabindex="0"
         >
@@ -123,7 +123,7 @@ exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not c
         id="chain-dropdown"
       >
         <div
-          class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"
+          class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-grey-800 border border-grey-100 hover:bg-base-200 chain-btn m-1 flex h-12"
           role="button"
           tabindex="0"
         >
@@ -173,7 +173,7 @@ exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not c
       <!--&lt;ChainSwitcher&gt;-->
        
       <label
-        class="gap-1.5 font-normal btn btn-theme btn-sm disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-black border border-[#D9DADE] hover:bg-base-200 h-12 chain-btn m-1 flex items-center justify-center"
+        class="gap-1.5 font-normal btn btn-theme btn-sm disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-grey-800 border border-grey-100 hover:bg-base-200 h-12 chain-btn m-1 flex items-center justify-center"
         for="disconnect-wallet-modal"
         tabindex="0"
       >
@@ -227,12 +227,12 @@ exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not c
           </div>
            
           <button
-            class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+            class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-grey-100 bg-secondary-content text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
             data-testid="modal-close-button"
           >
             <img
               alt="Close"
-              class="s-GZwqZrPaBy6h"
+              class="icon-invert s-GZwqZrPaBy6h"
               src="/images/closeIcon.svg"
             />
           </button>
@@ -398,7 +398,7 @@ exports[`HeaderConnectWallet > renders the Header Links Group component properly
         id="header-chain-switcher-dropdown"
       >
         <div
-          class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"
+          class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-grey-800 border border-grey-100 hover:bg-base-200 chain-btn m-1 flex h-12"
           role="button"
           tabindex="0"
         >

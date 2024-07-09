@@ -24,7 +24,7 @@ exports[`NetworkPrompt > render's the Network Prompt properly 1`] = `
       id="network-prompt"
     >
       <div
-        class="flex h-[460px] w-130 flex-col items-center justify-center rounded-3xl border border-[#D9DADE] bg-[#3840C7]"
+        class="flex h-[460px] w-130 flex-col items-center justify-center rounded-3xl border border-grey-100 bg-[#3840C7]"
       >
         <div
           class="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-white"
@@ -41,7 +41,7 @@ exports[`NetworkPrompt > render's the Network Prompt properly 1`] = `
           class="mt-12 flex w-64 items-center justify-between rounded-full border border-white"
         >
           <span
-            class="pl-4 font-medium text-[#D9DADE]"
+            class="pl-4 font-medium text-grey-100"
           >
             Switch
           </span>
@@ -51,7 +51,7 @@ exports[`NetworkPrompt > render's the Network Prompt properly 1`] = `
             id="network-prompt-chain-switcher-drop-down"
           >
             <div
-              class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"
+              class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-grey-800 border border-grey-100 hover:bg-base-200 chain-btn m-1 flex h-12"
               role="button"
               tabindex="0"
             >

@@ -4,7 +4,7 @@ exports[`InputCardWithEndButton > render's the component properly 1`] = `
 <body>
   <div>
     <div
-      class="w-full relative border border-[#D9DADE] bg-white py-2.5 px-4 rounded-full"
+      class="w-full relative border border-grey-100 bg-base-100 py-2.5 px-4 rounded-full"
       data-testid="input-card"
     >
        

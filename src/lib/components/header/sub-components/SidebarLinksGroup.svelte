@@ -61,8 +61,9 @@
 			label: 'Oyster',
 			id: SIDEBAR_DROPDOWN_LINK_IDS.oyster,
 			icon: activeLink.includes(ROUTES.OYSTER_URL)
-				? staticImages.kalypsoIconBlue
-				: staticImages.kalypsoIcon,
+				? staticImages.oysterIconBlue
+				: staticImages.oysterIcon,
+
 			hasDashboard: true,
 			href: ROUTES.OYSTER_URL,
 			children: [
@@ -94,8 +95,8 @@
 		{
 			label: 'Kalypso',
 			icon: activeLink.includes(ROUTES.KALYPSO_URL)
-				? staticImages.oysterIconBlue
-				: staticImages.oysterIcon,
+				? staticImages.kalypsoIconBlue
+				: staticImages.kalypsoIcon,
 
 			href: ROUTES.KALYPSO_URL
 		},

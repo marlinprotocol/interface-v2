@@ -180,7 +180,7 @@
 							</div>
 						</div>
 						<ul
-							class={cn('menu-dropdown ml-[25px] px-3', {
+							class={cn('menu-dropdown ml-[25px] border-l-2 border-l-white-300 px-3', {
 								hidden: !$isNavOpen,
 								'menu-dropdown-show': expandedLinks.includes(label)
 							})}
@@ -224,7 +224,7 @@
 												class={cn(
 													'pointer-events-none relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
 													activeLink.includes(subLink.href)
-														? 'font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
+														? 'font-medium !text-[#3840C7] after:absolute after:-left-3.5 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
 														: 'text-grey-700'
 												)}
 											>

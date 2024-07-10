@@ -56,7 +56,7 @@
 	<div
 		tabindex={$allowedChainsStore.length === 0 ? -1 : 0}
 		role="button"
-		class="{buttonClasses.whiteFilled} chain-btn m-1 flex h-12"
+		class="{buttonClasses.outlined} chain-btn m-1 flex h-12"
 		on:click={toggleDropdown}
 	>
 		<div class="flex items-center justify-center">

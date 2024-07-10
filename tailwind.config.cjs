@@ -10,6 +10,7 @@ module.exports = {
 				grey: '#7e7e80',
 				'white-100': 'var(--white-100)',
 				'white-200': 'var(--white-200)',
+				'white-300': 'var(--white-300)',
 				'grey-100': 'var(--grey-100)',
 				'grey-200': 'var(--grey-200)',
 				'grey-300': 'var(--grey-300)',
@@ -66,6 +67,7 @@ module.exports = {
 					'base-300': '#F4F4F6',
 					'--white-100': '#FCFCFC',
 					'--white-200': '#F0F0F0',
+					'--white-300': '#F4F4F6',
 					'--grey-100': '#D9DADE',
 					'--grey-200': '#f7f7f7',
 					'--grey-300': '#00000066',
@@ -196,6 +198,7 @@ module.exports = {
 					'--grey-800': '#CCCCCC',
 					'--white-100': '#202327',
 					'--white-200': '#202327',
+					'--white-300': '#26272C',
 					'.icon-invert': {
 						filter: 'invert(100%)'
 					},

@@ -26,7 +26,7 @@
 	<ChainSwitcher />
 	<ModalButton
 		{modalFor}
-		variant="whiteFilled"
+		variant="outlined"
 		styleClass="chain-btn m-1 flex items-center justify-center"
 	>
 		<img src={staticImages.discChainLog} alt="Metamask Logo" />

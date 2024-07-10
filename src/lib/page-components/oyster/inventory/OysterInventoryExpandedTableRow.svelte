@@ -28,6 +28,8 @@
 			: stopStatus === 'pending'
 				? 'Cancel stop'
 				: 'Confirm stop';
+	$: isChangeBandwidthDisabled =
+		isJobFinished || closeButtonText === 'Cancel stop' || closeButtonText === 'Confirm stop';
 </script>
 
 {#if isOpen}
@@ -55,7 +57,7 @@
 					variant="outlined"
 					size="small"
 					modalFor="change-bandwidth-modal-{id}"
-					disabled={isJobFinished}
+					disabled={isChangeBandwidthDisabled}
 				>
 					Change Bandwidth
 				</ModalButton>

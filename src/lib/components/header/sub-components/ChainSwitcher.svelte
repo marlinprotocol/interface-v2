@@ -70,7 +70,7 @@
 				{/if}
 			</div>
 			<div class="ml-2">
-				<Icon data={chevronDown} size={10} iconColorClass="icon-primary" />
+				<Icon data={chevronDown} size={10} />
 			</div>
 		</div>
 	</div>

@@ -32,7 +32,7 @@
 
 		{#if title}
 			<span
-				class={cn('mt-2 text-3xl font-medium', isVariantWhite ? 'text-grey-700' : 'text-grey-100')}
+				class={cn('mt-2 text-3xl font-medium', isVariantWhite ? 'text-grey-700' : 'text-[#FCFCFC]')}
 				>{title}</span
 			>
 		{/if}
@@ -41,7 +41,7 @@
 			<p
 				class={cn(
 					'text-md mx-auto mt-2 max-w-[400px] text-center font-light leading-6',
-					isVariantWhite ? 'text-[#A8A8A8]' : 'text-grey-100'
+					isVariantWhite ? 'text-[#A8A8A8]' : 'text-[#FCFCFC]'
 				)}
 			>
 				{description}
@@ -52,7 +52,7 @@
 			<slot name="cta" />
 		{:else}
 			<div class="mt-12 flex w-64 items-center justify-between rounded-full border border-white">
-				<span class="pl-4 font-medium text-grey-100">Switch</span>
+				<span class="pl-4 font-medium text-[#FCFCFC]">Switch</span>
 				<ChainSwitcher id="network-prompt-chain-switcher-drop-down" />
 			</div>
 		{/if}

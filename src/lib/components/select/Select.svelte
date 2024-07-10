@@ -67,12 +67,12 @@
 			</div>
 			{#each suggestions as suggestion}
 				<li
-					class="cursor-pointer text-left hover:bg-gray-100 {Array.isArray(suggestion)
+					class="cursor-pointer text-left hover:bg-base-200 {Array.isArray(suggestion)
 						? suggestion[1] === value
-							? 'bg-blue-50'
+							? 'bg-base-200'
 							: 'bg-secondary-content'
 						: suggestion === value
-							? 'bg-blue-50'
+							? 'bg-base-200'
 							: 'bg-secondary-content'}"
 				>
 					<button

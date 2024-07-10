@@ -85,11 +85,11 @@ module.exports = {
 					},
 					'.chain-btn': {
 						'border-radius': '100px !important',
-						border: '1px solid #D9DADE !important',
+						border: '1px solid var(--grey-100) !important',
 						'background-color': '#fffff'
 					},
 					'.icon-info': {
-						color: '#6b7280'
+						color: 'var(--grey-800)'
 					},
 					'.icon-primary': {
 						color: '#3840c7'
@@ -184,11 +184,11 @@ module.exports = {
 			{
 				dark: {
 					'base-100': '#000000',
-					'base-200': '#17191C',
+					'base-200': '#1D1E24',
 					'base-300': '#17191C',
 					'secondary-content': '#17191C',
 					'primary-focus': '#012d8f',
-					'--grey-100': '#222222',
+					'--grey-100': '#373C43',
 					'--grey-200': '#111315',
 					'--grey-300': '#ffffff4f',
 					'--grey-400': '#202327',

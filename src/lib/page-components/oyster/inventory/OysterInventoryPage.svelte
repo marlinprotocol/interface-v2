@@ -57,7 +57,7 @@
 </script>
 
 <PageTitle title="My Active Orders" />
-<div class="mb-6 flex items-stretch gap-4 rounded-[24px] bg-white px-8 py-6">
+<div class="mb-6 flex items-stretch gap-4 rounded-[24px] bg-secondary-content px-8 py-6">
 	<SearchWithSelect
 		dataList={inventoryData?.map((id) => id.id.toString())}
 		searchValue={searchInput}

@@ -379,7 +379,7 @@
 			<a href={partner.website} class="group w-full" target="_blank">
 				<div
 					class={cn(
-						'flex h-[210px] w-full items-center justify-center rounded-xl border border-[#D9DADE] bg-white px-5 transition-all duration-300 ease-in-out group-hover:border-primary'
+						'flex h-[210px] w-full items-center justify-center rounded-xl border border-grey-100 bg-white px-5 transition-all duration-300 ease-in-out group-hover:border-primary'
 					)}
 				>
 					{#if partner.logo}

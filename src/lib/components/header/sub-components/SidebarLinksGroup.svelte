@@ -12,6 +12,7 @@
 	import MenuItem from './MenuItem.svelte';
 
 	export let activeLink: string = '';
+	export let isDarkModeActive: boolean;
 
 	let links: SidebarLinks[] = [];
 	let expandedLinks: string = '';
@@ -62,6 +63,7 @@
 			icon: activeLink.includes(ROUTES.OYSTER_URL)
 				? staticImages.oysterIconBlue
 				: staticImages.oysterIcon,
+
 			hasDashboard: true,
 			href: ROUTES.OYSTER_URL,
 			children: [
@@ -95,6 +97,7 @@
 			icon: activeLink.includes(ROUTES.KALYPSO_URL)
 				? staticImages.kalypsoIconBlue
 				: staticImages.kalypsoIcon,
+
 			href: ROUTES.KALYPSO_URL
 		},
 		{
@@ -134,8 +137,6 @@
 				: staticImages.ecosystemIcon
 		}
 	];
-
-	$: isDarkModeActive = localStorage?.getItem('theme') === 'dark';
 </script>
 
 <div class="flex h-[calc(100dvh-5rem)] flex-1 flex-col justify-between px-6">
@@ -147,7 +148,7 @@
 				{#if children}
 					<li>
 						<div
-							class={cn('menu-dropdown-toggle px-[14px] py-4 after:text-[#26272c]', {
+							class={cn('menu-dropdown-toggle px-[14px] py-4 after:text-grey-700', {
 								'after:text-[#2DB8E3]': activeLink.includes(href),
 								'after:hidden': !$isNavOpen,
 								'menu-dropdown-show': expandedLinks.includes(label)
@@ -160,11 +161,17 @@
 						>
 							<div class="pointer-events-none flex items-start gap-3">
 								<div class="flex h-6 w-6 items-center justify-center">
-									<img src={icon} alt={icon} />
+									<img
+										src={icon}
+										alt={icon}
+										class={cn({
+											'icon-invert': !activeLink.includes(href)
+										})}
+									/>
 								</div>
 								{#if $isNavOpen}
 									<p
-										class={cn('font-poppins text-base font-medium text-[#26272c]', {
+										class={cn('font-poppins text-base font-medium text-grey-700', {
 											'text-[#2DB8E3]': activeLink.includes(href)
 										})}
 									>
@@ -174,7 +181,7 @@
 							</div>
 						</div>
 						<ul
-							class={cn('menu-dropdown ml-[25px] px-3', {
+							class={cn('menu-dropdown ml-[25px] border-l-2 border-l-white-300 px-3', {
 								hidden: !$isNavOpen,
 								'menu-dropdown-show': expandedLinks.includes(label)
 							})}
@@ -192,7 +199,7 @@
 													'pointer-events-none relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
 													activeLink.includes(subLink.href)
 														? 'font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
-														: 'text-[#26272c]'
+														: 'text-grey-700'
 												)}
 											>
 												{subLink.preFixLabel}
@@ -200,7 +207,7 @@
 													<img
 														src={subLink.icon}
 														alt={subLink.icon}
-														class="min-w-[18px] max-w-[18px]"
+														class="icon-invert min-w-[18px] max-w-[18px]"
 													/>
 												{/if}
 												{#if subLink.postFixLabel}
@@ -212,14 +219,14 @@
 										<a
 											href={subLink.href}
 											target={subLink.openInNewTab ? '_blank' : ''}
-											class="p-0 active:!text-[#26272c]"
+											class="p-0 active:!text-grey-700"
 										>
 											<div
 												class={cn(
 													'pointer-events-none relative flex w-fit gap-1 px-4 py-2 font-poppins text-sm',
 													activeLink.includes(subLink.href)
-														? 'font-medium !text-[#3840C7] after:absolute after:-left-3 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
-														: 'text-[#26272c]'
+														? 'font-medium !text-[#3840C7] after:absolute after:-left-3.5 after:top-0 after:h-full after:w-[2px] after:bg-[#3840C7]'
+														: 'text-grey-700'
 												)}
 											>
 												{subLink.preFixLabel}
@@ -227,7 +234,7 @@
 													<img
 														src={subLink.icon}
 														alt={subLink.icon}
-														class="min-w-[18px] max-w-[18px]"
+														class="icon-invert min-w-[18px] max-w-[18px]"
 													/>
 												{/if}
 												{#if subLink.postFixLabel}
@@ -249,11 +256,15 @@
 								})}
 							>
 								<div class="flex h-6 w-6 items-center justify-center">
-									<img src={icon} alt={icon} />
+									<img
+										src={icon}
+										alt={icon}
+										class={cn({ 'icon-invert': !activeLink.includes(href) })}
+									/>
 								</div>
 								{#if $isNavOpen}
 									<p
-										class={cn('font-poppins text-base font-medium text-[#26272c]', {
+										class={cn('font-poppins text-base font-medium text-grey-700', {
 											'text-[#2DB8E3]': activeLink.includes(href)
 										})}
 									>
@@ -267,7 +278,7 @@
 			{/each}
 		</ul>
 	</div>
-	<div class={cn('my-8 rounded-2xl pb-4', { 'bg-[#F4F4F6]': $isNavOpen })}>
+	<div class={cn('my-8 rounded-2xl pb-4', { 'sub-nav': $isNavOpen })}>
 		<ul>
 			{#each menuItems as item}
 				<MenuItem {...item} />
@@ -275,14 +286,14 @@
 		</ul>
 		<!----------------------------------------------------------------------------------->
 		<!-- Uncomment the following code to enable theme switcher -->
-		<!-- <div class="px-4 pt-4">
+		<div class="px-4 pt-4">
 			<input
 				type="checkbox"
-				class="toggle"
+				class="toggle h-[24px] w-[44px]"
 				checked={isDarkModeActive}
 				on:change={(e) => {
 					const htmlElement = document.documentElement;
-					isDarkModeActive = !isDarkModeActive
+					isDarkModeActive = !isDarkModeActive;
 					if (isDarkModeActive) {
 						htmlElement.setAttribute('data-theme', 'dark');
 						localStorage.setItem('theme', 'dark');
@@ -292,7 +303,7 @@
 					}
 				}}
 			/>
-		</div> -->
+		</div>
 		<!----------------------------------------------------------------------------------->
 
 		<!-- <div class="px-4 py-4">

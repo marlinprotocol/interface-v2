@@ -13,11 +13,11 @@
 >
 	<button
 		on:click
-		class="-my-5 flex h-14 w-14 items-center justify-center rounded-full border border-[#D9DADE] bg-white"
+		class="-my-5 flex h-14 w-14 items-center justify-center rounded-full border border-grey-100 bg-base-100"
 		id="{id}-tabhead"
 		type="button"
 		role="tab"
 	>
-		<img src={staticImages.arrowConversion} alt="Conversion" />
+		<img src={staticImages.arrowConversion} alt="Conversion" class="icon-invert" />
 	</button>
 </li>

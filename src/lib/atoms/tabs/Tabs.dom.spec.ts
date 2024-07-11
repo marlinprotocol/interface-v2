@@ -36,7 +36,7 @@ describe('Tabs', () => {
 		});
 		const tabElement = getByTestId('tab');
 		expect(tabElement.classList.contains('list')).toBeTruthy();
-		expect((tabElement.firstChild as Element).classList.contains('bg-white')).toBe(true);
+		expect((tabElement.firstChild as Element).classList.contains('bg-base-100')).toBe(true);
 	});
 
 	it('renders the default tabs', () => {

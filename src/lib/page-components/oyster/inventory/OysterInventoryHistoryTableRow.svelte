@@ -110,7 +110,7 @@
 </td>
 <td class={cn(tableClasses.cell, 'flex h-[64px] items-center justify-center')}>
 	<div
-		class="w-[142px] rounded-full px-[31.5px] py-[10.5px] text-center text-sm capitalize text-grey-800"
+		class="w-[142px] rounded-full px-[31.5px] py-[10.5px] text-center text-sm capitalize text-[#030115]"
 		style="background-color: {statusColor}"
 	>
 		{status}
@@ -123,8 +123,8 @@
 		modalFor="job-history-details-{rowIndex}"
 	>
 		<Tooltip>
-			<div slot="tooltipIcon" class="rounded-full border border-[#D9DADE] p-3">
-				<img src={staticImages.infoV2Icon} alt="Info Icon" />
+			<div slot="tooltipIcon" class="rounded-full border border-grey-100 p-3">
+				<img src={staticImages.infoV2Icon} class="icon-invert" alt="Info Icon" />
 			</div>
 			<span class="font-normal" slot="tooltipContent">Order Details</span>
 		</Tooltip>

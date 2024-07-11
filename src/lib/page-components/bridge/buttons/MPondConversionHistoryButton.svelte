@@ -9,7 +9,7 @@
 	export let modalFor: string;
 
 	const classes =
-		'flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE]';
+		'flex h-[45px] w-[45px] items-center justify-center rounded-full border border-grey-100';
 </script>
 
 <MPondConversionHistoryModal conversions={conversionHistory} {modalFor} />

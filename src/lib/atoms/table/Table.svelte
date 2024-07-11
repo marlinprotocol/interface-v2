@@ -17,12 +17,16 @@
 			<tr>
 				{#each tableHeading as columnHeading, i}
 					<th
-						class={cn('bg-[#F0F0F0] py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]', {
-							'first:rounded-tl-none': !roundedBorders
-						})}
+						class={cn(
+							'bg-white-200 py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]',
+							headingStyleClass,
+							{
+								'first:rounded-tl-none': !roundedBorders
+							}
+						)}
 					>
 						<TableHeadingText
-							styleClass={cn(headingStyleClass, {
+							styleClass={cn({
 								'ml-4': i === 0,
 								'text-center': i !== 0
 							})}

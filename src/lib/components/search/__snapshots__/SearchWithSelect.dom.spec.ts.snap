@@ -4,11 +4,11 @@ exports[`SearchWithSelect > render's component properly 1`] = `
 <body>
   <div>
     <div
-      class="relative flex flex-1 flex-col bg-white"
+      class="relative flex flex-1 flex-col"
     >
        
       <div
-        class="w-full bg-white px-6 py-[30px] rounded-3xl border border-[#D9DADE]"
+        class="w-full bg-base-100 px-6 py-[30px] rounded-3xl border border-grey-100"
         data-testid="input-card"
       >
         <div
@@ -55,7 +55,7 @@ exports[`SearchWithSelect > render's component properly 1`] = `
                 >
                   <img
                     alt="Collapse Icon"
-                    class="rotate-0 transform transition duration-200"
+                    class="icon-invert rotate-0 transform transition duration-200"
                     src="/images/chevronDownIcon.svg"
                   />
                 </button>

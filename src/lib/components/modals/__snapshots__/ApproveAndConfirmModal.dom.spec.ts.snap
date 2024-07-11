@@ -51,12 +51,12 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
           </div>
            
           <button
-            class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+            class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-grey-100 bg-secondary-content text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
             data-testid="modal-close-button"
           >
             <img
               alt="Close"
-              class="s-GZwqZrPaBy6h"
+              class="icon-invert s-GZwqZrPaBy6h"
               src="/images/closeIcon.svg"
             />
           </button>
@@ -96,7 +96,7 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
           </div>
            
           <div
-            class="flex h-20 items-center gap-3 rounded-xl p-3 font-poppins border border-[#D9DADE]"
+            class="flex h-20 items-center gap-3 rounded-xl p-3 font-poppins border border-grey-100"
           >
             <div
               class="flex h-14 w-14 items-center justify-center rounded-full text-xl font-semibold bg-[#F7F7F7] text-[#939393]"
@@ -197,12 +197,12 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
           </div>
            
           <button
-            class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+            class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-grey-100 bg-secondary-content text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
             data-testid="modal-close-button"
           >
             <img
               alt="Close"
-              class="s-GZwqZrPaBy6h"
+              class="icon-invert s-GZwqZrPaBy6h"
               src="/images/closeIcon.svg"
             />
           </button>
@@ -212,10 +212,10 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
           class="modal-body px-6 pt-4 s-GZwqZrPaBy6h"
         >
           <div
-            class="flex flex-col gap-6 text-lg font-light text-[#26272C]"
+            class="flex flex-col gap-6 text-lg font-light text-grey-700"
           >
             <div
-              class="whitespace-normal rounded-xl border border-[#D9DADE] p-4"
+              class="whitespace-normal rounded-xl border border-grey-100 p-4"
             >
               <div
                 class="mb-2 text-center"
@@ -247,7 +247,7 @@ exports[`ApproveAndConfirmModal > render's the ApproveAndConfirmModal properly 1
             </div>
              
             <div
-              class="whitespace-normal rounded-xl border border-[#D9DADE] p-4"
+              class="whitespace-normal rounded-xl border border-grey-100 p-4"
             >
               <div
                 class="mb-2 text-center"

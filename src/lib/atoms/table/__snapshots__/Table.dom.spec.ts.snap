@@ -15,10 +15,10 @@ exports[`TableComponent > render's table correctly 1`] = `
         >
           <tr>
             <th
-              class="bg-[#F0F0F0] py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]"
+              class="bg-white-200 py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px] custom-heading-style"
             >
               <div
-                class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-center text-[14px] font-normal text-grey-800 custom-heading-style ml-4"
+                class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-center text-[14px] font-normal text-grey-800 ml-4"
                 data-testid="table-heading-text"
               >
                 <div
@@ -36,10 +36,10 @@ exports[`TableComponent > render's table correctly 1`] = `
                
             </th>
             <th
-              class="bg-[#F0F0F0] py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]"
+              class="bg-white-200 py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px] custom-heading-style"
             >
               <div
-                class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-[14px] font-normal text-grey-800 custom-heading-style text-center"
+                class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-[14px] font-normal text-grey-800 text-center"
                 data-testid="table-heading-text"
               >
                 <div
@@ -57,10 +57,10 @@ exports[`TableComponent > render's table correctly 1`] = `
                
             </th>
             <th
-              class="bg-[#F0F0F0] py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]"
+              class="bg-white-200 py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px] custom-heading-style"
             >
               <div
-                class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-[14px] font-normal text-grey-800 custom-heading-style text-center"
+                class="mt-0.5 flex flex-nowrap items-center justify-start gap-1 text-[14px] font-normal text-grey-800 text-center"
                 data-testid="table-heading-text"
               >
                 <div

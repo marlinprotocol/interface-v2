@@ -9,12 +9,15 @@ module.exports = {
 				white: '#ffffff',
 				grey: '#7e7e80',
 				'white-100': 'var(--white-100)',
+				'white-200': 'var(--white-200)',
+				'white-300': 'var(--white-300)',
+				'grey-100': 'var(--grey-100)',
 				'grey-200': 'var(--grey-200)',
-				'grey-300': '#d0d1d9',
-				'grey-400': '#9D9FAC',
-				'grey-500': '#7E7E80',
+				'grey-300': 'var(--grey-300)',
+				'grey-400': 'var(--grey-400)',
+				'grey-1000': '#7E7E80',
 				'grey-600': '#808080',
-				'grey-700': '#737373',
+				'grey-700': ' var(--grey-700)',
 				'grey-800': 'var(--grey-800)',
 				'orange-400': '#D6741B'
 			},
@@ -61,10 +64,17 @@ module.exports = {
 					'neutral-500': '#737373',
 					'base-100': '#ffffff',
 					'base-200': '#f3f4fc',
-					'base-300': '#e9f2f5',
-					'--grey-800': '#030115',
-					'--grey-200': '#f7f7f7',
+					'base-300': '#F4F4F6',
 					'--white-100': '#FCFCFC',
+					'--white-200': '#F0F0F0',
+					'--white-300': '#F4F4F6',
+					'--grey-100': '#D9DADE',
+					'--grey-200': '#f7f7f7',
+					'--grey-300': '#00000066',
+					'--grey-400': '#F1F1F4',
+					'--grey-700': '#26272c',
+					'--grey-800': '#030115',
+
 					info: '#e0a82e',
 					success: '#28bf92',
 					warning: '#fcca00',
@@ -77,15 +87,11 @@ module.exports = {
 					},
 					'.chain-btn': {
 						'border-radius': '100px !important',
-						border: '1px solid #D9DADE !important',
+						border: '1px solid var(--grey-100) !important',
 						'background-color': '#fffff'
 					},
-					//custom designs
-					'.modal-backdrop': {
-						'background-color': '#010324cc'
-					},
 					'.icon-info': {
-						color: '#6b7280'
+						color: 'var(--grey-800)'
 					},
 					'.icon-primary': {
 						color: '#3840c7'
@@ -94,7 +100,7 @@ module.exports = {
 						width: '100%',
 						fontWeight: '500',
 						padding: '0',
-						color: '#030115',
+						color: 'var(--grey-800)',
 						border: 'none',
 						outline: 'none',
 						fontFamily: 'Poppins',
@@ -102,12 +108,12 @@ module.exports = {
 							border: 'none',
 							outline: 'none',
 							background: 'transparent',
-							color: '#030115'
+							color: 'var(--grey-800)'
 						},
 						'&:focus-within': {
 							border: 'none',
 							outline: 'none',
-							color: '#030115',
+							color: 'var(--grey-800)',
 							background: 'transparent'
 						},
 						'&:disabled': {
@@ -130,6 +136,9 @@ module.exports = {
 							outline: 'none',
 							background: 'transparent'
 						}
+					},
+					'.icon-invert': {
+						filter: 'invert(0%)'
 					},
 					'.input-group :icon': {
 						'border-radius': '100px'
@@ -164,17 +173,42 @@ module.exports = {
 					},
 					'.shadow-select-dropdown': {
 						'box-shadow': '0px 0px 40px 0px #0000001A'
+					},
+					'.sub-nav': {
+						'background-color': '#F4F4F6'
+					},
+					'.header': {
+						'background-color': '#ffffff',
+						'border-bottom': 'none'
 					}
 				}
 			},
 			{
 				dark: {
 					'base-100': '#000000',
-					'--grey-800': '#ffffff',
-					'secondary-content': '#202327',
+					'base-200': '#1D1E24',
+					'base-300': '#17191C',
+					'secondary-content': '#17191C',
 					'primary-focus': '#012d8f',
+					'--grey-100': '#373C43',
 					'--grey-200': '#111315',
-					'--white-100': '#202327'
+					'--grey-300': '#ffffff4f',
+					'--grey-400': '#202327',
+					'--grey-700': '#BEBFC6',
+					'--grey-800': '#CCCCCC',
+					'--white-100': '#202327',
+					'--white-200': '#202327',
+					'--white-300': '#26272C',
+					'.icon-invert': {
+						filter: 'invert(100%)'
+					},
+					'.sub-nav': {
+						'background-color': '#26272C'
+					},
+					'.header': {
+						'background-color': '#111315',
+						'border-bottom': '1px solid #222222'
+					}
 				}
 			}
 		]

@@ -118,17 +118,17 @@
 			{#if !$oysterStore.merchantJobsLoaded}
 				<LoadingAnimatedPing />
 			{:else if $oysterStore.providerData.registered}
-				<div class="rounded-3xl bg-white px-8 py-6">
+				<div class="rounded-3xl bg-secondary-content px-8 py-6">
 					<p class="pb-3 text-base font-normal">Control Plane:</p>
 					<TextInputWithEndButton
-						styleClass="w-full bg-[#F4F4F6] py-[5px] pr-[5px] rounded-[100px]"
+						styleClass="w-full bg-grey-200 py-[5px] pr-[5px] rounded-[100px]"
 						placeholder="Paste URL here"
 						disabled
 						input={$oysterStore.providerData?.data?.cp ?? ''}
 					>
 						<svelte:fragment slot="endInfoBox">
 							<div
-								class="flex w-full max-w-[300px] items-center justify-between gap-3 rounded-[100px] bg-white px-[18px] py-4"
+								class="flex w-full max-w-[300px] items-center justify-between gap-3 rounded-[100px] bg-secondary-content px-[18px] py-4"
 							>
 								{#if loadingInstances}
 									<p>loading...</p>
@@ -168,12 +168,12 @@
 		</div>
 	{/if}
 
-	<div class="mt-[40px] flex w-min gap-[10px] rounded-tl-[18px] rounded-tr-[18px] bg-white">
+	<div class="mt-[40px] flex w-min gap-[10px] rounded-tl-[18px] rounded-tr-[18px] bg-base-100">
 		<a
 			href={ROUTES.OYSTER_OPERATOR_JOBS_URL}
 			class={cn('block w-[172px] rounded-tl-[18px] rounded-tr-[18px] py-[27px] text-center', {
-				'bg-white font-light text-[#A8A8A8]': historyActive,
-				'bg-[#F0F0F0] font-medium text-primary': detailsActive
+				'bg-base-100 font-light text-[#A8A8A8]': historyActive,
+				'bg-white-200 font-medium text-primary': detailsActive
 			})}
 		>
 			Details
@@ -181,8 +181,8 @@
 		<a
 			href={ROUTES.OYSTER_OPERATOR_HISTORY_URL}
 			class={cn('block w-[172px] rounded-tl-[18px] rounded-tr-[18px] py-[27px] text-center', {
-				'bg-white font-light text-[#A8A8A8]': detailsActive,
-				'bg-[#F0F0F0] font-medium text-primary': historyActive
+				'bg-base-100 font-light text-[#A8A8A8]': detailsActive,
+				'bg-white-200 font-medium text-primary': historyActive
 			})}
 		>
 			History

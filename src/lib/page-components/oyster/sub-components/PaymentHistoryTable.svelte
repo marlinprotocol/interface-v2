@@ -34,7 +34,7 @@
 	<div class="max-h-40 w-full overflow-y-auto overflow-x-hidden">
 		<Table
 			tableHeading={OYSTER_PAYMENT_HISTORY_TABLE_HEADER}
-			headingStyleClass="text-xs"
+			headingStyleClass="text-xs bg-grey-200"
 			iconWidth="13px"
 		>
 			<tbody slot="tableBody">
@@ -55,7 +55,7 @@
 						</td>
 						<td class={tableClasses.cell}
 							><div
-								class={cn('w-fit rounded-full px-4 py-4', {
+								class={cn('w-fit rounded-full px-4 py-4 text-[#030115]', {
 									'bg-[#F4F9F0]': !rowData.isWithdrawal,
 									'bg-[#FEE6E6]': rowData.isWithdrawal
 								})}

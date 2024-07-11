@@ -9,32 +9,9 @@
 	export let disabled = false;
 	export let input: string;
 	export let id: string = '';
-
-	const titleStyleInit =
-		'absolute cursor-text px-1 font-poppins text-sm text-grey-800 transition-all';
-	const onBlurStyle = 'top-[50%] left-10% font-medium bg-transparent translate-y-[-50%]';
-	const onFocusStyle = 'left-10% top-[-10px] hidden font-normal bg-white';
-	let titleStyle = onFocusStyle;
 	export let label: string = '';
 	export let showTitle: boolean = false;
 	export let labelTooltip: string = '';
-
-	const onFocus = () => {
-		titleStyle = onFocusStyle;
-	};
-	const onBlur = () => {
-		if (!input.length) {
-			titleStyle = onBlurStyle;
-		} else {
-			onFocus();
-		}
-	};
-	if (!disabled) {
-		titleStyle = onBlurStyle;
-	}
-	$: if (!!input.length) {
-		titleStyle = onFocusStyle;
-	}
 </script>
 
 <InputCardWithEndButton
@@ -45,16 +22,9 @@
 	tooltipText={labelTooltip}
 	styleClass={cn(styleClass, 'relative')}
 >
-	{#if !!title.length}
-		<button class={cn(titleStyle, titleStyleInit)}>
-			{title}
-		</button>
-	{/if}
 	<input
 		id={'address-display' + id}
 		bind:value={input}
-		on:focus={onFocus}
-		on:blur={onBlur}
 		class={cn(inputClasses.inputText, 'hideInputNumberAppearance')}
 		{placeholder}
 		{disabled}

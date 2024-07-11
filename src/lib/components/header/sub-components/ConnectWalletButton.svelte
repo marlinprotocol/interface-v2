@@ -32,7 +32,7 @@
 		<Button
 			onclick={connect}
 			size="small"
-			variant="filled"
+			variant="outlined"
 			styleClass="flex gap-[10.3px] w-fit text-sm h-12 flex items-center cnt-btn"
 		>
 			{connectButtonText}

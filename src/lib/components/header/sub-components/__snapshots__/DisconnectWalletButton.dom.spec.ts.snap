@@ -28,7 +28,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
         id="chain-dropdown"
       >
         <div
-          class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-grey-800 border border-grey-100 hover:bg-base-200 chain-btn m-1 flex h-12"
+          class="btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed chain-btn m-1 flex h-12"
           role="button"
           tabindex="0"
         >
@@ -49,7 +49,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
             >
               <svg
                 aria-label=""
-                class="fa-icon icon-primary s-T5YyQewRBd7n"
+                class="fa-icon icon-info s-T5YyQewRBd7n"
                 data-testid="icon"
                 height="16"
                 role="presentation"
@@ -78,7 +78,7 @@ exports[`DisconnectWalletButton > renders the DisconnectWalletButton component p
       <!--&lt;ChainSwitcher&gt;-->
        
       <label
-        class="gap-1.5 font-normal btn btn-theme btn-sm disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-grey-800 border border-grey-100 hover:bg-base-200 h-12 chain-btn m-1 flex items-center justify-center"
+        class="gap-1.5 font-normal btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed h-12 chain-btn m-1 flex items-center justify-center"
         for="disconnect-wallet-modal"
         tabindex="0"
       >

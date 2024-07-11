@@ -41,7 +41,7 @@ exports[`NetworkPrompt > render's the Network Prompt properly 1`] = `
           class="mt-12 flex w-64 items-center justify-between rounded-full border border-white"
         >
           <span
-            class="pl-4 font-medium text-grey-100"
+            class="pl-4 font-medium text-[#FCFCFC]"
           >
             Switch
           </span>
@@ -51,7 +51,7 @@ exports[`NetworkPrompt > render's the Network Prompt properly 1`] = `
             id="network-prompt-chain-switcher-drop-down"
           >
             <div
-              class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-grey-800 border border-grey-100 hover:bg-base-200 chain-btn m-1 flex h-12"
+              class="btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed chain-btn m-1 flex h-12"
               role="button"
               tabindex="0"
             >
@@ -72,7 +72,7 @@ exports[`NetworkPrompt > render's the Network Prompt properly 1`] = `
                 >
                   <svg
                     aria-label=""
-                    class="fa-icon icon-primary s-T5YyQewRBd7n"
+                    class="fa-icon icon-info s-T5YyQewRBd7n"
                     data-testid="icon"
                     height="16"
                     role="presentation"

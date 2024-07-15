@@ -5,12 +5,36 @@ import {
 	getBandwidthRateForRegion,
 	modifyOysterJobData,
 	getOysterProvidersModified,
-	getModifiedInstances,
-	modifyJobData
+	getModifiedInstances
 } from './oysterModifiers';
 import { DEFAULT_JOB_METADATA } from '$lib/utils/constants/oysterConstants';
 import { BANDWIDTH_RATES_LOOKUP } from '$lib/page-components/oyster/data/bandwidthRates';
-import { getProvidersNameJSON, getProvidersInstancesJSON } from '$lib/controllers/httpController';
+
+vi.mock('$lib/controllers/httpController', () => {
+	const names = { '0x123': 'Owner', '0x456': 'Provider' };
+	const allInstances = {
+		'0x456': {
+			min_rates: [
+				{
+					region: 'us-west-1',
+					rate_cards: [
+						{
+							instance: 'instance1',
+							min_rate: '1000',
+							arch: 'x86',
+							cpu: 4,
+							memory: 16
+						}
+					]
+				}
+			]
+		}
+	};
+	return {
+		getProvidersNameJSON: () => Promise.resolve(names),
+		getProvidersInstancesJSON: () => Promise.resolve(allInstances)
+	};
+});
 
 // Mock data
 const mockMetadata = JSON.stringify({
@@ -94,76 +118,47 @@ describe('getBandwidthRateForRegion', () => {
 	});
 });
 
-// describe('modifyOysterJobData', () => {
-// 	it('should modify oyster job data correctly', async () => {
-// 		const jobs = [
-// 			{
-// 				metadata: mockMetadata,
-// 				ip: '127.0.0.1',
-// 				id: 'job1',
-// 				owner: '0x123',
-// 				rate: '1000',
-// 				provider: '0x456',
-// 				createdAt: '1620000000',
-// 				totalDeposit: '10000',
-// 				lastSettled: '1620003600',
-// 				balance: '5000',
-// 				refund: '0',
-// 				settlementHistory: [],
-// 				depositHistory: [],
-// 				rateRevisionHistory: [],
-// 				isCreditJob: false
-// 			}
-// 		];
-// 		const scalingFactor = BigInt(1);
-// 		const names = { '0x123': 'Owner', '0x456': 'Provider' };
+describe('modifyOysterJobData', () => {
+	it('should modify oyster job data correctly', async () => {
+		const jobs = [
+			{
+				metadata: mockMetadata,
+				ip: '127.0.0.1',
+				id: 'job1',
+				owner: '0x123',
+				rate: '1000',
+				provider: '0x456',
+				createdAt: '1620000000',
+				totalDeposit: '10000',
+				lastSettled: '1620003600',
+				balance: '5000',
+				refund: '0',
+				settlementHistory: [],
+				depositHistory: [],
+				rateRevisionHistory: [],
+				isCreditJob: false
+			}
+		];
+		const scalingFactor = BigInt(1);
 
-// 		vi.mock('$lib/controllers/httpController', () => ({
-// 			getProvidersNameJSON: () => Promise.resolve(names)
-// 		}));
+		const result = await modifyOysterJobData(jobs, scalingFactor);
 
-// 		const result = await modifyOysterJobData(jobs, scalingFactor);
-// 		expect(result).toHaveLength(1);
-// 		expect(result[0].provider.name).toBe('Provider');
-// 		expect(result[0].owner.name).toBe('Owner');
-// 	});
-// });
+		expect(result).toHaveLength(1);
+		expect(result[0].provider.name).toBe('Provider');
+		expect(result[0].owner.name).toBe('Owner');
+	});
+});
 
-// describe('getOysterProvidersModified', () => {
-// 	it('should modify oyster providers correctly', async () => {
-// 		const providers = [{ id: '0x456' }];
-// 		const rateCPUrlUnitInSeconds = 3600;
-// 		const allNames = { '0x456': 'Provider' };
-// 		const allInstances = {
-// 			'0x456': {
-// 				min_rates: [
-// 					{
-// 						region: 'us-west-1',
-// 						rate_cards: [
-// 							{
-// 								instance: 'instance1',
-// 								min_rate: '1000',
-// 								arch: 'x86',
-// 								cpu: 4,
-// 								memory: 16
-// 							}
-// 						]
-// 					}
-// 				]
-// 			}
-// 		};
+describe('getOysterProvidersModified', () => {
+	it('should modify oyster providers correctly', async () => {
+		const providers = [{ id: '0x456' }];
+		const rateCPUrlUnitInSeconds = 3600;
 
-// 		vi.mock('$lib/controllers/httpController', () => ({
-// 			getProvidersNameJSON: () => Promise.resolve(allNames),
-// 			getProvidersInstancesJSON: () => Promise.resolve(allInstances)
-// 		}));
-
-// 		const result = await getOysterProvidersModified(providers, rateCPUrlUnitInSeconds);
-// 		expect(result).toHaveLength(1);
-// 		expect(result[0].provider.name).toBe('Provider');
-// 		// expect(result[0].rate).toBe(BigInt(1000) / BigInt(rateCPUrlUnitInSeconds));
-// 	});
-// });
+		const result = await getOysterProvidersModified(providers, rateCPUrlUnitInSeconds);
+		expect(result).toHaveLength(1);
+		expect(result[0].provider.name).toBe('Provider');
+	});
+});
 
 describe('getModifiedInstances', () => {
 	it('should modify instances correctly', () => {

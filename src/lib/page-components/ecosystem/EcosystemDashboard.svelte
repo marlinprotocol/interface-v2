@@ -4,6 +4,7 @@
 	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import Button from '$lib/atoms/buttons/Button.svelte';
+	import { onMount } from 'svelte';
 
 	type filterDataModal = Array<{
 		name: string;
@@ -17,6 +18,59 @@
 	let searchInput = '';
 	let selectedFilter: FilterCategory = 'View All';
 	let filteredPartners: filterDataModal;
+
+	onMount(() => {
+		const container = document.getElementById('svg-group');
+
+		if (container) {
+			const modifySVG = (svg: any) => {
+				svg.querySelectorAll('*').forEach((element: any) => {
+					element.style.fill = 'white';
+					element.setAttribute('fill', 'white');
+				});
+			};
+
+			container.querySelectorAll('img').forEach((img) => {
+				img.addEventListener('load', () => {
+					fetch(img.src)
+						.then((response) => response.text())
+						.then((svgText) => {
+							const parser = new DOMParser();
+							const doc = parser.parseFromString(svgText, 'image/svg+xml');
+							const svg = doc.querySelector('svg');
+							if (svg) {
+								modifySVG(svg);
+								img.replaceWith(svg);
+							}
+						});
+				});
+			});
+
+			const observer = new MutationObserver((mutations) => {
+				mutations.forEach((mutation) => {
+					mutation.addedNodes.forEach((node: any) => {
+						if (node.tagName === 'IMG') {
+							node.addEventListener('load', () => {
+								fetch(node.src)
+									.then((response) => response.text())
+									.then((svgText) => {
+										const parser = new DOMParser();
+										const doc = parser.parseFromString(svgText, 'image/svg+xml');
+										const svg = doc.querySelector('svg');
+										if (svg) {
+											modifySVG(svg);
+											node.replaceWith(svg);
+										}
+									});
+							});
+						}
+					});
+				});
+			});
+
+			observer.observe(container, { childList: true, subtree: true });
+		}
+	});
 
 	const partners: filterDataModal = [
 		// {
@@ -374,22 +428,22 @@
 		{/each}
 	</div>
 
-	<div class="grid grid-cols-5 gap-4 2xl:grid-cols-7">
+	<div class="grid grid-cols-5 gap-4 2xl:grid-cols-7" id="svg-group">
 		{#each sortedPartners as partner}
 			<a href={partner.website} class="group w-full" target="_blank">
 				<div
 					class={cn(
-						'flex h-[210px] w-full items-center justify-center rounded-xl border border-grey-100 bg-white px-5 transition-all duration-300 ease-in-out group-hover:border-primary'
+						'flex h-[210px] w-full items-center justify-center rounded-xl border border-grey-100 bg-base-100 px-5 transition-all duration-300 ease-in-out group-hover:border-primary'
 					)}
 				>
 					{#if partner.logo}
 						<img
 							src={partner.logo}
-							class="transition-transform duration-300 ease-in-out group-hover:scale-110"
+							class="svg-fill-white transition-transform duration-300 ease-in-out group-hover:scale-110"
 							alt={partner.name + ' Logo'}
 						/>
 					{:else}
-						<p class="px-5 text-center text-3xl font-semibold text-black no-underline">
+						<p class="icon-invert px-5 text-center text-3xl font-semibold text-black no-underline">
 							{partner.name}
 						</p>
 					{/if}

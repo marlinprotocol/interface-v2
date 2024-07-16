@@ -377,7 +377,11 @@ describe('oysterStore2', () => {
 
 	it('should update marketplace data', () => {
 		const marketplaceData: OysterMarketplaceDataModel[] = [
-			// Add mock marketplace data
+			{
+				id: '1',
+				name: 'Marketplace 1',
+				allowed_regions: ['us-west-1']
+			} as unknown as OysterMarketplaceDataModel
 		];
 		updateMarketplaceDataInOysterStore(marketplaceData);
 		const updatedStore = get(oysterStore);

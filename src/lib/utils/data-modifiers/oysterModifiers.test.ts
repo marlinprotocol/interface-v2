@@ -163,7 +163,7 @@ describe('getOysterProvidersModified', () => {
 describe('getModifiedInstances', () => {
 	it('should modify instances correctly', () => {
 		const instances = {
-			allowed_regions: ['us-west-1'], // Add this line
+			allowed_regions: ['us-west-1'],
 			min_rates: [
 				{
 					region: 'us-west-1',

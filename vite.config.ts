@@ -48,6 +48,11 @@ export default defineConfig({
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}'],
 		environment: 'jsdom',
-		globals: true
+		globals: true,
+		coverage: {
+			provider: 'v8',
+			enabled: true
+		},
+		reporters: ['html', 'default']
 	}
 });

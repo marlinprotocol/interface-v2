@@ -1,4 +1,5 @@
 import {
+	copyTextToClipboard,
 	bigIntAbs,
 	capitalizeFirstLetter,
 	checkValidURL,
@@ -7,17 +8,32 @@ import {
 	inputAmountInValidMessage,
 	isInputAmountValid,
 	minifyAddress,
-	sanitizeUrl
+	sanitizeUrl,
+	isAddressValid
 } from './commonHelper';
+
+describe('copyTextToClipboard', () => {
+	it('should call navigator.clipboard.writeText with the provided text', async () => {
+		const writeTextMock = vi.fn();
+		Object.assign(navigator, {
+			clipboard: {
+				writeText: writeTextMock
+			}
+		});
+
+		const text = 'Hello, world!';
+		copyTextToClipboard(text);
+
+		expect(writeTextMock).toHaveBeenCalledWith(text);
+	});
+});
 
 describe('getCurrentEpochCycle', () => {
 	beforeEach(() => {
-		// tell vitest we use mocked time
 		vi.useFakeTimers();
 	});
 
 	afterEach(() => {
-		// restoring date after each test run
 		vi.useRealTimers();
 	});
 
@@ -72,6 +88,11 @@ describe('minifyAddress', () => {
 		expect(minifyAddress('0x1234567890123456789012345678901234567890', 3, 2)).toBe('0x123...90');
 	});
 
+	it('should return an empty string when address has prefix length is less than 2', () => {
+		expect(minifyAddress('0x1')).toBe('');
+		expect(minifyAddress('0x12')).toBe('');
+	});
+
 	it('should return an empty string when first argument or the second argument is less than 0', () => {
 		expect(minifyAddress('0x1234567890123456789012345678901234567890', -1, 4)).toBe('');
 		expect(minifyAddress('0x1234567890123456789012345678901234567890', 4, -1)).toBe('');
@@ -91,7 +112,30 @@ describe('minifyAddress', () => {
 	});
 });
 
+describe('isAddressValid', () => {
+	it('should return true for valid Ethereum addresses', () => {
+		expect(isAddressValid('0x1234567890123456789012345678901234567890')).toBe(true);
+		expect(isAddressValid('0xabcdefABCDEF0123456789abcdefABCDEF012345')).toBe(true);
+	});
+
+	it('should return false for invalid Ethereum addresses', () => {
+		expect(isAddressValid('0x12345')).toBe(false);
+		expect(isAddressValid('0xabcdefg')).toBe(false);
+		expect(isAddressValid('1234567890123456789012345678901234567890')).toBe(false);
+		expect(isAddressValid('0x123456789012345678901234567890123456789g')).toBe(false);
+		expect(isAddressValid('0x12345678901234567890123456789012345678901')).toBe(false);
+	});
+
+	it('should return false for empty strings', () => {
+		expect(isAddressValid('')).toBe(false);
+	});
+});
+
 describe('isInputAmountValid', () => {
+	it('should return true for none amount', () => {
+		expect(isInputAmountValid('')).toBe(true);
+	});
+
 	it('should return false for amount which evaluates to zero', () => {
 		expect(isInputAmountValid('0')).toBe(false);
 		expect(isInputAmountValid('0.00')).toBe(false);

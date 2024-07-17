@@ -10,7 +10,8 @@ import {
 	epochToDurationString,
 	mPondToPond,
 	shortenText,
-	stringToBigNumber
+	stringToBigNumber,
+	epochToDurationStringLong
 } from './conversionHelper';
 
 describe('epochToDurationString', () => {
@@ -67,6 +68,33 @@ describe('epochToDurationString', () => {
 		expect(epochToDurationString(3110400000, true)).toBe('+100 Y');
 		expect(epochToDurationString(3110400001, true)).toBe('+100 Y');
 		expect(epochToDurationString(31104000000, true)).toBe('+100 Y');
+	});
+});
+
+describe('epochToDurationStringLong function', () => {
+	it('should correctly convert epoch to duration string', () => {
+		expect(epochToDurationStringLong(3600)).toBe('1 hour');
+		expect(epochToDurationStringLong(86400)).toBe('1 day');
+		expect(epochToDurationStringLong(3600 * 24 * 30)).toBe('1 month');
+		expect(epochToDurationStringLong(3600 * 24 * 365)).toBe('1 year 5 days');
+		expect(epochToDurationStringLong(3600 * 24 * 365 * 2)).toBe('2 years 10 days');
+		expect(epochToDurationStringLong(1234567)).toBe('14 days 6 hours 56 mins 7 secs');
+	});
+
+	it('should handle mini mode correctly', () => {
+		expect(epochToDurationStringLong(3600, true)).toBe('1 hour');
+		expect(epochToDurationStringLong(3600 * 24 * 30, true)).toBe('1 month');
+		expect(epochToDurationStringLong(3600 * 24 * 365 * 2, true)).toBe('2 years');
+		expect(epochToDurationStringLong(1234567, true)).toBe('14 days');
+	});
+
+	it('should handle epochs larger than 100 years', () => {
+		expect(epochToDurationStringLong(100 * 365 * 24 * 60 * 60)).toBe('100+ years');
+		expect(epochToDurationStringLong(200 * 365 * 24 * 60 * 60)).toBe('100+ years');
+	});
+
+	it('should handle zero epoch', () => {
+		expect(epochToDurationStringLong(0)).toBe('');
 	});
 });
 

@@ -66,7 +66,11 @@ export async function modifyOysterJobData(jobs: any[], scalingFactor: bigint) {
 	}) as OysterInventoryDataModel[];
 }
 
-const modifyJobData = (job: any, names: any, scalingFactor: bigint): OysterInventoryDataModel => {
+export const modifyJobData = (
+	job: any,
+	names: any,
+	scalingFactor: bigint
+): OysterInventoryDataModel => {
 	const {
 		metadata,
 		ip,

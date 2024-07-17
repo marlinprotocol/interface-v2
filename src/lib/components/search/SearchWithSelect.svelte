@@ -44,16 +44,16 @@
 	};
 </script>
 
-<div class="relative flex flex-1 flex-col bg-white">
+<div class="relative flex flex-1 flex-col">
 	{#if label}
 		<p
-			class="absolute left-8 top-0 z-[1] bg-white font-poppins text-sm font-normal leading-[1px] text-grey-800"
+			class="absolute left-8 top-0 z-[2] bg-grey-200 font-poppins text-sm font-normal leading-[1px] text-grey-800"
 		>
 			{label}
 		</p>
 	{/if}
 
-	<InputCard styleClass="{styleClass} border border-[#D9DADE]" variant={cardVariant}>
+	<InputCard styleClass="{styleClass} border border-grey-100" variant={cardVariant}>
 		<div class="search-container">
 			{#if showTitle}
 				<div class="flex items-center justify-between">

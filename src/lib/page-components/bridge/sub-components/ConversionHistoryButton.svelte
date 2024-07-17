@@ -16,7 +16,7 @@
 	styleClass="w-full"
 >
 	<div class="flex w-full justify-center gap-1">
-		<img src={staticImages.conversionIcon} alt="Conversion" />
+		<img src={staticImages.conversionIcon} alt="Conversion" class="icon-invert" />
 		{firstText}
 		to
 		{secondText} conversion history

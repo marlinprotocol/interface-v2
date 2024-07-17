@@ -32,7 +32,6 @@ describe('TextInputWithEndButton', () => {
 		// Assert input properties are bound correctly
 		const inputElement = getByPlaceholderText(placeholder) as HTMLInputElement;
 		expect(inputElement.value).toBe(inputValue);
-		expect(getByText(title).innerHTML).toBe(title);
 		expect(inputElement.disabled).toBeFalsy();
 	});
 

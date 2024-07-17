@@ -60,14 +60,14 @@
 
 <div class="flex gap-[14px]">
 	<a
-		class="mb-8 flex h-[56px] w-[56px] items-center justify-center rounded-full border border-[#D9DADE] bg-white"
+		class="mb-8 flex h-[56px] w-[56px] items-center justify-center rounded-full border border-grey-100 bg-secondary-content"
 		href={ROUTES.OYSTER_INVENTORY_URL}
 	>
-		<img src={staticImages.backIcon} alt="Back Icon" />
+		<img src={staticImages.backIcon} alt="Back Icon" class="icon-invert" />
 	</a>
 	<PageTitle title="My Past Orders" />
 </div>
-<div class="mb-6 flex items-center gap-4 rounded-[24px] bg-white px-8 py-6">
+<div class="mb-6 flex items-center gap-4 rounded-[24px] bg-secondary-content px-8 py-6">
 	<SearchWithSelect
 		dataList={inventoryData?.map((id) => id.provider.address)}
 		searchValue={searchInput}

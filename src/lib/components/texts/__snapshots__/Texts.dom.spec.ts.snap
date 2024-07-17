@@ -80,14 +80,14 @@ exports[`Text > renders TextInputCard with default props 1`] = `
 <body>
   <div>
     <div
-      class="w-full relative border border-[#D9DADE] bg-white py-2.5 px-4 rounded-full"
+      class="w-full relative border border-grey-100 bg-base-100 py-2.5 px-4 rounded-full"
       data-testid="input-card"
     >
       <div
         class="mb-1 flex items-center gap-1"
       >
         <div
-          class="absolute left-[18px] top-[-10px] mb-4 bg-white  font-poppins text-sm font-light text-grey-800 text-sm font-normal"
+          class="absolute left-7 top-[-1px] z-[1] inline-flex bg-base-100 font-poppins text-sm font-normal leading-[1px] text-grey-800 text-sm font-normal"
           data-testid="text"
         >
           

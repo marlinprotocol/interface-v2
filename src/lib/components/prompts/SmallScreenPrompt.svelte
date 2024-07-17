@@ -15,7 +15,7 @@
 <svelte:window bind:innerWidth />
 
 {#if showSmallScreenPrompt}
-	<div class="fixed left-0 top-0 z-20 h-full w-full bg-white">
+	<div class="fixed left-0 top-0 z-20 h-full w-full bg-base-100">
 		<div class="flex h-full flex-col items-center justify-center px-10">
 			<h1 class="text-center text-4xl font-bold">
 				Please note that this site is not optimized for mobile devices.

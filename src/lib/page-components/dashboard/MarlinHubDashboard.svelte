@@ -117,7 +117,7 @@
 			<div class="flex h-60 w-full flex-col justify-between rounded-2xl bg-secondary-content p-6">
 				<div class="flex flex-col gap-3">
 					<div class="flex items-center gap-2 text-2xl font-medium text-grey-800">
-						<img src={card.logo} alt={card.logoAlt} />{card.title}
+						<img src={card.logo} alt={card.logoAlt} class="icon-invert" />{card.title}
 					</div>
 					<span>{card.description}</span>
 				</div>
@@ -133,6 +133,7 @@
 									{button.text.split(' ')[0]}<img
 										src={button.icon.src}
 										alt={button.icon.alt}
+										class="icon-invert"
 									/>{button.text.split(' ')[1]}
 								{:else}
 									{button.text}
@@ -147,6 +148,7 @@
 									{button.text.split(' ')[0]}<img
 										src={button.icon.src}
 										alt={button.icon.alt}
+										class="icon-invert"
 									/>{button.text.split(' ')[1]}
 								{:else}
 									{button.text}

@@ -28,8 +28,8 @@
 <Modal {modalFor}>
 	<svelte:fragment slot="successmsg">Conversion Successful</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex flex-col gap-6 text-lg font-light text-[#26272C]">
-			<div class="whitespace-normal rounded-xl border border-[#D9DADE] p-4">
+		<div class="flex flex-col gap-6 text-lg font-light text-grey-700">
+			<div class="whitespace-normal rounded-xl border border-grey-100 p-4">
 				<div class="mb-2 text-center">You have converted</div>
 				<div class="text-center">
 					<span class="font-bold text-black"
@@ -46,7 +46,7 @@
 				</div>
 			</div>
 
-			<div class="whitespace-normal rounded-xl border border-[#D9DADE] p-4">
+			<div class="whitespace-normal rounded-xl border border-grey-100 p-4">
 				<div class="mb-2 text-center">Updated Wallet Balance</div>
 				<p class="text-center font-bold text-black">
 					{removeTrailingZeros(

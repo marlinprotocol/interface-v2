@@ -99,7 +99,7 @@
 		<div
 			class={cn('flex h-20 items-center gap-3 rounded-xl p-3 font-poppins', {
 				'bg-[#F7F7F7]': approved,
-				'border border-[#D9DADE]': !approved
+				'border border-grey-100': !approved
 			})}
 		>
 			<div

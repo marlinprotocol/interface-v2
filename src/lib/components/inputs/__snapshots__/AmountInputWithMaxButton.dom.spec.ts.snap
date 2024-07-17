@@ -4,7 +4,7 @@ exports[`AmountInputWithMaxButton > render's the component properly 1`] = `
 <body>
   <div>
     <div
-      class="w-full bg-white px-6 py-[30px] rounded-3xl border border-[#D9DADE]"
+      class="w-full bg-base-100 px-6 py-[30px] rounded-3xl border border-grey-100"
       data-testid="input-card"
     >
       <form>
@@ -13,7 +13,7 @@ exports[`AmountInputWithMaxButton > render's the component properly 1`] = `
         >
           <input
             autocomplete="off"
-            class="hideInputNumberAppearance input input-ghost input-primary text-3xl placeholder:text-grey-800/[.2]"
+            class="hideInputNumberAppearance input input-ghost input-primary text-3xl  placeholder:text-grey-800/[.2]"
             disabled=""
             id="pond-input-amount-"
             placeholder="0.00"
@@ -48,13 +48,14 @@ exports[`AmountInputWithMaxButton > render's the component properly 1`] = `
             >
               <img
                 alt="Info"
+                class="icon-invert"
                 src="/images/alertV2Icon.svg"
                 width="16px"
               />
                
                
               <div
-                class="absolute z-100 box-border hidden w-max max-w-[320px] rounded-xl bg-white p-3 shadow-[0px_12px_16px_-4px_#10182814] group-hover:block -top-5 left-1/2 -translate-x-1/2 -translate-y-full"
+                class="absolute z-100 box-border hidden w-max max-w-[320px] rounded-xl bg-secondary-content p-3 shadow-[0px_12px_16px_-4px_#10182814] group-hover:block -top-5 left-1/2 -translate-x-1/2 -translate-y-full"
               >
                 <span
                   class="text-sm leading-[18px]"
@@ -64,7 +65,7 @@ exports[`AmountInputWithMaxButton > render's the component properly 1`] = `
                 </span>
                  
                 <i
-                  class="absolute overflow-hidden after:absolute after:h-[15px] after:w-[15px] after:rotate-45 after:bg-white after:shadow-[0px_12px_16px_-4px_#10182814] after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 top-full left-1/2 -ml-[15px] w-[30px] h-[15px]"
+                  class="absolute overflow-hidden after:absolute after:h-[15px] after:w-[15px] after:rotate-45 after:bg-secondary-content after:shadow-[0px_12px_16px_-4px_#10182814] after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 top-full left-1/2 -ml-[15px] w-[30px] h-[15px]"
                 />
                  
                 <div

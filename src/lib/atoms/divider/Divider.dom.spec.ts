@@ -23,7 +23,7 @@ describe('Divider', () => {
 
 	it('applies vertical styles when direction is "divider-vertical"', () => {
 		const { getByTestId } = render(Divider, { direction: 'divider-vertical' });
-		const expectedClasses = ['bg-grey-500', 'w-[1px]', 'h-4'];
+		const expectedClasses = ['bg-grey-1000', 'w-[1px]', 'h-4'];
 		expectedClasses.forEach((expectedClass) => {
 			expect(getByTestId('divider').className.split(' ')).toContain(expectedClass);
 		});

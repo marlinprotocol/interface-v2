@@ -16,7 +16,7 @@
 	<svelte:fragment slot="content">
 		<div class="flex items-center justify-between gap-2">
 			<div
-				class="flex h-52 w-36 flex-col items-center justify-center rounded-xl bg-[#F4F4F6] text-grey-800"
+				class="flex h-52 w-36 flex-col items-center justify-center rounded-xl bg-base-300 text-grey-800"
 			>
 				<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#2DB8E3]">
 					<img src={staticImages.checkmarkCircleIcon} alt="Eligible" />
@@ -27,7 +27,7 @@
 				>
 			</div>
 			<div
-				class="flex h-52 w-36 flex-col items-center justify-center rounded-xl bg-[#F4F4F6] text-grey-800"
+				class="flex h-52 w-36 flex-col items-center justify-center rounded-xl bg-base-300 text-grey-800"
 			>
 				<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#F2C25E]">
 					<img src={staticImages.loadingIcon} alt="In Process" />
@@ -38,7 +38,7 @@
 				>
 			</div>
 			<div
-				class="flex h-52 w-36 flex-col items-center justify-center rounded-xl bg-[#F4F4F6] text-grey-800"
+				class="flex h-52 w-36 flex-col items-center justify-center rounded-xl bg-base-300 text-grey-800"
 			>
 				<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#F2675E]">
 					<img src={staticImages.clock} alt="Pending" />
@@ -49,7 +49,7 @@
 				>
 			</div>
 			<div
-				class="flex h-52 w-36 flex-col items-center justify-center rounded-xl bg-[#F4F4F6] text-grey-800"
+				class="flex h-52 w-36 flex-col items-center justify-center rounded-xl bg-base-300 text-grey-800"
 			>
 				<div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#B4B6B6]">
 					<img src={staticImages.calendarIcon} alt="End of cycle" />

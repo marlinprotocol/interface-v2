@@ -30,7 +30,7 @@ exports[`CollapseButton > renders the collapse button component properly 1`] = `
     >
       <img
         alt="Collapse Icon"
-        class="rotate-0 transform transition duration-200"
+        class="icon-invert rotate-0 transform transition duration-200"
         src="/images/chevronDownIcon.svg"
       />
     </button>

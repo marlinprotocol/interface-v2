@@ -90,7 +90,7 @@
 </td>
 <td class={cn(tableClasses.cell, 'text-center')}>
 	<div
-		class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm capitalize text-grey-800"
+		class="mx-auto rounded-full px-[31.5px] py-[10.5px] text-center text-sm capitalize text-[#030115]"
 		style="background-color: {statusColor}"
 	>
 		{status}

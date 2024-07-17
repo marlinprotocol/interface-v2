@@ -12,7 +12,7 @@
 
 <ModalButton size="tiniest" variant="text" {modalFor}>
 	<div
-		class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-[#D9DADE] hover:bg-[#F0F0F0]"
+		class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-grey-100 hover:bg-[#F0F0F0]"
 	>
 		<img src={staticImages.conversionCycleIcon} alt="Conversion Cycle Icon" />
 	</div>

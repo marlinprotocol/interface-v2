@@ -14,7 +14,7 @@
 
 <InputCard
 	variant="search"
-	styleClass={cn('relative flex gap-4 items-center border border-[#D9DADE]', styleClass)}
+	styleClass={cn('relative flex gap-4 items-center border border-grey-100', styleClass)}
 >
 	{#if label}
 		<p
@@ -23,7 +23,7 @@
 			{label}
 		</p>
 	{/if}
-	<img src={staticImages.searchV2Icon} alt="Search Icon" class="h-6 w-6" />
+	<img src={staticImages.searchV2Icon} alt="Search Icon" class="icon-invert h-6 w-6" />
 	<input
 		prefix="0x"
 		bind:value={input}

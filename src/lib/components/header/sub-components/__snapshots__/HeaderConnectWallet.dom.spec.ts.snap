@@ -28,7 +28,7 @@ exports[`HeaderConnectWallet > renders ConnectWalletButton if wallet is not conn
         id="header-chain-switcher-dropdown"
       >
         <div
-          class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"
+          class="btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed chain-btn m-1 flex h-12"
           role="button"
           tabindex="0"
         >
@@ -49,7 +49,7 @@ exports[`HeaderConnectWallet > renders ConnectWalletButton if wallet is not conn
             >
               <svg
                 aria-label=""
-                class="fa-icon icon-primary s-T5YyQewRBd7n"
+                class="fa-icon icon-info s-T5YyQewRBd7n"
                 data-testid="icon"
                 height="16"
                 role="presentation"
@@ -78,7 +78,7 @@ exports[`HeaderConnectWallet > renders ConnectWalletButton if wallet is not conn
       <!--&lt;ChainSwitcher&gt;-->
        
       <button
-        class="btn btn-theme btn-sm justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white gap-[10.3px] w-fit text-sm h-12 flex items-center cnt-btn"
+        class="btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed gap-[10.3px] w-fit text-sm h-12 flex items-center cnt-btn"
         id=""
       >
          
@@ -123,7 +123,7 @@ exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not c
         id="chain-dropdown"
       >
         <div
-          class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"
+          class="btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed chain-btn m-1 flex h-12"
           role="button"
           tabindex="0"
         >
@@ -144,7 +144,7 @@ exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not c
             >
               <svg
                 aria-label=""
-                class="fa-icon icon-primary s-T5YyQewRBd7n"
+                class="fa-icon icon-info s-T5YyQewRBd7n"
                 data-testid="icon"
                 height="16"
                 role="presentation"
@@ -173,7 +173,7 @@ exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not c
       <!--&lt;ChainSwitcher&gt;-->
        
       <label
-        class="gap-1.5 font-normal btn btn-theme btn-sm disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-black border border-[#D9DADE] hover:bg-base-200 h-12 chain-btn m-1 flex items-center justify-center"
+        class="gap-1.5 font-normal btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed h-12 chain-btn m-1 flex items-center justify-center"
         for="disconnect-wallet-modal"
         tabindex="0"
       >
@@ -227,12 +227,12 @@ exports[`HeaderConnectWallet > renders DisconnectWalletButton if wallet is not c
           </div>
            
           <button
-            class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-[#D9DADE] bg-white text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
+            class="flex h-[54px] w-[54px] shrink-0 cursor-pointer items-center justify-center self-baseline rounded-full border border-grey-100 bg-secondary-content text-sm font-bold text-gray-300 s-GZwqZrPaBy6h"
             data-testid="modal-close-button"
           >
             <img
               alt="Close"
-              class="s-GZwqZrPaBy6h"
+              class="icon-invert s-GZwqZrPaBy6h"
               src="/images/closeIcon.svg"
             />
           </button>
@@ -398,7 +398,7 @@ exports[`HeaderConnectWallet > renders the Header Links Group component properly
         id="header-chain-switcher-dropdown"
       >
         <div
-          class="btn btn-theme btn-sm items-center flex justify-center disabled:cursor-not-allowed !rounded-[100px] bg-secondary-content text-black border border-[#D9DADE] hover:bg-base-200 chain-btn m-1 flex h-12"
+          class="btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed chain-btn m-1 flex h-12"
           role="button"
           tabindex="0"
         >
@@ -419,7 +419,7 @@ exports[`HeaderConnectWallet > renders the Header Links Group component properly
             >
               <svg
                 aria-label=""
-                class="fa-icon icon-primary s-T5YyQewRBd7n"
+                class="fa-icon icon-info s-T5YyQewRBd7n"
                 data-testid="icon"
                 height="16"
                 role="presentation"
@@ -448,7 +448,7 @@ exports[`HeaderConnectWallet > renders the Header Links Group component properly
       <!--&lt;ChainSwitcher&gt;-->
        
       <button
-        class="btn btn-theme btn-sm justify-center disabled:cursor-not-allowed !rounded-[100px] btn-primary disabled:bg-primary disabled:bg-opacity-60 disabled:text-white gap-[10.3px] w-fit text-sm h-12 flex items-center cnt-btn"
+        class="btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed gap-[10.3px] w-fit text-sm h-12 flex items-center cnt-btn"
         id=""
       >
          

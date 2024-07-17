@@ -15,24 +15,17 @@
 	export let id = '';
 	export let styleClass = '';
 	export let placeholder = '';
-
-	const onFocusStyle = 'left-[12px] leading-[1px] top-[-20px] font-normal';
-	const titleStyleInit =
-		'absolute cursor-text bg-white font-poppins text-sm text-grey-800 transition-all';
-
-	let titleStyle = onFocusStyle;
-
-	const handleChange = (e: any) => {
-		handleUpdatedAmount(e);
-	};
 </script>
 
-<InputCard variant="search" styleClass="border border-[#D9DADE]">
-	<div class="relative flex flex-1 flex-col">
-		<button class={cn(titleStyle, titleStyleInit)} id="title-{id}">
+<InputCard variant="search" styleClass="border border-grey-100 relative">
+	{#if title}
+		<p
+			class="absolute left-7 top-[-1px] z-[1] inline-flex bg-base-100 font-poppins text-sm font-normal leading-[1px] text-grey-800"
+		>
 			{title}
-		</button>
-	</div>
+		</p>
+	{/if}
+
 	<div class="mt-1 flex items-center">
 		{#if !!prefix.length}
 			<Text text={prefix} styleClass="text-sm text-grey-800" />
@@ -41,7 +34,7 @@
 		<AmountInput
 			{id}
 			bind:value={inputAmountString}
-			onChange={handleChange}
+			onChange={handleUpdatedAmount}
 			styleClass={cn(inputClasses.inputText, styleClass)}
 			{onlyInteger}
 			{disabled}

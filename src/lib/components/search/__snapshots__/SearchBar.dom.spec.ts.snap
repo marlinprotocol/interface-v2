@@ -4,13 +4,13 @@ exports[`SearchBar > render's the component properly 1`] = `
 <body>
   <div>
     <div
-      class="w-full bg-white px-4 py-2.5 rounded-[100px] relative flex gap-4 items-center border border-[#D9DADE]"
+      class="w-full bg-grey-200 px-4 py-2.5 rounded-[100px] relative flex gap-4 items-center border border-grey-100"
       data-testid="input-card"
     >
        
       <img
         alt="Search Icon"
-        class="h-6 w-6"
+        class="icon-invert h-6 w-6"
         src="/images/searchV2Icon.svg"
       />
        

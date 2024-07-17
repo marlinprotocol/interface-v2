@@ -27,8 +27,10 @@ const WalletConnect = '/images/walleticon.svg';
 const WalletConnected = '/images/wallet-connected.svg';
 const PolygonLogo = '/images/polygon.svg';
 const PolygonFullLogo = '/images/polygon-full.svg';
+const PolygonFullLogoDark = '/images/polygon-full-dark.svg';
 const ArbitrumLogo = '/images/arbitrum.webp';
 const ArbitrumFullLogo = '/images/arbitrum-full.svg';
+const ArbitrumFullLogoDark = '/images/arbitrum-fullDark.svg';
 const limoLogo = '/images/limo.webp';
 const EthereumLogo = '/images/eth.webp';
 const LineaLogo = '/images/linea.webp';
@@ -89,31 +91,54 @@ const searchV2Icon = '/images/searchV2Icon.svg';
 const refreshV2Icon = '/images/refreshV2Icon.svg';
 const infoV2Icon = '/images/infoV2Icon.svg';
 const ankrLogo = '/images/ankr-blue-logo.svg';
+const ankrLogoDark = '/images/ankrLogoDark.svg';
 const cradlesLogo = '/images/CradlesLogo.webp';
+const cradlesLogoDark = '/images/CradlesLogoDark.png';
 const brightlyStakeLogo = '/images/Brightlystakelogo.webp';
+const brightlyStakeLogoDark = '/images/Brightlystakelogo.webp';
 const midaSwapLogo = '/images/MidaswapLogo.svg';
+const midaSwapLogoDark = '/images/MidaswapLogoDark.svg';
 const aspectaLogo = '/images/AspectaLogo.svg';
+const aspectaLogoDark = '/images/AspectaLogoDark.svg';
 const echolinkLogo = '/images/EcholinkLogo.svg';
+const echolinkLogoDark = '/images/EcholinkLogoDark.svg';
 const publicAiLogo = '/images/PublicAIDarkLogo.webp';
+const publicAiLogoDark = '/images/PublicAILogoDark.png';
 const operatorLogo = '/images/operator.svg';
 const sideLogo = '/images/side.svg';
+const sideLogoDark = '/images/sideDark.svg';
 const injectiveLogo = '/images/injective.svg';
+const injectiveLogoDark = '/images/injectiveDark.svg';
 const mellowLogo = '/images/mellow.webp';
+const mellowLogoDark = '/images/mellowDark.svg';
 const FlashBotsLogo = '/images/FlashBotsLogo.svg';
+const FlashBotsLogoDark = '/images/FlashBotsLogoDark.svg';
 const gearBoxLogo = '/images/gearbox.svg';
+const gearBoxLogoDark = '/images/gearboxDark.svg';
 const decimalLogo = '/images/decimal.webp';
+const decimalLogoDark = '/images/decimalDark.png';
 const zkbobLogo = '/images/zkbob.svg';
+const zkbobLogoDark = '/images/zkbobDark.svg';
 const p2pLogo = '/images/p2p_logo.svg';
+const p2pLogoDark = '/images/p2p_logoDark.svg';
 const t2t2Logo = '/images/T2T2Logo.png';
 const hashkeyCloudLogo = '/images/HashkeyCloudLogo.svg';
+const hashkeyCloudLogoDark = '/images/HashkeyCloudLogoDark.svg';
 const nodeasyLogo = '/images/NodeEasyLogo.webp';
+const nodeasyLogoDark = '/images/NodeEasyLogoDark.png';
 const chorusOneLogo = '/images/ChorusOneLogo.svg';
+const chorusOneLogoDark = '/images/ChorusOneLogoDark.svg';
 const availLogo = '/images/availLogo.svg';
+const availLogoDark = '/images/availLogoDark.svg';
 const stafiLogo = '/images/StafiLogo.svg';
 const sjtUniversityLogo = '/images/sjtUni.webp';
+const sjtUniversityLogoDark = '/images/sjtUniDark.png';
 const goSleepLogo = '/images/GoSleepLogo.svg';
+const goSleepLogoDark = '/images/GoSleepLogoDark.svg';
 const infstones = '/images/InfstonesLogo.svg';
+const infstonesDark = '/images/InfstonesLogoDark.svg';
 const staking4allLogo = '/images/Staking4AllLogo.webp';
+const staking4allLogoDark = '/images/Staking4AllLogoDark.webp';
 const degoLogo = '/images/DegoFinance.webp';
 const promLogo = '/images/PromLogo.png';
 const calendarIcon = '/images/calendar.svg';
@@ -132,24 +157,36 @@ const instances = '/images/instances.svg';
 const llms = '/images/llms.svg';
 const regions = '/images/regions.svg';
 const dnsLogo = '/images/3dns.svg';
+const dnsLogoDark = '/images/3dnsDark.svg';
 const bonfidaLogo = '/images/bonfida.svg';
+const bonfidaLogoDark = '/images/bonfidaDark.svg';
 const spaceIdLogo = '/images/spaceid.svg';
+const spaceIdLogoDark = '/images/spaceidDark.svg';
 const exploreIcon = '/images/explore.svg';
 const copyIcon = '/images/copyIconNew.svg';
 const infoIconPurple = '/images/information-purple.svg';
 const infoIconWhite = '/images/information-white.svg';
 const sigmoIdLogo = '/images/sigmoid.svg';
+const sigmoIdLogoDark = '/images/sigmoidDark.svg';
 const mcGrillUni = '/images/mcgill-university.svg';
 const fishingMan = '/images/fishing-man.svg';
 const KontosLogo = '/images/Kontos.svg';
+const KontosLogoDark = '/images/KontosDark.svg';
 const NuLinkLogo = '/images/NuLink.svg';
+const NuLinkLogoDark = '/images/NuLinkDark.svg';
 const lighthouseLogo = '/images/lighthouse.svg';
+const lighthouseLogoDark = '/images/lighthouseDark.svg';
 const accsealLogo = '/images/accsealLogo.svg';
+const accsealLogoDark = '/images/accsealLogoDark.svg';
 const filLogo = '/images/fil.svg';
+const filLogoDark = '/images/filLogoDark.svg';
 const talusLogo = '/images/talus.svg';
+const talusLogoDark = '/images/talusDark.svg';
 const assisterrLogo = '/images/assisterr.svg';
 const heuristLogo = '/images/heurist.svg';
+const heuristLogoDark = '/images/heuristDark.svg';
 const hyleLogo = '/images/hyle.svg';
+const hyleLogoDark = '/images/hyleDark.svg';
 
 export const staticImages = {
 	Alert,
@@ -158,12 +195,14 @@ export const staticImages = {
 	ArrowRightSolid,
 	ArrowLeftSolid,
 	BlueAlert,
+	sideLogoDark,
 	Check,
 	CloseCircle,
 	Copy,
 	CopyGrey,
 	Cycle,
 	CycleLoader,
+	dnsLogoDark,
 	History,
 	Info,
 	LeftBlueArrow,
@@ -181,8 +220,10 @@ export const staticImages = {
 	WalletConnected,
 	PolygonLogo,
 	PolygonFullLogo,
+	PolygonFullLogoDark,
 	ArbitrumLogo,
 	ArbitrumFullLogo,
+	ArbitrumFullLogoDark,
 	limoLogo,
 	EthereumLogo,
 	LineaLogo,
@@ -240,31 +281,53 @@ export const staticImages = {
 	refreshV2Icon,
 	infoV2Icon,
 	ankrLogo,
+	ankrLogoDark,
 	cradlesLogo,
+	cradlesLogoDark,
 	brightlyStakeLogo,
+	brightlyStakeLogoDark,
 	midaSwapLogo,
+	midaSwapLogoDark,
 	aspectaLogo,
+	aspectaLogoDark,
 	echolinkLogo,
+	echolinkLogoDark,
 	publicAiLogo,
+	publicAiLogoDark,
 	operatorLogo,
 	sideLogo,
 	injectiveLogo,
+	injectiveLogoDark,
 	mellowLogo,
+	mellowLogoDark,
 	FlashBotsLogo,
+	FlashBotsLogoDark,
 	gearBoxLogo,
+	gearBoxLogoDark,
 	decimalLogo,
+	decimalLogoDark,
 	zkbobLogo,
+	zkbobLogoDark,
 	p2pLogo,
+	p2pLogoDark,
 	t2t2Logo,
 	hashkeyCloudLogo,
+	hashkeyCloudLogoDark,
 	nodeasyLogo,
+	nodeasyLogoDark,
 	chorusOneLogo,
+	chorusOneLogoDark,
 	availLogo,
+	availLogoDark,
 	stafiLogo,
 	sjtUniversityLogo,
+	sjtUniversityLogoDark,
 	goSleepLogo,
+	goSleepLogoDark,
 	infstones,
+	infstonesDark,
 	staking4allLogo,
+	staking4allLogoDark,
 	degoLogo,
 	promLogo,
 	calendarIcon,
@@ -284,21 +347,32 @@ export const staticImages = {
 	arrowUpRight,
 	dnsLogo,
 	bonfidaLogo,
+	bonfidaLogoDark,
 	spaceIdLogo,
+	spaceIdLogoDark,
 	exploreIcon,
 	copyIcon,
 	infoIconPurple,
 	sigmoIdLogo,
+	sigmoIdLogoDark,
 	mcGrillUni,
 	fishingMan,
 	KontosLogo,
+	KontosLogoDark,
 	NuLinkLogo,
+	NuLinkLogoDark,
 	lighthouseLogo,
+	lighthouseLogoDark,
 	accsealLogo,
+	accsealLogoDark,
 	infoIconWhite,
 	filLogo,
+	filLogoDark,
 	talusLogo,
+	talusLogoDark,
 	assisterrLogo,
 	heuristLogo,
-	hyleLogo
+	heuristLogoDark,
+	hyleLogo,
+	hyleLogoDark
 };

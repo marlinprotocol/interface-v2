@@ -10,6 +10,7 @@
 	import '../app.css';
 	import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
 	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
+	import { isDarkMode } from '$lib/data-stores/themeStore';
 
 	onMount(async () => {
 		// removes console logs in production
@@ -18,8 +19,9 @@
 				// do nothing
 			};
 		}
-		const theme = localStorage?.getItem('theme') || 'light';
-		localStorage.setItem('theme', theme);
+		const existingTheme = localStorage?.getItem('theme') === 'dark';
+		const theme = existingTheme ? 'dark' : 'light';
+		$isDarkMode = existingTheme;
 		const htmlElement = document.documentElement;
 		htmlElement.setAttribute('data-theme', theme);
 	});

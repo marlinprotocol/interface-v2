@@ -4,23 +4,9 @@ on:
     branches:
       - dev
 jobs:
-  vitest:
+  coverage:
     environment: test
     timeout-minutes: 20
-
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/ci-setup
-      - name: test
-        run: npm run test:unit
-        env:
-          VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
-          VITE_SEED_PHRASE: ${{ secrets.VITE_SEED_PHRASE }}
-          VITE_WALLET_PASSWORD: ${{ secrets.VITE_WALLET_PASSWORD }}
-          VITE_TEST_CP_URL_1: ${{ secrets.VITE_TEST_CP_URL_1 }}
-          VITE_TEST_CP_URL_2: ${{ secrets.VITE_TEST_CP_URL_2 }}
-  coverage:
     runs-on: ubuntu-latest
     
     permissions:

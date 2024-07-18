@@ -24,6 +24,8 @@ jobs:
     - name: 'Install Deps'
       run: npm install
     - name: 'Test'
+      run: npm run test:unit
+    - name: 'Coverage Test'
       run: npm run testcoverage:unit
       env:
         VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}

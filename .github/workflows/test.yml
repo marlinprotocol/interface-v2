@@ -24,7 +24,7 @@ jobs:
     - name: 'Install Deps'
       run: npm install
     - name: 'Test'
-      run: npx vitest --coverage.enabled true
+      run: npx vitest
       env:
         VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
         VITE_SEED_PHRASE: ${{ secrets.VITE_SEED_PHRASE }}

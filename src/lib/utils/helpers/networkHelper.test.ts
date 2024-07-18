@@ -1,9 +1,9 @@
 import { describe, expect, it, afterEach, vi } from 'vitest';
 import { isValidChain, switchChain } from './networkHelper';
-import { PUBLIC_NODE_ENV } from '$env/static/public';
 import onboard from '$lib/controllers/web3OnboardController';
 import type { EIP1193Provider } from '@web3-onboard/core';
 import * as walletController from '$lib/controllers/walletController';
+import { PUBLIC_NODE_ENV } from '$env/static/public';
 
 describe('isValidChain', () => {
 	if (PUBLIC_NODE_ENV === 'development') {

@@ -53,6 +53,6 @@ export default defineConfig({
 			provider: 'v8',
 			enabled: true
 		},
-		reporters: ['html', 'default', 'json']
+		reporters: ['html', 'json-summary', 'default', 'json']
 	}
 });

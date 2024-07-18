@@ -1,30 +1,30 @@
 import { describe, expect, it, afterEach, vi } from 'vitest';
-import { switchChain } from './networkHelper';
-// import { PUBLIC_NODE_ENV } from '$env/static/public';
+import { isValidChain, switchChain } from './networkHelper';
 import onboard from '$lib/controllers/web3OnboardController';
 import type { EIP1193Provider } from '@web3-onboard/core';
 import * as walletController from '$lib/controllers/walletController';
+import { PUBLIC_NODE_ENV } from '$env/static/public';
 
-// describe('isValidChain', () => {
-// 	if (PUBLIC_NODE_ENV === 'development') {
-// 		it('should return true if chain is valid', () => {
-// 			expect(isValidChain(421613)).toBe(true);
-// 		});
-// 		it('should return false for invalid chain', () => {
-// 			expect(isValidChain(1)).toBe(false);
-// 			expect(isValidChain(42161)).toBe(false);
-// 		});
-// 	}
-// 	if (PUBLIC_NODE_ENV === 'arb_mainnet') {
-// 		it('should return true if chain is valid', () => {
-// 			expect(isValidChain(42161)).toBe(true);
-// 		});
-// 		it('should return false for invalid chain', () => {
-// 			expect(isValidChain(1)).toBe(false);
-// 			expect(isValidChain(421613)).toBe(false);
-// 		});
-// 	}
-// });
+describe('isValidChain', () => {
+	if (PUBLIC_NODE_ENV === 'development') {
+		it('should return true if chain is valid', () => {
+			expect(isValidChain(421613)).toBe(true);
+		});
+		it('should return false for invalid chain', () => {
+			expect(isValidChain(1)).toBe(false);
+			expect(isValidChain(42161)).toBe(false);
+		});
+	}
+	if (PUBLIC_NODE_ENV === 'arb_mainnet') {
+		it('should return true if chain is valid', () => {
+			expect(isValidChain(42161)).toBe(true);
+		});
+		it('should return false for invalid chain', () => {
+			expect(isValidChain(1)).toBe(false);
+			expect(isValidChain(421613)).toBe(false);
+		});
+	}
+});
 
 describe('switchChain', () => {
 	afterEach(() => {

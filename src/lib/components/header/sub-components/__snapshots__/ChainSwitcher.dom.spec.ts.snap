@@ -1,77 +1,53 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ChainSwitcher > render's the component properly 1`] = `
-<body>
-  <onboard-v2
-    style="all: initial;"
-  />
-  <style>
-    
-    
-@font-face {
-  font-family: 'Inter';
-  font-style:  normal;
-  font-weight: 300 600;
-  font-display: swap;
-  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
-}
-
-  
-  </style>
-  <div>
+<div>
+  <div
+    class="dropdown dropdown-end"
+    id="chain-dropdown"
+  >
     <div
-      class="dropdown dropdown-end"
-      id="chain-dropdown"
+      class="btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed chain-btn m-1 flex h-12"
+      role="button"
+      tabindex="0"
     >
       <div
-        class="btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed chain-btn m-1 flex h-12"
-        role="button"
-        tabindex="0"
+        class="flex items-center justify-center"
       >
         <div
-          class="flex items-center justify-center"
+          class="flex h-8 w-8 items-center justify-center"
         >
-          <div
-            class="flex h-8 w-8 items-center justify-center"
+          <img
+            alt="current chain"
+            src="/images/arbitrum.webp"
+          />
+        </div>
+         
+        <div
+          class="ml-2"
+        >
+          <svg
+            aria-label=""
+            class="fa-icon icon-info svelte-1mc5hvj"
+            data-testid="icon"
+            height="16"
+            role="presentation"
+            style="width:10px; height:10px; cursor:pointer;  "
+            version="1.1"
+            viewBox="0 0 1792 1792"
+            width="16"
           >
-            <img
-              alt="current chain"
-              src="/images/arbitrum.webp"
+            <path
+              d="M1683 808l-742 741q-19 19-45 19t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"
             />
-          </div>
-           
-          <div
-            class="ml-2"
-          >
-            <svg
-              aria-label=""
-              class="fa-icon icon-info s-T5YyQewRBd7n"
-              data-testid="icon"
-              height="16"
-              role="presentation"
-              style="width:10px; height:10px; cursor:pointer;  "
-              version="1.1"
-              viewBox="0 0 1792 1792"
-              width="16"
-            >
-              <path
-                d="M1683 808l-742 741q-19 19-45 19t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"
-              />
-              
-               
-               
-              
-              
-            </svg>
-            <!--&lt;Svg&gt;-->
-            <!--&lt;Icon&gt;-->
-            <!--&lt;Icon&gt;-->
-          </div>
+             
+             
+            
+          </svg>
         </div>
       </div>
-       
     </div>
-    <!--&lt;ChainSwitcher&gt;-->
+     
   </div>
-</body>
+</div>
 `;

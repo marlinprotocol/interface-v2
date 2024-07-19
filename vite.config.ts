@@ -1,19 +1,8 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
-import inject from '@rollup/plugin-inject';
-import nodePolyfills from 'rollup-plugin-polyfill-node';
-
-const MODE: 'prod' | 'development' = 'prod'; // change mode to development if using npm run preview for checking the build locally
-const development: boolean = (MODE as string) === 'development';
 
 export default defineConfig({
-	plugins: [
-		sveltekit(),
-		development &&
-			nodePolyfills({
-				include: ['node_modules/**/*.js', new RegExp('node_modules/.vite/.*js'), 'http', 'process']
-			})
-	],
+	plugins: [sveltekit()],
 	resolve: {
 		alias: {
 			process: 'process/browser',
@@ -25,11 +14,7 @@ export default defineConfig({
 	},
 	build: {
 		rollupOptions: {
-			external: ['@web3-onboard/*'],
-			plugins: [
-				nodePolyfills({ include: ['crypto', 'http'] }),
-				inject({ Buffer: ['buffer', 'Buffer'] })
-			]
+			external: ['@web3-onboard/*']
 		},
 		commonjsOptions: {
 			transformMixedEsModules: true

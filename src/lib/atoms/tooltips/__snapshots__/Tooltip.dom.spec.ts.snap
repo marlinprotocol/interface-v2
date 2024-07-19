@@ -1,0 +1,73 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Tooltip > renders with default attribute 1`] = `
+Component {
+  "$$": {
+    "after_update": [],
+    "before_update": [],
+    "bound": {},
+    "callbacks": {},
+    "context": Map {},
+    "ctx": [
+      [Function],
+      {},
+      [
+        [Function],
+      ],
+      {},
+    ],
+    "dirty": [
+      -1,
+    ],
+    "fragment": {
+      "c": [Function],
+      "d": [Function],
+      "m": [Function],
+      "p": [Function],
+    },
+    "not_equal": [Function],
+    "on_destroy": [
+      [Function],
+    ],
+    "on_disconnect": [],
+    "on_mount": [],
+    "props": {},
+    "root": <div>
+      <div
+        class="group relative inline-block cursor-pointer text-left"
+        data-testid="tooltip"
+      >
+        <img
+          alt="Info"
+          class="icon-invert"
+          src="/images/alertV2Icon.svg"
+          width="16px"
+        />
+         
+         
+        <div
+          class="absolute z-100 box-border hidden w-max max-w-[320px] rounded-xl bg-secondary-content p-3 shadow-[0px_12px_16px_-4px_#10182814] group-hover:block -top-5 left-1/2 -translate-x-1/2 -translate-y-full"
+        >
+          <div
+            class="tooltip-content"
+          >
+            This is tooltip content
+          </div>
+           
+          <i
+            class="absolute overflow-hidden after:absolute after:h-[15px] after:w-[15px] after:rotate-45 after:bg-secondary-content after:shadow-[0px_12px_16px_-4px_#10182814] after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 top-full left-1/2 -ml-[15px] w-[30px] h-[15px]"
+          />
+           
+          <div
+            class="after:left-0 after:top-1/2 after:-translate-y-1/2 after:translate-x-1/2"
+          />
+        </div>
+      </div>
+      <!--&lt;Tooltip&gt;-->
+    </div>,
+    "skip_bound": false,
+    "update": [Function],
+  },
+  "$$set": undefined,
+}
+`;

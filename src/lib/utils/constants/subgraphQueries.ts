@@ -78,7 +78,7 @@ export const QUERY_TO_CHECK_IF_SIGNER_EXISTS = `query SignerExists($signer: Stri
   }
 }`;
 
-export const QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES = `query PondMPondDetails($address: String, $contractAddress: String) {
+export const QUERY_TO_GET_POND_AND_MPOND_ALLOWANCES = `query PondMPondDetails($address: String, $contractAddress: String) {
   pondApprovals(
     where: { to: $contractAddress, from: $address }
   ) {
@@ -152,5 +152,218 @@ export const QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY = `query Users($addres
     pondPerMpond
     liquidityBP
     liqudityReleaseEpochs
+  }
+}`;
+
+export const QUERY_TO_GET_JOBS_DATA = `query Jobs($address: String) {
+  jobs(
+    where: { owner: $address }
+    orderBy: createdAt
+    orderDirection: desc
+  ) {
+    id
+    metadata
+    owner
+    rate
+    provider
+    lastSettled
+    createdAt
+    totalDeposit
+    balance
+    refund
+    rateRevisionHistory(
+      first: 1
+      where: {status: IN_PROGRESS}
+      orderBy: updatesAt
+      orderDirection: desc
+    ) {
+      id
+      status
+      updatesAt
+      value
+    }
+    depositHistory(
+      orderBy: timestamp,
+      orderDirection: desc
+    ) {
+      amount
+      id
+      txHash
+      isWithdrawal
+      timestamp
+    }
+    settlementHistory(
+      orderBy: timestamp, 
+      orderDirection: desc
+    ) {
+      amount
+      id
+      txHash
+      timestamp
+    }
+  }
+}`;
+
+export const QUERY_TO_GET_JOBS_DATA_BY_ID = `query Jobs($id: [String!]) {
+  jobs(
+    where: { id_in: $id }
+    orderBy: createdAt
+    orderDirection: desc
+  ) {
+    id
+    metadata
+    owner
+    rate
+    provider
+    lastSettled
+    createdAt
+    totalDeposit
+    balance
+    refund
+    rateRevisionHistory(
+      first: 1
+      where: {status: IN_PROGRESS}
+      orderBy: updatesAt
+      orderDirection: desc
+    ) {
+      id
+      status
+      updatesAt
+      value
+    }
+    depositHistory(
+      orderBy: timestamp,
+      orderDirection: desc
+    ) {
+      amount
+      id
+      txHash
+      isWithdrawal
+      timestamp
+    }
+    settlementHistory(
+      orderBy: timestamp, 
+      orderDirection: desc
+    ) {
+      amount
+      id
+      txHash
+      timestamp
+    }
+  }
+}`;
+
+export const QUERY_TO_GET_PROVIDER_DATA = `query Providers ($address: String) {
+  providers(
+    where: { id: $address }
+  ) {
+    id
+    cp
+    live
+  }
+}`;
+
+export const QUERY_TO_GET_ALL_PROVIDERS_DATA = `query Providers {
+  providers {
+    id
+    cp
+    live
+  }
+}`;
+
+export const QUERY_TO_JOB_REVISE_RATE_END_TIMESTAMP_DATA = `query ReviseRateRequests($job: String) {
+  reviseRateRequests(
+    first: 1
+    where: { job: $job }
+    orderBy: updatesAt
+    orderDirection: desc
+  ) {
+    id
+    job
+    status
+    updatesAt
+    value
+  }
+}`;
+
+export const QUERY_TO_GET_MERCHANT_JOBS_DATA = `query Jobs($address: String) {
+  jobs(
+    where: { provider: $address }
+    orderBy: createdAt
+    orderDirection: desc
+  ) {
+    id
+    metadata
+    owner
+    rate
+    provider
+    lastSettled
+    createdAt
+    totalDeposit
+    balance
+    refund
+    depositHistory(
+      orderBy: timestamp,
+      orderDirection: desc
+    ) {
+      amount
+      id
+      isWithdrawal
+      timestamp
+    }
+    settlementHistory(
+      orderBy: timestamp, 
+      orderDirection: desc
+    ) {
+      amount
+      id
+      timestamp
+    }
+  }
+}`;
+
+// TODO: change this query to match the entities of the new subgraph
+export const QUERY_TO_GET_RECEIVER_REWARDS_DATA = `query ReceiverRewards($address: String, $contractAddress: String) {
+  receiverRewards(
+    where: { id: $address}
+  ) {
+    amount
+    rewardPerEpoch
+  }
+  params (
+    where: { id_in: ["EPOCH_LENGTH", "START_TIME"] },
+  ) {
+    id
+    value
+  }
+  ticketsIssueds(
+    orderBy: epoch, orderDirection: desc, first: 1, 
+    where:{ issuedBy: $address }
+  ) {
+    epoch
+  }
+  pondApprovals(
+    where: { to: $contractAddress, from: $address }
+  ) {
+    value
+  }   
+}`;
+
+export const QUERY_TO_CHECK_OYSTER_CREDIT_BALANCE = `query OysterCreditBalance($address: String) {
+  userCredits(
+    where: { id: $address }
+  ) {
+    userBudget
+  }
+}`;
+
+export const QUERY_TO_GET_CREDIT_JOBS_DATA = `query CreditJobs($address: String) {
+  jobCredits(
+    where: { user: $address}
+  ) {
+    id
+    jobId
+    user
+    jobCredits
   }
 }`;

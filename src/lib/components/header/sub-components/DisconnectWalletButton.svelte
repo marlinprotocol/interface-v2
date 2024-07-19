@@ -1,43 +1,38 @@
 <script lang="ts">
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import { chainStore } from '$lib/data-stores/chainProviderStore';
+	import { staticImages } from '$lib/components/images/staticImages';
 	import { walletStore } from '$lib/data-stores/walletProviderStore';
-	import type { ChainStore } from '$lib/types/storeTypes';
-	import { onDestroy } from 'svelte';
-	import type { Unsubscriber } from 'svelte/store';
-	import DisconnectWalletModal from './DisconnectWalletModal.svelte';
+	import { web3WalletStore } from '$lib/data-stores/walletProviderStore';
+	import DisconnectWalletModal from '$lib/components/header/sub-components/DisconnectWalletModal.svelte';
+	import { disconnectWallet } from '$lib/controllers/walletController';
+	import ChainSwitcher from '$lib/components/header/sub-components/ChainSwitcher.svelte';
+
+	export let lastAddress: string | undefined = undefined;
 
 	let modalFor = 'disconnect-wallet-modal';
+
+	const disconnect = () => {
+		disconnectWallet($web3WalletStore);
+		lastAddress = undefined;
+	};
+
 	$: shortAddress =
 		$walletStore.address.slice().substring(0, 6) +
 		'...' +
 		$walletStore.address.slice().substring(38, 42);
-
-	// do not remove this line
-	$: provider = $walletStore.provider;
-
-	let chain: ChainStore;
-
-	const unsubscribeChainProviderStore: Unsubscriber = chainStore.subscribe((value: ChainStore) => {
-		chain = value;
-	});
-	onDestroy(unsubscribeChainProviderStore);
-
-	const styles = {
-		address: 'text-2xs text-[#0498ad] font-medium',
-		network: 'font-bold text-sm text-[#07617d]'
-	};
 </script>
 
-<ModalButton
-	{modalFor}
-	variant="whiteFilled"
-	styleClass="bg-base-100 h-[50px] cursor-pointer text-primary rounded-lg shadow-sm flex gap-4 items-center"
->
-	<img src="/images/wallet-connected.svg" alt="Metamask Logo" />
-	<div class={'flex flex-col text-left'}>
-		<h6 class={styles.network}>{chain?.chainDisplayName?.toLocaleUpperCase()}</h6>
-		<p class={styles.address}>{shortAddress}</p>
-	</div>
-</ModalButton>
-<DisconnectWalletModal {modalFor} />
+<div data-testid="disconnect-wallet-button" class="flex gap-2">
+	<ChainSwitcher />
+	<ModalButton
+		{modalFor}
+		variant="outlined"
+		styleClass="chain-btn m-1 flex items-center justify-center"
+	>
+		<img src={staticImages.discChainLog} alt="Metamask Logo" />
+		<div>
+			<p class="text-sm font-medium text-grey-800">{shortAddress}</p>
+		</div>
+	</ModalButton>
+</div>
+<DisconnectWalletModal {modalFor} {disconnect} />

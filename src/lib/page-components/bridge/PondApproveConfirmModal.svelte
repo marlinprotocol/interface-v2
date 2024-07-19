@@ -1,36 +1,33 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import ApproveAndConfirmModal from '$lib/components/modals/ApproveAndConfirmModal.svelte';
 	import {
-		approvePondTokenForConversion,
-		convertPondToMPond
-	} from '$lib/controllers/contractController';
-	import { bridgeStore } from '$lib/data-stores/bridgeStore';
-	import { kPondHistoryPage } from '$lib/utils/constants/bridgeConstants';
-	import { pondToMPond } from '$lib/utils/conversion';
-	import type { BigNumber } from 'ethers';
-	import { onDestroy } from 'svelte';
+		bridgeStore,
+		decreasePondAllowanceInBridgeStore,
+		updatePondAllowanceInBridgeStore
+	} from '$lib/data-stores/bridgeStore';
+	import {
+		addMpondToWalletBalanceStore,
+		withdrawPondFromWalletBalanceStore
+	} from '$lib/data-stores/walletProviderStore';
+	import { pondToMPond } from '$lib/utils/helpers/conversionHelper';
+	import { doNothing } from '$lib/utils/helpers/commonHelper';
+	import { contractAddressStore } from '$lib/data-stores/contractStore';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { convertPondToMPond } from '$lib/controllers/contract/bridge';
+	import { approveToken } from '$lib/controllers/contract/token';
 
-	export let pond: BigNumber;
+	export let pond: bigint;
 	export let modalFor: string;
 
-	let approved: boolean = false;
-	const unsubscribeBridgeStore = bridgeStore.subscribe((value) => {
-		const amount = value.allowances.pond;
-		approved = amount.gte(pond) || false;
-	});
-	onDestroy(unsubscribeBridgeStore);
-
-	$: mPond = pondToMPond(pond);
-	$: approved = $bridgeStore.allowances.pond.gte(pond) || false;
+	let approved = false;
 
 	const handleApproveClick = async () => {
 		try {
-			await approvePondTokenForConversion(pond);
-			bridgeStore.update((value) => {
-				value.allowances.pond = pond;
-				return value;
-			});
+			if (!$chainConfigStore.tokens.POND) {
+				throw new Error('POND token not found in chain config');
+			}
+			await approveToken($chainConfigStore.tokens.POND, pond, $contractAddressStore.BRIDGE);
+			updatePondAllowanceInBridgeStore(pond);
 			approved = true;
 		} catch (error) {
 			console.log(error);
@@ -39,23 +36,32 @@
 	};
 	const handleConfirmClick = async () => {
 		try {
-			await convertPondToMPond(mPond);
+			const txn = await convertPondToMPond(mpond);
+			if (txn) {
+				addMpondToWalletBalanceStore(mpond);
+				withdrawPondFromWalletBalanceStore(pond);
+				decreasePondAllowanceInBridgeStore(pond);
+			}
 		} catch (error) {
 			console.log(error);
 			throw error;
 		}
 	};
+
+	$: mpond = pondToMPond(pond);
+	$: approved = $bridgeStore.allowances.pond >= pond || false;
 </script>
 
 <ApproveAndConfirmModal
 	modalForApproveConfirm={modalFor}
+	rowIndex={0}
 	{handleApproveClick}
 	{handleConfirmClick}
 	handleSuccessFinishClick={() => {
-		goto(kPondHistoryPage);
+		doNothing();
 	}}
 	{approved}
-	conversionFrom={'pond'}
+	conversionFrom="pond"
 	amountConverted={pond}
-	confirmButtonText={'CONVERT'}
+	confirmButtonText="CONVERT"
 />

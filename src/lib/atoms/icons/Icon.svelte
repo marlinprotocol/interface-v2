@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Icon from 'svelte-awesome';
+	import Icon from 'svelte-awesome/components/Icon.svelte';
 
 	export let data: any;
 	export let size = 16;
@@ -17,4 +17,4 @@
 	} ${styleClass}`;
 </script>
 
-<Icon {data} {flip} {spin} {style} class={iconColorClass} />
+<Icon {data} {flip} {spin} {style} class={iconColorClass} data-testid="icon" />

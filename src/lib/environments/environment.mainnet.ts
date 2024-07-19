@@ -1,17 +1,23 @@
-export const ENVIRONMENT_MAINNET = {
+import { ARB_ONE } from '$lib/chains/arbOne';
+import type { Environment } from '$lib/types/environmentTypes';
+import { LINEA } from '$lib/chains/linea';
+import { POLYGON } from '$lib/chains/polygon';
+import { ETH } from '$lib/chains/ethereum';
+
+export const ENVIRONMENT_MAINNET: Environment = {
 	environment_name: 'mainnet',
 	production: true,
-	public_chain_id: '0x01',
-	public_pond_token_address: '0xa9472a9C135Cb33221de441a4DEd393FD515a69C',
-	public_mPond_token_address: '0x0B3d9b224496C2A2Fa1a4096D8EB4D350eFd9079',
-	public_pond_subgraph_url: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-dev',
-	public_mPond_subgraph_url:
-		'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-dev',
-	public_contract_subgraph_url:
-		'https://api.thegraph.com/subgraphs/name/marlinprotocol/staking-kovan',
-	public_bridge_contract_subgraph_url:
-		'https://api.thegraph.com/subgraphs/name/marlinprotocol/bridge-kovan',
-	public_contract_details_url: '',
-	public_bridge_contract_details_url: 'https://api.aragog.live/getBridgeDetails',
-	valid_chain_ids: [421613]
+	valid_chains: { 1: ETH, 42161: ARB_ONE, 59144: LINEA, 137: POLYGON },
+	default_chain_id: 42161,
+	supported_chains: {
+		dashboard: [1, 42161, 59144, 137],
+		bridge: [1],
+		oyster: [42161, 59144, 137],
+		receiver_staking: [42161],
+		receiver_rewards: [],
+		kalypso: []
+	},
+	dapp_url: 'https://arb1.marlin.org',
+	trezor_email: 'security@marlin.org',
+	backend_url: 'https://sk.arb1.marlin.org/'
 };

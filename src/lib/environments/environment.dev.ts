@@ -1,19 +1,22 @@
-export const ENVIRONMENT_DEV = {
-	environment_name: 'dev',
+import { ARB_GOERLI } from '$lib/chains/arbGoerli';
+import type { Environment } from '$lib/types/environmentTypes';
+import { LINEA_GOERLI } from '$lib/chains/lineaGoerli';
+import { ARB_SEPOLIA } from '$lib/chains/arbSepolia';
+
+export const ENVIRONMENT_DEV: Environment = {
+	environment_name: 'development',
 	production: false,
-	public_chain_id: '0x66eed',
-	public_pond_token_address: '0xa9472a9C135Cb33221de441a4DEd393FD515a69C',
-	public_mPond_token_address: '0x0B3d9b224496C2A2Fa1a4096D8EB4D350eFd9079',
-	public_pond_subgraph_url: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-dev',
-	public_mPond_subgraph_url:
-		'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-dev',
-	public_contract_subgraph_url:
-		'https://api.thegraph.com/subgraphs/name/marlin-staging/staking-arb1-goerli',
-	// public_contract_subgraph_url:
-	// 'https://api.thegraph.com/subgraphs/name/marlinprotocol/staking-kovan',
-	public_bridge_contract_subgraph_url:
-		'https://api.thegraph.com/subgraphs/name/marlinprotocol/bridge-kovan',
-	public_contract_details_url: 'https://api.aragog.live/getcontractdetails',
-	public_bridge_contract_details_url: 'https://api.aragog.live/getBridgeDetails',
-	valid_chain_ids: [421613]
+	valid_chains: { 421614: ARB_SEPOLIA, 421613: ARB_GOERLI, 59140: LINEA_GOERLI },
+	default_chain_id: 421614,
+	supported_chains: {
+		dashboard: [421613, 421614, 59140],
+		bridge: [421613, 421614],
+		oyster: [421613, 59140, 421614],
+		receiver_staking: [421613, 421614],
+		receiver_rewards: [421613, 421614],
+		kalypso: [421613, 421614]
+	},
+	dapp_url: 'https://adummy.site',
+	trezor_email: 'arandomsupportemail@xyz.com',
+	backend_url: 'https://api.lagoon.build/'
 };

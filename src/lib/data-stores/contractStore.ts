@@ -1,11 +1,14 @@
-import type { ContractAddress, ContractAbi } from '$lib/types/storeTypes';
-import {
-	DEFAULT_CONTRACT_ABI_STORE,
-	DEFAULT_CONTRACT_ADDRESS_STORE
-} from '$lib/utils/constants/storeDefaults';
-import { writable, type Writable } from 'svelte/store';
+import { chainStore } from '$lib/data-stores/chainProviderStore';
+import { derived } from 'svelte/store';
+import { environment } from '$lib/data-stores/environment';
 
-export const contractAddressStore: Writable<ContractAddress> = writable(
-	DEFAULT_CONTRACT_ADDRESS_STORE
-);
-export const contractAbiStore: Writable<ContractAbi> = writable(DEFAULT_CONTRACT_ABI_STORE);
+/**
+ * store containing contract addresses of almost all the contracts used in the app
+ */
+export const contractAddressStore = derived([chainStore], ([$chainStore]) => {
+	const isChainValid =
+		$chainStore.chainId !== null && environment.valid_chains[$chainStore.chainId];
+	return isChainValid
+		? environment.valid_chains[$chainStore.chainId as number].contract_addresses
+		: environment.valid_chains[environment.default_chain_id].contract_addresses;
+});

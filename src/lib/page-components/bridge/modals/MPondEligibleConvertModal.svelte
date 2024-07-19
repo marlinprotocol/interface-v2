@@ -1,41 +1,29 @@
 <script lang="ts">
 	import Modal from '$lib/atoms/modals/Modal.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
-	import { BigNumberZero, mPondPrecisions } from '$lib/utils/constants/constants';
-	import {
-		bigNumberToCommaString,
-		bigNumberToString,
-		stringToBigNumber
-	} from '$lib/utils/conversion';
+	import { DEFAULT_CURRENCY_DECIMALS, MPOND_PRECISIONS } from '$lib/utils/constants/constants';
+	import { bigNumberToString, stringToBigNumber } from '$lib/utils/helpers/conversionHelper';
 	import {
 		closeModal,
 		inputAmountInValidMessage,
 		isInputAmountValid
 	} from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
-	import MPondApproveConfirmModal from './MPondApproveConfirmModal.svelte';
+	import MPondApproveConfirmModal from '$lib/page-components/bridge/modals/MPondApproveConfirmModal.svelte';
+	import { removeTrailingZeros } from '$lib/utils/helpers/commonHelper';
 
 	export let modalFor: string;
-	export let maxAmount: BigNumber;
-	export let requestEpoch: BigNumber;
+	export let maxAmount: bigint;
+	export let requestEpoch: bigint;
 	export let rowIndex: number;
-	export let handleOnSuccess: (convertedMPond: BigNumber, txnHash: string) => void;
-
-	$: balanceText = `Eligible Balance: ${bigNumberToCommaString(maxAmount, mPondPrecisions)}`;
+	export let handleOnSuccess: (convertedMPond: bigint, txnHash: string) => void;
 
 	//initial amount states
-	let inputAmount: BigNumber;
+	let inputAmount: bigint;
 	let inputAmountString: string;
 	let modalForMPondApproveConfirm = 'mpond-approve-confirm-modal';
-
-	$: inputAmount = isInputAmountValid(inputAmountString)
-		? stringToBigNumber(inputAmountString)
-		: BigNumberZero;
-
 	//input amount states
 	let inputAmountIsValid = true;
 	let updatedAmountInputDirty = false;
@@ -49,14 +37,9 @@
 		inValidMessage = inputAmountInValidMessage(target.value);
 	};
 
-	$: mPondDisabledText =
-		inputAmount && inputAmount.gt(maxAmount) ? 'Insufficient Eligible MPond Amount' : '';
-	$: submitEnable = inputAmount && inputAmount.gt(0) && maxAmount?.gte(inputAmount);
-	$: modalIdWithRowIndex = `${modalForMPondApproveConfirm}-${rowIndex}`;
-
 	const handleMaxClick = () => {
 		if (maxAmount) {
-			inputAmountString = bigNumberToString(maxAmount);
+			inputAmountString = removeTrailingZeros(bigNumberToString(maxAmount, 18, 18));
 			//reset input error message
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
@@ -77,21 +60,30 @@
 		closeModal(modalFor);
 		closeModal(modalIdWithRowIndex);
 	};
+
+	$: balanceText = `Eligible Balance: ${bigNumberToString(
+		maxAmount,
+		DEFAULT_CURRENCY_DECIMALS,
+		MPOND_PRECISIONS
+	)}`;
+	$: inputAmount = isInputAmountValid(inputAmountString)
+		? stringToBigNumber(inputAmountString)
+		: 0n;
+	$: mPondDisabledText = inputAmount && inputAmount > maxAmount ? 'Insufficient balance' : '';
+	$: submitEnable = inputAmount && inputAmount > 0 && maxAmount >= inputAmount;
+	$: modalIdWithRowIndex = `${modalForMPondApproveConfirm}-${rowIndex}`;
 </script>
 
 <Modal {modalFor} onClose={resetInputs}>
-	<svelte:fragment slot="title">
-		{'Enter an amount'}
-	</svelte:fragment>
+	<svelte:fragment slot="title">Enter an amount</svelte:fragment>
 	<svelte:fragment slot="content">
 		<AmountInputWithMaxButton
-			title="From"
+			currency="MPond"
 			bind:inputAmountString
 			{handleUpdatedAmount}
 			maxAmountText={balanceText}
-			inputCardVariant={'none'}
+			inputCardVariant="none"
 		>
-			<Text slot="input-end-button" text="MPond" fontWeight="font-medium" />
 			<MaxButton slot="inputMaxButton" onclick={handleMaxClick} />
 		</AmountInputWithMaxButton>
 		<ErrorTextCard
@@ -106,14 +98,16 @@
 			disabled={!submitEnable}
 			styleClass="h-14 btn-block"
 		>
-			PROCEED TO CONVERSION
+			Proceed to conversion
 		</ModalButton>
 	</svelte:fragment>
 </Modal>
+
 <MPondApproveConfirmModal
 	modalFor={modalIdWithRowIndex}
 	{requestEpoch}
 	mpondToConvert={inputAmount}
 	modalToClose={modalFor}
 	handleOnSuccess={onSuccess}
+	{rowIndex}
 />

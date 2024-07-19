@@ -1,29 +1,14 @@
 <script lang="ts">
 	import type { InputCardVariant } from '$lib/types/componentTypes';
+	import { cn } from '$lib/utils/helpers/commonHelper';
+	import { getInputCardVariant } from '$lib/utils/helpers/componentHelper';
 
 	export let styleClass = '';
-	export let variant: InputCardVariant = 'primary';
-	const cardStyle = 'rounded-lg w-full';
+	export let variant: InputCardVariant | undefined = 'primary';
 
-	const getClassFromVariant = () => {
-		switch (variant) {
-			case 'primary':
-				return 'bg-base-200 p-4';
-
-			case 'warning':
-				return 'bg-red-100 px-4 py-1';
-
-			case 'none':
-				return '';
-
-			default:
-				return 'bg-base-200 p-4';
-		}
-	};
-
-	const variantClass = getClassFromVariant();
+	$: variantClass = getInputCardVariant(variant);
 </script>
 
-<div class={`${cardStyle} ${styleClass} ${variantClass}`}>
+<div data-testid="input-card" class={cn('w-full rounded-lg', variantClass, styleClass)}>
 	<slot />
 </div>

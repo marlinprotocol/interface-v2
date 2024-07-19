@@ -1,54 +1,83 @@
 <script lang="ts">
 	import Modal from '$lib/atoms/modals/Modal.svelte';
-	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
-	import TxnHashText from '$lib/components/TxnHashText.svelte';
+	import TxnHashText from '$lib/components/texts/TxnHashText.svelte';
+	import Pagination from '$lib/components/pagination/Pagination.svelte';
+	import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
 	import type { MPondToPondHistoryDataModel } from '$lib/types/bridgeComponentType';
-	import { kMPondConversionHistoryTableHeader } from '$lib/utils/constants/bridgeConstants';
-	import { pondPrecisions } from '$lib/utils/constants/constants';
-	import { bigNumberToCommaString, epochSecToString, mPondToPond } from '$lib/utils/conversion';
-	import { bridgeTxnUrls } from '$lib/utils/helpers/bridgeHelpers';
-
-	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];
+	import { MPOND_CONVERSION_HISTORY_TABLE_HEADER } from '$lib/utils/constants/bridgeConstants';
+	import {
+		DEFAULT_CURRENCY_DECIMALS,
+		POND_PRECISIONS,
+		TABLE_ITEMS_PER_PAGE
+	} from '$lib/utils/constants/constants';
+	import { cn, doNothing, getTxnUrl } from '$lib/utils/helpers/commonHelper';
+	import {
+		bigNumberToString,
+		epochSecToString,
+		mPondToPond
+	} from '$lib/utils/helpers/conversionHelper';
+	import OysterTableCommon from '../../oyster/inventory/OysterTableCommon.svelte';
+	import { tableClasses } from '$lib/atoms/componentClasses';
+	import { staticImages } from '$lib/components/images/staticImages';
 
 	export let modalFor: string;
+	export let conversions: MPondToPondHistoryDataModel['conversionHistory'];
+
+	let activePage = 1;
+
+	const handlePageChange = (page: number) => {
+		activePage = page;
+	};
+
+	const handleSortData = () => {
+		doNothing();
+	};
+
+	// get page array based on inventory and itemsPerPage
+	$: pageCount = Math.ceil((conversions?.length ?? 0) / TABLE_ITEMS_PER_PAGE);
+	// get paginated data based on activePage
+	$: paginatedData = conversions?.slice(
+		(activePage - 1) * TABLE_ITEMS_PER_PAGE,
+		activePage * TABLE_ITEMS_PER_PAGE
+	);
 </script>
 
-<Modal {modalFor}>
-	<svelte:fragment slot="title">
-		{'Conversion History'}
-	</svelte:fragment>
+<Modal {modalFor} isScrollable>
+	<svelte:fragment slot="title">Conversion History</svelte:fragment>
 	<svelte:fragment slot="content">
-		<div class="flex flex-row w-full">
-			{#each kMPondConversionHistoryTableHeader as headingData, i}
-				<div class="flex-1">
-					<TableHeadingText
-						styleClass="mb-8"
-						title={headingData.title}
-						tooltipText={headingData.tooltipText}
-						tooltipDirection={i === kMPondConversionHistoryTableHeader.length - 1
-							? 'tooltip-left'
-							: i === 0
-							? 'tooltip-right'
-							: 'tooltip-bottom'}
-					/>
-				</div>
-			{/each}
-		</div>
-		{#each conversions as rowData}
-			<div class="flex flex-row gap-4 items-center justify-center mb-6 font-semibold">
-				<div class="flex-1">
-					{epochSecToString(rowData?.timestamp)}
-				</div>
-				<div class="flex-1">
-					{bigNumberToCommaString(mPondToPond(rowData?.mpondToConvert), pondPrecisions)}
-				</div>
-				<div class="flex-1">
-					<TxnHashText
-						txnHash={rowData.transactionHash}
-						txnHashUrl={bridgeTxnUrls(rowData.transactionHash)}
-					/>
-				</div>
-			</div>
-		{/each}
+		<OysterTableCommon
+			{handleSortData}
+			tableHeading={MPOND_CONVERSION_HISTORY_TABLE_HEADER}
+			noDataFound={paginatedData?.length ? false : true}
+			emptyTableMessage="You do not have any conversions."
+		>
+			{#if paginatedData?.length}
+				{#each paginatedData as rowData (rowData.id)}
+					<tr class="group h-[64px] hover:bg-base-200">
+						<td class={tableClasses.cell}
+							><div class="flex items-center gap-2 pl-4">
+								{epochSecToString(rowData?.timestamp)}
+								<a
+									class="shrink-0 cursor-pointer opacity-0 group-hover:opacity-100"
+									href={getTxnUrl($chainConfigStore.block_explorer_url, rowData.transactionHash)}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<img src={staticImages.externalLinkIcon} alt="txn link" width="18px" />
+								</a>
+							</div></td
+						>
+						<td class={tableClasses.cell}
+							>{bigNumberToString(
+								mPondToPond(rowData?.mpondToConvert),
+								DEFAULT_CURRENCY_DECIMALS,
+								POND_PRECISIONS
+							)}</td
+						>
+					</tr>
+				{/each}
+			{/if}
+		</OysterTableCommon>
+		<Pagination {pageCount} {activePage} {handlePageChange} />
 	</svelte:fragment>
 </Modal>

@@ -1,88 +1,64 @@
 <script lang="ts">
 	import InputCard from '$lib/atoms/cards/InputCard.svelte';
-	import { dividerClasses } from '$lib/atoms/componentClasses';
 	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import Text from '$lib/atoms/texts/Text.svelte';
-	import TooltipIcon from '$lib/atoms/tooltips/TooltipIcon.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { InputCardVariant, ModalInputModel } from '$lib/types/componentTypes';
-
-	export let title: ModalInputModel['title'];
-	export let tooltipText: ModalInputModel['tooltipText'] = '';
+	import AmountInput from '$lib/components/inputs/AmountInput.svelte';
+	import Tooltip from '$lib/atoms/tooltips/Tooltip.svelte';
 	export let inputAmountString = '';
-	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance';
+	export let maxAmountText: ModalInputModel['maxAmountText'] = 'Balance: 0.00';
 	export let maxAmountTooltipText: ModalInputModel['maxAmountTooltipText'] = '';
 	export let handleUpdatedAmount: any = undefined;
 	export let inputCardVariant: InputCardVariant = 'primary';
-
-	const styles = {
-		titleIcon: 'flex items-center gap-1',
-		inputNumber: 'input input-ghost input-primary p-0 ml-0.5 placeholder:text-primary/[.2]'
-	};
+	export let currency = '';
+	export let showBalance: boolean = true;
+	export let onlyInteger: boolean = false;
+	export let disabled: boolean = false;
 </script>
 
-<InputCard variant={inputCardVariant}>
-	<div class={styles.titleIcon}>
-		<Text variant="small" text={title} />
-		{#if tooltipText}
-			<TooltipIcon
-				{tooltipText}
-				tooltipVariant="tooltip-secondary"
-				tooltipDirection="tooltip-right"
-			/>
-		{/if}
-	</div>
+<InputCard variant="primary">
 	<form>
-		<div class="flex items-center gap-2">
-			<input
-				disabled={!handleUpdatedAmount || !$connected}
+		<div class="flex items-center justify-between gap-2">
+			<AmountInput
 				bind:value={inputAmountString}
-				on:input={handleUpdatedAmount}
-				id="pond-input-amount"
-				class={`hideInputNumberAppearance ${styles.inputNumber}`}
-				placeholder="0.00"
-				autocomplete="off"
-				on:keydown={(e) => {
-					// user can only enter numbers and one decimal point
-					if (
-						(e.key >= '0' && e.key <= '9') ||
-						(e.key == '.' && !inputAmountString.includes('.')) ||
-						e.key == 'Backspace' ||
-						e.key == 'Delete'
-					) {
-						return true;
-					} else {
-						e.preventDefault();
-					}
-				}}
+				onChange={handleUpdatedAmount}
+				styleClass="input input-ghost input-primary text-3xl  placeholder:text-grey-800/[.2]"
+				disabled={!handleUpdatedAmount || !$connected || disabled}
+				{onlyInteger}
 			/>
-			<slot name="input-end-button" />
+			{#if currency !== ''}
+				<span class="text-[22px] font-medium">{currency}</span>
+			{/if}
 		</div>
 		{#if inputCardVariant !== 'none'}
 			<Divider />
 		{/if}
-		{#if $$slots.inputMaxButton}
-			<div class="flex items-center gap-2">
-				<slot name="inputMaxButton" />
-				<div class={dividerClasses.vertical} />
-				<div class="flex gap-1">
+		{#if showBalance}
+			<div class="mt-[-10px] flex items-center justify-end gap-2">
+				<div class="flex h-8 items-center gap-1">
 					<Text
-						variant="small"
-						styleClass="text-gray-400"
-						fontWeight="font-normal"
 						text={maxAmountText}
+						variant="small"
+						styleClass="text-[#657183]"
+						fontWeight="font-normal"
 					/>
 					{#if maxAmountTooltipText}
-						<TooltipIcon
-							iconSrc={'/images/alert.svg'}
-							iconWidth={16}
-							tooltipText={maxAmountTooltipText}
-							tooltipVariant="tooltip-secondary"
-							tooltipDirection="tooltip-bottom"
-						/>
+						<Tooltip>
+							<span slot="tooltipContent" class="text-sm leading-[18px]"
+								>{maxAmountTooltipText}</span
+							>
+						</Tooltip>
 					{/if}
 				</div>
+				{#if $$slots.inputMaxButton}
+					<Divider direction="divider-vertical" />
+					<slot name="inputMaxButton" />
+				{/if}
 			</div>
+		{:else}
+			<!-- this is added so that when balance is not being shown the height of the component remains consistent with the one that shows balance -->
+			<div aria-disabled="true" class="h-[22px]"></div>
 		{/if}
 	</form>
 </InputCard>

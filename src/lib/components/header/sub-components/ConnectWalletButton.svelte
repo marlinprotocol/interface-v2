@@ -1,33 +1,41 @@
 <script lang="ts">
-	import { buttonClasses } from '$lib/atoms/componentClasses';
-	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import { walletStore } from '$lib/data-stores/walletProviderStore';
-	import ConnectWalletModal from './ConnectWalletModal.svelte';
+	import Button from '$lib/atoms/buttons/Button.svelte';
+	import lock from 'svelte-awesome/icons/lock';
+	import Icon from '$lib/atoms/icons/Icon.svelte';
+	import onboard from '$lib/controllers/web3OnboardController';
+	import ChainSwitcher from '$lib/components/header/sub-components/ChainSwitcher.svelte';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
+	export let styleClass = '';
 	export let isLarge = false;
-	let modalFor = 'connect-wallet-modal';
-	const connectWalletStyles = 'flex gap-[10.3px] ';
+	export let connectButtonText = 'Connect Wallet';
+	export let chainDomId: string = '';
 
-	// do not remove this line
-	$: provider = $walletStore.provider;
+	const connect = async () => {
+		console.log('connecting to the wallet...');
+		const connection = await onboard.connectWallet();
+		console.log('connection', connection);
+	};
 </script>
 
 {#if isLarge}
-	<ModalButton
-		{modalFor}
-		styleClass={`${buttonClasses.filled} ${connectWalletStyles} w-full h-14 text-base font-semibold`}
+	<Button
+		onclick={connect}
+		styleClass={cn('flex gap-[10.3px] w-full h-14 text-base font-semibold', styleClass)}
 	>
-		<img src="/images/lockicon.svg" alt="Connect" />
+		<Icon data={lock} size={20} iconColorClass="icon-white" />
 		Connect Wallet
-	</ModalButton>
+	</Button>
 {:else}
-	<ModalButton
-		{modalFor}
-		size="small"
-		styleClass={`${buttonClasses.outlined} ${connectWalletStyles} w-fit text-sm h-11 `}
-	>
-		Connect Wallet
-	</ModalButton>
+	<div data-testid="connect-wallet-button" class={cn('flex items-center gap-2', styleClass)}>
+		<ChainSwitcher id={chainDomId} />
+		<Button
+			onclick={connect}
+			size="small"
+			variant="outlined"
+			styleClass="flex gap-[10.3px] w-fit text-sm h-12 flex items-center cnt-btn"
+		>
+			{connectButtonText}
+		</Button>
+	</div>
 {/if}
-
-<ConnectWalletModal {modalFor} />

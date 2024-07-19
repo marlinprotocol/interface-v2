@@ -1,37 +1,40 @@
 <script lang="ts">
 	import TableHeadingText from '$lib/components/texts/TableHeadingText.svelte';
 	import type { TableModel } from '$lib/types/componentTypes';
-	import { tableCellClasses } from '../componentClasses';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let tableHeading: TableModel['header'][];
 	export let styleClass = '';
 	export let headingStyleClass = '';
-	export let handleSortData: (() => void) | undefined = undefined;
+	export let handleSortData: ((id: string) => void) | undefined = undefined;
+	export let iconWidth = '16px';
+	export let roundedBorders: boolean = true;
 </script>
 
-<div class="overflow-x-auto overflow-y-hidden">
-	<table class={styleClass}>
-		<thead>
+<div data-testid="table-container" class={styleClass}>
+	<table class="w-full rounded-[18px] text-center">
+		<thead class="w-full">
 			<tr>
 				{#each tableHeading as columnHeading, i}
-					<th class={`w-[${100 / tableHeading.length}%] ${tableCellClasses.heading}`}>
-						<div class="flex justify-center items-center gap-0.5">
-							{#if columnHeading.sorting}
-								<button on:click={handleSortData}>
-									<img src="/images/sort.svg" alt="sort" width="14px" />
-								</button>
-							{/if}
-							<TableHeadingText
-								styleClass={headingStyleClass}
-								title={columnHeading.title}
-								tooltipText={columnHeading.tooltipText}
-								tooltipDirection={i === tableHeading.length - 1
-									? 'tooltip-left'
-									: i === 0
-									? 'tooltip-right'
-									: 'tooltip-bottom'}
-							/>
-						</div>
+					<th
+						class={cn(
+							'bg-white-200 py-[26px] first:rounded-tl-[18px] last:rounded-tr-[18px]',
+							headingStyleClass,
+							{
+								'first:rounded-tl-none': !roundedBorders
+							}
+						)}
+					>
+						<TableHeadingText
+							styleClass={cn({
+								'ml-4': i === 0,
+								'text-center': i !== 0
+							})}
+							heading={columnHeading}
+							placement={i > tableHeading.length - 3 ? 'left' : i === 0 ? 'right' : 'bottom'}
+							{handleSortData}
+							{iconWidth}
+						/>
 					</th>
 				{/each}
 			</tr>
@@ -39,14 +42,3 @@
 		<slot name="tableBody" />
 	</table>
 </div>
-
-<style>
-	table {
-		width: 100%;
-		text-align: center;
-	}
-
-	thead {
-		width: 100%;
-	}
-</style>

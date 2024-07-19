@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { tableCellClasses } from '$lib/atoms/componentClasses';
-	import LoadingCircular from '$lib/atoms/loading/LoadingCircular.svelte';
+	import { tableClasses } from '$lib/atoms/componentClasses';
 	import Table from '$lib/atoms/table/Table.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
-	import HeaderConnectWallet from '$lib/components/header/sub-components/HeaderConnectWallet.svelte';
+	import LoadingAnimatedPing from '$lib/components/loading/LoadingAnimatedPing.svelte';
+	import PageTitle from '$lib/components/texts/PageTitle.svelte';
 	import { connected } from '$lib/data-stores/walletProviderStore';
 	import type { TableModel } from '$lib/types/componentTypes';
-	import HistoryBackButton from '../sub-components/HistoryBackButton.svelte';
-
+	import { staticImages } from '$lib/components/images/staticImages';
+	import { cn } from '$lib/utils/helpers/commonHelper';
+	import NetworkPrompt from '$lib/components/prompts/NetworkPrompt.svelte';
+	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
 	export let tableTitle: {
 		backButton: {
 			firstText: string;
@@ -17,30 +18,56 @@
 		title: string;
 	};
 	export let loading: boolean;
-	export let handleSortData: () => void;
+	export let handleSortData: ((id: string) => void) | undefined = undefined;
 	export let noDataFound: boolean;
 	export let tableHeading: TableModel['header'][];
 	export let fullWidth = true;
+	export let type: 'pond-to-mpond' | 'mpond-to-pond' = 'mpond-to-pond';
+	const isPondToMPond = type === 'pond-to-mpond';
 </script>
 
-<HistoryBackButton
-	firstText={tableTitle.backButton.firstText}
-	secondText={tableTitle.backButton.secondText}
-	href={tableTitle.backButton.href}
-/>
-<Text variant="h2" text={tableTitle.title} styleClass="mt-3 mb-8" />
+<div class="mb-8 flex items-center gap-4">
+	<a
+		class="flex h-[56px] w-[56px] items-center justify-center rounded-full border border-grey-100 bg-base-100"
+		href={tableTitle.backButton.href}
+	>
+		<img src={staticImages.backIcon} alt="Back Icon" class="icon-invert" />
+	</a>
+	<PageTitle wrapperClass="mb-0" title={tableTitle.title} />
+	<a
+		class="group flex h-[56px] w-[56px] items-center justify-center rounded-full border border-grey-100 bg-base-100"
+		href={isPondToMPond ? '/bridge/mPondToPondHistory/' : '/bridge/pondToMPondHistory/'}
+	>
+		<img
+			class="icon-invert w-[24px] rotate-0 transform transition-transform duration-200 group-hover:rotate-180"
+			src={staticImages.dataTransferIcon}
+			alt="Conversion"
+		/>
+	</a>
+</div>
 <div
-	class={`card ${
+	class={cn(
+		'card rounded-[18px] bg-base-100',
 		fullWidth ? 'max-w-full' : 'sm:max-w-full md:max-w-[66.66%]'
-	} bg-base-100 rounded-lg px-8 py-6`}
+	)}
 >
 	{#if !$connected}
-		<div class={`text-center flex justify-center my-4`}>
-			<HeaderConnectWallet />
+		<div class="my-4 flex justify-center text-center">
+			<NetworkPrompt
+				showIcon={false}
+				description="Switch to the appropriate network and connect your wallet to get started"
+				variant="white"
+			>
+				<ConnectWalletButton
+					chainDomId="history-table-chain-switcher-dropdown"
+					slot="cta"
+					styleClass="bg-white h-fit mt-4 px-8 py-4 rounded-2xl"
+				/>
+			</NetworkPrompt>
 		</div>
 	{:else if loading}
-		<div class={'text-center flex justify-center my-4'}>
-			<LoadingCircular />
+		<div class="my-4 flex justify-center text-center">
+			<LoadingAnimatedPing />
 		</div>
 	{:else}
 		<Table {tableHeading} {handleSortData}>
@@ -49,9 +76,7 @@
 			</tbody>
 		</Table>
 		{#if noDataFound}
-			<div class={tableCellClasses.empty}>
-				{'No data found!'}
-			</div>
+			<div class={tableClasses.empty}>No data found!</div>
 		{/if}
 	{/if}
 </div>

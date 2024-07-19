@@ -3,31 +3,38 @@ import type {
 	ChainStore,
 	ContractAbi,
 	ContractAddress,
+	KalypsoStore,
+	OysterStore,
+	ReceiverRewardsStore,
 	ReceiverStakingData,
-	WalletBalance,
+	WalletBalanceStore,
 	WalletStore
 } from '$lib/types/storeTypes';
-import { BigNumberZero, WALLET_TYPE } from './constants';
+
+import { environment } from '$lib/data-stores/environment';
+import { ethers } from 'ethers';
 
 // walletProviderStore
 export const DEFAULT_WALLET_STORE: WalletStore = {
-	walletType: WALLET_TYPE.metamask,
 	provider: undefined,
 	signer: undefined,
 	address: ''
 };
 
 // walletBalanceStore
-export const DEFAULT_WALLET_BALANCE: WalletBalance = {
-	pond: BigNumberZero,
-	mPond: BigNumberZero
+export const DEFAULT_WALLET_BALANCE_STORE: WalletBalanceStore = {
+	pond: 0n,
+	mpond: 0n,
+	usdc: 0n,
+	mock: 0n
 };
 
 // chainProviderStore
 export const DEFAULT_CHAIN_STORE: ChainStore = {
-	chainId: null,
-	chainName: '',
-	chainDisplayName: '',
+	chainId: environment.default_chain_id,
+	chainName: environment.valid_chains[environment.default_chain_id].chain_name,
+	chainDisplayName: environment.valid_chains[environment.default_chain_id].chain_name,
+	chainImage: environment.valid_chains[environment.default_chain_id].chain_image,
 	isValidChain: true
 };
 
@@ -45,22 +52,26 @@ export const DEFAULT_CONTRACT_ABI_STORE: ContractAbi = {
 
 // addressStore
 export const DEFAULT_CONTRACT_ADDRESS_STORE: ContractAddress = {
-	StakeManager: '',
-	RewardDelegators: '',
-	ClusterRegistry: '',
-	ClusterRewards: '',
-	ReceiverStaking: '',
-	EpochSelector: {},
-	Bridge: '',
-	tokens: {}
+	STAKE_MANAGER: '',
+	REWARD_DELEGATORS: '',
+	CLUSTER_REGISTRY: '',
+	CLUSTER_REWARDS: '',
+	RECEIVER_STAKING: '',
+	BRIDGE: '',
+	OYSTER: '',
+	POND: '',
+	MPOND: '',
+	USDC: '',
+	OYSTER_CREDIT: '',
+	KALYPSO: ''
 };
 
 // receiver staked, queued data store
 export const DEFAULT_RECEIVER_STAKING_DATA: ReceiverStakingData = {
 	signer: '',
-	approvedBalance: BigNumberZero,
-	stakedBalance: BigNumberZero,
-	queuedBalance: BigNumberZero,
+	approvedBalance: 0n,
+	stakedBalance: 0n,
+	queuedBalance: 0n,
 	epochData: {
 		epochCycle: 0,
 		startTime: 0,
@@ -68,10 +79,70 @@ export const DEFAULT_RECEIVER_STAKING_DATA: ReceiverStakingData = {
 	}
 };
 
+// bridgeStore
 export const DEFAULT_BRIDGE_STORE: BridgeStore = {
 	allowances: {
-		pond: BigNumberZero,
-		mPond: BigNumberZero
+		pond: 0n,
+		mPond: 0n
 	},
-	requestedMPond: BigNumberZero
+	requestedMPond: 0n
+};
+
+// oysterStore
+export const DEFAULT_OYSTER_STORE: OysterStore = {
+	providerData: {
+		registered: false,
+		data: undefined
+	},
+	allMarketplaceData: [],
+	jobsData: [],
+	allowance: 0n,
+	merchantJobsData: [],
+	marketplaceLoaded: false,
+	oysterStoreLoaded: false,
+	merchantJobsLoaded: false,
+	providerDetailsLoaded: false,
+	credits: {
+		isWhitelisted: false,
+		balance: 0n
+	}
+};
+
+// receiverRewardsStore
+export const DEFAULT_RECEIVER_REWARDS_STORE: ReceiverRewardsStore = {
+	rewardPerEpoch: 0n,
+	rewardBalance: 0n,
+	amountApproved: 0n,
+	epochDuration: 0,
+	startTime: 0,
+	lastTicketIssuedEpoch: undefined
+};
+
+//kalypso store
+export const DEFAULT_KALYPSO_STORE: KalypsoStore = {
+	decreaseStake: {
+		initiated: false,
+		withdrawAmount: 0n,
+		endEpochTime: 0
+	},
+	decreaseDeclaredCompute: {
+		initiated: false,
+		compute: 0n,
+		endEpochTime: 0
+	},
+	approvedAmount: 0n,
+	registered: false,
+	stakingDetails: {
+		rewardsAddress: ethers.ZeroAddress,
+		stakedAmount: 0n,
+		declaredCompute: 0n,
+		generatorData: ethers.ZeroHash,
+		sumOfComputeAllocations: 0n
+	},
+	blockMetadata: {
+		blockMineTime: 0,
+		numberOfBlocksToWait: 0
+	},
+	activeStakeTab: 'add',
+	activeComputeTab: 'increase'
 };

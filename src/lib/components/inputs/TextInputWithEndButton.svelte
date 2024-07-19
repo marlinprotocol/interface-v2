@@ -1,28 +1,37 @@
 <script lang="ts">
-	import InputCardWithEndButton from './InputCardWithEndButton.svelte';
+	import { inputClasses } from '$lib/atoms/componentClasses';
+	import InputCardWithEndButton from '$lib/components/inputs/InputCardWithEndButton.svelte';
+	import { cn } from '$lib/utils/helpers/commonHelper';
 
-	export let styleClass: string = '';
-	export let tooltipText: string = '';
-	export let title: string;
-	export let placeholder: string = '';
-
+	export let styleClass = '';
+	export let title = '';
+	export let placeholder = '';
+	export let disabled = false;
 	export let input: string;
-
-	const styles = {
-		titleIcon: 'flex items-center gap-1',
-		inputNumber:
-			'input input-ghost h-[30px] w-full mt-1 p-0 font-semibold text-xl disabled:text-primary disabled:placeholder:text-primary/[.3] focus-within:text-primary placeholder:text-primary/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent'
-	};
+	export let id: string = '';
+	export let label: string = '';
+	export let showTitle: boolean = false;
+	export let labelTooltip: string = '';
 </script>
 
-<InputCardWithEndButton {styleClass} {tooltipText} {title}>
+<InputCardWithEndButton
+	{showTitle}
+	{label}
+	variant="v2Input"
+	{title}
+	tooltipText={labelTooltip}
+	styleClass={cn(styleClass, 'relative')}
+>
 	<input
+		id={'address-display' + id}
 		bind:value={input}
-		id="address-display"
-		class={`hideInputNumberAppearance ${styles.inputNumber}`}
+		class={cn(inputClasses.inputText, 'hideInputNumberAppearance')}
 		{placeholder}
-		disabled={true}
+		{disabled}
 	/>
+	<svelte:fragment slot="endInfoBox">
+		<slot name="endInfoBox" />
+	</svelte:fragment>
 	<svelte:fragment slot="titleEndButton">
 		<slot name="titleEndButton" />
 	</svelte:fragment>

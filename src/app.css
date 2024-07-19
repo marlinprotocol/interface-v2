@@ -12,3 +12,72 @@
 	-moz-appearance: textfield;
 	/* Firefox */
 }
+
+
+
+/* WebKit-based browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #d9dade;
+	border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #d9dade;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb:active {
+	background: #d9dade;
+}
+
+/* Firefox */
+/* For Firefox 64 and later versions */
+/* Note: Firefox doesn't support border-radius for scrollbar-thumb */
+.scrollbar {
+	scrollbar-width: thin;
+	scrollbar-color: #d9dade #f4f4f6;
+}
+
+.scrollbar:hover {
+	scrollbar-color: #d9dade #d9dade;
+}
+
+.scrollbar:active {
+	scrollbar-color: #d9dade #f4f4f6;
+}
+
+/* Internet Explorer */
+/* For Internet Explorer 11 */
+* {
+	scrollbar-face-color: #d9dade;
+	scrollbar-track-color: transparent;
+	scrollbar-arrow-color: #d9dade;
+}
+
+.h-dvh {
+	height: 100dvh;
+}
+
+/* Change Autocomplete styles in Chrome*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+	/* border: 1px solid green; */
+	/* -webkit-text-fill-color: green; */
+	-webkit-box-shadow: 0 0 0px 1000px #fff inset;
+	transition: background-color 5000s ease-in-out 0s;
+}

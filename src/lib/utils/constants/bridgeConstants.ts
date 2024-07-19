@@ -1,94 +1,64 @@
 import type { TableModel } from '$lib/types/componentTypes';
 
-export const kBridgeLearnMoreDocLink = 'https://docs.marlin.org/docs/Learn/Bridges/';
-export const kPondHistoryPage = '/bridge/pondToMPondHistory';
-export const kMPondHistoryPage = '/bridge/mPondToPondHistory';
-
-export const kPondToMPondTableHeader: TableModel['header'][] = [
+export const POND_TO_MPOND_TABLE_HEADER: TableModel['header'][] = [
 	{
-		title: 'DATE',
+		title: 'Date',
 		id: 'date',
 		sorting: true
 	},
 	{
 		title: 'POND',
 		id: 'pond',
-		tooltipText: 'The amount of POND which was placed for conversion to MPond.'
+		tooltipText: 'The amount of POND which was placed for conversion to MPond.',
+		centered: true
 	},
 	{
 		title: 'MPond',
 		id: 'mPond',
 		tooltipText:
-			'The corresponding amount of MPond received as a result of the conversion from POND. Note: 1 Million POND equals 1 MPond.'
-	},
-	{
-		title: 'TX HASH',
-		id: 'txnHash',
-		tooltipText: 'Transaction hash of the conversion from POND to MPond.'
+			'The corresponding amount of MPond received as a result of the conversion from POND. Note: 1 Million POND equals 1 MPond.',
+		centered: true
 	}
 ];
 
-export const kMPondToPondTableHeader: TableModel['header'][] = [
+export const MPOND_TO_POND_TABLE_HEADER: TableModel['header'][] = [
 	{
-		title: 'DATE',
+		title: 'Date',
 		id: 'date',
 		sorting: true
 	},
 	{
-		title: 'TX HASH',
-		id: 'txnHash',
-		tooltipText: 'Transaction hash of the conversion request from MPond to POND.'
-	},
-	{
-		title: 'MPond',
-		id: 'mPond',
-		tooltipText: 'The amount of MPond that was placed for conversion to POND.'
-	},
-	{
-		title: 'TOTAL POND',
+		title: 'POND',
 		id: 'pond',
+		centered: true,
 		tooltipText:
 			'The total amount of POND to be received as a result of the conversion from MPond. Note: 1 MPond equals 1 Million POND.'
 	},
 	{
-		title: 'PENDING',
-		id: 'pending',
-		tooltipText: 'The amount of POND that is currently locked and pending conversion.'
+		title: 'MPond',
+		id: 'mPond',
+		centered: true,
+		tooltipText: 'The amount of MPond that was placed for conversion to POND.'
 	},
 	{
-		title: 'IN PROCESS',
-		id: 'process',
-		tooltipText: 'The amount of POND in process for conversion.'
-	},
-	{
-		title: 'ELIGIBLE',
-		id: 'eligible',
-		tooltipText: 'The amount of POND eligible for conversion.'
-	},
-	{
-		title: '',
-		id: 'convert'
+		title: 'Actions',
+		centered: true,
+		id: 'actions'
 	}
 ];
 
-export const kMPondConversionHistoryTableHeader: TableModel['header'][] = [
+export const MPOND_CONVERSION_HISTORY_TABLE_HEADER: TableModel['header'][] = [
 	{
-		title: 'DATE',
+		title: 'Date',
 		id: 'date'
 	},
 	{
-		title: 'CONVERTED',
-		id: 'pond',
-		tooltipText: 'The amount of POND converted.'
-	},
-	{
-		title: 'TX HASH',
-		id: 'txnHash',
-		tooltipText: 'The transaction hash of the conversion.'
+		title: 'Converted',
+		id: 'pond'
 	}
 ];
 
-export const kMPondConversionCycleTableHeader: TableModel['header'][] = [
+export const MPOND_CONVERSION_CYCLE_TABLE_HEADER: TableModel['header'][] = [
 	{
 		title: 'ELIGIBLE / PENDING',
 		id: 'eligible',

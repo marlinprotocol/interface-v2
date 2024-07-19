@@ -1,62 +1,42 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
-	import Divider from '$lib/atoms/divider/Divider.svelte';
 	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
 	import MaxButton from '$lib/components/buttons/MaxButton.svelte';
 	import ErrorTextCard from '$lib/components/cards/ErrorTextCard.svelte';
 	import ConnectWalletButton from '$lib/components/header/sub-components/ConnectWalletButton.svelte';
-	import { connected, walletBalance } from '$lib/data-stores/walletProviderStore';
-	import { BigNumberZero, pondPrecisions } from '$lib/utils/constants/constants';
-	import { DEFAULT_WALLET_BALANCE } from '$lib/utils/constants/storeDefaults';
+	import { connected, walletBalanceStore } from '$lib/data-stores/walletProviderStore';
 	import {
-		bigNumberToCommaString,
+		DEFAULT_CURRENCY_DECIMALS,
+		MPOND_PRECISIONS,
+		POND_PRECISIONS
+	} from '$lib/utils/constants/constants';
+	import {
 		bigNumberToString,
 		pondToMPond,
 		stringToBigNumber
-	} from '$lib/utils/conversion';
+	} from '$lib/utils/helpers/conversionHelper';
 	import { inputAmountInValidMessage, isInputAmountValid } from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
-	import { onDestroy } from 'svelte';
-	import AmountInputWithMaxButton from '../../components/inputs/AmountInputWithMaxButton.svelte';
-	import PondApproveConfirmModal from './PondApproveConfirmModal.svelte';
+	import AmountInputWithMaxButton from '$lib/components/inputs/AmountInputWithMaxButton.svelte';
+	import PondApproveConfirmModal from '$lib/page-components/bridge/PondApproveConfirmModal.svelte';
+	import Tab from '$lib/atoms/tabs/Tab.svelte';
+	import ConversionHistoryButton from './sub-components/ConversionHistoryButton.svelte';
+	import { ROUTES } from '$lib/utils/constants/urls';
 
-	const styles = {
-		wrapper: 'w-full flex flex-col items-center justify-center py-8',
-		cardWrapper: 'w-full flex px-2 mb-2',
-		buttonLarge: 'h-14 text-base font-semibold flex gap-1 w-full'
-	};
-
+	export let activeTabValue = 'pond';
 	let modalFor = 'pond-approve-confirm-modal';
-
 	//initial amount states
-	let inputAmount: BigNumber;
+	let inputAmount: bigint;
 	let inputAmountString: string;
 	//input error states
 	let inputAmountIsValid = true;
 	let inValidMessage = '';
 	let updatedAmountInputDirty = false;
-
 	let convertedAmountString: string;
-
-	$: inputAmount = isInputAmountValid(inputAmountString)
-		? stringToBigNumber(inputAmountString)
-		: BigNumberZero;
-
-	// convert pond to mPond by dividing by 10^6
-	$: convertedAmountString = inputAmount.gt(0) ? bigNumberToString(pondToMPond(inputAmount)) : '';
-
-	let maxPondBalance: BigNumber = DEFAULT_WALLET_BALANCE.pond;
 	let balanceText = 'Balance: 0.00';
-	const unsubscribeWalletBalanceStore = walletBalance.subscribe((value) => {
-		maxPondBalance = value.pond;
-		balanceText = `Balance: ${bigNumberToCommaString(maxPondBalance, pondPrecisions)}`;
-	});
-	onDestroy(unsubscribeWalletBalanceStore);
 
 	const handleMaxClick = () => {
-		if (maxPondBalance) {
-			inputAmountString = bigNumberToString(maxPondBalance);
+		if ($walletBalanceStore.pond) {
+			inputAmountString = bigNumberToString($walletBalanceStore.pond, 18, POND_PRECISIONS, false);
 			inputAmountIsValid = true;
 			updatedAmountInputDirty = false;
 			inValidMessage = '';
@@ -70,45 +50,64 @@
 		inValidMessage = inputAmountInValidMessage(target.value);
 	};
 
+	$: inputAmount = isInputAmountValid(inputAmountString)
+		? stringToBigNumber(inputAmountString)
+		: 0n;
+	// convert pond to mPond by dividing by 10^6
+	$: convertedAmountString =
+		inputAmount > 0 ? bigNumberToString(pondToMPond(inputAmount), 18, MPOND_PRECISIONS) : '';
+	$: balanceText = `Balance: ${bigNumberToString(
+		$walletBalanceStore.pond,
+		DEFAULT_CURRENCY_DECIMALS,
+		POND_PRECISIONS
+	)}`;
+	$: mpondBalanceText = `Balance: ${bigNumberToString(
+		$walletBalanceStore.mpond,
+		DEFAULT_CURRENCY_DECIMALS,
+		MPOND_PRECISIONS
+	)}`;
 	$: pondDisabledText =
-		inputAmount && inputAmount.gt(0) && !maxPondBalance?.gte(inputAmount)
+		inputAmount && inputAmount > 0 && !($walletBalanceStore.pond >= inputAmount)
 			? 'Insufficient POND'
 			: '';
-	$: enableConversion = inputAmount && inputAmount.gt(0) && maxPondBalance?.gte(inputAmount);
+	$: enableConversion = inputAmount && inputAmount > 0 && $walletBalanceStore.pond >= inputAmount;
 </script>
 
-<div class="my-2 mx-2">
-	<AmountInputWithMaxButton
-		title="From"
-		bind:inputAmountString
-		{handleUpdatedAmount}
-		maxAmountText={balanceText}
-		inputCardVariant={'none'}
-	>
-		<Text slot="input-end-button" text="POND" fontWeight="font-medium" />
-		<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
-	</AmountInputWithMaxButton>
-	<ErrorTextCard
-		showError={!inputAmountIsValid && updatedAmountInputDirty}
-		errorMessage={inValidMessage}
-	/>
-	<ErrorTextCard showError={!!pondDisabledText} errorMessage={pondDisabledText} />
-	<Divider margin="mt-2 mb-3" />
-	<AmountInputWithMaxButton
-		title="To"
-		inputCardVariant={'none'}
-		inputAmountString={convertedAmountString}
-	>
-		<Text slot="input-end-button" text="MPond" fontWeight="font-medium" />
-	</AmountInputWithMaxButton>
-</div>
+<AmountInputWithMaxButton
+	currency="POND"
+	bind:inputAmountString
+	{handleUpdatedAmount}
+	maxAmountText={balanceText}
+	inputCardVariant="none"
+>
+	<MaxButton disabled={!$connected} slot="inputMaxButton" onclick={handleMaxClick} />
+</AmountInputWithMaxButton>
+<Tab id="pond" on:click={() => (activeTabValue = 'mPond')}>MPond</Tab>
+<AmountInputWithMaxButton
+	currency="MPond"
+	inputCardVariant="none"
+	inputAmountString={convertedAmountString}
+	maxAmountText={mpondBalanceText}
+></AmountInputWithMaxButton>
 {#if $connected}
 	{#if !enableConversion}
-		<Button styleClass={styles.buttonLarge} disabled>PROCEED TO CONVERSION</Button>
+		<Button styleClass="h-14 text-base font-medium flex gap-1 w-full mt-4" disabled
+			>Proceed to conversion</Button
+		>
 	{:else}
-		<ModalButton {modalFor} styleClass={`${styles.buttonLarge}`}>PROCEED TO CONVERSION</ModalButton>
+		<ModalButton {modalFor} styleClass="h-14 text-base font-medium flex gap-1 w-full mt-4"
+			>Proceed to conversion</ModalButton
+		>
 	{/if}
 {:else}
-	<ConnectWalletButton isLarge={true} />
+	<ConnectWalletButton styleClass="mt-4" isLarge={true} />
 {/if}
+<a class="mt-4 block" href={ROUTES.POND_HISTORY_PAGE_URL}>
+	<ConversionHistoryButton firstText="POND" secondText="MPond" />
+</a>
+<ErrorTextCard
+	showError={!inputAmountIsValid && updatedAmountInputDirty}
+	errorMessage={inValidMessage}
+/>
+<ErrorTextCard showError={!!pondDisabledText} errorMessage={pondDisabledText} />
 <PondApproveConfirmModal pond={inputAmount} {modalFor} />

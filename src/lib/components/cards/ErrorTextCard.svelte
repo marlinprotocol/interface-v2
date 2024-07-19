@@ -4,10 +4,11 @@
 
 	export let showError = false;
 	export let errorMessage = 'Error Message';
+	export let styleClass = 'mt-4';
 </script>
 
 {#if showError}
-	<InputCard variant="warning" styleClass="mt-4 bg-red-100">
-		<Text variant="small" styleClass="text-red-500 my-2" text={errorMessage} />
+	<InputCard variant="warning" {styleClass}>
+		<Text variant="small" styleClass="text-red-500 my-2 whitespace-normal" text={errorMessage} />
 	</InputCard>
 {/if}

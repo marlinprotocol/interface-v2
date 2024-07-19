@@ -1,19 +1,27 @@
 <script lang="ts">
-	import Toast from '$lib/atoms/toast/Toast.svelte';
+	// importing global level stores to initialise them
+	import { chainStore, chainConfigStore } from '$lib/data-stores/chainProviderStore';
+	import { environment } from '$lib/data-stores/environment';
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 	import Header from '$lib/components/header/Header.svelte';
-	import { getContractDetails } from '$lib/controllers/contractController';
-	import { restoreWalletConnection } from '$lib/data-stores/walletProviderStore';
-	import ENVIRONMENT from '$lib/environments/environment';
+	import Toast from '$lib/atoms/toast/Toast.svelte';
 	import { onMount } from 'svelte';
 	import '../app.css';
+	import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
+	import SmallScreenPrompt from '$lib/components/prompts/SmallScreenPrompt.svelte';
 
 	onMount(async () => {
 		// removes console logs in production
-		if (ENVIRONMENT.production) {
-			window.console.log = function () {};
+		if (environment.production) {
+			window.console.log = function () {
+				// do nothing
+			};
 		}
-		await getContractDetails();
-		restoreWalletConnection();
+		const theme = localStorage?.getItem('theme') || 'light';
+		localStorage.setItem('theme', theme);
+		const htmlElement = document.documentElement;
+		htmlElement.setAttribute('data-theme', theme);
 	});
 </script>
 
@@ -24,23 +32,25 @@
 		href="https://fonts.googleapis.com/css2?family=Orbitron&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,800&display=swap"
 		rel="stylesheet"
 	/>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+		rel="stylesheet"
+	/>
+	<title>Marlin Hub</title>
 </svelte:head>
 
-<main class="text-center w-full font-poppins">
+<main class="h-dvh flex w-full bg-grey-200 font-poppins">
+	<!-- toasts are removed from the normal document flow as it has position fixed   -->
 	<Toast />
-	<Header />
-	<slot />
+
+	<Sidebar />
+	<div class="flex h-full w-full flex-col">
+		<Header />
+		<div class="flex h-full w-full">
+			<slot />
+		</div>
+	</div>
 </main>
 
-<style>
-	main {
-		width: 82%;
-		margin: 0 auto;
-	}
-
-	@media (max-width: 1200px) {
-		main {
-			width: 90%;
-		}
-	}
-</style>
+<!-- This shows a prompt if the screen size is smaller than 1090px -->
+<SmallScreenPrompt />

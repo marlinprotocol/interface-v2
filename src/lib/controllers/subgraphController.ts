@@ -1,43 +1,58 @@
-import { contractAddressStore } from '$lib/data-stores/contractStore';
-import ENVIRONMENT from '$lib/environments/environment';
-import type { PondToMPondHistoryDataModel } from '$lib/types/bridgeComponentType';
 import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/storeTypes';
-import { BigNumberZero } from '$lib/utils/constants/constants';
 import {
+	DEFAULT_BRIDGE_STORE,
 	DEFAULT_RECEIVER_STAKING_DATA,
-	DEFAULT_WALLET_BALANCE
+	DEFAULT_WALLET_BALANCE_STORE
 } from '$lib/utils/constants/storeDefaults';
 import {
 	QUERY_TO_CHECK_IF_SIGNER_EXISTS,
+	QUERY_TO_CHECK_OYSTER_CREDIT_BALANCE,
+	QUERY_TO_GET_ALL_PROVIDERS_DATA,
+	QUERY_TO_GET_CREDIT_JOBS_DATA,
+	QUERY_TO_GET_JOBS_DATA,
+	QUERY_TO_GET_JOBS_DATA_BY_ID,
+	QUERY_TO_GET_MERCHANT_JOBS_DATA,
 	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY,
-	QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES,
+	QUERY_TO_GET_POND_AND_MPOND_ALLOWANCES,
 	QUERY_TO_GET_POND_BALANCE_QUERY,
 	QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY,
+	QUERY_TO_GET_PROVIDER_DATA,
 	QUERY_TO_GET_RECEIVER_POND_BALANCE,
+	QUERY_TO_GET_RECEIVER_REWARDS_DATA,
 	QUERY_TO_GET_RECEIVER_STAKING_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
-import { getModifiedMPondToPondHistory } from '$lib/utils/helpers/bridgeHelpers';
-import { getCurrentEpochCycle } from '$lib/utils/helpers/commonHelper';
+
+import type { ChainConfig } from '$lib/types/environmentTypes';
+import type { ProviderData } from '$lib/types/oysterComponentType';
+import { addToast } from '$lib/data-stores/toastStore';
+import { chainConfigStore } from '$lib/data-stores/chainProviderStore';
+import { contractAddressStore } from '$lib/data-stores/contractStore';
 import { fetchHttpData } from '$lib/utils/helpers/httpHelper';
-import { BigNumber } from 'ethers';
 
 let contractAddresses: ContractAddress;
+let chainConfig: ChainConfig;
 
 contractAddressStore.subscribe((value) => {
 	contractAddresses = value;
 });
-
+chainConfigStore.subscribe((value) => {
+	chainConfig = value;
+});
 /**
  * Generate HTTP request headers for querying subgraph
- * @param query graphQL query in stringified format
+ * @param query graphQL query in stringified format (shouuld be defined in constants/subgraphQueries.ts)
  * @param variable Object containing variables used in query
  * @returns HTTP request headers for subgraph
  */
 // disabling eslint for this as variables can be query specific
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function subgraphQueryWrapper(query: string, variables: Record<string, any>): RequestInit {
+export async function subgraphQueryWrapper(
+	url: string,
+	query: string,
+	variables: Record<string, any>
+) {
 	const options = {
 		method: 'POST',
 		body: JSON.stringify({
@@ -48,67 +63,108 @@ function subgraphQueryWrapper(query: string, variables: Record<string, any>): Re
 			'Content-Type': 'application/json'
 		}
 	};
-	return options;
+	const result = await fetchHttpData(url, options);
+	return result;
 }
 
 // ----------------------------- pond and mPond subgraph methods -----------------------------
-
 /**
  * Get POND balance from subgraph API.
  */
-export async function getPondBalance(address: Address): Promise<BigNumber> {
-	const url = ENVIRONMENT.public_pond_subgraph_url;
+export async function getPondBalanceFromSubgraph(address: Address): Promise<bigint> {
+	const url = chainConfig.subgraph_urls.POND;
+
 	const query = QUERY_TO_GET_POND_BALANCE_QUERY;
 	const queryVariables = { address: address.toLowerCase() };
 
-	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-
 	try {
-		const result = await fetchHttpData(url, options);
-		if (result['data'] && result['data']?.users?.length != 0)
-			return BigNumber.from(result['data']?.users[0]?.balance);
-		else return DEFAULT_WALLET_BALANCE.pond;
-	} catch (error) {
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+		const users = result['data']?.users;
+
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data'] && users?.length !== 0) {
+			return BigInt(users[0]?.balance);
+		} else {
+			return DEFAULT_WALLET_BALANCE_STORE.pond;
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error fetching POND balance. ${error.message}`
+			},
+			timeout: 6000
+		});
 		console.log('Error fetching POND balance', error);
-		return DEFAULT_WALLET_BALANCE.pond;
+		return DEFAULT_WALLET_BALANCE_STORE.pond;
 	}
 }
 
 /**
  * Get MPOND balance from subgraph API.
  */
-export async function getMPondBalance(address: Address): Promise<BigNumber> {
-	const url = ENVIRONMENT.public_mPond_subgraph_url;
+export async function getMPondBalanceFromSubgraph(address: Address): Promise<bigint> {
+	const url = chainConfig.subgraph_urls.MPOND;
+
 	const query = QUERY_TO_GET_MPOND_BALANCE;
 	const queryVariables = { id: address.toLowerCase() };
 
-	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-
 	try {
-		const result = await fetchHttpData(url, options);
-		if (result['data'] && result['data']?.balances?.length != 0)
-			return BigNumber.from(result['data']?.balances[0]?.amount);
-		else return DEFAULT_WALLET_BALANCE.mPond;
-	} catch (error) {
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+		const balances = result['data']?.balances;
+
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data'] && balances?.length !== 0) {
+			return BigInt(balances[0]?.amount);
+		} else {
+			return DEFAULT_WALLET_BALANCE_STORE.mpond;
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error fetching MPond balance. ${error.message}`
+			},
+			timeout: 6000
+		});
 		console.log('Error fetching MPond balance', error);
-		return DEFAULT_WALLET_BALANCE.mPond;
+		return DEFAULT_WALLET_BALANCE_STORE.mpond;
 	}
 }
-// ----------------------------- smart contract subgraph methods -----------------------------
+// ----------------------------- receiver staking smart contract subgraph methods -----------------------------
 export async function getReceiverPondBalanceFromSubgraph(address: Address): Promise<any> {
-	const url = ENVIRONMENT.public_contract_subgraph_url;
-	const query = QUERY_TO_GET_RECEIVER_POND_BALANCE;
+	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
 
+	const query = QUERY_TO_GET_RECEIVER_POND_BALANCE;
 	const queryVariables = { id: address.toLowerCase() };
-	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+
 	try {
-		const result = await fetchHttpData(url, options);
-		if (result['data'] && result['data']?.receiverBalances?.length != 0)
-			return result['data']?.receiverBalances[0]?.balance;
-		else return DEFAULT_WALLET_BALANCE.mPond;
-	} catch (error) {
-		console.log('Error fetching receiver pond balance from subgraph', error);
-		return DEFAULT_WALLET_BALANCE.mPond;
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+		const receiverBalances = result['data']?.receiverBalances;
+
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data'] && receiverBalances?.length !== 0)
+			return BigInt(receiverBalances[0]?.balance);
+		else return DEFAULT_WALLET_BALANCE_STORE.mpond;
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error fetching receiver POND balance from subgraph. ${error.message}`
+			},
+			timeout: 6000
+		});
+		console.log('Error fetching receiver POND balance from subgraph', error);
+		return DEFAULT_WALLET_BALANCE_STORE.mpond;
 	}
 }
 
@@ -120,223 +176,517 @@ export async function getReceiverPondBalanceFromSubgraph(address: Address): Prom
 export async function getReceiverStakingDataFromSubgraph(
 	address: Address
 ): Promise<ReceiverStakingData> {
-	const receiver_staking_address = contractAddresses.ReceiverStaking || '0x00000000000';
-	const url = ENVIRONMENT.public_contract_subgraph_url;
-	const query = QUERY_TO_GET_RECEIVER_STAKING_DATA;
+	const receiver_staking_address = contractAddresses.RECEIVER_STAKING || '0x00000000000';
+	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
 
+	const query = QUERY_TO_GET_RECEIVER_STAKING_DATA;
 	const queryVariables = {
 		address: address.toLowerCase(),
 		contractAddress: receiver_staking_address.toLowerCase()
 	};
 
-	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
 	try {
-		const result = await fetchHttpData(url, options);
-		const balance = result['data']?.receiverBalance?.balance;
-		const signer = result['data']?.receiverBalance?.signer;
-		const balanceSnapshots = result['data']?.receiverBalanceSnapshots;
-		const approvals = result['data']?.pondUser?.approvals;
-		const params = result['data']?.params;
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
 
-		let stakingData: ReceiverStakingData = DEFAULT_RECEIVER_STAKING_DATA;
-
-		let epochData = DEFAULT_RECEIVER_STAKING_DATA.epochData;
-
-		if (params?.length === 2) {
-			let startTime = params.find((param: any) => param.id === 'START_TIME').value;
-			let epochLength = params.find((param: any) => param.id === 'EPOCH_LENGTH').value;
-			//string to number
-			startTime = parseInt(startTime);
-			epochLength = parseInt(epochLength);
-			const epochCycle = getCurrentEpochCycle(startTime, epochLength);
-			epochData = { startTime, epochLength, epochCycle };
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
 		}
-
-		//update staked and queued balance
-		if (balance) {
-			const totalBalance = BigNumber.from(balance);
-			let queuedBalance = DEFAULT_RECEIVER_STAKING_DATA.queuedBalance;
-			let stakedBalance = DEFAULT_RECEIVER_STAKING_DATA.stakedBalance;
-
-			let balanceSnapshot = BigNumberZero;
-
-			if (balanceSnapshots?.length === 1 && balanceSnapshots[0].epoch == epochData.epochCycle) {
-				//if balance snapshot for current epoch cycle is present, then update staked and queued balance
-				balanceSnapshot = BigNumber.from(balanceSnapshots[0].balance ?? 0);
-				//queued amount is the difference of balance and balance snapshot at current epoch cycle
-				stakedBalance = balanceSnapshot;
-				queuedBalance = totalBalance.sub(stakedBalance);
-			} else {
-				//if balance snapshot for current epoch cycle is not present, then update staked balance
-				stakedBalance = totalBalance;
-			}
-
-			stakingData = {
-				...stakingData,
-				queuedBalance,
-				stakedBalance,
-				epochData,
-				signer
-			};
+		if (result['data']) {
+			return result['data'];
+		} else {
+			return DEFAULT_RECEIVER_STAKING_DATA;
 		}
-		//update approved POND balance
-		if (approvals?.length) {
-			const approvalData = approvals[0];
-			stakingData = {
-				...stakingData,
-				approvedBalance:
-					BigNumber.from(approvalData.value) ?? DEFAULT_RECEIVER_STAKING_DATA.approvedBalance
-			};
-		}
-
-		return stakingData;
-	} catch (error) {
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error fetching receiver staked, in queue data from subgraph. ${error.message}`
+			},
+			timeout: 6000
+		});
 		console.log('Error fetching receiver staked, in queue data from subgraph', error);
 		return DEFAULT_RECEIVER_STAKING_DATA;
 	}
 }
 
 export async function checkIfSignerExistsInSubgraph(address: Address): Promise<boolean> {
-	const url = ENVIRONMENT.public_contract_subgraph_url;
-	const query = QUERY_TO_CHECK_IF_SIGNER_EXISTS;
+	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
 
+	const query = QUERY_TO_CHECK_IF_SIGNER_EXISTS;
 	const queryVariables = { signer: address.toLowerCase() };
-	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
 
 	try {
-		const result = await fetchHttpData(url, options);
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
 
-		if (result['data'] && result['data']?.receiverBalances?.length == 0) return true;
-		else return false;
-	} catch (error) {
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data'] && result['data']?.receiverBalances?.length === 0) {
+			return true;
+		} else {
+			return false;
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error checking if signer exists in subgraph. ${error.message}`
+			},
+			timeout: 6000
+		});
 		console.log('Error checking if signer exists in subgraph', error);
 		return false;
 	}
 }
 
-export async function getPondAndMPondBridgeAllowances(address: Address, contractAddress: Address) {
-	const url = ENVIRONMENT.public_contract_subgraph_url;
-	const query = QUERY_TO_GET_POND_AND_MPOND_BRIDGE_ALLOWANCES;
+export async function getPondAndMPondBridgeAllowancesFromSubgraph(
+	address: Address,
+	contractAddress: Address
+) {
+	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
 
+	const query = QUERY_TO_GET_POND_AND_MPOND_ALLOWANCES;
 	const queryVariables = {
 		address: address.toLowerCase(),
 		contractAddress: contractAddress.toLowerCase()
 	};
 
-	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-	let mPond = BigNumberZero;
-	let pond = BigNumberZero;
 	try {
-		const result = await fetchHttpData(url, options);
-		console.log('pond mPond allowances', result);
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
 
-		if (!result['data']) {
-			return { pond, mPond };
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
 		}
-
-		const pondApprovals = result['data']?.pondApprovals;
-		const mpondApprovals = result['data']?.mpondApprovals;
-
-		// convert all to BigNumber
-		if (pondApprovals?.length > 0) {
-			pond = BigNumber.from(pondApprovals[0]?.value ?? 0);
+		if (result['data']) {
+			return result['data'];
+		} else {
+			return DEFAULT_BRIDGE_STORE.allowances;
 		}
-		if (mpondApprovals?.length > 0) {
-			mPond = BigNumber.from(mpondApprovals[0]?.value ?? 0);
-		}
-		return { pond, mPond };
-	} catch (error) {
-		console.log('Error fetching receiver pond and mPond allowances from subgraph', error);
-		return { pond, mPond };
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error fetching receiver POND and MPond allowances from subgraph. ${error.message}`
+			},
+			timeout: 6000
+		});
+		console.log('Error fetching receiver POND and mPond allowances from subgraph', error);
+		return DEFAULT_BRIDGE_STORE.allowances;
 	}
 }
 
-export async function getRequestedMPondForConversion(address: Address) {
-	const url = ENVIRONMENT.public_bridge_contract_subgraph_url;
+// ----------------------------- bridge smart contract subgraph methods -----------------------------
+
+export async function getRequestedMPondForConversionFromSubgraph(address: Address) {
+	const url = chainConfig.subgraph_urls.BRIDGE;
+
 	const query = QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION;
-
 	const queryVariables = {
 		address: address.toLowerCase()
 	};
 
-	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-
-	let requestedMPond = BigNumberZero;
-
 	try {
-		const result: any | undefined = await fetchHttpData(url, options);
-		console.log('mPond requested', result);
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+		const userData = result['data']?.user;
 
-		if (!result['data']) {
-			return requestedMPond;
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
 		}
-
-		const totalMpondPlacedInRequest = result['data']?.user?.totalMpondPlacedInRequest;
-
-		if (totalMpondPlacedInRequest) {
-			requestedMPond = BigNumber.from(totalMpondPlacedInRequest ?? 0);
+		if (result['data'] && userData !== null && userData?.totalMpondPlacedInRequest) {
+			return BigInt(userData?.totalMpondPlacedInRequest);
+		} else {
+			return 0n;
 		}
-		return requestedMPond;
-	} catch (error) {
-		console.log('Error fetching requested mPond from subgraph', error);
-		return requestedMPond;
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error fetching requested MPond from subgraph. ${error.message}`
+			},
+			timeout: 6000
+		});
+		console.log('Error fetching requested MPond from subgraph', error);
+		return 0n;
 	}
 }
 
-export async function getPondToMPondConversionHistory(address: Address) {
-	const url = ENVIRONMENT.public_bridge_contract_subgraph_url;
+export async function getPondToMPondConversionHistoryFromSubgraph(address: Address) {
+	const url = chainConfig.subgraph_urls.BRIDGE;
+
 	const query = QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY;
-
 	const queryVariables = {
 		address: address.toLowerCase()
 	};
 
-	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
-
 	try {
-		const result = await fetchHttpData(url, options);
-		if (!result['data']?.users?.length) return undefined;
-		const user = result['data']['users'][0];
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+		const usersData = result['data']?.users;
 
-		const pondToMpondConversions: PondToMPondHistoryDataModel[] | undefined =
-			user?.pondToMpondConversions?.map((conversion: any) => {
-				return {
-					pondConverted: BigNumber.from(conversion.pondConverted),
-					mpondReceived: BigNumber.from(conversion.mpondReceived),
-					timestamp: Number(conversion.timestamp),
-					transactionHash: conversion.transactionHash
-				};
-			});
-		return pondToMpondConversions;
-	} catch (error) {
-		console.log('Error pond to mPond history data from subgraph', error);
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data'] && usersData?.length) {
+			return usersData;
+		} else {
+			return undefined;
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error getting POND to MPond history data from subgraph. ${error.message}`
+			},
+			timeout: 6000
+		});
+		console.log('Error getting POND to MPond history data from subgraph', error);
 		return undefined;
 	}
 }
 
-export async function getMPondToPondConversionHistory(address: Address) {
-	const url = ENVIRONMENT.public_bridge_contract_subgraph_url;
-	const query = QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY;
+export async function getMPondToPondConversionHistoryFromSubgraph(address: Address) {
+	const url = chainConfig.subgraph_urls.BRIDGE;
 
+	const query = QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY;
 	const queryVariables = {
 		address: address.toLowerCase()
 	};
 
-	const options: RequestInit = subgraphQueryWrapper(query, queryVariables);
+	try {
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data'] && result['data']?.users?.length && result['data']?.states?.length) {
+			return result['data'];
+		} else {
+			return undefined;
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error getting MPond to POND history data from subgraph. ${error.message}`
+			},
+			timeout: 6000
+		});
+		console.log('Error getting MPond to POND history data from subgraph', error);
+		return undefined;
+	}
+}
+
+// ----------------------------- oyster smart contract subgraph methods -----------------------------
+
+export async function getOysterJobsFromSubgraph(address: Address) {
+	const url = chainConfig.subgraph_urls.OYSTER;
+
+	const query = QUERY_TO_GET_JOBS_DATA;
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
 
 	try {
-		const result = await fetchHttpData(url, options);
-		if (!result['data']?.users?.length || !result['data']?.states?.length) return undefined;
-		const user = result['data']['users'][0];
-		const state = result['data']['states'][0];
-		if (!user || !state) return undefined;
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+		const jobs = result['data']?.jobs;
 
-		const { mpondToPondConversions, requests } = user;
-		const data = getModifiedMPondToPondHistory(mpondToPondConversions, requests, state);
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data'] && jobs?.length) {
+			return jobs;
+		} else {
+			return [];
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error getting oyster jobs from subgraph. ${error.message}`
+			},
+			timeout: 6000
+		});
+		console.error('Error getting oyster jobs from subgraph', error);
+		return [];
+	}
+}
 
-		return data;
-	} catch (error) {
-		console.log('Error pond to mPond history data from subgraph', error);
+export async function getOysterJobsFromSubgraphById(id: string[]) {
+	const url = chainConfig.subgraph_urls.OYSTER;
+
+	const query = QUERY_TO_GET_JOBS_DATA_BY_ID;
+	const queryVariables = {
+		id
+	};
+
+	try {
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+		const jobs = result['data']?.jobs;
+
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data'] && jobs?.length) {
+			return jobs;
+		} else {
+			return [];
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error getting oyster jobs by id from subgraph. ${error.message}`
+			},
+			timeout: 6000
+		});
+		console.error('Error getting oyster jobs by id from subgraph', error);
+		return [];
+	}
+}
+
+export async function getProviderDetailsFromSubgraph(address: Address) {
+	const url = chainConfig.subgraph_urls.OYSTER;
+
+	const query = QUERY_TO_GET_PROVIDER_DATA;
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
+
+	try {
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+		const provider: ProviderData = result['data']?.providers[0];
+
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data'] && provider) {
+			return provider;
+		} else {
+			return undefined;
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error getting provider details from subgraph. ${error.message}`
+			},
+			timeout: 6000
+		});
+		console.log('Error getting provider details from subgraph', error);
 		return undefined;
+	}
+}
+
+export async function getAllProvidersDetailsFromSubgraph() {
+	const url = chainConfig.subgraph_urls.OYSTER;
+	const query = QUERY_TO_GET_ALL_PROVIDERS_DATA;
+
+	try {
+		const result = await subgraphQueryWrapper(url, query, {});
+		const providers = result['data']?.providers;
+
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data'] && providers?.length) {
+			return providers;
+		} else {
+			return [];
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error getting all provider details from subgraph. ${error.message}`
+			},
+			timeout: 6000
+		});
+		console.log('Error getting all provider details from subgraph', error);
+		return [];
+	}
+}
+
+export async function getApprovedOysterAllowancesFromSubgraph(address: Address) {
+	const oysterContractAddress = contractAddresses.OYSTER;
+	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
+
+	const query = QUERY_TO_GET_POND_AND_MPOND_ALLOWANCES;
+	const queryVariables = {
+		address: address.toLowerCase(),
+		contractAddress: oysterContractAddress.toLowerCase()
+	};
+
+	try {
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+		const pondApprovals = result['data']?.pondApprovals;
+
+		if (result['data'] && pondApprovals && pondApprovals.length > 0) {
+			return BigInt(pondApprovals[0]?.value ?? 0);
+		} else {
+			return 0n;
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error fetching oyster allowances from subgraph. ${error.message}`
+			},
+			timeout: 6000
+		});
+		console.log('Error fetching oyster allowances from subgraph', error);
+		return 0n;
+	}
+}
+
+export async function getOysterMerchantJobsFromSubgraph(address: Address) {
+	const url = chainConfig.subgraph_urls.OYSTER;
+
+	const query = QUERY_TO_GET_MERCHANT_JOBS_DATA;
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
+
+	try {
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+		const jobs = result['data']?.jobs;
+
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data'] && jobs?.length) {
+			return jobs;
+		} else {
+			return [];
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error getting oyster jobs from subgraph. ${error.message}`
+			},
+			timeout: 6000
+		});
+		console.error('Error getting oyster jobs from subgraph', error);
+		return [];
+	}
+}
+
+// ----------------------------- receiver rewards subgraph methods -----------------------------
+
+export async function getReceiverRewardsDataFromSubgraph(address: Address) {
+	const receiverRewardContractAddress = contractAddresses.REWARD_DELEGATORS;
+	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
+
+	const query = QUERY_TO_GET_RECEIVER_REWARDS_DATA;
+	const queryVariables = {
+		address: address.toLowerCase(),
+		contractAddress: receiverRewardContractAddress.toLowerCase()
+	};
+
+	try {
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data']) {
+			return result['data'];
+		} else {
+			throw new Error('No receiver rewards data found for this address');
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error getting receiver rewards data from subgraph. ${error.message}`
+			},
+			timeout: 6000
+		});
+		console.error('Error getting receiver rewards data from subgraph', error);
+		return [];
+	}
+}
+
+// ----------------------------- oyster credit contract subgraph methods -----------------------------
+export async function getOysterCreditFromSubgraph(address: Address) {
+	const url = chainConfig.subgraph_urls.OYSTER_CREDIT;
+
+	const query = QUERY_TO_CHECK_OYSTER_CREDIT_BALANCE;
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
+
+	try {
+		// console.log(url, query, queryVariables);
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+		// console.log('credits', result);
+		const userCreditsBudget = result['data']?.userCredits?.[0]?.userBudget;
+		console.log('user credits from subgraph', userCreditsBudget);
+
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (userCreditsBudget) {
+			return BigInt(userCreditsBudget);
+		} else {
+			return undefined;
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error getting oyster user credit from subgraph. ${error.message}`
+			},
+			timeout: 6000
+		});
+		console.error('Error getting oyster user credit from subgraph', error);
+		return 0n;
+	}
+}
+
+export async function getOysterCreditJobsFromSubgraph(address: Address) {
+	const url = chainConfig.subgraph_urls.OYSTER_CREDIT;
+
+	const query = QUERY_TO_GET_CREDIT_JOBS_DATA;
+	const queryVariables = {
+		address: address.toLowerCase()
+	};
+
+	try {
+		const result = await subgraphQueryWrapper(url, query, queryVariables);
+		const jobs = result['data']?.jobCredits;
+
+		if (result['errors']) {
+			throw new Error(result['errors'][0].message);
+		}
+		if (result['data'] && jobs?.length) {
+			return jobs;
+		} else {
+			return [];
+		}
+	} catch (error: any) {
+		addToast({
+			variant: 'error',
+			message: {
+				title: 'Contract Error',
+				description: `Error getting oyster credit jobs from subgraph. ${error.message}`
+			},
+			timeout: 6000
+		});
+		console.error('Error getting oyster credit jobs from subgraph', error);
+		return [];
 	}
 }

@@ -1,34 +1,24 @@
 <script lang="ts">
 	import Button from '$lib/atoms/buttons/Button.svelte';
 	import Modal from '$lib/atoms/modals/Modal.svelte';
-	import Text from '$lib/atoms/texts/Text.svelte';
 	import SuccessfulConversionModal from '$lib/page-components/bridge/modals/SuccessfulConversionModal.svelte';
-	import { amountPrecision, BigNumberZero } from '$lib/utils/constants/constants';
-	import { bigNumberToCommaString, mPondToPond, pondToMPond } from '$lib/utils/conversion';
-	import { closeModal, openModal } from '$lib/utils/helpers/commonHelper';
-	import type { BigNumber } from 'ethers';
-	import LoadingAnimatedPing from '../loading/LoadingAnimatedPing.svelte';
+	import { DEFAULT_CURRENCY_DECIMALS } from '$lib/utils/constants/constants';
+	import { bigNumberToString, mPondToPond, pondToMPond } from '$lib/utils/helpers/conversionHelper';
+	import { closeModal, cn, openModal } from '$lib/utils/helpers/commonHelper';
+	import { staticImages } from '$lib/components/images/staticImages';
+	import { removeTrailingZeros } from '$lib/utils/helpers/commonHelper';
 
 	export let handleApproveClick: () => Promise<void>;
 	export let handleConfirmClick: () => Promise<void>;
 	export let handleSuccessFinishClick: () => void;
 	export let approved: boolean;
+	export let rowIndex: number;
 	export let approveButtonText = 'APPROVE';
 	export let confirmButtonText = 'CONFIRM';
-	export let amountConverted: BigNumber = BigNumberZero;
+	export let amountConverted = 0n;
 	export let conversionFrom: 'pond' | 'mPond' = 'pond';
-
 	export let modalForApproveConfirm: string;
 
-	$: amountConvertedFrom = bigNumberToCommaString(amountConverted, amountPrecision(conversionFrom));
-	$: amountConvertedTo = bigNumberToCommaString(
-		conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted),
-		amountPrecision(conversionFrom === 'pond' ? 'mPond' : 'pond')
-	);
-	$: conversionFromText = conversionFrom === 'pond' ? 'POND' : 'MPond';
-	$: conversionToText = conversionFrom === 'pond' ? 'MPond' : 'POND';
-
-	let modalForSuccessConversion = 'success-conversion-modal';
 	let approveLoading: boolean;
 	let confirmLoading: boolean;
 
@@ -47,9 +37,11 @@
 		try {
 			confirmLoading = true;
 			await handleConfirmClick();
+			handleSuccessFinishClick();
 			closeModal(modalForApproveConfirm);
 			openModal(modalForSuccessConversion);
 		} catch (e) {
+			console.error(e);
 			throw e;
 		} finally {
 			confirmLoading = false;
@@ -57,69 +49,104 @@
 	};
 	// const modalWidth = 'max-w-[500px]';
 
-	const styles = {
-		baseText: 'grow text-left  font-normal',
-		text: 'text-grey-500 font-[15px]',
-		textBold: 'font-semibold text-black',
-		textDisabled: 'font-semibold text-grey-300'
-	};
+	$: amountConvertedFrom = removeTrailingZeros(
+		bigNumberToString(amountConverted, DEFAULT_CURRENCY_DECIMALS, 18)
+	);
+	$: amountConvertedTo = removeTrailingZeros(
+		bigNumberToString(
+			conversionFrom === 'pond' ? pondToMPond(amountConverted) : mPondToPond(amountConverted),
+			DEFAULT_CURRENCY_DECIMALS,
+			18
+		)
+	);
+	$: conversionFromText = conversionFrom === 'pond' ? 'POND' : 'MPond';
+	$: conversionToText = conversionFrom === 'pond' ? 'MPond' : 'POND';
+	$: modalForSuccessConversion = `success-conversion-modal-${rowIndex}`;
 </script>
 
 <Modal modalFor={modalForApproveConfirm}>
 	<svelte:fragment slot="title">
 		{!approved ? 'Approve Transaction' : 'Confirm Transaction'}
 	</svelte:fragment>
-	<div />
 	<svelte:fragment slot="content">
-		<div class="flex gap-5 h-[50px]">
+		<div class="mb-2 flex h-20 items-center gap-3 rounded-xl bg-[#F7F7F7] p-3 font-poppins">
 			<div class="flex flex-col items-center">
-				{#if approved}
-					<img src="/images/vectorcheck.svg" alt="Copy" width="20px" height="20px" />
-				{:else}
-					<LoadingAnimatedPing loading={approveLoading}>
-						<Text variant="small" styleClass="font-semibold" text={'1'} />
-					</LoadingAnimatedPing>
-				{/if}
-				{#if approved}
-					<div class="h-full w-[0.1px] bg-grey-400" />
-				{/if}
+				<div
+					class={cn(
+						'flex h-14 w-14 items-center justify-center rounded-full text-xl font-semibold text-white',
+						{
+							'bg-[#68A843]': approved,
+							'bg-[#EDBE59]': !approved
+						}
+					)}
+				>
+					{#if approved}
+						<img src={staticImages.checkmark} alt="checkmark" width="25px" height="25px" />
+					{:else}
+						1
+					{/if}
+				</div>
 			</div>
-			<div class={`${styles.text} ${styles.baseText}`}>
-				<span>{'Approve'}</span>
-				<span class={styles.textBold}>
-					{`${amountConvertedFrom} ${conversionFromText}`}
+			<div class="grow text-left text-xl font-normal text-grey-800">
+				Approve
+				<span class="font-semibold">
+					{amountConvertedFrom}
+					{conversionFromText}
 				</span>
-				<span>{'for conversion'}</span>
+				for conversion
 			</div>
 		</div>
-		<div class={`flex gap-5`}>
-			<LoadingAnimatedPing loading={confirmLoading}>
-				<Text variant="small" styleClass="font-semibold" text={'2'} />
-			</LoadingAnimatedPing>
-			<div class={`${approved ? styles.text : 'text-grey-300'} ${styles.baseText}`}>
-				<span>{'Convert'}</span>
-				<span class={approved ? styles.textBold : styles.textDisabled}>
-					{`${amountConvertedFrom} ${conversionFromText}`}
+		<div
+			class={cn('flex h-20 items-center gap-3 rounded-xl p-3 font-poppins', {
+				'bg-[#F7F7F7]': approved,
+				'border border-grey-100': !approved
+			})}
+		>
+			<div
+				class={cn(
+					'flex h-14 w-14 items-center justify-center rounded-full text-xl font-semibold text-white',
+					{
+						'bg-[#EDBE59]': approved,
+						'bg-[#F7F7F7] text-[#939393]': !approved
+					}
+				)}
+			>
+				2
+			</div>
+			<div class="grow text-left text-xl font-normal text-grey-800">
+				Convert
+				<span class="font-semibold">
+					{amountConvertedFrom}
+					{conversionFromText}
 				</span>
-				<span>{'to'}</span>
-				<span class={approved ? styles.textBold : styles.textDisabled}>
-					{`${amountConvertedTo} ${conversionToText}`}
+				to
+				<span class="font-semibold">
+					{amountConvertedTo}
+					{conversionToText}
 				</span>
 			</div>
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="actionButtons">
 		{#if !approved}
-			<Button variant="filled" size="large" loading={approveLoading} onclick={approveClick}>
+			<Button
+				onclick={approveClick}
+				loading={approveLoading}
+				disabled={approveLoading}
+				variant="filled"
+				size="large"
+				styleClass="w-full"
+			>
 				{approveButtonText}
 			</Button>
 		{:else}
 			<Button
-				size="large"
-				variant="filled"
-				styleClass="w-full"
 				onclick={confirmClick}
 				loading={confirmLoading}
+				disabled={confirmLoading}
+				variant="filled"
+				size="large"
+				styleClass="w-full"
 			>
 				{confirmButtonText}
 			</Button>
@@ -130,5 +157,4 @@
 	modalFor={modalForSuccessConversion}
 	{amountConverted}
 	{conversionFrom}
-	{handleSuccessFinishClick}
 />

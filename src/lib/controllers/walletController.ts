@@ -1,147 +1,75 @@
-import { ethers } from 'ethers';
-import { resetWalletBalanceStore, walletStore } from '$lib/data-stores/walletProviderStore';
-import { getChainDisplayName, isValidChain } from '$lib/utils/helpers/networkHelper';
-import { chainStore } from '$lib/data-stores/chainProviderStore';
-import { WALLET_TYPE } from '$lib/utils/constants/constants';
-import { resetWalletProviderStore } from '$lib/data-stores/walletProviderStore';
-import { get } from 'svelte/store';
-import { resetReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
-// import WalletConnectProvider from '@walletconnect/web3-provider';
+import type { EIP1193Provider, WalletState } from '@web3-onboard/core';
+import { isValidChain } from '$lib/utils/helpers/networkHelper';
+import { initializeChainStore, resetChainStore } from '$lib/data-stores/chainProviderStore';
+import {
+	initializeWalletBalancesStore,
+	initializeWalletStore,
+	resetWalletBalanceStore
+} from '$lib/data-stores/walletProviderStore';
 
-let metamaskProvider: any;
-// let walletConnectProvider: WalletConnectProvider;
-export async function connectWallet(walletType: WALLET_TYPE) {
-	const provider = await getWalletProvider(walletType);
-	sessionStorage.setItem('connectType', walletType);
+import { ethers } from 'ethers';
+import onboard from '$lib/controllers//web3OnboardController';
+import { resetBridgeStore } from '$lib/data-stores/bridgeStore';
+import { resetEpochCycleStore } from '$lib/data-stores/epochCycleStore';
+import { resetOysterStore } from '$lib/data-stores/oysterStore';
+import { resetReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
+import { resetWalletProviderStore } from '$lib/data-stores/walletProviderStore';
+
+async function createEthersProviderAndSigner(provider: EIP1193Provider) {
+	const ethersProvider = new ethers.BrowserProvider(provider);
 
 	if (provider !== undefined) {
-		const walletSigner = provider.getSigner();
-		console.log('WalletSigner', walletSigner);
-
-		const [walletChecksumAddress, networkData] = await Promise.all([
-			walletSigner.getAddress(),
-			provider.getNetwork()
-		]);
-
-		// const walletChecksumAddress = await walletSigner.getAddress();
-		const walletHexAddress = walletChecksumAddress.toLowerCase() as Lowercase<string>;
-		walletStore.set({
-			walletType: walletType,
-			provider: provider,
-			signer: walletSigner,
-			address: walletHexAddress
-		});
-
-		const { chainId, name } = networkData;
-		const validChain = isValidChain(chainId);
-		const chainDisplayName = getChainDisplayName(chainId);
-		chainStore.set({
-			chainId: chainId,
-			chainName: name,
-			chainDisplayName: chainDisplayName ?? name,
-			isValidChain: validChain
-		});
+		const ethersSigner = await ethersProvider.getSigner();
+		return { ethersProvider, ethersSigner };
+	} else {
+		console.error('wallet provider is undefined');
+		return { ethersProvider: undefined, ethersSigner: undefined };
 	}
 }
 
-async function getWalletProvider(walletType: WALLET_TYPE) {
-	try {
-		if (walletType === WALLET_TYPE.metamask) {
-			return await getMetamaskWalletProvider();
-		} else if (walletType === WALLET_TYPE.walletconnect) {
-			return await getWalletConnectProvider();
-		} else {
-			throw new Error('Invalid wallet type');
-		}
-	} catch (error) {
-		console.log(error);
+async function getWalletAddressAndConnectedChain(
+	signer: ethers.JsonRpcSigner,
+	provider: ethers.BrowserProvider
+) {
+	const [walletChecksumAddress, networkData] = await Promise.all([
+		signer.getAddress(),
+		provider.getNetwork()
+	]);
+	const walletHexAddress = walletChecksumAddress.toLowerCase() as Lowercase<string>;
+	const { chainId, name } = networkData;
+	const validChain = isValidChain(Number(chainId));
+
+	return {
+		walletHexAddress,
+		chainId,
+		chainName: name,
+		isValidChain: validChain
+	};
+}
+
+export async function setWalletAndChainStores(provider: EIP1193Provider) {
+	const { ethersProvider, ethersSigner } = await createEthersProviderAndSigner(provider);
+
+	const ethersProviderIsValid = ethersProvider !== undefined && ethersSigner !== undefined;
+
+	if (ethersProviderIsValid) {
+		const { walletHexAddress, chainId, chainName, isValidChain } =
+			await getWalletAddressAndConnectedChain(ethersSigner, ethersProvider);
+		initializeWalletStore(ethersProvider, ethersSigner, walletHexAddress);
+		initializeChainStore(Number(chainId), chainName, isValidChain);
+		if (isValidChain) await initializeWalletBalancesStore(walletHexAddress, ethersProvider);
+
+		console.log('walletStore updated with address:', walletHexAddress, 'on chain:', chainName);
 	}
 }
 
-async function getMetamaskWalletProvider() {
-	console.log('connecting to metamask...');
-	metamaskProvider = window.ethereum;
-
-	_subscribeToProviderEvents(metamaskProvider, WALLET_TYPE.metamask);
-
-	try {
-		await metamaskProvider.request({ method: 'eth_requestAccounts' });
-		console.log('connected to wallet.');
-	} catch (error) {
-		console.log('error while connecting to wallet', error);
-	}
-
-	return new ethers.providers.Web3Provider(metamaskProvider);
-}
-
-async function getWalletConnectProvider() {
-	console.log('connecting to wallet connect...');
-
-	// walletConnectProvider = new WalletConnectProvider({
-	// 	rpc: {
-	// 		1: 'https://mainnet.infura.io/v3/f69c3698961e47d7834969e8c4347c1b',
-	// 		421613: 'https://goerli-rollup.arbitrum.io/rpc'
-	// 	}
-	// });
-
-	// //  Enable session (triggers QR Code modal)
-	// await walletConnectProvider.enable();
-
-	// _subscribeToProviderEvents(walletConnectProvider, WALLET_TYPE.walletconnect);
-
-	// return new ethers.providers.Web3Provider(walletConnectProvider);
-}
-
-async function _subscribeToProviderEvents(_provider: any, walletType: WALLET_TYPE) {
-	if (!_provider) throw Error('No events to subscribe to b/c the provider does not exist');
-
-	try {
-		_provider.on('connect', async (uri: string) => {
-			console.log('EVENT', 'QR Code Modal open');
-		});
-
-		_provider.on('disconnect', (code: number, reason: string) => {
-			console.log(code, reason);
-			console.log(walletType);
-			resetWalletProviderStore();
-		});
-
-		_provider.on('accountsChanged', (accounts: string[]) => {
-			console.log('EVENT', 'accountsChanged');
-			console.log('account changed to', accounts[0]);
-			if (accounts[0] === undefined) {
-				resetWalletProviderStore();
-			}
-		});
-
-		_provider.on('chainChanged', (networkId: string) => {
-			connectWallet(walletType);
-			console.log('network changed to', networkId);
-		});
-	} catch (e) {
-		console.log(e);
-	}
-}
-
-export async function disconnectWallet() {
-	const walletType = get(walletStore).walletType;
-	if (walletType === WALLET_TYPE.metamask) {
-		resetWalletBalanceStore();
-		resetWalletProviderStore();
-		resetReceiverStakingStore();
-	} else if (walletType === WALLET_TYPE.walletconnect) {
-		await disconnectWalletConnect();
-	}
-}
-
-export async function disconnectWalletConnect() {
-	try {
-		// await walletConnectProvider.disconnect();
-		resetWalletBalanceStore();
-		resetWalletProviderStore();
-		resetReceiverStakingStore();
-		console.log('wallet disconnected from the button');
-	} catch (error) {
-		console.log(error);
-	}
+export function disconnectWallet(wallets: WalletState[]) {
+	onboard.disconnectWallet({ label: wallets?.[0]?.label });
+	resetChainStore();
+	resetEpochCycleStore();
+	resetBridgeStore();
+	resetWalletBalanceStore();
+	resetWalletProviderStore();
+	resetReceiverStakingStore();
+	resetOysterStore();
 }

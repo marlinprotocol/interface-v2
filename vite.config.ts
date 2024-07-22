@@ -32,11 +32,27 @@ export default defineConfig({
 	},
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}'],
+		exclude: [
+			'build/**',
+			'**/build/**',
+			'.svelte-kit/**',
+			'src/.svelte-kit/**',
+			'.husky/**',
+			'html/assets/**'
+		],
 		environment: 'jsdom',
 		globals: true,
 		coverage: {
 			provider: 'v8',
-			enabled: true
+			enabled: true,
+			exclude: [
+				'build/**',
+				'**/build/**',
+				'.svelte-kit/**',
+				'src/.svelte-kit/**',
+				'.husky/**',
+				'html/assets/**'
+			]
 		},
 		reporters: ['html', 'default']
 	}

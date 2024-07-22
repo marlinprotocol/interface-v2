@@ -8,7 +8,6 @@
 
 	export let name = '';
 	export let address = '';
-	export let rowIndex = -1;
 	export let long: boolean = false;
 	export let table:
 		| 'inventory'

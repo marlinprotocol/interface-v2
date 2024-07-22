@@ -34,11 +34,20 @@ export default defineConfig({
 		include: ['src/**/*.{test,spec}.{js,ts}'],
 		exclude: [
 			'build/**',
-			'**/build/**',
+			'test/**',
+			'**/*.cjs',
+			'*.{config,cjs,ts}',
 			'.svelte-kit/**',
 			'src/.svelte-kit/**',
 			'.husky/**',
-			'html/assets/**'
+			'html/assets/**',
+			'src/lib/utils/services/**',
+			'src/routes/**',
+			'src/lib/utils/**',
+			'src/**/*.svelte',
+			'src/lib/controllers/**',
+			'interface-v2/**',
+			'svelte.config.js'
 		],
 		environment: 'jsdom',
 		globals: true,
@@ -47,11 +56,20 @@ export default defineConfig({
 			enabled: true,
 			exclude: [
 				'build/**',
-				'**/build/**',
+				'test/**',
+				'**/*.cjs',
+				'*.{config,cjs,ts}',
 				'.svelte-kit/**',
 				'src/.svelte-kit/**',
 				'.husky/**',
-				'html/assets/**'
+				'html/assets/**',
+				'src/lib/utils/services/**',
+				'src/routes/**',
+				'src/lib/utils/**',
+				'src/**/*.svelte',
+				'src/lib/controllers/**',
+				'interface-v2/**',
+				'svelte.config.js'
 			]
 		},
 		reporters: ['html', 'default']

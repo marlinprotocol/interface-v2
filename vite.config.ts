@@ -41,12 +41,12 @@ export default defineConfig({
 			'src/.svelte-kit/**',
 			'.husky/**',
 			'html/assets/**',
-			'src/lib/utils/services/**',
 			'src/routes/**',
-			'src/lib/utils/**',
 			'src/**/*.svelte',
 			'src/lib/controllers/**',
-			'interface-v2/**',
+			'src/lib/utils/services/**',
+			'src/lib/utils/constants/**',
+			'src/lib/utils/abis/**',
 			'svelte.config.js'
 		],
 		environment: 'jsdom',
@@ -63,13 +63,13 @@ export default defineConfig({
 				'src/.svelte-kit/**',
 				'.husky/**',
 				'html/assets/**',
-				'src/lib/utils/services/**',
 				'src/routes/**',
-				'src/lib/utils/**',
 				'src/**/*.svelte',
+				'svelte.config.js',
 				'src/lib/controllers/**',
-				'interface-v2/**',
-				'svelte.config.js'
+				'src/lib/utils/services/**',
+				'src/lib/utils/constants/**',
+				'src/lib/utils/abis/**'
 			]
 		},
 		reporters: ['html', 'default']

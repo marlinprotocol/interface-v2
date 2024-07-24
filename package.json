@@ -21,7 +21,8 @@
 		"test:integration:ui": "synpress && playwright test --ui",
 		"synpress-test": "rm -rf .cache-synpress && synpress && playwright test --ui",
 		"cleanup": "lilmolly",
-		"test:ui": "vitest --ui"
+		"test:ui": "vitest --ui",
+		"test:integration:basic": "npx playwright test test/e2e/walletNotConnected"
 	},
 	"devDependencies": {
 		"@playpilot/svelte-htm": "^1.0.1",

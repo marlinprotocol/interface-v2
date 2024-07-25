@@ -134,7 +134,7 @@
 					modalFor="mpond-convert-modal-{rowIndex}"
 				>
 					<div
-						class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-grey-100 hover:bg-[#F0F0F0]"
+						class="icon-invert flex h-[45px] w-[45px] items-center justify-center rounded-full border border-grey-100 hover:bg-[#F0F0F0]"
 					>
 						<img src={staticImages.exchangeIcon} alt="" />
 					</div>
@@ -165,7 +165,7 @@
 				<button
 					slot="tooltipIcon"
 					type="button"
-					class="flex h-[45px] w-[45px] items-center justify-center rounded-full border border-grey-100 hover:bg-[#F0F0F0]"
+					class="icon-invert flex h-[45px] w-[45px] items-center justify-center rounded-full border border-grey-100 hover:bg-[#F0F0F0]"
 					on:click={async () => {
 						await handleCancelConversionRequest(requestEpoch);
 					}}

@@ -33,3 +33,26 @@ jobs:
       uses:  davelosert/vitest-coverage-report-action@v2
       with:
         working-directory: ./
+  playwright:
+    environment: test
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/ci-setup
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright basic tests
+        run: npm run test:integration:basic
+        env:
+          VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+          VITE_SEED_PHRASE: ${{ secrets.VITE_SEED_PHRASE }}
+          VITE_WALLET_PASSWORD: ${{ secrets.VITE_WALLET_PASSWORD }}
+          VITE_TEST_CP_URL_1: ${{ secrets.VITE_TEST_CP_URL_1 }}
+          VITE_TEST_CP_URL_2: ${{ secrets.VITE_TEST_CP_URL_2 }}
+          PUBLIC_SUBGRAPH_KEY: ${{ secrets.PUBLIC_SUBGRAPH_KEY }}

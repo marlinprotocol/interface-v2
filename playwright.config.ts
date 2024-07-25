@@ -38,12 +38,18 @@ export default defineConfig({
 	projects: [
 		{
 			name: 'chromium',
-			use: { ...devices['Desktop Chrome'] }
-		},
-		{
-			name: 'firefox',
-			use: { ...devices['Desktop Firefox'] }
+			use: {
+				...devices['Desktop Chrome'],
+				contextOptions: {
+					// chromium-specific permissions
+					permissions: ['clipboard-read', 'clipboard-write']
+				}
+			}
 		}
+		// {
+		// 	name: 'firefox',
+		// 	use: { ...devices['Desktop Firefox'] }
+		// }
 	],
 
 	/* Run your local dev server before starting the tests */

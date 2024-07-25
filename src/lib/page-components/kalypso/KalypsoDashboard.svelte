@@ -48,8 +48,8 @@
 					</ModalButton>
 				</div>
 			</ContainerCard>
-		{/if}
-		{#if $kalypsoStore.registered}
+			<KalypsoRegisterModal />
+		{:else if $kalypsoStore.registered}
 			<div class="flex flex-col items-center justify-center gap-4">
 				<ContainerCard
 					width={cn({
@@ -78,4 +78,3 @@
 		{/if}
 	</div>
 </div>
-<KalypsoRegisterModal />

@@ -5,5 +5,11 @@ export NVM_DIR="$HOME/.nvm"
 # run pre commit hooks
 npx lint-staged
 
+npm run test:unit
+
+# Uncomment this to run integrations tests before commit <current it fails because tests needs some refactoring post lots of development>
+# npm run test:integration
+# npm run test:integration:basic
+
 # while testing you can uncomment the following line to test wihtout actually committing changes
 # exit 1

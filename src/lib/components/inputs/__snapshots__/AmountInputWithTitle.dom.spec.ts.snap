@@ -1,52 +1,45 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`AmountInputWithTitle > render's the component properly 1`] = `
-<body>
-  <div>
-    <div
-      class="w-full bg-grey-200 px-4 py-2.5 rounded-[100px] border border-grey-100 relative"
-      data-testid="input-card"
+<div>
+  <div
+    class="w-full bg-grey-200 px-4 py-2.5 rounded-[100px] border border-grey-100 relative"
+    data-testid="input-card"
+  >
+    <p
+      class="absolute left-7 top-[-1px] z-[1] inline-flex bg-base-100 font-poppins text-sm font-normal leading-[1px] text-grey-800"
     >
-      <p
-        class="absolute left-7 top-[-1px] z-[1] inline-flex bg-base-100 font-poppins text-sm font-normal leading-[1px] text-grey-800"
+      Sample Title
+    </p>
+     
+    <div
+      class="mt-1 flex items-center"
+    >
+      <div
+        class="text-sm text-grey-800 text-base font-normal"
+        data-testid="text"
       >
-        Sample Title
-      </p>
+        $
+      </div>
+       
+      <input
+        autocomplete="off"
+        class="hideInputNumberAppearance input input-ghost h-[30px] w-full p-0 font-normal text-grey-800 disabled:opacity-70 disabled:text-grey-800 disabled:placeholder:text-grey-800/[.2] focus-within:text-grey-800 placeholder:text-grey-800/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent"
+        id="pond-input-amount-"
+        placeholder="0.00"
+      />
        
       <div
-        class="mt-1 flex items-center"
+        class="text-sm text-primary ml-1  text-base font-normal"
+        data-testid="text"
       >
-        <div
-          class="text-sm text-grey-800 text-base font-normal"
-          data-testid="text"
-        >
-          $
-        </div>
-        <!--&lt;Text&gt;-->
-         
-        <input
-          autocomplete="off"
-          class="hideInputNumberAppearance input input-ghost h-[30px] w-full p-0 font-normal text-grey-800 disabled:opacity-70 disabled:text-grey-800 disabled:placeholder:text-grey-800/[.2] focus-within:text-grey-800 placeholder:text-grey-800/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent"
-          id="pond-input-amount-"
-          placeholder="0.00"
-        />
-        <!--&lt;AmountInput&gt;-->
-         
-        <div
-          class="text-sm text-primary ml-1  text-base font-normal"
-          data-testid="text"
-        >
-          USD
-        </div>
-        <!--&lt;Text&gt;-->
-         
-        <div
-          class="w-fit"
-        />
+        USD
       </div>
+       
+      <div
+        class="w-fit"
+      />
     </div>
-    <!--&lt;InputCard&gt;-->
-    <!--&lt;AmountInputWithTitle&gt;-->
   </div>
-</body>
+</div>
 `;

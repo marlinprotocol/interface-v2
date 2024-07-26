@@ -63,7 +63,6 @@ Component {
           />
         </div>
       </div>
-      <!--&lt;Tooltip&gt;-->
     </div>,
     "skip_bound": false,
     "update": [Function],

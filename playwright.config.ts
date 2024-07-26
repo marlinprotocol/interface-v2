@@ -16,7 +16,7 @@ export default defineConfig({
 	testDir: './test/e2e',
 	timeout: 2 * 60 * 1000,
 	/* Run tests in files in parallel */
-	fullyParallel: true,
+	fullyParallel: false,
 	/* Fail the build on CI if you accidentally left test.only in the source code. */
 	forbidOnly: !!process.env.CI,
 	/* Retry on CI only */
@@ -38,12 +38,18 @@ export default defineConfig({
 	projects: [
 		{
 			name: 'chromium',
-			use: { ...devices['Desktop Chrome'] }
-		},
-		{
-			name: 'firefox',
-			use: { ...devices['Desktop Firefox'] }
+			use: {
+				...devices['Desktop Chrome'],
+				contextOptions: {
+					// chromium-specific permissions
+					permissions: ['clipboard-read', 'clipboard-write']
+				}
+			}
 		}
+		// {
+		// 	name: 'firefox',
+		// 	use: { ...devices['Desktop Firefox'] }
+		// }
 	],
 
 	/* Run your local dev server before starting the tests */

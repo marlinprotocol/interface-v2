@@ -14,11 +14,12 @@ module.exports = {
 				'grey-100': 'var(--grey-100)',
 				'grey-200': 'var(--grey-200)',
 				'grey-300': 'var(--grey-300)',
+				'grey-500': 'var(--grey-500)',
 				'grey-400': 'var(--grey-400)',
-				'grey-1000': '#7E7E80',
 				'grey-600': '#808080',
 				'grey-700': ' var(--grey-700)',
 				'grey-800': 'var(--grey-800)',
+				'grey-1000': '#7E7E80',
 				'orange-400': '#D6741B'
 			},
 			fontSize: {
@@ -72,6 +73,7 @@ module.exports = {
 					'--grey-200': '#f7f7f7',
 					'--grey-300': '#00000066',
 					'--grey-400': '#F1F1F4',
+					'--grey-500': '#3E3F47',
 					'--grey-700': '#26272c',
 					'--grey-800': '#030115',
 
@@ -194,6 +196,7 @@ module.exports = {
 					'--grey-200': '#111315',
 					'--grey-300': '#ffffff4f',
 					'--grey-400': '#202327',
+					'--grey-500': '#ffffff4f',
 					'--grey-700': '#BEBFC6',
 					'--grey-800': '#CCCCCC',
 					'--white-100': '#202327',

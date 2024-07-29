@@ -23,7 +23,7 @@ describe('Text', () => {
 
 	it('renders NameWithAddress with custom props', () => {
 		const { getByTestId } = render(NameWithAddress, {
-			props: { address: 'xyz street , city:abc', name: 'Robert', rowIndex: 2 }
+			props: { address: 'xyz street , city:abc', name: 'Robert' }
 		});
 		expect(getByTestId('name-with-address').id === 'name-with-address').toBe(true);
 		expect(

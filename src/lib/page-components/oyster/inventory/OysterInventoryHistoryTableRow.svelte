@@ -21,17 +21,7 @@
 	export let rowData: OysterInventoryDataModel;
 	export let rowIndex: number;
 
-	$: ({
-		id,
-		provider: { name, address },
-		status,
-		amountUsed,
-		refund,
-		createdAt,
-		endEpochTime,
-		isCreditJob,
-		jobName
-	} = rowData);
+	$: ({ id, status, amountUsed, refund, createdAt, endEpochTime, isCreditJob, jobName } = rowData);
 
 	$: statusColor = getColorHexByVariantForTag(getInventoryStatusVariant(status) as CommonVariant);
 </script>
@@ -42,7 +32,6 @@
 		name={jobName === 'N/A' ? '' : jobName}
 		address={String(id)}
 		long
-		{rowIndex}
 	>
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">

@@ -14,7 +14,6 @@
 	} from '$lib/utils/helpers/conversionHelper';
 
 	export let rowData: OysterInventoryDataModel;
-	export let rowIndex: number;
 
 	$: ({
 		owner: { name, address },
@@ -28,7 +27,7 @@
 </script>
 
 <td class={tableClasses.cell}>
-	<NameWithAddress {address} {name} {rowIndex}>
+	<NameWithAddress {address} {name}>
 		<svelte:fragment slot="copyIcon">
 			<div
 				class="invisible cursor-pointer opacity-0 group-hover/row:visible group-hover/row:opacity-100"

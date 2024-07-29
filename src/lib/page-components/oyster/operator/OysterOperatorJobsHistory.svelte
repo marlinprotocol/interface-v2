@@ -27,10 +27,6 @@
 		activePage = page;
 	};
 
-	const onSearchClick = () => {
-		activePage = 1;
-	};
-
 	const handleSortData = (id: string) => {
 		if (sortingMap[id]) {
 			sortingMap[id] = sortingMap[id] === 'asc' ? 'desc' : 'asc';
@@ -67,9 +63,9 @@
 	noDataFound={paginatedData?.length ? false : true}
 >
 	{#if paginatedData?.length}
-		{#each paginatedData as rowData, rowIndex}
+		{#each paginatedData as rowData (rowData.id)}
 			<tr class={cn(tableClasses.row, 'group/row h-16 hover:bg-base-200')}>
-				<OysterOperatorJobsHistoryTableRow {rowData} {rowIndex} />
+				<OysterOperatorJobsHistoryTableRow {rowData} />
 			</tr>
 		{/each}
 	{/if}

@@ -1,6 +1,5 @@
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
-import type { Address } from '@web3-onboard/core/dist/types';
-import type { ContractAddress } from '$lib/types/storeTypes';
+import type { Address, ContractAddress } from '$lib/types/storeTypes';
 import { COMMON_TXN_MESSAGES, RECEIVER_REWARDS_TXN_MESSAGES } from '$lib/utils/constants/messages';
 import { DEFAULT_CURRENCY_DECIMALS, POND_PRECISIONS } from '$lib/utils/constants/constants';
 import { REWARD_DELEGATORS_ABI } from '$lib/utils/abis/rewardDelegators';

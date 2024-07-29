@@ -28,8 +28,6 @@ export const LINEA_GOERLI: ChainConfig = {
 		RECEIVER_STAKING: '',
 		BRIDGE: '',
 		OYSTER: 'https://api.studio.thegraph.com/query/76614/marlin-oyster-linea-dev/version/latest',
-		POND: '',
-		MPOND: '',
 		OYSTER_CREDIT: ''
 	},
 	oyster_token: 'POND',

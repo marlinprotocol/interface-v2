@@ -28,8 +28,6 @@ export const ETH: ChainConfig = {
 		RECEIVER_STAKING: '',
 		BRIDGE: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/bridge',
 		OYSTER: '',
-		POND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond',
-		MPOND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance',
 		OYSTER_CREDIT: ''
 	},
 	oyster_token: 'POND',

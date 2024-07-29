@@ -32,7 +32,7 @@
 		</div>
 	{/if}
 </div>
-<p class="mt-4 text-lg font-light leading-6 text-[#3E3F47]">
+<p class="mt-4 text-lg font-light leading-6 text-grey-500">
 	Oyster is a sub-network of Marlin that specializes in offering TEE-based coprocessors. Servers
 	provisioned using smart contract calls host AI/ML models, gateways, frontends, MEV or automation
 	bots, or backends for arbitrary computations using external APIs with baked-in auto-scaling and

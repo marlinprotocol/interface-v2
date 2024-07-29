@@ -39,7 +39,7 @@
 				<ConnectWalletButton
 					chainDomId="oyster-table-column-chain-switcher-dropdown"
 					slot="cta"
-					styleClass="bg-white h-fit mt-4 px-8 py-4 rounded-2xl"
+					styleClass="bg-secondary-content h-fit mt-4 px-8 py-4 rounded-2xl"
 				/>
 			</NetworkPrompt>
 		</div>

@@ -29,8 +29,6 @@ export const ARB_ONE: ChainConfig = {
 		RECEIVER_STAKING: `https://gateway-arbitrum.network.thegraph.com/api/${PUBLIC_SUBGRAPH_KEY}/subgraphs/id/GUh83DEwZWMTkKaydusdkb46mLuAC7FTL4km1bcNjugc`,
 		BRIDGE: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/bridge',
 		OYSTER: `https://gateway-arbitrum.network.thegraph.com/api/${PUBLIC_SUBGRAPH_KEY}/subgraphs/id/3dPXK16x1dNRPvrUiNbvSDmeN68gKjM47L7nu2b8eEUa`,
-		POND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-arb1',
-		MPOND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-arb1',
 		OYSTER_CREDIT: ''
 	},
 	oyster_token: 'USDC',

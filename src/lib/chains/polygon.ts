@@ -29,8 +29,6 @@ export const POLYGON: ChainConfig = {
 		RECEIVER_STAKING: '',
 		BRIDGE: '',
 		OYSTER: `https://gateway-arbitrum.network.thegraph.com/api/${PUBLIC_SUBGRAPH_KEY}/subgraphs/id/GAvm9MJadcg2Uao3eraFXMfzNMCmckHPDTLV15ux2cZC`,
-		POND: '',
-		MPOND: '',
 		OYSTER_CREDIT: ''
 	},
 	oyster_token: 'USDC',

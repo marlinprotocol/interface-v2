@@ -8,7 +8,7 @@
 	} from '$lib/data-stores/walletProviderStore';
 	import MPondToPondHistoryData from '$lib/page-components/bridge/history/MPondToPondHistoryData.svelte';
 	import { modifyMPondToPondConversionHistory } from '$lib/utils/data-modifiers/subgraphModifier';
-	import type { Address } from '@web3-onboard/core/dist/types';
+	import type { Address } from '$lib/types/storeTypes';
 
 	let previousChainId: number | null = null;
 	let previousWalletAddress: Address = '';

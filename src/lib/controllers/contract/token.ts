@@ -1,6 +1,6 @@
 import { createSignerContract, createTransaction } from '$lib/utils/helpers/contractHelpers';
 
-import type { Address } from '@web3-onboard/core/dist/types';
+import type { Address } from '$lib/types/storeTypes';
 import { ERC20_ABI } from '$lib/utils/abis/erc20';
 import { TOKEN_TXN_MESSAGES } from '$lib/utils/constants/messages';
 import type { TokenMetadata } from '$lib/types/environmentTypes';

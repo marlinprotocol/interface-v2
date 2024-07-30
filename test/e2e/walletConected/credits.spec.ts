@@ -1,12 +1,18 @@
-import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress';
+import { testWithSynpress, metaMaskFixtures, MetaMask } from '@synthetixio/synpress';
+
 import BasicSetup from '../../wallet-setup/basic.setup';
-import { MESSAGES } from '../../../src/lib/utils/constants/messages';
+import {
+	COMMON_TXN_MESSAGES,
+	OYSTER_CREDIT_TXN_MESSAGES
+} from '../../../src/lib/utils/constants/messages';
 import { loginToMetamask } from '../../helpers/metamask';
 import { goToMarketPlaceAndFetchCredits } from '../../helpers/credits';
 import { ROUTES } from '../../../src/lib/utils/constants/urls';
 import { getJobID } from '../../helpers/inventory';
+import { marketPlaceAndFilterAndSortByRate } from '../../helpers/marketplace';
 
-const test = testWithSynpress(BasicSetup, unlockForFixture);
+const test = testWithSynpress(metaMaskFixtures(BasicSetup));
+
 const { expect } = test;
 
 test('Able Get Credits Balance', async ({ context, page, metamaskPage, extensionId }) => {
@@ -29,9 +35,7 @@ test('Deploy a job using credits', async ({ context, page, metamaskPage, extensi
 	const hasText = await page.textContent('text=Infrastructure Providers');
 	expect(hasText).toBeTruthy();
 
-	// sort by rate.
-	const rateHeader = page.locator('th:has-text("RATE")');
-	await rateHeader.click();
+	await marketPlaceAndFilterAndSortByRate(page);
 
 	// Select and click the 'DEPLOY' button within the first row
 	await page.locator('tbody tr:first-child td:nth-of-type(8)').click();
@@ -143,7 +147,7 @@ test('Add funds to job using credits.', async ({ context, page, metamaskPage, ex
 		await page.locator('#pond-input-amount-Duration').first().fill('10');
 
 		await page.getByText('Days').first().click();
-		await page.getByRole('button', { name: 'Hours' }).click();
+		await page.getByRole('button', { name: 'Minutes' }).click();
 
 		await page.waitForTimeout(1000);
 
@@ -167,7 +171,7 @@ test('Add funds to job using credits.', async ({ context, page, metamaskPage, ex
 		}
 
 		await page.waitForSelector(
-			`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.ADD_CREDITS_JOB.CREDITS_ADDED}`
+			`text=${COMMON_TXN_MESSAGES.SUCCESS.description} ${OYSTER_CREDIT_TXN_MESSAGES.ADD_CREDITS_JOB.SUCCESS.description}`
 		);
 
 		await page.waitForTimeout(10_000);

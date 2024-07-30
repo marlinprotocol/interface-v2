@@ -1,9 +1,11 @@
-import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress';
+import { testWithSynpress, metaMaskFixtures, MetaMask } from '@synthetixio/synpress';
+
 import BasicSetup from '../../wallet-setup/basic.setup';
 import { loginToMetamask } from '../../helpers/metamask';
 import { ROUTES } from '../../../src/lib/utils/constants/urls';
 
-const test = testWithSynpress(BasicSetup, unlockForFixture);
+const test = testWithSynpress(metaMaskFixtures(BasicSetup));
+
 const { expect } = test;
 
 test('check for Linea Unsupported network in Bridge', async ({

@@ -313,7 +313,7 @@ test('Withdraw funds less than available balance should be allowed', async ({
 		await page.waitForTimeout(1000);
 		await metamask.confirmTransactionAndWaitForMining();
 		await page.waitForSelector(
-			`text=${COMMON_TXN_MESSAGES.SUCCESS} ${OYSTER_TXN_MESSAGES.WITHDRAW.SUCCESS}`
+			`text=${COMMON_TXN_MESSAGES.SUCCESS.description} ${OYSTER_CREDIT_TXN_MESSAGES.WITHDRAW_JOB_CREDIT.SUCCESS.description}`
 		);
 	}
 });

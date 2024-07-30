@@ -20,7 +20,6 @@
 	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let rowData: OysterInventoryDataModel;
-	export let rowIndex: number;
 
 	let submitLoading = false;
 
@@ -44,7 +43,7 @@
 </script>
 
 <td class={cn(tableClasses.cell, 'text-center')}>
-	<NameWithAddress {name} {address} {rowIndex}>
+	<NameWithAddress {name} {address}>
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
 				<div class="hidden cursor-pointer group-hover/row:flex">

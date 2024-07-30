@@ -12,10 +12,8 @@ import {
 	QUERY_TO_GET_JOBS_DATA,
 	QUERY_TO_GET_JOBS_DATA_BY_ID,
 	QUERY_TO_GET_MERCHANT_JOBS_DATA,
-	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY,
 	QUERY_TO_GET_POND_AND_MPOND_ALLOWANCES,
-	QUERY_TO_GET_POND_BALANCE_QUERY,
 	QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY,
 	QUERY_TO_GET_PROVIDER_DATA,
 	QUERY_TO_GET_RECEIVER_POND_BALANCE,
@@ -67,76 +65,6 @@ export async function subgraphQueryWrapper(
 	return result;
 }
 
-// ----------------------------- pond and mPond subgraph methods -----------------------------
-/**
- * Get POND balance from subgraph API.
- */
-export async function getPondBalanceFromSubgraph(address: Address): Promise<bigint> {
-	const url = chainConfig.subgraph_urls.POND;
-
-	const query = QUERY_TO_GET_POND_BALANCE_QUERY;
-	const queryVariables = { address: address.toLowerCase() };
-
-	try {
-		const result = await subgraphQueryWrapper(url, query, queryVariables);
-		const users = result['data']?.users;
-
-		if (result['errors']) {
-			throw new Error(result['errors'][0].message);
-		}
-		if (result['data'] && users?.length !== 0) {
-			return BigInt(users[0]?.balance);
-		} else {
-			return DEFAULT_WALLET_BALANCE_STORE.pond;
-		}
-	} catch (error: any) {
-		addToast({
-			variant: 'error',
-			message: {
-				title: 'Contract Error',
-				description: `Error fetching POND balance. ${error.message}`
-			},
-			timeout: 6000
-		});
-		console.log('Error fetching POND balance', error);
-		return DEFAULT_WALLET_BALANCE_STORE.pond;
-	}
-}
-
-/**
- * Get MPOND balance from subgraph API.
- */
-export async function getMPondBalanceFromSubgraph(address: Address): Promise<bigint> {
-	const url = chainConfig.subgraph_urls.MPOND;
-
-	const query = QUERY_TO_GET_MPOND_BALANCE;
-	const queryVariables = { id: address.toLowerCase() };
-
-	try {
-		const result = await subgraphQueryWrapper(url, query, queryVariables);
-		const balances = result['data']?.balances;
-
-		if (result['errors']) {
-			throw new Error(result['errors'][0].message);
-		}
-		if (result['data'] && balances?.length !== 0) {
-			return BigInt(balances[0]?.amount);
-		} else {
-			return DEFAULT_WALLET_BALANCE_STORE.mpond;
-		}
-	} catch (error: any) {
-		addToast({
-			variant: 'error',
-			message: {
-				title: 'Contract Error',
-				description: `Error fetching MPond balance. ${error.message}`
-			},
-			timeout: 6000
-		});
-		console.log('Error fetching MPond balance', error);
-		return DEFAULT_WALLET_BALANCE_STORE.mpond;
-	}
-}
 // ----------------------------- receiver staking smart contract subgraph methods -----------------------------
 export async function getReceiverPondBalanceFromSubgraph(address: Address): Promise<any> {
 	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;

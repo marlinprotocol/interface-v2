@@ -7,7 +7,6 @@
 		OysterOperatorInventorySortKeys
 	} from '$lib/types/oysterComponentType';
 	import { OYSTER_MERCHANT_JOB_TABLE_HEADER } from '$lib/utils/constants/oysterConstants';
-
 	import {
 		getSearchedOysterJobsData,
 		sortOysterOperatorInventory
@@ -18,9 +17,6 @@
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import EmptyCard from '$lib/components/empty-state/EmptyCard.svelte';
 	import { staticImages } from '$lib/components/images/staticImages';
-	import ModalButton from '$lib/atoms/modals/ModalButton.svelte';
-
-	import { connected } from '$lib/data-stores/walletProviderStore';
 
 	let searchInput = '';
 	let activePage = 1;
@@ -42,10 +38,6 @@
 
 	const handlePageChange = (page: number) => {
 		activePage = page;
-	};
-
-	const onSearchClick = () => {
-		activePage = 1;
 	};
 
 	$: merchantJobsData = $oysterStore.merchantJobsData?.filter((job) => job.status !== 'stopped');
@@ -70,9 +62,9 @@
 	emptyTableMessage="No jobs found."
 >
 	{#if paginatedData?.length}
-		{#each paginatedData as rowData, rowIndex (rowData.id)}
+		{#each paginatedData as rowData (rowData.id)}
 			<tr class={cn(tableClasses.row, 'group/row h-[64px] hover:bg-base-200')}>
-				<OysterOperatorJobsTableRow {rowData} {rowIndex} />
+				<OysterOperatorJobsTableRow {rowData} />
 			</tr>
 		{/each}
 	{/if}

@@ -22,7 +22,6 @@
 	import { cn } from '$lib/utils/helpers/commonHelper';
 
 	export let rowData: OysterInventoryDataModel;
-	export let rowIndex: number;
 	export let expandedRows: Set<string>;
 
 	let refreshLoading = false;
@@ -49,7 +48,6 @@
 	}
 
 	$: ({
-		provider: { address, name },
 		id,
 		ip,
 		balance,
@@ -70,7 +68,6 @@
 		name={jobName === 'N/A' ? '' : jobName}
 		address={String(id)}
 		long
-		{rowIndex}
 	>
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">

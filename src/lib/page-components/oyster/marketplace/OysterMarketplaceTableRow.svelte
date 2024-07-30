@@ -30,7 +30,7 @@
 </script>
 
 <td class={tableClasses.cell}>
-	<NameWithAddress {name} {address} {rowIndex} long>
+	<NameWithAddress {name} {address} long>
 		<svelte:fragment slot="copyIcon">
 			<div class="w-4">
 				<div class="hidden cursor-pointer group-hover/row:flex">

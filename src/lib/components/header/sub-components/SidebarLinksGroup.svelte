@@ -10,9 +10,9 @@
 	import { cn } from '$lib/utils/helpers/commonHelper';
 	import ExternalLinkConfirmationModal from '../../modals/ExternalLinkConfirmationModal.svelte';
 	import MenuItem from './MenuItem.svelte';
+	import { isDarkMode } from '$lib/data-stores/themeStore';
 
 	export let activeLink: string = '';
-	export let isDarkModeActive: boolean;
 
 	let links: SidebarLinks[] = [];
 	let expandedLinks: string = '';
@@ -290,11 +290,11 @@
 			<input
 				type="checkbox"
 				class="toggle h-[24px] w-[44px]"
-				checked={isDarkModeActive}
+				checked={$isDarkMode}
 				on:change={(e) => {
 					const htmlElement = document.documentElement;
-					isDarkModeActive = !isDarkModeActive;
-					if (isDarkModeActive) {
+					$isDarkMode = !$isDarkMode;
+					if ($isDarkMode) {
 						htmlElement.setAttribute('data-theme', 'dark');
 						localStorage.setItem('theme', 'dark');
 					} else {

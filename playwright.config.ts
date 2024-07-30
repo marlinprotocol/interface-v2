@@ -14,9 +14,9 @@ const baseURL = `http://localhost:5173`;
 
 export default defineConfig({
 	testDir: './test/e2e',
-	timeout: 2 * 60 * 1000,
+	timeout: 60 * 1000,
 	/* Run tests in files in parallel */
-	fullyParallel: false,
+	fullyParallel: process.env.CI ? true : false,
 	/* Fail the build on CI if you accidentally left test.only in the source code. */
 	forbidOnly: !!process.env.CI,
 	/* Retry on CI only */
@@ -29,7 +29,7 @@ export default defineConfig({
 	use: {
 		/* Base URL to use in actions like `await page.goto('/')`. */
 		baseURL,
-		actionTimeout: 60 * 1000,
+		actionTimeout: 10000,
 		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
 		trace: 'on-first-retry'
 	},

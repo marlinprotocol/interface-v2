@@ -79,7 +79,7 @@ test('Copy Job ID', async ({ page, context, metamaskPage, extensionId }) => {
 	await loginToMetamask(metamask, page);
 
 	// Wait for data
-	await page.waitForTimeout(1000);
+	await page.waitForTimeout(3000);
 
 	const rows = await page.$$eval('tbody tr', (rows) => rows);
 

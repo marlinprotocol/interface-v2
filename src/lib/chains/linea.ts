@@ -29,8 +29,6 @@ export const LINEA: ChainConfig = {
 		RECEIVER_STAKING: '',
 		BRIDGE: '',
 		OYSTER: `https://gateway-arbitrum.network.thegraph.com/api/${PUBLIC_SUBGRAPH_KEY}/subgraphs/id/GRms7wGqfw3tdHyrEVxmdWpPNduj9tEfQ6oD8g6aj1bU`,
-		POND: '',
-		MPOND: '',
 		OYSTER_CREDIT: ''
 	},
 	oyster_token: 'USDC',

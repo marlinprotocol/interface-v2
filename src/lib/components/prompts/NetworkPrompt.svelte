@@ -16,7 +16,7 @@
 	<div
 		class={cn(
 			'flex h-[460px] w-130 flex-col items-center justify-center rounded-3xl border border-grey-100',
-			isVariantWhite ? 'bg-white' : 'bg-[#3840C7]'
+			isVariantWhite ? 'bg-secondary-content' : 'bg-[#3840C7]'
 		)}
 	>
 		{#if showIcon}

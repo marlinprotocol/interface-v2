@@ -28,8 +28,6 @@ export const ARB_GOERLI: ChainConfig = {
 		RECEIVER_STAKING: 'https://api.thegraph.com/subgraphs/name/marlin-staging/staking-arb1-goerli',
 		BRIDGE: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/bridge-kovan',
 		OYSTER: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/enclaves-arb-goerli',
-		POND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/pond-dev',
-		MPOND: 'https://api.thegraph.com/subgraphs/name/marlinprotocol/governance-dev',
 		OYSTER_CREDIT: ''
 	},
 	oyster_token: 'POND',

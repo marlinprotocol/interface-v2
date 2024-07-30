@@ -1,5 +1,5 @@
 import { BrowserProvider, ethers } from 'ethers';
-import type { Address } from '@web3-onboard/core/dist/types';
+import type { Address } from '$lib/types/storeTypes';
 import { ERC20_ABI } from '$lib/utils/abis/erc20';
 import type { TokenMetadata } from '$lib/types/environmentTypes';
 import { addToast } from '$lib/data-stores/toastStore';

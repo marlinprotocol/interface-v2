@@ -67,8 +67,6 @@ export type SubgraphUrls = {
 	RECEIVER_STAKING: string;
 	BRIDGE: string;
 	OYSTER: string;
-	POND: string;
-	MPOND: string;
 	OYSTER_CREDIT: string;
 };
 

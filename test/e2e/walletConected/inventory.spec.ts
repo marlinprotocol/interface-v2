@@ -1,11 +1,17 @@
-import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress';
+import { testWithSynpress, metaMaskFixtures, MetaMask } from '@synthetixio/synpress';
+
 import BasicSetup from '../../wallet-setup/basic.setup';
 import { ROUTES } from '../../../src/lib/utils/constants/urls';
 import { loginToMetamask } from '../../helpers/metamask';
-import { MESSAGES } from '../../../src/lib/utils/constants/messages';
+import {
+	COMMON_TXN_MESSAGES,
+	OYSTER_CREDIT_TXN_MESSAGES,
+	OYSTER_TXN_MESSAGES
+} from '../../../src/lib/utils/constants/messages';
 import { extractBalanceColumnData, isSortedNumerically } from '../../helpers/marketplace';
 
-const test = testWithSynpress(BasicSetup, unlockForFixture);
+const test = testWithSynpress(metaMaskFixtures(BasicSetup));
+
 const { expect } = test;
 
 test('Copy Enclave Image URL', async ({ context, page, metamaskPage, extensionId }) => {
@@ -55,7 +61,7 @@ test('Initiate Stop', async ({ context, page, metamaskPage, extensionId }) => {
 			await page.locator('text=INITIATE STOP').click();
 			await metamask.confirmTransactionAndWaitForMining();
 			await page.waitForSelector(
-				`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.AMEND_RATE_JOB.INITIATED}`
+				`text=${COMMON_TXN_MESSAGES.SUCCESS} ${OYSTER_CREDIT_TXN_MESSAGES.AMEND_RATE_JOB.INITIATED}`
 			);
 		}
 	} else {
@@ -73,9 +79,13 @@ test('Copy Job ID', async ({ page, context, metamaskPage, extensionId }) => {
 	await loginToMetamask(metamask, page);
 
 	// Wait for data
-	await page.waitForTimeout(2000);
+	await page.waitForTimeout(1000);
 
 	const rows = await page.$$eval('tbody tr', (rows) => rows);
+
+	console.log({
+		rows
+	});
 	if (!(rows.length > 0)) test.skip();
 
 	const firstRowSelector = 'tbody tr:first-child td:nth-child(1)';
@@ -216,7 +226,6 @@ test('Withdraw funds more than available balance should not be allowed', async (
 			? parseFloat(balanceCell.textContent?.trim().replace('$', '').replace(/,/g, '') || '')
 			: 0;
 	});
-	console.log({ maxAvailableBalance });
 
 	const expandRowToggleButton = await page.$('tbody tr:nth-child(1) td:last-child button');
 	if (expandRowToggleButton && !(await expandRowToggleButton.isDisabled())) {
@@ -304,7 +313,7 @@ test('Withdraw funds less than available balance should be allowed', async ({
 		await page.waitForTimeout(1000);
 		await metamask.confirmTransactionAndWaitForMining();
 		await page.waitForSelector(
-			`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.WITHDRAW_JOB.WITHDRAWN}`
+			`text=${COMMON_TXN_MESSAGES.SUCCESS} ${OYSTER_TXN_MESSAGES.WITHDRAW.SUCCESS}`
 		);
 	}
 });

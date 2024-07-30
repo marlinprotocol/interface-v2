@@ -1,11 +1,16 @@
-import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress';
-import BasicSetup from '../../wallet-setup/connected.setup';
+import { testWithSynpress, metaMaskFixtures, MetaMask } from '@synthetixio/synpress';
+
+import BasicSetup from '../../wallet-setup/basic.setup';
 import { ROUTES } from '../../../src/lib/utils/constants/urls';
-import { MESSAGES } from '../../../src/lib/utils/constants/messages';
+import {
+	COMMON_TXN_MESSAGES,
+	OYSTER_TXN_MESSAGES
+} from '../../../src/lib/utils/constants/messages';
 import { loginToMetamask } from '../../helpers/metamask';
 import { getWalletAddress } from '../../helpers/common';
 
-const test = testWithSynpress(BasicSetup, unlockForFixture);
+const test = testWithSynpress(metaMaskFixtures(BasicSetup));
+
 const { expect } = test;
 const TEST_CP_URL_1 = process.env.VITE_TEST_CP_URL_1 || '';
 const TEST_CP_URL_2 = process.env.VITE_TEST_CP_URL_2 || '';
@@ -66,8 +71,17 @@ test('Operator Edit', async ({ context, page, metamaskPage, extensionId }) => {
 
 	updateButton.click();
 	const cpURLInput = page.getByPlaceholder('Paste updated URL here');
-	// // await page.getByTestId('container-card-body').getByRole('button').first().click();
+	// await page.getByTestId('container-card-body').getByRole('button').first().click();
 	await cpURLInput.fill(TEST_CP_URL_2);
+
+	const errorMessage =
+		'Registered CP URL and updated CP URL cannot be the same. Please update the CP URL.';
+
+	const isTEST_CP_URL_2 = await page.getByText(errorMessage).isVisible();
+
+	if (isTEST_CP_URL_2) {
+		await cpURLInput.fill(TEST_CP_URL_1);
+	}
 
 	await page.waitForSelector('text=Your control plane URL is loading...');
 	await page.waitForSelector('text=Your control plane URL has been added successfully!');
@@ -79,7 +93,7 @@ test('Operator Edit', async ({ context, page, metamaskPage, extensionId }) => {
 	await metamask.confirmTransactionAndWaitForMining();
 
 	await page.waitForSelector(
-		`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.UPDATE.UPDATED}`
+		`text=${COMMON_TXN_MESSAGES.SUCCESS.description} ${OYSTER_TXN_MESSAGES.UPDATE_CP_URL.SUCCESS.description}`
 	);
 });
 
@@ -103,6 +117,6 @@ test('Operator Unregistration', async ({ context, page, metamaskPage, extensionI
 	await unregisterButton.click();
 	await metamask.confirmTransactionAndWaitForMining();
 	await page.waitForSelector(
-		`text=${MESSAGES.TOAST.TRANSACTION.SUCCESS} ${MESSAGES.TOAST.ACTIONS.REMOVE.REMOVED}`
+		`text=${COMMON_TXN_MESSAGES.SUCCESS.description} ${OYSTER_TXN_MESSAGES.REMOVE_OPERATOR.SUCCESS.description}`
 	);
 });

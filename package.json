@@ -26,10 +26,10 @@
 	},
 	"devDependencies": {
 		"@playpilot/svelte-htm": "^1.0.1",
-		"@playwright/test": "^1.45.2",
+		"@playwright/test": "^1.44.0",
 		"@sveltejs/adapter-static": "^3.0.2",
 		"@sveltejs/kit": "^2.5.18",
-		"@synthetixio/synpress": "^4.0.0-alpha.0",
+		"@synthetixio/synpress": "^4.0.0-alpha.7",
 		"@testing-library/svelte": "^5.2.0",
 		"@types/node": "^20.14.11",
 		"@typescript-eslint/eslint-plugin": "^6.5.0",

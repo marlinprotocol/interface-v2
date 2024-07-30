@@ -1,9 +1,12 @@
-import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress';
+import { testWithSynpress, metaMaskFixtures, MetaMask } from '@synthetixio/synpress';
+
 import BasicSetup from '../../wallet-setup/basic.setup';
 import { ROUTES } from '../../../src/lib/utils/constants/urls';
 import { loginToMetamask } from '../../helpers/metamask';
+import { marketPlaceAndFilterAndSortByRate } from '../../helpers/marketplace';
 
-const test = testWithSynpress(BasicSetup, unlockForFixture);
+const test = testWithSynpress(metaMaskFixtures(BasicSetup));
+
 const { expect } = test;
 
 test('connect wallet -> deploy a job -> check if it navigated to inventory', async ({
@@ -20,9 +23,7 @@ test('connect wallet -> deploy a job -> check if it navigated to inventory', asy
 	const hasText = await page.textContent('text=Infrastructure Providers');
 	expect(hasText).toBeTruthy();
 
-	// sort by rate.
-	const rateHeader = page.locator('th:has-text("RATE")');
-	await rateHeader.click();
+	await marketPlaceAndFilterAndSortByRate(page);
 
 	// Select and click the 'DEPLOY' button within the first row
 	await page.getByTestId('deploy-table-button-0').click();
@@ -75,9 +76,7 @@ test('bandwidth cost should update on duration and bandwidth change', async ({
 	const hasText = await page.textContent('text=Infrastructure Providers');
 	expect(hasText).toBeTruthy();
 
-	// sort by rate.
-	const rateHeader = page.locator('th:has-text("RATE")');
-	await rateHeader.click();
+	await marketPlaceAndFilterAndSortByRate(page);
 
 	// Select and click the 'DEPLOY' button within the first row
 	await page.getByTestId('deploy-table-button-0').click();

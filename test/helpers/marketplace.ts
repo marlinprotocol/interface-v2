@@ -78,3 +78,16 @@ export const marketplaceSearch = async (page: Page) => {
 	await page.getByRole('button', { name: 'Apply' }).click();
 	await page.waitForTimeout(2000);
 };
+
+export const marketPlaceAndFilterAndSortByRate = async (page: Page) => {
+	// apply filter
+	const instanceToFilter = 'c6in.xlarge';
+	await page.locator('#select-instance').getByTestId('collapse-button').click();
+	await page.getByRole('button', { name: instanceToFilter, exact: true }).click();
+	await page.getByRole('button', { name: 'Apply' }).click();
+	await page.waitForTimeout(1000);
+
+	// sort by rate.
+	const rateHeader = page.locator('th:has-text("RATE")');
+	await rateHeader.click();
+};

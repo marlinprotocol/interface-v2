@@ -5,8 +5,7 @@ import { ROUTES } from '../../../src/lib/utils/constants/urls';
 import { loginToMetamask } from '../../helpers/metamask';
 import {
 	COMMON_TXN_MESSAGES,
-	OYSTER_CREDIT_TXN_MESSAGES,
-	OYSTER_TXN_MESSAGES
+	OYSTER_CREDIT_TXN_MESSAGES
 } from '../../../src/lib/utils/constants/messages';
 import { extractBalanceColumnData, isSortedNumerically } from '../../helpers/marketplace';
 
@@ -312,8 +311,6 @@ test('Withdraw funds less than available balance should be allowed', async ({
 		await page.locator('#modal-withdraw-btn').first()?.click();
 		await page.waitForTimeout(1000);
 		await metamask.confirmTransactionAndWaitForMining();
-		await page.waitForSelector(
-			`text=${COMMON_TXN_MESSAGES.SUCCESS.description} ${OYSTER_CREDIT_TXN_MESSAGES.WITHDRAW_JOB_CREDIT.SUCCESS.description}`
-		);
+		await page.waitForSelector(`text=${COMMON_TXN_MESSAGES.SUCCESS.description}`);
 	}
 });

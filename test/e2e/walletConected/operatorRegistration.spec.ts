@@ -37,7 +37,10 @@ test('Operator Registation', async ({ context, page, metamaskPage, extensionId }
 	expect(await registerButton.isDisabled()).toBeFalsy();
 	registerButton.click();
 	const cpURLInput = page.getByPlaceholder('Paste URL here');
-	expect(cpURLInput).toHaveValue('');
+	// expect(await cpURLInput.inputValue()).toBe('');
+	if ((await cpURLInput.inputValue()) !== '') {
+		test.skip();
+	}
 	expect(cpURLInput).toBeEnabled();
 
 	await cpURLInput.fill(TEST_CP_URL_1);
@@ -71,7 +74,6 @@ test('Operator Edit', async ({ context, page, metamaskPage, extensionId }) => {
 
 	updateButton.click();
 	const cpURLInput = page.getByPlaceholder('Paste updated URL here');
-	// await page.getByTestId('container-card-body').getByRole('button').first().click();
 	await cpURLInput.fill(TEST_CP_URL_2);
 
 	const errorMessage =

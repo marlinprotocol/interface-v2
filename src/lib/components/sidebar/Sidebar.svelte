@@ -36,7 +36,7 @@
 			</a>
 		{/if}
 	</div>
-	<SidebarLinksGroup activeLink={$page.url.pathname} bind:isDarkModeActive />
+	<SidebarLinksGroup activeLink={$page.url.pathname} />
 	<button
 		class={cn(
 			'fixed top-1/2 cursor-pointer transition-all duration-300 ease-out',

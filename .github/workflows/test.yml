@@ -8,7 +8,7 @@ jobs:
     environment: test
     timeout-minutes: 20
     runs-on: ubuntu-latest
-    
+
     permissions:
       # Required to checkout the code
       contents: read
@@ -16,23 +16,23 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/actions/ci-setup
-    - name: 'Test'
-      run: npm run test:unit
-      env:
-        VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
-    - name: 'Coverage Test'
-      run: npm run testcoverage:unit
-      env:
-        VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
-    - name: 'Report Coverage'
-      # Set if: always() to also generate the report if tests are failing
-      # Only works if you set `reportOnFailure: true` in your vite config as specified above
-      if: always() 
-      uses:  davelosert/vitest-coverage-report-action@v2
-      with:
-        working-directory: ./
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ci-setup
+      - name: 'Test'
+        run: npm run test:unit
+        env:
+          VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+      - name: 'Coverage Test'
+        run: npm run testcoverage:unit
+        env:
+          VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+      - name: 'Report Coverage'
+        # Set if: always() to also generate the report if tests are failing
+        # Only works if you set `reportOnFailure: true` in your vite config as specified above
+        if: always()
+        uses: davelosert/vitest-coverage-report-action@v2
+        with:
+          working-directory: ./
   playwright:
     environment: test
     timeout-minutes: 60

@@ -13,11 +13,6 @@ export const LINEA: ChainConfig = {
 	backend_network_id: 'Linea',
 	contract_addresses: {
 		BRIDGE: '',
-		CLUSTER_REGISTRY: '',
-		CLUSTER_REWARDS: '',
-		RECEIVER_STAKING: '',
-		REWARD_DELEGATORS: '',
-		STAKE_MANAGER: '',
 		OYSTER: '0xdD78e7F31B98dD8BD1F44F8FFCCeb4EdA6abdc5B',
 		POND: '',
 		MPOND: '',

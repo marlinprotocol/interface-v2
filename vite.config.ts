@@ -43,11 +43,14 @@ export default defineConfig({
 			'html/assets/**',
 			'src/routes/**',
 			'src/**/*.svelte',
+			'svelte.config.js',
 			'src/lib/controllers/**',
 			'src/lib/utils/services/**',
 			'src/lib/utils/constants/**',
 			'src/lib/utils/abis/**',
-			'svelte.config.js'
+			'.cache-synpress/',
+			'src/lib/data-stores/receiverRewardsStore.ts',
+			''
 		],
 		environment: 'jsdom',
 		globals: true,
@@ -70,7 +73,9 @@ export default defineConfig({
 				'src/lib/utils/services/**',
 				'src/lib/utils/constants/**',
 				'src/lib/utils/abis/**',
-				'.cache-synpress/'
+				'.cache-synpress/',
+				'src/lib/data-stores/receiverRewardsStore.ts',
+				''
 			]
 		},
 		reporters: ['html', 'default']

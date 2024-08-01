@@ -13,11 +13,6 @@ export const POLYGON: ChainConfig = {
 	backend_network_id: 'Polygon',
 	contract_addresses: {
 		BRIDGE: '',
-		CLUSTER_REGISTRY: '',
-		CLUSTER_REWARDS: '',
-		RECEIVER_STAKING: '',
-		REWARD_DELEGATORS: '',
-		STAKE_MANAGER: '',
 		OYSTER: '0x4dA7A531EF660533074341df098F722F1Aa5dFaa',
 		POND: '',
 		MPOND: '',

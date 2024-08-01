@@ -102,7 +102,7 @@
 	<h2 class="text-3xl font-medium leading-[-2px] text-grey-800">
 		Hello, {$connected ? shortenText($walletStore.address, 6, 6) : 'Fishy'}
 	</h2>
-	<p class="text-grey-500 mt-4 text-lg font-light leading-6">
+	<p class="mt-4 text-lg font-light leading-6 text-grey-500">
 		Oyster is a sub-network of Marlin that specializes in offering TEE-based coprocessors. Servers
 		provisioned using smart contract calls host AI/ML models, gateways, frontends, MEV or automation
 		bots, or backends for arbitrary computations using external APIs with baked-in auto-scaling and

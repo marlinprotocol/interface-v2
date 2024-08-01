@@ -3,9 +3,9 @@ runs:
   using: 'composite'
   steps:
     - name: Set environment variable
-      run: | 
-           echo "GITHUB_ACTION=true" >> $GITHUB_ENV
-           echo "PUBLIC_NODE_ENV=development" >> $GITHUB_ENV
+      run: |
+        echo "GITHUB_ACTION=true" >> $GITHUB_ENV
+        echo "PUBLIC_NODE_ENV=development" >> $GITHUB_ENV
       shell: bash
     - name: Use Node.js 18.x
       uses: actions/setup-node@v4

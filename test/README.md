@@ -24,7 +24,7 @@ running the script `npm run test:integration` will create .cache-synpress folder
 
 For the first time, you'll need to run the development server separately and then run `npm run test:integration`.
 after that no need to run the development server separately.
-  
+
 ### Config
 
 Configuration for playwright can be found in `playwright.config.js`

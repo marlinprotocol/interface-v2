@@ -10,9 +10,7 @@ import {
 import { ethers } from 'ethers';
 import onboard from '$lib/controllers//web3OnboardController';
 import { resetBridgeStore } from '$lib/data-stores/bridgeStore';
-import { resetEpochCycleStore } from '$lib/data-stores/epochCycleStore';
 import { resetOysterStore } from '$lib/data-stores/oysterStore';
-import { resetReceiverStakingStore } from '$lib/data-stores/receiverStakingStore';
 import { resetWalletProviderStore } from '$lib/data-stores/walletProviderStore';
 
 async function createEthersProviderAndSigner(provider: EIP1193Provider) {
@@ -66,10 +64,8 @@ export async function setWalletAndChainStores(provider: EIP1193Provider) {
 export function disconnectWallet(wallets: WalletState[]) {
 	onboard.disconnectWallet({ label: wallets?.[0]?.label });
 	resetChainStore();
-	resetEpochCycleStore();
 	resetBridgeStore();
 	resetWalletBalanceStore();
 	resetWalletProviderStore();
-	resetReceiverStakingStore();
 	resetOysterStore();
 }

@@ -69,7 +69,8 @@ export default defineConfig({
 				'src/lib/controllers/**',
 				'src/lib/utils/services/**',
 				'src/lib/utils/constants/**',
-				'src/lib/utils/abis/**'
+				'src/lib/utils/abis/**',
+				'.cache-synpress/'
 			]
 		},
 		reporters: ['html', 'default']

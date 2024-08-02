@@ -48,9 +48,7 @@ export default defineConfig({
 			'src/lib/utils/services/**',
 			'src/lib/utils/constants/**',
 			'src/lib/utils/abis/**',
-			'.cache-synpress/',
-			'src/lib/data-stores/receiverRewardsStore.ts',
-			''
+			'.cache-synpress/'
 		],
 		environment: 'jsdom',
 		globals: true,
@@ -73,9 +71,7 @@ export default defineConfig({
 				'src/lib/utils/services/**',
 				'src/lib/utils/constants/**',
 				'src/lib/utils/abis/**',
-				'.cache-synpress/',
-				'src/lib/data-stores/receiverRewardsStore.ts',
-				''
+				'.cache-synpress/'
 			]
 		},
 		reporters: ['html', 'default']

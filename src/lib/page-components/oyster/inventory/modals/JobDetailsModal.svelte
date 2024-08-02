@@ -63,13 +63,14 @@
 					title="Enclave Image URL"
 					value={enclaveUrl ?? 'N/A'}
 					cliboardContent={enclaveUrl}
-					textStyle="truncate"
+					scrollable
 				/>
 				<TextInputCard
 					title="Enclave Image Inputs"
 					value={inputs ? inputs : 'N/A'}
 					cliboardContent={inputs ? inputs : 'N/A'}
 					textStyle="truncate"
+					scrollable
 				/>
 			</div>
 			<div class="flex flex-col flex-wrap gap-4 sm:flex-row md:flex-nowrap md:gap-2">

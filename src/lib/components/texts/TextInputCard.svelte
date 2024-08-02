@@ -12,20 +12,22 @@
 	export let textStyle = '';
 	export let centered = false;
 	export let cliboardContent: string | undefined = '';
+	export let scrollable = false;
 
 	$: successMessage = `${title} copied to clipboard`;
 </script>
 
-<InputCard variant="v2Input">
+<InputCard variant="v2Input" styleClass={scrollable ? 'w-[50%]' : ''}>
 	<div
 		class={cn('mb-1 flex items-center gap-1', {
-			'justify-center': centered
+			'justify-center': centered,
+			'w-[50%]': scrollable
 		})}
 	>
 		<Text
 			variant="small"
 			text={title}
-			styleClass="absolute left-7 top-[-1px] z-[1] inline-flex bg-base-100 font-poppins text-sm font-normal leading-[1px] text-grey-800"
+			styleClass={'absolute left-7 top-[-1px] z-[1] inline-flex bg-base-100 font-poppins text-sm font-normal leading-[1px] text-grey-800'}
 		/>
 		{#if tooltipText}
 			<TooltipIcon
@@ -45,7 +47,8 @@
 			text={value}
 			fontWeight="font-normal"
 			styleClass={cn('flex py-[3px]', textStyle, {
-				'items-center justify-center text-center': centered
+				'items-center justify-center text-center': centered,
+				'overflow-x-auto': scrollable
 			})}
 		/>
 		{#if cliboardContent !== '' && cliboardContent !== undefined}

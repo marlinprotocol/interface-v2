@@ -12,11 +12,6 @@ export const ETH: ChainConfig = {
 	backend_network_id: '',
 	contract_addresses: {
 		BRIDGE: '0xB8324885ffe77b2A69f9dB4d7917ad2Ad1b8F957',
-		CLUSTER_REGISTRY: '',
-		CLUSTER_REWARDS: '',
-		RECEIVER_STAKING: '',
-		REWARD_DELEGATORS: '',
-		STAKE_MANAGER: '',
 		OYSTER: '',
 		POND: '0x57B946008913B82E4dF85f501cbAeD910e58D26C',
 		MPOND: '0x1C77d15857646687005dbbAfFf5873F4495a9731',

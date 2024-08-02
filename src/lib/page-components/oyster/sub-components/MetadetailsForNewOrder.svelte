@@ -158,9 +158,9 @@
 				$oysterStore.allMarketplaceData
 			)
 		: undefined;
-	$: set_vcpu(!instance.value ? '' : instanceData?.vcpu?.toString() ?? 'N/A');
-	$: set_arch(!instance.value ? '' : instanceData?.arch?.toString() ?? 'N/A');
-	$: set_memory(!instance.value ? '' : instanceData?.memory?.toString() ?? 'N/A');
+	$: set_vcpu(!instance.value ? '' : (instanceData?.vcpu?.toString() ?? 'N/A'));
+	$: set_arch(!instance.value ? '' : (instanceData?.arch?.toString() ?? 'N/A'));
+	$: set_memory(!instance.value ? '' : (instanceData?.memory?.toString() ?? 'N/A'));
 	$: instanceOrRegionError =
 		(instance.isDirty && instance.error !== '') || (region.isDirty && region.error !== '');
 </script>

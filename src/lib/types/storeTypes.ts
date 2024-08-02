@@ -45,11 +45,6 @@ export type ContractAbi = {
 
 // address store
 export type ContractAddress = {
-	STAKE_MANAGER: Address;
-	REWARD_DELEGATORS: Address;
-	CLUSTER_REGISTRY: Address;
-	CLUSTER_REWARDS: Address;
-	RECEIVER_STAKING: Address;
 	BRIDGE: Address;
 	OYSTER: Address;
 	POND: Address;

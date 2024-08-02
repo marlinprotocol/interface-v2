@@ -10,9 +10,15 @@
 <div class="flex w-full flex-col gap-4">
 	<div class="mb-2 flex flex-col items-start justify-center">
 		<div class="flex items-center justify-center gap-1">
-			<span class="font-poppins text-2xl font-medium text-[#030115]"> Compute </span>
+			<span class="font-poppins text-2xl font-medium text-grey-800"> Compute </span>
 			<Tooltip placement="top">
-				<img slot="tooltipIcon" src={staticImages.alertV2Icon} alt="Info" width={16} />
+				<img
+					slot="tooltipIcon"
+					src={staticImages.alertV2Icon}
+					alt="Info"
+					class="icon-invert"
+					width={16}
+				/>
 				<span slot="tooltipContent">This tooltip is for Compute</span></Tooltip
 			>
 		</div>
@@ -23,7 +29,7 @@
 				class={cn(
 					{
 						'bg-primary text-white': $kalypsoStore.activeComputeTab === 'increase',
-						'bg-white': $kalypsoStore.activeComputeTab !== 'increase'
+						'bg-base-100': $kalypsoStore.activeComputeTab !== 'increase'
 					},
 					'join-item w-full rounded-l-xl border border-primary px-4 py-3 font-poppins text-base'
 				)}
@@ -35,7 +41,7 @@
 				class={cn(
 					{
 						'bg-primary text-white': $kalypsoStore.activeComputeTab === 'decrease',
-						'bg-white': $kalypsoStore.activeComputeTab !== 'decrease'
+						'bg-base-100': $kalypsoStore.activeComputeTab !== 'decrease'
 					},
 					'join-item w-full rounded-r-xl border border-primary px-4 py-3 font-poppins text-base'
 				)}

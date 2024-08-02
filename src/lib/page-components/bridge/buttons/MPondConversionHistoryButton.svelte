@@ -14,12 +14,12 @@
 
 <MPondConversionHistoryModal conversions={conversionHistory} {modalFor} />
 {#if !conversionHistory?.length}
-	<div class={cn(classes, 'cursor-not-allowed opacity-50')}>
+	<div class={cn(classes, 'icon-invert cursor-not-allowed opacity-50')}>
 		<img src={staticImages.historyIcon} alt="History Icon" />
 	</div>
 {:else}
 	<ModalButton variant="text" size="tiniest" {modalFor}>
-		<div class={cn(classes, 'hover:bg-[#F0F0F0]')}>
+		<div class={cn(classes, 'icon-invert hover:bg-[#F0F0F0]')}>
 			<img src={staticImages.historyIcon} alt="History Icon" />
 		</div>
 	</ModalButton>

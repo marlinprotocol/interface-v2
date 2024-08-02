@@ -12,11 +12,6 @@ export const LINEA_GOERLI: ChainConfig = {
 	backend_network_id: 'Linea',
 	contract_addresses: {
 		BRIDGE: '',
-		CLUSTER_REGISTRY: '',
-		CLUSTER_REWARDS: '',
-		RECEIVER_STAKING: '',
-		REWARD_DELEGATORS: '',
-		STAKE_MANAGER: '',
 		OYSTER: '0xe43EFeA7f40a885f4B35a149CAB5FC3fE01564C6',
 		POND: '0xDcD2846DCA523Db1C8F3c842a41A58099dE26A0A',
 		MPOND: '',
@@ -28,8 +23,6 @@ export const LINEA_GOERLI: ChainConfig = {
 		RECEIVER_STAKING: '',
 		BRIDGE: '',
 		OYSTER: 'https://api.studio.thegraph.com/query/76614/marlin-oyster-linea-dev/version/latest',
-		POND: '',
-		MPOND: '',
 		OYSTER_CREDIT: ''
 	},
 	oyster_token: 'POND',

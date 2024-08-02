@@ -4,11 +4,9 @@
 	import { addToast } from '$lib/data-stores/toastStore';
 	import { shortenText } from '$lib/utils/helpers/conversionHelper';
 	import { copyTextToClipboard } from '$lib/utils/helpers/commonHelper';
-	import { getColorHexForTableRow } from '$lib/utils/helpers/componentHelper';
 
 	export let name = '';
 	export let address = '';
-	export let rowIndex = -1;
 	export let long: boolean = false;
 	export let table:
 		| 'inventory'

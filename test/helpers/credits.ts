@@ -1,12 +1,12 @@
 import { Page } from '@playwright/test';
 import { ROUTES } from '../../src/lib/utils/constants/urls';
+import { marketPlaceAndFilterAndSortByRate } from './marketplace';
 
 export const goToMarketPlaceAndFetchCredits = async (page: Page) => {
 	await page.goto(ROUTES.OYSTER_MARKETPLACE_URL, { waitUntil: 'networkidle' });
 	await page.reload({ waitUntil: 'networkidle' });
-	// sort by rate.
-	const rateHeader = page.locator('th:has-text("RATE")');
-	await rateHeader.click();
+
+	await marketPlaceAndFilterAndSortByRate(page);
 
 	// Select and click the 'DEPLOY' button within the first row
 	await page.locator('tbody tr:first-child td:nth-of-type(8)').click();

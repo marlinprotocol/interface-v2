@@ -8,7 +8,7 @@ jobs:
     environment: test
     timeout-minutes: 20
     runs-on: ubuntu-latest
-    
+
     permissions:
       # Required to checkout the code
       contents: read
@@ -16,20 +16,43 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/actions/ci-setup
-    - name: 'Test'
-      run: npm run test:unit
-      env:
-        VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
-    - name: 'Coverage Test'
-      run: npm run testcoverage:unit
-      env:
-        VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
-    - name: 'Report Coverage'
-      # Set if: always() to also generate the report if tests are failing
-      # Only works if you set `reportOnFailure: true` in your vite config as specified above
-      if: always() 
-      uses:  davelosert/vitest-coverage-report-action@v2
-      with:
-        working-directory: ./
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ci-setup
+      - name: 'Test'
+        run: npm run test:unit
+        env:
+          VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+      - name: 'Coverage Test'
+        run: npm run testcoverage:unit
+        env:
+          VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+      - name: 'Report Coverage'
+        # Set if: always() to also generate the report if tests are failing
+        # Only works if you set `reportOnFailure: true` in your vite config as specified above
+        if: always()
+        uses: davelosert/vitest-coverage-report-action@v2
+        with:
+          working-directory: ./
+  playwright:
+    environment: test
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/ci-setup
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright basic tests
+        run: npm run test:integration:basic
+        env:
+          VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+          VITE_SEED_PHRASE: ${{ secrets.VITE_SEED_PHRASE }}
+          VITE_WALLET_PASSWORD: ${{ secrets.VITE_WALLET_PASSWORD }}
+          VITE_TEST_CP_URL_1: ${{ secrets.VITE_TEST_CP_URL_1 }}
+          VITE_TEST_CP_URL_2: ${{ secrets.VITE_TEST_CP_URL_2 }}
+          PUBLIC_SUBGRAPH_KEY: ${{ secrets.PUBLIC_SUBGRAPH_KEY }}

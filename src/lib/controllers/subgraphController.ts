@@ -1,26 +1,15 @@
-import type { Address, ContractAddress, ReceiverStakingData } from '$lib/types/storeTypes';
+import type { Address, ContractAddress } from '$lib/types/storeTypes';
 import {
-	DEFAULT_BRIDGE_STORE,
-	DEFAULT_RECEIVER_STAKING_DATA,
-	DEFAULT_WALLET_BALANCE_STORE
-} from '$lib/utils/constants/storeDefaults';
-import {
-	QUERY_TO_CHECK_IF_SIGNER_EXISTS,
 	QUERY_TO_CHECK_OYSTER_CREDIT_BALANCE,
 	QUERY_TO_GET_ALL_PROVIDERS_DATA,
 	QUERY_TO_GET_CREDIT_JOBS_DATA,
 	QUERY_TO_GET_JOBS_DATA,
 	QUERY_TO_GET_JOBS_DATA_BY_ID,
 	QUERY_TO_GET_MERCHANT_JOBS_DATA,
-	QUERY_TO_GET_MPOND_BALANCE,
 	QUERY_TO_GET_MPOND_TO_POND_CONVERSION_HSTORY,
 	QUERY_TO_GET_POND_AND_MPOND_ALLOWANCES,
-	QUERY_TO_GET_POND_BALANCE_QUERY,
 	QUERY_TO_GET_POND_TO_MPOND_CONVERSION_HSTORY,
 	QUERY_TO_GET_PROVIDER_DATA,
-	QUERY_TO_GET_RECEIVER_POND_BALANCE,
-	QUERY_TO_GET_RECEIVER_REWARDS_DATA,
-	QUERY_TO_GET_RECEIVER_STAKING_DATA,
 	QUERY_TO_MPOND_REQUESTED_FOR_CONVERSION
 } from '$lib/utils/constants/subgraphQueries';
 
@@ -65,217 +54,6 @@ export async function subgraphQueryWrapper(
 	};
 	const result = await fetchHttpData(url, options);
 	return result;
-}
-
-// ----------------------------- pond and mPond subgraph methods -----------------------------
-/**
- * Get POND balance from subgraph API.
- */
-export async function getPondBalanceFromSubgraph(address: Address): Promise<bigint> {
-	const url = chainConfig.subgraph_urls.POND;
-
-	const query = QUERY_TO_GET_POND_BALANCE_QUERY;
-	const queryVariables = { address: address.toLowerCase() };
-
-	try {
-		const result = await subgraphQueryWrapper(url, query, queryVariables);
-		const users = result['data']?.users;
-
-		if (result['errors']) {
-			throw new Error(result['errors'][0].message);
-		}
-		if (result['data'] && users?.length !== 0) {
-			return BigInt(users[0]?.balance);
-		} else {
-			return DEFAULT_WALLET_BALANCE_STORE.pond;
-		}
-	} catch (error: any) {
-		addToast({
-			variant: 'error',
-			message: {
-				title: 'Contract Error',
-				description: `Error fetching POND balance. ${error.message}`
-			},
-			timeout: 6000
-		});
-		console.log('Error fetching POND balance', error);
-		return DEFAULT_WALLET_BALANCE_STORE.pond;
-	}
-}
-
-/**
- * Get MPOND balance from subgraph API.
- */
-export async function getMPondBalanceFromSubgraph(address: Address): Promise<bigint> {
-	const url = chainConfig.subgraph_urls.MPOND;
-
-	const query = QUERY_TO_GET_MPOND_BALANCE;
-	const queryVariables = { id: address.toLowerCase() };
-
-	try {
-		const result = await subgraphQueryWrapper(url, query, queryVariables);
-		const balances = result['data']?.balances;
-
-		if (result['errors']) {
-			throw new Error(result['errors'][0].message);
-		}
-		if (result['data'] && balances?.length !== 0) {
-			return BigInt(balances[0]?.amount);
-		} else {
-			return DEFAULT_WALLET_BALANCE_STORE.mpond;
-		}
-	} catch (error: any) {
-		addToast({
-			variant: 'error',
-			message: {
-				title: 'Contract Error',
-				description: `Error fetching MPond balance. ${error.message}`
-			},
-			timeout: 6000
-		});
-		console.log('Error fetching MPond balance', error);
-		return DEFAULT_WALLET_BALANCE_STORE.mpond;
-	}
-}
-// ----------------------------- receiver staking smart contract subgraph methods -----------------------------
-export async function getReceiverPondBalanceFromSubgraph(address: Address): Promise<any> {
-	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
-
-	const query = QUERY_TO_GET_RECEIVER_POND_BALANCE;
-	const queryVariables = { id: address.toLowerCase() };
-
-	try {
-		const result = await subgraphQueryWrapper(url, query, queryVariables);
-		const receiverBalances = result['data']?.receiverBalances;
-
-		if (result['errors']) {
-			throw new Error(result['errors'][0].message);
-		}
-		if (result['data'] && receiverBalances?.length !== 0)
-			return BigInt(receiverBalances[0]?.balance);
-		else return DEFAULT_WALLET_BALANCE_STORE.mpond;
-	} catch (error: any) {
-		addToast({
-			variant: 'error',
-			message: {
-				title: 'Contract Error',
-				description: `Error fetching receiver POND balance from subgraph. ${error.message}`
-			},
-			timeout: 6000
-		});
-		console.log('Error fetching receiver POND balance from subgraph', error);
-		return DEFAULT_WALLET_BALANCE_STORE.mpond;
-	}
-}
-
-/**
- * Returns Staked, Queued POND for a specific Receiver address
- * @param address Address of the receiver in string format
- * @param epoch Epoch number
- */
-export async function getReceiverStakingDataFromSubgraph(
-	address: Address
-): Promise<ReceiverStakingData> {
-	const receiver_staking_address = contractAddresses.RECEIVER_STAKING || '0x00000000000';
-	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
-
-	const query = QUERY_TO_GET_RECEIVER_STAKING_DATA;
-	const queryVariables = {
-		address: address.toLowerCase(),
-		contractAddress: receiver_staking_address.toLowerCase()
-	};
-
-	try {
-		const result = await subgraphQueryWrapper(url, query, queryVariables);
-
-		if (result['errors']) {
-			throw new Error(result['errors'][0].message);
-		}
-		if (result['data']) {
-			return result['data'];
-		} else {
-			return DEFAULT_RECEIVER_STAKING_DATA;
-		}
-	} catch (error: any) {
-		addToast({
-			variant: 'error',
-			message: {
-				title: 'Contract Error',
-				description: `Error fetching receiver staked, in queue data from subgraph. ${error.message}`
-			},
-			timeout: 6000
-		});
-		console.log('Error fetching receiver staked, in queue data from subgraph', error);
-		return DEFAULT_RECEIVER_STAKING_DATA;
-	}
-}
-
-export async function checkIfSignerExistsInSubgraph(address: Address): Promise<boolean> {
-	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
-
-	const query = QUERY_TO_CHECK_IF_SIGNER_EXISTS;
-	const queryVariables = { signer: address.toLowerCase() };
-
-	try {
-		const result = await subgraphQueryWrapper(url, query, queryVariables);
-
-		if (result['errors']) {
-			throw new Error(result['errors'][0].message);
-		}
-		if (result['data'] && result['data']?.receiverBalances?.length === 0) {
-			return true;
-		} else {
-			return false;
-		}
-	} catch (error: any) {
-		addToast({
-			variant: 'error',
-			message: {
-				title: 'Contract Error',
-				description: `Error checking if signer exists in subgraph. ${error.message}`
-			},
-			timeout: 6000
-		});
-		console.log('Error checking if signer exists in subgraph', error);
-		return false;
-	}
-}
-
-export async function getPondAndMPondBridgeAllowancesFromSubgraph(
-	address: Address,
-	contractAddress: Address
-) {
-	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
-
-	const query = QUERY_TO_GET_POND_AND_MPOND_ALLOWANCES;
-	const queryVariables = {
-		address: address.toLowerCase(),
-		contractAddress: contractAddress.toLowerCase()
-	};
-
-	try {
-		const result = await subgraphQueryWrapper(url, query, queryVariables);
-
-		if (result['errors']) {
-			throw new Error(result['errors'][0].message);
-		}
-		if (result['data']) {
-			return result['data'];
-		} else {
-			return DEFAULT_BRIDGE_STORE.allowances;
-		}
-	} catch (error: any) {
-		addToast({
-			variant: 'error',
-			message: {
-				title: 'Contract Error',
-				description: `Error fetching receiver POND and MPond allowances from subgraph. ${error.message}`
-			},
-			timeout: 6000
-		});
-		console.log('Error fetching receiver POND and mPond allowances from subgraph', error);
-		return DEFAULT_BRIDGE_STORE.allowances;
-	}
 }
 
 // ----------------------------- bridge smart contract subgraph methods -----------------------------
@@ -578,43 +356,6 @@ export async function getOysterMerchantJobsFromSubgraph(address: Address) {
 			timeout: 6000
 		});
 		console.error('Error getting oyster jobs from subgraph', error);
-		return [];
-	}
-}
-
-// ----------------------------- receiver rewards subgraph methods -----------------------------
-
-export async function getReceiverRewardsDataFromSubgraph(address: Address) {
-	const receiverRewardContractAddress = contractAddresses.REWARD_DELEGATORS;
-	const url = chainConfig.subgraph_urls.RECEIVER_STAKING;
-
-	const query = QUERY_TO_GET_RECEIVER_REWARDS_DATA;
-	const queryVariables = {
-		address: address.toLowerCase(),
-		contractAddress: receiverRewardContractAddress.toLowerCase()
-	};
-
-	try {
-		const result = await subgraphQueryWrapper(url, query, queryVariables);
-
-		if (result['errors']) {
-			throw new Error(result['errors'][0].message);
-		}
-		if (result['data']) {
-			return result['data'];
-		} else {
-			throw new Error('No receiver rewards data found for this address');
-		}
-	} catch (error: any) {
-		addToast({
-			variant: 'error',
-			message: {
-				title: 'Contract Error',
-				description: `Error getting receiver rewards data from subgraph. ${error.message}`
-			},
-			timeout: 6000
-		});
-		console.error('Error getting receiver rewards data from subgraph', error);
 		return [];
 	}
 }

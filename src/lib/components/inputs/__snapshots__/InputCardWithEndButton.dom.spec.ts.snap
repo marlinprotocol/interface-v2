@@ -1,40 +1,35 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`InputCardWithEndButton > render's the component properly 1`] = `
-<body>
-  <div>
+<div>
+  <div
+    class="w-full relative border border-grey-100 bg-base-100 py-2.5 px-4 rounded-full"
+    data-testid="input-card"
+  >
+     
     <div
-      class="w-full relative border border-grey-100 bg-base-100 py-2.5 px-4 rounded-full"
-      data-testid="input-card"
+      class="flex items-center justify-between"
     >
-       
       <div
-        class="flex items-center justify-between"
+        class="flex items-center gap-1"
       >
         <div
-          class="flex items-center gap-1"
+          class=" text-sm font-normal"
+          data-testid="text"
         >
-          <div
-            class=" text-sm font-normal"
-            data-testid="text"
-          >
-            Test Title
-          </div>
-          <!--&lt;Text&gt;-->
-           
+          Test Title
         </div>
          
       </div>
        
-      <div
-        class="flex items-center justify-between"
-      >
-         
-         
-      </div>
     </div>
-    <!--&lt;InputCard&gt;-->
-    <!--&lt;InputCardWithEndButton&gt;-->
+     
+    <div
+      class="flex items-center justify-between"
+    >
+       
+       
+    </div>
   </div>
-</body>
+</div>
 `;

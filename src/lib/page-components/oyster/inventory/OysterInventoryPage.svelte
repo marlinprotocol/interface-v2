@@ -61,7 +61,7 @@
 	<SearchWithSelect
 		dataList={inventoryData?.map((id) => id.id.toString())}
 		searchValue={searchInput}
-		setSearchValue={(value, exactMatch) => {
+		setSearchValue={(value) => {
 			searchInput = value.toString();
 		}}
 		title="Job Name"
@@ -91,13 +91,13 @@
 	emptyTableMessage="You do not have any active orders."
 >
 	{#if paginatedData?.length}
-		{#each paginatedData as rowData, rowIndex (rowData.id)}
+		{#each paginatedData as rowData (rowData.id)}
 			<tr
 				class={cn('group/row  h-[64px] hover:bg-base-200', {
 					peer: rowData.id === expandedRows?.values()?.next()?.value
 				})}
 			>
-				<OysterInventoryTableRow {rowData} {rowIndex} bind:expandedRows />
+				<OysterInventoryTableRow {rowData} bind:expandedRows />
 			</tr>
 			<tr class={cn(tableClasses.row, 'peer-hover:bg-base-200')}>
 				<OysterInventoryExpandedTableRow {rowData} {expandedRows} />

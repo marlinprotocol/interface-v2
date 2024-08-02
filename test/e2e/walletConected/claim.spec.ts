@@ -1,11 +1,14 @@
-import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress';
+import { testWithSynpress, metaMaskFixtures, MetaMask } from '@synthetixio/synpress';
 import BasicSetup from '../../wallet-setup/basic.setup';
 import { ROUTES } from '../../../src/lib/utils/constants/urls';
 import { loginToMetamask } from '../../helpers/metamask';
-import { MESSAGES } from '../../../src/lib/utils/constants/messages';
+import {
+	COMMON_TXN_MESSAGES,
+	OYSTER_TXN_MESSAGES
+} from '../../../src/lib/utils/constants/messages';
 import { confirmPageTitle } from '../../helpers/common';
 
-const test = testWithSynpress(BasicSetup, unlockForFixture);
+const test = testWithSynpress(metaMaskFixtures(BasicSetup));
 const { expect } = test;
 
 test('Claim Job Reward', async ({ context, page, metamaskPage, extensionId }) => {
@@ -25,9 +28,7 @@ test('Claim Job Reward', async ({ context, page, metamaskPage, extensionId }) =>
 			await claimButton.click();
 			await metamask.confirmTransactionAndWaitForMining();
 			await page.waitForSelector(
-				`text=${
-					MESSAGES.TOAST.TRANSACTION.SUCCESS + ' ' + MESSAGES.TOAST.ACTIONS.SETTLE_JOB.SETTLED
-				}`
+				`text=${COMMON_TXN_MESSAGES.SUCCESS.description} ${OYSTER_TXN_MESSAGES.SETTLE_JOB.SUCCESS.description}`
 			);
 		}
 	} else {

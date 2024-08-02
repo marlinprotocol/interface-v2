@@ -1,108 +1,83 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`NetworkPrompt > render's the Network Prompt properly 1`] = `
-<body>
-  <onboard-v2
-    style="all: initial;"
-  />
-  <style>
-    
-    
-@font-face {
-  font-family: 'Inter';
-  font-style:  normal;
-  font-weight: 300 600;
-  font-display: swap;
-  src: url("https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19") format("woff2");
-}
-
-  
-  </style>
-  <div>
+<div>
+  <div
+    class="flex h-full w-full items-center justify-center"
+    id="network-prompt"
+  >
     <div
-      class="flex h-full w-full items-center justify-center"
-      id="network-prompt"
+      class="flex h-[460px] w-130 flex-col items-center justify-center rounded-3xl border border-grey-100 bg-[#3840C7]"
     >
       <div
-        class="flex h-[460px] w-130 flex-col items-center justify-center rounded-3xl border border-grey-100 bg-[#3840C7]"
+        class="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-white"
       >
-        <div
-          class="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-white"
+        <img
+          alt="Info Icon"
+          src="/images/information-purple.svg"
+        />
+      </div>
+       
+       
+       
+      <div
+        class="mt-12 flex w-64 items-center justify-between rounded-full border border-white"
+      >
+        <span
+          class="pl-4 font-medium text-[#FCFCFC]"
         >
-          <img
-            alt="Info Icon"
-            src="/images/information-purple.svg"
-          />
-        </div>
-         
-         
+          Switch
+        </span>
          
         <div
-          class="mt-12 flex w-64 items-center justify-between rounded-full border border-white"
+          class="dropdown dropdown-end"
+          id="network-prompt-chain-switcher-drop-down"
         >
-          <span
-            class="pl-4 font-medium text-[#FCFCFC]"
-          >
-            Switch
-          </span>
-           
           <div
-            class="dropdown dropdown-end"
-            id="network-prompt-chain-switcher-drop-down"
+            class="btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed chain-btn m-1 flex h-12"
+            role="button"
+            tabindex="0"
           >
             <div
-              class="btn btn-theme btn-sm text-primary px-4 border-primary bg-inherit hover:text-primary-focus hover:border-primary-focus hover:bg-inherit disabled:bg-inherit disabled:text-grey-300 disabled:border-grey-300 disabled:cursor-not-allowed chain-btn m-1 flex h-12"
-              role="button"
-              tabindex="0"
+              class="flex items-center justify-center"
             >
               <div
-                class="flex items-center justify-center"
+                class="flex h-8 w-8 items-center justify-center"
               >
-                <div
-                  class="flex h-8 w-8 items-center justify-center"
+                <img
+                  alt="current chain"
+                  src="/images/arbitrum.webp"
+                />
+              </div>
+               
+              <div
+                class="ml-2"
+              >
+                <svg
+                  aria-label=""
+                  class="fa-icon icon-info svelte-1mc5hvj"
+                  data-testid="icon"
+                  height="16"
+                  role="presentation"
+                  style="width:10px; height:10px; cursor:pointer;  "
+                  version="1.1"
+                  viewBox="0 0 1792 1792"
+                  width="16"
                 >
-                  <img
-                    alt="current chain"
-                    src="/images/arbitrum.webp"
+                  <path
+                    d="M1683 808l-742 741q-19 19-45 19t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"
                   />
-                </div>
-                 
-                <div
-                  class="ml-2"
-                >
-                  <svg
-                    aria-label=""
-                    class="fa-icon icon-info s-T5YyQewRBd7n"
-                    data-testid="icon"
-                    height="16"
-                    role="presentation"
-                    style="width:10px; height:10px; cursor:pointer;  "
-                    version="1.1"
-                    viewBox="0 0 1792 1792"
-                    width="16"
-                  >
-                    <path
-                      d="M1683 808l-742 741q-19 19-45 19t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"
-                    />
-                    
-                     
-                     
-                    
-                    
-                  </svg>
-                  <!--&lt;Svg&gt;-->
-                  <!--&lt;Icon&gt;-->
-                  <!--&lt;Icon&gt;-->
-                </div>
+                   
+                   
+                  
+                </svg>
               </div>
             </div>
-             
           </div>
-          <!--&lt;ChainSwitcher&gt;-->
+           
         </div>
       </div>
     </div>
-    <!--&lt;NetworkPrompt&gt;-->
   </div>
-</body>
+</div>
 `;

@@ -1,11 +1,11 @@
-import { MetaMask, testWithSynpress, unlockForFixture } from '@synthetixio/synpress';
+import { testWithSynpress, metaMaskFixtures, MetaMask } from '@synthetixio/synpress';
 import BasicSetup from '../../wallet-setup/basic.setup';
 
 import { loginToMetamask } from '../../helpers/metamask';
 import { LINEA } from '../../../src/lib/chains/linea';
 import { ROUTES } from '../../../src/lib/utils/constants/urls';
 
-const test = testWithSynpress(BasicSetup, unlockForFixture);
+const test = testWithSynpress(metaMaskFixtures(BasicSetup));
 const { expect } = test;
 
 test('deploy a job -> Check if job shows up in other chain', async ({

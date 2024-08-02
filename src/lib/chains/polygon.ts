@@ -13,11 +13,6 @@ export const POLYGON: ChainConfig = {
 	backend_network_id: 'Polygon',
 	contract_addresses: {
 		BRIDGE: '',
-		CLUSTER_REGISTRY: '',
-		CLUSTER_REWARDS: '',
-		RECEIVER_STAKING: '',
-		REWARD_DELEGATORS: '',
-		STAKE_MANAGER: '',
 		OYSTER: '0x4dA7A531EF660533074341df098F722F1Aa5dFaa',
 		POND: '',
 		MPOND: '',
@@ -29,8 +24,6 @@ export const POLYGON: ChainConfig = {
 		RECEIVER_STAKING: '',
 		BRIDGE: '',
 		OYSTER: `https://gateway-arbitrum.network.thegraph.com/api/${PUBLIC_SUBGRAPH_KEY}/subgraphs/id/GAvm9MJadcg2Uao3eraFXMfzNMCmckHPDTLV15ux2cZC`,
-		POND: '',
-		MPOND: '',
 		OYSTER_CREDIT: ''
 	},
 	oyster_token: 'USDC',

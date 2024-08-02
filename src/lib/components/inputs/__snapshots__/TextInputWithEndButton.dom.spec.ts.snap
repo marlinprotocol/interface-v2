@@ -1,34 +1,29 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`TextInputWithEndButton > render's the component properly 1`] = `
-<body>
-  <div>
+<div>
+  <div
+    class="w-full border border-grey-100 bg-base-100 py-2.5 px-4 rounded-full test-style relative"
+    data-testid="input-card"
+  >
+     
     <div
-      class="w-full border border-grey-100 bg-base-100 py-2.5 px-4 rounded-full test-style relative"
-      data-testid="input-card"
+      class="flex items-center justify-between"
     >
        
-      <div
-        class="flex items-center justify-between"
-      >
-         
-      </div>
-       
-      <div
-        class="flex items-center justify-between"
-      >
-        <input
-          class="input input-ghost h-[30px] w-full p-0 font-normal text-grey-800 disabled:opacity-70 disabled:text-grey-800 disabled:placeholder:text-grey-800/[.2] focus-within:text-grey-800 placeholder:text-grey-800/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent hideInputNumberAppearance"
-          id="address-display"
-          placeholder="Enter something..."
-        />
-         
-         
-      </div>
     </div>
-    <!--&lt;InputCard&gt;-->
-    <!--&lt;InputCardWithEndButton&gt;-->
-    <!--&lt;TextInputWithEndButton&gt;-->
+     
+    <div
+      class="flex items-center justify-between"
+    >
+      <input
+        class="input input-ghost h-[30px] w-full p-0 font-normal text-grey-800 disabled:opacity-70 disabled:text-grey-800 disabled:placeholder:text-grey-800/[.2] focus-within:text-grey-800 placeholder:text-grey-800/[.2] focus:outline-none focus-within:border-b-2 focus:bg-transparent hideInputNumberAppearance"
+        id="address-display"
+        placeholder="Enter something..."
+      />
+       
+       
+    </div>
   </div>
-</body>
+</div>
 `;

@@ -1,6 +1,5 @@
-import type { Address } from '@web3-onboard/core/dist/types';
 import { COMMON_TXN_MESSAGES } from '$lib/utils/constants/messages';
-import type { WalletStore } from '$lib/types/storeTypes';
+import type { Address, WalletStore } from '$lib/types/storeTypes';
 import { addToast } from '$lib/data-stores/toastStore';
 import { capitalizeFirstLetter } from '$lib/utils/helpers/commonHelper';
 import { ethers } from 'ethers';

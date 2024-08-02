@@ -283,9 +283,9 @@
 			{#each menuItems as item}
 				<MenuItem {...item} />
 			{/each}
-			<li class="mt-4 px-4">
+			<!-- <li class="mt-4 px-4">
 				<ThemeSwitcher />
-			</li>
+			</li> -->
 		</ul>
 	</div>
 </div>

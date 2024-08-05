@@ -27,7 +27,7 @@
 		<Text
 			variant="small"
 			text={title}
-			styleClass={'absolute left-7 top-[-1px] z-[1] inline-flex bg-base-100 font-poppins text-sm font-normal leading-[1px] text-grey-800'}
+			styleClass="absolute left-7 top-[-1px] z-[1] inline-flex bg-base-100 font-poppins text-sm font-normal leading-[1px] text-grey-800"
 		/>
 		{#if tooltipText}
 			<TooltipIcon

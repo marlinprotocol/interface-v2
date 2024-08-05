@@ -74,10 +74,10 @@ export function modifyReceiverStakingData(data: any) {
 }
 
 export function modifyReceiverRewardsData(data: any) {
-	const receiverRewards = data?.receiverRewards[0];
+	const receiverRewards = data?.receiverRewards?.[0];
 	const params = data?.params;
 	const lastTicketIssuedEpoch = data?.ticketsIssueds?.[0]?.epoch;
-	const pondApprovals = data?.pondApprovals[0]?.value;
+	const pondApprovals = data?.pondApprovals?.[0]?.value;
 
 	let rewardsStoreData = DEFAULT_RECEIVER_REWARDS_STORE;
 

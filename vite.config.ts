@@ -43,11 +43,12 @@ export default defineConfig({
 			'html/assets/**',
 			'src/routes/**',
 			'src/**/*.svelte',
+			'svelte.config.js',
 			'src/lib/controllers/**',
 			'src/lib/utils/services/**',
 			'src/lib/utils/constants/**',
 			'src/lib/utils/abis/**',
-			'svelte.config.js'
+			'.cache-synpress/'
 		],
 		environment: 'jsdom',
 		globals: true,
@@ -69,7 +70,8 @@ export default defineConfig({
 				'src/lib/controllers/**',
 				'src/lib/utils/services/**',
 				'src/lib/utils/constants/**',
-				'src/lib/utils/abis/**'
+				'src/lib/utils/abis/**',
+				'.cache-synpress/'
 			]
 		},
 		reporters: ['html', 'default']

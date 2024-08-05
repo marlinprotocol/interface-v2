@@ -54,7 +54,7 @@
 		{#if cliboardContent !== '' && cliboardContent !== undefined}
 			<button
 				id="text-input-card-button"
-				class="ml-2 w-6 cursor-pointer"
+				class={cn('ml-2 w-6 cursor-pointer', scrollable ? 'min-w-[18px]' : '')}
 				on:click={() => {
 					handleCopyClick(cliboardContent, successMessage);
 				}}

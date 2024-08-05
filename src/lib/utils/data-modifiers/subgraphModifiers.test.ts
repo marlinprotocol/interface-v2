@@ -11,7 +11,7 @@ import {
 	DEFAULT_RECEIVER_STAKING_DATA
 } from '$lib/utils/constants/storeDefaults';
 
-describe('subgraphModifier', () => {
+describe('modifyReceiverStakingData', () => {
 	it('should return default staking data when no data is provided', () => {
 		const result = modifyReceiverStakingData({});
 		expect(result).toEqual(DEFAULT_RECEIVER_STAKING_DATA);
@@ -31,7 +31,9 @@ describe('subgraphModifier', () => {
 		expect(result.queuedBalance).toBe(BigInt(0n));
 		expect(result.signer).toBe('0x123');
 	});
+});
 
+describe('modifyReceiverRewardsData', () => {
 	it('should return default rewards data when no data is provided', () => {
 		const result = modifyReceiverRewardsData({});
 		expect(result).toEqual(DEFAULT_RECEIVER_REWARDS_STORE);
@@ -53,7 +55,9 @@ describe('subgraphModifier', () => {
 		expect(result.amountApproved).toBe(BigInt(500));
 		expect(result.lastTicketIssuedEpoch).toBe(10);
 	});
+});
 
+describe('modifyAllowancesData', () => {
 	it('should return default allowances when no data is provided', () => {
 		const result = modifyAllowancesData({});
 		expect(result).toEqual({ pond: 0n, mPond: 0n });
@@ -68,7 +72,9 @@ describe('subgraphModifier', () => {
 		expect(result.pond).toBe(BigInt(1000));
 		expect(result.mPond).toBe(BigInt(500));
 	});
+});
 
+describe('modifyPondToMpondConversionHistory', () => {
 	it('should return undefined when no users are provided', () => {
 		const result = modifyPondToMpondConversionHistory([]);
 		expect(result).toBeUndefined();
@@ -97,7 +103,9 @@ describe('subgraphModifier', () => {
 			}
 		]);
 	});
+});
 
+describe('modifyMPondToPondConversionHistory', () => {
 	it('should return undefined when no user or state data is provided', () => {
 		const result = modifyMPondToPondConversionHistory({ users: [], states: [] });
 		expect(result).toBeUndefined();

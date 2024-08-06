@@ -1,0 +1,51 @@
+name: SizeUp
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited
+      - ready_for_review
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  sizeup:
+    name: Estimate reviewability
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run sizeup
+        uses: lerebear/sizeup-action@v0.8.4
+        id: sizeup-action
+
+        with:
+          # A GitHub API token capable of reading pull requests from this
+          # repository.
+          #
+          # In this example, we've used the `permissions` key above to request
+          # the necessary permissions for the default `GITHUB_TOKEN` secret,
+          # and then we've passed it along here.
+          #
+          # This input is required.
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+          # Options that will be forwarded to `git diff` when computing the
+          # diff to evaluate with this workflow.
+          #
+          # Defaults to "--ignore-space-change", which ignores lines of the
+          # diff in which the only change is to the amount of whitespace on the
+          # line.
+          git-diff-options: '--ignore-space-change'
+
+          # Path to a YAML configuration file for this workflow that is stored
+          # in this repository.
+          #
+          # This input defaults to "", which instructs the workflow to use the
+          # built-in default configuration.
+          configuration-file-path: '.github/workflows/sizeup/config.yaml'

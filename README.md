@@ -5,6 +5,7 @@
 - Clone the project and install dependencies via `npm install` (or `pnpm install` or `yarn`).
 - Create a [WalletConnect account](https://cloud.walletconnect.com) and copy the Project ID.
 - Create a `.env` file in the root of the project and add the above. You can use the `.env.example` file as a template.
+
   ```sh
   # "development" for dev or "arb_mainnet" for mainnet
   PUBLIC_NODE_ENV="development"
@@ -43,7 +44,7 @@ refer to [test/README.md](test/README.md)
 
 ## 🧑‍💻 Building
 
-> Make sure that `PUBLIC_NODE_ENV='arb_mainnet'` in `.env` for building the mainnet version of the app.
+> Make sure that `PUBLIC_NODE_ENV='mainnet'` in `.env` for building the mainnet version of the app.
 
 To create a production version of your app you can run:
 

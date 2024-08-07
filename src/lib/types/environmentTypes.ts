@@ -1,5 +1,7 @@
 import type { ContractAddress } from '$lib/types/storeTypes';
 
+export type NodeEnv = 'development' | 'mainnet';
+
 export type Environment = {
 	environment_name: string; // we define environments based on what user base we are targetting for example: 'development' if its for dev purposes, 'mainnet' if we are live and 'testnet' if its for testing/qa purposes
 	production: boolean; // if true then we remove all the console logs for the client side
